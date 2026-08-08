@@ -51,6 +51,8 @@ export type TeamSeasonResultImportRow = {
     gradeKey: string;
     clubKey: string;
     squadNumber: number | null;
+    /** PlayHQ's stable team id — the key this row's team is resolved by. */
+    playhqId: string | null;
     displayName: string;
     ladderPosition: number;
     positionUncertain: boolean;

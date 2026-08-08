@@ -121,6 +121,7 @@ export function parseTeamSeasonResultRow(
         gradeKey: raw.grade_key ?? '',
         clubKey: raw.club_key ?? '',
         squadNumber: num(raw.squad_number ?? ''),
+        playhqId: str(raw.playhq_id ?? ''),
         displayName: raw.display_name ?? '',
         ladderPosition: Number(raw.ladder_position),
         positionUncertain: bool(raw.position_uncertain ?? ''),

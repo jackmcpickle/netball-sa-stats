@@ -6,11 +6,11 @@ import { sqlBool, sqlNumber, sqlText } from '@/pipeline/import/sql-format';
  * statement runs. This is what makes the generated SQL safe to run against
  * local or remote D1 with the exact same text.
  *
- * `teams` has no natural text key of its own — its identity is
- * (grade, club, squad_number), and squad_number is often NULL. SQLite's
- * UNIQUE index treats NULL <> NULL, so `ON CONFLICT` alone would insert a
- * fresh row every run. We match with `IS` (NULL-safe) instead, via an
- * insert-if-missing followed by an always-update.
+ * `teams` identity is `(grade, playhq_id)` — PlayHQ's own stable team id,
+ * never a synthetic index. squad_number is display-only. SQLite's UNIQUE
+ * index treats NULL <> NULL, and playhq_id is expected to always be present
+ * for scraped rows, but we still match with `IS` (NULL-safe) defensively,
+ * via an insert-if-missing followed by an always-update.
  */
 import type {
     ClubAliasImportRow,
@@ -48,14 +48,14 @@ function gradeStatement(row: GradeImportRow): string {
 function teamStatements(row: TeamImportRow): string[] {
     const clubSubquery = `(SELECT id FROM clubs WHERE club_key = ${sqlText(row.clubKey)})`;
     const gradeSubquery = `(SELECT id FROM grades WHERE grade_key = ${sqlText(row.gradeKey)})`;
-    const match = `club_id = ${clubSubquery} AND grade_id = ${gradeSubquery} AND squad_number IS ${sqlNumber(row.squadNumber)}`;
+    const match = `grade_id = ${gradeSubquery} AND playhq_id IS ${sqlText(row.playhqId)}`;
     const insert = `INSERT INTO teams (club_id, grade_id, display_name, squad_number, playhq_id) SELECT ${clubSubquery}, ${gradeSubquery}, ${sqlText(row.displayName)}, ${sqlNumber(row.squadNumber)}, ${sqlText(row.playhqId)} WHERE NOT EXISTS (SELECT 1 FROM teams WHERE ${match});`;
-    const update = `UPDATE teams SET display_name = ${sqlText(row.displayName)}, playhq_id = ${sqlText(row.playhqId)} WHERE ${match};`;
+    const update = `UPDATE teams SET club_id = ${clubSubquery}, display_name = ${sqlText(row.displayName)}, squad_number = ${sqlNumber(row.squadNumber)} WHERE ${match};`;
     return [insert, update];
 }
 
 function resultStatement(row: TeamSeasonResultImportRow): string {
-    const teamSubquery = `(SELECT id FROM teams WHERE club_id = (SELECT id FROM clubs WHERE club_key = ${sqlText(row.clubKey)}) AND grade_id = (SELECT id FROM grades WHERE grade_key = ${sqlText(row.gradeKey)}) AND squad_number IS ${sqlNumber(row.squadNumber)})`;
+    const teamSubquery = `(SELECT id FROM teams WHERE grade_id = (SELECT id FROM grades WHERE grade_key = ${sqlText(row.gradeKey)}) AND playhq_id IS ${sqlText(row.playhqId)})`;
     const gradeSubquery = `(SELECT id FROM grades WHERE grade_key = ${sqlText(row.gradeKey)})`;
     return `INSERT INTO team_season_results (team_id, grade_id, ladder_position, position_uncertain, played, won, drawn, lost, byes, goals_for, goals_against, goal_difference, points, percentage, shots_attempted, shots_scored, source, placement_basis, notes, scraped_at) SELECT ${teamSubquery}, ${gradeSubquery}, ${sqlNumber(row.ladderPosition)}, ${sqlBool(row.positionUncertain)}, ${sqlNumber(row.played)}, ${sqlNumber(row.won)}, ${sqlNumber(row.drawn)}, ${sqlNumber(row.lost)}, ${sqlNumber(row.byes)}, ${sqlNumber(row.goalsFor)}, ${sqlNumber(row.goalsAgainst)}, ${sqlNumber(row.goalDifference)}, ${sqlNumber(row.points)}, ${sqlNumber(row.percentage)}, ${sqlNumber(row.shotsAttempted)}, ${sqlNumber(row.shotsScored)}, ${sqlText(row.source)}, ${sqlText(row.placementBasis)}, ${sqlText(row.notes)}, ${sqlNumber(row.scrapedAt)} ON CONFLICT(team_id, grade_id) DO UPDATE SET ladder_position = excluded.ladder_position, position_uncertain = excluded.position_uncertain, played = excluded.played, won = excluded.won, drawn = excluded.drawn, lost = excluded.lost, byes = excluded.byes, goals_for = excluded.goals_for, goals_against = excluded.goals_against, goal_difference = excluded.goal_difference, points = excluded.points, percentage = excluded.percentage, shots_attempted = excluded.shots_attempted, shots_scored = excluded.shots_scored, source = excluded.source, placement_basis = excluded.placement_basis, notes = excluded.notes, scraped_at = excluded.scraped_at;`;
 }

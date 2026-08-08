@@ -166,23 +166,23 @@ export function validateGrades(
 }
 
 /**
- * The team natural key is `(grade_key, club_key, squad_number)`. Two rows
- * colliding on it would silently upsert into one team, dropping a result row
- * downstream (this is exactly how the fetch stage lost 153/1600 rows before
- * the squad-number parsing fix) — so it's a hard failure here, never a
- * silent last-write-wins, naming the file, the key and every colliding row.
+ * The team natural key is `(grade_key, playhq_id)` — PlayHQ's own stable
+ * team id, never a synthetic squad_number/index. Two rows colliding on it
+ * would silently upsert into one team, dropping a result row downstream —
+ * so it's a hard failure here, never a silent last-write-wins, naming the
+ * file, the key and every colliding row.
  */
 function checkTeamNaturalKeyCollisions(rows: readonly TeamImportRow[]): void {
     // Maps natural key -> first 1-based line it appeared on.
     const seen = new Map<string, number>();
     rows.forEach((row, index) => {
-        const key = `${row.gradeKey}|${row.clubKey}|${row.squadNumber ?? 'null'}`;
+        const key = `${row.gradeKey}|${row.playhqId ?? 'null'}`;
         const firstLine = seen.get(key);
         if (firstLine !== undefined) {
             throw new ImportValidationError(
                 'teams.csv',
                 line(index),
-                `duplicate natural key (grade_key=${row.gradeKey}, club_key=${row.clubKey}, squad_number=${row.squadNumber ?? 'null'}) — ` +
+                `duplicate natural key (grade_key=${row.gradeKey}, playhq_id=${row.playhqId ?? 'null'}) — ` +
                     `also present at line ${firstLine} (display_name="${row.displayName}")`,
                 { key, firstLine, line: line(index) },
             );
@@ -224,6 +224,14 @@ export function validateTeams(
                 line(index),
                 `grade_key ${row.gradeKey} not found in grades.csv`,
                 row.gradeKey,
+            );
+        }
+        if (row.playhqId === null) {
+            throw new ImportValidationError(
+                'teams.csv',
+                line(index),
+                `missing playhq_id — the team identity key (display_name="${row.displayName}")`,
+                row,
             );
         }
     });
@@ -310,6 +318,14 @@ export function validateResults(
                 row.gradeKey,
             );
         }
+        if (row.playhqId === null) {
+            throw new ImportValidationError(
+                'team_season_results.csv',
+                line(index),
+                `missing playhq_id — the team identity key (display_name="${row.displayName}")`,
+                row,
+            );
+        }
     });
 
     // Ladder positions per grade must be exactly 1..n, and grade.team_count
@@ -340,19 +356,18 @@ export function validateResults(
             );
         }
         // Same natural-key collision hazard as teams.csv: two result rows
-        // resolving to the same (grade, club, squad_number) team would
-        // upsert into one team_season_results row and silently drop the
-        // other.
+        // resolving to the same (grade, playhq_id) team would upsert into
+        // one team_season_results row and silently drop the other.
         const seenTeamKeys = new Map<string, number>();
         gradeRows.forEach((row) => {
             const rowIndex = rows.indexOf(row);
-            const key = `${row.clubKey}|${row.squadNumber ?? 'null'}`;
+            const key = row.playhqId ?? 'null';
             const firstLine = seenTeamKeys.get(key);
             if (firstLine !== undefined) {
                 throw new ImportValidationError(
                     'team_season_results.csv',
                     line(rowIndex),
-                    `duplicate natural key (grade_key=${gradeKey}, club_key=${row.clubKey}, squad_number=${row.squadNumber ?? 'null'}) — ` +
+                    `duplicate natural key (grade_key=${gradeKey}, playhq_id=${row.playhqId ?? 'null'}) — ` +
                         `also present at line ${firstLine} (display_name="${row.displayName}")`,
                     { key, firstLine, line: line(rowIndex) },
                 );

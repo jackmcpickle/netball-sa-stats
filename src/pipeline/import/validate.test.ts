@@ -54,7 +54,7 @@ const goodTeam: TeamImportRow = {
     gradeKey: 'amnd-winter-2023-a-grade',
     displayName: 'Fixture Club A',
     squadNumber: null,
-    playhqId: null,
+    playhqId: 'team-fixture-club-a',
 };
 
 function resultRow(
@@ -64,6 +64,7 @@ function resultRow(
         gradeKey: 'amnd-winter-2023-a-grade',
         clubKey: 'fixture-club-a',
         squadNumber: null,
+        playhqId: 'team-fixture-club-a',
         displayName: 'Fixture Club A',
         ladderPosition: 1,
         positionUncertain: false,
@@ -207,7 +208,7 @@ describe('validateTeams', () => {
         }).toThrow(ImportValidationError);
     });
 
-    it('fails when two rows collide on (grade_key, club_key, squad_number) — never last-write-wins', () => {
+    it('fails when two rows collide on (grade_key, playhq_id) — never last-write-wins', () => {
         // Regression fixture for the fetch-stage bug: two distinct teams from
         // one club in one grade (e.g. "Walkerville 1" and "Walkerville 2")
         // must never collapse into a single team row.
@@ -230,16 +231,43 @@ describe('validateTeams', () => {
         }).toThrow(ImportValidationError);
     });
 
+    it('passes two colour-named (unnumbered) teams of one club sharing a grade, distinguished by playhq_id', () => {
+        // The Finding 1 regression case: neither team has a genuine numeric
+        // suffix, so squad_number stays null for both — identity comes from
+        // playhq_id alone, never a fabricated index.
+        const purple: TeamImportRow = {
+            ...goodTeam,
+            displayName: 'City Coasters Purple',
+            squadNumber: null,
+            playhqId: 'team-city-coasters-purple',
+        };
+        const orange: TeamImportRow = {
+            ...goodTeam,
+            displayName: 'City Coasters Orange',
+            squadNumber: null,
+            playhqId: 'team-city-coasters-orange',
+        };
+        expect(() => {
+            validateTeams(
+                [purple, orange],
+                new Set([goodClub.clubKey]),
+                new Set([goodGrade.gradeKey]),
+            );
+        }).not.toThrow();
+    });
+
     it('passes two teams of one club in one grade when squad numbers genuinely differ', () => {
         const walkerville1: TeamImportRow = {
             ...goodTeam,
             displayName: 'Walkerville 1',
             squadNumber: 1,
+            playhqId: 'team-walkerville-1',
         };
         const walkerville2: TeamImportRow = {
             ...goodTeam,
             displayName: 'Walkerville 2',
             squadNumber: 2,
+            playhqId: 'team-walkerville-2',
         };
         expect(() => {
             validateTeams(
@@ -257,11 +285,12 @@ describe('validateResults', () => {
 
     it('passes ladder positions that are exactly 1..n', () => {
         const rows = [
-            resultRow({ ladderPosition: 1, squadNumber: 1 }),
+            resultRow({ ladderPosition: 1, squadNumber: 1, playhqId: 'a' }),
             resultRow({
                 ladderPosition: 2,
                 clubKey: 'fixture-club-a',
                 squadNumber: 2,
+                playhqId: 'b',
             }),
         ];
         expect(() => {
@@ -305,10 +334,11 @@ describe('validateResults', () => {
             drawn: 0,
             lost: 1,
             squadNumber: 1,
+            playhqId: 'a',
         });
         const rows = [
             mismatched,
-            resultRow({ ladderPosition: 2, squadNumber: 2 }),
+            resultRow({ ladderPosition: 2, squadNumber: 2, playhqId: 'b' }),
         ];
 
         const warnings = validateResults(rows, clubKeys, gradesByKey);
@@ -375,11 +405,12 @@ describe('validateImportData', () => {
                 gradeKey: prevGrade.gradeKey,
                 ladderPosition: i + 1,
                 squadNumber: i + 1,
+                playhqId: `prev-${String(i + 1)}`,
             }),
         );
         const currResults = [
-            resultRow({ ladderPosition: 1, squadNumber: 1 }),
-            resultRow({ ladderPosition: 2, squadNumber: 2 }),
+            resultRow({ ladderPosition: 1, squadNumber: 1, playhqId: 'a' }),
+            resultRow({ ladderPosition: 2, squadNumber: 2, playhqId: 'b' }),
         ];
 
         const { teamCountWarnings, playedMismatchWarnings } =

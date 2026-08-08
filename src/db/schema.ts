@@ -151,11 +151,15 @@ export const teams = sqliteTable(
             .default(sql`(current_timestamp)`),
     },
     (t) => [
-        uniqueIndex('teams_grade_club_squad_idx').on(
-            t.gradeId,
-            t.clubId,
-            t.squadNumber,
-        ),
+        /**
+         * Identity is (grade, playhq_id), not squad_number: PlayHQ's team id is
+         * stable across re-scrapes regardless of which teammates exist in the
+         * collision group, while an index-in-sorted-group synthetic squad_number
+         * shifts whenever a team is added/removed from the group. squad_number
+         * stays a display-only field, populated only for genuine numeric
+         * suffixes ("Walkerville 1"/"2").
+         */
+        uniqueIndex('teams_grade_playhq_idx').on(t.gradeId, t.playhqId),
         index('teams_club_idx').on(t.clubId),
     ],
 );

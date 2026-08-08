@@ -120,3 +120,168 @@ describe('processGrade curation safety: seasons.is_final', () => {
         expect(result?.seasonRow.is_final).toBe(1);
     });
 });
+
+function makeStanding(overrides: {
+    teamId: string;
+    teamName: string;
+    orgId: string;
+    orgName: string;
+}): Standing {
+    return {
+        team: {
+            id: overrides.teamId,
+            name: overrides.teamName,
+            organisation: {
+                id: overrides.orgId,
+                name: overrides.orgName,
+                type: 'club',
+            },
+        },
+        played: 10,
+        won: 5,
+        lost: 5,
+        drawn: 0,
+        byes: 0,
+        pointsFor: 100,
+        pointsAgainst: 100,
+        pointsDifference: 0,
+        forfeits: 0,
+        percentage: 100,
+        competitionPoints: 10,
+    };
+}
+
+describe('team identity: playhq_id, not synthetic squad_number index', () => {
+    const grade = { id: 'grade-id', name: 'A GRADE', age: null };
+    const ctx: GradeContext = {
+        ...baseCtx(new Map()),
+        orgId: AMND_ORG_ID,
+        period: 'winter',
+    };
+
+    it('a colour-named collision group (no numeric suffix) keeps both teams, squad_number null for both', () => {
+        const registry = new ClubRegistry([], []);
+        const standings = [
+            makeStanding({
+                teamId: 'team-purple',
+                teamName: 'City Coasters Purple',
+                orgId: 'org-1',
+                orgName: 'City Coasters',
+            }),
+            makeStanding({
+                teamId: 'team-orange',
+                teamName: 'City Coasters Orange',
+                orgId: 'org-1',
+                orgName: 'City Coasters',
+            }),
+        ];
+        const result = processGrade(grade, standings, ctx, registry, 1_000);
+        expect(result?.teams).toHaveLength(2);
+        expect(result?.results).toHaveLength(2);
+        const byName = new Map(
+            result?.teams.map((t) => [t.row.display_name, t.row]),
+        );
+        expect(byName.get('City Coasters Purple')?.squad_number).toBeNull();
+        expect(byName.get('City Coasters Orange')?.squad_number).toBeNull();
+        expect(byName.get('City Coasters Purple')?.playhq_id).toBe(
+            'team-purple',
+        );
+        expect(byName.get('City Coasters Orange')?.playhq_id).toBe(
+            'team-orange',
+        );
+    });
+
+    it('a surviving team keeps its identity (playhq_id) when a teammate is added or removed between runs', () => {
+        // Run 1: two unnumbered teams in the collision group.
+        const registryRun1 = new ClubRegistry([], []);
+        const standingsRun1 = [
+            makeStanding({
+                teamId: 'team-purple',
+                teamName: 'City Coasters Purple',
+                orgId: 'org-1',
+                orgName: 'City Coasters',
+            }),
+            makeStanding({
+                teamId: 'team-orange',
+                teamName: 'City Coasters Orange',
+                orgId: 'org-1',
+                orgName: 'City Coasters',
+            }),
+        ];
+        const run1 = processGrade(
+            grade,
+            standingsRun1,
+            ctx,
+            registryRun1,
+            1_000,
+        );
+        const purpleRun1 = run1?.teams.find(
+            (t) => t.row.display_name === 'City Coasters Purple',
+        );
+
+        // Run 2: "Orange" drops out, a brand new "Green" team joins instead.
+        // A positional/index-based identity scheme would reassign Purple's
+        // synthetic squad_number here; playhq_id must not move.
+        const registryRun2 = new ClubRegistry([], []);
+        const standingsRun2 = [
+            makeStanding({
+                teamId: 'team-purple',
+                teamName: 'City Coasters Purple',
+                orgId: 'org-1',
+                orgName: 'City Coasters',
+            }),
+            makeStanding({
+                teamId: 'team-green',
+                teamName: 'City Coasters Green',
+                orgId: 'org-1',
+                orgName: 'City Coasters',
+            }),
+        ];
+        const run2 = processGrade(
+            grade,
+            standingsRun2,
+            ctx,
+            registryRun2,
+            1_000,
+        );
+        const purpleRun2 = run2?.teams.find(
+            (t) => t.row.display_name === 'City Coasters Purple',
+        );
+
+        expect(purpleRun1?.row.playhq_id).toBe('team-purple');
+        expect(purpleRun2?.row.playhq_id).toBe('team-purple');
+        expect(purpleRun1?.key).toBe(purpleRun2?.key);
+        expect(purpleRun1?.row.squad_number).toBeNull();
+        expect(purpleRun2?.row.squad_number).toBeNull();
+    });
+
+    it('genuine numeric-suffix teams still resolve to real squad_number values', () => {
+        const registry = new ClubRegistry([], []);
+        const standings = [
+            makeStanding({
+                teamId: 'team-walkerville-1',
+                teamName: 'Walkerville 1',
+                orgId: 'org-2',
+                orgName: 'Walkerville',
+            }),
+            makeStanding({
+                teamId: 'team-walkerville-2',
+                teamName: 'Walkerville 2',
+                orgId: 'org-2',
+                orgName: 'Walkerville',
+            }),
+        ];
+        const result = processGrade(grade, standings, ctx, registry, 1_000);
+        const byName = new Map(
+            result?.teams.map((t) => [t.row.display_name, t.row]),
+        );
+        expect(byName.get('Walkerville 1')?.squad_number).toBe(1);
+        expect(byName.get('Walkerville 2')?.squad_number).toBe(2);
+        expect(byName.get('Walkerville 1')?.playhq_id).toBe(
+            'team-walkerville-1',
+        );
+        expect(byName.get('Walkerville 2')?.playhq_id).toBe(
+            'team-walkerville-2',
+        );
+    });
+});

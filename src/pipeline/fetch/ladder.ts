@@ -40,6 +40,8 @@ export type TeamSeasonResultRow = Record<string, CsvValue> & {
     grade_key: string;
     club_key: string;
     squad_number: number | null;
+    /** PlayHQ's stable team id — the natural key `teams.csv` is resolved by. */
+    playhq_id: string;
     display_name: string;
     ladder_position: number;
     position_uncertain: number;
@@ -65,11 +67,9 @@ export type TeamSeasonResultRow = Record<string, CsvValue> & {
  * Maps a grade's flattened standings to result rows. `resolveClubKey` is
  * injected so club-identity assignment (stateful, curated) stays out of this
  * pure module. `resolveSquadNumber` is injected too, so results and
- * `teams.csv` always agree on a team's squad number — including the
- * synthetic disambiguator assigned when two teams collide on the parsed
- * value (see `resolveSquadNumbers` in `run.ts`). Computing it independently
- * here previously caused `team_season_results.csv` to disagree with
- * `teams.csv` and re-collide on the natural key at import time.
+ * `teams.csv` always agree on a team's *display* squad number. `playhq_id`
+ * (the actual team-identity key the importer resolves rows by) is taken
+ * directly from the standing — it's PlayHQ's own stable id, never derived.
  */
 export function mapStandingsToResults(
     gradeKey: string,
@@ -88,6 +88,7 @@ export function mapStandingsToResults(
             standing.team.organisation.name,
         ),
         squad_number: resolveSquadNumber(standing),
+        playhq_id: standing.team.id,
         display_name: standing.team.name,
         ladder_position: index + 1,
         position_uncertain: 0,

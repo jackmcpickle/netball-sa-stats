@@ -182,8 +182,13 @@ function mergeTeams(
     }
 }
 
+/**
+ * Team identity is `(grade_key, playhq_id)` — PlayHQ's own team id, stable
+ * across re-scrapes regardless of which teammates exist in the club's
+ * collision group. Never derived from position in a sorted group.
+ */
 function teamKeyOf(t: TeamRow): string {
-    return `${t.grade_key}|${t.club_key}|${t.squad_number ?? -1}`;
+    return `${t.grade_key}|${t.playhq_id}`;
 }
 
 function resultKeyOf(r: Record<string, CsvValue>): string {
@@ -215,7 +220,7 @@ function registerTeam(
     standing: Standing,
     squadNumber: number | null,
 ): void {
-    const teamKey = `${gradeKey}|${clubKey}|${squadNumber ?? 'null'}`;
+    const teamKey = `${gradeKey}|${standing.team.id}`;
     if (teams.has(teamKey)) return;
     teams.set(teamKey, {
         club_key: clubKey,
@@ -227,56 +232,21 @@ function registerTeam(
 }
 
 /**
- * Resolves squad numbers for every standing belonging to one club within one
- * grade. Usually this is just `extractSquadNumber` per team. But some clubs
- * field multiple teams in one grade distinguished by a non-numeric suffix
- * (e.g. "City Coasters Purple" / "City Coasters Orange") rather than a
- * digit - `extractSquadNumber` correctly returns `null` for both, since
- * neither has a genuine squad number. Left as-is, both would collide on the
- * `(grade, club, squad_number)` natural key and silently collapse into one
- * team, losing a result row downstream.
- *
- * A lone unnumbered team stays `null` (a real, valid state - never
- * fabricated). Only when two or more *distinct* PlayHQ teams collide on the
- * same parsed squad number do we assign a deterministic, order-independent
- * disambiguator (sorted by display name) so every distinct team keeps its
- * own row. This is logged loudly since it's a synthetic value, not data
- * PlayHQ actually reported.
+ * Resolves the *display* squad number for every standing. This is purely
+ * informational — team identity is `playhq_id` (see `registerTeam`), never
+ * derived from this value or from position within a collision group. So a
+ * colour-named/unnumbered team (e.g. "City Coasters Purple") always stays
+ * `null` here, even when it shares a club+grade with another unnumbered
+ * team: there is no fabricated, index-dependent number to look meaningfully
+ * like a real one. Only a genuine numeric suffix ("Walkerville 1"/"2")
+ * produces a value.
  */
 function resolveSquadNumbers(
     clubStandings: readonly Standing[],
-    gradeKey: string,
-    clubKey: string,
 ): Map<Standing, number | null> {
-    const bySquad = new Map<number | null, Standing[]>();
-    for (const standing of clubStandings) {
-        const parsed = extractSquadNumber(standing.team.name);
-        const group = bySquad.get(parsed) ?? [];
-        group.push(standing);
-        bySquad.set(parsed, group);
-    }
-
     const resolved = new Map<Standing, number | null>();
-    for (const [parsed, group] of bySquad) {
-        // Distinct PlayHQ team ids sharing a parsed squad number is a
-        // genuine collision; the same team id repeated is not (defensive -
-        // shouldn't happen within one grade's standings).
-        const distinctTeamIds = new Set(group.map((s) => s.team.id));
-        if (distinctTeamIds.size <= 1) {
-            for (const standing of group) resolved.set(standing, parsed);
-            continue;
-        }
-        console.warn(
-            `squad number collision in ${gradeKey}/${clubKey}: ` +
-                `${group.map((s) => `"${s.team.name}"`).join(', ')} all parsed to squad_number=${parsed ?? 'null'}; ` +
-                'assigning synthetic disambiguating squad numbers',
-        );
-        const sorted = [...group].sort((a, b) =>
-            a.team.name.localeCompare(b.team.name),
-        );
-        sorted.forEach((standing, index) => {
-            resolved.set(standing, index + 1);
-        });
+    for (const standing of clubStandings) {
+        resolved.set(standing, extractSquadNumber(standing.team.name));
     }
     return resolved;
 }
@@ -337,12 +307,8 @@ export function processGrade(
         standingsByClub.set(clubKey, group);
     }
     const squadNumberByStanding = new Map<Standing, number | null>();
-    for (const [clubKey, clubStandings] of standingsByClub) {
-        const squadNumbers = resolveSquadNumbers(
-            clubStandings,
-            gradeKey,
-            clubKey,
-        );
+    for (const [, clubStandings] of standingsByClub) {
+        const squadNumbers = resolveSquadNumbers(clubStandings);
         for (const standing of clubStandings) {
             squadNumberByStanding.set(
                 standing,
