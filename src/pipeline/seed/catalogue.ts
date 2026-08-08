@@ -95,10 +95,10 @@ const BANDS: readonly Band[] = [
         tier: 6,
         label: 'Inter.',
         base: 0.45,
-        step: 0.02,
-        // AMND ran an Inter. 6 from 2023. Its 0.35 sits a hair under C 1 (0.36);
-        // bands already overlap at the edges (Junior 1 outranks C 1), so the
-        // linear extension is kept rather than re-tuning every seeded row.
+        // 0.015, not 0.02: at 0.02, Inter. 6 (0.35) sits under C 1 (0.36),
+        // violating "C sits below Inter" below. At 0.015, Inter. 1-6 run
+        // 0.45 -> 0.375, all above C 1.
+        step: 0.015,
         divisions: 6,
     },
     {
