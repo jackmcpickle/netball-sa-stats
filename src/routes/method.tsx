@@ -11,11 +11,13 @@ export interface MethodData {
 }
 
 const loadMethod = createServerFn({ method: 'GET' }).handler(
-    (): MethodData => ({
-        coverage: getCoverage(),
-        weights: listGradeWeights(),
-        isSampleData: IS_SAMPLE_DATA,
-    }),
+    async (): Promise<MethodData> => {
+        const [coverage, weights] = await Promise.all([
+            getCoverage(),
+            listGradeWeights(),
+        ]);
+        return { coverage, weights, isSampleData: IS_SAMPLE_DATA };
+    },
 );
 
 export const Route = createFileRoute('/method')({

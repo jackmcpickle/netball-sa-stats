@@ -96,7 +96,10 @@ const BANDS: readonly Band[] = [
         label: 'Inter.',
         base: 0.45,
         step: 0.02,
-        divisions: 5,
+        // AMND ran an Inter. 6 from 2023. Its 0.35 sits a hair under C 1 (0.36);
+        // bands already overlap at the edges (Junior 1 outranks C 1), so the
+        // linear extension is kept rather than re-tuning every seeded row.
+        divisions: 6,
     },
     {
         competitionKey: 'amnd',
@@ -128,7 +131,10 @@ const BANDS: readonly Band[] = [
         label: 'Primary',
         base: 0.26,
         step: 0.015,
-        divisions: 6,
+        // Primary 7 (and its 2026 7A/7B split, which share division 7) exist in
+        // the imported grades, so the band must reach them or those finishes
+        // would score nothing.
+        divisions: 7,
     },
     {
         competitionKey: 'amnd',

@@ -24,13 +24,13 @@ const loadLadders = createServerFn({ method: 'GET' })
             grade: z.string().optional(),
         }),
     )
-    .handler(({ data }): LaddersData => {
-        const coverage = getCoverage();
+    .handler(async ({ data }): Promise<LaddersData> => {
+        const coverage = await getCoverage();
         const year =
             data.year !== undefined && coverage.years.includes(data.year)
                 ? data.year
                 : (coverage.years.at(-1) ?? coverage.rankedYears[0]);
-        const grades = listGrades(year);
+        const grades = await listGrades(year);
         const gradeKey =
             data.grade !== undefined &&
             grades.some((grade) => grade.key === data.grade)
@@ -40,7 +40,8 @@ const loadLadders = createServerFn({ method: 'GET' })
             years: coverage.years,
             year,
             grades,
-            ladder: gradeKey === undefined ? null : getLadderFor(gradeKey),
+            ladder:
+                gradeKey === undefined ? null : await getLadderFor(gradeKey),
         };
     });
 

@@ -37,15 +37,22 @@ const searchSchema = z.object({
  */
 const loadRankings = createServerFn({ method: 'GET' })
     .validator(z.object({ season: z.number().int().optional() }))
-    .handler(({ data }): RankingsData => {
-        const coverage = getCoverage();
+    .handler(async ({ data }): Promise<RankingsData> => {
+        const coverage = await getCoverage();
         const year =
             data.season !== undefined &&
             coverage.rankedYears.includes(data.season)
                 ? data.season
-                : latestRankedYear();
+                : await latestRankedYear();
         const index = coverage.rankedYears.indexOf(year);
-        const season = getChampionshipSeason(year);
+        const [season, series, worstRank, clubs, gradesByYear] =
+            await Promise.all([
+                getChampionshipSeason(year),
+                getRankSeries(7),
+                championshipSize(),
+                listClubs(),
+                Promise.all(coverage.years.map(listGrades)),
+            ]);
         if (!season) {
             throw new Error(`No championship for ${String(year)}`);
         }
@@ -54,11 +61,11 @@ const loadRankings = createServerFn({ method: 'GET' })
             season,
             previousYear:
                 index > 0 ? (coverage.rankedYears[index - 1] ?? null) : null,
-            series: getRankSeries(7),
-            worstRank: championshipSize(),
-            clubCount: listClubs().length,
-            gradeCount: coverage.years.reduce(
-                (total, coveredYear) => total + listGrades(coveredYear).length,
+            series,
+            worstRank,
+            clubCount: clubs.length,
+            gradeCount: gradesByYear.reduce(
+                (total, grades) => total + grades.length,
                 0,
             ),
         };

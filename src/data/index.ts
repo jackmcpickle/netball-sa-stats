@@ -1,89 +1,66 @@
-/**
- * The only module route loaders read data from.
- *
- * Today every function is served by the deterministic sample dataset. Task 6
- * replaces the bodies with database queries; the return types in
- * `@/data/types` are the contract, so no component changes.
- */
-import {
-    CLUBS,
-    COMPETITIONS,
-    GRADES,
-    GRADE_WEIGHTS,
-    RANKED_YEARS,
-    YEARS,
-    getChampionship,
-    getChampionshipHistory,
-    getClub,
-    getClubResults,
-    getLadder,
-} from '@/data/sample';
 import type {
     ChampionshipSeason,
     Club,
     ClubProfile,
     ClubRankSeries,
-    ClubSeasonPoints,
     Coverage,
     GradeSummary,
     GradeWeightRow,
     Ladder,
     RankPoint,
-    SeasonStatus,
 } from '@/data/types';
+/**
+ * The only module route loaders read data from.
+ *
+ * Every function now queries D1 through `getDb()`, which binds `env.DB` from
+ * `cloudflare:workers` — so these run inside the Worker, reached from routes via
+ * `createServerFn`, and nowhere else. The return types in `@/data/types` are the
+ * contract and did not change; the functions became async, which is the only
+ * thing the routes had to absorb.
+ *
+ * The generated `@/data/sample` dataset it replaced has been deleted: nothing
+ * imported it any more, and a second source of numbers that nobody reads goes
+ * stale silently. It is in the history if the shapes are ever wanted again.
+ */
+import { getDb } from '@/db';
+import { fetchChampionshipHistory } from '@/db/queries/championship';
+import { fetchClubProfile } from '@/db/queries/club-profile';
+import { fetchClubs } from '@/db/queries/clubs';
+import { buildCoverage, fetchSeasons } from '@/db/queries/coverage';
+import { fetchGrades, fetchLadder } from '@/db/queries/grades';
+import { fetchGradeWeights } from '@/db/queries/weights';
 
-/** Flip to false in Task 6, when real rows replace the generated ones. */
-export const IS_SAMPLE_DATA = true;
+/** The site now ships the real import rather than generated rows. */
+export const IS_SAMPLE_DATA = false;
 
-export function listClubs(): readonly Club[] {
-    return [...CLUBS].sort((a, b) => a.name.localeCompare(b.name));
+export async function listClubs(): Promise<readonly Club[]> {
+    return fetchClubs(getDb());
 }
 
-export function listGrades(year: number): readonly GradeSummary[] {
-    return GRADES.filter((grade) => grade.year === year);
+export async function listGrades(
+    year: number,
+): Promise<readonly GradeSummary[]> {
+    return fetchGrades(getDb(), year);
 }
 
-export function getCoverage(): Coverage {
-    return {
-        years: YEARS,
-        rankedYears: RANKED_YEARS,
-        isSampleData: IS_SAMPLE_DATA,
-        competitions: COMPETITIONS.map((competition) => ({
-            competition,
-            seasons: YEARS.map((year) => {
-                // Premier League and its Reserves did not run in 2022 — a
-                // real-world absence, not a hole in the data.
-                if (competition.key !== 'amnd' && year === 2022) {
-                    return {
-                        year,
-                        status: 'absent' as SeasonStatus,
-                        note: 'No season — the competition did not run in 2022.',
-                    };
-                }
-                if (!RANKED_YEARS.includes(year)) {
-                    return {
-                        year,
-                        status: 'in-progress' as SeasonStatus,
-                        note: 'Season still being played, so it is not ranked yet.',
-                    };
-                }
-                return { year, status: 'ranked' as SeasonStatus, note: null };
-            }),
-        })),
-    };
+export async function getCoverage(): Promise<Coverage> {
+    return buildCoverage(await fetchSeasons(getDb()), IS_SAMPLE_DATA);
 }
 
 /** The most recent season with a complete championship. */
-export function latestRankedYear(): number {
-    const year = RANKED_YEARS.at(-1);
+export async function latestRankedYear(): Promise<number> {
+    const year = (await getCoverage()).rankedYears.at(-1);
     if (year === undefined) {
         throw new Error('No ranked seasons');
     }
     return year;
 }
 
-export function getChampionshipSeason(year: number): ChampionshipSeason | null {
-    return getChampionship(year);
+export async function getChampionshipSeason(
+    year: number,
+): Promise<ChampionshipSeason | null> {
+    const history = await fetchChampionshipHistory(getDb());
+    return history.find((season) => season.year === year) ?? null;
 }
 
 function seriesPoints(
@@ -102,18 +79,20 @@ function seriesPoints(
  * Rank history for the movement chart, limited to the `limit` clubs with the
  * most career points plus any club the caller wants to keep visible.
  */
-export function getRankSeries(
+export async function getRankSeries(
     limit: number,
     focusKey?: string,
-): readonly ClubRankSeries[] {
-    const history = getChampionshipHistory();
+): Promise<readonly ClubRankSeries[]> {
+    const history = await fetchChampionshipHistory(getDb());
     const careerPoints = new Map<string, number>();
+    const clubs = new Map<string, Club>();
     for (const season of history) {
         for (const row of season.rows) {
             careerPoints.set(
                 row.club.key,
                 (careerPoints.get(row.club.key) ?? 0) + row.points,
             );
+            clubs.set(row.club.key, row.club);
         }
     }
     const ordered = [...careerPoints.entries()].sort((a, b) => b[1] - a[1]);
@@ -122,90 +101,27 @@ export function getRankSeries(
         keys.push(focusKey);
     }
     return keys.flatMap((key) => {
-        const club = getClub(key);
+        const club = clubs.get(key);
         return club ? [{ club, points: seriesPoints(history, key) }] : [];
     });
 }
 
 /** Size of the championship field, so the chart axis knows its worst rank. */
-export function championshipSize(): number {
-    return Math.max(
-        1,
-        ...getChampionshipHistory().map((season) => season.rows.length),
-    );
+export async function championshipSize(): Promise<number> {
+    const history = await fetchChampionshipHistory(getDb());
+    return Math.max(1, ...history.map((season) => season.rows.length));
 }
 
-export function getClubProfile(clubKey: string): ClubProfile | null {
-    const club = getClub(clubKey);
-    if (!club) {
-        return null;
-    }
-    const history = getChampionshipHistory();
-    const seasons: ClubSeasonPoints[] = YEARS.map((year) => {
-        if (!RANKED_YEARS.includes(year)) {
-            return { year, points: 0, rank: null, status: 'in-progress' };
-        }
-        const row = history
-            .find((season) => season.year === year)
-            ?.rows.find((entry) => entry.club.key === clubKey);
-        return {
-            year,
-            points: row?.points ?? 0,
-            rank: row?.rank ?? null,
-            status: 'ranked',
-        };
-    });
-
-    const ranked = seasons.filter((season) => season.rank !== null);
-    const best = ranked.reduce<ClubSeasonPoints | null>(
-        (bestSoFar, season) =>
-            bestSoFar === null ||
-            (season.rank ?? Infinity) < (bestSoFar.rank ?? Infinity)
-                ? season
-                : bestSoFar,
-        null,
-    );
-
-    const results = getClubResults(clubKey);
-    let won = 0;
-    let games = 0;
-    for (const result of results) {
-        won += result.won ?? 0;
-        games += (result.won ?? 0) + (result.lost ?? 0) + (result.drawn ?? 0);
-    }
-
-    const currentSeason = history.at(-1);
-    const currentRow = currentSeason?.rows.find(
-        (entry) => entry.club.key === clubKey,
-    );
-
-    return {
-        club,
-        currentRank: currentRow?.rank ?? null,
-        bestRank: best?.rank ?? null,
-        bestRankYear: best?.year ?? null,
-        careerPoints:
-            Math.round(
-                ranked.reduce((total, season) => total + season.points, 0) * 10,
-            ) / 10,
-        minorPremierships: results.filter(
-            (result) => result.ladderPosition === 1,
-        ).length,
-        winPercentage: games > 0 ? Math.round((won / games) * 1000) / 10 : null,
-        gamesPlayed: games,
-        seasons,
-        results,
-    };
+export async function getClubProfile(
+    clubKey: string,
+): Promise<ClubProfile | null> {
+    return fetchClubProfile(getDb(), clubKey);
 }
 
-export function getLadderFor(gradeKey: string): Ladder | null {
-    return GRADES.some((grade) => grade.key === gradeKey)
-        ? getLadder(gradeKey)
-        : null;
+export async function getLadderFor(gradeKey: string): Promise<Ladder | null> {
+    return fetchLadder(getDb(), gradeKey);
 }
 
-export function listGradeWeights(): readonly GradeWeightRow[] {
-    return [...GRADE_WEIGHTS].sort(
-        (a, b) => a.tier - b.tier || (a.division ?? 0) - (b.division ?? 0),
-    );
+export async function listGradeWeights(): Promise<readonly GradeWeightRow[]> {
+    return fetchGradeWeights(getDb());
 }

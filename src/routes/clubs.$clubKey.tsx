@@ -14,9 +14,9 @@ export interface ClubProfileData {
 
 const loadClub = createServerFn({ method: 'GET' })
     .validator(z.object({ clubKey: z.string() }))
-    .handler(({ data }): ClubProfileData | null => {
-        const profile = getClubProfile(data.clubKey);
-        return profile ? { profile, clubs: listClubs() } : null;
+    .handler(async ({ data }): Promise<ClubProfileData | null> => {
+        const profile = await getClubProfile(data.clubKey);
+        return profile ? { profile, clubs: await listClubs() } : null;
     });
 
 function ClubNotFound(): JSX.Element {

@@ -23,6 +23,7 @@ INSERT INTO grade_weights (competition_id, tier, division, label, weight) SELECT
 INSERT INTO grade_weights (competition_id, tier, division, label, weight) SELECT id, 6, 3, 'Inter. 3', 0.41 FROM competitions WHERE key = 'amnd';
 INSERT INTO grade_weights (competition_id, tier, division, label, weight) SELECT id, 6, 4, 'Inter. 4', 0.39 FROM competitions WHERE key = 'amnd';
 INSERT INTO grade_weights (competition_id, tier, division, label, weight) SELECT id, 6, 5, 'Inter. 5', 0.37 FROM competitions WHERE key = 'amnd';
+INSERT INTO grade_weights (competition_id, tier, division, label, weight) SELECT id, 6, 6, 'Inter. 6', 0.35 FROM competitions WHERE key = 'amnd';
 INSERT INTO grade_weights (competition_id, tier, division, label, weight) SELECT id, 7, 1, 'C 1', 0.36 FROM competitions WHERE key = 'amnd';
 INSERT INTO grade_weights (competition_id, tier, division, label, weight) SELECT id, 7, 2, 'C 2', 0.34 FROM competitions WHERE key = 'amnd';
 INSERT INTO grade_weights (competition_id, tier, division, label, weight) SELECT id, 7, 3, 'C 3', 0.32 FROM competitions WHERE key = 'amnd';
@@ -51,5 +52,6 @@ INSERT INTO grade_weights (competition_id, tier, division, label, weight) SELECT
 INSERT INTO grade_weights (competition_id, tier, division, label, weight) SELECT id, 10, 4, 'Primary 4', 0.215 FROM competitions WHERE key = 'amnd';
 INSERT INTO grade_weights (competition_id, tier, division, label, weight) SELECT id, 10, 5, 'Primary 5', 0.2 FROM competitions WHERE key = 'amnd';
 INSERT INTO grade_weights (competition_id, tier, division, label, weight) SELECT id, 10, 6, 'Primary 6', 0.185 FROM competitions WHERE key = 'amnd';
+INSERT INTO grade_weights (competition_id, tier, division, label, weight) SELECT id, 10, 7, 'Primary 7', 0.17 FROM competitions WHERE key = 'amnd';
 INSERT INTO grade_weights (competition_id, tier, division, label, weight) SELECT id, 11, 1, 'Sub-Primary 1', 0.2 FROM competitions WHERE key = 'amnd';
 INSERT INTO grade_weights (competition_id, tier, division, label, weight) SELECT id, 11, 2, 'Sub-Primary 2', 0.185 FROM competitions WHERE key = 'amnd';

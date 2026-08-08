@@ -64,10 +64,6 @@ export function SiteHeader(): JSX.Element {
                         </Link>
                     ))}
                 </nav>
-
-                <span className="label-mono hidden shrink-0 rounded-full bg-paper-sunken px-3 py-1.5 md:inline">
-                    {'SAMPLE DATA'}
-                </span>
             </div>
         </header>
     );

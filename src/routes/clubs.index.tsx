@@ -17,12 +17,15 @@ export interface ClubIndexData {
 }
 
 const loadClubs = createServerFn({ method: 'GET' }).handler(
-    (): ClubIndexData => {
-        const year = latestRankedYear();
-        const season = getChampionshipSeason(year);
+    async (): Promise<ClubIndexData> => {
+        const year = await latestRankedYear();
+        const [season, clubs] = await Promise.all([
+            getChampionshipSeason(year),
+            listClubs(),
+        ]);
         return {
             year,
-            entries: listClubs().map((club) => {
+            entries: clubs.map((club) => {
                 const row = season?.rows.find(
                     (entry) => entry.club.key === club.key,
                 );
