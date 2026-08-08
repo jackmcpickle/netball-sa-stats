@@ -82,6 +82,20 @@ export interface CoverageChange {
     readonly addedCompetitions: readonly string[];
 }
 
+/**
+ * Where consecutive ranked years switch measurement (e.g. archive Final
+ * Premiership Placings → PlayHQ regular-season ladders).
+ */
+export interface MethodologyBreak {
+    readonly afterYear: number;
+    readonly beforeYear: number;
+}
+
+export interface TimelineGap {
+    readonly afterYear: number;
+    readonly missingYears: readonly number[];
+}
+
 export interface Coverage {
     /** Every year the site holds any data for, ascending. */
     readonly years: readonly number[];
@@ -97,6 +111,10 @@ export interface Coverage {
      * comparison, so movement arrows across that boundary are suppressed.
      */
     readonly changeNote: CoverageChange | null;
+    /** Null when every ranked year uses the same result source as its predecessor. */
+    readonly methodologyBreak: MethodologyBreak | null;
+    /** Calendar years with no ranked season between covered years. */
+    readonly timelineGaps: readonly TimelineGap[];
 }
 
 /** One club's line in one season's championship table. */

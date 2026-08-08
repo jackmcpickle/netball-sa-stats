@@ -119,7 +119,7 @@ export function ChampionshipTable({
                                         {coverageChanged ? (
                                             <span
                                                 className="numeric w-14 text-right text-[13px] text-ink-faint"
-                                                title="Competition coverage changed since the previous ranked season, so this season is not directly comparable — no movement is shown."
+                                                title="Competition coverage, methodology, or a gap in seasons changed since the previous ranked season, so this season is not directly comparable — no movement is shown."
                                             >
                                                 <span className="sr-only">
                                                     {

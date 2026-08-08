@@ -4,15 +4,15 @@ Companion to [ARCHIVE-PLAN.md](../../../ARCHIVE-PLAN.md). Extends the live produ
 
 ## Decisions (locked)
 
-| Topic | Choice |
-| --- | --- |
-| Scope | Full product: fetch → parse → import → championship → UI |
-| Seasons | AMND 2000–2014, 2016 only (16 PDFs). Gap years 2015 / 2017–2021 stay empty for later backfill |
-| Era UI | One continuous timeline with a clear visual break at the gap + methodology change |
-| Championship | Score archive seasons; label the break; suppress movement arrows across the gap |
-| Top 4 | Keep rows; `position_uncertain = 1` when `ladder_position <= 4`; still score; no minor premiership |
-| 2000–2005 title | Treat `Final Placings` as same `placement_basis = final_premiership_placings`; note title difference in season/result notes |
-| Premier League archive | Out of scope (none found) |
+| Topic                  | Choice                                                                                                                      |
+| ---------------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| Scope                  | Full product: fetch → parse → import → championship → UI                                                                    |
+| Seasons                | AMND 2000–2014, 2016 only (16 PDFs). Gap years 2015 / 2017–2021 stay empty for later backfill                               |
+| Era UI                 | One continuous timeline with a clear visual break at the gap + methodology change                                           |
+| Championship           | Score archive seasons; label the break; suppress movement arrows across the gap                                             |
+| Top 4                  | Keep rows; `position_uncertain = 1` when `ladder_position <= 4`; still score; no minor premiership                          |
+| 2000–2005 title        | Treat `Final Placings` as same `placement_basis = final_premiership_placings`; note title difference in season/result notes |
+| Premier League archive | Out of scope (none found)                                                                                                   |
 
 ## Why this shape
 

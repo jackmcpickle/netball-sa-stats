@@ -14,30 +14,31 @@
 
 ## File map
 
-| Path | Role |
-| --- | --- |
-| `scripts/fetch-archive.ts` | CLI entry |
-| `src/pipeline/archive/sources.ts` | Year → Wayback URL + expected filename |
-| `src/pipeline/archive/fetch-pdfs.ts` | Download + cache to `data/raw/archive/` |
-| `src/pipeline/archive/parse-pdf.ts` | Column-aware extraction → placement rows |
-| `src/pipeline/archive/grade-map.ts` | Per-year grade header → tier/division exceptions |
-| `src/pipeline/archive/resolve.ts` | Club alias resolution (fail loud) + synthetic IDs |
-| `src/pipeline/archive/merge.ts` | Staging → append/update main `data/*.csv` |
-| `src/pipeline/archive/run.ts` | Orchestration |
-| `data/raw/archive/*.pdf` | Committed raw PDFs |
-| `data/archive/` | Staging CSVs / parse fixtures |
-| `src/db/queries/coverage.ts` | Methodology break + gap years in coverage |
-| `src/db/queries/championship.ts` | Suppress movement across era/gap |
-| `src/components/coverage-note.tsx` | Copy for archive + gap |
-| `src/components/method/method-page.tsx` | Placement-basis explanation |
-| `src/components/charts/*` | Timeline break rendering |
-| `ARCHIVE-PLAN.md` | Mark status built / point to this plan |
+| Path                                    | Role                                              |
+| --------------------------------------- | ------------------------------------------------- |
+| `scripts/fetch-archive.ts`              | CLI entry                                         |
+| `src/pipeline/archive/sources.ts`       | Year → Wayback URL + expected filename            |
+| `src/pipeline/archive/fetch-pdfs.ts`    | Download + cache to `data/raw/archive/`           |
+| `src/pipeline/archive/parse-pdf.ts`     | Column-aware extraction → placement rows          |
+| `src/pipeline/archive/grade-map.ts`     | Per-year grade header → tier/division exceptions  |
+| `src/pipeline/archive/resolve.ts`       | Club alias resolution (fail loud) + synthetic IDs |
+| `src/pipeline/archive/merge.ts`         | Staging → append/update main `data/*.csv`         |
+| `src/pipeline/archive/run.ts`           | Orchestration                                     |
+| `data/raw/archive/*.pdf`                | Committed raw PDFs                                |
+| `data/archive/`                         | Staging CSVs / parse fixtures                     |
+| `src/db/queries/coverage.ts`            | Methodology break + gap years in coverage         |
+| `src/db/queries/championship.ts`        | Suppress movement across era/gap                  |
+| `src/components/coverage-note.tsx`      | Copy for archive + gap                            |
+| `src/components/method/method-page.tsx` | Placement-basis explanation                       |
+| `src/components/charts/*`               | Timeline break rendering                          |
+| `ARCHIVE-PLAN.md`                       | Mark status built / point to this plan            |
 
 ---
 
 ### Task 1: PDF source catalog + fetch
 
 **Files:**
+
 - Create: `src/pipeline/archive/sources.ts`
 - Create: `src/pipeline/archive/fetch-pdfs.ts`
 - Create: `src/pipeline/archive/sources.test.ts`
@@ -63,6 +64,7 @@ git commit -m "Add archive PDF source catalog and Wayback fetch"
 ### Task 2: Column-aware PDF parser
 
 **Files:**
+
 - Create: `src/pipeline/archive/parse-pdf.ts`
 - Create: `src/pipeline/archive/parse-pdf.test.ts`
 - Create: `data/archive/fixtures/` (pdftotext -bbox samples from 1–2 years)
@@ -87,6 +89,7 @@ git commit -m "Parse archive premiership PDFs with column-aware extraction"
 ### Task 3: Grade mapping + club resolve + synthetic IDs
 
 **Files:**
+
 - Create: `src/pipeline/archive/grade-map.ts`
 - Create: `src/pipeline/archive/resolve.ts`
 - Create: `src/pipeline/archive/resolve.test.ts`
@@ -113,6 +116,7 @@ git commit -m "Resolve archive grades and club aliases with synthetic team ids"
 ### Task 4: Staging CSVs + merge into `data/*.csv`
 
 **Files:**
+
 - Create: `src/pipeline/archive/merge.ts`
 - Create: `src/pipeline/archive/run.ts`
 - Wire: `scripts/fetch-archive.ts`
@@ -138,6 +142,7 @@ git commit -m "Merge archive seasons into committed entity CSVs"
 ### Task 5: Import path verification
 
 **Files:**
+
 - Possibly extend: `src/pipeline/import/validate.test.ts` with archive fixture
 - Create: `src/pipeline/import/__fixtures__/archive-smoke/` (small)
 
@@ -159,6 +164,7 @@ git commit -m "Verify import accepts archive_pdf result rows"
 ### Task 6: Championship movement across era/gap
 
 **Files:**
+
 - Modify: `src/db/queries/championship.ts`
 - Modify: `src/pipeline/scoring/championship.ts` and/or coverage helpers if needed
 - Modify: `src/pipeline/scoring/championship.test.ts`
@@ -182,6 +188,7 @@ git commit -m "Suppress championship movement across archive gap and era break"
 ### Task 7: Timeline UI break + copy
 
 **Files:**
+
 - Modify: `src/components/coverage-note.tsx`
 - Modify: `src/components/method/method-page.tsx`
 - Modify: `src/components/charts/points-bar-chart.tsx` (and rank movement chart if present)

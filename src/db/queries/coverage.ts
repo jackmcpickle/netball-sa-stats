@@ -6,7 +6,9 @@ import type {
     SeasonCoverage,
 } from '@/data/types';
 import type { Db } from '@/db';
+import { methodologyBreak, timelineGaps } from '@/db/queries/era-break';
 import { competitions, seasons } from '@/db/schema';
+import type { Source } from '@/db/schema';
 
 /**
  * Short forms for tight table cells. Not in the database: it is presentation,
@@ -27,6 +29,7 @@ export interface SeasonRow {
     readonly seasonKey: string;
     readonly startYear: number;
     readonly isFinal: boolean;
+    readonly source: Source;
     readonly competitionKey: string;
     readonly competitionName: string;
 }
@@ -38,6 +41,7 @@ export async function fetchSeasons(db: Db): Promise<readonly SeasonRow[]> {
             seasonKey: seasons.seasonKey,
             startYear: seasons.startYear,
             isFinal: seasons.isFinal,
+            source: seasons.source,
             competitionKey: competitions.key,
             competitionName: competitions.name,
         })
@@ -130,12 +134,25 @@ export function buildCoverage(
     isSampleData: boolean,
 ): Coverage {
     const years = coveredYears(rows);
+    const ranked = rankedYears(rows);
     const keys = [...new Set(rows.map((row) => row.competitionKey))];
+    const sourceByYear = new Map<number, Set<string>>();
+    for (const row of rows) {
+        if (!ranked.includes(row.startYear)) continue;
+        const set = sourceByYear.get(row.startYear) ?? new Set<string>();
+        set.add(row.source);
+        sourceByYear.set(row.startYear, set);
+    }
     return {
         years,
-        rankedYears: rankedYears(rows),
+        rankedYears: ranked,
         isSampleData,
         changeNote: coverageChangeNote(rows),
+        methodologyBreak: methodologyBreak({
+            rankedYears: ranked,
+            sourceByYear,
+        }),
+        timelineGaps: timelineGaps(ranked),
         competitions: keys.map((key) => {
             const forKey = rows.filter((row) => row.competitionKey === key);
             return {

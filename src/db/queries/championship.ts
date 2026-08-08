@@ -1,6 +1,11 @@
 import type { ChampionshipRow, ChampionshipSeason, Club } from '@/data/types';
 import type { Db } from '@/db';
 import { accentFor } from '@/db/queries/clubs';
+import {
+    movementBoundaryChanged,
+    placementBasesForYear,
+    sourcesForYear,
+} from '@/db/queries/era-break';
 import { fetchResults, toScoringRow } from '@/db/queries/results';
 import type { ResultRow } from '@/db/queries/results';
 import { previousRanks, rankSeasons } from '@/pipeline/scoring/championship';
@@ -14,13 +19,6 @@ function competitionKeysFor(
             .filter((row) => row.year === year)
             .map((row) => row.competitionKey),
     );
-}
-
-function sameCompetitions(
-    a: ReadonlySet<string>,
-    b: ReadonlySet<string>,
-): boolean {
-    return a.size === b.size && [...a].every((key) => b.has(key));
 }
 
 function clubIndexFrom(rows: readonly ResultRow[]): ReadonlyMap<string, Club> {
@@ -56,17 +54,28 @@ export async function fetchChampionshipHistory(
     return ranked.map((season, index): ChampionshipSeason => {
         const previousSeason = ranked[index - 1];
         const previous = previousRanks(previousSeason);
-        // Movement is only meaningful when the same competitions ran in both
-        // seasons — e.g. Premier League and Reserves entering in 2023 gives
-        // every club fielding a Premier side a coverage-driven points jump
-        // that has nothing to do with performance, so no season-index > 0
-        // comparison across that boundary may claim it.
+        // Movement is only meaningful across adjacent, comparable seasons.
+        // Suppress when competitions widen, calendar years gap (2016→2022),
+        // or methodology changes (archive Final Premiership Placings → PlayHQ
+        // regular-season ladders).
         const coverageChanged =
             previousSeason !== undefined &&
-            !sameCompetitions(
-                competitionKeysFor(rows, season.year),
-                competitionKeysFor(rows, previousSeason.year),
-            );
+            movementBoundaryChanged({
+                year: season.year,
+                previousYear: previousSeason.year,
+                competitionKeys: competitionKeysFor(rows, season.year),
+                previousCompetitionKeys: competitionKeysFor(
+                    rows,
+                    previousSeason.year,
+                ),
+                sources: sourcesForYear(rows, season.year),
+                previousSources: sourcesForYear(rows, previousSeason.year),
+                placementBases: placementBasesForYear(rows, season.year),
+                previousPlacementBases: placementBasesForYear(
+                    rows,
+                    previousSeason.year,
+                ),
+            });
         const championshipRows = season.totals.flatMap(
             (total): ChampionshipRow[] => {
                 const club = clubs.get(total.clubKey);

@@ -30,7 +30,12 @@ export function MethodPage(): JSX.Element {
                     </p>
                     <p className="mt-5 leading-[1.55] text-ink-body">
                         {
-                            'Positions are taken from the published regular-season ladder, not from finals. Two points for a win and one for a draw; teams level on points are separated by goal percentage (goals for ÷ goals against × 100), the standard Netball SA method.'
+                            'From 2022, positions are taken from the published PlayHQ regular-season ladder, not from finals. Two points for a win and one for a draw; teams level on points are separated by goal percentage (goals for ÷ goals against × 100), the standard Netball SA method.'
+                        }
+                    </p>
+                    <p className="mt-5 leading-[1.55] text-ink-body">
+                        {
+                            'Earlier AMND seasons (2000–2014 and 2016) come from archived Final Premiership Placings PDFs. Those rows are placement-only — no played/won/lost or goals — and the top four places may reflect finals outcomes rather than the minor-round ladder. They still score in the championship, but an uncertain top-four finish cannot count as a minor premiership, and the site draws a break across the missing years and the methodology change.'
                         }
                     </p>
                     <p className="mt-5 leading-[1.55] text-ink-body">

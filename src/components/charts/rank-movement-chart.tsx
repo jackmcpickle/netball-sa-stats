@@ -8,6 +8,7 @@ import {
     type LinePoint,
     type Plot,
 } from '@/components/charts/scale';
+import { gapLabel, timelineSlots } from '@/components/charts/timeline-slots';
 import { ClubLink } from '@/components/links';
 import type { ClubRankSeries } from '@/data/types';
 
@@ -56,7 +57,7 @@ export function RankMovementChart({
                 that follows says what the picture shows.
             */}
             <p className="sr-only">
-                {`Line chart of club championship position for ${String(series.length)} clubs across ${String(years.length)} seasons, ${String(years[0])} to ${String(years.at(-1))}. Rank 1 is plotted at the top. The same figures are listed in the championship table below.`}
+                {`Line chart of club championship position for ${String(series.length)} clubs across ${String(years.length)} seasons, ${String(years[0])} to ${String(years.at(-1))}. Rank 1 is plotted at the top. Lines break across years with no data. The same figures are listed in the championship table below.`}
             </p>
             <svg
                 viewBox={VIEW_BOX}
@@ -98,21 +99,64 @@ export function RankMovementChart({
                     </text>
                 ))}
 
+                {timelineSlots(years).flatMap((slot, slotIndex, slots) => {
+                    if (slot.kind !== 'gap') return [];
+                    const prev = slots[slotIndex - 1];
+                    const next = slots[slotIndex + 1];
+                    if (prev?.kind !== 'year' || next?.kind !== 'year') {
+                        return [];
+                    }
+                    const prevIndex = years.indexOf(prev.year);
+                    const nextIndex = years.indexOf(next.year);
+                    const x =
+                        (bandX(prevIndex, years.length, PLOT) +
+                            bandX(nextIndex, years.length, PLOT)) /
+                        2;
+                    return [
+                        <g key={`gap-${String(slot.afterYear)}`}>
+                            <line
+                                x1={x}
+                                x2={x}
+                                y1={PLOT.y0}
+                                y2={PLOT.y1}
+                                className="stroke-rule"
+                                strokeWidth="1"
+                                strokeDasharray="4 5"
+                            />
+                            <text
+                                x={x}
+                                y={LABEL_BASELINE}
+                                textAnchor="middle"
+                                className="fill-ink-faint font-mono text-[9px]"
+                            >
+                                {gapLabel(slot.missingYears)}
+                            </text>
+                        </g>,
+                    ];
+                })}
+
                 {series.map((entry) => {
-                    const points: (LinePoint | null)[] = years.map((year) => {
+                    const points: (LinePoint | null)[] = [];
+                    years.forEach((year, index) => {
+                        if (
+                            index > 0 &&
+                            year - (years[index - 1] ?? year) > 1
+                        ) {
+                            // Break the polyline across dataset holes so the
+                            // archive→PlayHQ gap never reads as continuous form.
+                            points.push(null);
+                        }
                         const point = entry.points.find(
                             (candidate) => candidate.year === year,
                         );
-                        return point
-                            ? {
-                                  x: bandX(
-                                      years.indexOf(year),
-                                      years.length,
-                                      PLOT,
-                                  ),
-                                  y: rankY(point.rank, axisMax, PLOT),
-                              }
-                            : null;
+                        points.push(
+                            point
+                                ? {
+                                      x: bandX(index, years.length, PLOT),
+                                      y: rankY(point.rank, axisMax, PLOT),
+                                  }
+                                : null,
+                        );
                     });
                     const last = points
                         .filter((point) => point !== null)
@@ -132,17 +176,21 @@ export function RankMovementChart({
                                 strokeLinejoin="round"
                                 strokeLinecap="round"
                             />
-                            {points.map((point, pointIndex) =>
-                                point ? (
+                            {years.map((year, index) => {
+                                const point = entry.points.find(
+                                    (candidate) => candidate.year === year,
+                                );
+                                if (!point) return null;
+                                return (
                                     <circle
-                                        key={years[pointIndex]}
-                                        cx={point.x}
-                                        cy={point.y}
+                                        key={year}
+                                        cx={bandX(index, years.length, PLOT)}
+                                        cy={rankY(point.rank, axisMax, PLOT)}
                                         r={isFocus ? 5 : 3.5}
                                         fill="currentColor"
                                     />
-                                ) : null,
-                            )}
+                                );
+                            })}
                             <text
                                 x={PLOT.x1 + 12}
                                 y={(last?.y ?? PLOT.y0) + 4}
