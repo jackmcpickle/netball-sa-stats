@@ -51,6 +51,19 @@ describe('grade weights', () => {
         expect(find('B 6')?.weight).toBe(0.47);
     });
 
+    it('covers archive Junior and Sub-Junior division 9 grades', () => {
+        expect(find('Junior 9')).toMatchObject({
+            competitionKey: 'amnd',
+            tier: 8,
+            division: 9,
+        });
+        expect(find('Sub-Junior 9')).toMatchObject({
+            competitionKey: 'amnd',
+            tier: 9,
+            division: 9,
+        });
+    });
+
     it('ranks C below Inter', () => {
         const lowestInter = find('Inter. 5');
         const highestC = find('C 1');

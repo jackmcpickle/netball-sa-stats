@@ -115,7 +115,7 @@ const BANDS: readonly Band[] = [
         label: 'Junior',
         base: 0.38,
         step: 0.015,
-        divisions: 8,
+        divisions: 9,
     },
     {
         competitionKey: 'amnd',
@@ -123,7 +123,7 @@ const BANDS: readonly Band[] = [
         label: 'Sub-Junior',
         base: 0.32,
         step: 0.015,
-        divisions: 8,
+        divisions: 9,
     },
     {
         competitionKey: 'amnd',

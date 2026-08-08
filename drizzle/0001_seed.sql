@@ -38,6 +38,7 @@ INSERT INTO grade_weights (competition_id, tier, division, label, weight) SELECT
 INSERT INTO grade_weights (competition_id, tier, division, label, weight) SELECT id, 8, 6, 'Junior 6', 0.305 FROM competitions WHERE key = 'amnd';
 INSERT INTO grade_weights (competition_id, tier, division, label, weight) SELECT id, 8, 7, 'Junior 7', 0.29 FROM competitions WHERE key = 'amnd';
 INSERT INTO grade_weights (competition_id, tier, division, label, weight) SELECT id, 8, 8, 'Junior 8', 0.275 FROM competitions WHERE key = 'amnd';
+INSERT INTO grade_weights (competition_id, tier, division, label, weight) SELECT id, 8, 9, 'Junior 9', 0.26 FROM competitions WHERE key = 'amnd';
 INSERT INTO grade_weights (competition_id, tier, division, label, weight) SELECT id, 9, 1, 'Sub-Junior 1', 0.32 FROM competitions WHERE key = 'amnd';
 INSERT INTO grade_weights (competition_id, tier, division, label, weight) SELECT id, 9, 2, 'Sub-Junior 2', 0.305 FROM competitions WHERE key = 'amnd';
 INSERT INTO grade_weights (competition_id, tier, division, label, weight) SELECT id, 9, 3, 'Sub-Junior 3', 0.29 FROM competitions WHERE key = 'amnd';
@@ -46,6 +47,7 @@ INSERT INTO grade_weights (competition_id, tier, division, label, weight) SELECT
 INSERT INTO grade_weights (competition_id, tier, division, label, weight) SELECT id, 9, 6, 'Sub-Junior 6', 0.245 FROM competitions WHERE key = 'amnd';
 INSERT INTO grade_weights (competition_id, tier, division, label, weight) SELECT id, 9, 7, 'Sub-Junior 7', 0.23 FROM competitions WHERE key = 'amnd';
 INSERT INTO grade_weights (competition_id, tier, division, label, weight) SELECT id, 9, 8, 'Sub-Junior 8', 0.215 FROM competitions WHERE key = 'amnd';
+INSERT INTO grade_weights (competition_id, tier, division, label, weight) SELECT id, 9, 9, 'Sub-Junior 9', 0.2 FROM competitions WHERE key = 'amnd';
 INSERT INTO grade_weights (competition_id, tier, division, label, weight) SELECT id, 10, 1, 'Primary 1', 0.26 FROM competitions WHERE key = 'amnd';
 INSERT INTO grade_weights (competition_id, tier, division, label, weight) SELECT id, 10, 2, 'Primary 2', 0.245 FROM competitions WHERE key = 'amnd';
 INSERT INTO grade_weights (competition_id, tier, division, label, weight) SELECT id, 10, 3, 'Primary 3', 0.23 FROM competitions WHERE key = 'amnd';
