@@ -65,4 +65,14 @@ describe('describeMovement', () => {
         expect(describeMovement(5, 5).direction).toBe('level');
         expect(describeMovement(5, null).direction).toBe('new');
     });
+
+    it('uses singular "place" for a single-step move', () => {
+        expect(describeMovement(4, 5).description).toBe('Up 1 place');
+        expect(describeMovement(5, 4).description).toBe('Down 1 place');
+    });
+
+    it('uses plural "places" for multi-step moves', () => {
+        expect(describeMovement(3, 7).description).toBe('Up 4 places');
+        expect(describeMovement(9, 5).description).toBe('Down 4 places');
+    });
 });

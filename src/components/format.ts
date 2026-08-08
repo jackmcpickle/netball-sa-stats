@@ -64,14 +64,15 @@ export function describeMovement(
     if (delta > 0) {
         return {
             label: `▲ ${String(delta)}`,
-            description: `Up ${String(delta)} places`,
+            description: `Up ${String(delta)} ${delta === 1 ? 'place' : 'places'}`,
             direction: 'up',
         };
     }
     if (delta < 0) {
+        const absDelta = Math.abs(delta);
         return {
-            label: `▼ ${String(Math.abs(delta))}`,
-            description: `Down ${String(Math.abs(delta))} places`,
+            label: `▼ ${String(absDelta)}`,
+            description: `Down ${String(absDelta)} ${absDelta === 1 ? 'place' : 'places'}`,
             direction: 'down',
         };
     }

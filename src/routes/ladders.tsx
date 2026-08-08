@@ -4,6 +4,7 @@ import { z } from 'zod';
 import { LaddersPage } from '@/components/ladders/ladders-page';
 import { getCoverage, getLadderFor, listGrades } from '@/data';
 import type { GradeSummary, Ladder } from '@/data/types';
+import { parseOptionalIntParam } from '@/routes/-search-params';
 
 export interface LaddersData {
     readonly years: readonly number[];
@@ -13,7 +14,7 @@ export interface LaddersData {
 }
 
 const searchSchema = z.object({
-    year: z.coerce.number().int().optional(),
+    year: z.preprocess(parseOptionalIntParam, z.number().int().optional()),
     grade: z.string().optional(),
 });
 

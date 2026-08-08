@@ -16,6 +16,7 @@ import type {
     ClubRankSeries,
     Coverage,
 } from '@/data/types';
+import { parseOptionalIntParam } from '@/routes/-search-params';
 
 export interface RankingsData {
     readonly coverage: Coverage;
@@ -28,7 +29,7 @@ export interface RankingsData {
 }
 
 const searchSchema = z.object({
-    season: z.coerce.number().int().optional(),
+    season: z.preprocess(parseOptionalIntParam, z.number().int().optional()),
 });
 
 /**
