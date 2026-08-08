@@ -80,6 +80,7 @@ export type FetchReport = {
         seasonKey: string;
         gradeName: string;
         teamCount: number;
+        reason: 'too_few_teams' | 'out_of_scope';
     }[];
 };
 
@@ -137,7 +138,7 @@ async function discoverSeasons(
  * is out of scope (not one of the six catalogued competitions) and is
  * skipped rather than failing the whole run.
  */
-function resolveCompetitionKey(
+export function resolveCompetitionKey(
     orgId: string,
     gradeName: string,
 ): string | null {
@@ -146,6 +147,30 @@ function resolveCompetitionKey(
     if (normalised === 'PREMIER DIVISION') return 'premier_league';
     if (normalised === 'RESERVES DIVISION') return 'premier_league_reserves';
     return null;
+}
+
+/**
+ * Reports (rather than silently dropping) a grade whose org/season is in
+ * scope but whose competition isn't catalogued, e.g. "Walking Netball 50+"
+ * under the Netball SA Premier League season. Kept out of `runFetch` to stay
+ * under the function-length lint budget.
+ */
+function recordOutOfScopeGrade(
+    skippedGrades: FetchReport['skippedGrades'],
+    orgId: string,
+    seasonId: string,
+    seasonName: string,
+    gradeName: string,
+): void {
+    console.warn(
+        `out-of-scope grade skipped: "${gradeName}" (season ${seasonName}, org ${orgId})`,
+    );
+    skippedGrades.push({
+        seasonKey: seasonId,
+        gradeName,
+        teamCount: -1,
+        reason: 'out_of_scope',
+    });
 }
 
 function mergeTeams(
@@ -165,7 +190,7 @@ function resultKeyOf(r: Record<string, CsvValue>): string {
     return `${String(r.grade_key)}|${String(r.ladder_position).padStart(4, '0')}`;
 }
 
-type GradeContext = {
+export type GradeContext = {
     orgId: string;
     period: 'winter' | 'annual';
     startYear: number;
@@ -201,7 +226,7 @@ function registerTeam(
     });
 }
 
-function processGrade(
+export function processGrade(
     grade: {
         id: string;
         name: string;
@@ -268,16 +293,8 @@ function processGrade(
     };
 }
 
-export async function runFetch(options: FetchOptions): Promise<FetchReport> {
-    const { refresh } = options;
-    await mkdir(RAW_DIR, { recursive: true });
-
-    const existingSeasons =
-        await readExistingCsv<Record<string, string>>('seasons.csv');
-    const isFinalBySeasonKey = new Map(
-        existingSeasons.map((row) => [row.season_key, row.is_final]),
-    );
-
+/** Loads the curated `clubs.csv`/`club_aliases.csv` state into a fresh registry. */
+async function loadClubRegistry(): Promise<ClubRegistry> {
     const existingClubs = (
         await readExistingCsv<Record<string, string>>('clubs.csv')
     ).map(
@@ -299,7 +316,20 @@ export async function runFetch(options: FetchOptions): Promise<FetchReport> {
             source: row.source,
         }),
     );
-    const clubRegistry = new ClubRegistry(existingClubs, existingAliases);
+    return new ClubRegistry(existingClubs, existingAliases);
+}
+
+export async function runFetch(options: FetchOptions): Promise<FetchReport> {
+    const { refresh } = options;
+    await mkdir(RAW_DIR, { recursive: true });
+
+    const existingSeasons =
+        await readExistingCsv<Record<string, string>>('seasons.csv');
+    const isFinalBySeasonKey = new Map(
+        existingSeasons.map((row) => [row.season_key, row.is_final]),
+    );
+
+    const clubRegistry = await loadClubRegistry();
 
     const seasonRows = new Map<string, SeasonRow>();
     const gradeRows: GradeRow[] = [];
@@ -349,7 +379,18 @@ export async function runFetch(options: FetchOptions): Promise<FetchReport> {
                     grade.name,
                 );
                 // Out of scope, e.g. "Walking Netball 50+" under the Premier League season.
-                if (competitionKey === null) continue;
+                // Reported (not just dropped) so a grade that genuinely comes into
+                // scope later under a catalogued org doesn't silently vanish.
+                if (competitionKey === null) {
+                    recordOutOfScopeGrade(
+                        skippedGrades,
+                        job.orgId,
+                        season.id,
+                        season.name,
+                        grade.name,
+                    );
+                    continue;
+                }
 
                 const gradeCachePath = resolve(
                     RAW_DIR,
@@ -385,6 +426,7 @@ export async function runFetch(options: FetchOptions): Promise<FetchReport> {
                         seasonKey: seasonKeyPreview,
                         gradeName: grade.name,
                         teamCount: standings.length,
+                        reason: 'too_few_teams',
                     });
                     continue;
                 }

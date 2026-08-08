@@ -48,7 +48,12 @@ export class ClubRegistry {
 
     public resolve(organisationId: string, organisationName: string): string {
         const existing = this.byPlayhqId.get(organisationId);
-        if (existing !== undefined) return existing;
+        if (existing !== undefined) {
+            // club_key/name stay curated and untouched, but a changed PlayHQ
+            // display name is still worth recording as a new alias.
+            this.addAlias(existing, organisationName, 'playhq');
+            return existing;
+        }
 
         const clubKey = uniqueSlug(organisationName, this.takenKeys);
         this.takenKeys.add(clubKey);
