@@ -11,8 +11,7 @@
         {
             "binding": "DB",
             "database_name": "netball-stats",
-            // Replace with the id from: wrangler d1 create netball-stats
-            "database_id": "PLACEHOLDER_D1_DATABASE_ID",
+            "database_id": "901da6ea-c57d-4529-915e-2d1718186efa",
             "migrations_dir": "drizzle",
         },
     ],
