@@ -162,4 +162,27 @@ describe('runImport', () => {
             runImport({ dataDir: FIXTURE_DIR, executor: lossy }),
         ).rejects.toThrow(/row count mismatch/u);
     });
+
+    it('fails loudly when an imported grade has no matching grade_weights row', async () => {
+        // The fixture's A Grade rows are AMND tier 4, division NULL — drop
+        // that weight row so the join has nothing to match, the same shape
+        // of gap that let `Inter. 6` and `Primary 7` score zero silently
+        // before this assertion existed.
+        db.exec(
+            "DELETE FROM grade_weights WHERE tier = 4 AND division IS NULL AND competition_id = (SELECT id FROM competitions WHERE key = 'amnd');",
+        );
+
+        await expect(
+            runImport({
+                dataDir: FIXTURE_DIR,
+                executor: createSqliteExecutor(db),
+            }),
+        ).rejects.toThrow(ImportValidationError);
+        await expect(
+            runImport({
+                dataDir: FIXTURE_DIR,
+                executor: createSqliteExecutor(db),
+            }),
+        ).rejects.toThrow(/grade_weights does not cover every imported grade/u);
+    });
 });

@@ -119,6 +119,42 @@ async function assertRowCountsMatch(
     }
 }
 
+/**
+ * Belt-and-braces for `toScoringRow`'s `weight: row.weight ?? 0` fallback in
+ * `src/db/queries/results.ts`: that fallback exists so a missing weight row
+ * degrades to "scores nothing" instead of throwing mid-render, but it must
+ * never actually fire in production. A grade whose `(competition, tier,
+ * division)` has no matching row in `grade_weights` — e.g. a mistyped tier —
+ * would otherwise import cleanly and silently score zero for every team in
+ * it. `assertRowCountsMatch` only checks table sizes, not this coverage, so
+ * it would not catch it.
+ */
+async function assertGradeWeightCoverage(
+    queryAll: (sql: string) => Promise<Record<string, unknown>[]>,
+): Promise<void> {
+    const unweighted = await queryAll(`
+        SELECT g.grade_key AS gradeKey, s.start_year AS year
+        FROM grades g
+        JOIN seasons s ON s.id = g.season_id
+        LEFT JOIN grade_weights gw
+            ON gw.competition_id = s.competition_id
+            AND gw.tier = g.tier
+            AND gw.division IS g.division
+        WHERE gw.id IS NULL;
+    `);
+    if (unweighted.length > 0) {
+        const offenders = unweighted
+            .map((row) => `${String(row.gradeKey)} (${String(row.year)})`)
+            .join(', ');
+        throw new ImportValidationError(
+            'database',
+            null,
+            `grade_weights does not cover every imported grade — unweighted: ${offenders}`,
+            { unweighted },
+        );
+    }
+}
+
 export type RunImportOptions = {
     dataDir: string;
     executor: ImportExecutor;
@@ -146,6 +182,7 @@ export async function runImport(
     }
 
     await assertRowCountsMatch(executor.queryAll, data);
+    await assertGradeWeightCoverage(executor.queryAll);
 
     return {
         seasons: data.seasons.length,

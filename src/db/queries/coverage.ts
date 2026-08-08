@@ -1,5 +1,10 @@
 import { asc, eq } from 'drizzle-orm';
-import type { Competition, Coverage, SeasonCoverage } from '@/data/types';
+import type {
+    Competition,
+    Coverage,
+    CoverageChange,
+    SeasonCoverage,
+} from '@/data/types';
 import type { Db } from '@/db';
 import { competitions, seasons } from '@/db/schema';
 
@@ -82,6 +87,44 @@ function seasonCoverage(
     return { year, status: 'ranked', note: null };
 }
 
+/**
+ * The year competition coverage first widened beyond the dataset's first
+ * year, and which competitions joined then — derived from each
+ * competition's earliest covered year, not hardcoded to any particular
+ * season. Null when every competition present anywhere in the dataset was
+ * already present in the first year.
+ */
+export function coverageChangeNote(
+    rows: readonly SeasonRow[],
+): CoverageChange | null {
+    const years = coveredYears(rows);
+    const firstYear = years[0];
+    if (firstYear === undefined) {
+        return null;
+    }
+    const firstAppearance = new Map<string, number>();
+    for (const row of rows) {
+        const known = firstAppearance.get(row.competitionKey);
+        if (known === undefined || row.startYear < known) {
+            firstAppearance.set(row.competitionKey, row.startYear);
+        }
+    }
+    const laterYears = [...firstAppearance.values()].filter(
+        (year) => year > firstYear,
+    );
+    if (laterYears.length === 0) {
+        return null;
+    }
+    const changeYear = Math.min(...laterYears);
+    const addedCompetitions = [...firstAppearance.entries()]
+        .filter(([, year]) => year === changeYear)
+        .map(([key]) => {
+            const named = rows.find((row) => row.competitionKey === key);
+            return SHORT_NAMES[key] ?? named?.competitionName ?? key;
+        });
+    return { year: changeYear, addedCompetitions };
+}
+
 export function buildCoverage(
     rows: readonly SeasonRow[],
     isSampleData: boolean,
@@ -92,6 +135,7 @@ export function buildCoverage(
         years,
         rankedYears: rankedYears(rows),
         isSampleData,
+        changeNote: coverageChangeNote(rows),
         competitions: keys.map((key) => {
             const forKey = rows.filter((row) => row.competitionKey === key);
             return {

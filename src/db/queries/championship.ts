@@ -5,6 +5,24 @@ import { fetchResults, toScoringRow } from '@/db/queries/results';
 import type { ResultRow } from '@/db/queries/results';
 import { previousRanks, rankSeasons } from '@/pipeline/scoring/championship';
 
+function competitionKeysFor(
+    rows: readonly ResultRow[],
+    year: number,
+): ReadonlySet<string> {
+    return new Set(
+        rows
+            .filter((row) => row.year === year)
+            .map((row) => row.competitionKey),
+    );
+}
+
+function sameCompetitions(
+    a: ReadonlySet<string>,
+    b: ReadonlySet<string>,
+): boolean {
+    return a.size === b.size && [...a].every((key) => b.has(key));
+}
+
 function clubIndexFrom(rows: readonly ResultRow[]): ReadonlyMap<string, Club> {
     const index = new Map<string, Club>();
     for (const row of rows) {
@@ -36,7 +54,19 @@ export async function fetchChampionshipHistory(
     const ranked = rankSeasons(rows.map(toScoringRow));
 
     return ranked.map((season, index): ChampionshipSeason => {
-        const previous = previousRanks(ranked[index - 1]);
+        const previousSeason = ranked[index - 1];
+        const previous = previousRanks(previousSeason);
+        // Movement is only meaningful when the same competitions ran in both
+        // seasons — e.g. Premier League and Reserves entering in 2023 gives
+        // every club fielding a Premier side a coverage-driven points jump
+        // that has nothing to do with performance, so no season-index > 0
+        // comparison across that boundary may claim it.
+        const coverageChanged =
+            previousSeason !== undefined &&
+            !sameCompetitions(
+                competitionKeysFor(rows, season.year),
+                competitionKeysFor(rows, previousSeason.year),
+            );
         const championshipRows = season.totals.flatMap(
             (total): ChampionshipRow[] => {
                 const club = clubs.get(total.clubKey);
@@ -51,13 +81,16 @@ export async function fetchChampionshipHistory(
                         teams: total.teams,
                         winPercentage: total.winPercentage,
                         minorPremierships: total.minorPremierships,
-                        // Null in the first ranked season by construction:
-                        // `previousRanks(undefined)` is empty.
-                        previousRank: previous.get(total.clubKey) ?? null,
+                        // Null in the first ranked season by construction
+                        // (`previousRanks(undefined)` is empty), and also
+                        // whenever coverage changed since the prior season.
+                        previousRank: coverageChanged
+                            ? null
+                            : (previous.get(total.clubKey) ?? null),
                     },
                 ];
             },
         );
-        return { year: season.year, rows: championshipRows };
+        return { year: season.year, rows: championshipRows, coverageChanged };
     });
 }

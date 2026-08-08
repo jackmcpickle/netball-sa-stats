@@ -72,6 +72,16 @@ export interface CompetitionCoverage {
     readonly seasons: readonly SeasonCoverage[];
 }
 
+/**
+ * The year competition coverage first widened, and what joined. Derived from
+ * the data (each competition's earliest covered year), never hardcoded — the
+ * next competition to be added should surface here without a code change.
+ */
+export interface CoverageChange {
+    readonly year: number;
+    readonly addedCompetitions: readonly string[];
+}
+
 export interface Coverage {
     /** Every year the site holds any data for, ascending. */
     readonly years: readonly number[];
@@ -80,6 +90,13 @@ export interface Coverage {
     readonly competitions: readonly CompetitionCoverage[];
     /** True while the site ships generated data rather than the real import. */
     readonly isSampleData: boolean;
+    /**
+     * Null when every competition has been covered since the first year in
+     * the dataset. Otherwise the first year new competitions joined — the
+     * championship total either side of it is not an apples-to-apples
+     * comparison, so movement arrows across that boundary are suppressed.
+     */
+    readonly changeNote: CoverageChange | null;
 }
 
 /** One club's line in one season's championship table. */
@@ -92,13 +109,24 @@ export interface ChampionshipRow {
     readonly winPercentage: number | null;
     /** Grade ladders topped — minor premierships, not finals flags. */
     readonly minorPremierships: number;
-    /** Null in the first covered season, where there is nothing to compare to. */
+    /**
+     * Null in the first covered season, where there is nothing to compare to
+     * — and also whenever `ChampionshipSeason.coverageChanged` is true for
+     * this row's season, since the previous season's field was structurally
+     * different and a rank comparison would misrepresent movement.
+     */
     readonly previousRank: number | null;
 }
 
 export interface ChampionshipSeason {
     readonly year: number;
     readonly rows: readonly ChampionshipRow[];
+    /**
+     * True when this season's set of competitions differs from the previous
+     * ranked season's — e.g. Premier League and Reserves entering in 2023.
+     * The UI must not draw a movement arrow across that boundary.
+     */
+    readonly coverageChanged: boolean;
 }
 
 /** One club's championship rank in one year, for the movement chart. */

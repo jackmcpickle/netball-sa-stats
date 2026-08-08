@@ -128,6 +128,7 @@ export function RankingsPage(): JSX.Element {
                     rows={data.season.rows}
                     year={data.season.year}
                     previousYear={data.previousYear}
+                    coverageChanged={data.season.coverageChanged}
                 />
             ) : (
                 <Panel className="p-8">

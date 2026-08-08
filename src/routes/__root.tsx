@@ -1,6 +1,7 @@
 /// <reference types="vite/client" />
 import { createRootRoute, HeadContent, Scripts } from '@tanstack/react-router';
 import type { JSX, ReactNode } from 'react';
+import { ErrorPage } from '@/components/error-page';
 import { RootLayout } from '@/components/root-layout';
 import appCss from '@/style.css?url';
 
@@ -49,4 +50,5 @@ export const Route = createRootRoute({
     }),
     shellComponent: RootDocument,
     component: RootLayout,
+    errorComponent: ErrorPage,
 });

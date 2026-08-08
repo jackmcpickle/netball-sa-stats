@@ -21,10 +21,17 @@ export function ChampionshipTable({
     rows,
     year,
     previousYear,
+    coverageChanged,
 }: {
     readonly rows: readonly ChampionshipRow[];
     readonly year: number;
     readonly previousYear: number | null;
+    /**
+     * True when this season's competitions differ from the previous ranked
+     * season's (e.g. Premier League and Reserves joining), so a rank
+     * comparison across that boundary would misrepresent movement.
+     */
+    readonly coverageChanged: boolean;
 }): JSX.Element {
     const leaderPoints = rows[0]?.points ?? 1;
 
@@ -40,9 +47,11 @@ export function ChampionshipTable({
                         <Th align="right">{'WIN %'}</Th>
                         <Th align="right">{'LADDERS WON'}</Th>
                         <Th align="right">
-                            {previousYear === null
-                                ? 'VS PREVIOUS'
-                                : `VS ${String(previousYear)}`}
+                            {coverageChanged
+                                ? 'COVERAGE CHANGED'
+                                : previousYear === null
+                                  ? 'VS PREVIOUS'
+                                  : `VS ${String(previousYear)}`}
                         </Th>
                     </tr>
                 </thead>
@@ -107,16 +116,32 @@ export function ChampionshipTable({
                                             }
                                             accent={accentText(row.club.accent)}
                                         />
-                                        <span
-                                            className={`numeric w-14 text-right text-[13px] font-semibold ${MOVEMENT_TONE[movement.direction]}`}
-                                        >
-                                            <span className="sr-only">
-                                                {movement.description}
+                                        {coverageChanged ? (
+                                            <span
+                                                className="numeric w-14 text-right text-[13px] text-ink-faint"
+                                                title="Competition coverage changed since the previous ranked season, so this season is not directly comparable — no movement is shown."
+                                            >
+                                                <span className="sr-only">
+                                                    {
+                                                        'Not comparable to the previous ranked season — competition coverage changed'
+                                                    }
+                                                </span>
+                                                <span aria-hidden="true">
+                                                    {'—'}
+                                                </span>
                                             </span>
-                                            <span aria-hidden="true">
-                                                {movement.label}
+                                        ) : (
+                                            <span
+                                                className={`numeric w-14 text-right text-[13px] font-semibold ${MOVEMENT_TONE[movement.direction]}`}
+                                            >
+                                                <span className="sr-only">
+                                                    {movement.description}
+                                                </span>
+                                                <span aria-hidden="true">
+                                                    {movement.label}
+                                                </span>
                                             </span>
-                                        </span>
+                                        )}
                                     </span>
                                 </Td>
                             </Tr>

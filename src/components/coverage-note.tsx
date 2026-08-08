@@ -31,6 +31,11 @@ export function CoverageNote({
             <p className="mt-4 max-w-[64ch] leading-relaxed text-ink-body">
                 {`Rankings are built from ${String(coverage.rankedYears.length)} completed seasons, ${String(coverage.rankedYears[0])} to ${String(coverage.rankedYears.at(-1))}. Anything earlier is not in the dataset yet.`}
             </p>
+            {coverage.changeNote && (
+                <p className="mt-3 max-w-[64ch] leading-relaxed text-ink-body">
+                    {`${coverage.changeNote.addedCompetitions.join(' and ')} ${coverage.changeNote.addedCompetitions.length === 1 ? 'enters' : 'enter'} the championship count from ${String(coverage.changeNote.year)}, so totals from before ${String(coverage.changeNote.year)} are not directly comparable to it — the club championship table does not show a movement arrow across that boundary.`}
+                </p>
+            )}
             <dl className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
                 {coverage.competitions.map((entry) => (
                     <div key={entry.competition.key}>
