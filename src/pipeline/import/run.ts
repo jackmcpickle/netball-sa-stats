@@ -19,6 +19,7 @@ import {
 import type {
     ImportData,
     ImportExecutor,
+    PlayedMismatchWarning,
     TeamCountWarning,
 } from '@/pipeline/import/types';
 import { ImportValidationError } from '@/pipeline/import/types';
@@ -32,6 +33,7 @@ export type ImportReport = {
     teams: number;
     results: number;
     warnings: TeamCountWarning[];
+    playedMismatchWarnings: PlayedMismatchWarning[];
 };
 
 async function readCsv(
@@ -94,8 +96,13 @@ export async function runImport(
     const { dataDir, executor } = options;
     const data = await loadImportData(dataDir);
     const competitionKeys = await loadCompetitionKeys(executor.queryAll);
-    const warnings = validateImportData(data, competitionKeys);
+    const { teamCountWarnings, playedMismatchWarnings } = validateImportData(
+        data,
+        competitionKeys,
+    );
 
+    // generateImportSql runs after validation, which may have annotated
+    // `notes` on mismatched result rows — the SQL must reflect that.
     const batches = generateImportSql(data);
     // Batches must run in dependency order (seasons -> ... -> results), so
     // this can't be parallelised with Promise.all.
@@ -111,6 +118,7 @@ export async function runImport(
         grades: data.grades.length,
         teams: data.teams.length,
         results: data.results.length,
-        warnings,
+        warnings: teamCountWarnings,
+        playedMismatchWarnings,
     };
 }

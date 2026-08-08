@@ -19,6 +19,7 @@ import type {
     ClubImportRow,
     GradeImportRow,
     ImportData,
+    PlayedMismatchWarning,
     SeasonImportRow,
     TeamCountWarning,
     TeamImportRow,
@@ -202,11 +203,56 @@ export function validateTeams(
     });
 }
 
+/**
+ * `played = won + drawn + lost` is checked here, not in the Zod schema —
+ * PlayHQ's own upstream ladder data is internally inconsistent for ~1.6% of
+ * rows (verified against the raw capture: byes do not explain it either).
+ * Blocking a 1600-row import on 25 upstream errors we cannot fix and must
+ * not invent values for is the wrong trade-off. So this is a warning, not a
+ * validation failure: the row imports with its values completely unchanged,
+ * and the discrepancy is mirrored into `notes` so it stays visible
+ * downstream. Every other invariant in this file remains a hard failure.
+ */
+function playedMismatchNote(
+    played: number,
+    won: number,
+    drawn: number,
+    lost: number,
+): string {
+    return `Upstream data inconsistency: played=${played} but won+drawn+lost=${won + drawn + lost} (won=${won}, drawn=${drawn}, lost=${lost}). Imported unchanged from source.`;
+}
+
+function checkPlayedReconciliation(
+    row: TeamSeasonResultImportRow,
+): PlayedMismatchWarning | null {
+    const { played, won, drawn, lost } = row;
+    if (
+        played === null ||
+        won === null ||
+        drawn === null ||
+        lost === null ||
+        played === won + drawn + lost
+    ) {
+        return null;
+    }
+    const note = playedMismatchNote(played, won, drawn, lost);
+    row.notes = row.notes === null ? note : `${row.notes} ${note}`;
+    return {
+        gradeKey: row.gradeKey,
+        clubKey: row.clubKey,
+        displayName: row.displayName,
+        played,
+        won,
+        drawn,
+        lost,
+    };
+}
+
 export function validateResults(
     rows: readonly TeamSeasonResultImportRow[],
     clubKeys: ReadonlySet<string>,
     gradesByKey: ReadonlyMap<string, GradeImportRow>,
-): void {
+): PlayedMismatchWarning[] {
     rows.forEach((row, index) => {
         const result = teamSeasonResultInsertSchema.safeParse({
             ...row,
@@ -276,6 +322,12 @@ export function validateResults(
             );
         }
     }
+
+    return rows.reduce<PlayedMismatchWarning[]>((warnings, row) => {
+        const warning = checkPlayedReconciliation(row);
+        if (warning !== null) warnings.push(warning);
+        return warnings;
+    }, []);
 }
 
 /**
@@ -329,10 +381,15 @@ export function findTeamCountWarnings(data: ImportData): TeamCountWarning[] {
     return warnings;
 }
 
+export type ImportWarnings = {
+    teamCountWarnings: TeamCountWarning[];
+    playedMismatchWarnings: PlayedMismatchWarning[];
+};
+
 export function validateImportData(
     data: ImportData,
     knownCompetitionKeys: ReadonlySet<string>,
-): TeamCountWarning[] {
+): ImportWarnings {
     validateSeasons(data.seasons, knownCompetitionKeys);
     validateClubs(data.clubs);
     const clubKeys = new Set(data.clubs.map((c) => c.clubKey));
@@ -342,6 +399,13 @@ export function validateImportData(
     const gradeKeys = new Set(data.grades.map((g) => g.gradeKey));
     validateTeams(data.teams, clubKeys, gradeKeys);
     const gradesByKey = new Map(data.grades.map((g) => [g.gradeKey, g]));
-    validateResults(data.results, clubKeys, gradesByKey);
-    return findTeamCountWarnings(data);
+    const playedMismatchWarnings = validateResults(
+        data.results,
+        clubKeys,
+        gradesByKey,
+    );
+    return {
+        teamCountWarnings: findTeamCountWarnings(data),
+        playedMismatchWarnings,
+    };
 }

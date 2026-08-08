@@ -35,6 +35,16 @@ try {
             `warning: grade ${warning.gradeKey} team_count ${warning.teamCount} vs ${warning.previousGradeKey} team_count ${warning.previousTeamCount} — check for a broken scrape`,
         );
     }
+    for (const mismatch of report.playedMismatchWarnings) {
+        console.warn(
+            `warning: ${mismatch.gradeKey} ${mismatch.clubKey} (${mismatch.displayName}) — played=${mismatch.played} but won+drawn+lost=${mismatch.won + mismatch.drawn + mismatch.lost}; imported unchanged, annotated in notes`,
+        );
+    }
+    if (report.playedMismatchWarnings.length > 0) {
+        console.warn(
+            `${report.playedMismatchWarnings.length} row(s) had a played/won+drawn+lost mismatch (upstream PlayHQ data) — imported unchanged, see notes`,
+        );
+    }
 } catch (error) {
     if (error instanceof ImportValidationError) {
         console.error(`import failed: ${error.message}`);

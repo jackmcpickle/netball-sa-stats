@@ -97,29 +97,13 @@ export const teamSeasonResultInsertSchema = createInsertSchema(
         source: z.enum(SOURCES),
         placementBasis: z.enum(PLACEMENT_BASES),
     },
-)
-    .omit(omitGenerated)
-    // Catches a shifted column far more reliably than eyeballing a CSV diff.
-    // Some grades fold a bye round into `played`, some don't — accept both
-    // conventions rather than flagging every bye round as a scraper bug.
-    .refine(
-        (r) =>
-            r.played === null ||
-            r.played === undefined ||
-            r.won === null ||
-            r.won === undefined ||
-            r.drawn === null ||
-            r.drawn === undefined ||
-            r.lost === null ||
-            r.lost === undefined
-                ? true
-                : r.played === r.won + r.drawn + r.lost ||
-                  r.played === r.won + r.drawn + r.lost + (r.byes ?? 0),
-        {
-            message: 'played must equal won + drawn + lost (+ byes)',
-            path: ['played'],
-        },
-    );
+).omit(omitGenerated);
+// `played = won + drawn + lost` is intentionally NOT a schema-level refine:
+// PlayHQ's own upstream ladder data violates it for ~1.6% of rows (verified
+// against the raw capture — `byes` does not explain it either). The importer
+// (`src/pipeline/import/validate.ts`) checks this separately and downgrades
+// it to a warning rather than a hard failure, annotating the affected row's
+// `notes` instead of rejecting it. Every other field rule here still applies.
 
 export const gradeWeightSelectSchema = createSelectSchema(gradeWeights);
 export const gradeWeightInsertSchema = createInsertSchema(gradeWeights, {

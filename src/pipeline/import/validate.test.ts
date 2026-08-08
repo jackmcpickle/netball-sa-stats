@@ -250,20 +250,35 @@ describe('validateResults', () => {
         }).toThrow(ImportValidationError);
     });
 
-    it('fails when played does not equal won + drawn + lost', () => {
-        const rows = [
-            resultRow({
-                ladderPosition: 1,
-                played: 10,
-                won: 1,
-                drawn: 0,
-                lost: 1,
-            }),
-            resultRow({ ladderPosition: 2 }),
-        ];
-        expect(() => {
-            validateResults(rows, clubKeys, gradesByKey);
-        }).toThrow();
+    it('warns (does not fail) when played does not equal won + drawn + lost, annotates notes, and leaves values unchanged', () => {
+        const mismatched = resultRow({
+            ladderPosition: 1,
+            played: 10,
+            won: 1,
+            drawn: 0,
+            lost: 1,
+        });
+        const rows = [mismatched, resultRow({ ladderPosition: 2 })];
+
+        const warnings = validateResults(rows, clubKeys, gradesByKey);
+
+        expect(warnings).toHaveLength(1);
+        expect(warnings[0]).toMatchObject({
+            gradeKey: goodGrade.gradeKey,
+            clubKey: mismatched.clubKey,
+            displayName: mismatched.displayName,
+            played: 10,
+            won: 1,
+            drawn: 0,
+            lost: 1,
+        });
+        // Values themselves are untouched — only `notes` is annotated.
+        expect(mismatched.played).toBe(10);
+        expect(mismatched.won).toBe(1);
+        expect(mismatched.drawn).toBe(0);
+        expect(mismatched.lost).toBe(1);
+        expect(mismatched.notes).toContain('played=10');
+        expect(mismatched.notes).toContain('won+drawn+lost=2');
     });
 
     it('fails on negative goals', () => {
@@ -315,23 +330,25 @@ describe('validateImportData', () => {
             resultRow({ ladderPosition: 2 }),
         ];
 
-        const warnings = validateImportData(
-            {
-                seasons: [prevSeason, goodSeason],
-                clubs,
-                clubAliases: [],
-                grades: [prevGrade, currGrade],
-                teams: [goodTeam],
-                results: [...prevResults, ...currResults],
-            },
-            competitionKeys,
-        );
+        const { teamCountWarnings, playedMismatchWarnings } =
+            validateImportData(
+                {
+                    seasons: [prevSeason, goodSeason],
+                    clubs,
+                    clubAliases: [],
+                    grades: [prevGrade, currGrade],
+                    teams: [goodTeam],
+                    results: [...prevResults, ...currResults],
+                },
+                competitionKeys,
+            );
 
-        expect(warnings).toHaveLength(1);
-        expect(warnings[0]).toMatchObject({
+        expect(teamCountWarnings).toHaveLength(1);
+        expect(teamCountWarnings[0]).toMatchObject({
             gradeKey: currGrade.gradeKey,
             teamCount: 2,
             previousTeamCount: 10,
         });
+        expect(playedMismatchWarnings).toHaveLength(0);
     });
 });

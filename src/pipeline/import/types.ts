@@ -112,6 +112,23 @@ export type TeamCountWarning = {
     previousTeamCount: number;
 };
 
+/**
+ * Upstream (PlayHQ) ladder data where `played !== won + drawn + lost`. Not a
+ * scraper bug — PlayHQ's own source data is internally inconsistent for a
+ * small fraction of rows. The row still imports with its values completely
+ * unchanged; this is recorded for visibility (and mirrored into the row's
+ * `notes` column) rather than silently dropped or invented.
+ */
+export type PlayedMismatchWarning = {
+    gradeKey: string;
+    clubKey: string;
+    displayName: string;
+    played: number;
+    won: number;
+    drawn: number;
+    lost: number;
+};
+
 /** Talks to whatever D1 the caller wired up (local wrangler, remote wrangler, in-memory sqlite for tests). */
 export type ImportExecutor = {
     queryAll: (sql: string) => Promise<Record<string, unknown>[]>;
