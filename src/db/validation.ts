@@ -20,7 +20,7 @@ const key = z
     .string()
     .min(1)
     .max(80)
-    .regex(/^[a-z0-9-]+$/u, 'lowercase, digits and hyphens only');
+    .regex(/^[a-z0-9_-]+$/u, 'lowercase, digits, hyphens and underscores only');
 
 const name = z.string().min(1).max(120);
 
@@ -100,6 +100,8 @@ export const teamSeasonResultInsertSchema = createInsertSchema(
 )
     .omit(omitGenerated)
     // Catches a shifted column far more reliably than eyeballing a CSV diff.
+    // Some grades fold a bye round into `played`, some don't — accept both
+    // conventions rather than flagging every bye round as a scraper bug.
     .refine(
         (r) =>
             r.played === null ||
@@ -111,8 +113,12 @@ export const teamSeasonResultInsertSchema = createInsertSchema(
             r.lost === null ||
             r.lost === undefined
                 ? true
-                : r.played === r.won + r.drawn + r.lost,
-        { message: 'played must equal won + drawn + lost', path: ['played'] },
+                : r.played === r.won + r.drawn + r.lost ||
+                  r.played === r.won + r.drawn + r.lost + (r.byes ?? 0),
+        {
+            message: 'played must equal won + drawn + lost (+ byes)',
+            path: ['played'],
+        },
     );
 
 export const gradeWeightSelectSchema = createSelectSchema(gradeWeights);
