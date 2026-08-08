@@ -4,7 +4,7 @@
  * `src/**`, this file is not).
  *
  * Usage:
- *   node scripts/fetch-playhq.ts [--refresh]
+ *   pnpm exec tsx scripts/fetch-playhq.ts [--refresh]
  */
 import { runFetch } from '../src/pipeline/fetch/run.ts';
 

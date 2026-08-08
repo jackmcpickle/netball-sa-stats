@@ -3,7 +3,7 @@
  * and the `drizzle/0001_seed.sql` migration that loads them.
  *
  * Run after editing src/pipeline/seed/catalogue.ts:
- *   node scripts/generate-seed.ts
+ *   pnpm exec tsx scripts/generate-seed.ts
  *
  * The CSVs are the readable artefact; the SQL is derived so local and remote D1 seed
  * identically through `wrangler d1 migrations apply`.

@@ -4,7 +4,7 @@
  * `src/**`, this file is not).
  *
  * Usage:
- *   node scripts/import-csv.ts [--remote]
+ *   pnpm exec tsx scripts/import-csv.ts [--remote]
  *
  * Defaults to `--local` (the D1 database migrated via `db:migrate:local`).
  * Requires migrations to already be applied — this importer does not write
