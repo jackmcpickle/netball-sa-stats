@@ -1,0 +1,39 @@
+import { asc, eq } from 'drizzle-orm';
+import type { GradeWeightRow } from '@/data/types';
+import type { Db } from '@/db';
+import { toCompetition } from '@/db/queries/coverage';
+import { competitions, gradeWeights } from '@/db/schema';
+
+/**
+ * The published weighting table. It is read from D1 rather than from the seed
+ * module on purpose: the Method page must show the weights that actually rank
+ * the clubs, including any edited by hand after the seed ran.
+ */
+export async function fetchGradeWeights(
+    db: Db,
+): Promise<readonly GradeWeightRow[]> {
+    const rows = await db
+        .select({
+            competitionKey: competitions.key,
+            competitionName: competitions.name,
+            label: gradeWeights.label,
+            tier: gradeWeights.tier,
+            division: gradeWeights.division,
+            weight: gradeWeights.weight,
+        })
+        .from(gradeWeights)
+        .innerJoin(
+            competitions,
+            eq(competitions.id, gradeWeights.competitionId),
+        )
+        .orderBy(asc(gradeWeights.tier), asc(gradeWeights.division));
+
+    return rows.map((row) => ({
+        competitionName: toCompetition(row.competitionKey, row.competitionName)
+            .shortName,
+        label: row.label,
+        tier: row.tier,
+        division: row.division,
+        weight: row.weight,
+    }));
+}

@@ -1,0 +1,104 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "25834205",
+            "name": "Primary 1",
+            "ladderType": "TOTAL_COMPETITION_POINTS",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "b7699651",
+                                "name": "Contax 1",
+                                "organisation": {
+                                    "id": "a8ee2320",
+                                    "name": "Contax",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 11,
+                            "won": 11,
+                            "lost": 0,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 330,
+                            "pointsAgainst": 156,
+                            "pointsDifference": 174,
+                            "forfeits": 0,
+                            "percentage": 211.54,
+                            "competitionPoints": 22
+                        },
+                        {
+                            "team": {
+                                "id": "48d071b7",
+                                "name": "Matrics",
+                                "organisation": {
+                                    "id": "0969cc64",
+                                    "name": "Matrics",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 11,
+                            "won": 8,
+                            "lost": 3,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 267,
+                            "pointsAgainst": 220,
+                            "pointsDifference": 47,
+                            "forfeits": 0,
+                            "percentage": 121.36,
+                            "competitionPoints": 16
+                        },
+                        {
+                            "team": {
+                                "id": "de53991c",
+                                "name": "Garville",
+                                "organisation": {
+                                    "id": "241b44c0",
+                                    "name": "Garville",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 11,
+                            "won": 5,
+                            "lost": 6,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 213,
+                            "pointsAgainst": 233,
+                            "pointsDifference": -20,
+                            "forfeits": 0,
+                            "percentage": 91.42,
+                            "competitionPoints": 10
+                        },
+                        {
+                            "team": {
+                                "id": "91399c80",
+                                "name": "Contax 2",
+                                "organisation": {
+                                    "id": "a8ee2320",
+                                    "name": "Contax",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 11,
+                            "won": 2,
+                            "lost": 9,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 243,
+                            "pointsAgainst": 274,
+                            "pointsDifference": -31,
+                            "forfeits": 0,
+                            "percentage": 88.69,
+                            "competitionPoints": 4
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

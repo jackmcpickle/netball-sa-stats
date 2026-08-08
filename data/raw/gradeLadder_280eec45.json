@@ -1,0 +1,192 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "280eec45",
+            "name": "B5",
+            "ladderType": "POINTS_AVERAGE",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "3ab63e2a",
+                                "name": "Central District",
+                                "organisation": {
+                                    "id": "dc36fa73",
+                                    "name": "Central District Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 18,
+                            "won": 15,
+                            "lost": 3,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 1049,
+                            "pointsAgainst": 693,
+                            "pointsDifference": 356,
+                            "forfeits": 0,
+                            "percentage": 151.37,
+                            "competitionPoints": 30
+                        },
+                        {
+                            "team": {
+                                "id": "4340ede9",
+                                "name": "Walkerville",
+                                "organisation": {
+                                    "id": "a83c7a81",
+                                    "name": "Walkerville",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 18,
+                            "won": 14,
+                            "lost": 4,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 866,
+                            "pointsAgainst": 638,
+                            "pointsDifference": 228,
+                            "forfeits": 0,
+                            "percentage": 135.74,
+                            "competitionPoints": 28
+                        },
+                        {
+                            "team": {
+                                "id": "1439348f",
+                                "name": "City Coasters 2",
+                                "organisation": {
+                                    "id": "923e1965",
+                                    "name": "City Coasters",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 18,
+                            "won": 10,
+                            "lost": 7,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 939,
+                            "pointsAgainst": 827,
+                            "pointsDifference": 112,
+                            "forfeits": 0,
+                            "percentage": 113.54,
+                            "competitionPoints": 21
+                        },
+                        {
+                            "team": {
+                                "id": "f85693e0",
+                                "name": "City Coasters 1",
+                                "organisation": {
+                                    "id": "923e1965",
+                                    "name": "City Coasters",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 18,
+                            "won": 10,
+                            "lost": 7,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 747,
+                            "pointsAgainst": 679,
+                            "pointsDifference": 68,
+                            "forfeits": 0,
+                            "percentage": 110.01,
+                            "competitionPoints": 21
+                        },
+                        {
+                            "team": {
+                                "id": "ed94afed",
+                                "name": "Tango",
+                                "organisation": {
+                                    "id": "d4389d20",
+                                    "name": "Tango Netball Club Inc",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 18,
+                            "won": 8,
+                            "lost": 9,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 819,
+                            "pointsAgainst": 829,
+                            "pointsDifference": -10,
+                            "forfeits": 0,
+                            "percentage": 98.79,
+                            "competitionPoints": 17
+                        },
+                        {
+                            "team": {
+                                "id": "d82a8159",
+                                "name": "Oakdale",
+                                "organisation": {
+                                    "id": "2f66832f",
+                                    "name": "Oakdale Netball Club (SA)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 18,
+                            "won": 6,
+                            "lost": 12,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 670,
+                            "pointsAgainst": 861,
+                            "pointsDifference": -191,
+                            "forfeits": 0,
+                            "percentage": 77.82,
+                            "competitionPoints": 12
+                        },
+                        {
+                            "team": {
+                                "id": "da0c8fd0",
+                                "name": "Metro Jets 1",
+                                "organisation": {
+                                    "id": "601b914e",
+                                    "name": "Metro Jets",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 18,
+                            "won": 3,
+                            "lost": 15,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 631,
+                            "pointsAgainst": 1007,
+                            "pointsDifference": -376,
+                            "forfeits": 0,
+                            "percentage": 62.66,
+                            "competitionPoints": 6
+                        },
+                        {
+                            "team": {
+                                "id": "3076069f",
+                                "name": "Metro Jets 2",
+                                "organisation": {
+                                    "id": "601b914e",
+                                    "name": "Metro Jets",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 18,
+                            "won": 0,
+                            "lost": 17,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 593,
+                            "pointsAgainst": 1055,
+                            "pointsDifference": -462,
+                            "forfeits": 0,
+                            "percentage": 56.21,
+                            "competitionPoints": 1
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

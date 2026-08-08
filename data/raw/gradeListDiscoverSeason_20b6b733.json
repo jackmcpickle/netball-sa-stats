@@ -1,0 +1,101 @@
+{
+    "data": {
+        "discoverSeason": {
+            "id": "20b6b733",
+            "name": "2025",
+            "competition": {
+                "id": "b56f0aab",
+                "name": "Nunga Netball Carnival",
+                "type": "TOURNAMENT",
+                "organisation": {
+                    "id": "6fefc037",
+                    "name": "Netball South Australia"
+                }
+            },
+            "status": {
+                "name": "Completed",
+                "value": "COMPLETED"
+            },
+            "grades": [
+                {
+                    "id": "307e5a79",
+                    "name": "9 & Under",
+                    "day": null,
+                    "gender": {
+                        "name": "Mixed",
+                        "value": "MIXED"
+                    },
+                    "age": {
+                        "name": "U9",
+                        "value": "U9"
+                    }
+                },
+                {
+                    "id": "9daa8fab",
+                    "name": "11 & Under",
+                    "day": null,
+                    "gender": {
+                        "name": "Mixed",
+                        "value": "MIXED"
+                    },
+                    "age": {
+                        "name": "U11",
+                        "value": "U11"
+                    }
+                },
+                {
+                    "id": "e69ceb37",
+                    "name": "13 & Under",
+                    "day": null,
+                    "gender": {
+                        "name": "Mixed",
+                        "value": "MIXED"
+                    },
+                    "age": {
+                        "name": "U13",
+                        "value": "U13"
+                    }
+                },
+                {
+                    "id": "430e6204",
+                    "name": "15 & Under",
+                    "day": null,
+                    "gender": {
+                        "name": "Girls",
+                        "value": "GIRLS"
+                    },
+                    "age": {
+                        "name": "U15",
+                        "value": "U15"
+                    }
+                },
+                {
+                    "id": "42b5edb0",
+                    "name": "17 & Under",
+                    "day": null,
+                    "gender": {
+                        "name": "Girls",
+                        "value": "GIRLS"
+                    },
+                    "age": {
+                        "name": "U17",
+                        "value": "U17"
+                    }
+                },
+                {
+                    "id": "797d633f",
+                    "name": "23 & Under",
+                    "day": null,
+                    "gender": {
+                        "name": "Women",
+                        "value": "WOMENS"
+                    },
+                    "age": {
+                        "name": "U23",
+                        "value": "U23"
+                    }
+                }
+            ]
+        }
+    }
+}

@@ -1,12 +1,19 @@
 import { resolve } from 'node:path';
 import { cloudflare } from '@cloudflare/vite-plugin';
+import tailwindcss from '@tailwindcss/vite';
 import { tanstackStart } from '@tanstack/react-start/plugin/vite';
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite-plus';
 
+// The Cloudflare plugin rejects the `resolve.external` Vitest sets on the ssr
+// environment, so it is left out of test runs. Pipeline and scoring logic is plain
+// TypeScript and needs no workerd runtime to test.
+const isTest = process.env.VITEST === 'true';
+
 export default defineConfig({
     plugins: [
-        cloudflare({ viteEnvironment: { name: 'ssr' } }),
+        ...(isTest ? [] : [cloudflare({ viteEnvironment: { name: 'ssr' } })]),
+        tailwindcss(),
         tanstackStart(),
         react(),
     ],
@@ -65,6 +72,7 @@ export default defineConfig({
             '.output/',
             '.tanstack/',
             'drizzle/',
+            'docs/design/',
             'worker-configuration.d.ts',
         ],
     },
@@ -176,6 +184,7 @@ export default defineConfig({
             'vite.config.ts',
             'drizzle.config.ts',
             'src/routeTree.gen.ts',
+            'docs/design/',
             'src/components/ui/',
             '.claude/hooks/',
             '**/worker-configuration.d.ts',
@@ -186,6 +195,14 @@ export default defineConfig({
                 files: ['**/*.test.ts', '**/*.test.tsx', '**/*.spec.ts'],
                 rules: {
                     'max-lines-per-function': 'off',
+                },
+            },
+            {
+                // Thin CLI entrypoints: they must reach into src/ and they print.
+                files: ['scripts/**'],
+                rules: {
+                    'import/no-relative-parent-imports': 'off',
+                    'no-console': 'off',
                 },
             },
             {
@@ -200,8 +217,10 @@ export default defineConfig({
         cache: true,
     },
     test: {
-        environment: 'jsdom',
-        environmentMatchGlobs: [['src/db/**', 'node']],
+        // Node by default: pipeline, scoring and db logic are the bulk of the suite.
+        // Component tests opt in per file with `// @vitest-environment jsdom`
+        // (needs the jsdom package, not installed yet).
+        environment: 'node',
         hookTimeout: 30_000,
         testTimeout: 15_000,
         include: ['src/**/*.test.{ts,tsx}'],

@@ -1,0 +1,148 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "4db85cf4",
+            "name": "C4",
+            "ladderType": "TOTAL_COMPETITION_POINTS",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "fdf9f413",
+                                "name": "Adelaide University 2",
+                                "organisation": {
+                                    "id": "d5bdb649",
+                                    "name": "Adelaide University",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 13,
+                            "lost": 2,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 543,
+                            "pointsAgainst": 426,
+                            "pointsDifference": 0,
+                            "forfeits": 0,
+                            "percentage": 127.46,
+                            "competitionPoints": 26
+                        },
+                        {
+                            "team": {
+                                "id": "08ac569b",
+                                "name": "SHOCS",
+                                "organisation": {
+                                    "id": "d45fe04a",
+                                    "name": "Sacred Heart O.C.",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 10,
+                            "lost": 5,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 672,
+                            "pointsAgainst": 440,
+                            "pointsDifference": 0,
+                            "forfeits": 0,
+                            "percentage": 152.73,
+                            "competitionPoints": 20
+                        },
+                        {
+                            "team": {
+                                "id": "54fae6fd",
+                                "name": "City Coastes",
+                                "organisation": {
+                                    "id": "923e1965",
+                                    "name": "City Coasters",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 8,
+                            "lost": 7,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 551,
+                            "pointsAgainst": 510,
+                            "pointsDifference": 0,
+                            "forfeits": 0,
+                            "percentage": 108.04,
+                            "competitionPoints": 16
+                        },
+                        {
+                            "team": {
+                                "id": "1d3833bc",
+                                "name": "Walkerville 1",
+                                "organisation": {
+                                    "id": "a83c7a81",
+                                    "name": "Walkerville",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 7,
+                            "lost": 8,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 450,
+                            "pointsAgainst": 567,
+                            "pointsDifference": 0,
+                            "forfeits": 0,
+                            "percentage": 79.37,
+                            "competitionPoints": 14
+                        },
+                        {
+                            "team": {
+                                "id": "1b31de91",
+                                "name": "Walkerville 2",
+                                "organisation": {
+                                    "id": "a83c7a81",
+                                    "name": "Walkerville",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 5,
+                            "lost": 10,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 352,
+                            "pointsAgainst": 390,
+                            "pointsDifference": 0,
+                            "forfeits": 0,
+                            "percentage": 90.26,
+                            "competitionPoints": 10
+                        },
+                        {
+                            "team": {
+                                "id": "4ced270a",
+                                "name": "Adelaide University 1",
+                                "organisation": {
+                                    "id": "d5bdb649",
+                                    "name": "Adelaide University",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 2,
+                            "lost": 13,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 271,
+                            "pointsAgainst": 506,
+                            "pointsDifference": 0,
+                            "forfeits": 0,
+                            "percentage": 53.56,
+                            "competitionPoints": 4
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

@@ -1,0 +1,148 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "f5190811",
+            "name": "Sub Junior 5B",
+            "ladderType": "TOTAL_COMPETITION_POINTS",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "32b09e1b",
+                                "name": "South Adelaide",
+                                "organisation": {
+                                    "id": "2e63c9f2",
+                                    "name": "South Adelaide Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 11,
+                            "won": 11,
+                            "lost": 0,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 289,
+                            "pointsAgainst": 121,
+                            "pointsDifference": 168,
+                            "forfeits": 0,
+                            "percentage": 238.84,
+                            "competitionPoints": 22
+                        },
+                        {
+                            "team": {
+                                "id": "b5de0bbb",
+                                "name": "Oakdale",
+                                "organisation": {
+                                    "id": "2f66832f",
+                                    "name": "Oakdale Netball Club (SA)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 11,
+                            "won": 10,
+                            "lost": 1,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 350,
+                            "pointsAgainst": 142,
+                            "pointsDifference": 208,
+                            "forfeits": 0,
+                            "percentage": 246.48,
+                            "competitionPoints": 20
+                        },
+                        {
+                            "team": {
+                                "id": "66c5bccd",
+                                "name": "Metro Jets",
+                                "organisation": {
+                                    "id": "601b914e",
+                                    "name": "Metro Jets",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 11,
+                            "won": 7,
+                            "lost": 3,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 309,
+                            "pointsAgainst": 217,
+                            "pointsDifference": 92,
+                            "forfeits": 0,
+                            "percentage": 142.4,
+                            "competitionPoints": 15
+                        },
+                        {
+                            "team": {
+                                "id": "6677bda4",
+                                "name": "Matrics",
+                                "organisation": {
+                                    "id": "0969cc64",
+                                    "name": "Matrics",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 11,
+                            "won": 4,
+                            "lost": 6,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 238,
+                            "pointsAgainst": 252,
+                            "pointsDifference": -14,
+                            "forfeits": 0,
+                            "percentage": 94.44,
+                            "competitionPoints": 9
+                        },
+                        {
+                            "team": {
+                                "id": "f18bf05c",
+                                "name": "Tango Pink",
+                                "organisation": {
+                                    "id": "d4389d20",
+                                    "name": "Tango Netball Club Inc",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 11,
+                            "won": 3,
+                            "lost": 8,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 152,
+                            "pointsAgainst": 233,
+                            "pointsDifference": -81,
+                            "forfeits": 0,
+                            "percentage": 65.24,
+                            "competitionPoints": 6
+                        },
+                        {
+                            "team": {
+                                "id": "4c217410",
+                                "name": "Norwood Blue",
+                                "organisation": {
+                                    "id": "d275f255",
+                                    "name": "Norwood Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 11,
+                            "won": 1,
+                            "lost": 10,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 147,
+                            "pointsAgainst": 300,
+                            "pointsDifference": -153,
+                            "forfeits": 0,
+                            "percentage": 49,
+                            "competitionPoints": 2
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

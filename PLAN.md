@@ -1,294 +1,372 @@
-# Netball SA competition results — design
+# Netball Open Data — design
 
 ## Goal
 
-Standalone **Cloudflare Workers** app that stores end-of-regular-season ladder placements (and available team stats) for every team in:
+Public site ranking South Australian netball clubs by ladder finishes across every grade and season.
 
-- Adelaide Metropolitan Netball Division (AMND) — winter
-- City Night Division (CND) — summer (spans years, e.g. 2025/26)
-- Netball SA Premier League
-- Premier League Reserves
+Headline number: a **club championship score** per season — ladder position converted to points, weighted by grade standard, summed across every grade a club fields. Plus per-season ladders, club profiles, and rank movement across the PlayHQ era (2022–2026).
 
-Primary use: average finish / comparison graphs for Matrics vs other clubs.
+Primary question: which club is really SA's strongest — including depth, not just a strong top team.
 
-**Phase 1:** Workers app + **Cloudflare D1** + **Drizzle ORM** schema/migrations + sync that upserts into D1 + CSV export for backup/analysis. Graph UI can follow in the same app later.
+## Repo
 
-This is **not** part of the existing Astro/Turso matrics-website DB. Own Worker, own D1 database, own Drizzle schema.
+This repo **is** the app. No monorepo, no separate package.
+
+- **Runtime:** Cloudflare Workers via TanStack Start (`main: @tanstack/react-start/server-entry`)
+- **DB:** Cloudflare D1, binding `DB`, database `netball-stats` (`901da6ea-c57d-4529-915e-2d1718186efa`)
+- **ORM:** Drizzle (`drizzle-orm/d1`), migrations in `drizzle/`, applied with `wrangler d1 migrations apply`
+- **Tooling:** Vite+ (`vp`), pnpm, Vitest (`vp test`)
+- **UI:** React 19, Tailwind v4, Base UI, hand-rolled SVG charts
+
+### Existing scaffold is removed
+
+`src/db/schema.ts` currently holds demo `teams` / `players` tables from the starter, shipped in `drizzle/0000_cuddly_fallen_one.sql`. That migration was **never applied remotely** (remote D1 has no tables), so it is deleted and regenerated rather than migrated.
+
+### Code layout
+
+Pipeline code lives under `src/` — `vite.config.ts` globs tests at `src/**/*.test.{ts,tsx}` only, and the Worker reuses the scoring and validation logic.
+
+```
+src/
+  db/           schema, migrations helpers, queries
+  pipeline/
+    fetch/      source scrapers → CSV
+    import/     CSV → D1, invariants
+    scoring/    championship score, shared with Worker
+  routes/       TanStack Start routes
+  components/
+scripts/        thin CLI entrypoints only
+data/
+  raw/          per-season source captures (also test fixtures)
+  *.csv         six normalised entity files — source of truth
+```
 
 ## Architecture
 
+Two stages, deliberately decoupled.
+
 ```
-┌─────────────────────┐     scrape/backfill      ┌──────────────────┐
-│ sync (CLI / cron /  │ ───────────────────────► │ Cloudflare D1    │
-│ admin trigger)      │     Drizzle upserts      │ (results DB)     │
-└─────────────────────┘                          └────────┬─────────┘
-                                                          │
-┌─────────────────────┐     HTTP JSON / CSV export        │
-│ Workers API (+ later│ ◄─────────────────────────────────┘
-│ graph UI)           │
-└─────────────────────┘
+┌──────────────┐  fetch (local, networked)   ┌──────────────┐
+│ PlayHQ       │ ──────────────────────────► │ data/*.csv   │
+│              │   rate-limited, cached      │ (git, truth) │
+│              │                             └──────┬───────┘
+└──────────────┘                                    │ import (offline, pure)
+                                                    ▼
+                                             ┌──────────────┐
+┌──────────────┐        server functions     │ Cloudflare   │
+│ Web UI +     │ ◄────────────────────────── │ D1           │
+│ CSV / JSON   │                             │ (projection) │
+└──────────────┘                             └──────────────┘
 ```
 
-- **Runtime:** Cloudflare Workers (`wrangler`)
-- **DB:** Cloudflare D1 (SQLite)
-- **ORM:** Drizzle (`drizzle-orm/d1` + `drizzle-kit` with `dialect: 'sqlite'` / D1 driver)
-- **App location:** new package `apps/competition-results/` in this monorepo (own `package.json`, `wrangler.toml`, `src/`, `drizzle/`)
-- **CSV:** optional export from D1 and/or scrape staging under `apps/competition-results/data/` — D1 is source of truth
+**Stage 1 — `fetch`.** Sources → normalised CSVs in `data/`, committed. Network-dependent, slow, occasionally manual, runs locally on an unblocked IP.
+
+**Stage 2 — `import`.** CSVs → D1 upserts. Pure, offline, fast, idempotent, runs against local or remote D1.
+
+**Why:** a PlayHQ layout change breaks stage 1 only; captured data survives in git. The database rebuilds from a clean checkout with no network. Reviewing a scrape becomes reading a CSV diff — which is how you notice a scraper silently producing garbage.
+
+**Consequence:** committed CSV is the real source of truth, D1 a queryable projection. CSVs must carry everything — `team_count`, `position_uncertain`, `source`, `placement_basis` — not just the display columns.
+
+**No Worker-side sync.** No `POST /sync`, no cron. A Worker cannot run a browser and shares the datacenter IP range PlayHQ blocks. Sync runs a handful of times a year by hand.
 
 ## Scope
 
 **In**
 
-- Every club and team in each competition/grade/season discoverable from public sources
-- End-of-regular-season **ladder position** (required)
-- Team ladder stats when available: played, won, drawn, lost, byes, goals for/against, goal difference, points, percentage / shooting stats
-- Winter and summer seasons (summer spans years, e.g. `Summer 2025/26`)
-- Idempotent sync into D1 for past + current + future published seasons
-- Archive/backfill rows when PlayHQ lacks history
-- Minimal Workers API: health, list seasons, list results (filter by competition/season/club), CSV export
+- Every club and team discoverable in each competition/grade/season
+- End-of-regular-season **ladder position** (required) + team ladder stats when available
+- Club championship score, rank movement, club profiles, per-season ladders
+- Idempotent import; re-runnable for future seasons
 
 **Out (phase 1)**
 
-- Finals results / premiership flags (ladder only)
+- **Match-level results** — additive later, see below
+- **Head-to-head / Results tab** — depends on matches
 - Player-level stats
-- Polished public graph UI (schema/API ready for it)
-- Coupling to matrics-website Turso DB
+- Finals results / premiership flags beyond ladder position 1
 
-## Sources
+### Matches: why ladders are primary
 
-1. **PlayHQ** (primary) — public ladders and team stats for AMND, CND, Premier League, Reserves
-2. **Wayback Final Premiership Placings PDFs** — AMND 2000–2014, 2016; `source=archive_pdf`
-3. **Other archives** — SportzVault / news as available; nulls allowed except `ladder_position`
+The design mock says "ladders are computed from match results, not entered directly". Not worth doing: PlayHQ publishes the official ladder directly, and recomputing it means exactly reproducing Netball SA's tiebreak rules or publishing numbers that disagree with the official record.
 
-## Data model (D1 / Drizzle)
+So ladders are scraped as the fact table. A `matches` table drops in later without reshaping `team_season_results`, unlocking head-to-head and the Results tab. The design mock's "2001—2025" headline is wrong for this build — the site covers 2022–2026 and should say so.
 
-SQLite-compatible Drizzle tables in `apps/competition-results/src/db/schema.ts`. Migrations via `drizzle-kit` → applied with `wrangler d1 migrations apply`.
+## Competitions
+
+| Competition                            | Key                       | Phase 1 data        | Org ID     |
+| -------------------------------------- | ------------------------- | ------------------- | ---------- |
+| Adelaide Metropolitan Netball Division | `amnd`                    | Yes                 | `7a5f35e1` |
+| Netball SA Premier League              | `premier_league`          | Yes                 | `6fefc037` |
+| Premier League Reserves                | `premier_league_reserves` | Yes                 | `6fefc037` |
+| City Night Division                    | `city_night_division`     | No — org ID unknown | —          |
+| Super League                           | `super_league`            | No — unresearched   | —          |
+| Juniors                                | `juniors`                 | No                  | —          |
+
+All six are **seeded in the catalogue**; only the first three carry data. The UI shows what exists. Adding the rest later is purely additive — more rows, more weight entries, no schema change.
+
+City Night Division is **not resolved**. It is a separate organisation, absent from every public index checked, with no confirmed URL or season. Schema stays summer-capable (`competition_period`, `start_year`, `end_year`) because that costs nothing now and is a migration later.
+
+## Sources & coverage
+
+**PlayHQ only. 2022–2026, five seasons.**
+
+| Source | Seasons                      | Gives                     |
+| ------ | ---------------------------- | ------------------------- |
+| PlayHQ | AMND 2022–2026, PL 2022–2026 | Full ladders + team stats |
+
+Premier League has **no 2022 season** — it did not run, due to COVID. That is a real-world absence, not missing data, and the UI should say so rather than render a gap. AMND ran 2022 normally.
+
+One source, one measurement, one era. Every season has the same columns available — true regular-season ladders with played/won/lost, goals for and against, and percentage. No methodology change, no gaps, no null-heavy rows.
+
+Pre-2022 data exists but is a different kind of dataset — placement-only, partly finals-contaminated, with six seasons missing outright. It is deliberately excluded and planned separately in [ARCHIVE-PLAN.md](./ARCHIVE-PLAN.md).
+
+The schema still carries `source`, `placement_basis`, `position_uncertain` and nullable stat columns so the archive can land later without a migration. They cost nothing now and are expensive to add once the table has rows. In this build every row is `source = 'playhq'`, `placement_basis = 'regular_season_ladder'`, `position_uncertain = 0`.
+
+### Scrape etiquette
+
+Re-publishing rather than personal archiving, so: **1 request/second**, descriptive User-Agent with a contact, responses cached to `data/raw/` so re-runs never re-hit the source.
+
+PlayHQ returns CloudFront 403 to datacenter IPs. Fetch runs from a residential network with real browser automation.
+
+## Data model
 
 ### `competitions`
 
-| Column        | Type                     | Notes                                                                      |
-| ------------- | ------------------------ | -------------------------------------------------------------------------- |
-| id            | integer PK autoincrement |                                                                            |
-| key           | text unique              | `amnd`, `city_night_division`, `premier_league`, `premier_league_reserves` |
-| name          | text                     | Display name                                                               |
-| playhq_org_id | text nullable            | PlayHQ org id when known                                                   |
+| Column        | Type          | Notes                       |
+| ------------- | ------------- | --------------------------- |
+| id            | integer PK    |                             |
+| key           | text unique   | `amnd`, `premier_league`, … |
+| name          | text          | Display name                |
+| playhq_org_id | text nullable |                             |
 
 ### `seasons`
 
-| Column             | Type                      | Notes                                                                                |
-| ------------------ | ------------------------- | ------------------------------------------------------------------------------------ |
-| id                 | integer PK                |                                                                                      |
-| competition_id     | integer FK → competitions |                                                                                      |
-| season_key         | text unique               | e.g. `amnd-winter-2025`, `city_night_division-summer-2025-26`, `premier_league-2025` |
-| competition_period | text                      | `winter` \| `summer` \| `annual` (PL typically annual/winter)                        |
-| label              | text                      | e.g. `Winter 2025`, `Summer 2025/26`                                                 |
-| start_year         | integer                   |                                                                                      |
-| end_year           | integer                   | Same as start for winter/annual; +1 for summer                                       |
-| playhq_id          | text nullable             |                                                                                      |
-| source             | text                      | `playhq` \| `archive_pdf` \| `archive`                                               |
+| Column             | Type          | Notes                                             |
+| ------------------ | ------------- | ------------------------------------------------- |
+| id                 | integer PK    |                                                   |
+| competition_id     | integer FK    |                                                   |
+| season_key         | text unique   | `amnd-winter-2025`                                |
+| competition_period | text          | `winter` \| `summer` \| `annual`                  |
+| label              | text          | `Winter 2025`, `Summer 2025/26`                   |
+| start_year         | integer       |                                                   |
+| end_year           | integer       | Same as start for winter/annual; +1 for summer    |
+| is_final           | integer       | **Human-curated in the season CSV**, not inferred |
+| playhq_id          | text nullable |                                                   |
+| source             | text          | `playhq` (archive values reserved)                |
 
 Unique logical key: `(competition_id, competition_period, start_year)`.
 
+`is_final` is curated because a scraper cannot reliably distinguish a round-18 ladder from a round-22 one. Marking a season final is a one-character diff in a file you already edit a few times a year.
+
 ### `clubs`
 
-| Column    | Type          | Notes                      |
-| --------- | ------------- | -------------------------- |
-| id        | integer PK    |                            |
-| club_key  | text unique   | slug, e.g. `matrics`       |
-| name      | text          |                            |
-| playhq_id | text nullable | Shared across competitions |
+| Column           | Type             | Notes                |
+| ---------------- | ---------------- | -------------------- |
+| id               | integer PK       |                      |
+| club_key         | text unique      | slug, e.g. `matrics` |
+| name             | text             |                      |
+| established_year | integer nullable | Club profile         |
+| home_venue       | text nullable    | Club profile         |
+| playhq_id        | text nullable    |                      |
+
+### `club_aliases`
+
+| Column     | Type               | Notes                        |
+| ---------- | ------------------ | ---------------------------- |
+| id         | integer PK         |                              |
+| club_id    | integer FK → clubs |                              |
+| alias_text | text unique        | Normalised source spelling   |
+| source     | text               | Where the spelling came from |
+
+Real examples already observed across sources: `C/Coasters` → `City Coasters`, `West/Jets` → `Western Jets`, `N/Jags` → `Newton Jaguars`, `Pembroke` → `Pembroke O.S.`, `Cheerio` vs `Cheerio Phoenix`, `Oakdale Phoenix`, `Sacred Heart O.C.`, `Westminster O.S.`, `Seymour O.C.`, `MOSA`.
+
+26 years and three sources means `Matrics`, `Matrics NC`, `MATRICS`, plus real mergers, renames and folds. Without aliasing, every variant becomes a new club and a club's trend line fragments into half-lines.
+
+**Unknown club names fail the import loudly.** No auto-creation. The first backfill run stops repeatedly and a mapping gets curated by hand — deliberately, because once a bad run has written 400 rows against `matrics-nc`, untangling it is manual archaeology. With one source and five seasons, the initial alias set is small.
 
 ### `grades`
 
-| Column    | Type                 | Notes                                  |
-| --------- | -------------------- | -------------------------------------- |
-| id        | integer PK           |                                        |
-| season_id | integer FK → seasons |                                        |
-| grade_key | text unique          | e.g. `amnd-winter-2025-league`         |
-| name      | text                 | League, A1, Inter 3, …                 |
-| age_band  | text nullable        | Senior / Inter / Junior / … when known |
-| playhq_id | text nullable        |                                        |
+| Column     | Type                 | Notes                                        |
+| ---------- | -------------------- | -------------------------------------------- |
+| id         | integer PK           |                                              |
+| season_id  | integer FK → seasons |                                              |
+| grade_key  | text unique          | `amnd-winter-2025-league`                    |
+| name       | text                 | League, A1, Inter 3, …                       |
+| tier       | integer              | Seniority band, ordered — 1 = Premier/League |
+| division   | integer nullable     | Rank within band, parsed from name (A1→1)    |
+| team_count | integer              | Rows on the ladder                           |
+| age_band   | text nullable        | Senior / Inter / Junior                      |
+| playhq_id  | text nullable        |                                              |
+
+`tier` and `division` exist because finishing 1st in Division 8 and 1st in League are the same integer and wildly different achievements. Without them, "average finish" rewards clubs that field many weak teams.
+
+`team_count` is free at scrape time and **impossible to recover later without re-scraping**. Position 4 of 6 is not position 4 of 14.
 
 ### `teams`
 
-| Column       | Type               | Notes                          |
-| ------------ | ------------------ | ------------------------------ |
-| id           | integer PK         |                                |
-| club_id      | integer FK → clubs |                                |
-| team_key     | text unique        | e.g. `matrics-1`               |
-| display_name | text               | As shown on ladder (Matrics 1) |
-| playhq_id    | text nullable      |                                |
+Season-scoped. There is no global `team_key` — squad numbers get reassigned between seasons, and "Matrics 1" in AMND League and in Premier League are different squads.
+
+| Column       | Type                | Notes                  |
+| ------------ | ------------------- | ---------------------- |
+| id           | integer PK          |                        |
+| club_id      | integer FK → clubs  |                        |
+| grade_id     | integer FK → grades |                        |
+| display_name | text                | As shown on the ladder |
+| squad_number | integer nullable    | Parsed from name       |
+| playhq_id    | text nullable       |                        |
+
+**Clubs field multiple teams in the same grade** — the archived regrading PDFs show `Walkerville (1)` / `Walkerville (2)`, `Pembroke O.S. (1)` / `(2)`, `Contax (1)` / `(2)`. The same holds on PlayHQ, so `squad_number` is required and nothing may assume one row per club per grade.
 
 ### `team_season_results`
 
 Core fact table. One row per team per grade per season.
 
-| Column          | Type                 | Notes                                                   |
-| --------------- | -------------------- | ------------------------------------------------------- |
-| id              | integer PK           |                                                         |
-| team_id         | integer FK → teams   |                                                         |
-| grade_id        | integer FK → grades  |                                                         |
-| ladder_position | integer **required** | End of regular season                                   |
-| played          | integer nullable     |                                                         |
-| won             | integer nullable     |                                                         |
-| drawn           | integer nullable     |                                                         |
-| lost            | integer nullable     |                                                         |
-| byes            | integer nullable     |                                                         |
-| goals_for       | integer nullable     |                                                         |
-| goals_against   | integer nullable     |                                                         |
-| goal_difference | integer nullable     |                                                         |
-| points          | integer nullable     | Ladder points                                           |
-| percentage      | real nullable        | If shown (goal %)                                       |
-| shots_attempted | integer nullable     | If exposed                                              |
-| shots_scored    | integer nullable     | If exposed                                              |
-| is_final        | integer              | 0/1; false while season in progress                     |
-| source          | text                 | `playhq` \| `archive_pdf` \| `archive`                  |
-| placement_basis | text                 | `regular_season_ladder` \| `final_premiership_placings` |
-| notes           | text nullable        |                                                         |
-| scraped_at      | integer nullable     | unix ms                                                 |
+| Column                                    | Type                 | Notes                                                   |
+| ----------------------------------------- | -------------------- | ------------------------------------------------------- |
+| id                                        | integer PK           |                                                         |
+| team_id                                   | integer FK → teams   |                                                         |
+| grade_id                                  | integer FK → grades  |                                                         |
+| ladder_position                           | integer **required** |                                                         |
+| position_uncertain                        | integer              | 0/1 — always 0 in this build; reserved for archive      |
+| played, won, drawn, lost, byes            | integer nullable     |                                                         |
+| goals_for, goals_against, goal_difference | integer nullable     |                                                         |
+| points                                    | integer nullable     | Ladder points                                           |
+| percentage                                | real nullable        | Goals for ÷ against × 100                               |
+| shots_attempted, shots_scored             | integer nullable     | If exposed                                              |
+| source                                    | text                 | `playhq` (archive values reserved)                      |
+| placement_basis                           | text                 | `regular_season_ladder` \| `final_premiership_placings` |
+| notes                                     | text nullable        |                                                         |
+| scraped_at                                | integer nullable     | unix ms                                                 |
 
 Unique: `(team_id, grade_id)`.
 
-## CSV layout (export / staging)
+### `grade_weights`
 
-Directory: `apps/competition-results/data/`
+| Column         | Type             | Notes |
+| -------------- | ---------------- | ----- |
+| id             | integer PK       |       |
+| competition_id | integer FK       |       |
+| tier           | integer          |       |
+| division       | integer nullable |       |
+| weight         | real             |       |
 
-| File                      | Role                                      |
-| ------------------------- | ----------------------------------------- |
-| `competitions.csv`        | Competition catalogue                     |
-| `seasons.csv`             | All seasons (AMND winter, CND summer, PL) |
-| `clubs.csv`               | Shared club list                          |
-| `grades.csv`              | Grades per season                         |
-| `teams.csv`               | Teams per club                            |
-| `team_season_results.csv` | Placements + stats                        |
+Seeded from CSV, editable per grade. Defaults generated by `weight = tier_base − (division − 1) × step` rather than 40 hand-typed numbers that drift:
 
-Keys use stable string keys (`season_key`, `club_key`, …). Sync **writes D1 first**; CSV export is derived (and optional staging during scrape).
+| Tier | Band              | base | step  | Range        |
+| ---- | ----------------- | ---- | ----- | ------------ |
+| 1    | Premier Division  | 1.00 | —     | 1.00         |
+| 2    | Reserves Division | 0.80 | —     | 0.80         |
+| 3    | AMND League       | 0.75 | —     | 0.75         |
+| 4    | A. Grade          | 0.68 | —     | 0.68         |
+| 5    | B.1–B.6           | 0.62 | 0.03  | 0.62 → 0.47  |
+| 6    | Inter. 1–6        | 0.45 | 0.015 | 0.45 → 0.375 |
+| 7    | C.1–C.6           | 0.36 | 0.02  | 0.36 → 0.26  |
+| 8    | Junior 1–8        | 0.38 | 0.015 | 0.38 → 0.28  |
+| 9    | Sub-Junior 1–8    | 0.32 | 0.015 | 0.32 → 0.22  |
+| 10   | Primary 1–6       | 0.26 | 0.015 | 0.26 → 0.19  |
+| 11   | Sub-Primary 1–2   | 0.20 | 0.015 | 0.20 → 0.19  |
 
-## Sync
+Full AMND taxonomy confirmed from the archived 2016 ladder page: AMND League, A. Grade, B.1–B.6, C.1–C.4 and C.6, Inter. 1–5, Junior 1–8, Sub-Junior 1–8, Primary 1–6, Sub-Primary 1–2.
 
-**`apps/competition-results/scripts/sync-competition-results.ts`** (+ `pnpm competition:sync` in that package)
+Notes on the contentious ones:
 
-Also expose:
+- **PL Reserves (0.80) above AMND League (0.75)** — a Premier club's second string outranks the best metro club. Deliberate.
+- **C below Inter.** C is a normal competitive band, not a separate stream: the archived "Senior and Intermediate Regrading" PDF shows two-way promotion/relegation between B.5 and C.1, so C sits in the same ladder as B, just lower.
+- Junior tiers only matter once juniors carry data.
 
-- **Admin/cron path on the Worker** (e.g. scheduled trigger or secret-protected `POST /sync`) for re-running `--latest` after deploy
-- Local CLI for heavy Playwright/browser scrapes (PlayHQ often blocks datacenter IPs)
+## Championship score
 
-| Flag                                                                                    | Behaviour                                             |
-| --------------------------------------------------------------------------------------- | ----------------------------------------------------- |
-| (default)                                                                               | Discover and sync all known competitions/seasons → D1 |
-| `--competition amnd\|city_night_division\|premier_league\|premier_league_reserves\|all` | Filter                                                |
-| `--season <season_key>`                                                                 | One season                                            |
-| `--latest`                                                                              | Newest published season per selected competition      |
-| `--backfill`                                                                            | Archive PDF / SportzVault paths                       |
-| `--export-csv`                                                                          | Write `data/*.csv` from D1 after sync                 |
+```
+score(club, season) = Σ over grades fielded:
+    (team_count − ladder_position + 1) × grade_weight(grade)
+```
 
-Behaviour:
+**Computed at query time.** Nothing derived is stored. Change a weight, refresh, every season re-ranks instantly — which is exactly what calibration needs, since this is the number people will argue about. The dataset is a few thousand rows; precomputation buys nothing.
 
-1. Discover seasons on PlayHQ (past, current, future once listed)
-2. For each season: grades → ladder → team rows
-3. Upsert D1 by stable keys / playhq ids (idempotent)
-4. Incomplete seasons: `is_final=0`; re-run sets `is_final=1`
-5. Never invent stats; null when unavailable
-6. Prefer PlayHQ `regular_season_ladder` over archive PDF when both exist for the same team/grade/season
+Rank movement vs previous season and best-ever finish are likewise query-time, via window functions over seasons.
 
-PlayHQ CloudFront may 403 datacenter IPs — browser automation from an unblocked network for live scrape; Wayback for historical where needed.
+**In-progress seasons are excluded from rankings.** A half-finished 2026 ladder is not comparable to a complete 2025 one, but would otherwise appear as the newest point on every trend line and as "current rank" on every profile. In-progress seasons still appear in the Ladders tab, labelled. Trend lines end at the last `is_final` season.
 
-## Workers API (phase 1)
+**Known bias, accepted for now:** the raw formula means a team in a 14-team grade can outscore a grade winner in an 8-team grade, and depth is rewarded on top. A size-normalised variant (position as a 0–1 fraction × weight) is a one-line change if the real numbers look wrong.
 
-| Route                               | Purpose                                             |
-| ----------------------------------- | --------------------------------------------------- |
-| `GET /health`                       | Liveness                                            |
-| `GET /competitions`                 | List competitions                                   |
-| `GET /seasons?competition=`         | List seasons                                        |
-| `GET /results?season=&club=&grade=` | Ladder rows (+ joins)                               |
-| `GET /export.csv?...`               | CSV download of results                             |
-| `POST /sync` (secret)               | Trigger `--latest` style sync if runnable on Worker |
+## Validation
 
-Auth: sync/admin routes protected by shared secret header; public read OK for club-internal use (tighten later if needed).
+Two kinds of failure, two kinds of test.
 
-## Implementation phases
+**Import invariants** catch _the world changing_ — abort rather than write partial data:
 
-1. **Scaffold Workers app** — `apps/competition-results` with wrangler, D1 binding, Drizzle config
-2. **Schema + migrations** — tables above; apply to local + remote D1
-3. **Seed competitions** — AMND, CND, PL, Reserves rows
-4. **Sync script** — PlayHQ discovery + ladder scrape → D1 upsert
-5. **Archive backfill** — Wayback Final Premiership Placings PDFs (2000–2014, 2016)
-6. **Workers API** — health + query + CSV export
-7. _(Later)_ Graph / comparison UI on the same Worker (or Assets)
+- Ladder positions within a grade are exactly `1..n`, no gaps, no duplicates
+- `team_count` equals the row count
+- `played = won + drawn + lost` where all present
+- Goals non-negative
+- Every club name resolves via `club_aliases`
+- A grade that previously had N teams and now has far fewer → warning
+
+**Parser fixture tests** catch _breaking your own code_ — run against the `data/raw/` captures, which are already committed, so the fixtures are free.
+
+Invariants will occasionally fire on legitimately odd data — a mid-season withdrawal, a shared position. Those get hand-curated exceptions. That friction is correct for a dataset whose selling point is "free to check".
+
+## Public posture
+
+Public site, public CSV export and JSON API, per-row provenance surfaced in the UI and exports, and a method page.
+
+A visible line stating the data is **unofficial, compiled from public sources, with Netball SA and PlayHQ as the authoritative record**.
+
+Provenance directly serves the "free to check" claim and is the best answer to anyone questioning a number.
+
+## UI
+
+Source design: `docs/design/Netball Open Data.dc.html` — 182 inline-styled divs to be componentised.
+
+- **Tailwind v4** with `@theme` tokens up front — `bg-paper` (`#fffaf0`), `text-ink` (`#3a3a3a`), hairline `#e5e5e5`, Inter + IBM Plex Mono. Components reference tokens, never raw hexes.
+- **Base UI** for selects, tabs, dropdowns — headless, matches the hand-tuned aesthetic.
+- **Hand-rolled SVG charts, no chart dependency.** Rank-movement multi-line (inverted axis, lower-is-better) and championship-points bars. The data is small and static per render; SSR-friendly with zero hydration cost. The mock already contains hand-written SVG.
+
+Sections: rankings table, club profile, ladders, method. Head-to-head and Results are gated on the later `matches` phase and shown as 2022+ only.
+
+## Phases
+
+1. **Schema** — tables above, one clean migration, seed competitions + grade weights
+2. **Import** — fetch PlayHQ → CSV → D1, with invariants and fixture tests
+3. **Backend APIs** — server functions for the UI, plus public JSON + CSV export
+4. **UI** — componentise `docs/design` with Tailwind + Base UI + SVG charts, sample data
+5. **Wire up** — connect UI to real backend
+6. _(Later)_ `matches` table → head-to-head + Results, 2022+
+7. _(Later)_ City Night, Super League, juniors
 
 ## Success criteria
 
-- App deploys to Cloudflare Workers with its own D1 database
-- Drizzle schema/migrations manage all tables
-- Sync upserts into D1 idempotently; re-runnable for next seasons
-- Every stored team has `ladder_position`
-- CSV export works from D1
-- Matrics and rival clubs present for available seasons
+- Rebuilds from a clean checkout: `import` → D1 → working site, no network
+- Every stored team has `ladder_position`; every grade has `team_count`
+- Championship rankings render for AMND + PL across available seasons
+- Coverage (2022–2026) stated plainly in the UI; no implied history the data lacks
+- Re-running fetch on an unchanged season produces an empty CSV diff
 
-## Research findings (2026-08-08)
+## Unresolved
 
-### PlayHQ org / season IDs
+- **AMND Winter 2023** — no public URL found; discover during scrape or accept as a gap
+- **PL grade IDs for 2022, 2023, 2026** — TBD at scrape
+- **Juniors in the championship score** — recommendation: include, weight low, offer a seniors-only toggle. Not urgent, no junior data in phase 1
+- **Size-normalised scoring** — deferred until real numbers exist
+- **Domain / hosting name**
 
-| Competition               | Org                                    | Org ID     |
-| ------------------------- | -------------------------------------- | ---------- |
-| AMND                      | Adelaide Metropolitan Netball Division | `7a5f35e1` |
-| Premier League + Reserves | Netball South Australia                | `6fefc037` |
+## Reference: confirmed PlayHQ IDs
 
-**AMND seasons (confirmed public URLs)**
+**AMND seasons**
 
-| Season      | season_key         | PlayHQ season ID / slug                                     |
-| ----------- | ------------------ | ----------------------------------------------------------- |
-| Winter 2022 | `amnd-winter-2022` | `1e073dea` (`winter-2022` / `amnd-2022-winter-2022`)        |
-| Winter 2024 | `amnd-winter-2024` | `4f37cb95` (`amnd-competition-winter-2024`)                 |
-| Winter 2025 | `amnd-winter-2025` | `f6dd6ad2` (`amnd-competition-winter-2025`)                 |
-| Winter 2026 | `amnd-winter-2026` | slug `amnd-competition-winter-2026` (grade AMND `4aebe074`) |
+| Season      | season_key         | PlayHQ ID / slug                                      |
+| ----------- | ------------------ | ----------------------------------------------------- |
+| Winter 2022 | `amnd-winter-2022` | `1e073dea` (`amnd-2022-winter-2022`)                  |
+| Winter 2024 | `amnd-winter-2024` | `4f37cb95` (`amnd-competition-winter-2024`)           |
+| Winter 2025 | `amnd-winter-2025` | `f6dd6ad2` (`amnd-competition-winter-2025`)           |
+| Winter 2026 | `amnd-winter-2026` | slug `amnd-competition-winter-2026`, grade `4aebe074` |
 
-Winter 2023: not yet found in public indexes/Wayback; discover via org page when scraping from an unblocked IP.
+**Premier League** — League and Reserves are grades under one competition. Grade names: `Premier Division`, `Reserves Division`.
 
-**Premier League seasons** (League + Reserves are grades under one competition)
-
-| Season | PlayHQ season ID | Premier grade | Reserves grade |
-| ------ | ---------------- | ------------- | -------------- |
-| 2022   | `d4d09c75`       | TBD scrape    | TBD scrape     |
-| 2023   | `fdb84e54`       | TBD scrape    | TBD scrape     |
-| 2024   | `6b351c9a`       | `6ab303e4`    | `9bc4481a`     |
-| 2025   | `3b0a635f`       | `9a8085ed`    | `6073b8c7`     |
-| 2026   | `b6ba0f43`       | TBD scrape    | TBD scrape     |
-
-Grade names on PlayHQ: `Premier Division`, `Reserves Division`.
-
-### How far ladders go
-
-| Source                                        | Coverage                                                 | What we get                                                              |
-| --------------------------------------------- | -------------------------------------------------------- | ------------------------------------------------------------------------ |
-| PlayHQ live                                   | AMND ~2022–2026 (winter); PL ~2022–2026                  | Full ladders + team stats when public                                    |
-| Wayback PlayHQ                                | Sparse (e.g. AMND 2024 season grades list; PL 2024/2025) | Fallback if live blocked                                                 |
-| Legacy SportzVault (`amnd.sa.netball.com.au`) | Season selector ~2011–2020 on archived ladder UI         | Interactive ladders (harder scrape)                                      |
-| Final Premiership Placings PDFs (Wayback)     | **2000–2014, 2016** (all grades, ranked 1…n)             | Placement only; stats null. **Not found** for 2015, 2017–2021 in Wayback |
-| Club/news archives                            | Partial PL narratives (minor premiers / GF)              | Spot-check only; not full ladders                                        |
-
-**Important:** Archive PDFs are titled “Final Premiership Placings”. They list every team in each grade (not only finalists). Top-4 order may reflect finals outcomes rather than pure minor-round ladder. Store as `source=archive_pdf` with `placement_basis=final_premiership_placings` and prefer PlayHQ minor-round ladder when both exist.
-
-### Summer seasons
-
-AMND on PlayHQ/Netball SA is **winter-only** (Apr–Sep). Stadium summer competition is **City Night Division (CND)**, a separate org — not an AMND summer season. No CND PlayHQ org ID confirmed yet from indexes.
-
-### Scrape constraints
-
-PlayHQ returns **CloudFront 403** from this cloud agent IP for live pages. Sync script must use real browser automation and may need to run from a non-blocked network (or local machine). Wayback works for some historical season/grade lists.
-
-### Club archives
-
-None provided by Matrics for this project. Backfill = public Wayback PDFs + SportzVault + PlayHQ only.
-
-## Resolved
-
-- **CND included** as the summer competition (`city_night_division`).
-- **Archive PDFs imported** for 2000–2014, 2016 as placements with `source=archive_pdf` and `placement_basis=final_premiership_placings` (top 4 may reflect finals). Prefer PlayHQ minor-round ladder when both exist.
-- **Platform:** own Cloudflare Workers app + D1 + Drizzle (not Turso / not inside matrics-website schema).
-- **Monorepo path:** `apps/competition-results/`.
-
-## Unresolved questions
-
-- None blocking implementation. CND PlayHQ org ID to be discovered during sync scrape.
-- Separate Cloudflare account/zone vs same as matrics-website? (default: same account, separate Worker + D1)
+| Season | Season ID  | Premier grade | Reserves grade |
+| ------ | ---------- | ------------- | -------------- |
+| 2022   | `d4d09c75` | TBD           | TBD            |
+| 2023   | `fdb84e54` | TBD           | TBD            |
+| 2024   | `6b351c9a` | `6ab303e4`    | `9bc4481a`     |
+| 2025   | `3b0a635f` | `9a8085ed`    | `6073b8c7`     |
+| 2026   | `b6ba0f43` | TBD           | TBD            |

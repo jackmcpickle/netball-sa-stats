@@ -1,0 +1,55 @@
+{
+    "data": {
+        "discoverSeason": {
+            "id": "b6ba0f43",
+            "name": "2026",
+            "competition": {
+                "id": "0e0cfad5",
+                "name": "The Hospital Research Foundation Premier League",
+                "type": "DOMESTIC",
+                "organisation": {
+                    "id": "6fefc037",
+                    "name": "Netball South Australia"
+                }
+            },
+            "status": {
+                "name": "Active",
+                "value": "ACTIVE"
+            },
+            "grades": [
+                {
+                    "id": "a95c2301",
+                    "name": "Premier Division",
+                    "day": {
+                        "name": "Wednesday",
+                        "value": "WEDNESDAY"
+                    },
+                    "gender": {
+                        "name": "Women",
+                        "value": "WOMENS"
+                    },
+                    "age": {
+                        "name": "Senior",
+                        "value": "SENIOR"
+                    }
+                },
+                {
+                    "id": "ae6df43a",
+                    "name": "Reserves Division",
+                    "day": {
+                        "name": "Wednesday",
+                        "value": "WEDNESDAY"
+                    },
+                    "gender": {
+                        "name": "Women",
+                        "value": "WOMENS"
+                    },
+                    "age": {
+                        "name": "Senior",
+                        "value": "SENIOR"
+                    }
+                }
+            ]
+        }
+    }
+}
