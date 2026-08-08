@@ -4,6 +4,7 @@ import {
     formatPosition,
     formatRecord,
 } from '@/components/format';
+import { NoteMarker } from '@/components/ui/note-marker';
 import { Table, TableFrame, Td, Th, Tr } from '@/components/ui/table';
 import type { ClubGradeResult } from '@/data/types';
 
@@ -38,7 +39,12 @@ export function ClubResultsTable({
                                     {result.year}
                                 </span>
                             </Td>
-                            <Td emphasis="strong">{result.gradeName}</Td>
+                            <Td emphasis="strong">
+                                {result.gradeName}
+                                {result.notes !== null && (
+                                    <NoteMarker note={result.notes} />
+                                )}
+                            </Td>
                             <Td emphasis="quiet">{result.competitionName}</Td>
                             <Td align="right">
                                 <span

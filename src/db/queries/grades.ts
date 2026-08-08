@@ -67,6 +67,7 @@ export async function fetchLadder(
             goalsAgainst: row.goalsAgainst,
             percentage: row.percentage,
             points: row.points,
+            notes: row.notes,
         }),
     );
 

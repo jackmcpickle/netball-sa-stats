@@ -28,6 +28,7 @@ function toGradeResults(
             lost: row.lost,
             drawn: row.drawn,
             percentage: row.percentage,
+            notes: row.notes,
         }),
     );
 }

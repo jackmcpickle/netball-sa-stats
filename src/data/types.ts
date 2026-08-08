@@ -125,6 +125,8 @@ export interface ClubGradeResult {
     readonly lost: number | null;
     readonly drawn: number | null;
     readonly percentage: number | null;
+    /** Provenance note, e.g. PlayHQ's played count not reconciling with W+D+L. */
+    readonly notes: string | null;
 }
 
 /** One bar in the championship-points-by-season chart. */
@@ -162,6 +164,8 @@ export interface LadderRow {
     readonly goalsAgainst: number | null;
     readonly percentage: number | null;
     readonly points: number | null;
+    /** Provenance note, e.g. PlayHQ's played count not reconciling with W+D+L. */
+    readonly notes: string | null;
 }
 
 export interface GradeSummary {

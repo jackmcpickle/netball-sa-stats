@@ -5,6 +5,7 @@ import { accentText } from '@/components/accent';
 import { formatNumber, formatPercent } from '@/components/format';
 import { ClubLink } from '@/components/links';
 import { Eyebrow, PageShell, PageTitle, Panel } from '@/components/ui/layout';
+import { NoteMarker } from '@/components/ui/note-marker';
 import { FieldSelect } from '@/components/ui/select';
 import { Table, TableFrame, Td, Th, Tr } from '@/components/ui/table';
 
@@ -120,6 +121,11 @@ export function LaddersPage(): JSX.Element {
                                                 >
                                                     {row.displayName}
                                                 </ClubLink>
+                                                {row.notes !== null && (
+                                                    <NoteMarker
+                                                        note={row.notes}
+                                                    />
+                                                )}
                                             </span>
                                         </Td>
                                         <Td align="right">
