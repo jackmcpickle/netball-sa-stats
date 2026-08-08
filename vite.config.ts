@@ -73,6 +73,8 @@ export default defineConfig({
             '.tanstack/',
             'drizzle/',
             'docs/design/',
+            'data/archive/fixtures/',
+            'data/archive/placements/',
             'worker-configuration.d.ts',
         ],
     },

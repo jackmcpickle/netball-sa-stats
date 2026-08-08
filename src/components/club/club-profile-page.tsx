@@ -41,7 +41,9 @@ export function ClubProfilePage(): JSX.Element {
                     onValueChange={onClubChange}
                 />
                 <span className="text-[13px] text-ink-muted">
-                    {'Club profile · all grades, all covered seasons'}
+                    {
+                        'Club profile · all grades, all covered seasons (archive and PlayHQ)'
+                    }
                 </span>
             </div>
 

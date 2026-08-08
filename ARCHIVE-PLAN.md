@@ -4,10 +4,10 @@ Deferred companion to [PLAN.md](./PLAN.md). **Not part of the main build.** Noth
 
 ## What this covers
 
-| Era     | Seasons         | Source                                    | Status                            |
-| ------- | --------------- | ----------------------------------------- | --------------------------------- |
-| Archive | 2000–2014, 2016 | Final Premiership Placings PDFs (Wayback) | Available, unbuilt                |
-| Missing | 2015, 2017–2021 | —                                         | Unrecoverable from public sources |
+| Era     | Seasons         | Source                                    | Status                                                                  |
+| ------- | --------------- | ----------------------------------------- | ----------------------------------------------------------------------- |
+| Archive | 2000–2014, 2016 | Final Premiership Placings PDFs (Wayback) | Built — see `docs/superpowers/plans/2026-08-08-archive-pdf-backfill.md` |
+| Missing | 2015, 2017–2021 | —                                         | Unrecoverable from public sources; timeline shows a break               |
 
 Sixteen AMND seasons of placement data, verified present and parseable. AMND only — no Premier League archive was found.
 

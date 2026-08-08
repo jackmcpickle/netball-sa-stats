@@ -1,4 +1,5 @@
 import type { JSX } from 'react';
+import { gapLabel } from '@/components/charts/timeline-slots';
 import type { Coverage } from '@/data/types';
 
 const STATUS_LABEL: Record<string, string> = {
@@ -17,6 +18,15 @@ export function CoverageNote({
 }: {
     readonly coverage: Coverage;
 }): JSX.Element {
+    const first = coverage.rankedYears[0];
+    const last = coverage.rankedYears.at(-1);
+    const gapText =
+        coverage.timelineGaps.length === 0
+            ? null
+            : coverage.timelineGaps
+                  .map((gap) => gapLabel(gap.missingYears))
+                  .join('; ');
+
     return (
         <section
             aria-labelledby="coverage-heading"
@@ -29,8 +39,20 @@ export function CoverageNote({
                 {'WHAT THIS COVERS'}
             </h2>
             <p className="mt-4 max-w-[64ch] leading-relaxed text-ink-body">
-                {`Rankings are built from ${String(coverage.rankedYears.length)} completed seasons, ${String(coverage.rankedYears[0])} to ${String(coverage.rankedYears.at(-1))}. Anything earlier is not in the dataset yet.`}
+                {first === undefined || last === undefined
+                    ? 'No completed seasons are ranked yet.'
+                    : `Rankings span ${String(coverage.rankedYears.length)} completed seasons from ${String(first)} to ${String(last)}.`}
             </p>
+            {gapText !== null && (
+                <p className="mt-3 max-w-[64ch] leading-relaxed text-ink-body">
+                    {`No public ladder data was recovered for ${gapText}, so the timeline shows a break there rather than inventing continuity.`}
+                </p>
+            )}
+            {coverage.methodologyBreak && (
+                <p className="mt-3 max-w-[64ch] leading-relaxed text-ink-body">
+                    {`Through ${String(coverage.methodologyBreak.afterYear)}, finishes come from AMND Final Premiership Placings PDFs (placement-only; top four may reflect finals). From ${String(coverage.methodologyBreak.beforeYear)} they come from PlayHQ regular-season ladders with full match stats. Championship points are scored across both eras, but movement arrows are suppressed across that break.`}
+                </p>
+            )}
             {coverage.changeNote && (
                 <p className="mt-3 max-w-[64ch] leading-relaxed text-ink-body">
                     {`${coverage.changeNote.addedCompetitions.join(' and ')} ${coverage.changeNote.addedCompetitions.length === 1 ? 'enters' : 'enter'} the championship count from ${String(coverage.changeNote.year)}, so totals from before ${String(coverage.changeNote.year)} are not directly comparable to it — the club championship table does not show a movement arrow across that boundary.`}

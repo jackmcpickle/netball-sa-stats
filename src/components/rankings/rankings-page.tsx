@@ -98,7 +98,7 @@ export function RankingsPage(): JSX.Element {
                     {'Rank movement, season by season'}
                 </h2>
                 <p className="mt-2 text-sm text-ink-muted">
-                    {`Club championship position across ${String(data.coverage.rankedYears.length)} ranked seasons. Lower is better.`}
+                    {`Club championship position across ${String(data.coverage.rankedYears.length)} ranked seasons. Lower is better. Lines break across years with no recovered data.`}
                 </p>
                 <div className="mt-6 overflow-x-auto">
                     <div className="min-w-[46rem]">

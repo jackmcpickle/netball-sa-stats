@@ -25,6 +25,8 @@ export interface ResultRow {
     readonly homeVenue: string | null;
     readonly year: number;
     readonly isFinal: boolean;
+    readonly source: string;
+    readonly placementBasis: string;
     readonly gradeKey: string;
     readonly gradeName: string;
     readonly competitionKey: string;
@@ -92,6 +94,8 @@ export async function fetchResults(
             homeVenue: clubs.homeVenue,
             year: seasons.startYear,
             isFinal: seasons.isFinal,
+            source: seasons.source,
+            placementBasis: teamSeasonResults.placementBasis,
             gradeKey: grades.gradeKey,
             gradeName: grades.name,
             competitionKey: competitions.key,
