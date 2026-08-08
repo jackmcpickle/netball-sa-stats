@@ -1,0 +1,126 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "77f1cfec",
+            "name": "Walking Netball 50+",
+            "ladderType": "POINTS_AVERAGE",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "d3872444",
+                                "name": "Bendigo Gold",
+                                "organisation": {
+                                    "id": "6fefc037",
+                                    "name": "Netball South Australia",
+                                    "type": "ADMINISTRATIVE_BODY"
+                                }
+                            },
+                            "played": 8,
+                            "won": 7,
+                            "lost": 1,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 168,
+                            "pointsAgainst": 89,
+                            "pointsDifference": 0,
+                            "forfeits": 0,
+                            "percentage": 188.76,
+                            "competitionPoints": 14
+                        },
+                        {
+                            "team": {
+                                "id": "abae9e06",
+                                "name": "Magnolias",
+                                "organisation": {
+                                    "id": "6fefc037",
+                                    "name": "Netball South Australia",
+                                    "type": "ADMINISTRATIVE_BODY"
+                                }
+                            },
+                            "played": 8,
+                            "won": 6,
+                            "lost": 2,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 160,
+                            "pointsAgainst": 109,
+                            "pointsDifference": 0,
+                            "forfeits": 0,
+                            "percentage": 146.79,
+                            "competitionPoints": 12
+                        },
+                        {
+                            "team": {
+                                "id": "4e4c3e62",
+                                "name": "Sapphires SA",
+                                "organisation": {
+                                    "id": "6fefc037",
+                                    "name": "Netball South Australia",
+                                    "type": "ADMINISTRATIVE_BODY"
+                                }
+                            },
+                            "played": 8,
+                            "won": 4,
+                            "lost": 4,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 177,
+                            "pointsAgainst": 124,
+                            "pointsDifference": 0,
+                            "forfeits": 0,
+                            "percentage": 142.74,
+                            "competitionPoints": 8
+                        },
+                        {
+                            "team": {
+                                "id": "1a8ea8c8",
+                                "name": "Cosmics",
+                                "organisation": {
+                                    "id": "6fefc037",
+                                    "name": "Netball South Australia",
+                                    "type": "ADMINISTRATIVE_BODY"
+                                }
+                            },
+                            "played": 8,
+                            "won": 3,
+                            "lost": 5,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 144,
+                            "pointsAgainst": 145,
+                            "pointsDifference": 0,
+                            "forfeits": 0,
+                            "percentage": 99.31,
+                            "competitionPoints": 6
+                        },
+                        {
+                            "team": {
+                                "id": "636bf307",
+                                "name": "Gippy Girls",
+                                "organisation": {
+                                    "id": "6fefc037",
+                                    "name": "Netball South Australia",
+                                    "type": "ADMINISTRATIVE_BODY"
+                                }
+                            },
+                            "played": 8,
+                            "won": 0,
+                            "lost": 8,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 79,
+                            "pointsAgainst": 261,
+                            "pointsDifference": 0,
+                            "forfeits": 0,
+                            "percentage": 30.27,
+                            "competitionPoints": 0
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

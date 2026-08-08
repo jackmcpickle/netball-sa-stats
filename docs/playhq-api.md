@@ -160,7 +160,7 @@ per the brief's instructions and not re-fetched; only the season IDs were
 independently confirmed via `discoverCompetitions`.
 
 **AMND Winter 2023**: confirmed to exist. Season ID `7570c2c4`, part of
-competition `bd4b4c9f` ("AMND Competition", org `7a5f35e1`), 23 grades
+competition `bd4b4c9f` ("AMND Competition", org `7a5f35e1`), 43 grades
 (Junior 1-N, Senior grades etc). See
 `data/raw/probe/gradeListDiscoverSeason_amnd_winter2023_7570c2c4.json`.
 PLAN.md's inability to find it was likely because it sits under "AMND

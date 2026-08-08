@@ -1,0 +1,192 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "09e42f7f",
+            "name": "B1",
+            "ladderType": "TOTAL_COMPETITION_POINTS",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "054c8aa3",
+                                "name": "Old Ignatians'",
+                                "organisation": {
+                                    "id": "0113cb3e",
+                                    "name": "Old Ignatians",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 18,
+                            "won": 17,
+                            "lost": 1,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 1185,
+                            "pointsAgainst": 815,
+                            "pointsDifference": 370,
+                            "forfeits": 0,
+                            "percentage": 145.4,
+                            "competitionPoints": 34
+                        },
+                        {
+                            "team": {
+                                "id": "28cc3f1e",
+                                "name": "Walkerville 1",
+                                "organisation": {
+                                    "id": "a83c7a81",
+                                    "name": "Walkerville",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 18,
+                            "won": 15,
+                            "lost": 3,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 1115,
+                            "pointsAgainst": 800,
+                            "pointsDifference": 315,
+                            "forfeits": 0,
+                            "percentage": 139.38,
+                            "competitionPoints": 30
+                        },
+                        {
+                            "team": {
+                                "id": "59eed371",
+                                "name": "Matrics",
+                                "organisation": {
+                                    "id": "0969cc64",
+                                    "name": "Matrics",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 18,
+                            "won": 14,
+                            "lost": 3,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 950,
+                            "pointsAgainst": 772,
+                            "pointsDifference": 178,
+                            "forfeits": 0,
+                            "percentage": 123.06,
+                            "competitionPoints": 29
+                        },
+                        {
+                            "team": {
+                                "id": "a4918691",
+                                "name": "SHOCS",
+                                "organisation": {
+                                    "id": "d45fe04a",
+                                    "name": "Sacred Heart O.C.",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 18,
+                            "won": 11,
+                            "lost": 6,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 1104,
+                            "pointsAgainst": 902,
+                            "pointsDifference": 202,
+                            "forfeits": 0,
+                            "percentage": 122.39,
+                            "competitionPoints": 23
+                        },
+                        {
+                            "team": {
+                                "id": "981f7644",
+                                "name": "Walkerville 2",
+                                "organisation": {
+                                    "id": "a83c7a81",
+                                    "name": "Walkerville",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 18,
+                            "won": 8,
+                            "lost": 9,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 910,
+                            "pointsAgainst": 872,
+                            "pointsDifference": 38,
+                            "forfeits": 0,
+                            "percentage": 104.36,
+                            "competitionPoints": 17
+                        },
+                        {
+                            "team": {
+                                "id": "c06da7ed",
+                                "name": "Pembroke OS",
+                                "organisation": {
+                                    "id": "0b5f7af5",
+                                    "name": "Pembroke O.S.",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 18,
+                            "won": 5,
+                            "lost": 13,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 874,
+                            "pointsAgainst": 975,
+                            "pointsDifference": -101,
+                            "forfeits": 0,
+                            "percentage": 89.64,
+                            "competitionPoints": 10
+                        },
+                        {
+                            "team": {
+                                "id": "c7604de2",
+                                "name": "Oakdale",
+                                "organisation": {
+                                    "id": "2f66832f",
+                                    "name": "Oakdale Netball Club (SA)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 18,
+                            "won": 3,
+                            "lost": 14,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 850,
+                            "pointsAgainst": 1066,
+                            "pointsDifference": -216,
+                            "forfeits": 0,
+                            "percentage": 79.74,
+                            "competitionPoints": 7
+                        },
+                        {
+                            "team": {
+                                "id": "4ca3ac93",
+                                "name": "Contax",
+                                "organisation": {
+                                    "id": "a8ee2320",
+                                    "name": "Contax",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 18,
+                            "won": 1,
+                            "lost": 17,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 647,
+                            "pointsAgainst": 1139,
+                            "pointsDifference": -492,
+                            "forfeits": 0,
+                            "percentage": 56.8,
+                            "competitionPoints": 2
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

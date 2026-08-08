@@ -1,0 +1,148 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "89c2b397",
+            "name": "B2",
+            "ladderType": "TOTAL_COMPETITION_POINTS",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "59b6fdfc",
+                                "name": "City Coasters Green",
+                                "organisation": {
+                                    "id": "923e1965",
+                                    "name": "City Coasters",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 13,
+                            "lost": 1,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 811,
+                            "pointsAgainst": 591,
+                            "pointsDifference": 220,
+                            "forfeits": 0,
+                            "percentage": 137.23,
+                            "competitionPoints": 27
+                        },
+                        {
+                            "team": {
+                                "id": "5d4bd417",
+                                "name": "Pembroke OS",
+                                "organisation": {
+                                    "id": "0b5f7af5",
+                                    "name": "Pembroke O.S.",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 10,
+                            "lost": 4,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 775,
+                            "pointsAgainst": 646,
+                            "pointsDifference": 129,
+                            "forfeits": 0,
+                            "percentage": 119.97,
+                            "competitionPoints": 21
+                        },
+                        {
+                            "team": {
+                                "id": "8bbf4687",
+                                "name": "Walkerville",
+                                "organisation": {
+                                    "id": "a83c7a81",
+                                    "name": "Walkerville",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 8,
+                            "lost": 5,
+                            "drawn": 2,
+                            "byes": 0,
+                            "pointsFor": 618,
+                            "pointsAgainst": 562,
+                            "pointsDifference": 56,
+                            "forfeits": 0,
+                            "percentage": 109.96,
+                            "competitionPoints": 18
+                        },
+                        {
+                            "team": {
+                                "id": "ac86481f",
+                                "name": "Matrics",
+                                "organisation": {
+                                    "id": "0969cc64",
+                                    "name": "Matrics",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 8,
+                            "lost": 7,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 661,
+                            "pointsAgainst": 666,
+                            "pointsDifference": -5,
+                            "forfeits": 0,
+                            "percentage": 99.25,
+                            "competitionPoints": 16
+                        },
+                        {
+                            "team": {
+                                "id": "8bffd05e",
+                                "name": "Oakdale",
+                                "organisation": {
+                                    "id": "2f66832f",
+                                    "name": "Oakdale Netball Club (SA)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 5,
+                            "lost": 10,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 749,
+                            "pointsAgainst": 748,
+                            "pointsDifference": 1,
+                            "forfeits": 0,
+                            "percentage": 100.13,
+                            "competitionPoints": 10
+                        },
+                        {
+                            "team": {
+                                "id": "9c0338b5",
+                                "name": "Tango",
+                                "organisation": {
+                                    "id": "d4389d20",
+                                    "name": "Tango Netball Club Inc",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 3,
+                            "lost": 12,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 495,
+                            "pointsAgainst": 711,
+                            "pointsDifference": -216,
+                            "forfeits": 0,
+                            "percentage": 69.62,
+                            "competitionPoints": 6
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

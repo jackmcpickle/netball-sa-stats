@@ -1,0 +1,192 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "bf62bba0",
+            "name": "B1",
+            "ladderType": "TOTAL_COMPETITION_POINTS",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "3813190e",
+                                "name": "Reynella",
+                                "organisation": {
+                                    "id": "485b7b56",
+                                    "name": "Reynella Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 18,
+                            "won": 17,
+                            "lost": 1,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 1001,
+                            "pointsAgainst": 641,
+                            "pointsDifference": 360,
+                            "forfeits": 0,
+                            "percentage": 156.16,
+                            "competitionPoints": 34
+                        },
+                        {
+                            "team": {
+                                "id": "2d0212d4",
+                                "name": "Walkerville 1",
+                                "organisation": {
+                                    "id": "a83c7a81",
+                                    "name": "Walkerville",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 18,
+                            "won": 15,
+                            "lost": 3,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 1063,
+                            "pointsAgainst": 727,
+                            "pointsDifference": 336,
+                            "forfeits": 0,
+                            "percentage": 146.22,
+                            "competitionPoints": 30
+                        },
+                        {
+                            "team": {
+                                "id": "3a588df6",
+                                "name": "Matrics",
+                                "organisation": {
+                                    "id": "0969cc64",
+                                    "name": "Matrics",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 18,
+                            "won": 14,
+                            "lost": 4,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 982,
+                            "pointsAgainst": 717,
+                            "pointsDifference": 265,
+                            "forfeits": 0,
+                            "percentage": 136.96,
+                            "competitionPoints": 28
+                        },
+                        {
+                            "team": {
+                                "id": "b3bd1d37",
+                                "name": "SHOCS",
+                                "organisation": {
+                                    "id": "d45fe04a",
+                                    "name": "Sacred Heart O.C.",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 18,
+                            "won": 11,
+                            "lost": 7,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 994,
+                            "pointsAgainst": 885,
+                            "pointsDifference": 109,
+                            "forfeits": 0,
+                            "percentage": 112.32,
+                            "competitionPoints": 22
+                        },
+                        {
+                            "team": {
+                                "id": "d1b693c1",
+                                "name": "Walkerville 2",
+                                "organisation": {
+                                    "id": "a83c7a81",
+                                    "name": "Walkerville",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 18,
+                            "won": 7,
+                            "lost": 11,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 848,
+                            "pointsAgainst": 914,
+                            "pointsDifference": -66,
+                            "forfeits": 0,
+                            "percentage": 92.78,
+                            "competitionPoints": 14
+                        },
+                        {
+                            "team": {
+                                "id": "38632ec6",
+                                "name": "City Coasters",
+                                "organisation": {
+                                    "id": "923e1965",
+                                    "name": "City Coasters",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 18,
+                            "won": 3,
+                            "lost": 15,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 662,
+                            "pointsAgainst": 1007,
+                            "pointsDifference": -345,
+                            "forfeits": 0,
+                            "percentage": 65.74,
+                            "competitionPoints": 6
+                        },
+                        {
+                            "team": {
+                                "id": "037c24ec",
+                                "name": "Newton Jaguars",
+                                "organisation": {
+                                    "id": "d275f255",
+                                    "name": "Norwood Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 18,
+                            "won": 3,
+                            "lost": 15,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 649,
+                            "pointsAgainst": 1044,
+                            "pointsDifference": -395,
+                            "forfeits": 0,
+                            "percentage": 62.16,
+                            "competitionPoints": 6
+                        },
+                        {
+                            "team": {
+                                "id": "68a343d9",
+                                "name": "Oakdale",
+                                "organisation": {
+                                    "id": "2f66832f",
+                                    "name": "Oakdale Netball Club (SA)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 18,
+                            "won": 2,
+                            "lost": 16,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 721,
+                            "pointsAgainst": 985,
+                            "pointsDifference": -264,
+                            "forfeits": 0,
+                            "percentage": 73.2,
+                            "competitionPoints": 4
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

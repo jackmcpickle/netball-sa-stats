@@ -1,0 +1,101 @@
+{
+    "data": {
+        "discoverSeason": {
+            "id": "4b95f1b3",
+            "name": "2023",
+            "competition": {
+                "id": "b56f0aab",
+                "name": "Nunga Netball Carnival",
+                "type": "TOURNAMENT",
+                "organisation": {
+                    "id": "6fefc037",
+                    "name": "Netball South Australia"
+                }
+            },
+            "status": {
+                "name": "Completed",
+                "value": "COMPLETED"
+            },
+            "grades": [
+                {
+                    "id": "c2896ab3",
+                    "name": "15 & Under",
+                    "day": null,
+                    "gender": {
+                        "name": "Girls",
+                        "value": "GIRLS"
+                    },
+                    "age": {
+                        "name": "Junior",
+                        "value": "JUNIOR"
+                    }
+                },
+                {
+                    "id": "3680a6a7",
+                    "name": "17 & Under",
+                    "day": null,
+                    "gender": {
+                        "name": "Girls",
+                        "value": "GIRLS"
+                    },
+                    "age": {
+                        "name": "Junior",
+                        "value": "JUNIOR"
+                    }
+                },
+                {
+                    "id": "8bf22734",
+                    "name": "11 & Under",
+                    "day": null,
+                    "gender": {
+                        "name": "Mixed",
+                        "value": "MIXED"
+                    },
+                    "age": {
+                        "name": "Junior",
+                        "value": "JUNIOR"
+                    }
+                },
+                {
+                    "id": "e076af0a",
+                    "name": "13 & Under",
+                    "day": null,
+                    "gender": {
+                        "name": "Mixed",
+                        "value": "MIXED"
+                    },
+                    "age": {
+                        "name": "Junior",
+                        "value": "JUNIOR"
+                    }
+                },
+                {
+                    "id": "fe7f76a8",
+                    "name": "9 & Under",
+                    "day": null,
+                    "gender": {
+                        "name": "Mixed",
+                        "value": "MIXED"
+                    },
+                    "age": {
+                        "name": "Junior",
+                        "value": "JUNIOR"
+                    }
+                },
+                {
+                    "id": "2934a02c",
+                    "name": "23 & Under",
+                    "day": null,
+                    "gender": {
+                        "name": "Women",
+                        "value": "WOMENS"
+                    },
+                    "age": {
+                        "name": "Open",
+                        "value": "OPEN"
+                    }
+                }
+            ]
+        }
+    }
+}

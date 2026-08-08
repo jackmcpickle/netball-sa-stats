@@ -1,0 +1,148 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "795543cc",
+            "name": "Primary 2",
+            "ladderType": "TOTAL_COMPETITION_POINTS",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "70edf280",
+                                "name": "Matrics Maroon",
+                                "organisation": {
+                                    "id": "0969cc64",
+                                    "name": "Matrics",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 11,
+                            "won": 9,
+                            "lost": 2,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 194,
+                            "pointsAgainst": 134,
+                            "pointsDifference": 60,
+                            "forfeits": 0,
+                            "percentage": 144.78,
+                            "competitionPoints": 18
+                        },
+                        {
+                            "team": {
+                                "id": "4f12a72d",
+                                "name": "Oakdale",
+                                "organisation": {
+                                    "id": "2f66832f",
+                                    "name": "Oakdale Netball Club (SA)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 11,
+                            "won": 8,
+                            "lost": 3,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 280,
+                            "pointsAgainst": 175,
+                            "pointsDifference": 105,
+                            "forfeits": 0,
+                            "percentage": 160,
+                            "competitionPoints": 16
+                        },
+                        {
+                            "team": {
+                                "id": "88bbc40f",
+                                "name": "Contax",
+                                "organisation": {
+                                    "id": "a8ee2320",
+                                    "name": "Contax",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 11,
+                            "won": 8,
+                            "lost": 3,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 211,
+                            "pointsAgainst": 161,
+                            "pointsDifference": 50,
+                            "forfeits": 0,
+                            "percentage": 131.06,
+                            "competitionPoints": 16
+                        },
+                        {
+                            "team": {
+                                "id": "79ddc727",
+                                "name": "Matrics Gold",
+                                "organisation": {
+                                    "id": "0969cc64",
+                                    "name": "Matrics",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 11,
+                            "won": 6,
+                            "lost": 5,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 258,
+                            "pointsAgainst": 222,
+                            "pointsDifference": 36,
+                            "forfeits": 0,
+                            "percentage": 116.22,
+                            "competitionPoints": 12
+                        },
+                        {
+                            "team": {
+                                "id": "8e134f2f",
+                                "name": "Norwood",
+                                "organisation": {
+                                    "id": "d275f255",
+                                    "name": "Norwood Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 11,
+                            "won": 1,
+                            "lost": 10,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 102,
+                            "pointsAgainst": 231,
+                            "pointsDifference": -129,
+                            "forfeits": 0,
+                            "percentage": 44.16,
+                            "competitionPoints": 2
+                        },
+                        {
+                            "team": {
+                                "id": "832b9284",
+                                "name": "Walkerville",
+                                "organisation": {
+                                    "id": "a83c7a81",
+                                    "name": "Walkerville",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 11,
+                            "won": 1,
+                            "lost": 10,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 107,
+                            "pointsAgainst": 252,
+                            "pointsDifference": -145,
+                            "forfeits": 0,
+                            "percentage": 42.46,
+                            "competitionPoints": 2
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

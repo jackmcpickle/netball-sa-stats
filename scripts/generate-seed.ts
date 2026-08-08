@@ -10,30 +10,13 @@
  */
 import { writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
+import { toCsv } from '../src/pipeline/csv.ts';
 import {
     COMPETITION_SEEDS,
     buildGradeWeights,
 } from '../src/pipeline/seed/catalogue.ts';
 
 const root = resolve(import.meta.dirname, '..');
-
-type CsvValue = string | number | null;
-
-function cell(value: CsvValue): string {
-    if (value === null) return '';
-    const text = String(value);
-    return /["\n,]/u.test(text) ? `"${text.replaceAll('"', '""')}"` : text;
-}
-
-function toCsv(rows: readonly Record<string, CsvValue>[]): string {
-    const [first] = rows;
-    if (first === undefined) return '';
-    const headers = Object.keys(first);
-    const lines = rows.map((row) =>
-        headers.map((header) => cell(row[header] ?? null)).join(','),
-    );
-    return `${[headers.join(','), ...lines].join('\n')}\n`;
-}
 
 function sqlText(value: string | null): string {
     return value === null ? 'NULL' : `'${value.replaceAll("'", "''")}'`;

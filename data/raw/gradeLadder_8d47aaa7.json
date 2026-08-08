@@ -1,0 +1,170 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "8d47aaa7",
+            "name": "Junior 4A",
+            "ladderType": "TOTAL_COMPETITION_POINTS",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "aff95ba9",
+                                "name": "Contax Pink",
+                                "organisation": {
+                                    "id": "a8ee2320",
+                                    "name": "Contax",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 10,
+                            "won": 9,
+                            "lost": 1,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 552,
+                            "pointsAgainst": 322,
+                            "pointsDifference": 230,
+                            "forfeits": 0,
+                            "percentage": 171.43,
+                            "competitionPoints": 20
+                        },
+                        {
+                            "team": {
+                                "id": "e09e8f1c",
+                                "name": "Matrics",
+                                "organisation": {
+                                    "id": "0969cc64",
+                                    "name": "Matrics",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 10,
+                            "won": 8,
+                            "lost": 2,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 489,
+                            "pointsAgainst": 338,
+                            "pointsDifference": 151,
+                            "forfeits": 0,
+                            "percentage": 144.67,
+                            "competitionPoints": 18
+                        },
+                        {
+                            "team": {
+                                "id": "113d0c6e",
+                                "name": "Oakdale",
+                                "organisation": {
+                                    "id": "2f66832f",
+                                    "name": "Oakdale Netball Club (SA)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 10,
+                            "won": 6,
+                            "lost": 4,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 386,
+                            "pointsAgainst": 335,
+                            "pointsDifference": 51,
+                            "forfeits": 0,
+                            "percentage": 115.22,
+                            "competitionPoints": 14
+                        },
+                        {
+                            "team": {
+                                "id": "7597e448",
+                                "name": "Garville Red",
+                                "organisation": {
+                                    "id": "241b44c0",
+                                    "name": "Garville",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 10,
+                            "won": 5,
+                            "lost": 5,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 404,
+                            "pointsAgainst": 451,
+                            "pointsDifference": -47,
+                            "forfeits": 0,
+                            "percentage": 89.58,
+                            "competitionPoints": 12
+                        },
+                        {
+                            "team": {
+                                "id": "5ba34a3b",
+                                "name": "Reynella",
+                                "organisation": {
+                                    "id": "485b7b56",
+                                    "name": "Reynella Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 10,
+                            "won": 2,
+                            "lost": 8,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 354,
+                            "pointsAgainst": 497,
+                            "pointsDifference": -143,
+                            "forfeits": 0,
+                            "percentage": 71.23,
+                            "competitionPoints": 6
+                        },
+                        {
+                            "team": {
+                                "id": "8af1a61b",
+                                "name": "Tango Black",
+                                "organisation": {
+                                    "id": "d4389d20",
+                                    "name": "Tango Netball Club Inc",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 10,
+                            "won": 2,
+                            "lost": 8,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 310,
+                            "pointsAgainst": 488,
+                            "pointsDifference": -178,
+                            "forfeits": 0,
+                            "percentage": 63.52,
+                            "competitionPoints": 6
+                        },
+                        {
+                            "team": {
+                                "id": "61d079ad",
+                                "name": "Metro Jets",
+                                "organisation": {
+                                    "id": "601b914e",
+                                    "name": "Metro Jets",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 10,
+                            "won": 1,
+                            "lost": 9,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 337,
+                            "pointsAgainst": 520,
+                            "pointsDifference": -183,
+                            "forfeits": 0,
+                            "percentage": 64.81,
+                            "competitionPoints": 4
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

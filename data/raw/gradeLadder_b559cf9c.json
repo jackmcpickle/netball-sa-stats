@@ -1,0 +1,148 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "b559cf9c",
+            "name": "Primary 7B",
+            "ladderType": "TOTAL_COMPETITION_POINTS",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "ab836e5a",
+                                "name": "Metro Jets",
+                                "organisation": {
+                                    "id": "601b914e",
+                                    "name": "Metro Jets",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 11,
+                            "won": 10,
+                            "lost": 1,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 238,
+                            "pointsAgainst": 59,
+                            "pointsDifference": 179,
+                            "forfeits": 0,
+                            "percentage": 403.39,
+                            "competitionPoints": 20
+                        },
+                        {
+                            "team": {
+                                "id": "5e6ba809",
+                                "name": "Matrics",
+                                "organisation": {
+                                    "id": "0969cc64",
+                                    "name": "Matrics",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 11,
+                            "won": 7,
+                            "lost": 4,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 127,
+                            "pointsAgainst": 86,
+                            "pointsDifference": 41,
+                            "forfeits": 0,
+                            "percentage": 147.67,
+                            "competitionPoints": 14
+                        },
+                        {
+                            "team": {
+                                "id": "49dc8d2c",
+                                "name": "Norwood Red",
+                                "organisation": {
+                                    "id": "d275f255",
+                                    "name": "Norwood Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 11,
+                            "won": 4,
+                            "lost": 7,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 84,
+                            "pointsAgainst": 105,
+                            "pointsDifference": -21,
+                            "forfeits": 0,
+                            "percentage": 80,
+                            "competitionPoints": 8
+                        },
+                        {
+                            "team": {
+                                "id": "f54e65f3",
+                                "name": "Garville",
+                                "organisation": {
+                                    "id": "241b44c0",
+                                    "name": "Garville",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 11,
+                            "won": 4,
+                            "lost": 7,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 83,
+                            "pointsAgainst": 172,
+                            "pointsDifference": -89,
+                            "forfeits": 0,
+                            "percentage": 48.26,
+                            "competitionPoints": 8
+                        },
+                        {
+                            "team": {
+                                "id": "5217b65d",
+                                "name": "Norwood",
+                                "organisation": {
+                                    "id": "d275f255",
+                                    "name": "Norwood Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 11,
+                            "won": 1,
+                            "lost": 10,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 42,
+                            "pointsAgainst": 216,
+                            "pointsDifference": -174,
+                            "forfeits": 0,
+                            "percentage": 19.44,
+                            "competitionPoints": 2
+                        },
+                        {
+                            "team": {
+                                "id": "9b4e8ed6",
+                                "name": "Adelaide Wildcats",
+                                "organisation": {
+                                    "id": "92fdb2ed",
+                                    "name": "Adelaide Wildcats",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 11,
+                            "won": 0,
+                            "lost": 11,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 19,
+                            "pointsAgainst": 223,
+                            "pointsDifference": -204,
+                            "forfeits": 0,
+                            "percentage": 8.52,
+                            "competitionPoints": 0
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

@@ -1,0 +1,192 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "e02269f2",
+            "name": "INTER 6",
+            "ladderType": "TOTAL_COMPETITION_POINTS",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "eb21826e",
+                                "name": "Garville 2",
+                                "organisation": {
+                                    "id": "241b44c0",
+                                    "name": "Garville",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 11,
+                            "won": 10,
+                            "lost": 1,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 614,
+                            "pointsAgainst": 281,
+                            "pointsDifference": 333,
+                            "forfeits": 0,
+                            "percentage": 218.51,
+                            "competitionPoints": 20
+                        },
+                        {
+                            "team": {
+                                "id": "84dce2b1",
+                                "name": "Walkerville",
+                                "organisation": {
+                                    "id": "a83c7a81",
+                                    "name": "Walkerville",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 11,
+                            "won": 8,
+                            "lost": 3,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 505,
+                            "pointsAgainst": 363,
+                            "pointsDifference": 142,
+                            "forfeits": 0,
+                            "percentage": 139.12,
+                            "competitionPoints": 16
+                        },
+                        {
+                            "team": {
+                                "id": "03265dbb",
+                                "name": "Metro Jets",
+                                "organisation": {
+                                    "id": "601b914e",
+                                    "name": "Metro Jets",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 11,
+                            "won": 7,
+                            "lost": 4,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 477,
+                            "pointsAgainst": 416,
+                            "pointsDifference": 61,
+                            "forfeits": 0,
+                            "percentage": 114.66,
+                            "competitionPoints": 14
+                        },
+                        {
+                            "team": {
+                                "id": "cf730096",
+                                "name": "Garville 1",
+                                "organisation": {
+                                    "id": "241b44c0",
+                                    "name": "Garville",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 11,
+                            "won": 6,
+                            "lost": 5,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 400,
+                            "pointsAgainst": 411,
+                            "pointsDifference": -11,
+                            "forfeits": 0,
+                            "percentage": 97.32,
+                            "competitionPoints": 12
+                        },
+                        {
+                            "team": {
+                                "id": "11727647",
+                                "name": "Norwood",
+                                "organisation": {
+                                    "id": "d275f255",
+                                    "name": "Norwood Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 11,
+                            "won": 5,
+                            "lost": 6,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 398,
+                            "pointsAgainst": 432,
+                            "pointsDifference": -34,
+                            "forfeits": 0,
+                            "percentage": 92.13,
+                            "competitionPoints": 10
+                        },
+                        {
+                            "team": {
+                                "id": "4d1a6e6d",
+                                "name": "Central District",
+                                "organisation": {
+                                    "id": "dc36fa73",
+                                    "name": "Central District Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 11,
+                            "won": 2,
+                            "lost": 9,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 338,
+                            "pointsAgainst": 453,
+                            "pointsDifference": -115,
+                            "forfeits": 0,
+                            "percentage": 74.61,
+                            "competitionPoints": 4
+                        },
+                        {
+                            "team": {
+                                "id": "028058da",
+                                "name": "Reynella",
+                                "organisation": {
+                                    "id": "485b7b56",
+                                    "name": "Reynella Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 11,
+                            "won": 2,
+                            "lost": 9,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 239,
+                            "pointsAgainst": 464,
+                            "pointsDifference": -225,
+                            "forfeits": 0,
+                            "percentage": 51.51,
+                            "competitionPoints": 4
+                        },
+                        {
+                            "team": {
+                                "id": "015c11cd",
+                                "name": "South Adelaide",
+                                "organisation": {
+                                    "id": "2e63c9f2",
+                                    "name": "South Adelaide Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 10,
+                            "won": 0,
+                            "lost": 10,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 174,
+                            "pointsAgainst": 591,
+                            "pointsDifference": -417,
+                            "forfeits": 0,
+                            "percentage": 29.44,
+                            "competitionPoints": 2
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

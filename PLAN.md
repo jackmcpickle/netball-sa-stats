@@ -114,6 +114,8 @@ City Night Division is **not resolved**. It is a separate organisation, absent f
 | ------ | ---------------------------- | ------------------------- |
 | PlayHQ | AMND 2022–2026, PL 2022–2026 | Full ladders + team stats |
 
+Premier League has **no 2022 season** — it did not run, due to COVID. That is a real-world absence, not missing data, and the UI should say so rather than render a gap. AMND ran 2022 normally.
+
 One source, one measurement, one era. Every season has the same columns available — true regular-season ladders with played/won/lost, goals for and against, and percentage. No methodology change, no gaps, no null-heavy rows.
 
 Pre-2022 data exists but is a different kind of dataset — placement-only, partly finals-contaminated, with six seasons missing outright. It is deliberately excluded and planned separately in [ARCHIVE-PLAN.md](./ARCHIVE-PLAN.md).

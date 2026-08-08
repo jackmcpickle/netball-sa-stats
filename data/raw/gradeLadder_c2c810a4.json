@@ -1,0 +1,192 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "c2c810a4",
+            "name": "Primary 6",
+            "ladderType": "POINTS_AVERAGE",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "18f3e425",
+                                "name": "Oakdale 1",
+                                "organisation": {
+                                    "id": "2f66832f",
+                                    "name": "Oakdale Netball Club (SA)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 12,
+                            "lost": 2,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 235,
+                            "pointsAgainst": 126,
+                            "pointsDifference": 109,
+                            "forfeits": 0,
+                            "percentage": 186.51,
+                            "competitionPoints": 24
+                        },
+                        {
+                            "team": {
+                                "id": "9aa8ce61",
+                                "name": "Oakdale 2",
+                                "organisation": {
+                                    "id": "2f66832f",
+                                    "name": "Oakdale Netball Club (SA)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 10,
+                            "lost": 4,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 175,
+                            "pointsAgainst": 120,
+                            "pointsDifference": 55,
+                            "forfeits": 0,
+                            "percentage": 145.83,
+                            "competitionPoints": 20
+                        },
+                        {
+                            "team": {
+                                "id": "35f49862",
+                                "name": "Adelaide Wildcats",
+                                "organisation": {
+                                    "id": "92fdb2ed",
+                                    "name": "Adelaide Wildcats",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 9,
+                            "lost": 5,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 154,
+                            "pointsAgainst": 118,
+                            "pointsDifference": 36,
+                            "forfeits": 0,
+                            "percentage": 130.51,
+                            "competitionPoints": 18
+                        },
+                        {
+                            "team": {
+                                "id": "a4a26179",
+                                "name": "Contax",
+                                "organisation": {
+                                    "id": "a8ee2320",
+                                    "name": "Contax",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 8,
+                            "lost": 6,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 164,
+                            "pointsAgainst": 145,
+                            "pointsDifference": 19,
+                            "forfeits": 0,
+                            "percentage": 113.1,
+                            "competitionPoints": 16
+                        },
+                        {
+                            "team": {
+                                "id": "59f18bb6",
+                                "name": "South Adelaide 1",
+                                "organisation": {
+                                    "id": "2e63c9f2",
+                                    "name": "South Adelaide Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 6,
+                            "lost": 7,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 183,
+                            "pointsAgainst": 230,
+                            "pointsDifference": -47,
+                            "forfeits": 0,
+                            "percentage": 79.57,
+                            "competitionPoints": 13
+                        },
+                        {
+                            "team": {
+                                "id": "e32fd478",
+                                "name": "Walkerville",
+                                "organisation": {
+                                    "id": "a83c7a81",
+                                    "name": "Walkerville",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 5,
+                            "lost": 7,
+                            "drawn": 2,
+                            "byes": 0,
+                            "pointsFor": 154,
+                            "pointsAgainst": 152,
+                            "pointsDifference": 2,
+                            "forfeits": 0,
+                            "percentage": 101.32,
+                            "competitionPoints": 12
+                        },
+                        {
+                            "team": {
+                                "id": "73e46e3e",
+                                "name": "South Adelaide 2",
+                                "organisation": {
+                                    "id": "2e63c9f2",
+                                    "name": "South Adelaide Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 3,
+                            "lost": 10,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 105,
+                            "pointsAgainst": 185,
+                            "pointsDifference": -80,
+                            "forfeits": 0,
+                            "percentage": 56.76,
+                            "competitionPoints": 7
+                        },
+                        {
+                            "team": {
+                                "id": "b2a89afb",
+                                "name": "Garville",
+                                "organisation": {
+                                    "id": "241b44c0",
+                                    "name": "Garville",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 1,
+                            "lost": 13,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 90,
+                            "pointsAgainst": 260,
+                            "pointsDifference": -170,
+                            "forfeits": 0,
+                            "percentage": 34.62,
+                            "competitionPoints": 2
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}
