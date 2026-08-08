@@ -1,0 +1,19 @@
+{
+    "$schema": "node_modules/wrangler/config-schema.json",
+    "name": "netball-stats",
+    "compatibility_date": "2026-08-07",
+    "compatibility_flags": ["nodejs_compat"],
+    "main": "@tanstack/react-start/server-entry",
+    "observability": {
+        "enabled": true,
+    },
+    "d1_databases": [
+        {
+            "binding": "DB",
+            "database_name": "netball-stats",
+            // Replace with the id from: wrangler d1 create netball-stats
+            "database_id": "PLACEHOLDER_D1_DATABASE_ID",
+            "migrations_dir": "drizzle",
+        },
+    ],
+}

@@ -9,6 +9,10 @@ lerna-debug.log*
 
 node_modules
 dist
+.wrangler
+.output
+.tanstack
+src/routeTree.gen.ts
 dist-ssr
 *.local
 
