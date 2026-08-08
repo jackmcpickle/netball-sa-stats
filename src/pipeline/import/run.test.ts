@@ -4,9 +4,14 @@ import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import { createSqliteExecutor } from '@/pipeline/import/executors';
 import { runImport } from '@/pipeline/import/run';
 import { createMigratedDb } from '@/pipeline/import/sqlite-test-db';
+import type { ImportExecutor } from '@/pipeline/import/types';
 import { ImportValidationError } from '@/pipeline/import/types';
 
 const FIXTURE_DIR = resolve(import.meta.dirname, '__fixtures__/basic');
+const TWO_TEAMS_ONE_CLUB_FIXTURE_DIR = resolve(
+    import.meta.dirname,
+    '__fixtures__/two-teams-one-club',
+);
 
 function tableRows(db: DatabaseSync, table: string): Record<string, unknown>[] {
     return db.prepare(`SELECT * FROM ${table} ORDER BY id`).all();
@@ -116,5 +121,45 @@ describe('runImport', () => {
         ).rejects.toThrow(ImportValidationError);
 
         empty.close();
+    });
+
+    it('imports two teams of one club in one grade (e.g. Walkerville 1 / Walkerville 2) as two distinct rows, not one collapsed row', async () => {
+        const report = await runImport({
+            dataDir: TWO_TEAMS_ONE_CLUB_FIXTURE_DIR,
+            executor: createSqliteExecutor(db),
+        });
+
+        expect(report).toMatchObject({ teams: 2, results: 2 });
+        expect(tableRows(db, 'teams')).toHaveLength(2);
+        expect(tableRows(db, 'team_season_results')).toHaveLength(2);
+        const teams = tableRows(db, 'teams') as { display_name: string }[];
+        expect(teams.map((t) => t.display_name).toSorted()).toEqual([
+            'Walkerville 1',
+            'Walkerville 2',
+        ]);
+    });
+
+    it('fails loudly when D1 row counts diverge from the CSV row counts after import', async () => {
+        // Wraps a real sqlite executor but drops one team_season_results
+        // insert to simulate a bug that silently loses a row mid-batch —
+        // the end-of-run assertion must catch it even though every
+        // individual statement "succeeded".
+        const real = createSqliteExecutor(db);
+        const lossy: ImportExecutor = {
+            queryAll: real.queryAll,
+            batch: async (statements) => {
+                const filtered = statements.filter(
+                    (sql) => !sql.includes('team_season_results'),
+                );
+                await real.batch(filtered);
+            },
+        };
+
+        await expect(
+            runImport({ dataDir: FIXTURE_DIR, executor: lossy }),
+        ).rejects.toThrow(ImportValidationError);
+        await expect(
+            runImport({ dataDir: FIXTURE_DIR, executor: lossy }),
+        ).rejects.toThrow(/row count mismatch/u);
     });
 });

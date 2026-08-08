@@ -213,8 +213,8 @@ function registerTeam(
     gradeKey: string,
     clubKey: string,
     standing: Standing,
+    squadNumber: number | null,
 ): void {
-    const squadNumber = extractSquadNumber(standing.team.name);
     const teamKey = `${gradeKey}|${clubKey}|${squadNumber ?? 'null'}`;
     if (teams.has(teamKey)) return;
     teams.set(teamKey, {
@@ -224,6 +224,61 @@ function registerTeam(
         squad_number: squadNumber,
         playhq_id: standing.team.id,
     });
+}
+
+/**
+ * Resolves squad numbers for every standing belonging to one club within one
+ * grade. Usually this is just `extractSquadNumber` per team. But some clubs
+ * field multiple teams in one grade distinguished by a non-numeric suffix
+ * (e.g. "City Coasters Purple" / "City Coasters Orange") rather than a
+ * digit - `extractSquadNumber` correctly returns `null` for both, since
+ * neither has a genuine squad number. Left as-is, both would collide on the
+ * `(grade, club, squad_number)` natural key and silently collapse into one
+ * team, losing a result row downstream.
+ *
+ * A lone unnumbered team stays `null` (a real, valid state - never
+ * fabricated). Only when two or more *distinct* PlayHQ teams collide on the
+ * same parsed squad number do we assign a deterministic, order-independent
+ * disambiguator (sorted by display name) so every distinct team keeps its
+ * own row. This is logged loudly since it's a synthetic value, not data
+ * PlayHQ actually reported.
+ */
+function resolveSquadNumbers(
+    clubStandings: readonly Standing[],
+    gradeKey: string,
+    clubKey: string,
+): Map<Standing, number | null> {
+    const bySquad = new Map<number | null, Standing[]>();
+    for (const standing of clubStandings) {
+        const parsed = extractSquadNumber(standing.team.name);
+        const group = bySquad.get(parsed) ?? [];
+        group.push(standing);
+        bySquad.set(parsed, group);
+    }
+
+    const resolved = new Map<Standing, number | null>();
+    for (const [parsed, group] of bySquad) {
+        // Distinct PlayHQ team ids sharing a parsed squad number is a
+        // genuine collision; the same team id repeated is not (defensive -
+        // shouldn't happen within one grade's standings).
+        const distinctTeamIds = new Set(group.map((s) => s.team.id));
+        if (distinctTeamIds.size <= 1) {
+            for (const standing of group) resolved.set(standing, parsed);
+            continue;
+        }
+        console.warn(
+            `squad number collision in ${gradeKey}/${clubKey}: ` +
+                `${group.map((s) => `"${s.team.name}"`).join(', ')} all parsed to squad_number=${parsed ?? 'null'}; ` +
+                'assigning synthetic disambiguating squad numbers',
+        );
+        const sorted = [...group].sort((a, b) =>
+            a.team.name.localeCompare(b.team.name),
+        );
+        sorted.forEach((standing, index) => {
+            resolved.set(standing, index + 1);
+        });
+    }
+    return resolved;
 }
 
 export function processGrade(
@@ -267,21 +322,55 @@ export function processGrade(
         status: ctx.seasonStatus,
     };
 
+    // Resolve every standing's squad number once, grouped by club, so
+    // `teams.csv` and `team_season_results.csv` always agree - including the
+    // synthetic disambiguator assigned when two teams collide on the parsed
+    // value (see `resolveSquadNumbers`).
+    const standingsByClub = new Map<string, Standing[]>();
+    for (const standing of standings) {
+        const clubKey = clubRegistry.resolve(
+            standing.team.organisation.id,
+            standing.team.organisation.name,
+        );
+        const group = standingsByClub.get(clubKey) ?? [];
+        group.push(standing);
+        standingsByClub.set(clubKey, group);
+    }
+    const squadNumberByStanding = new Map<Standing, number | null>();
+    for (const [clubKey, clubStandings] of standingsByClub) {
+        const squadNumbers = resolveSquadNumbers(
+            clubStandings,
+            gradeKey,
+            clubKey,
+        );
+        for (const standing of clubStandings) {
+            squadNumberByStanding.set(
+                standing,
+                squadNumbers.get(standing) ?? null,
+            );
+        }
+    }
+
     const results = mapStandingsToResults(
         gradeKey,
         standings,
         (organisationId, organisationName) =>
             clubRegistry.resolve(organisationId, organisationName),
         scrapedAt,
+        (standing) => squadNumberByStanding.get(standing) ?? null,
     );
 
     const teams = new Map<string, TeamRow>();
-    for (const standing of standings) {
-        const clubKey = clubRegistry.resolve(
-            standing.team.organisation.id,
-            standing.team.organisation.name,
-        );
-        registerTeam(teams, gradeKey, clubKey, standing);
+    for (const [clubKey, clubStandings] of standingsByClub) {
+        for (const standing of clubStandings) {
+            registerTeam(
+                teams,
+                gradeKey,
+                clubKey,
+                standing,
+                squadNumberByStanding.get(standing) ?? null,
+            );
+        }
     }
 
     return {

@@ -1,6 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { describe, expect, it } from 'vitest';
+import { extractSquadNumber } from '@/pipeline/fetch/keys';
 import {
     flattenStandings,
     mapStandingsToResults,
@@ -32,6 +33,7 @@ describe('mapStandingsToResults', () => {
             standings,
             (id, name) => `${name}-${id}`,
             1_000,
+            (standing) => extractSquadNumber(standing.team.name),
         );
         expect(rows.map((r) => r.ladder_position)).toEqual([
             1, 2, 3, 4, 5, 6, 7, 8,
@@ -45,6 +47,7 @@ describe('mapStandingsToResults', () => {
             standings,
             (id, name) => `${name}-${id}`,
             1_000,
+            (standing) => extractSquadNumber(standing.team.name),
         );
         const contax = rows[0];
         if (contax === undefined) throw new Error('missing row');
@@ -61,6 +64,7 @@ describe('mapStandingsToResults', () => {
             standings,
             (id, name) => `${name}-${id}`,
             1_000,
+            (standing) => extractSquadNumber(standing.team.name),
         );
         expect(row?.shots_attempted).toBeNull();
         expect(row?.shots_scored).toBeNull();

@@ -4,7 +4,6 @@ import type { CsvValue } from '@/pipeline/csv';
  * `team_season_results` CSV rows. No network, no filesystem — fixture-tested
  * against the committed `data/raw/probe/gradeLadder_*.json` captures.
  */
-import { extractSquadNumber } from '@/pipeline/fetch/keys';
 
 export type Standing = {
     team: {
@@ -65,7 +64,12 @@ export type TeamSeasonResultRow = Record<string, CsvValue> & {
 /**
  * Maps a grade's flattened standings to result rows. `resolveClubKey` is
  * injected so club-identity assignment (stateful, curated) stays out of this
- * pure module.
+ * pure module. `resolveSquadNumber` is injected too, so results and
+ * `teams.csv` always agree on a team's squad number — including the
+ * synthetic disambiguator assigned when two teams collide on the parsed
+ * value (see `resolveSquadNumbers` in `run.ts`). Computing it independently
+ * here previously caused `team_season_results.csv` to disagree with
+ * `teams.csv` and re-collide on the natural key at import time.
  */
 export function mapStandingsToResults(
     gradeKey: string,
@@ -75,6 +79,7 @@ export function mapStandingsToResults(
         organisationName: string,
     ) => string,
     scrapedAt: number,
+    resolveSquadNumber: (standing: Standing) => number | null,
 ): TeamSeasonResultRow[] {
     return standings.map((standing, index) => ({
         grade_key: gradeKey,
@@ -82,7 +87,7 @@ export function mapStandingsToResults(
             standing.team.organisation.id,
             standing.team.organisation.name,
         ),
-        squad_number: extractSquadNumber(standing.team.name),
+        squad_number: resolveSquadNumber(standing),
         display_name: standing.team.name,
         ladder_position: index + 1,
         position_uncertain: 0,

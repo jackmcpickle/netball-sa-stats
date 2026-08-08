@@ -165,6 +165,32 @@ export function validateGrades(
     });
 }
 
+/**
+ * The team natural key is `(grade_key, club_key, squad_number)`. Two rows
+ * colliding on it would silently upsert into one team, dropping a result row
+ * downstream (this is exactly how the fetch stage lost 153/1600 rows before
+ * the squad-number parsing fix) — so it's a hard failure here, never a
+ * silent last-write-wins, naming the file, the key and every colliding row.
+ */
+function checkTeamNaturalKeyCollisions(rows: readonly TeamImportRow[]): void {
+    // Maps natural key -> first 1-based line it appeared on.
+    const seen = new Map<string, number>();
+    rows.forEach((row, index) => {
+        const key = `${row.gradeKey}|${row.clubKey}|${row.squadNumber ?? 'null'}`;
+        const firstLine = seen.get(key);
+        if (firstLine !== undefined) {
+            throw new ImportValidationError(
+                'teams.csv',
+                line(index),
+                `duplicate natural key (grade_key=${row.gradeKey}, club_key=${row.clubKey}, squad_number=${row.squadNumber ?? 'null'}) — ` +
+                    `also present at line ${firstLine} (display_name="${row.displayName}")`,
+                { key, firstLine, line: line(index) },
+            );
+        }
+        seen.set(key, line(index));
+    });
+}
+
 export function validateTeams(
     rows: readonly TeamImportRow[],
     clubKeys: ReadonlySet<string>,
@@ -201,6 +227,7 @@ export function validateTeams(
             );
         }
     });
+    checkTeamNaturalKeyCollisions(rows);
 }
 
 /**
@@ -312,6 +339,26 @@ export function validateResults(
                 gradeKey,
             );
         }
+        // Same natural-key collision hazard as teams.csv: two result rows
+        // resolving to the same (grade, club, squad_number) team would
+        // upsert into one team_season_results row and silently drop the
+        // other.
+        const seenTeamKeys = new Map<string, number>();
+        gradeRows.forEach((row) => {
+            const rowIndex = rows.indexOf(row);
+            const key = `${row.clubKey}|${row.squadNumber ?? 'null'}`;
+            const firstLine = seenTeamKeys.get(key);
+            if (firstLine !== undefined) {
+                throw new ImportValidationError(
+                    'team_season_results.csv',
+                    line(rowIndex),
+                    `duplicate natural key (grade_key=${gradeKey}, club_key=${row.clubKey}, squad_number=${row.squadNumber ?? 'null'}) — ` +
+                        `also present at line ${firstLine} (display_name="${row.displayName}")`,
+                    { key, firstLine, line: line(rowIndex) },
+                );
+            }
+            seenTeamKeys.set(key, line(rowIndex));
+        });
         const grade = gradesByKey.get(gradeKey);
         if (grade !== undefined && grade.teamCount !== gradeRows.length) {
             throw new ImportValidationError(

@@ -206,6 +206,49 @@ describe('validateTeams', () => {
             );
         }).toThrow(ImportValidationError);
     });
+
+    it('fails when two rows collide on (grade_key, club_key, squad_number) — never last-write-wins', () => {
+        // Regression fixture for the fetch-stage bug: two distinct teams from
+        // one club in one grade (e.g. "Walkerville 1" and "Walkerville 2")
+        // must never collapse into a single team row.
+        const walkerville1: TeamImportRow = {
+            ...goodTeam,
+            displayName: 'Walkerville 1',
+            squadNumber: null,
+        };
+        const walkerville2: TeamImportRow = {
+            ...goodTeam,
+            displayName: 'Walkerville 2',
+            squadNumber: null,
+        };
+        expect(() => {
+            validateTeams(
+                [walkerville1, walkerville2],
+                new Set([goodClub.clubKey]),
+                new Set([goodGrade.gradeKey]),
+            );
+        }).toThrow(ImportValidationError);
+    });
+
+    it('passes two teams of one club in one grade when squad numbers genuinely differ', () => {
+        const walkerville1: TeamImportRow = {
+            ...goodTeam,
+            displayName: 'Walkerville 1',
+            squadNumber: 1,
+        };
+        const walkerville2: TeamImportRow = {
+            ...goodTeam,
+            displayName: 'Walkerville 2',
+            squadNumber: 2,
+        };
+        expect(() => {
+            validateTeams(
+                [walkerville1, walkerville2],
+                new Set([goodClub.clubKey]),
+                new Set([goodGrade.gradeKey]),
+            );
+        }).not.toThrow();
+    });
 });
 
 describe('validateResults', () => {
@@ -214,8 +257,12 @@ describe('validateResults', () => {
 
     it('passes ladder positions that are exactly 1..n', () => {
         const rows = [
-            resultRow({ ladderPosition: 1 }),
-            resultRow({ ladderPosition: 2, clubKey: 'fixture-club-a' }),
+            resultRow({ ladderPosition: 1, squadNumber: 1 }),
+            resultRow({
+                ladderPosition: 2,
+                clubKey: 'fixture-club-a',
+                squadNumber: 2,
+            }),
         ];
         expect(() => {
             validateResults(rows, clubKeys, gradesByKey);
@@ -257,8 +304,12 @@ describe('validateResults', () => {
             won: 1,
             drawn: 0,
             lost: 1,
+            squadNumber: 1,
         });
-        const rows = [mismatched, resultRow({ ladderPosition: 2 })];
+        const rows = [
+            mismatched,
+            resultRow({ ladderPosition: 2, squadNumber: 2 }),
+        ];
 
         const warnings = validateResults(rows, clubKeys, gradesByKey);
 
@@ -323,11 +374,12 @@ describe('validateImportData', () => {
             resultRow({
                 gradeKey: prevGrade.gradeKey,
                 ladderPosition: i + 1,
+                squadNumber: i + 1,
             }),
         );
         const currResults = [
-            resultRow({ ladderPosition: 1 }),
-            resultRow({ ladderPosition: 2 }),
+            resultRow({ ladderPosition: 1, squadNumber: 1 }),
+            resultRow({ ladderPosition: 2, squadNumber: 2 }),
         ];
 
         const { teamCountWarnings, playedMismatchWarnings } =

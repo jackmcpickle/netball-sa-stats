@@ -85,6 +85,40 @@ async function loadCompetitionKeys(
     return new Set(competitions.map((row) => String(row.key)));
 }
 
+/**
+ * Final safety net: after every batch has been applied, count rows actually
+ * in D1 per table and compare against the rows read from CSV. A CSV/D1
+ * divergence here means some rows were dropped (or duplicated) somewhere in
+ * the upsert path despite passing validation — that must fail loudly, not
+ * report a row count that never happened.
+ */
+async function assertRowCountsMatch(
+    queryAll: (sql: string) => Promise<Record<string, unknown>[]>,
+    data: ImportData,
+): Promise<void> {
+    const tables: { table: string; expected: number }[] = [
+        { table: 'seasons', expected: data.seasons.length },
+        { table: 'clubs', expected: data.clubs.length },
+        { table: 'club_aliases', expected: data.clubAliases.length },
+        { table: 'grades', expected: data.grades.length },
+        { table: 'teams', expected: data.teams.length },
+        { table: 'team_season_results', expected: data.results.length },
+    ];
+    for (const { table, expected } of tables) {
+        // eslint-disable-next-line no-await-in-loop -- small fixed list, sequential is fine and keeps errors ordered
+        const rows = await queryAll(`SELECT COUNT(*) AS n FROM ${table};`);
+        const actual = Number(rows[0]?.n ?? Number.NaN);
+        if (actual !== expected) {
+            throw new ImportValidationError(
+                'database',
+                null,
+                `row count mismatch after import: ${table} has ${String(actual)} row(s) in D1 but ${String(expected)} were read from CSV`,
+                { table, actual, expected },
+            );
+        }
+    }
+}
+
 export type RunImportOptions = {
     dataDir: string;
     executor: ImportExecutor;
@@ -110,6 +144,8 @@ export async function runImport(
         // eslint-disable-next-line no-await-in-loop -- sequential by requirement
         await executor.batch(batch.statements);
     }
+
+    await assertRowCountsMatch(executor.queryAll, data);
 
     return {
         seasons: data.seasons.length,
