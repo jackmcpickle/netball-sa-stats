@@ -31,3 +31,9 @@ dist-ssr
 .env
 .env.*
 !.env.example
+
+# SDD scratch workspace
+.superpowers/
+
+# Derived CSV exports (data/*.csv and data/raw/ are committed)
+data/export/

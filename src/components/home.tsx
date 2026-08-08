@@ -4,14 +4,14 @@ import type { JSX } from 'react';
 const routeApi = getRouteApi('/');
 
 export function Home(): JSX.Element {
-    const teams = routeApi.useLoaderData();
+    const competitions = routeApi.useLoaderData();
 
     return (
         <main>
-            <h1>{'Netball Stats'}</h1>
+            <h1>{'Netball Open Data'}</h1>
             <ul>
-                {teams.map((team) => (
-                    <li key={team.id}>{team.name}</li>
+                {competitions.map((competition) => (
+                    <li key={competition.id}>{competition.name}</li>
                 ))}
             </ul>
         </main>

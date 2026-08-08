@@ -2,14 +2,16 @@ import { createFileRoute } from '@tanstack/react-router';
 import { createServerFn } from '@tanstack/react-start';
 import { Home } from '@/components/home';
 import { getDb } from '@/db';
-import { teams } from '@/db/schema';
-import type { Team } from '@/db/schema';
+import { competitions } from '@/db/schema';
+import type { Competition } from '@/db/schema';
 
-const listTeams = createServerFn({ method: 'GET' }).handler(
-    async (): Promise<Team[]> => getDb().select().from(teams).all(),
+// Placeholder until the real UI lands in phase 4.
+const listCompetitions = createServerFn({ method: 'GET' }).handler(
+    async (): Promise<Competition[]> =>
+        getDb().select().from(competitions).all(),
 );
 
 export const Route = createFileRoute('/')({
     component: Home,
-    loader: async () => listTeams(),
+    loader: async () => listCompetitions(),
 });
