@@ -1,15 +1,16 @@
 /// <reference types="vite/client" />
 import { createRootRoute, HeadContent, Scripts } from '@tanstack/react-router';
 import type { JSX, ReactNode } from 'react';
+import { RootLayout } from '@/components/root-layout';
 import appCss from '@/style.css?url';
 
 function RootDocument({ children }: { children: ReactNode }): JSX.Element {
     return (
-        <html lang="en">
+        <html lang="en-AU">
             <head>
                 <HeadContent />
             </head>
-            <body>
+            <body className="bg-paper text-ink-body">
                 {children}
                 <Scripts />
             </body>
@@ -25,9 +26,27 @@ export const Route = createRootRoute({
                 name: 'viewport',
                 content: 'width=device-width, initial-scale=1',
             },
-            { title: 'Netball Stats' },
+            { title: 'Netball Open Data — South Australian club rankings' },
+            {
+                name: 'description',
+                content:
+                    'Ladder finishes across every grade and season, weighted by grade and added up into a single club championship score for South Australian netball.',
+            },
         ],
-        links: [{ rel: 'stylesheet', href: appCss }],
+        links: [
+            { rel: 'stylesheet', href: appCss },
+            { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
+            {
+                rel: 'preconnect',
+                href: 'https://fonts.gstatic.com',
+                crossOrigin: 'anonymous',
+            },
+            {
+                rel: 'stylesheet',
+                href: 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap',
+            },
+        ],
     }),
     shellComponent: RootDocument,
+    component: RootLayout,
 });
