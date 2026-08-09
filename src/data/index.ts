@@ -63,6 +63,24 @@ export async function getChampionshipSeason(
     return history.find((season) => season.year === year) ?? null;
 }
 
+/**
+ * Latest year each club held a championship rank. Drives the "last ranked 2016"
+ * line on past-club cards, which answers the question a bare dash provokes.
+ */
+export async function lastRankedYears(): Promise<ReadonlyMap<string, number>> {
+    const history = await fetchChampionshipHistory(getDb());
+    const latest = new Map<string, number>();
+    for (const season of history) {
+        for (const row of season.rows) {
+            const seen = latest.get(row.club.key);
+            if (seen === undefined || season.year > seen) {
+                latest.set(row.club.key, season.year);
+            }
+        }
+    }
+    return latest;
+}
+
 function seriesPoints(
     history: readonly ChampionshipSeason[],
     key: string,
