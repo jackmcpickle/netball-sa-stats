@@ -4,16 +4,23 @@ import { z } from 'zod';
 import { LaddersPage } from '@/components/ladders/ladders-page';
 import { getCoverage, getLadderFor, listGrades } from '@/data';
 import type { GradeSummary, Ladder } from '@/data/types';
+import type { TableState } from '@/db/queries/pagination';
 import { parseOptionalIntParam } from '@/routes/-search-params';
+import { tableSearchDeps, tableSearchSchema } from '@/routes/-table-params';
 
 export interface LaddersData {
     readonly years: readonly number[];
     readonly year: number;
     readonly grades: readonly GradeSummary[];
-    readonly ladder: Ladder | null;
+    readonly ladder:
+        | (Ladder & {
+              readonly totalRows: number;
+              readonly tableState: TableState;
+          })
+        | null;
 }
 
-const searchSchema = z.object({
+const searchSchema = tableSearchSchema.extend({
     year: z.preprocess(parseOptionalIntParam, z.number().int().optional()),
     grade: z.string().optional(),
 });
@@ -23,6 +30,10 @@ const loadLadders = createServerFn({ method: 'GET' })
         z.object({
             year: z.number().int().optional(),
             grade: z.string().optional(),
+            sort: z.string().optional(),
+            dir: z.enum(['asc', 'desc']).optional(),
+            page: z.number().int().optional(),
+            pageSize: z.number().int().optional(),
         }),
     )
     .handler(async ({ data }): Promise<LaddersData> => {
@@ -42,14 +53,24 @@ const loadLadders = createServerFn({ method: 'GET' })
             year,
             grades,
             ladder:
-                gradeKey === undefined ? null : await getLadderFor(gradeKey),
+                gradeKey === undefined
+                    ? null
+                    : await getLadderFor(gradeKey, {
+                          sort: data.sort,
+                          dir: data.dir,
+                          page: data.page,
+                          pageSize: data.pageSize,
+                      }),
         };
     });
 
 export const Route = createFileRoute('/ladders')({
     validateSearch: searchSchema,
-    loaderDeps: ({ search }) => ({ year: search.year, grade: search.grade }),
-    loader: async ({ deps }) =>
-        loadLadders({ data: { year: deps.year, grade: deps.grade } }),
+    loaderDeps: ({ search }) => ({
+        year: search.year,
+        grade: search.grade,
+        ...tableSearchDeps(search),
+    }),
+    loader: async ({ deps }) => loadLadders({ data: deps }),
     component: LaddersPage,
 });

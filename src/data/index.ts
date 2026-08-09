@@ -28,10 +28,19 @@ import {
     fetchChampionshipHistory,
     sortChampionshipRows,
 } from '@/db/queries/championship';
-import { fetchClubProfile } from '@/db/queries/club-profile';
+import {
+    CLUB_RESULTS_TABLE_SPEC,
+    fetchClubProfile,
+    sortClubResults,
+} from '@/db/queries/club-profile';
 import { fetchClubs } from '@/db/queries/clubs';
 import { buildCoverage, fetchSeasons } from '@/db/queries/coverage';
-import { fetchGrades, fetchLadder } from '@/db/queries/grades';
+import {
+    fetchGrades,
+    fetchLadder,
+    LADDER_TABLE_SPEC,
+    sortLadderRows,
+} from '@/db/queries/grades';
 import {
     offsetFor,
     resolveTableState,
@@ -161,12 +170,52 @@ export async function championshipSize(): Promise<number> {
 
 export async function getClubProfile(
     clubKey: string,
-): Promise<ClubProfile | null> {
-    return fetchClubProfile(getDb(), clubKey);
+    state?: RawTableState,
+): Promise<
+    | (ClubProfile & {
+          readonly totalRows: number;
+          readonly tableState: TableState;
+      })
+    | null
+> {
+    const profile = await fetchClubProfile(getDb(), clubKey);
+    if (!profile) {
+        return null;
+    }
+    const tableState = resolveTableState(state ?? {}, CLUB_RESULTS_TABLE_SPEC);
+    const sorted = sortClubResults(profile.results, tableState);
+    const offset = offsetFor(tableState);
+    return {
+        ...profile,
+        results: sorted.slice(offset, offset + tableState.pageSize),
+        totalRows: profile.results.length,
+        tableState,
+    };
 }
 
-export async function getLadderFor(gradeKey: string): Promise<Ladder | null> {
-    return fetchLadder(getDb(), gradeKey);
+export async function getLadderFor(
+    gradeKey: string,
+    state?: RawTableState,
+): Promise<
+    | (Ladder & {
+          readonly totalRows: number;
+          readonly tableState: TableState;
+      })
+    | null
+> {
+    const ladder = await fetchLadder(getDb(), gradeKey);
+    if (!ladder) {
+        return null;
+    }
+    const tableState = resolveTableState(state ?? {}, LADDER_TABLE_SPEC);
+    const sorted = sortLadderRows(ladder.rows, tableState);
+    const offset = offsetFor(tableState);
+    return {
+        ...ladder,
+        rows: sorted.slice(offset, offset + tableState.pageSize),
+        totalRows: ladder.rows.length,
+        tableState,
+    };
 }
 
 export async function listGradeWeights(): Promise<readonly GradeWeightRow[]> {

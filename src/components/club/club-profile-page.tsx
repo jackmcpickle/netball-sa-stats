@@ -9,18 +9,45 @@ import { ClubResultsTable } from '@/components/club/club-results-table';
 import { formatNumber, formatPercent, NO_VALUE } from '@/components/format';
 import { PageShell, Panel, StatFigure } from '@/components/ui/layout';
 import { FieldSelect } from '@/components/ui/select';
+import type { TableState } from '@/db/queries/pagination';
 
 const routeApi = getRouteApi('/clubs/$clubKey');
+
+function nextTableSearch(
+    next: TableState,
+): (previous: Record<string, unknown>) => Record<string, unknown> {
+    return (previous) => ({
+        ...previous,
+        sort: next.sort,
+        dir: next.desc ? 'desc' : 'asc',
+        page: next.page,
+        pageSize: next.pageSize,
+    });
+}
 
 export function ClubProfilePage(): JSX.Element {
     const { profile, clubs } = routeApi.useLoaderData();
     const navigate = useNavigate();
+    const tableNavigate = routeApi.useNavigate();
 
     const onClubChange = useCallback(
         (clubKey: string) => {
+            // Full replace with no search: switching clubs resets sort and
+            // page, since page 3 of the previous club's results is not a
+            // meaningful destination.
             void navigate({ to: '/clubs/$clubKey', params: { clubKey } });
         },
         [navigate],
+    );
+
+    const onTableChange = useCallback(
+        (next: TableState) => {
+            void tableNavigate({
+                search: nextTableSearch(next),
+                resetScroll: false,
+            });
+        },
+        [tableNavigate],
     );
 
     const clubOptions = useMemo(
@@ -183,6 +210,9 @@ export function ClubProfilePage(): JSX.Element {
                 <ClubResultsTable
                     clubName={profile.club.name}
                     results={profile.results}
+                    totalRows={profile.totalRows}
+                    state={profile.tableState}
+                    onChange={onTableChange}
                 />
             ) : (
                 <Panel className="p-8">

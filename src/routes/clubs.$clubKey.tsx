@@ -6,16 +6,34 @@ import { ClubProfilePage } from '@/components/club/club-profile-page';
 import { PageShell } from '@/components/ui/layout';
 import { getClubProfile, listClubs } from '@/data';
 import type { Club, ClubProfile } from '@/data/types';
+import type { TableState } from '@/db/queries/pagination';
+import { tableSearchSchema } from '@/routes/-table-params';
 
 export interface ClubProfileData {
-    readonly profile: ClubProfile;
+    readonly profile: ClubProfile & {
+        readonly totalRows: number;
+        readonly tableState: TableState;
+    };
     readonly clubs: readonly Club[];
 }
 
 const loadClub = createServerFn({ method: 'GET' })
-    .validator(z.object({ clubKey: z.string() }))
+    .validator(
+        z.object({
+            clubKey: z.string(),
+            sort: z.string().optional(),
+            dir: z.enum(['asc', 'desc']).optional(),
+            page: z.number().int().optional(),
+            pageSize: z.number().int().optional(),
+        }),
+    )
     .handler(async ({ data }): Promise<ClubProfileData | null> => {
-        const profile = await getClubProfile(data.clubKey);
+        const profile = await getClubProfile(data.clubKey, {
+            sort: data.sort,
+            dir: data.dir,
+            page: data.page,
+            pageSize: data.pageSize,
+        });
         return profile ? { profile, clubs: await listClubs() } : null;
     });
 
@@ -33,8 +51,17 @@ function ClubNotFound(): JSX.Element {
 }
 
 export const Route = createFileRoute('/clubs/$clubKey')({
-    loader: async ({ params }) => {
-        const data = await loadClub({ data: { clubKey: params.clubKey } });
+    validateSearch: tableSearchSchema,
+    loaderDeps: ({ search }) => ({
+        sort: search.sort,
+        dir: search.dir,
+        page: search.page,
+        pageSize: search.pageSize,
+    }),
+    loader: async ({ params, deps }) => {
+        const data = await loadClub({
+            data: { clubKey: params.clubKey, ...deps },
+        });
         if (!data) {
             throw notFound();
         }
