@@ -1,3 +1,5 @@
+import { readFileSync, readdirSync } from 'node:fs';
+import { resolve } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import {
     COMPETITION_SEEDS,
@@ -74,5 +76,51 @@ describe('grade weights', () => {
         for (const weight of weights) {
             expect(weight.weight).toBe(Math.round(weight.weight * 1000) / 1000);
         }
+    });
+});
+
+describe('migration drift guard', () => {
+    // Wrangler tracks applied migrations by filename, not content. Editing an
+    // already-applied migration (e.g. 0001_seed.sql) to add a band never
+    // re-runs anywhere, so remote silently diverges from the catalogue. This
+    // reads every drizzle/*.sql migration, extracts the (tier, division)
+    // pairs any of them ever insert into grade_weights, and checks that set
+    // against the catalogue. A band added to catalogue.ts without a
+    // corresponding migration (new file, not an edit to an old one) fails
+    // here.
+    const drizzleDir = resolve(import.meta.dirname, '../../../drizzle');
+    const insertedGradeKeys = new Set<string>();
+
+    for (const file of readdirSync(drizzleDir)) {
+        if (!file.endsWith('.sql')) continue;
+        const sql = readFileSync(resolve(drizzleDir, file), 'utf8');
+        const inserts = sql.matchAll(
+            /INSERT INTO grade_weights[\s\S]*?SELECT id, (\d+), (\d+|NULL),/gu,
+        );
+        for (const [, tier, division] of inserts) {
+            insertedGradeKeys.add(
+                `${tier}:${division === 'NULL' ? '-' : division}`,
+            );
+        }
+    }
+
+    const catalogueGradeKeys = new Set(
+        buildGradeWeights().map((w) => `${w.tier}:${w.division ?? '-'}`),
+    );
+
+    it('has a migration inserting every catalogue grade weight', () => {
+        for (const key of catalogueGradeKeys) {
+            expect(insertedGradeKeys.has(key)).toBe(true);
+        }
+    });
+
+    it('has no migration inserting a grade weight absent from the catalogue', () => {
+        for (const key of insertedGradeKeys) {
+            expect(catalogueGradeKeys.has(key)).toBe(true);
+        }
+    });
+
+    it('inserts as many distinct grade weights across migrations as the catalogue defines', () => {
+        expect(insertedGradeKeys.size).toBe(catalogueGradeKeys.size);
     });
 });
