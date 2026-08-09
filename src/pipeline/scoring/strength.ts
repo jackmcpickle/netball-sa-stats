@@ -23,8 +23,8 @@ export function normalisedFinish(
     teamCount: number,
 ): number | null {
     if (teamCount <= 1) return null;
-    const value = (teamCount - ladderPosition) / (teamCount - 1);
-    return Math.min(1, Math.max(0, value));
+    if (ladderPosition < 1 || ladderPosition > teamCount) return null;
+    return (teamCount - ladderPosition) / (teamCount - 1);
 }
 
 /** Null when no row is measurable, so callers render a dash rather than 0. */

@@ -22,6 +22,20 @@ describe('normalisedFinish', () => {
     it('returns null for a one-team grade rather than dividing by zero', () => {
         expect(normalisedFinish(1, 1)).toBeNull();
     });
+
+    it('returns null when ladderPosition exceeds teamCount', () => {
+        expect(normalisedFinish(11, 10)).toBeNull();
+    });
+
+    it('returns null when ladderPosition is zero or negative', () => {
+        expect(normalisedFinish(0, 10)).toBeNull();
+        expect(normalisedFinish(-1, 10)).toBeNull();
+    });
+
+    it('still scores the valid boundaries correctly', () => {
+        expect(normalisedFinish(10, 10)).toBe(0);
+        expect(normalisedFinish(1, 10)).toBe(1);
+    });
 });
 
 describe('meanStrength', () => {
@@ -46,6 +60,15 @@ describe('meanStrength', () => {
     it('returns null when nothing is measurable', () => {
         expect(meanStrength([])).toBeNull();
         expect(meanStrength([{ ladderPosition: 1, teamCount: 1 }])).toBeNull();
+    });
+
+    it('skips an out-of-range row rather than counting it', () => {
+        expect(
+            meanStrength([
+                { ladderPosition: 1, teamCount: 5 },
+                { ladderPosition: 11, teamCount: 5 },
+            ]),
+        ).toBe(1);
     });
 
     it('rises when a club sheds its weakest teams', () => {
