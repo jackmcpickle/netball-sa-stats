@@ -30,6 +30,18 @@ function formatStrength(strength: number | null): string {
     return strength === null ? NO_VALUE : strength.toFixed(3);
 }
 
+/**
+ * Mean of a window of measured seasons. Comparing single endpoints lets one
+ * fluke season (a debut last place, say) read as a dramatic swing, so both
+ * ends of the trend are averaged over up to three seasons instead. Bands
+ * with fewer than six measured seasons let the windows overlap — still more
+ * robust than a two-point comparison.
+ */
+function windowMean(points: readonly ClubTrendPoint[]): number {
+    const total = points.reduce((sum, point) => sum + (point.strength ?? 0), 0);
+    return total / points.length;
+}
+
 export interface BandSummary {
     readonly tier: number;
     readonly label: string;
@@ -53,6 +65,9 @@ export function bandSummaries(
         const latest = measured.at(-1);
         const first = measured[0];
         if (!latest || !first) return [];
+        const windowSize = Math.min(3, measured.length - 1);
+        const startWindow = measured.slice(0, windowSize);
+        const endWindow = measured.slice(measured.length - windowSize);
         return [
             {
                 tier: band.tier,
@@ -64,7 +79,7 @@ export function bandSummaries(
                 change:
                     measured.length > 1
                         ? round(
-                              (latest.strength ?? 0) - (first.strength ?? 0),
+                              windowMean(endWindow) - windowMean(startWindow),
                               3,
                           )
                         : null,
@@ -179,7 +194,7 @@ export function BandTrendGrid({
                             {`${clubName} in ${band.label}: strength ${formatStrength(band.latest.strength)} in ${String(band.latest.year)} from ${String(band.latest.teams)} ${band.latest.teams === 1 ? 'team' : 'teams'}. ${
                                 band.change === null
                                     ? 'One measured season.'
-                                    : `${band.change > 0 ? 'Up' : band.change < 0 ? 'Down' : 'Level'} ${Math.abs(band.change).toFixed(3)} since ${String(band.first.year)}, across ${String(band.measured.length)} measured seasons.`
+                                    : `${band.change > 0 ? 'Up' : band.change < 0 ? 'Down' : 'Level'} ${Math.abs(band.change).toFixed(3)} on its first three measured seasons, across ${String(band.measured.length)} measured seasons.`
                             }`}
                         </p>
                     </li>

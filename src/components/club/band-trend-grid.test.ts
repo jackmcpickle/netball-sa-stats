@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { round } from '@/components/charts/scale';
 import { bandSummaries } from '@/components/club/band-trend-grid';
 
 describe('bandSummaries', () => {
@@ -33,7 +34,7 @@ describe('bandSummaries', () => {
         expect(band?.latest.year).toBe(2001);
     });
 
-    it('measures change from the first to the latest measured season', () => {
+    it('measures change from the first to the latest measured season when only two seasons are measured', () => {
         const [band] = bandSummaries([
             {
                 tier: 10,
@@ -47,6 +48,52 @@ describe('bandSummaries', () => {
         ]);
         expect(band?.change).toBe(0.25);
         expect(band?.first.year).toBe(2000);
+    });
+
+    it('averages the first three and last three measured seasons rather than comparing endpoints', () => {
+        // Endpoint comparison would read latest (0.1) - first (0) = 0.1.
+        // Averaging the first three (0, 0.5, 0.5 -> mean 1/3) against the
+        // last three (0.5, 0.5, 0.1 -> mean 1.1/3) gives ~0.033, a
+        // clearly different, smaller rise.
+        const [band] = bandSummaries([
+            {
+                tier: 1,
+                label: 'A Grade',
+                points: [
+                    { year: 2000, strength: 0, teams: 1 },
+                    { year: 2001, strength: 0.5, teams: 1 },
+                    { year: 2002, strength: 0.5, teams: 1 },
+                    { year: 2003, strength: 0.5, teams: 1 },
+                    { year: 2004, strength: 0.5, teams: 1 },
+                    { year: 2005, strength: 0.5, teams: 1 },
+                    { year: 2006, strength: 0.1, teams: 1 },
+                ],
+            },
+        ]);
+        expect(band?.measured).toHaveLength(7);
+        expect(band?.change).toBe(
+            round((0.5 + 0.5 + 0.1) / 3 - (0 + 0.5 + 0.5) / 3, 3),
+        );
+        expect(band?.change).not.toBe(round(0.1 - 0, 3));
+    });
+
+    it('uses fewer than three seasons per window when fewer than six seasons are measured', () => {
+        const [band] = bandSummaries([
+            {
+                tier: 2,
+                label: 'B Grade',
+                points: [
+                    { year: 2000, strength: 0, teams: 1 },
+                    { year: 2001, strength: 0.2, teams: 1 },
+                    { year: 2002, strength: 0.4, teams: 1 },
+                    { year: 2003, strength: 0.9, teams: 1 },
+                ],
+            },
+        ]);
+        // 4 measured seasons -> window of 3, overlapping at 2002.
+        // start mean (0, 0.2, 0.4) = 0.2; end mean (0.2, 0.4, 0.9) = 0.5
+        expect(band?.measured).toHaveLength(4);
+        expect(band?.change).toBe(round(0.5 - 0.2, 3));
     });
 
     it('preserves the upstream tier order', () => {
