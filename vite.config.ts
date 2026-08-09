@@ -253,6 +253,11 @@ export default defineConfig({
                 functions: 0,
                 lines: 0,
                 statements: 0,
+                'src/server/**': {
+                    statements: 90,
+                    functions: 85,
+                    branches: 80,
+                },
             },
         },
     },
