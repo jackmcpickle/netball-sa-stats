@@ -24,10 +24,7 @@ import type {
  * stale silently. It is in the history if the shapes are ever wanted again.
  */
 import type { Db } from '@/db';
-import {
-    CHAMPIONSHIP_TABLE_SPEC,
-    fetchChampionshipHistory,
-} from '@/db/queries/championship';
+import { CHAMPIONSHIP_TABLE_SPEC } from '@/db/queries/championship';
 import {
     CLUB_RESULTS_TABLE_SPEC,
     fetchClubProfile,
@@ -46,6 +43,7 @@ import { sortClubResults } from '@/server/domain/club-history';
 import { Coverage as CoverageDomain } from '@/server/domain/coverage';
 import { Ladder as LadderDomain } from '@/server/domain/ladder';
 import { TableQuery } from '@/server/domain/table-query';
+import { fetchChampionshipHistory } from '@/server/repos/championship.repo';
 
 /** The site now ships the real import rather than generated rows. */
 export const IS_SAMPLE_DATA = false;
