@@ -30,7 +30,7 @@ export function CoverageNote({
     return (
         <section
             aria-labelledby="coverage-heading"
-            className="rounded-card border border-rule bg-paper-raised p-6 sm:p-8"
+            className="rounded-card border border-rule bg-paper-raised p-5 sm:p-8"
         >
             <h2
                 id="coverage-heading"

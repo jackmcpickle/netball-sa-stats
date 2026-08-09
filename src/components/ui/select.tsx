@@ -83,7 +83,7 @@ export function FieldSelect<Value extends string | number>({
             items={options}
             onValueChange={handleChange}
         >
-            <span className="flex max-w-full min-w-0 items-center gap-3">
+            <span className="flex w-full max-w-full min-w-0 items-center gap-3 sm:w-auto">
                 <span className="shrink-0 text-[13px] text-ink-muted">
                     {label}
                 </span>

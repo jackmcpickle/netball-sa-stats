@@ -108,7 +108,11 @@ export function MethodPage(): JSX.Element {
                         {'Grade weights'}
                     </h2>
                     <TableFrame>
-                        <Table caption="Championship weight applied to each grade">
+                        <Table
+                            layout="compact"
+                            caption="Championship weight applied to each grade"
+                        >
+                            {' '}
                             <thead>
                                 <tr>
                                     <Th>{'GRADE'}</Th>

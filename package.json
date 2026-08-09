@@ -12,6 +12,7 @@
         "db:generate": "drizzle-kit generate",
         "db:migrate:local": "wrangler d1 migrations apply netball-stats --local",
         "db:migrate:remote": "wrangler d1 migrations apply netball-stats --remote",
+        "test:e2e": "playwright test",
         "prepare": "vp config"
     },
     "dependencies": {
@@ -29,6 +30,7 @@
     },
     "devDependencies": {
         "@cloudflare/vite-plugin": "^1.51.0",
+        "@playwright/test": "^1.62.1",
         "@types/node": "^26.1.2",
         "@types/react": "^19.2.18",
         "@types/react-dom": "^19.2.4",

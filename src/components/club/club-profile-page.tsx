@@ -34,7 +34,7 @@ export function ClubProfilePage(): JSX.Element {
 
     return (
         <PageShell className="py-12 pb-24 sm:py-16">
-            <div className="mb-6 flex flex-wrap items-center gap-4">
+            <div className="mb-6 flex flex-col gap-4">
                 <FieldSelect
                     label="Club"
                     wide
@@ -49,9 +49,9 @@ export function ClubProfilePage(): JSX.Element {
                 </span>
             </div>
 
-            <div className="mb-6 grid gap-6 lg:grid-cols-[7fr_5fr]">
+            <div className="mb-6 grid gap-4 sm:gap-6 lg:grid-cols-[7fr_5fr]">
                 <div
-                    className={`flex min-h-[220px] flex-col justify-between rounded-panel p-8 ${accentBg(profile.club.accent)}`}
+                    className={`flex min-h-[200px] flex-col justify-between rounded-panel p-6 sm:min-h-[220px] sm:p-8 ${accentBg(profile.club.accent)}`}
                 >
                     <p className={`label-mono ${heroSoft}`}>
                         {profile.club.establishedYear === null &&
@@ -68,7 +68,7 @@ export function ClubProfilePage(): JSX.Element {
                     </p>
                     <div>
                         <h1
-                            className={`text-4xl leading-none font-medium tracking-[-0.09rem] text-balance sm:text-5xl lg:text-[3.5rem] lg:tracking-[-0.125rem] ${heroText}`}
+                            className={`text-3xl leading-none font-medium tracking-[-0.07rem] text-balance sm:text-5xl sm:tracking-[-0.09rem] lg:text-[3.5rem] lg:tracking-[-0.125rem] ${heroText}`}
                         >
                             {profile.club.name}
                         </h1>
@@ -82,26 +82,26 @@ export function ClubProfilePage(): JSX.Element {
                     </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
-                    <div className="rounded-card bg-paper-sunken p-6">
+                <div className="grid grid-cols-2 gap-3 sm:gap-4">
+                    <div className="rounded-card bg-paper-sunken p-4 sm:p-6">
                         <StatFigure
                             value={formatNumber(profile.careerPoints, 0)}
                             caption="championship points, all seasons"
                         />
                     </div>
-                    <div className="rounded-card bg-paper-sunken p-6">
+                    <div className="rounded-card bg-paper-sunken p-4 sm:p-6">
                         <StatFigure
                             value={profile.minorPremierships}
                             caption="grade ladders topped"
                         />
                     </div>
-                    <div className="rounded-card bg-paper-sunken p-6">
+                    <div className="rounded-card bg-paper-sunken p-4 sm:p-6">
                         <StatFigure
                             value={formatPercent(profile.winPercentage)}
                             caption="win rate across all grades"
                         />
                     </div>
-                    <div className="rounded-card bg-paper-sunken p-6">
+                    <div className="rounded-card bg-paper-sunken p-4 sm:p-6">
                         <StatFigure
                             value={
                                 profile.gamesPlayed > 0
@@ -114,14 +114,14 @@ export function ClubProfilePage(): JSX.Element {
                 </div>
             </div>
 
-            <Panel className="mb-6 p-6 sm:p-8">
+            <Panel className="mb-6 p-5 sm:p-8">
                 <h2 className="text-lg font-semibold text-ink">
                     {'Club strength by season'}
                 </h2>
-                <div className="mt-6 overflow-x-auto">
+                <div className="mt-6 overflow-x-auto overscroll-x-contain [-webkit-overflow-scrolling:touch]">
                     {/* Narrow screens scroll rather than shrink the year
                         labels past legibility. */}
-                    <div className="min-w-[44rem]">
+                    <div className="min-w-[36rem] sm:min-w-[44rem]">
                         <TrendChart
                             points={profile.trend.overall}
                             title={`${profile.club.name}, all grades`}
@@ -138,7 +138,7 @@ export function ClubProfilePage(): JSX.Element {
 
             {/* Clubs with no graded finishes have no bands to break down. */}
             {profile.trend.bands.length > 0 && (
-                <Panel className="mb-6 p-6 sm:p-8">
+                <Panel className="mb-6 p-5 sm:p-8">
                     <h2 className="text-lg font-semibold text-ink">
                         {'Strength by grade band'}
                     </h2>
@@ -157,7 +157,7 @@ export function ClubProfilePage(): JSX.Element {
                 </Panel>
             )}
 
-            <Panel className="mb-6 p-6 sm:p-8">
+            <Panel className="mb-6 p-5 sm:p-8">
                 <h2 className="text-lg font-semibold text-ink">
                     {'Championship points by season'}
                 </h2>
@@ -166,7 +166,7 @@ export function ClubProfilePage(): JSX.Element {
                         'Bars take the club colour for a top-three finish. A dashed slot means the season is not ranked yet.'
                     }
                 </p>
-                <div className="mt-6 overflow-x-auto">
+                <div className="mt-6 overflow-x-auto overscroll-x-contain [-webkit-overflow-scrolling:touch]">
                     <div className="max-w-[34rem] min-w-[20rem]">
                         <PointsBarChart
                             seasons={profile.seasons}
