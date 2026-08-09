@@ -44,6 +44,40 @@ export function MethodPage(): JSX.Element {
                         }
                     </p>
 
+                    <h2 className="mt-10 mb-4 text-lg font-semibold text-ink">
+                        {'Club strength'}
+                    </h2>
+                    <p className="leading-[1.55] text-ink-body">
+                        {
+                            "A club profile also shows strength, a different number from the championship score, built to answer a different question. For one team in one grade, strength is (team_count − ladder_position) ÷ (team_count − 1): 1.00 for finishing top of the grade, 0.00 for finishing bottom. A club's strength for a season is the mean of that figure across every team it fields."
+                        }
+                    </p>
+                    <p className="mt-5 leading-[1.55] text-ink-body">
+                        {
+                            "That mean is deliberate, and it is the opposite choice to the championship score, which sums rather than averages and so rewards fielding more teams as well as finishing higher. A club that drops from eight teams to five, all finishing near the top of their grades, will show rising strength and falling championship points in the same season. Neither figure is wrong — they answer different questions, one about how well the club's teams perform, the other about how much of the competition the club occupies."
+                        }
+                    </p>
+                    <p className="mt-5 leading-[1.55] text-ink-body">
+                        {
+                            'Grades with only one team have no ladder position that means anything, so they are left out of the average rather than scored as a win or a loss.'
+                        }
+                    </p>
+                    <p className="mt-5 leading-[1.55] text-ink-body">
+                        {
+                            'Divisions within a grade are collapsed for this figure: Primary 1 and Primary 7 both count as Primary. A club that shifts a team between divisions of the same grade does not, on its own, change strength.'
+                        }
+                    </p>
+                    <p className="mt-5 leading-[1.55] text-ink-body">
+                        {
+                            'The same archive caveat that applies to the championship score applies here: pre-2022 placings come from Final Premiership Placings PDFs, and the top four may reflect finals rather than the minor-round ladder. Those placings are included, not discarded, because they are the best record that exists — and dropping them would remove exactly the results that matter most, the finals finishes clubs are remembered for.'
+                        }
+                    </p>
+                    <p className="mt-5 leading-[1.55] text-ink-body">
+                        {
+                            'Win rate and games played are only shown from 2022 onward, because archive rows carry a placement and nothing else — no played, won, lost or goals to compute a rate from.'
+                        }
+                    </p>
+
                     {isSampleData && (
                         <section
                             aria-labelledby="sample-data-heading"
