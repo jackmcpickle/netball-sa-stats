@@ -111,3 +111,85 @@
         color: var(--color-ink-muted);
     }
 }
+
+/*
+ * Chart interactivity: scroll-reveal draws, bar growth, and pointer tooltips.
+ * Charts opt in with `.chart-frame` + `data-revealed` from IntersectionObserver.
+ */
+@layer components {
+    .chart-tooltip {
+        opacity: 0;
+        visibility: hidden;
+        transition:
+            opacity 120ms ease,
+            visibility 120ms ease;
+    }
+
+    .chart-tooltip[data-visible='true'] {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .chart-frame .chart-line {
+        stroke-dasharray: 1;
+        stroke-dashoffset: 1;
+        transition: stroke-dashoffset 900ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .chart-frame .chart-dot {
+        opacity: 0;
+        transition: opacity 280ms ease 420ms;
+    }
+
+    .chart-frame .chart-bar {
+        transform: scaleY(0);
+        transform-box: fill-box;
+        transform-origin: bottom;
+        transition: transform 650ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .chart-frame .chart-bar-label {
+        opacity: 0;
+        transition: opacity 280ms ease 280ms;
+    }
+
+    .chart-frame[data-revealed='true'] .chart-line {
+        stroke-dashoffset: 0;
+    }
+
+    .chart-frame[data-revealed='true'] .chart-dot,
+    .chart-frame[data-revealed='true'] .chart-bar-label {
+        opacity: 1;
+    }
+
+    .chart-frame[data-revealed='true'] .chart-bar {
+        transform: scaleY(1);
+    }
+
+    .chart-frame .chart-dot[data-active='true'] {
+        opacity: 1;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .chart-frame .chart-line,
+        .chart-frame .chart-dot,
+        .chart-frame .chart-bar,
+        .chart-frame .chart-bar-label,
+        .chart-tooltip {
+            transition: none;
+        }
+
+        .chart-frame .chart-line {
+            stroke-dashoffset: 0;
+        }
+
+        .chart-frame .chart-dot,
+        .chart-frame .chart-bar-label {
+            opacity: 1;
+        }
+
+        .chart-frame .chart-bar {
+            transform: scaleY(1);
+        }
+    }
+}
