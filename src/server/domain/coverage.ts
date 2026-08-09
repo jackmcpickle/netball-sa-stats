@@ -4,9 +4,18 @@
  * `src/db/queries/coverage.ts`; that logic now lives here, and the query
  * module delegates to it so `buildCoverage`'s DTO shape is unaffected.
  */
-import type { SeasonRow } from '@/db/queries/coverage';
 import type { DomainError, Result } from '@/server/domain/result';
 import { err, ok } from '@/server/domain/result';
+
+export interface SeasonRow {
+    readonly seasonId: number;
+    readonly seasonKey: string;
+    readonly startYear: number;
+    readonly isFinal: boolean;
+    readonly source: string;
+    readonly competitionKey: string;
+    readonly competitionName: string;
+}
 
 export class Coverage {
     private readonly rows: readonly SeasonRow[];

@@ -1,9 +1,8 @@
 import { getLadderFor, listGrades } from '@/data';
 import type { GradeSummary, Ladder } from '@/data/types';
 import type { Db } from '@/db';
-import { fetchSeasons } from '@/db/queries/coverage';
 import type { TableState } from '@/db/queries/pagination';
-import { Coverage } from '@/server/domain/coverage';
+import { createSeasonsRepo } from '@/server/repos/seasons.repo';
 
 export interface LaddersData {
     readonly years: readonly number[];
@@ -29,7 +28,7 @@ export async function loadLaddersData(
         pageSize?: number;
     },
 ): Promise<LaddersData> {
-    const coverage = Coverage.from(await fetchSeasons(db));
+    const coverage = await createSeasonsRepo(db).coverage();
     const year = coverage.resolveYear(data.year);
     if (year === undefined) {
         return {

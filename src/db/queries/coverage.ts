@@ -1,15 +1,15 @@
-import { asc, eq } from 'drizzle-orm';
 import type {
     Competition,
     Coverage,
     CoverageChange,
     SeasonCoverage,
 } from '@/data/types';
-import type { Db } from '@/db';
 import { methodologyBreak, timelineGaps } from '@/db/queries/era-break';
-import { competitions, seasons } from '@/db/schema';
-import type { Source } from '@/db/schema';
 import { Coverage as CoverageDomain } from '@/server/domain/coverage';
+import type { SeasonRow } from '@/server/repos/seasons.repo';
+
+export type { SeasonRow } from '@/server/repos/seasons.repo';
+export { fetchSeasons } from '@/server/repos/seasons.repo';
 
 /**
  * Short forms for tight table cells. Not in the database: it is presentation,
@@ -23,32 +23,6 @@ const SHORT_NAMES: Readonly<Record<string, string>> = {
 
 export function toCompetition(key: string, name: string): Competition {
     return { key, name, shortName: SHORT_NAMES[key] ?? name };
-}
-
-export interface SeasonRow {
-    readonly seasonId: number;
-    readonly seasonKey: string;
-    readonly startYear: number;
-    readonly isFinal: boolean;
-    readonly source: Source;
-    readonly competitionKey: string;
-    readonly competitionName: string;
-}
-
-export async function fetchSeasons(db: Db): Promise<readonly SeasonRow[]> {
-    return db
-        .select({
-            seasonId: seasons.id,
-            seasonKey: seasons.seasonKey,
-            startYear: seasons.startYear,
-            isFinal: seasons.isFinal,
-            source: seasons.source,
-            competitionKey: competitions.key,
-            competitionName: competitions.name,
-        })
-        .from(seasons)
-        .innerJoin(competitions, eq(competitions.id, seasons.competitionId))
-        .orderBy(asc(seasons.startYear), asc(competitions.id));
 }
 
 /**
