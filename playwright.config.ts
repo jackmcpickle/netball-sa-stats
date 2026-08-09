@@ -2,6 +2,11 @@ import { defineConfig, devices } from '@playwright/test';
 
 const baseURL = process.env.BASE_URL ?? 'http://127.0.0.1:3000';
 
+/**
+ * Device presets for iPhone use WebKit by default. This environment only
+ * installs Chromium, so every project forces `desktop-chromium` while keeping
+ * the mobile viewport / touch / UA from the device descriptor.
+ */
 export default defineConfig({
     testDir: './e2e',
     fullyParallel: true,
@@ -13,21 +18,32 @@ export default defineConfig({
     use: {
         baseURL,
         trace: 'on-first-retry',
+        browserName: 'chromium',
     },
     projects: [
         {
             name: 'iPhone 12',
-            use: { ...devices['iPhone 12'] },
+            use: {
+                ...devices['iPhone 12'],
+                browserName: 'chromium',
+                defaultBrowserType: 'chromium',
+            },
         },
         {
             name: 'Pixel 5',
-            use: { ...devices['Pixel 5'] },
+            use: {
+                ...devices['Pixel 5'],
+                browserName: 'chromium',
+                defaultBrowserType: 'chromium',
+            },
         },
         {
             name: 'iPhone SE',
             use: {
                 ...devices['iPhone SE'],
                 viewport: { width: 375, height: 667 },
+                browserName: 'chromium',
+                defaultBrowserType: 'chromium',
             },
         },
         {
@@ -37,6 +53,8 @@ export default defineConfig({
                 viewport: { width: 320, height: 568 },
                 isMobile: true,
                 hasTouch: true,
+                browserName: 'chromium',
+                defaultBrowserType: 'chromium',
             },
         },
     ],
