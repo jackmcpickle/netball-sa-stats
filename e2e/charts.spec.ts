@@ -25,13 +25,6 @@ async function hoverChartPoint(
 }
 
 test.describe('chart interactivity', () => {
-    test.beforeEach(({}, testInfo) => {
-        test.skip(
-            testInfo.project.name !== 'desktop-chromium',
-            'Pointer tooltips are validated on the desktop project',
-        );
-    });
-
     test('rank movement chart reveals on scroll and shows a tooltip', async ({
         page,
     }) => {

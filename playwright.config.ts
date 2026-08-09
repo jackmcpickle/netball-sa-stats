@@ -23,6 +23,7 @@ export default defineConfig({
     projects: [
         {
             name: 'desktop-chromium',
+            testMatch: '**/charts.spec.ts',
             use: {
                 ...devices['Desktop Chrome'],
                 browserName: 'chromium',
@@ -32,6 +33,7 @@ export default defineConfig({
         },
         {
             name: 'iPhone 12',
+            testIgnore: '**/charts.spec.ts',
             use: {
                 ...devices['iPhone 12'],
                 browserName: 'chromium',
@@ -40,6 +42,7 @@ export default defineConfig({
         },
         {
             name: 'Pixel 5',
+            testIgnore: '**/charts.spec.ts',
             use: {
                 ...devices['Pixel 5'],
                 browserName: 'chromium',
@@ -48,6 +51,7 @@ export default defineConfig({
         },
         {
             name: 'iPhone SE',
+            testIgnore: '**/charts.spec.ts',
             use: {
                 ...devices['iPhone SE'],
                 viewport: { width: 375, height: 667 },
@@ -57,6 +61,7 @@ export default defineConfig({
         },
         {
             name: 'narrow-320',
+            testIgnore: '**/charts.spec.ts',
             use: {
                 ...devices['iPhone SE'],
                 viewport: { width: 320, height: 568 },
