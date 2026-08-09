@@ -1,8 +1,18 @@
 import { describe, expect, it } from 'vitest';
-import { loadClubProfileData } from '@/server/loaders/club-profile';
+import { createServices } from '@/server/container';
+import type { DomainError, Result } from '@/server/domain/result';
 import type { SeedSpec } from '@/server/testing/fixtures';
 import { seed } from '@/server/testing/fixtures';
 import { createTestDb } from '@/server/testing/harness';
+
+function unwrap<T>(result: Result<T, DomainError>): T {
+    if (!result.ok) {
+        throw new Error(
+            `expected ok result, got error: ${JSON.stringify(result.error)}`,
+        );
+    }
+    return result.value;
+}
 
 /**
  * One competition ('amnd') with two FINAL seasons (2024, 2025), each a
@@ -83,40 +93,50 @@ function baseSpec(): SeedSpec {
     };
 }
 
-describe('loadClubProfileData', () => {
-    it('returns null for an unknown club key', async () => {
+describe('club profile service', () => {
+    it('returns a not-found error for an unknown club key', async () => {
         const db = createTestDb();
         await seed(db, baseSpec());
 
-        const result = await loadClubProfileData(db, { clubKey: 'nobody' });
+        const result = await createServices(db).clubs.getProfilePage({
+            clubKey: 'nobody',
+        });
 
-        expect(result).toBeNull();
+        expect(result.ok).toBe(false);
+        expect(!result.ok && result.error).toEqual({
+            kind: 'not-found',
+            entity: 'club',
+            key: 'nobody',
+        });
     });
 
     it('returns the profile with paginated results for a known club', async () => {
         const db = createTestDb();
         await seed(db, baseSpec());
 
-        const result = await loadClubProfileData(db, { clubKey: 'contax' });
+        const result = unwrap(
+            await createServices(db).clubs.getProfilePage({
+                clubKey: 'contax',
+            }),
+        );
 
-        expect(result).not.toBeNull();
         // teamPoints = (teamCount - ladderPosition + 1) * weight (weight 1):
         // 2024 -> (3 - 1 + 1) = 3, 2025 -> (2 - 1 + 1) = 2. Rank is 1 both
         // seasons since contax has the most points each year.
-        expect(result?.profile.currentRank).toBe(1);
-        expect(result?.profile.bestRank).toBe(1);
-        expect(result?.profile.bestRankYear).toBe(2024);
-        expect(result?.profile.careerPoints).toBe(5);
+        expect(result.profile.currentRank).toBe(1);
+        expect(result.profile.bestRank).toBe(1);
+        expect(result.profile.bestRankYear).toBe(2024);
+        expect(result.profile.careerPoints).toBe(5);
         // Ladder position 1, not position-uncertain, in both seasons.
-        expect(result?.profile.minorPremierships).toBe(2);
+        expect(result.profile.minorPremierships).toBe(2);
         // No won/lost/drawn counts were seeded, so there is no record to
         // compute a win percentage from — null, not 0%.
-        expect(result?.profile.winPercentage).toBeNull();
-        expect(result?.profile.results.length).toBe(2);
-        expect(result?.profile.totalRows).toBe(2);
-        expect(result?.profile.tableState.page).toBe(1);
+        expect(result.profile.winPercentage).toBeNull();
+        expect(result.profile.results.length).toBe(2);
+        expect(result.profile.totalRows).toBe(2);
+        expect(result.profile.tableState.page).toBe(1);
         // clubs is every club in the db, not just the profiled one.
-        expect(result?.clubs.map((club) => club.key).sort()).toEqual([
+        expect(result.clubs.map((club) => club.key).sort()).toEqual([
             'ajax',
             'contax',
             'garville',
@@ -174,21 +194,22 @@ describe('loadClubProfileData', () => {
         );
         await seed(db, spec);
 
-        const result = await loadClubProfileData(db, {
-            clubKey: 'contax',
-            page: 999,
-        });
+        const result = unwrap(
+            await createServices(db).clubs.getProfilePage({
+                clubKey: 'contax',
+                page: 999,
+            }),
+        );
 
-        expect(result).not.toBeNull();
-        const totalRows = result?.profile.totalRows ?? 0;
+        const totalRows = result.profile.totalRows;
         expect(totalRows).toBe(extraSeasonCount);
-        const pageSize = result?.profile.tableState.pageSize ?? 0;
+        const pageSize = result.profile.tableState.pageSize;
         const expectedPageCount = Math.ceil(totalRows / pageSize);
         const expectedLastPageRows =
             totalRows - (expectedPageCount - 1) * pageSize;
 
-        expect(result?.profile.tableState.page).toBe(expectedPageCount);
-        expect(result?.profile.tableState.page).not.toBe(999);
-        expect(result?.profile.results.length).toBe(expectedLastPageRows);
+        expect(result.profile.tableState.page).toBe(expectedPageCount);
+        expect(result.profile.tableState.page).not.toBe(999);
+        expect(result.profile.results.length).toBe(expectedLastPageRows);
     });
 });

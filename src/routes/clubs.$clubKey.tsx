@@ -6,9 +6,9 @@ import { ClubProfilePage } from '@/components/club/club-profile-page';
 import { PageShell } from '@/components/ui/layout';
 import { getDb } from '@/db';
 import { tableSearchSchema } from '@/routes/-table-params';
-import { loadClubProfileData } from '@/server/loaders/club-profile';
+import { createServices, describeDomainError } from '@/server/container';
 
-export type { ClubProfileData } from '@/server/loaders/club-profile';
+export type { ClubProfilePageDto as ClubProfileData } from '@/server/dto/club-profile.dto';
 
 const loadClub = createServerFn({ method: 'GET' })
     .validator(
@@ -20,7 +20,14 @@ const loadClub = createServerFn({ method: 'GET' })
             pageSize: z.number().int().optional(),
         }),
     )
-    .handler(async ({ data }) => loadClubProfileData(getDb(), data));
+    .handler(async ({ data }) => {
+        const result = await createServices(getDb()).clubs.getProfilePage(data);
+        if (!result.ok) {
+            if (result.error.kind === 'not-found') throw notFound();
+            throw new Error(describeDomainError(result.error));
+        }
+        return result.value;
+    });
 
 function ClubNotFound(): JSX.Element {
     return (
@@ -43,15 +50,8 @@ export const Route = createFileRoute('/clubs/$clubKey')({
         page: search.page,
         pageSize: search.pageSize,
     }),
-    loader: async ({ params, deps }) => {
-        const data = await loadClub({
-            data: { clubKey: params.clubKey, ...deps },
-        });
-        if (!data) {
-            throw notFound();
-        }
-        return data;
-    },
+    loader: async ({ params, deps }) =>
+        loadClub({ data: { clubKey: params.clubKey, ...deps } }),
     component: ClubProfilePage,
     notFoundComponent: ClubNotFound,
 });
