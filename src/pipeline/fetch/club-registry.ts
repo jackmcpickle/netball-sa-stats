@@ -20,6 +20,46 @@ export type ClubAliasRow = {
     source: string;
 };
 
+// `alias_text` is UNIQUE in the schema. When the same alias text is curated
+// under more than one `source` (e.g. a club spans both the archive_pdf and
+// playhq eras under an identical name), exactly one row may survive. The
+// choice must be a pure function of the rows themselves, never of array/Map
+// iteration order, so re-runs and hand-edits produce byte-identical output.
+const SOURCE_PRECEDENCE: readonly string[] = ['archive_pdf', 'playhq'];
+
+function sourceRank(source: string): number {
+    const index = SOURCE_PRECEDENCE.indexOf(source);
+    return index === -1 ? SOURCE_PRECEDENCE.length : index;
+}
+
+/**
+ * Deduplicates alias rows by `alias_text`, keeping one row per alias. Ties
+ * are broken deterministically by `SOURCE_PRECEDENCE` (earliest era wins),
+ * then by `club_key` as a final tiebreaker.
+ */
+export function dedupeAliasesByText(
+    rows: readonly ClubAliasRow[],
+): ClubAliasRow[] {
+    const bestByAlias = new Map<string, ClubAliasRow>();
+    for (const row of rows) {
+        const current = bestByAlias.get(row.alias_text);
+        if (current === undefined) {
+            bestByAlias.set(row.alias_text, row);
+            continue;
+        }
+        const currentRank = sourceRank(current.source);
+        const candidateRank = sourceRank(row.source);
+        const candidateWins =
+            candidateRank < currentRank ||
+            (candidateRank === currentRank &&
+                row.club_key.localeCompare(current.club_key) < 0);
+        if (candidateWins) {
+            bestByAlias.set(row.alias_text, row);
+        }
+    }
+    return [...bestByAlias.values()];
+}
+
 export class ClubRegistry {
     private readonly clubs: Map<string, ClubRow>;
     private readonly byPlayhqId: Map<string, string>;
@@ -41,7 +81,10 @@ export class ClubRegistry {
             ),
         );
         this.aliases = new Map(
-            existingAliases.map((alias) => [alias.alias_text, alias]),
+            dedupeAliasesByText(existingAliases).map((alias) => [
+                alias.alias_text,
+                alias,
+            ]),
         );
         this.takenKeys = new Set(existingClubs.map((club) => club.club_key));
     }
