@@ -1,13 +1,13 @@
-import { createFileRoute } from '@tanstack/react-router';
+import { createFileRoute, notFound } from '@tanstack/react-router';
 import { createServerFn } from '@tanstack/react-start';
 import { z } from 'zod';
 import { LaddersPage } from '@/components/ladders/ladders-page';
 import { getDb } from '@/db';
 import { parseOptionalIntParam } from '@/routes/-search-params';
 import { tableSearchDeps, tableSearchSchema } from '@/routes/-table-params';
-import { loadLaddersData } from '@/server/loaders/ladders';
+import { createServices, describeDomainError } from '@/server/container';
 
-export type { LaddersData } from '@/server/loaders/ladders';
+export type { LaddersPageDto as LaddersData } from '@/server/dto/ladders.dto';
 
 const searchSchema = tableSearchSchema.extend({
     year: z.preprocess(parseOptionalIntParam, z.number().int().optional()),
@@ -25,7 +25,14 @@ const loadLadders = createServerFn({ method: 'GET' })
             pageSize: z.number().int().optional(),
         }),
     )
-    .handler(async ({ data }) => loadLaddersData(getDb(), data));
+    .handler(async ({ data }) => {
+        const result = await createServices(getDb()).ladders.getPage(data);
+        if (!result.ok) {
+            if (result.error.kind === 'not-found') throw notFound();
+            throw new Error(describeDomainError(result.error));
+        }
+        return result.value;
+    });
 
 export const Route = createFileRoute('/ladders')({
     validateSearch: searchSchema,

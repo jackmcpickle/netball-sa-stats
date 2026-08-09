@@ -9,8 +9,8 @@ import { DataTable, type DataTableColumn } from '@/components/ui/data-table';
 import { Eyebrow, PageShell, PageTitle, Panel } from '@/components/ui/layout';
 import { NoteMarker } from '@/components/ui/note-marker';
 import { SearchableSelect } from '@/components/ui/searchable-select';
-import type { LadderRow } from '@/data/types';
 import type { TableState } from '@/db/queries/pagination';
+import type { LadderRow } from '@/server/dto/ladders.dto';
 
 const routeApi = getRouteApi('/ladders');
 

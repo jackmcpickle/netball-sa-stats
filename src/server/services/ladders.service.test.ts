@@ -1,8 +1,18 @@
 import { describe, expect, it } from 'vitest';
-import { loadLaddersData } from '@/server/loaders/ladders';
+import { createServices } from '@/server/container';
+import type { DomainError, Result } from '@/server/domain/result';
 import type { SeedSpec } from '@/server/testing/fixtures';
 import { seed } from '@/server/testing/fixtures';
 import { createTestDb } from '@/server/testing/harness';
+
+function unwrap<T>(result: Result<T, DomainError>): T {
+    if (!result.ok) {
+        throw new Error(
+            `expected ok result, got error: ${JSON.stringify(result.error)}`,
+        );
+    }
+    return result.value;
+}
 
 /**
  * Shared seed for every case: one competition ('amnd') with two FINAL
@@ -123,12 +133,12 @@ function baseSpec(): SeedSpec {
     };
 }
 
-describe('loadLaddersData', () => {
+describe('ladders service', () => {
     it('defaults to the latest season and its first grade', async () => {
         const db = createTestDb();
         await seed(db, baseSpec());
 
-        const result = await loadLaddersData(db, {});
+        const result = unwrap(await createServices(db).ladders.getPage({}));
 
         // `coverage.years` is every covered year regardless of `isFinal`, so
         // the "latest" year is the non-final 2026 season, not the latest
@@ -145,10 +155,12 @@ describe('loadLaddersData', () => {
         const db = createTestDb();
         await seed(db, baseSpec());
 
-        const result = await loadLaddersData(db, {
-            year: 2024,
-            grade: 'does-not-exist',
-        });
+        const result = unwrap(
+            await createServices(db).ladders.getPage({
+                year: 2024,
+                grade: 'does-not-exist',
+            }),
+        );
 
         expect(result.year).toBe(2024);
         expect(result.ladder?.grade.key).toBe('amnd-2024-a1');
@@ -171,7 +183,9 @@ describe('loadLaddersData', () => {
         });
         await seed(db, spec);
 
-        const result = await loadLaddersData(db, { year: 2023 });
+        const result = unwrap(
+            await createServices(db).ladders.getPage({ year: 2023 }),
+        );
 
         expect(result.year).toBe(2023);
         expect(result.grades).toHaveLength(0);
@@ -181,7 +195,7 @@ describe('loadLaddersData', () => {
     it('returns an empty dataset shape for a completely empty database', async () => {
         const db = createTestDb();
 
-        const result = await loadLaddersData(db, {});
+        const result = unwrap(await createServices(db).ladders.getPage({}));
 
         expect(result.year).toBeNull();
         expect(result.years).toEqual([]);
