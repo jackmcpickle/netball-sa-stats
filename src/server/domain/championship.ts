@@ -5,11 +5,14 @@
  * live inline in `src/server/loaders/rankings.ts`; both now live here, and
  * their old homes delegate to this class.
  */
-import type { ChampionshipRow, ChampionshipSeason } from '@/data/types';
 import type { TableState } from '@/db/queries/pagination';
 import type { DomainError, Result } from '@/server/domain/result';
 import { err, ok } from '@/server/domain/result';
 import type { TableQuery } from '@/server/domain/table-query';
+import type {
+    ChampionshipRow,
+    ChampionshipSeason,
+} from '@/server/dto/rankings.dto';
 
 /**
  * Every sort gets `rank` as a tiebreaker. Without one, rows with equal points

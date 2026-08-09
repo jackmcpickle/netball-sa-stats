@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest';
-import type { Club } from '@/data/types';
 import type { ResultRow } from '@/db/queries/results';
 import { ClubHistory } from '@/server/domain/club-history';
 import { TableQuery } from '@/server/domain/table-query';
+import type { Club } from '@/server/dto/shared.dto';
 
 const spec = {
     sortable: ['year', 'grade', 'position', 'won'],

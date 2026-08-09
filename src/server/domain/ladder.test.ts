@@ -1,7 +1,8 @@
 import { describe, expect, it } from 'vitest';
-import type { GradeSummary, LadderRow } from '@/data/types';
 import { Ladder } from '@/server/domain/ladder';
 import { TableQuery } from '@/server/domain/table-query';
+import type { LadderRow } from '@/server/dto/ladders.dto';
+import type { GradeSummary } from '@/server/dto/shared.dto';
 
 const spec = {
     sortable: [

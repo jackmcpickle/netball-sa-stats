@@ -6,10 +6,10 @@
  * the seed ran.
  */
 import { asc, eq } from 'drizzle-orm';
-import type { GradeWeightRow } from '@/data/types';
 import type { Db } from '@/db';
 import { toCompetition } from '@/db/queries/coverage';
 import { competitions, gradeWeights } from '@/db/schema';
+import type { GradeWeightRow } from '@/server/dto/method.dto';
 
 export async function fetchGradeWeights(
     db: Db,

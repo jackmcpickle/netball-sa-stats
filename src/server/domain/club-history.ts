@@ -5,18 +5,18 @@
  * free function in `src/db/queries/club-trend.ts`; both now live here, and
  * their old homes delegate to this class.
  */
-import type {
-    Club,
-    ClubBandTrend,
-    ClubGradeResult,
-    ClubTrend,
-    ClubTrendPoint,
-} from '@/data/types';
 import type { TableState } from '@/db/queries/pagination';
 import type { ResultRow } from '@/db/queries/results';
 import { bandLabel } from '@/pipeline/scoring/bands';
 import { meanStrength } from '@/pipeline/scoring/strength';
 import type { TableQuery } from '@/server/domain/table-query';
+import type {
+    ClubBandTrend,
+    ClubGradeResult,
+    ClubTrend,
+    ClubTrendPoint,
+} from '@/server/dto/club-profile.dto';
+import type { Club } from '@/server/dto/shared.dto';
 
 function played(result: ClubGradeResult): number {
     return (result.won ?? 0) + (result.lost ?? 0) + (result.drawn ?? 0);

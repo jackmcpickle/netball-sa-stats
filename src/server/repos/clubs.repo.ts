@@ -4,13 +4,13 @@
  * fetch logic now lives here.
  */
 import { asc } from 'drizzle-orm';
-import type { AccentName, Club } from '@/data/types';
 import type { Db } from '@/db';
 import { fetchResults } from '@/db/queries/results';
 import { clubs } from '@/db/schema';
 import { ClubHistory } from '@/server/domain/club-history';
 import type { DomainError, Result } from '@/server/domain/result';
 import { err, ok } from '@/server/domain/result';
+import type { AccentName, Club } from '@/server/dto/shared.dto';
 import { createSeasonsRepo } from '@/server/repos/seasons.repo';
 
 const ACCENTS: readonly AccentName[] = [

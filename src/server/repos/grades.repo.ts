@@ -4,7 +4,6 @@
  * `src/db/queries/grades.ts`; that fetch logic now lives here.
  */
 import { asc, eq } from 'drizzle-orm';
-import type { GradeSummary, LadderRow } from '@/data/types';
 import type { Db } from '@/db';
 import { toCompetition } from '@/db/queries/coverage';
 import { fetchResults } from '@/db/queries/results';
@@ -12,6 +11,8 @@ import { competitions, grades, seasons } from '@/db/schema';
 import { Ladder } from '@/server/domain/ladder';
 import type { DomainError, Result } from '@/server/domain/result';
 import { err, ok } from '@/server/domain/result';
+import type { LadderRow } from '@/server/dto/ladders.dto';
+import type { GradeSummary } from '@/server/dto/shared.dto';
 import { accentFor } from '@/server/repos/clubs.repo';
 
 /**

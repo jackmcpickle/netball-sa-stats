@@ -3,9 +3,10 @@
  * as a free function in `src/db/queries/grades.ts`; that logic now lives
  * here, and the query module delegates to it.
  */
-import type { GradeSummary, LadderRow } from '@/data/types';
 import type { TableState } from '@/db/queries/pagination';
 import type { TableQuery } from '@/server/domain/table-query';
+import type { LadderRow } from '@/server/dto/ladders.dto';
+import type { GradeSummary } from '@/server/dto/shared.dto';
 
 type LadderComparator = (a: LadderRow, b: LadderRow) => number;
 

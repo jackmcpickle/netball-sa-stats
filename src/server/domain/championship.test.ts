@@ -1,7 +1,10 @@
 import { describe, expect, it } from 'vitest';
-import type { ChampionshipRow, ChampionshipSeason } from '@/data/types';
 import { Championship } from '@/server/domain/championship';
 import { TableQuery } from '@/server/domain/table-query';
+import type {
+    ChampionshipRow,
+    ChampionshipSeason,
+} from '@/server/dto/rankings.dto';
 
 const spec = {
     sortable: ['rank', 'club', 'points', 'teams'],

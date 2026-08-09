@@ -1,8 +1,3 @@
-import type {
-    ChampionshipSeason,
-    ClubProfile,
-    ClubSeasonPoints,
-} from '@/data/types';
 import type { Db } from '@/db';
 import { buildCoverage, fetchSeasons } from '@/db/queries/coverage';
 import type { TableSpec } from '@/db/queries/pagination';
@@ -10,6 +5,11 @@ import { fetchResults } from '@/db/queries/results';
 import type { ResultRow } from '@/db/queries/results';
 import { winRate } from '@/pipeline/scoring/championship';
 import { ClubHistory, toGradeResults } from '@/server/domain/club-history';
+import type {
+    ClubProfile,
+    ClubSeasonPoints,
+} from '@/server/dto/club-profile.dto';
+import type { ChampionshipSeason } from '@/server/dto/rankings.dto';
 import { fetchChampionshipHistory } from '@/server/repos/championship.repo';
 import { accentFor } from '@/server/repos/clubs.repo';
 

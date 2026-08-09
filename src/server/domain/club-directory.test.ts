@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import type { Club } from '@/data/types';
 import { ClubDirectory } from '@/server/domain/club-directory';
+import type { Club } from '@/server/dto/shared.dto';
 
 function club(key: string): Club {
     return {

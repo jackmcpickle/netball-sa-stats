@@ -1,13 +1,13 @@
-import { createFileRoute } from '@tanstack/react-router';
+import { createFileRoute, notFound } from '@tanstack/react-router';
 import { createServerFn } from '@tanstack/react-start';
 import { z } from 'zod';
 import { RankingsPage } from '@/components/rankings/rankings-page';
 import { getDb } from '@/db';
 import { parseOptionalIntParam } from '@/routes/-search-params';
 import { tableSearchSchema } from '@/routes/-table-params';
-import { loadRankingsData } from '@/server/loaders/rankings';
+import { createServices, describeDomainError } from '@/server/container';
 
-export type { RankingsData } from '@/server/loaders/rankings';
+export type { RankingsPageDto as RankingsData } from '@/server/dto/rankings.dto';
 
 const searchSchema = tableSearchSchema.extend({
     season: z.preprocess(parseOptionalIntParam, z.number().int().optional()),
@@ -27,7 +27,14 @@ const loadRankings = createServerFn({ method: 'GET' })
             pageSize: z.number().int().optional(),
         }),
     )
-    .handler(async ({ data }) => loadRankingsData(getDb(), data));
+    .handler(async ({ data }) => {
+        const result = await createServices(getDb()).rankings.getPage(data);
+        if (!result.ok) {
+            if (result.error.kind === 'not-found') throw notFound();
+            throw new Error(describeDomainError(result.error));
+        }
+        return result.value;
+    });
 
 export const Route = createFileRoute('/')({
     validateSearch: searchSchema,

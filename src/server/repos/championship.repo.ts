@@ -3,7 +3,6 @@
  * live in `src/db/queries/championship.ts`; that fetch + assembly logic now
  * lives here, and the old module keeps only `CHAMPIONSHIP_TABLE_SPEC`.
  */
-import type { ChampionshipRow, ChampionshipSeason, Club } from '@/data/types';
 import type { Db } from '@/db';
 import {
     movementBoundaryChanged,
@@ -13,6 +12,11 @@ import {
 import { fetchResults, toScoringRow } from '@/db/queries/results';
 import type { ResultRow } from '@/db/queries/results';
 import { previousRanks, rankSeasons } from '@/pipeline/scoring/championship';
+import type {
+    ChampionshipRow,
+    ChampionshipSeason,
+} from '@/server/dto/rankings.dto';
+import type { Club } from '@/server/dto/shared.dto';
 import { accentFor } from '@/server/repos/clubs.repo';
 
 function competitionKeysFor(

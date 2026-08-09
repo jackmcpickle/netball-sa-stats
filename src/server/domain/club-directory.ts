@@ -3,7 +3,7 @@
  * used to live as a free function in `src/db/queries/club-activity.ts`; that
  * logic now lives here, and the query module delegates to it.
  */
-import type { Club } from '@/data/types';
+import type { Club } from '@/server/dto/shared.dto';
 
 export interface ClubPartition {
     readonly present: readonly Club[];

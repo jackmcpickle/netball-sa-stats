@@ -1,8 +1,18 @@
 import { describe, expect, it } from 'vitest';
-import { loadRankingsData } from '@/server/loaders/rankings';
+import { createServices } from '@/server/container';
+import type { DomainError, Result } from '@/server/domain/result';
 import type { SeedSpec } from '@/server/testing/fixtures';
 import { seed } from '@/server/testing/fixtures';
 import { createTestDb } from '@/server/testing/harness';
+
+function unwrap<T>(result: Result<T, DomainError>): T {
+    if (!result.ok) {
+        throw new Error(
+            `expected ok result, got error: ${JSON.stringify(result.error)}`,
+        );
+    }
+    return result.value;
+}
 
 /**
  * Shared seed for every case: one competition ('amnd') with two FINAL
@@ -122,12 +132,12 @@ function baseSpec(): SeedSpec {
     };
 }
 
-describe('loadRankingsData', () => {
+describe('rankings service', () => {
     it('returns the latest ranked season by default', async () => {
         const db = createTestDb();
         await seed(db, baseSpec());
 
-        const result = await loadRankingsData(db, {});
+        const result = unwrap(await createServices(db).rankings.getPage({}));
 
         expect(result.season.year).toBe(2025);
     });
@@ -136,7 +146,9 @@ describe('loadRankingsData', () => {
         const db = createTestDb();
         await seed(db, baseSpec());
 
-        const result = await loadRankingsData(db, { season: 1999 });
+        const result = unwrap(
+            await createServices(db).rankings.getPage({ season: 1999 }),
+        );
 
         expect(result.season.year).toBe(2025);
     });
@@ -145,7 +157,9 @@ describe('loadRankingsData', () => {
         const db = createTestDb();
         await seed(db, baseSpec());
 
-        const result = await loadRankingsData(db, { season: 2024 });
+        const result = unwrap(
+            await createServices(db).rankings.getPage({ season: 2024 }),
+        );
 
         expect(result.season.year).toBe(2024);
         // 2024 is the earliest ranked year in this seed, so there is no
@@ -182,7 +196,9 @@ describe('loadRankingsData', () => {
         );
         await seed(db, spec);
 
-        const result = await loadRankingsData(db, { page: 999 });
+        const result = unwrap(
+            await createServices(db).rankings.getPage({ page: 999 }),
+        );
 
         const pageSize = result.tableState.pageSize;
         const expectedPageCount = Math.ceil(result.totalRows / pageSize);
@@ -198,7 +214,9 @@ describe('loadRankingsData', () => {
         const db = createTestDb();
         await seed(db, baseSpec());
 
-        const result = await loadRankingsData(db, { sort: 'evil' });
+        const result = unwrap(
+            await createServices(db).rankings.getPage({ sort: 'evil' }),
+        );
 
         expect(result.tableState.sort).toBe('rank');
     });

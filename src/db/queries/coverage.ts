@@ -1,15 +1,20 @@
+import type { Db } from '@/db';
+import { methodologyBreak, timelineGaps } from '@/db/queries/era-break';
+import { Coverage as CoverageDomain } from '@/server/domain/coverage';
 import type {
     Competition,
     Coverage,
     CoverageChange,
     SeasonCoverage,
-} from '@/data/types';
-import { methodologyBreak, timelineGaps } from '@/db/queries/era-break';
-import { Coverage as CoverageDomain } from '@/server/domain/coverage';
+} from '@/server/dto/shared.dto';
+import { fetchSeasons } from '@/server/repos/seasons.repo';
 import type { SeasonRow } from '@/server/repos/seasons.repo';
 
 export type { SeasonRow } from '@/server/repos/seasons.repo';
 export { fetchSeasons } from '@/server/repos/seasons.repo';
+
+/** The site now ships the real import rather than generated rows. */
+export const IS_SAMPLE_DATA = false;
 
 /**
  * Short forms for tight table cells. Not in the database: it is presentation,
@@ -143,4 +148,9 @@ export function buildCoverage(
             };
         }),
     };
+}
+
+/** The full `Coverage` DTO, assembled from every season row. */
+export async function fetchCoverage(db: Db): Promise<Coverage> {
+    return buildCoverage(await fetchSeasons(db), IS_SAMPLE_DATA);
 }
