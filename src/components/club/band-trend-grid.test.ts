@@ -1,6 +1,9 @@
 import { describe, expect, it } from 'vitest';
 import { round } from '@/components/charts/scale';
-import { bandSummaries } from '@/components/club/band-trend-grid';
+import {
+    bandSummaries,
+    windowSizeLabel,
+} from '@/components/club/band-trend-grid';
 
 describe('bandSummaries', () => {
     it('drops a band with no measured season', () => {
@@ -96,6 +99,22 @@ describe('bandSummaries', () => {
         expect(band?.change).toBe(round(0.5 - 0.2, 3));
     });
 
+    it('reports the window size used, for the central-district two-season case', () => {
+        const [band] = bandSummaries([
+            {
+                tier: 1,
+                label: 'Premier Division',
+                points: [
+                    { year: 2000, strength: 0.2, teams: 3 },
+                    { year: 2001, strength: 1, teams: 3 },
+                ],
+            },
+        ]);
+        expect(band?.measured).toHaveLength(2);
+        expect(band?.windowSize).toBe(1);
+        expect(band?.change).toBe(round(1 - 0.2, 3));
+    });
+
     it('preserves the upstream tier order', () => {
         const summaries = bandSummaries([
             {
@@ -110,5 +129,19 @@ describe('bandSummaries', () => {
             },
         ]);
         expect(summaries.map((band) => band.tier)).toEqual([1, 5]);
+    });
+});
+
+describe('windowSizeLabel', () => {
+    it('reads singular for a one-season window', () => {
+        expect(windowSizeLabel(1)).toBe('its first season');
+    });
+
+    it('reads plural for a two-season window', () => {
+        expect(windowSizeLabel(2)).toBe('its first two measured seasons');
+    });
+
+    it('reads plural for a three-season window', () => {
+        expect(windowSizeLabel(3)).toBe('its first three measured seasons');
     });
 });

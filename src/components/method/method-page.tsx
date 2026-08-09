@@ -64,7 +64,12 @@ export function MethodPage(): JSX.Element {
                     </p>
                     <p className="mt-5 leading-[1.55] text-ink-body">
                         {
-                            'Divisions within a grade are collapsed for this figure: Primary 1 and Primary 7 both count as Primary. A club that shifts a team between divisions of the same grade does not, on its own, change strength.'
+                            'The by-band breakdown collapses divisions: Primary 1 and Primary 7 both appear under Primary. The strength figure itself is always measured against the team’s own division ladder, so a club that shifts a team between divisions of the same grade usually does change strength.'
+                        }
+                    </p>
+                    <p className="mt-5 leading-[1.55] text-ink-body">
+                        {
+                            'On a club page, the change figure under each band sparkline is the mean strength of the last N measured seasons minus the mean of the first N, where N is up to three. Bands with fewer than six measured seasons let those windows overlap, which is still steadier than comparing two single seasons.'
                         }
                     </p>
                     <p className="mt-5 leading-[1.55] text-ink-body">

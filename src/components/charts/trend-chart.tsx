@@ -54,6 +54,25 @@ function formatStrength(strength: number | null): string {
     return strength === null ? NO_VALUE : strength.toFixed(3);
 }
 
+/**
+ * Screen-reader line for a single season slot. A null strength has two
+ * distinct causes the copy must not conflate: the club fielded no teams that
+ * year, or it fielded teams but none produced a measurable finish (a
+ * one-team grade, or a position outside the grade's field size).
+ */
+export function describeTrendSlot(
+    point: ClubTrendPoint | undefined,
+    year: number,
+): string {
+    if (!point) return `${String(year)}: ${NO_VALUE}`;
+    if (point.strength === null) {
+        const cause =
+            point.teams === 0 ? 'no teams fielded' : 'no measurable finish';
+        return `${String(point.year)}: ${cause}, strength ${NO_VALUE}`;
+    }
+    return `${String(point.year)}: strength ${formatStrength(point.strength)} from ${String(point.teams)} ${point.teams === 1 ? 'team' : 'teams'}.`;
+}
+
 interface TrendChartProps {
     readonly points: readonly ClubTrendPoint[];
     /** Names the series for assistive tech, e.g. "Matrics, all grades". */
@@ -100,17 +119,12 @@ export function TrendChart({
                         </li>
                     ) : (
                         <li key={slot.year}>
-                            {(() => {
-                                const point = points.find(
+                            {describeTrendSlot(
+                                points.find(
                                     (candidate) => candidate.year === slot.year,
-                                );
-                                if (!point) {
-                                    return `${String(slot.year)}: ${NO_VALUE}`;
-                                }
-                                return point.strength === null
-                                    ? `${String(point.year)}: no teams fielded, strength ${NO_VALUE}`
-                                    : `${String(point.year)}: strength ${formatStrength(point.strength)} from ${String(point.teams)} ${point.teams === 1 ? 'team' : 'teams'}.`;
-                            })()}
+                                ),
+                                slot.year,
+                            )}
                         </li>
                     ),
                 )}

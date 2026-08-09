@@ -1,5 +1,8 @@
 import { describe, expect, it } from 'vitest';
-import { strengthPath } from '@/components/charts/trend-chart';
+import {
+    describeTrendSlot,
+    strengthPath,
+} from '@/components/charts/trend-chart';
 
 describe('strengthPath', () => {
     it('breaks the line where strength is null', () => {
@@ -32,5 +35,29 @@ describe('strengthPath', () => {
         expect(
             strengthPath([{ year: 2000, strength: null, teams: 0 }]),
         ).toHaveLength(0);
+    });
+});
+
+describe('describeTrendSlot', () => {
+    it('attributes a null strength to no teams fielded when teams is zero', () => {
+        expect(
+            describeTrendSlot({ year: 2000, strength: null, teams: 0 }, 2000),
+        ).toBe('2000: no teams fielded, strength —');
+    });
+
+    it('attributes a null strength to no measurable finish when teams were fielded', () => {
+        expect(
+            describeTrendSlot({ year: 2000, strength: null, teams: 1 }, 2000),
+        ).toBe('2000: no measurable finish, strength —');
+    });
+
+    it('reports the missing-season placeholder when there is no point for the slot', () => {
+        expect(describeTrendSlot(undefined, 2000)).toBe('2000: —');
+    });
+
+    it('reports strength normally when measured', () => {
+        expect(
+            describeTrendSlot({ year: 2000, strength: 0.5, teams: 3 }, 2000),
+        ).toBe('2000: strength 0.500 from 3 teams.');
     });
 });

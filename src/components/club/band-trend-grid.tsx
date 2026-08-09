@@ -50,6 +50,19 @@ export interface BandSummary {
     readonly latest: ClubTrendPoint;
     readonly first: ClubTrendPoint;
     readonly change: number | null;
+    readonly windowSize: number;
+}
+
+/**
+ * Words the number of seasons averaged into each end of the change figure
+ * ("its first season" / "its first two measured seasons" / "its first three
+ * measured seasons") so the caption never claims a window wider than what
+ * was actually available.
+ */
+export function windowSizeLabel(windowSize: number): string {
+    if (windowSize === 1) return 'its first season';
+    if (windowSize === 2) return 'its first two measured seasons';
+    return 'its first three measured seasons';
 }
 
 /**
@@ -83,6 +96,7 @@ export function bandSummaries(
                               3,
                           )
                         : null,
+                windowSize,
             },
         ];
     });
@@ -194,7 +208,7 @@ export function BandTrendGrid({
                             {`${clubName} in ${band.label}: strength ${formatStrength(band.latest.strength)} in ${String(band.latest.year)} from ${String(band.latest.teams)} ${band.latest.teams === 1 ? 'team' : 'teams'}. ${
                                 band.change === null
                                     ? 'One measured season.'
-                                    : `${band.change > 0 ? 'Up' : band.change < 0 ? 'Down' : 'Level'} ${Math.abs(band.change).toFixed(3)} on its first three measured seasons, across ${String(band.measured.length)} measured seasons.`
+                                    : `${band.change > 0 ? 'Up' : band.change < 0 ? 'Down' : 'Level'} ${Math.abs(band.change).toFixed(3)} on ${windowSizeLabel(band.windowSize)}, across ${String(band.measured.length)} measured seasons.`
                             }`}
                         </p>
                     </li>
