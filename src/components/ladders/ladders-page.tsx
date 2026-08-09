@@ -6,6 +6,7 @@ import { formatNumber, formatPercent } from '@/components/format';
 import { ClubLink } from '@/components/links';
 import { Eyebrow, PageShell, PageTitle, Panel } from '@/components/ui/layout';
 import { NoteMarker } from '@/components/ui/note-marker';
+import { SearchableSelect } from '@/components/ui/searchable-select';
 import { FieldSelect } from '@/components/ui/select';
 import { Table, TableFrame, Td, Th, Tr } from '@/components/ui/table';
 
@@ -64,9 +65,10 @@ export function LaddersPage(): JSX.Element {
                     onValueChange={onYearChange}
                 />
                 {gradeOptions.length > 0 && (
-                    <FieldSelect
+                    <SearchableSelect
                         label="Grade"
-                        wide
+                        noun="grades"
+                        searchPlaceholder="e.g. Premier, Junior 4"
                         value={data.ladder?.grade.key ?? gradeOptions[0].value}
                         options={gradeOptions}
                         onValueChange={onGradeChange}

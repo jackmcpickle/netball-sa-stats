@@ -83,16 +83,20 @@ export function FieldSelect<Value extends string | number>({
             items={options}
             onValueChange={handleChange}
         >
-            <span className="flex items-center gap-3">
-                <span className="text-[13px] text-ink-muted">{label}</span>
+            <span className="flex max-w-full min-w-0 items-center gap-3">
+                <span className="shrink-0 text-[13px] text-ink-muted">
+                    {label}
+                </span>
                 <Select.Trigger
                     aria-label={label}
-                    className={`flex h-11 items-center justify-between gap-3 rounded-field border border-rule bg-paper px-4 text-base text-ink transition-colors hover:border-ink-faint data-[popup-open]:border-ink-faint ${
-                        wide ? 'min-w-[20rem]' : 'min-w-[8rem]'
+                    className={`flex h-11 max-w-full min-w-0 flex-1 items-center justify-between gap-3 rounded-field border border-rule bg-paper px-4 text-left text-base text-ink transition-colors hover:border-ink-faint data-[popup-open]:border-ink-faint ${
+                        wide ? 'sm:w-80 sm:flex-none' : 'sm:w-32 sm:flex-none'
                     }`}
                 >
-                    <Select.Value />
-                    <Select.Icon>
+                    <span className="truncate">
+                        <Select.Value />
+                    </span>
+                    <Select.Icon className="shrink-0">
                         <ChevronIcon />
                     </Select.Icon>
                 </Select.Trigger>
@@ -103,23 +107,29 @@ export function FieldSelect<Value extends string | number>({
                     alignItemWithTrigger={false}
                     className="z-30"
                 >
-                    <Select.Popup className="max-h-80 min-w-[var(--anchor-width)] overflow-y-auto rounded-card border border-rule bg-paper py-1 shadow-lg shadow-black/5">
+                    {/*
+                     * Width follows the anchor but is floored at a readable
+                     * 16rem and ceilinged at the space actually available.
+                     * Without the `--available-width` clamp a narrow viewport
+                     * collapses the popup and options wrap into a stack.
+                     */}
+                    <Select.Popup className="max-h-[min(20rem,var(--available-height))] w-[max(var(--anchor-width),min(16rem,var(--available-width)))] max-w-[var(--available-width)] overflow-y-auto rounded-card border border-rule bg-paper py-1 shadow-lg shadow-black/5">
                         {options.map((option) => (
                             <Select.Item
                                 key={String(option.value)}
                                 value={option.value}
                                 disabled={option.disabled}
-                                className="grid grid-cols-[1rem_1fr] items-center gap-2 px-3 py-2 text-sm text-ink data-[disabled]:text-ink-faint data-[highlighted]:bg-paper-sunken"
+                                className="grid grid-cols-[1rem_minmax(0,1fr)] items-start gap-2 px-3 py-2 text-sm text-ink data-[disabled]:text-ink-faint data-[highlighted]:bg-paper-sunken"
                             >
-                                <Select.ItemIndicator>
+                                <Select.ItemIndicator className="col-start-1 mt-1">
                                     <CheckIcon />
                                 </Select.ItemIndicator>
-                                <span>
-                                    <Select.ItemText>
+                                <span className="col-start-2 min-w-0">
+                                    <Select.ItemText className="block wrap-break-word">
                                         {option.label}
                                     </Select.ItemText>
                                     {option.hint ? (
-                                        <span className="block text-xs text-ink-muted">
+                                        <span className="block text-xs wrap-break-word text-ink-muted">
                                             {option.hint}
                                         </span>
                                     ) : null}
