@@ -5,30 +5,18 @@ import { seed } from '@/server/testing/fixtures';
 import { createTestDb } from '@/server/testing/harness';
 
 /**
- * Shared seed for every case: two FINAL seasons (2024, 2025) each with one
- * tier-2 grade of 3 clubs, plus one NON-FINAL 2026 season with its own
- * tier-2 grade of 3 clubs. Ladders (unlike rankings) key off
- * `coverage.years`, which is every covered year regardless of `isFinal` — so
- * the "latest" year here is 2026, not 2025.
- *
- * Each season gets its own competition rather than sharing one. `seed()`'s
- * `seedSeason` resets its `weightedTiers` de-dup set per season, so two
- * seasons in the *same* competition at the *same* tier each insert a
- * `grade_weights` row for (competitionId, tier, division). SQLite's unique
- * index treats those as non-duplicate because `division` is NULL (NULL is
- * never equal to NULL for uniqueness), so both rows survive — and then
- * `fetchResults`'s weight `LEFT JOIN` fans every ladder/result row out once
- * per matching weight row, silently multiplying row counts. That's a latent
- * bug in the fixtures helper (Task 1, not touched here), not the loader
- * under test, so this seed sidesteps it with separate competitions per
- * season instead of exercising it.
+ * Shared seed for every case: one competition ('amnd') with two FINAL
+ * seasons (2024, 2025) each with one tier-2 grade of 3 clubs, plus one
+ * NON-FINAL 2026 season with its own tier-2 grade of 3 clubs. Ladders
+ * (unlike rankings) key off `coverage.years`, which is every covered year
+ * regardless of `isFinal` — so the "latest" year here is 2026, not 2025.
  */
 function baseSpec(): SeedSpec {
     return {
         competitions: [
             {
-                key: 'amnd-2024',
-                name: 'AMND 2024',
+                key: 'amnd',
+                name: 'AMND',
                 seasons: [
                     {
                         seasonKey: 'amnd-2024',
@@ -63,12 +51,6 @@ function baseSpec(): SeedSpec {
                             },
                         ],
                     },
-                ],
-            },
-            {
-                key: 'amnd-2025',
-                name: 'AMND 2025',
-                seasons: [
                     {
                         seasonKey: 'amnd-2025',
                         startYear: 2025,
@@ -102,12 +84,6 @@ function baseSpec(): SeedSpec {
                             },
                         ],
                     },
-                ],
-            },
-            {
-                key: 'amnd-2026',
-                name: 'AMND 2026',
-                seasons: [
                     {
                         seasonKey: 'amnd-2026',
                         startYear: 2026,

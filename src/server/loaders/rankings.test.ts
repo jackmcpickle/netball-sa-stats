@@ -5,29 +5,17 @@ import { seed } from '@/server/testing/fixtures';
 import { createTestDb } from '@/server/testing/harness';
 
 /**
- * Shared seed for every case: two FINAL seasons (2024, 2025) each with one
- * tier-2 grade of 3 clubs, plus one NON-FINAL 2026 season (excluded from
- * `rankedYears` by `rankedYears()` in coverage.ts, so it must never surface
- * as the "latest" ranked year).
- *
- * Each season gets its own competition rather than sharing one. `seed()`'s
- * `seedSeason` resets its `weightedTiers` de-dup set per season, so two
- * seasons in the *same* competition at the *same* tier each insert a
- * `grade_weights` row for (competitionId, tier, division). SQLite's unique
- * index treats those as non-duplicate because `division` is NULL (NULL is
- * never equal to NULL for uniqueness), so both rows survive — and then
- * `fetchResults`'s weight `LEFT JOIN` fans every ladder/result row out once
- * per matching weight row, silently multiplying row counts. That's a latent
- * bug in the fixtures helper (Task 1, not touched here), not the loader
- * under test, so this seed sidesteps it with separate competitions per
- * season instead of exercising it.
+ * Shared seed for every case: one competition ('amnd') with two FINAL
+ * seasons (2024, 2025) each with one tier-2 grade of 3 clubs, plus one
+ * NON-FINAL 2026 season (excluded from `rankedYears` by `rankedYears()` in
+ * coverage.ts, so it must never surface as the "latest" ranked year).
  */
 function baseSpec(): SeedSpec {
     return {
         competitions: [
             {
-                key: 'amnd-2024',
-                name: 'AMND 2024',
+                key: 'amnd',
+                name: 'AMND',
                 seasons: [
                     {
                         seasonKey: 'amnd-2024',
@@ -62,12 +50,6 @@ function baseSpec(): SeedSpec {
                             },
                         ],
                     },
-                ],
-            },
-            {
-                key: 'amnd-2025',
-                name: 'AMND 2025',
-                seasons: [
                     {
                         seasonKey: 'amnd-2025',
                         startYear: 2025,
@@ -101,12 +83,6 @@ function baseSpec(): SeedSpec {
                             },
                         ],
                     },
-                ],
-            },
-            {
-                key: 'amnd-2026',
-                name: 'AMND 2026',
-                seasons: [
                     {
                         seasonKey: 'amnd-2026',
                         startYear: 2026,
@@ -179,16 +155,43 @@ describe('loadRankingsData', () => {
 
     it('clamps an out-of-range page to the last page', async () => {
         const db = createTestDb();
-        await seed(db, baseSpec());
+        const spec = baseSpec();
+        // Default page size is 50; seed 60 clubs into the 2025 grade so the
+        // championship season spans more than one page. Without this, a
+        // request for page 999 would resolve to page 1 whether or not the
+        // clamp exists, since 3 rows always fit on a single page.
+        const championshipGrade = spec.competitions[0]?.seasons.find(
+            (season) => season.seasonKey === 'amnd-2025',
+        )?.grades[0];
+        if (championshipGrade === undefined) {
+            throw new Error('expected amnd-2025-a1 grade in base spec');
+        }
+        const extraClubCount = 60;
+        championshipGrade.teamCount = extraClubCount;
+        championshipGrade.results = Array.from(
+            { length: extraClubCount },
+            (_unused, index) => {
+                const clubKey = `extra-club-${String(index)}`;
+                return {
+                    clubKey,
+                    clubName: `Extra Club ${String(index)}`,
+                    displayName: `Extra Club ${String(index)}`,
+                    ladderPosition: index + 1,
+                };
+            },
+        );
+        await seed(db, spec);
 
         const result = await loadRankingsData(db, { page: 999 });
 
-        expect(result.season.rows.length).toBeGreaterThan(0);
-        // Only 3 clubs at the default page size (50), so everything fits on
-        // page 1 regardless of the clamp — the clamp logic itself is covered
-        // by `applyTableState`'s own tests; this asserts the loader wires it
-        // through end-to-end without losing rows.
-        expect(result.tableState.page).toBe(1);
+        const pageSize = result.tableState.pageSize;
+        const expectedPageCount = Math.ceil(result.totalRows / pageSize);
+        const expectedLastPageRows =
+            result.totalRows - (expectedPageCount - 1) * pageSize;
+
+        expect(result.tableState.page).toBe(expectedPageCount);
+        expect(result.tableState.page).not.toBe(999);
+        expect(result.season.rows.length).toBe(expectedLastPageRows);
     });
 
     it('rejects a sort column outside the allow-list', async () => {

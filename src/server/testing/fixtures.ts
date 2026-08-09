@@ -139,7 +139,7 @@ async function seedTeamResult(
     result.results.set(teamKey, resultRow.id);
 }
 
-/** Inserts a grade, its grade_weights row (once per tier/division), and its results. */
+/** Inserts a grade, its grade_weights row (once per competition/tier/division), and its results. */
 async function seedGrade(
     db: Db,
     result: SeedResult,
@@ -162,7 +162,7 @@ async function seedGrade(
         .returning();
     result.grades.set(gradeSpec.gradeKey, gradeRow.id);
 
-    const weightKey = `${gradeSpec.tier}:${gradeSpec.division ?? ''}`;
+    const weightKey = `${competitionId}:${gradeSpec.tier}:${gradeSpec.division ?? ''}`;
     if (!weightedTiers.has(weightKey)) {
         weightedTiers.add(weightKey);
         await db.insert(gradeWeights).values({
@@ -185,6 +185,7 @@ async function seedSeason(
     db: Db,
     result: SeedResult,
     competitionId: number,
+    weightedTiers: Set<string>,
     seasonSpec: SeasonSpec,
 ): Promise<void> {
     const [seasonRow] = await db
@@ -202,7 +203,6 @@ async function seedSeason(
         .returning();
     result.seasons.set(seasonSpec.seasonKey, seasonRow.id);
 
-    const weightedTiers = new Set<string>();
     for (const gradeSpec of seasonSpec.grades) {
         // eslint-disable-next-line no-await-in-loop -- each grade depends on the season row just created above
         await seedGrade(
@@ -220,6 +220,7 @@ async function seedSeason(
 async function seedCompetition(
     db: Db,
     result: SeedResult,
+    weightedTiers: Set<string>,
     competitionSpec: CompetitionSpec,
 ): Promise<void> {
     const [competitionRow] = await db
@@ -230,7 +231,13 @@ async function seedCompetition(
 
     for (const seasonSpec of competitionSpec.seasons) {
         // eslint-disable-next-line no-await-in-loop -- each season depends on the competition row just created above
-        await seedSeason(db, result, competitionRow.id, seasonSpec);
+        await seedSeason(
+            db,
+            result,
+            competitionRow.id,
+            weightedTiers,
+            seasonSpec,
+        );
     }
 }
 
@@ -244,9 +251,16 @@ export async function seed(db: Db, spec: SeedSpec): Promise<SeedResult> {
         results: new Map(),
     };
 
+    // Tracks (competitionId, tier, division) combos that already have a
+    // `grade_weights` row, across the whole seed() call. SQLite's unique
+    // index on (competitionId, tier, division) treats two NULL divisions as
+    // distinct, so without this de-dup, seeding two same-tier seasons under
+    // one competition would silently insert duplicate weight rows and fan
+    // out any join against `grade_weights` (e.g. in `fetchResults`).
+    const weightedTiers = new Set<string>();
     for (const competitionSpec of spec.competitions) {
         // eslint-disable-next-line no-await-in-loop -- id maps must be populated in spec order for later lookups
-        await seedCompetition(db, result, competitionSpec);
+        await seedCompetition(db, result, weightedTiers, competitionSpec);
     }
 
     return result;

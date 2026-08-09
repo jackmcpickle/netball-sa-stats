@@ -1,6 +1,7 @@
 import { eq, sql } from 'drizzle-orm';
 import { describe, expect, it } from 'vitest';
-import { clubs, competitions } from '@/db/schema';
+import { fetchResults } from '@/db/queries/results';
+import { clubs, competitions, gradeWeights } from '@/db/schema';
 import { seed } from '@/server/testing/fixtures';
 import { createTestDb } from '@/server/testing/harness';
 
@@ -84,6 +85,82 @@ describe('test harness', () => {
             sql`SELECT name FROM sqlite_master WHERE type = 'index' AND name = 'teams_grade_playhq_idx'`,
         );
         expect(indexRows).toHaveLength(1);
+    });
+
+    it('de-dupes grade_weights rows for two same-tier seasons under one competition', async () => {
+        const db = createTestDb();
+        const spec = {
+            competitions: [
+                {
+                    key: 'amnd',
+                    name: 'AMND',
+                    seasons: [
+                        {
+                            seasonKey: 'amnd-2024',
+                            startYear: 2024,
+                            isFinal: true,
+                            grades: [
+                                {
+                                    gradeKey: 'amnd-2024-a1',
+                                    name: 'A1',
+                                    tier: 2,
+                                    teamCount: 2,
+                                    results: [
+                                        {
+                                            clubKey: 'contax',
+                                            clubName: 'Contax',
+                                            displayName: 'Contax',
+                                            ladderPosition: 1,
+                                        },
+                                        {
+                                            clubKey: 'garville',
+                                            clubName: 'Garville',
+                                            displayName: 'Garville',
+                                            ladderPosition: 2,
+                                        },
+                                    ],
+                                },
+                            ],
+                        },
+                        {
+                            seasonKey: 'amnd-2025',
+                            startYear: 2025,
+                            isFinal: true,
+                            grades: [
+                                {
+                                    gradeKey: 'amnd-2025-a1',
+                                    name: 'A1',
+                                    tier: 2,
+                                    teamCount: 2,
+                                    results: [
+                                        {
+                                            clubKey: 'contax',
+                                            clubName: 'Contax',
+                                            displayName: 'Contax',
+                                            ladderPosition: 2,
+                                        },
+                                        {
+                                            clubKey: 'garville',
+                                            clubName: 'Garville',
+                                            displayName: 'Garville',
+                                            ladderPosition: 1,
+                                        },
+                                    ],
+                                },
+                            ],
+                        },
+                    ],
+                },
+            ],
+        };
+
+        await seed(db, spec);
+
+        const weightRows = await db.select().from(gradeWeights);
+        expect(weightRows).toHaveLength(1);
+
+        const resultRows = await fetchResults(db);
+        expect(resultRows).toHaveLength(4);
     });
 
     it('supports a single-row .get() query alongside .all()', async () => {
