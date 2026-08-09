@@ -215,7 +215,67 @@ ranked key set costs no additional query.
   named directly in the URL stays selectable and visible regardless of the toggle,
   so a shared link involving a defunct club never silently breaks.
 
-## 6. Testing
+## 6. Server-side sorting and pagination
+
+Cross-cutting. Every tabular list on the site moves onto one generic component
+backed by server-side queries.
+
+### Dependency
+
+Adds `@tanstack/react-table` (not currently a dependency). Used in **manual**
+mode — `manualSorting: true`, `manualPagination: true`, `getCoreRowModel` only.
+The library supplies column definitions, header state and rendering; it never
+sorts or slices data client-side, because the client only ever holds one page.
+
+### Generic component — `src/components/ui/data-table.tsx`
+
+```tsx
+<DataTable
+  caption={string}
+  columns={ColumnDef<T>[]}
+  rows={readonly T[]}
+  totalRows={number}
+  sort={{ id: string; desc: boolean }}
+  page={number}
+  pageSize={number}
+  onChange={(next: TableState) => void}
+/>
+```
+
+Renders through the existing `TableFrame` / `Table` / `Th` / `Td` primitives, so
+the editorial styling, the real `<table>` markup and the screen-reader caption
+association are all preserved. Sortable headers are `<button>`s inside `<th>`
+carrying `aria-sort` (`ascending` / `descending` / `none`), so sort state is
+announced rather than conveyed by an arrow glyph alone. The component is
+presentational — it owns no data fetching and no sort/page state, it only reports
+intent through `onChange`.
+
+Pagination furniture renders only when `totalRows > pageSize`, so short tables
+(a 12-row ladder) stay visually unchanged while still being sortable.
+
+### State and queries
+
+- Sort and page live in **URL search params** (`sort`, `dir`, `page`), consistent
+  with every other filter on the site, so a sorted page is shareable and
+  back/forward behaves. `onChange` navigates; the loader re-runs.
+- **Default page size is 50.** A `pageSize` param is accepted and clamped to a
+  fixed allow-list (25/50/100) so a hostile URL cannot request the whole table.
+- `sort` is validated against a per-table allow-list of column IDs and rejected to
+  the default on a miss — column IDs reach drizzle's `orderBy`, so they are never
+  interpolated from raw user input.
+- Every affected query gains `orderBy` / `limit` / `offset` plus a sibling
+  `count()` for `totalRows`. Sorts are made deterministic with a tiebreaker on a
+  unique column, otherwise SQLite may return rows in a different order between
+  pages of an equal-valued sort and rows can repeat or vanish across pages.
+
+### Tables affected
+
+`championship-table.tsx` (rankings), `ladders-page.tsx`, `club-results-table.tsx`,
+plus the new results fixture list and the head-to-head meetings table. The clubs
+index stays a card grid — it is not tabular — and keeps its present/past toggle
+and full-list rendering.
+
+## 7. Testing
 
 - `head-to-head.test.ts` — forfeits count, no-results do not, home/away
   normalisation, never-met returns an empty record, per-season and per-band
@@ -225,6 +285,10 @@ ranked key set costs no additional query.
   and a bye.
 - `club-activity.test.ts` — partition behaviour, including a club with no ranked
   year at all and a dataset with no ranked year at all.
+- Sorting/pagination: allow-list rejection of an unknown `sort` column and an
+  out-of-range `pageSize`, offset arithmetic at a page boundary, and the
+  deterministic-tiebreaker case (equal values must not repeat or drop rows across
+  consecutive pages).
 - Import fixture test for `games-<year>.csv`, including the unknown-team-ID
   failure path.
 - Spike verified against a real grade, raw response committed under
