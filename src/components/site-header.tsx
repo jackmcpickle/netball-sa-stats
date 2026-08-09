@@ -1,6 +1,7 @@
 import { Link, useLocation } from '@tanstack/react-router';
 import { useCallback, useEffect, useState } from 'react';
 import type { JSX } from 'react';
+import { NetballMark } from '@/components/netball-mark';
 
 interface NavItem {
     readonly to: string;
@@ -95,10 +96,7 @@ export function SiteHeader(): JSX.Element {
                     to="/"
                     className="flex min-w-0 shrink items-center gap-2.5 no-underline"
                 >
-                    <span
-                        aria-hidden="true"
-                        className="size-[26px] shrink-0 rounded-full bg-brand"
-                    />
+                    <NetballMark className="size-[26px] shrink-0 text-brand" />
                     <span className="truncate text-base font-semibold tracking-[-0.2px] text-ink">
                         {'Netball Open Data'}
                     </span>
