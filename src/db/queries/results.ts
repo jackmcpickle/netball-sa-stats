@@ -32,6 +32,8 @@ export interface ResultRow {
     readonly competitionKey: string;
     readonly competitionName: string;
     readonly teamCount: number;
+    /** Grade band. 1 is Premier Division. Divisions collapse to one band. */
+    readonly tier: number;
     readonly displayName: string;
     readonly ladderPosition: number;
     readonly positionUncertain: boolean;
@@ -101,6 +103,7 @@ export async function fetchResults(
             competitionKey: competitions.key,
             competitionName: competitions.name,
             teamCount: grades.teamCount,
+            tier: grades.tier,
             displayName: teams.displayName,
             ladderPosition: teamSeasonResults.ladderPosition,
             positionUncertain: teamSeasonResults.positionUncertain,
