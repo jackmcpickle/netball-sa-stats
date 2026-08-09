@@ -39,12 +39,12 @@ import {
     fetchGrades,
     fetchLadder,
     LADDER_TABLE_SPEC,
-    sortLadderRows,
 } from '@/db/queries/grades';
 import type { RawTableState, TableState } from '@/db/queries/pagination';
 import { fetchGradeWeights } from '@/db/queries/weights';
 import { Championship } from '@/server/domain/championship';
 import { Coverage as CoverageDomain } from '@/server/domain/coverage';
+import { Ladder as LadderDomain } from '@/server/domain/ladder';
 import { TableQuery } from '@/server/domain/table-query';
 
 /** The site now ships the real import rather than generated rows. */
@@ -253,9 +253,8 @@ export async function getLadderFor(
     if (!ladder) {
         return null;
     }
-    const paged = TableQuery.from(state ?? {}, LADDER_TABLE_SPEC).apply(
-        ladder.rows,
-        (rows, q) => sortLadderRows(rows, q.state),
+    const paged = LadderDomain.from(ladder.grade, ladder.rows).sorted(
+        TableQuery.from(state ?? {}, LADDER_TABLE_SPEC),
     );
     return {
         ...ladder,
