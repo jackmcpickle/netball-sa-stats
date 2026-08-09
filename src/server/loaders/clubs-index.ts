@@ -6,7 +6,7 @@ import {
 } from '@/data';
 import type { Club } from '@/data/types';
 import type { Db } from '@/db';
-import { partitionClubs } from '@/db/queries/club-activity';
+import { ClubDirectory } from '@/server/domain/club-directory';
 
 export interface ClubIndexEntry {
     readonly club: Club;
@@ -36,7 +36,7 @@ export async function loadClubsIndexData(
         lastRankedYears(db),
     ]);
     const rankedKeys = new Set(seasonRows.map((row) => row.club.key));
-    const { present, past } = partitionClubs(clubs, rankedKeys);
+    const { present, past } = ClubDirectory.partition(clubs, rankedKeys);
     const visible = includePast ? [...present, ...past] : present;
     return {
         year,
