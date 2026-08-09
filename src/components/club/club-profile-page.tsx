@@ -3,6 +3,7 @@ import { useCallback, useMemo } from 'react';
 import type { JSX } from 'react';
 import { accentBg, isDarkAccent } from '@/components/accent';
 import { PointsBarChart } from '@/components/charts/points-bar-chart';
+import { TrendChart } from '@/components/charts/trend-chart';
 import { ClubResultsTable } from '@/components/club/club-results-table';
 import { formatNumber, formatPercent, NO_VALUE } from '@/components/format';
 import { PageShell, Panel, StatFigure } from '@/components/ui/layout';
@@ -111,6 +112,28 @@ export function ClubProfilePage(): JSX.Element {
                     </div>
                 </div>
             </div>
+
+            <Panel className="mb-6 p-6 sm:p-8">
+                <h2 className="text-lg font-semibold text-ink">
+                    {'Club strength by season'}
+                </h2>
+                <div className="mt-6 overflow-x-auto">
+                    {/* Narrow screens scroll rather than shrink the year
+                        labels past legibility. */}
+                    <div className="min-w-[44rem]">
+                        <TrendChart
+                            points={profile.trend.overall}
+                            title={`${profile.club.name}, all grades`}
+                            accent={profile.club.accent}
+                        />
+                    </div>
+                </div>
+                <p className="mt-4 max-w-[46rem] text-sm text-ink-muted">
+                    {
+                        'Strength is the club’s average finishing position across every grade it fields, where 1.00 is top of the grade. It ignores how many teams a club fields, so it answers “are our teams doing better?” — unlike the championship ranking, which rewards depth as well as performance.'
+                    }
+                </p>
+            </Panel>
 
             <Panel className="mb-6 p-6 sm:p-8">
                 <h2 className="text-lg font-semibold text-ink">
