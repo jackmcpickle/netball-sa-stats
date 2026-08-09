@@ -4,18 +4,11 @@ import type { JSX } from 'react';
 import { z } from 'zod';
 import { ClubProfilePage } from '@/components/club/club-profile-page';
 import { PageShell } from '@/components/ui/layout';
-import { getClubProfile, listClubs } from '@/data';
-import type { Club, ClubProfile } from '@/data/types';
-import type { TableState } from '@/db/queries/pagination';
+import { getDb } from '@/db';
 import { tableSearchSchema } from '@/routes/-table-params';
+import { loadClubProfileData } from '@/server/loaders/club-profile';
 
-export interface ClubProfileData {
-    readonly profile: ClubProfile & {
-        readonly totalRows: number;
-        readonly tableState: TableState;
-    };
-    readonly clubs: readonly Club[];
-}
+export type { ClubProfileData } from '@/server/loaders/club-profile';
 
 const loadClub = createServerFn({ method: 'GET' })
     .validator(
@@ -27,15 +20,7 @@ const loadClub = createServerFn({ method: 'GET' })
             pageSize: z.number().int().optional(),
         }),
     )
-    .handler(async ({ data }): Promise<ClubProfileData | null> => {
-        const profile = await getClubProfile(data.clubKey, {
-            sort: data.sort,
-            dir: data.dir,
-            page: data.page,
-            pageSize: data.pageSize,
-        });
-        return profile ? { profile, clubs: await listClubs() } : null;
-    });
+    .handler(async ({ data }) => loadClubProfileData(getDb(), data));
 
 function ClubNotFound(): JSX.Element {
     return (

@@ -2,35 +2,12 @@ import { createFileRoute } from '@tanstack/react-router';
 import { createServerFn } from '@tanstack/react-start';
 import { z } from 'zod';
 import { RankingsPage } from '@/components/rankings/rankings-page';
-import {
-    championshipSize,
-    getChampionshipSeason,
-    getCoverage,
-    getRankSeries,
-    latestRankedYear,
-    listClubs,
-    listGrades,
-} from '@/data';
-import type {
-    ChampionshipSeason,
-    ClubRankSeries,
-    Coverage,
-} from '@/data/types';
-import type { TableState } from '@/db/queries/pagination';
+import { getDb } from '@/db';
 import { parseOptionalIntParam } from '@/routes/-search-params';
 import { tableSearchSchema } from '@/routes/-table-params';
+import { loadRankingsData } from '@/server/loaders/rankings';
 
-export interface RankingsData {
-    readonly coverage: Coverage;
-    readonly season: ChampionshipSeason;
-    readonly totalRows: number;
-    readonly tableState: TableState;
-    readonly previousYear: number | null;
-    readonly series: readonly ClubRankSeries[];
-    readonly worstRank: number;
-    readonly clubCount: number;
-    readonly gradeCount: number;
-}
+export type { RankingsData } from '@/server/loaders/rankings';
 
 const searchSchema = tableSearchSchema.extend({
     season: z.preprocess(parseOptionalIntParam, z.number().int().optional()),
@@ -50,46 +27,7 @@ const loadRankings = createServerFn({ method: 'GET' })
             pageSize: z.number().int().optional(),
         }),
     )
-    .handler(async ({ data }): Promise<RankingsData> => {
-        const coverage = await getCoverage();
-        const year =
-            data.season !== undefined &&
-            coverage.rankedYears.includes(data.season)
-                ? data.season
-                : await latestRankedYear();
-        const index = coverage.rankedYears.indexOf(year);
-        const [season, series, worstRank, clubs, gradesByYear] =
-            await Promise.all([
-                getChampionshipSeason(year, {
-                    sort: data.sort,
-                    dir: data.dir,
-                    page: data.page,
-                    pageSize: data.pageSize,
-                }),
-                getRankSeries(7),
-                championshipSize(),
-                listClubs(),
-                Promise.all(coverage.years.map(listGrades)),
-            ]);
-        if (!season) {
-            throw new Error(`No championship for ${String(year)}`);
-        }
-        return {
-            coverage,
-            season,
-            totalRows: season.totalRows,
-            tableState: season.tableState,
-            previousYear:
-                index > 0 ? (coverage.rankedYears[index - 1] ?? null) : null,
-            series,
-            worstRank,
-            clubCount: clubs.length,
-            gradeCount: gradesByYear.reduce(
-                (total, grades) => total + grades.length,
-                0,
-            ),
-        };
-    });
+    .handler(async ({ data }) => loadRankingsData(getDb(), data));
 
 export const Route = createFileRoute('/')({
     validateSearch: searchSchema,

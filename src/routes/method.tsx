@@ -1,23 +1,13 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { createServerFn } from '@tanstack/react-start';
 import { MethodPage } from '@/components/method/method-page';
-import { getCoverage, IS_SAMPLE_DATA, listGradeWeights } from '@/data';
-import type { Coverage, GradeWeightRow } from '@/data/types';
+import { getDb } from '@/db';
+import { loadMethodData } from '@/server/loaders/method';
 
-export interface MethodData {
-    readonly coverage: Coverage;
-    readonly weights: readonly GradeWeightRow[];
-    readonly isSampleData: boolean;
-}
+export type { MethodData } from '@/server/loaders/method';
 
-const loadMethod = createServerFn({ method: 'GET' }).handler(
-    async (): Promise<MethodData> => {
-        const [coverage, weights] = await Promise.all([
-            getCoverage(),
-            listGradeWeights(),
-        ]);
-        return { coverage, weights, isSampleData: IS_SAMPLE_DATA };
-    },
+const loadMethod = createServerFn({ method: 'GET' }).handler(async () =>
+    loadMethodData(getDb()),
 );
 
 export const Route = createFileRoute('/method')({

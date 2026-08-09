@@ -23,7 +23,7 @@ import type {
  * imported it any more, and a second source of numbers that nobody reads goes
  * stale silently. It is in the history if the shapes are ever wanted again.
  */
-import { getDb } from '@/db';
+import type { Db } from '@/db';
 import {
     CHAMPIONSHIP_TABLE_SPEC,
     fetchChampionshipHistory,
@@ -52,23 +52,24 @@ import { fetchGradeWeights } from '@/db/queries/weights';
 /** The site now ships the real import rather than generated rows. */
 export const IS_SAMPLE_DATA = false;
 
-export async function listClubs(): Promise<readonly Club[]> {
-    return fetchClubs(getDb());
+export async function listClubs(db: Db): Promise<readonly Club[]> {
+    return fetchClubs(db);
 }
 
 export async function listGrades(
+    db: Db,
     year: number,
 ): Promise<readonly GradeSummary[]> {
-    return fetchGrades(getDb(), year);
+    return fetchGrades(db, year);
 }
 
-export async function getCoverage(): Promise<Coverage> {
-    return buildCoverage(await fetchSeasons(getDb()), IS_SAMPLE_DATA);
+export async function getCoverage(db: Db): Promise<Coverage> {
+    return buildCoverage(await fetchSeasons(db), IS_SAMPLE_DATA);
 }
 
 /** The most recent season with a complete championship. */
-export async function latestRankedYear(): Promise<number> {
-    const year = (await getCoverage()).rankedYears.at(-1);
+export async function latestRankedYear(db: Db): Promise<number> {
+    const year = (await getCoverage(db)).rankedYears.at(-1);
     if (year === undefined) {
         throw new Error('No ranked seasons');
     }
@@ -76,6 +77,7 @@ export async function latestRankedYear(): Promise<number> {
 }
 
 export async function getChampionshipSeason(
+    db: Db,
     year: number,
     state?: RawTableState,
 ): Promise<
@@ -85,7 +87,7 @@ export async function getChampionshipSeason(
       })
     | null
 > {
-    const history = await fetchChampionshipHistory(getDb());
+    const history = await fetchChampionshipHistory(db);
     const season = history.find((entry) => entry.year === year) ?? null;
     if (!season) {
         return null;
@@ -112,9 +114,10 @@ export async function getChampionshipSeason(
  * ranked club past the first page.
  */
 export async function getChampionshipSeasonRows(
+    db: Db,
     year: number,
 ): Promise<readonly ChampionshipRow[]> {
-    const history = await fetchChampionshipHistory(getDb());
+    const history = await fetchChampionshipHistory(db);
     return history.find((entry) => entry.year === year)?.rows ?? [];
 }
 
@@ -122,8 +125,10 @@ export async function getChampionshipSeasonRows(
  * Latest year each club held a championship rank. Drives the "last ranked 2016"
  * line on past-club cards, which answers the question a bare dash provokes.
  */
-export async function lastRankedYears(): Promise<ReadonlyMap<string, number>> {
-    const history = await fetchChampionshipHistory(getDb());
+export async function lastRankedYears(
+    db: Db,
+): Promise<ReadonlyMap<string, number>> {
+    const history = await fetchChampionshipHistory(db);
     const latest = new Map<string, number>();
     for (const season of history) {
         for (const row of season.rows) {
@@ -153,10 +158,11 @@ function seriesPoints(
  * most career points plus any club the caller wants to keep visible.
  */
 export async function getRankSeries(
+    db: Db,
     limit: number,
     focusKey?: string,
 ): Promise<readonly ClubRankSeries[]> {
-    const history = await fetchChampionshipHistory(getDb());
+    const history = await fetchChampionshipHistory(db);
     const careerPoints = new Map<string, number>();
     const clubs = new Map<string, Club>();
     for (const season of history) {
@@ -180,12 +186,13 @@ export async function getRankSeries(
 }
 
 /** Size of the championship field, so the chart axis knows its worst rank. */
-export async function championshipSize(): Promise<number> {
-    const history = await fetchChampionshipHistory(getDb());
+export async function championshipSize(db: Db): Promise<number> {
+    const history = await fetchChampionshipHistory(db);
     return Math.max(1, ...history.map((season) => season.rows.length));
 }
 
 export async function getClubProfile(
+    db: Db,
     clubKey: string,
     state?: RawTableState,
 ): Promise<
@@ -195,7 +202,7 @@ export async function getClubProfile(
       })
     | null
 > {
-    const profile = await fetchClubProfile(getDb(), clubKey);
+    const profile = await fetchClubProfile(db, clubKey);
     if (!profile) {
         return null;
     }
@@ -214,6 +221,7 @@ export async function getClubProfile(
 }
 
 export async function getLadderFor(
+    db: Db,
     gradeKey: string,
     state?: RawTableState,
 ): Promise<
@@ -223,7 +231,7 @@ export async function getLadderFor(
       })
     | null
 > {
-    const ladder = await fetchLadder(getDb(), gradeKey);
+    const ladder = await fetchLadder(db, gradeKey);
     if (!ladder) {
         return null;
     }
@@ -241,6 +249,8 @@ export async function getLadderFor(
     };
 }
 
-export async function listGradeWeights(): Promise<readonly GradeWeightRow[]> {
-    return fetchGradeWeights(getDb());
+export async function listGradeWeights(
+    db: Db,
+): Promise<readonly GradeWeightRow[]> {
+    return fetchGradeWeights(db);
 }
