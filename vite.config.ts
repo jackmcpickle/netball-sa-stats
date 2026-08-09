@@ -225,8 +225,7 @@ export default defineConfig({
     },
     test: {
         // Node by default: pipeline, scoring and db logic are the bulk of the suite.
-        // Component tests opt in per file with `// @vitest-environment jsdom`
-        // (needs the jsdom package, not installed yet).
+        // Component tests opt in per file with `// @vitest-environment jsdom`.
         environment: 'node',
         hookTimeout: 30_000,
         testTimeout: 15_000,
