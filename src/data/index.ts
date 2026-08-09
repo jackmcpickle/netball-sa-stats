@@ -48,6 +48,7 @@ import {
     type TableState,
 } from '@/db/queries/pagination';
 import { fetchGradeWeights } from '@/db/queries/weights';
+import { Coverage as CoverageDomain } from '@/server/domain/coverage';
 
 /** The site now ships the real import rather than generated rows. */
 export const IS_SAMPLE_DATA = false;
@@ -69,11 +70,13 @@ export async function getCoverage(db: Db): Promise<Coverage> {
 
 /** The most recent season with a complete championship. */
 export async function latestRankedYear(db: Db): Promise<number> {
-    const year = (await getCoverage(db)).rankedYears.at(-1);
-    if (year === undefined) {
+    const result = CoverageDomain.from(
+        await fetchSeasons(db),
+    ).latestRankedYear();
+    if (!result.ok) {
         throw new Error('No ranked seasons');
     }
-    return year;
+    return result.value;
 }
 
 export async function getChampionshipSeason(

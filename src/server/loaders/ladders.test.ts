@@ -178,21 +178,14 @@ describe('loadLaddersData', () => {
         expect(result.ladder).toBeNull();
     });
 
-    it('characterises the empty-dataset year bug', async () => {
+    it('returns an empty dataset shape for a completely empty database', async () => {
         const db = createTestDb();
 
-        // BUG (known, not fixed here): with a completely empty database,
-        // `coverage.years` and `coverage.rankedYears` are both empty, so the
-        // `(coverage.years.at(-1) ?? coverage.rankedYears[0])` fallback in
-        // `loadLaddersData` produces `year === undefined` even though
-        // `LaddersData.year` is typed `number`. That `undefined` is then
-        // passed to `listGrades(db, year)`, whose query binds `year` as a
-        // SQLite statement parameter — and `undefined` cannot be bound, so
-        // the loader call rejects with a `TypeError` rather than returning a
-        // `LaddersData` with an `undefined` year. Task 5 of this plan
-        // (EmptyDataset error) fixes the root cause; when it lands, flip this
-        // assertion to expect that intentional error instead of this
-        // incidental bind-time crash.
-        await expect(loadLaddersData(db, {})).rejects.toThrow(/Failed query/iu);
+        const result = await loadLaddersData(db, {});
+
+        expect(result.year).toBeNull();
+        expect(result.years).toEqual([]);
+        expect(result.grades).toEqual([]);
+        expect(result.ladder).toBeNull();
     });
 });

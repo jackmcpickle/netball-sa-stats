@@ -3,16 +3,22 @@ import type { JSX, ReactNode } from 'react';
 import { useCallback, useMemo } from 'react';
 import { accentText } from '@/components/accent';
 import { formatNumber, formatPercent } from '@/components/format';
+import { SeasonSelector } from '@/components/ladders/season-selector';
 import { ClubLink } from '@/components/links';
 import { DataTable, type DataTableColumn } from '@/components/ui/data-table';
 import { Eyebrow, PageShell, PageTitle, Panel } from '@/components/ui/layout';
 import { NoteMarker } from '@/components/ui/note-marker';
 import { SearchableSelect } from '@/components/ui/searchable-select';
-import { FieldSelect } from '@/components/ui/select';
 import type { LadderRow } from '@/data/types';
 import type { TableState } from '@/db/queries/pagination';
 
 const routeApi = getRouteApi('/ladders');
+
+function emptyStateMessage(year: number | null): string {
+    return year === null
+        ? 'No seasons are recorded yet.'
+        : `No grades are recorded for ${String(year)}.`;
+}
 
 function renderPositionCell(row: LadderRow): ReactNode {
     return <span className="numeric">{row.position}</span>;
@@ -219,9 +225,8 @@ export function LaddersPage(): JSX.Element {
             </div>
 
             <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:flex-wrap">
-                <FieldSelect
-                    label="Season"
-                    value={data.year}
+                <SeasonSelector
+                    year={data.year}
                     options={yearOptions}
                     onValueChange={onYearChange}
                 />
@@ -261,7 +266,7 @@ export function LaddersPage(): JSX.Element {
             ) : (
                 <Panel className="p-8">
                     <p className="text-ink-body">
-                        {`No grades are recorded for ${String(data.year)}.`}
+                        {emptyStateMessage(data.year)}
                     </p>
                 </Panel>
             )}

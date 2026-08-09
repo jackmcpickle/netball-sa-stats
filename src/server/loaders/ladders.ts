@@ -1,11 +1,14 @@
-import { getCoverage, getLadderFor, listGrades } from '@/data';
+import { getLadderFor, listGrades } from '@/data';
 import type { GradeSummary, Ladder } from '@/data/types';
 import type { Db } from '@/db';
+import { fetchSeasons } from '@/db/queries/coverage';
 import type { TableState } from '@/db/queries/pagination';
+import { Coverage } from '@/server/domain/coverage';
 
 export interface LaddersData {
     readonly years: readonly number[];
-    readonly year: number;
+    /** Null only for a genuinely empty dataset — see `Coverage.resolveYear`. */
+    readonly year: number | null;
     readonly grades: readonly GradeSummary[];
     readonly ladder:
         | (Ladder & {
@@ -26,11 +29,16 @@ export async function loadLaddersData(
         pageSize?: number;
     },
 ): Promise<LaddersData> {
-    const coverage = await getCoverage(db);
-    const year =
-        data.year !== undefined && coverage.years.includes(data.year)
-            ? data.year
-            : (coverage.years.at(-1) ?? coverage.rankedYears[0]);
+    const coverage = Coverage.from(await fetchSeasons(db));
+    const year = coverage.resolveYear(data.year);
+    if (year === undefined) {
+        return {
+            years: coverage.years(),
+            year: null,
+            grades: [],
+            ladder: null,
+        };
+    }
     const grades = await listGrades(db, year);
     const gradeKey =
         data.grade !== undefined &&
@@ -38,7 +46,7 @@ export async function loadLaddersData(
             ? data.grade
             : grades[0]?.key;
     return {
-        years: coverage.years,
+        years: coverage.years(),
         year,
         grades,
         ladder:

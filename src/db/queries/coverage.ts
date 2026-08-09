@@ -9,6 +9,7 @@ import type { Db } from '@/db';
 import { methodologyBreak, timelineGaps } from '@/db/queries/era-break';
 import { competitions, seasons } from '@/db/schema';
 import type { Source } from '@/db/schema';
+import { Coverage as CoverageDomain } from '@/server/domain/coverage';
 
 /**
  * Short forms for tight table cells. Not in the database: it is presentation,
@@ -50,24 +51,23 @@ export async function fetchSeasons(db: Db): Promise<readonly SeasonRow[]> {
         .orderBy(asc(seasons.startYear), asc(competitions.id));
 }
 
-/** Every year the site holds any data for, ascending. */
+/**
+ * Every year the site holds any data for, ascending. Delegates to the
+ * `Coverage` domain object in `@/server/domain/coverage`, which owns this
+ * logic now.
+ */
 export function coveredYears(rows: readonly SeasonRow[]): readonly number[] {
-    return [...new Set(rows.map((row) => row.startYear))].sort((a, b) => a - b);
+    return CoverageDomain.from(rows).years();
 }
 
 /**
  * A year is rankable only when every competition that ran it has finished. One
  * in-progress season would make the championship a partial count, which is
- * worse than no championship at all.
+ * worse than no championship at all. Delegates to the `Coverage` domain
+ * object.
  */
 export function rankedYears(rows: readonly SeasonRow[]): readonly number[] {
-    return coveredYears(rows).filter((year) => {
-        const inYear = rows.filter((row) => row.startYear === year);
-        return (
-            inYear.some((row) => row.isFinal) &&
-            inYear.every((row) => row.isFinal)
-        );
-    });
+    return CoverageDomain.from(rows).rankedYears();
 }
 
 function seasonCoverage(
