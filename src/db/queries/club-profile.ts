@@ -6,6 +6,7 @@ import type {
 } from '@/data/types';
 import type { Db } from '@/db';
 import { fetchChampionshipHistory } from '@/db/queries/championship';
+import { buildClubTrend } from '@/db/queries/club-trend';
 import { accentFor } from '@/db/queries/clubs';
 import { buildCoverage, fetchSeasons } from '@/db/queries/coverage';
 import { fetchResults } from '@/db/queries/results';
@@ -145,5 +146,6 @@ export async function fetchClubProfile(
         gamesPlayed: record.games,
         seasons,
         results: toGradeResults(rows),
+        trend: buildClubTrend(rows, coverage.rankedYears),
     };
 }
