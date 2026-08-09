@@ -10,6 +10,7 @@ import {
 } from '@/data';
 import type { Club } from '@/data/types';
 import { partitionClubs } from '@/db/queries/club-activity';
+import { parseOptionalBoolParam } from '@/routes/-search-params';
 
 export interface ClubIndexEntry {
     readonly club: Club;
@@ -28,7 +29,7 @@ export interface ClubIndexData {
 }
 
 const searchSchema = z.object({
-    includePast: z.coerce.boolean().optional(),
+    includePast: z.preprocess(parseOptionalBoolParam, z.boolean().optional()),
 });
 
 const loadClubs = createServerFn({ method: 'GET' })
