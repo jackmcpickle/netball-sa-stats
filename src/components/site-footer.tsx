@@ -1,5 +1,7 @@
 import { Link } from '@tanstack/react-router';
 import type { JSX } from 'react';
+import { NETBALL_ICON_ATTRIBUTION } from '@/components/branding';
+import { NetballMark } from '@/components/netball-mark';
 
 export function SiteFooter(): JSX.Element {
     return (
@@ -7,10 +9,7 @@ export function SiteFooter(): JSX.Element {
             <div className="mx-auto grid max-w-shell gap-10 sm:grid-cols-2 lg:grid-cols-[2fr_1fr_1fr_1fr] lg:gap-8">
                 <div>
                     <div className="mb-3 flex items-center gap-2.5">
-                        <span
-                            aria-hidden="true"
-                            className="size-[22px] rounded-full bg-brand"
-                        />
+                        <NetballMark className="size-[22px] shrink-0 text-brand" />
                         <span className="text-[15px] font-semibold text-ink">
                             {'Netball Open Data'}
                         </span>
@@ -80,6 +79,22 @@ export function SiteFooter(): JSX.Element {
                     </span>
                 </div>
             </div>
+
+            <p className="mx-auto mt-10 max-w-shell text-xs leading-relaxed text-ink-faint">
+                {'netball by '}
+                {NETBALL_ICON_ATTRIBUTION.creator}
+                {' from '}
+                <a
+                    href={NETBALL_ICON_ATTRIBUTION.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title={NETBALL_ICON_ATTRIBUTION.title}
+                    className="text-ink-faint underline decoration-rule underline-offset-2 hover:text-ink-muted"
+                >
+                    {'Noun Project'}
+                </a>
+                {` (${NETBALL_ICON_ATTRIBUTION.license})`}
+            </p>
         </footer>
     );
 }
