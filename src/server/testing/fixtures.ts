@@ -71,7 +71,13 @@ export interface SeedResult {
     results: Map<string, number>;
 }
 
-/** Inserts (or reuses) a club by key and records its id, returning the id. */
+/**
+ * Inserts (or reuses, within a single seed() call) a club by key and
+ * records its id, returning the id. Reuse is scoped to the in-memory
+ * `result.clubs` map built during this call, not a database-level upsert:
+ * a genuine duplicate clubKey across two seed() calls hits the unique
+ * index and rejects, rather than silently merging.
+ */
 async function seedClub(
     db: Db,
     result: SeedResult,
@@ -84,10 +90,6 @@ async function seedClub(
     const [clubRow] = await db
         .insert(clubs)
         .values({ clubKey: resultSpec.clubKey, name: resultSpec.clubName })
-        .onConflictDoUpdate({
-            target: clubs.clubKey,
-            set: { name: resultSpec.clubName },
-        })
         .returning();
     result.clubs.set(resultSpec.clubKey, clubRow.id);
     return clubRow.id;
@@ -157,38 +159,19 @@ async function seedGrade(
             teamCount: gradeSpec.teamCount,
             ageBand: gradeSpec.ageBand,
         })
-        .onConflictDoUpdate({
-            target: grades.gradeKey,
-            set: {
-                name: gradeSpec.name,
-                tier: gradeSpec.tier,
-                division: gradeSpec.division ?? null,
-                teamCount: gradeSpec.teamCount,
-            },
-        })
         .returning();
     result.grades.set(gradeSpec.gradeKey, gradeRow.id);
 
     const weightKey = `${gradeSpec.tier}:${gradeSpec.division ?? ''}`;
     if (!weightedTiers.has(weightKey)) {
         weightedTiers.add(weightKey);
-        await db
-            .insert(gradeWeights)
-            .values({
-                competitionId,
-                tier: gradeSpec.tier,
-                division: gradeSpec.division ?? null,
-                label: gradeSpec.name,
-                weight: 1,
-            })
-            .onConflictDoUpdate({
-                target: [
-                    gradeWeights.competitionId,
-                    gradeWeights.tier,
-                    gradeWeights.division,
-                ],
-                set: { weight: 1, label: gradeSpec.name },
-            });
+        await db.insert(gradeWeights).values({
+            competitionId,
+            tier: gradeSpec.tier,
+            division: gradeSpec.division ?? null,
+            label: gradeSpec.name,
+            weight: 1,
+        });
     }
 
     for (const resultSpec of gradeSpec.results) {
@@ -216,14 +199,6 @@ async function seedSeason(
             isFinal: seasonSpec.isFinal,
             source: 'playhq',
         })
-        .onConflictDoUpdate({
-            target: seasons.seasonKey,
-            set: {
-                startYear: seasonSpec.startYear,
-                endYear: seasonSpec.endYear ?? seasonSpec.startYear,
-                isFinal: seasonSpec.isFinal,
-            },
-        })
         .returning();
     result.seasons.set(seasonSpec.seasonKey, seasonRow.id);
 
@@ -250,10 +225,6 @@ async function seedCompetition(
     const [competitionRow] = await db
         .insert(competitions)
         .values({ key: competitionSpec.key, name: competitionSpec.name })
-        .onConflictDoUpdate({
-            target: competitions.key,
-            set: { name: competitionSpec.name },
-        })
         .returning();
     result.competitions.set(competitionSpec.key, competitionRow.id);
 

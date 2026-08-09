@@ -22,6 +22,15 @@ function createMigratedSqlite(): DatabaseSync {
         const sql = readFileSync(resolve(dir, file), 'utf8');
         sqlite.exec(sql.replaceAll('--> statement-breakpoint', ''));
     }
+    // drizzle/0001_seed.sql pre-loads `competitions` and `grade_weights`
+    // (catalogue rows + championship weights). Later migrations
+    // (0002/0004/0005) add to / mutate those same rows. Tests must start
+    // from a genuinely empty database so seed() natural-key collisions
+    // surface as errors instead of silently merging into production data.
+    // `grade_weights.competition_id` cascades on delete, but node:sqlite
+    // does not enforce FKs by default, so both tables are cleared explicitly.
+    sqlite.exec('DELETE FROM grade_weights;');
+    sqlite.exec('DELETE FROM competitions;');
     return sqlite;
 }
 
