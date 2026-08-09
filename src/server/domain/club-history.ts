@@ -5,7 +5,6 @@
  * free function in `src/db/queries/club-trend.ts`; both now live here, and
  * their old homes delegate to this class.
  */
-import type { TableState } from '@/db/queries/pagination';
 import type { ResultRow } from '@/db/queries/results';
 import { bandLabel } from '@/pipeline/scoring/bands';
 import { meanStrength } from '@/pipeline/scoring/strength';
@@ -16,7 +15,6 @@ import type {
     ClubTrend,
     ClubTrendPoint,
 } from '@/server/dto/club-profile.dto';
-import type { Club } from '@/server/dto/shared.dto';
 
 function played(result: ClubGradeResult): number {
     return (result.won ?? 0) + (result.lost ?? 0) + (result.drawn ?? 0);
@@ -129,41 +127,25 @@ function buildClubTrend(
 }
 
 export class ClubHistory {
-    private readonly club: Club;
     private readonly resultsData: readonly ResultRow[];
     private readonly rankedYearsData: readonly number[];
 
     private constructor(
-        club: Club,
         results: readonly ResultRow[],
         rankedYears: readonly number[],
     ) {
-        this.club = club;
         this.resultsData = results;
         this.rankedYearsData = rankedYears;
     }
 
     public static from(
-        club: Club,
         results: readonly ResultRow[],
         rankedYears: readonly number[],
     ): ClubHistory {
-        return new ClubHistory(club, results, rankedYears);
-    }
-
-    public clubData(): Club {
-        return this.club;
+        return new ClubHistory(results, rankedYears);
     }
 
     public trend(): ClubTrend {
         return buildClubTrend(this.resultsData, this.rankedYearsData);
-    }
-
-    public sortedResults(q: TableQuery): {
-        readonly rows: readonly ClubGradeResult[];
-        readonly totalRows: number;
-        readonly state: TableState;
-    } {
-        return q.apply(toGradeResults(this.resultsData), sortClubResults);
     }
 }

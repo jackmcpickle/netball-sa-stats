@@ -32,12 +32,11 @@ function seriesPoints(
 
 /**
  * Rank history for the movement chart, limited to the `limit` clubs with the
- * most career points plus any club the caller wants to keep visible.
+ * most career points.
  */
 function rankSeries(
     history: readonly ChampionshipSeason[],
     limit: number,
-    focusKey?: string,
 ): readonly ClubRankSeries[] {
     const careerPoints = new Map<string, number>();
     const clubs = new Map<string, Club>();
@@ -52,9 +51,6 @@ function rankSeries(
     }
     const ordered = [...careerPoints.entries()].sort((a, b) => b[1] - a[1]);
     const keys = ordered.slice(0, limit).map(([key]) => key);
-    if (focusKey && !keys.includes(focusKey) && careerPoints.has(focusKey)) {
-        keys.push(focusKey);
-    }
     return keys.flatMap((key) => {
         const club = clubs.get(key);
         return club ? [{ club, points: seriesPoints(history, key) }] : [];

@@ -60,16 +60,17 @@ export class Coverage {
 
     /**
      * Picks the year a caller should use: the requested year when it's
-     * actually covered, otherwise the latest covered (or, failing that,
-     * latest ranked) year — exactly today's fallback behaviour. Returns
-     * `undefined` only when the dataset is genuinely empty; an
-     * unknown/out-of-range request still resolves to a real year.
+     * actually covered, otherwise the latest covered year — exactly today's
+     * fallback behaviour. Returns `undefined` only when the dataset is
+     * genuinely empty; an unknown/out-of-range request still resolves to a
+     * real year. (`years()` is empty only when `rankedYears()` is too, so
+     * there is no separate ranked-year fallback to fall back to.)
      */
     public resolveYear(requested?: number): number | undefined {
         const years = this.years();
         if (requested !== undefined && years.includes(requested)) {
             return requested;
         }
-        return years.at(-1) ?? this.rankedYears()[0];
+        return years.at(-1);
     }
 }

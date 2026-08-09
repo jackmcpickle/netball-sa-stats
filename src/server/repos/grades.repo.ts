@@ -13,7 +13,7 @@ import type { DomainError, Result } from '@/server/domain/result';
 import { err, ok } from '@/server/domain/result';
 import type { LadderRow } from '@/server/dto/ladders.dto';
 import type { GradeSummary } from '@/server/dto/shared.dto';
-import { accentFor } from '@/server/repos/clubs.repo';
+import { accentFor } from '@/server/repos/club-accent';
 
 /**
  * Every grade run in one calendar year, strongest band first so a 40-entry

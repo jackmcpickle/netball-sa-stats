@@ -62,14 +62,6 @@ export class Championship {
         return ok(new Championship(season.year, season.rows));
     }
 
-    public rows(): readonly ChampionshipRow[] {
-        return this.rowsData;
-    }
-
-    public size(): number {
-        return this.rowsData.length;
-    }
-
     /**
      * The ranked year immediately before this one, or `null` when this is
      * the earliest ranked year (or there is no earlier ranked year at all).
@@ -85,9 +77,5 @@ export class Championship {
         readonly state: TableState;
     } {
         return q.apply(this.rowsData, sortChampionshipRows);
-    }
-
-    public rankedClubKeys(): ReadonlySet<string> {
-        return new Set(this.rowsData.map((row) => row.club.key));
     }
 }

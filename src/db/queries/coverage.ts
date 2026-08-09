@@ -1,6 +1,4 @@
-import type { Db } from '@/db';
 import { methodologyBreak, timelineGaps } from '@/db/queries/era-break';
-import { fetchSeasons } from '@/db/queries/seasons';
 import type { SeasonRow } from '@/db/queries/seasons';
 import { Coverage as CoverageDomain } from '@/server/domain/coverage';
 import type {
@@ -28,25 +26,6 @@ const SHORT_NAMES: Readonly<Record<string, string>> = {
 
 export function toCompetition(key: string, name: string): Competition {
     return { key, name, shortName: SHORT_NAMES[key] ?? name };
-}
-
-/**
- * Every year the site holds any data for, ascending. Delegates to the
- * `Coverage` domain object in `@/server/domain/coverage`, which owns this
- * logic now.
- */
-export function coveredYears(rows: readonly SeasonRow[]): readonly number[] {
-    return CoverageDomain.from(rows).years();
-}
-
-/**
- * A year is rankable only when every competition that ran it has finished. One
- * in-progress season would make the championship a partial count, which is
- * worse than no championship at all. Delegates to the `Coverage` domain
- * object.
- */
-export function rankedYears(rows: readonly SeasonRow[]): readonly number[] {
-    return CoverageDomain.from(rows).rankedYears();
 }
 
 function seasonCoverage(
@@ -80,7 +59,7 @@ function seasonCoverage(
 export function coverageChangeNote(
     rows: readonly SeasonRow[],
 ): CoverageChange | null {
-    const years = coveredYears(rows);
+    const years = CoverageDomain.from(rows).years();
     const firstYear = years[0];
     if (firstYear === undefined) {
         return null;
@@ -112,8 +91,9 @@ export function buildCoverage(
     rows: readonly SeasonRow[],
     isSampleData: boolean,
 ): Coverage {
-    const years = coveredYears(rows);
-    const ranked = rankedYears(rows);
+    const coverage = CoverageDomain.from(rows);
+    const years = coverage.years();
+    const ranked = coverage.rankedYears();
     const keys = [...new Set(rows.map((row) => row.competitionKey))];
     const sourceByYear = new Map<number, Set<string>>();
     for (const row of rows) {
@@ -148,9 +128,4 @@ export function buildCoverage(
             };
         }),
     };
-}
-
-/** The full `Coverage` DTO, assembled from every season row. */
-export async function fetchCoverage(db: Db): Promise<Coverage> {
-    return buildCoverage(await fetchSeasons(db), IS_SAMPLE_DATA);
 }

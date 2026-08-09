@@ -160,7 +160,7 @@ describe('Ladder.sorted attacker-reachable columns', () => {
     });
 });
 
-describe('Ladder.teamCount', () => {
+describe('Ladder.sorted totalRows', () => {
     it('reports the pre-slice total, not the size of a paged-down page', () => {
         const rows = Array.from({ length: 5 }, (_, index) =>
             row(index + 1, 10, `Team ${String(index)}`),
@@ -169,7 +169,6 @@ describe('Ladder.teamCount', () => {
         const paged = ladder.sorted(
             TableQuery.from({ pageSize: 25, page: 1 }, spec),
         );
-        expect(ladder.teamCount()).toBe(5);
         expect(paged.totalRows).toBe(5);
     });
 });

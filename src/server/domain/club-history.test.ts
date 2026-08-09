@@ -1,22 +1,17 @@
 import { describe, expect, it } from 'vitest';
 import type { ResultRow } from '@/db/queries/results';
-import { ClubHistory } from '@/server/domain/club-history';
+import {
+    ClubHistory,
+    sortClubResults,
+    toGradeResults,
+} from '@/server/domain/club-history';
 import { TableQuery } from '@/server/domain/table-query';
-import type { Club } from '@/server/dto/shared.dto';
 
 const spec = {
     sortable: ['year', 'grade', 'position', 'won'],
     defaultSort: 'year',
     defaultDesc: true,
 } as const;
-
-const club: Club = {
-    key: 'matrics',
-    name: 'Matrics',
-    establishedYear: null,
-    homeVenue: null,
-    accent: 'pink',
-};
 
 function row(over: Partial<ResultRow>): ResultRow {
     return {
@@ -51,7 +46,7 @@ function row(over: Partial<ResultRow>): ResultRow {
     };
 }
 
-describe('ClubHistory.sortedResults', () => {
+describe('sortClubResults', () => {
     it('breaks ties on (year desc, gradeKey asc) so paging is stable', () => {
         const rows = [
             row({ year: 2020, gradeKey: 'c' }),
@@ -59,24 +54,22 @@ describe('ClubHistory.sortedResults', () => {
             row({ year: 2021, gradeKey: 'a' }),
             row({ year: 2020, gradeKey: 'b' }),
         ];
-        const history = ClubHistory.from(club, rows, [2020, 2021]);
-        const sorted = history.sortedResults(
+        const sorted = sortClubResults(
+            toGradeResults(rows),
             TableQuery.from({ sort: 'position', dir: 'asc' }, spec),
         );
         expect(
-            sorted.rows.map(
-                (entry) => `${String(entry.year)}-${entry.gradeKey}`,
-            ),
+            sorted.map((entry) => `${String(entry.year)}-${entry.gradeKey}`),
         ).toEqual(['2021-a', '2020-a', '2020-b', '2020-c']);
     });
 
     it('defaults to year descending', () => {
         const rows = [row({ year: 2018 }), row({ year: 2022 })];
-        const history = ClubHistory.from(club, rows, [2018, 2022]);
-        const sorted = history.sortedResults(
+        const sorted = sortClubResults(
+            toGradeResults(rows),
             TableQuery.from({ sort: 'year', dir: 'desc' }, spec),
         );
-        expect(sorted.rows.map((entry) => entry.year)).toEqual([2022, 2018]);
+        expect(sorted.map((entry) => entry.year)).toEqual([2022, 2018]);
     });
 
     it('sorts by grade name ascending', () => {
@@ -84,22 +77,21 @@ describe('ClubHistory.sortedResults', () => {
             row({ gradeKey: 'zed', gradeName: 'zed' }),
             row({ gradeKey: 'ace', gradeName: 'ace' }),
         ];
-        const history = ClubHistory.from(club, rows, [2024]);
-        const sorted = history.sortedResults(
+        const sorted = sortClubResults(
+            toGradeResults(rows),
             TableQuery.from({ sort: 'grade', dir: 'asc' }, spec),
         );
-        expect(sorted.rows[0]?.gradeKey).toBe('ace');
+        expect(sorted[0]?.gradeKey).toBe('ace');
     });
 });
 
 /**
- * `sort=played`/`sort=won` (points is derived from won/drawn, no direct
- * column) are attacker-reachable via URL search params — both go through
- * the private `played()`/`points()` helpers, so exercise them via the
- * public `sortedResults` surface with rows that differ only on the field
- * being sorted.
+ * `sort=played`/`sort=points` are attacker-reachable via URL search
+ * params — both go through the private `played()`/`points()` helpers, so
+ * exercise them via the exported `sortClubResults` with rows that differ
+ * only on the field being sorted.
  */
-describe('ClubHistory.sortedResults attacker-reachable columns', () => {
+describe('sortClubResults attacker-reachable columns', () => {
     const playedSpec = {
         sortable: ['played', 'points'],
         defaultSort: 'played',
@@ -111,11 +103,11 @@ describe('ClubHistory.sortedResults attacker-reachable columns', () => {
             row({ gradeKey: 'a', won: 10, lost: 5, drawn: 1 }),
             row({ gradeKey: 'b', won: 1, lost: 1, drawn: 0 }),
         ];
-        const history = ClubHistory.from(club, rows, [2024]);
-        const sorted = history.sortedResults(
+        const sorted = sortClubResults(
+            toGradeResults(rows),
             TableQuery.from({ sort: 'played', dir: 'asc' }, playedSpec),
         );
-        expect(sorted.rows.map((entry) => entry.gradeKey)).toEqual(['b', 'a']);
+        expect(sorted.map((entry) => entry.gradeKey)).toEqual(['b', 'a']);
     });
 
     it('sorts by points (2*won + drawn) descending', () => {
@@ -127,11 +119,11 @@ describe('ClubHistory.sortedResults attacker-reachable columns', () => {
             row({ gradeKey: 'few-points', won: 1, drawn: 0 }),
             row({ gradeKey: 'many-points', won: 5, drawn: 2 }),
         ];
-        const history = ClubHistory.from(club, rows, [2024]);
-        const sorted = history.sortedResults(
+        const sorted = sortClubResults(
+            toGradeResults(rows),
             TableQuery.from({ sort: 'points', dir: 'desc' }, playedSpec),
         );
-        expect(sorted.rows.map((entry) => entry.gradeKey)).toEqual([
+        expect(sorted.map((entry) => entry.gradeKey)).toEqual([
             'many-points',
             'few-points',
         ]);
@@ -140,11 +132,7 @@ describe('ClubHistory.sortedResults attacker-reachable columns', () => {
 
 describe('ClubHistory.trend', () => {
     it('emits a point per ranked year, including years the club missed', () => {
-        const history = ClubHistory.from(
-            club,
-            [row({ year: 2024 })],
-            [2023, 2024],
-        );
+        const history = ClubHistory.from([row({ year: 2024 })], [2023, 2024]);
         const trend = history.trend();
         expect(trend.overall.map((p) => p.year)).toEqual([2023, 2024]);
         expect(trend.overall[0]).toEqual({
@@ -158,7 +146,6 @@ describe('ClubHistory.trend', () => {
 
     it('groups bands by tier and labels them without division', () => {
         const trend = ClubHistory.from(
-            club,
             [
                 row({ tier: 10, gradeName: 'Primary 1' }),
                 row({ tier: 10, gradeName: 'Primary 2', ladderPosition: 10 }),
@@ -174,7 +161,6 @@ describe('ClubHistory.trend', () => {
 
     it('orders bands strongest first', () => {
         const trend = ClubHistory.from(
-            club,
             [row({ tier: 10 }), row({ tier: 1 })],
             [2024],
         ).trend();
@@ -183,7 +169,6 @@ describe('ClubHistory.trend', () => {
 
     it('includes position_uncertain archive rows', () => {
         const trend = ClubHistory.from(
-            club,
             [row({ source: 'archive_pdf', positionUncertain: true })],
             [2024],
         ).trend();
@@ -191,11 +176,7 @@ describe('ClubHistory.trend', () => {
     });
 
     it('omits bands the club never fielded', () => {
-        const trend = ClubHistory.from(
-            club,
-            [row({ tier: 5 })],
-            [2024],
-        ).trend();
+        const trend = ClubHistory.from([row({ tier: 5 })], [2024]).trend();
         expect(trend.bands).toHaveLength(1);
     });
 });

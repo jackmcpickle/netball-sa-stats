@@ -5,7 +5,7 @@
  */
 import { CLUB_RESULTS_TABLE_SPEC } from '@/db/queries/club-profile';
 import type { Repos } from '@/server/container';
-import { ClubDirectory } from '@/server/domain/club-directory';
+import { partitionClubs } from '@/server/domain/club-directory';
 import { sortClubResults } from '@/server/domain/club-history';
 import type { DomainError, Result } from '@/server/domain/result';
 import { err, ok } from '@/server/domain/result';
@@ -58,10 +58,7 @@ export function createClubsService(repos: Repos): {
                 history.find((entry) => entry.year === year)?.rows ?? [];
             const lastRanked = lastRankedYears(history);
             const rankedKeys = new Set(seasonRows.map((row) => row.club.key));
-            const { present, past } = ClubDirectory.partition(
-                clubs,
-                rankedKeys,
-            );
+            const { present, past } = partitionClubs(clubs, rankedKeys);
             const visible = includePast ? [...present, ...past] : present;
 
             return ok({

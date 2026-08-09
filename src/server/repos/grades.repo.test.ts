@@ -164,7 +164,6 @@ describe('createGradesRepo', () => {
         expect(result.ok).toBe(true);
         if (!result.ok) return;
         expect(result.value.grade().key).toBe('amnd-2024-a1');
-        expect(result.value.teamCount()).toBe(2);
     });
 
     it('ladder() returns not-found for an unknown grade key', async () => {

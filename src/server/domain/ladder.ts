@@ -65,11 +65,6 @@ export class Ladder {
         return this.gradeData;
     }
 
-    /** The pre-slice team count, always — never the size of a paged-down view. */
-    public teamCount(): number {
-        return this.rowsData.length;
-    }
-
     public sorted(q: TableQuery): {
         readonly rows: readonly LadderRow[];
         readonly totalRows: number;

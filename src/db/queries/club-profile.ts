@@ -114,7 +114,7 @@ export async function fetchClubProfile(
         homeVenue: first.homeVenue,
         accent: accentFor(first.clubKey),
     };
-    const clubHistory = ClubHistory.from(club, rows, coverage.rankedYears);
+    const clubHistory = ClubHistory.from(rows, coverage.rankedYears);
 
     return {
         club,
