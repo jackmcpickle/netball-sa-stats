@@ -32,7 +32,6 @@ import {
 import { buildCoverage, fetchSeasons } from '@/db/queries/coverage';
 import { LADDER_TABLE_SPEC } from '@/db/queries/grades';
 import type { RawTableState, TableState } from '@/db/queries/pagination';
-import { fetchGradeWeights } from '@/db/queries/weights';
 import { Championship } from '@/server/domain/championship';
 import { sortClubResults } from '@/server/domain/club-history';
 import { Coverage as CoverageDomain } from '@/server/domain/coverage';
@@ -40,6 +39,7 @@ import { TableQuery } from '@/server/domain/table-query';
 import { fetchChampionshipHistory } from '@/server/repos/championship.repo';
 import { fetchClubs } from '@/server/repos/clubs.repo';
 import { createGradesRepo, fetchGrades } from '@/server/repos/grades.repo';
+import { fetchGradeWeights } from '@/server/repos/weights.repo';
 
 /** The site now ships the real import rather than generated rows. */
 export const IS_SAMPLE_DATA = false;
