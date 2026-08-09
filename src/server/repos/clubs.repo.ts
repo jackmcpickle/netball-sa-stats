@@ -5,53 +5,18 @@
  */
 import { asc } from 'drizzle-orm';
 import type { Db } from '@/db';
+import { fetchClubProfile } from '@/db/queries/club-profile';
 import { fetchResults } from '@/db/queries/results';
 import { clubs } from '@/db/schema';
 import { ClubHistory } from '@/server/domain/club-history';
 import type { DomainError, Result } from '@/server/domain/result';
 import { err, ok } from '@/server/domain/result';
-import type { AccentName, Club } from '@/server/dto/shared.dto';
+import type { ClubProfile } from '@/server/dto/club-profile.dto';
+import type { Club } from '@/server/dto/shared.dto';
+import { accentFor } from '@/server/repos/club-accent';
 import { createSeasonsRepo } from '@/server/repos/seasons.repo';
 
-const ACCENTS: readonly AccentName[] = [
-    'pink',
-    'deep',
-    'lilac',
-    'gold',
-    'coral',
-    'mint',
-    'apricot',
-    'violet',
-    'forest',
-    'rust',
-    'slate',
-    'ochre',
-    'steel',
-    'olive',
-];
-
-const MODULUS = 2_147_483_647;
-
-/**
- * Stable string hash, modular rather than bitwise so it reads as arithmetic and
- * satisfies the no-bitwise rule.
- */
-function hash(text: string): number {
-    let h = 7;
-    for (let i = 0; i < text.length; i += 1) {
-        h = (h * 31 + text.charCodeAt(i)) % MODULUS;
-    }
-    return h;
-}
-
-/**
- * Accent from the club key rather than from its position in a list: a club must
- * keep its colour whether it is rendered from the club index, a ladder or a
- * profile, none of which share an ordering.
- */
-export function accentFor(clubKey: string): AccentName {
-    return ACCENTS[hash(clubKey) % ACCENTS.length];
-}
+export { accentFor } from '@/server/repos/club-accent';
 
 export interface ClubRow {
     readonly id: number;
@@ -88,10 +53,14 @@ export async function fetchClubs(db: Db): Promise<readonly Club[]> {
 export function createClubsRepo(db: Db): {
     all(): Promise<readonly Club[]>;
     historyOf(clubKey: string): Promise<Result<ClubHistory, DomainError>>;
+    profile(clubKey: string): Promise<ClubProfile | null>;
 } {
     return {
         async all(): Promise<readonly Club[]> {
             return fetchClubs(db);
+        },
+        async profile(clubKey: string): Promise<ClubProfile | null> {
+            return fetchClubProfile(db, clubKey);
         },
         async historyOf(
             clubKey: string,

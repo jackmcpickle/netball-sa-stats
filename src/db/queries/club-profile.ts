@@ -11,7 +11,7 @@ import type {
 } from '@/server/dto/club-profile.dto';
 import type { ChampionshipSeason } from '@/server/dto/rankings.dto';
 import { fetchChampionshipHistory } from '@/server/repos/championship.repo';
-import { accentFor } from '@/server/repos/clubs.repo';
+import { accentFor } from '@/server/repos/club-accent';
 
 // Only ids with a clickable header in ClubResultsTable belong here: 'played',
 // 'lost', and 'points' have comparators but no column of their own (the W-L-D

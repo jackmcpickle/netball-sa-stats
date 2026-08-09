@@ -3,11 +3,7 @@
  * `src/server/loaders/club-profile.ts` — both pages are about clubs, so one
  * service serves both.
  */
-import type { Db } from '@/db';
-import {
-    CLUB_RESULTS_TABLE_SPEC,
-    fetchClubProfile,
-} from '@/db/queries/club-profile';
+import { CLUB_RESULTS_TABLE_SPEC } from '@/db/queries/club-profile';
 import type { Repos } from '@/server/container';
 import { ClubDirectory } from '@/server/domain/club-directory';
 import { sortClubResults } from '@/server/domain/club-history';
@@ -36,10 +32,7 @@ function lastRankedYears(
     return latest;
 }
 
-export function createClubsService(
-    repos: Repos,
-    db: Db,
-): {
+export function createClubsService(repos: Repos): {
     getIndexPage(
         params: ClubIndexParams,
     ): Promise<Result<ClubIndexPageDto, DomainError>>;
@@ -94,7 +87,7 @@ export function createClubsService(
         async getProfilePage(
             params: ClubProfileParams,
         ): Promise<Result<ClubProfilePageDto, DomainError>> {
-            const profile = await fetchClubProfile(db, params.clubKey);
+            const profile = await repos.clubs.profile(params.clubKey);
             if (!profile) {
                 return err({
                     kind: 'not-found',

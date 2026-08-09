@@ -41,10 +41,10 @@ export function createServices(db: Db): {
 } {
     const repos = createRepos(db);
     return {
-        rankings: createRankingsService(repos, db),
+        rankings: createRankingsService(repos),
         ladders: createLaddersService(repos),
-        clubs: createClubsService(repos, db),
-        method: createMethodService(repos, db),
+        clubs: createClubsService(repos),
+        method: createMethodService(repos),
     };
 }
 

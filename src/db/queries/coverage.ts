@@ -1,5 +1,7 @@
 import type { Db } from '@/db';
 import { methodologyBreak, timelineGaps } from '@/db/queries/era-break';
+import { fetchSeasons } from '@/db/queries/seasons';
+import type { SeasonRow } from '@/db/queries/seasons';
 import { Coverage as CoverageDomain } from '@/server/domain/coverage';
 import type {
     Competition,
@@ -7,11 +9,9 @@ import type {
     CoverageChange,
     SeasonCoverage,
 } from '@/server/dto/shared.dto';
-import { fetchSeasons } from '@/server/repos/seasons.repo';
-import type { SeasonRow } from '@/server/repos/seasons.repo';
 
-export type { SeasonRow } from '@/server/repos/seasons.repo';
-export { fetchSeasons } from '@/server/repos/seasons.repo';
+export type { SeasonRow } from '@/db/queries/seasons';
+export { fetchSeasons } from '@/db/queries/seasons';
 
 /** The site now ships the real import rather than generated rows. */
 export const IS_SAMPLE_DATA = false;

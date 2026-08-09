@@ -3,9 +3,7 @@
  * from repos + the `Championship` domain object, returning a `Result` instead
  * of throwing.
  */
-import type { Db } from '@/db';
 import { CHAMPIONSHIP_TABLE_SPEC } from '@/db/queries/championship';
-import { fetchCoverage } from '@/db/queries/coverage';
 import type { Repos } from '@/server/container';
 import { Championship } from '@/server/domain/championship';
 import type { DomainError, Result } from '@/server/domain/result';
@@ -63,10 +61,7 @@ function rankSeries(
     });
 }
 
-export function createRankingsService(
-    repos: Repos,
-    db: Db,
-): {
+export function createRankingsService(repos: Repos): {
     getPage(
         params: RankingsParams,
     ): Promise<Result<RankingsPageDto, DomainError>>;
@@ -75,7 +70,7 @@ export function createRankingsService(
         async getPage(
             params: RankingsParams,
         ): Promise<Result<RankingsPageDto, DomainError>> {
-            const coverage = await fetchCoverage(db);
+            const coverage = await repos.seasons.fullCoverage();
             const rankedYears = coverage.rankedYears;
             let resolvedYear: number;
             if (

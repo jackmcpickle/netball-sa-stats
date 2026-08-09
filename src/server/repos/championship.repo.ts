@@ -17,7 +17,7 @@ import type {
     ChampionshipSeason,
 } from '@/server/dto/rankings.dto';
 import type { Club } from '@/server/dto/shared.dto';
-import { accentFor } from '@/server/repos/clubs.repo';
+import { accentFor } from '@/server/repos/club-accent';
 
 function competitionKeysFor(
     rows: readonly ResultRow[],
