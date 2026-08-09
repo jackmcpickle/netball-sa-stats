@@ -140,7 +140,7 @@ export function RankingsPage(): JSX.Element {
                 />
             </div>
 
-            {data.season.rows.length > 0 ? (
+            {data.totalRows > 0 ? (
                 <ChampionshipTable
                     rows={data.season.rows}
                     year={data.season.year}

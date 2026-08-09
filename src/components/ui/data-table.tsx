@@ -63,6 +63,11 @@ export function DataTable<T>({
         [columns],
     );
 
+    const columnById = useMemo(
+        () => new Map(columns.map((column) => [column.id, column])),
+        [columns],
+    );
+
     const table = useReactTable({
         data: rows as T[],
         columns: columnDefs,
@@ -141,22 +146,23 @@ export function DataTable<T>({
                                     highlightRow?.(row.original) ?? false
                                 }
                             >
-                                {row
-                                    .getVisibleCells()
-                                    .map((cell, cellIndex) => (
+                                {row.getVisibleCells().map((cell) => {
+                                    const column = columnById.get(
+                                        cell.column.id,
+                                    );
+                                    return (
                                         <Td
                                             key={cell.id}
-                                            align={columns[cellIndex].align}
-                                            emphasis={
-                                                columns[cellIndex].emphasis
-                                            }
+                                            align={column?.align}
+                                            emphasis={column?.emphasis}
                                         >
                                             {flexRender(
                                                 cell.column.columnDef.cell,
                                                 cell.getContext(),
                                             )}
                                         </Td>
-                                    ))}
+                                    );
+                                })}
                             </Tr>
                         ))}
                     </tbody>
@@ -167,27 +173,36 @@ export function DataTable<T>({
                     aria-label="Pagination"
                     className="mt-4 flex items-center justify-between gap-4"
                 >
-                    <p className="text-[13px] text-ink-muted">
+                    <p
+                        aria-live="polite"
+                        className="text-[13px] text-ink-muted"
+                    >
                         {`Page ${String(state.page)} of ${String(pages)} · ${String(totalRows)} rows`}
                     </p>
                     <div className="flex gap-2">
                         <button
                             type="button"
-                            disabled={state.page <= 1}
+                            aria-disabled={state.page <= 1}
                             onClick={() => {
+                                if (state.page <= 1) {
+                                    return;
+                                }
                                 onChange({ ...state, page: state.page - 1 });
                             }}
-                            className="rounded-card border border-rule px-3 py-1.5 text-sm text-ink disabled:text-ink-muted"
+                            className="rounded-card border border-rule px-3 py-1.5 text-sm text-ink aria-disabled:text-ink-muted"
                         >
                             {'Previous'}
                         </button>
                         <button
                             type="button"
-                            disabled={state.page >= pages}
+                            aria-disabled={state.page >= pages}
                             onClick={() => {
+                                if (state.page >= pages) {
+                                    return;
+                                }
                                 onChange({ ...state, page: state.page + 1 });
                             }}
-                            className="rounded-card border border-rule px-3 py-1.5 text-sm text-ink disabled:text-ink-muted"
+                            className="rounded-card border border-rule px-3 py-1.5 text-sm text-ink aria-disabled:text-ink-muted"
                         >
                             {'Next'}
                         </button>

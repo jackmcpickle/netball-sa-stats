@@ -3,7 +3,7 @@ import { createServerFn } from '@tanstack/react-start';
 import { z } from 'zod';
 import { ClubIndexPage } from '@/components/club/club-index-page';
 import {
-    getChampionshipSeason,
+    getChampionshipSeasonRows,
     lastRankedYears,
     latestRankedYear,
     listClubs,
@@ -37,14 +37,12 @@ const loadClubs = createServerFn({ method: 'GET' })
     .handler(async ({ data }): Promise<ClubIndexData> => {
         const includePast = data.includePast ?? false;
         const year = await latestRankedYear();
-        const [season, clubs, lastRanked] = await Promise.all([
-            getChampionshipSeason(year),
+        const [seasonRows, clubs, lastRanked] = await Promise.all([
+            getChampionshipSeasonRows(year),
             listClubs(),
             lastRankedYears(),
         ]);
-        const rankedKeys = new Set(
-            (season?.rows ?? []).map((row) => row.club.key),
-        );
+        const rankedKeys = new Set(seasonRows.map((row) => row.club.key));
         const { present, past } = partitionClubs(clubs, rankedKeys);
         const visible = includePast ? [...present, ...past] : present;
         return {
@@ -53,7 +51,7 @@ const loadClubs = createServerFn({ method: 'GET' })
             presentCount: present.length,
             totalCount: clubs.length,
             entries: visible.map((club) => {
-                const row = season?.rows.find(
+                const row = seasonRows.find(
                     (entry) => entry.club.key === club.key,
                 );
                 return {

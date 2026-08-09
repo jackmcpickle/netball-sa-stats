@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import {
     parseOptionalBoolParam,
+    parseOptionalDirParam,
     parseOptionalIntParam,
 } from '@/routes/-search-params';
 
@@ -65,5 +66,27 @@ describe('parseOptionalBoolParam', () => {
 
     it('treats undefined as absent', () => {
         expect(parseOptionalBoolParam(undefined)).toBeUndefined();
+    });
+});
+
+describe('parseOptionalDirParam', () => {
+    it('passes through "asc"', () => {
+        expect(parseOptionalDirParam('asc')).toBe('asc');
+    });
+
+    it('passes through "desc"', () => {
+        expect(parseOptionalDirParam('desc')).toBe('desc');
+    });
+
+    it('treats an unrecognised string as absent instead of throwing', () => {
+        expect(parseOptionalDirParam('x')).toBeUndefined();
+    });
+
+    it('treats an empty string as absent', () => {
+        expect(parseOptionalDirParam('')).toBeUndefined();
+    });
+
+    it('treats undefined as absent', () => {
+        expect(parseOptionalDirParam(undefined)).toBeUndefined();
     });
 });

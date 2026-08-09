@@ -240,7 +240,7 @@ export function LaddersPage(): JSX.Element {
             {data.ladder ? (
                 <>
                     <p className="mb-4 text-sm text-ink-muted">
-                        {`${data.ladder.grade.competition.name} · ${data.ladder.grade.name} · ${String(data.ladder.rows.length)} teams`}
+                        {`${data.ladder.grade.competition.name} · ${data.ladder.grade.name} · ${String(data.ladder.totalRows)} teams`}
                     </p>
                     <DataTable
                         caption={`${data.ladder.grade.name} ladder, ${String(data.ladder.grade.year)}`}

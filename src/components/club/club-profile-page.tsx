@@ -206,7 +206,7 @@ export function ClubProfilePage(): JSX.Element {
             <h2 className="mb-4 text-lg font-semibold text-ink">
                 {'Season by season, grade by grade'}
             </h2>
-            {profile.results.length > 0 ? (
+            {profile.totalRows > 0 ? (
                 <ClubResultsTable
                     clubName={profile.club.name}
                     results={profile.results}

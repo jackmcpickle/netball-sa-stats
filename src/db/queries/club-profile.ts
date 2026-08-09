@@ -14,8 +14,11 @@ import { fetchResults } from '@/db/queries/results';
 import type { ResultRow } from '@/db/queries/results';
 import { winRate } from '@/pipeline/scoring/championship';
 
+// Only ids with a clickable header in ClubResultsTable belong here: 'played',
+// 'lost', and 'points' have comparators but no column of their own (the W-L-D
+// record is one combined column, sortable via 'won').
 export const CLUB_RESULTS_TABLE_SPEC: TableSpec = {
-    sortable: ['year', 'grade', 'position', 'played', 'won', 'lost', 'points'],
+    sortable: ['year', 'grade', 'position', 'won'],
     defaultSort: 'year',
     defaultDesc: true,
 } as const;

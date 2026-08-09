@@ -23,10 +23,13 @@ export interface TableSpec {
 }
 
 /**
- * Search params are attacker-controlled and the sort column reaches drizzle's
- * `orderBy`, so it is matched against an allow-list rather than sanitised.
- * Everything unrecognised silently falls back — a hostile URL gets the default
- * view, not a 500.
+ * Search params are attacker-controlled, so the sort column is matched
+ * against a per-table allow-list rather than sanitised. All three tables
+ * fetch every row and sort/paginate in JS (see `applyTableState`) — the
+ * allow-list buys no DB-level savings, it just stops an unknown column id
+ * (or a hostile string) from reaching the in-memory comparators.
+ * Everything unrecognised silently falls back — a hostile URL gets the
+ * default view, not a 500.
  */
 export function resolveTableState(
     raw: RawTableState,
@@ -57,4 +60,37 @@ export function offsetFor(state: TableState): number {
 
 export function pageCount(totalRows: number, pageSize: number): number {
     return Math.max(1, Math.ceil(totalRows / pageSize));
+}
+
+/**
+ * Resolves table state, sorts, and slices in one place — the single spot the
+ * page-clamp can be wrong. `resolveTableState` alone has no `totalRows`, so
+ * it can floor an out-of-range page at 1 but never clamp it to the last
+ * page; this wrapper has the row count and does that clamp before slicing,
+ * so `?page=999` on a 3-page table lands on page 3, not an empty page.
+ */
+export function applyTableState<T>(
+    rows: readonly T[],
+    raw: RawTableState,
+    spec: TableSpec,
+    sortFn: (rows: readonly T[], state: TableState) => readonly T[],
+): {
+    readonly rows: readonly T[];
+    readonly totalRows: number;
+    readonly tableState: TableState;
+} {
+    const totalRows = rows.length;
+    const resolved = resolveTableState(raw, spec);
+    const page = Math.min(
+        resolved.page,
+        pageCount(totalRows, resolved.pageSize),
+    );
+    const tableState: TableState = { ...resolved, page };
+    const sorted = sortFn(rows, tableState);
+    const offset = offsetFor(tableState);
+    return {
+        rows: sorted.slice(offset, offset + tableState.pageSize),
+        totalRows,
+        tableState,
+    };
 }

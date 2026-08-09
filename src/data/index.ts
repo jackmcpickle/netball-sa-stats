@@ -1,4 +1,5 @@
 import type {
+    ChampionshipRow,
     ChampionshipSeason,
     Club,
     ClubProfile,
@@ -42,8 +43,7 @@ import {
     sortLadderRows,
 } from '@/db/queries/grades';
 import {
-    offsetFor,
-    resolveTableState,
+    applyTableState,
     type RawTableState,
     type TableState,
 } from '@/db/queries/pagination';
@@ -90,15 +90,32 @@ export async function getChampionshipSeason(
     if (!season) {
         return null;
     }
-    const tableState = resolveTableState(state ?? {}, CHAMPIONSHIP_TABLE_SPEC);
-    const sorted = sortChampionshipRows(season.rows, tableState);
-    const offset = offsetFor(tableState);
+    const paged = applyTableState(
+        season.rows,
+        state ?? {},
+        CHAMPIONSHIP_TABLE_SPEC,
+        sortChampionshipRows,
+    );
     return {
         ...season,
-        rows: sorted.slice(offset, offset + tableState.pageSize),
-        totalRows: season.rows.length,
-        tableState,
+        rows: paged.rows,
+        totalRows: paged.totalRows,
+        tableState: paged.tableState,
     };
+}
+
+/**
+ * Every ranked row for a season, unpaginated. Used where a caller needs to
+ * see the whole ranked field at once (e.g. to know which clubs are ranked at
+ * all) rather than one page of it — routing that through
+ * `getChampionshipSeason`'s default-paginated result would silently hide any
+ * ranked club past the first page.
+ */
+export async function getChampionshipSeasonRows(
+    year: number,
+): Promise<readonly ChampionshipRow[]> {
+    const history = await fetchChampionshipHistory(getDb());
+    return history.find((entry) => entry.year === year)?.rows ?? [];
 }
 
 /**
@@ -182,14 +199,17 @@ export async function getClubProfile(
     if (!profile) {
         return null;
     }
-    const tableState = resolveTableState(state ?? {}, CLUB_RESULTS_TABLE_SPEC);
-    const sorted = sortClubResults(profile.results, tableState);
-    const offset = offsetFor(tableState);
+    const paged = applyTableState(
+        profile.results,
+        state ?? {},
+        CLUB_RESULTS_TABLE_SPEC,
+        sortClubResults,
+    );
     return {
         ...profile,
-        results: sorted.slice(offset, offset + tableState.pageSize),
-        totalRows: profile.results.length,
-        tableState,
+        results: paged.rows,
+        totalRows: paged.totalRows,
+        tableState: paged.tableState,
     };
 }
 
@@ -207,14 +227,17 @@ export async function getLadderFor(
     if (!ladder) {
         return null;
     }
-    const tableState = resolveTableState(state ?? {}, LADDER_TABLE_SPEC);
-    const sorted = sortLadderRows(ladder.rows, tableState);
-    const offset = offsetFor(tableState);
+    const paged = applyTableState(
+        ladder.rows,
+        state ?? {},
+        LADDER_TABLE_SPEC,
+        sortLadderRows,
+    );
     return {
         ...ladder,
-        rows: sorted.slice(offset, offset + tableState.pageSize),
-        totalRows: ladder.rows.length,
-        tableState,
+        rows: paged.rows,
+        totalRows: paged.totalRows,
+        tableState: paged.tableState,
     };
 }
 

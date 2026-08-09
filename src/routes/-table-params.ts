@@ -1,5 +1,8 @@
 import { z } from 'zod';
-import { parseOptionalIntParam } from '@/routes/-search-params';
+import {
+    parseOptionalDirParam,
+    parseOptionalIntParam,
+} from '@/routes/-search-params';
 
 /**
  * Shared by every paginated route so sort/page URLs read the same everywhere.
@@ -8,7 +11,10 @@ import { parseOptionalIntParam } from '@/routes/-search-params';
  */
 export const tableSearchSchema = z.object({
     sort: z.string().optional(),
-    dir: z.enum(['asc', 'desc']).optional(),
+    dir: z.preprocess(
+        parseOptionalDirParam,
+        z.enum(['asc', 'desc']).optional(),
+    ),
     page: z.preprocess(parseOptionalIntParam, z.number().int().optional()),
     pageSize: z.preprocess(parseOptionalIntParam, z.number().int().optional()),
 });
