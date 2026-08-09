@@ -78,6 +78,88 @@ describe('Ladder.sorted', () => {
     });
 });
 
+function rowWith(
+    position: number,
+    name: string,
+    overrides: Partial<LadderRow>,
+): LadderRow {
+    return { ...row(position, 10, name), ...overrides };
+}
+
+/**
+ * These columns are reachable straight from URL search params (`?sort=`),
+ * so their comparators need direct coverage even though nothing in the app
+ * currently links to them by these names.
+ */
+describe('Ladder.sorted attacker-reachable columns', () => {
+    it('sorts by played ascending', () => {
+        const rows = [
+            rowWith(1, 'A', { played: 20 }),
+            rowWith(2, 'B', { played: 5 }),
+        ];
+        const sorted = Ladder.from(grade, rows).sorted(
+            TableQuery.from({ sort: 'played', dir: 'asc' }, spec),
+        );
+        expect(sorted.rows.map((entry) => entry.displayName)).toEqual([
+            'B',
+            'A',
+        ]);
+    });
+
+    it('sorts by won descending', () => {
+        const rows = [rowWith(1, 'A', { won: 2 }), rowWith(2, 'B', { won: 9 })];
+        const sorted = Ladder.from(grade, rows).sorted(
+            TableQuery.from({ sort: 'won', dir: 'desc' }, spec),
+        );
+        expect(sorted.rows.map((entry) => entry.displayName)).toEqual([
+            'B',
+            'A',
+        ]);
+    });
+
+    it('sorts by lost ascending', () => {
+        const rows = [
+            rowWith(1, 'A', { lost: 8 }),
+            rowWith(2, 'B', { lost: 1 }),
+        ];
+        const sorted = Ladder.from(grade, rows).sorted(
+            TableQuery.from({ sort: 'lost', dir: 'asc' }, spec),
+        );
+        expect(sorted.rows.map((entry) => entry.displayName)).toEqual([
+            'B',
+            'A',
+        ]);
+    });
+
+    it('sorts by drawn descending', () => {
+        const rows = [
+            rowWith(1, 'A', { drawn: 0 }),
+            rowWith(2, 'B', { drawn: 4 }),
+        ];
+        const sorted = Ladder.from(grade, rows).sorted(
+            TableQuery.from({ sort: 'drawn', dir: 'desc' }, spec),
+        );
+        expect(sorted.rows.map((entry) => entry.displayName)).toEqual([
+            'B',
+            'A',
+        ]);
+    });
+
+    it('sorts by goalsFor descending', () => {
+        const rows = [
+            rowWith(1, 'A', { goalsFor: 40 }),
+            rowWith(2, 'B', { goalsFor: 120 }),
+        ];
+        const sorted = Ladder.from(grade, rows).sorted(
+            TableQuery.from({ sort: 'goalsFor', dir: 'desc' }, spec),
+        );
+        expect(sorted.rows.map((entry) => entry.displayName)).toEqual([
+            'B',
+            'A',
+        ]);
+    });
+});
+
 describe('Ladder.teamCount', () => {
     it('reports the pre-slice total, not the size of a paged-down page', () => {
         const rows = Array.from({ length: 5 }, (_, index) =>

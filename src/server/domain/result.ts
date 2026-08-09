@@ -15,17 +15,6 @@ export function err<E>(error: E): Result<never, E> {
     return { ok: false, error };
 }
 
-export function map<T, U, E>(
-    result: Result<T, E>,
-    fn: (value: T) => U,
-): Result<U, E> {
-    return result.ok ? ok(fn(result.value)) : result;
-}
-
-export function unwrapOr<T, E>(result: Result<T, E>, fallback: T): T {
-    return result.ok ? result.value : fallback;
-}
-
 /** Shared domain failure vocabulary — routes map these to UI/HTTP outcomes. */
 export type DomainError =
     | {
@@ -33,5 +22,4 @@ export type DomainError =
           readonly entity: 'club' | 'season' | 'grade';
           readonly key: string;
       }
-    | { readonly kind: 'no-ranked-seasons' }
-    | { readonly kind: 'empty-dataset' };
+    | { readonly kind: 'no-ranked-seasons' };

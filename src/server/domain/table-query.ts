@@ -8,7 +8,9 @@
  */
 import {
     DEFAULT_PAGE_SIZE,
+    offsetFor,
     PAGE_SIZES,
+    pageCount,
     type RawTableState,
     type TableSpec,
     type TableState,
@@ -43,14 +45,6 @@ function resolveTableState(raw: RawTableState, spec: TableSpec): TableState {
     return { sort, desc, page, pageSize };
 }
 
-function offsetFor(state: TableState): number {
-    return (state.page - 1) * state.pageSize;
-}
-
-function pageCount(totalRows: number, pageSize: number): number {
-    return Math.max(1, Math.ceil(totalRows / pageSize));
-}
-
 export class TableQuery {
     public readonly state: TableState;
 
@@ -60,12 +54,6 @@ export class TableQuery {
 
     public static from(raw: RawTableState, spec: TableSpec): TableQuery {
         return new TableQuery(resolveTableState(raw, spec));
-    }
-
-    /** Exposed for presentation code (e.g. pagination controls) that needs
-     * the page count without running a full `apply`. */
-    public static pageCount(totalRows: number, pageSize: number): number {
-        return pageCount(totalRows, pageSize);
     }
 
     /**

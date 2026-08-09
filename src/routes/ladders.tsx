@@ -1,11 +1,11 @@
-import { createFileRoute, notFound } from '@tanstack/react-router';
+import { createFileRoute } from '@tanstack/react-router';
 import { createServerFn } from '@tanstack/react-start';
 import { z } from 'zod';
 import { LaddersPage } from '@/components/ladders/ladders-page';
 import { getDb } from '@/db';
 import { parseOptionalIntParam } from '@/routes/-search-params';
 import { tableSearchDeps, tableSearchSchema } from '@/routes/-table-params';
-import { createServices, describeDomainError } from '@/server/container';
+import { createServices, resolvePageResult } from '@/server/container';
 
 export type { LaddersPageDto as LaddersData } from '@/server/dto/ladders.dto';
 
@@ -26,12 +26,9 @@ const loadLadders = createServerFn({ method: 'GET' })
         }),
     )
     .handler(async ({ data }) => {
-        const result = await createServices(getDb()).ladders.getPage(data);
-        if (!result.ok) {
-            if (result.error.kind === 'not-found') throw notFound();
-            throw new Error(describeDomainError(result.error));
-        }
-        return result.value;
+        return resolvePageResult(
+            await createServices(getDb()).ladders.getPage(data),
+        );
     });
 
 export const Route = createFileRoute('/ladders')({

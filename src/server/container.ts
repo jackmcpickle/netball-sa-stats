@@ -3,8 +3,9 @@
  * services — routes call `createServices(getDb())` and never touch a repo
  * directly.
  */
+import { notFound } from '@tanstack/react-router';
 import type { Db } from '@/db';
-import type { DomainError } from '@/server/domain/result';
+import type { DomainError, Result } from '@/server/domain/result';
 import { createChampionshipRepo } from '@/server/repos/championship.repo';
 import { createClubsRepo } from '@/server/repos/clubs.repo';
 import { createGradesRepo } from '@/server/repos/grades.repo';
@@ -59,9 +60,25 @@ export function describeDomainError(error: DomainError): string {
             return `No ${error.entity} found for "${error.key}"`;
         case 'no-ranked-seasons':
             return 'No ranked seasons are available yet.';
-        case 'empty-dataset':
-            return 'No data is available yet.';
         default:
+            // Exhaustive without this arm; kept only because the lint
+            // config's `default-case` rule requires one on every switch.
             return 'Something went wrong loading this page.';
     }
+}
+
+/**
+ * Shared route-handler tail: every `createServerFn` handler awaits a
+ * service call and immediately does this same translation, so it is
+ * extracted here once and unit-tested directly rather than only through
+ * five near-identical, hard-to-invoke `createServerFn` handlers.
+ */
+export function resolvePageResult<T>(result: Result<T, DomainError>): T {
+    if (!result.ok) {
+        if (result.error.kind === 'not-found') {
+            throw notFound();
+        }
+        throw new Error(describeDomainError(result.error));
+    }
+    return result.value;
 }

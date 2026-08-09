@@ -220,4 +220,49 @@ describe('rankings service', () => {
 
         expect(result.tableState.sort).toBe('rank');
     });
+
+    it('returns no-ranked-seasons for a completely empty database', async () => {
+        const db = createTestDb();
+
+        const result = await createServices(db).rankings.getPage({});
+
+        expect(result.ok).toBe(false);
+        expect(!result.ok && result.error).toEqual({
+            kind: 'no-ranked-seasons',
+        });
+    });
+
+    it('returns a season not-found error when a ranked year has no championship history', async () => {
+        const db = createTestDb();
+        const spec = baseSpec();
+        // A FINAL season with no grades at all is "ranked" per
+        // `coverage.rankedYears()` (every competition that ran it finished —
+        // vacuously true with none), but contributes no rows to
+        // `rankSeasons`, so `Championship.fromHistory` cannot find a season
+        // entry for it even though the year is requestable.
+        spec.competitions.push({
+            key: 'empty-comp',
+            name: 'Empty Comp',
+            seasons: [
+                {
+                    seasonKey: 'empty-2023',
+                    startYear: 2023,
+                    isFinal: true,
+                    grades: [],
+                },
+            ],
+        });
+        await seed(db, spec);
+
+        const result = await createServices(db).rankings.getPage({
+            season: 2023,
+        });
+
+        expect(result.ok).toBe(false);
+        expect(!result.ok && result.error).toEqual({
+            kind: 'not-found',
+            entity: 'season',
+            key: '2023',
+        });
+    });
 });

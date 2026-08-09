@@ -97,8 +97,9 @@ describe('method service', () => {
         expect(result.coverage.years).toEqual([2024, 2025]);
         expect(result.coverage.rankedYears).toEqual([2024, 2025]);
         // isSampleData is a module-level constant, not derived from the
-        // seeded db, so it just reflects IS_SAMPLE_DATA in this run.
-        expect(typeof result.isSampleData).toBe('boolean');
+        // seeded db — it just reflects IS_SAMPLE_DATA, which is currently
+        // `false`.
+        expect(result.isSampleData).toBe(false);
 
         expect(result.weights).toHaveLength(2);
         // Ordered by tier ascending: tier 1 (Premier) before tier 2 (A1).

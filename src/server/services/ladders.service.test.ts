@@ -192,6 +192,39 @@ describe('ladders service', () => {
         expect(result.ladder).toBeNull();
     });
 
+    it('SWALLOWS a grade not-found error from the repo and renders an empty ladder', async () => {
+        // Documents CURRENT (undesirable) behaviour, per review: when
+        // `repos.grades.ladder(gradeKey)` returns a genuine `not-found`
+        // (e.g. the grade row exists but has zero results), the service
+        // discards the error entirely and falls through to the same
+        // `ladder: null` empty state as "no grades at all" — the caller
+        // gets no signal that something went wrong versus there being
+        // nothing to show. Do not "fix" this without discussing with the
+        // team; the fix round explicitly asked to leave behaviour as-is
+        // and only document it here.
+        const db = createTestDb();
+        const spec = baseSpec();
+        const gradeWithNoResults = spec.competitions[0]?.seasons.find(
+            (season) => season.seasonKey === 'amnd-2024',
+        )?.grades[0];
+        if (gradeWithNoResults === undefined) {
+            throw new Error('expected amnd-2024-a1 grade in base spec');
+        }
+        gradeWithNoResults.results = [];
+        await seed(db, spec);
+
+        const result = unwrap(
+            await createServices(db).ladders.getPage({ year: 2024 }),
+        );
+
+        // The grade is listed (it came from the `grades` table)...
+        expect(result.grades).toHaveLength(1);
+        expect(result.grades[0]?.key).toBe('amnd-2024-a1');
+        // ...but the ladder itself silently disappears instead of
+        // surfacing the underlying not-found.
+        expect(result.ladder).toBeNull();
+    });
+
     it('returns an empty dataset shape for a completely empty database', async () => {
         const db = createTestDb();
 

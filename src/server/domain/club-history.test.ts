@@ -92,6 +92,52 @@ describe('ClubHistory.sortedResults', () => {
     });
 });
 
+/**
+ * `sort=played`/`sort=won` (points is derived from won/drawn, no direct
+ * column) are attacker-reachable via URL search params — both go through
+ * the private `played()`/`points()` helpers, so exercise them via the
+ * public `sortedResults` surface with rows that differ only on the field
+ * being sorted.
+ */
+describe('ClubHistory.sortedResults attacker-reachable columns', () => {
+    const playedSpec = {
+        sortable: ['played', 'points'],
+        defaultSort: 'played',
+        defaultDesc: false,
+    } as const;
+
+    it('sorts by played (won+lost+drawn) ascending', () => {
+        const rows = [
+            row({ gradeKey: 'a', won: 10, lost: 5, drawn: 1 }),
+            row({ gradeKey: 'b', won: 1, lost: 1, drawn: 0 }),
+        ];
+        const history = ClubHistory.from(club, rows, [2024]);
+        const sorted = history.sortedResults(
+            TableQuery.from({ sort: 'played', dir: 'asc' }, playedSpec),
+        );
+        expect(sorted.rows.map((entry) => entry.gradeKey)).toEqual(['b', 'a']);
+    });
+
+    it('sorts by points (2*won + drawn) descending', () => {
+        // `points` has no header of its own on the production club-results
+        // table (see CLUB_RESULTS_TABLE_SPEC), but the underlying `points()`
+        // helper is still allow-listed in RESULT_COMPARATORS, so exercise it
+        // directly with a local spec.
+        const rows = [
+            row({ gradeKey: 'few-points', won: 1, drawn: 0 }),
+            row({ gradeKey: 'many-points', won: 5, drawn: 2 }),
+        ];
+        const history = ClubHistory.from(club, rows, [2024]);
+        const sorted = history.sortedResults(
+            TableQuery.from({ sort: 'points', dir: 'desc' }, playedSpec),
+        );
+        expect(sorted.rows.map((entry) => entry.gradeKey)).toEqual([
+            'many-points',
+            'few-points',
+        ]);
+    });
+});
+
 describe('ClubHistory.trend', () => {
     it('emits a point per ranked year, including years the club missed', () => {
         const history = ClubHistory.from(

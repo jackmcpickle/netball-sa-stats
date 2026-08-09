@@ -194,4 +194,15 @@ describe('clubs index service', () => {
         expect(phantom?.points).toBeNull();
         expect(phantom?.teams).toBeNull();
     });
+
+    it('returns no-ranked-seasons for a completely empty database', async () => {
+        const db = createTestDb();
+
+        const result = await createServices(db).clubs.getIndexPage({});
+
+        expect(result.ok).toBe(false);
+        expect(!result.ok && result.error).toEqual({
+            kind: 'no-ranked-seasons',
+        });
+    });
 });
