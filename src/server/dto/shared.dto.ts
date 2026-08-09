@@ -1,8 +1,8 @@
 /**
- * DTO types shared by more than one page. Moved from `@/data/types`, which
- * these definitions replace — see the page-specific `*.dto.ts` files for the
- * rest. Deliberately absent: shots attempted/scored. PlayHQ never exposes
- * them, so no view may depend on them.
+ * DTO types shared by more than one page. Moved from the deleted
+ * `src/data/types.ts`, which these definitions replace — see the
+ * page-specific `*.dto.ts` files for the rest. Deliberately absent: shots
+ * attempted/scored. PlayHQ never exposes them, so no view may depend on them.
  */
 
 /** Stable slug, e.g. `matrics`. Mirrors `clubs.club_key`. */
