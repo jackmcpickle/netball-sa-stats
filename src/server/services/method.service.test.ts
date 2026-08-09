@@ -1,8 +1,18 @@
 import { describe, expect, it } from 'vitest';
-import { loadMethodData } from '@/server/loaders/method';
+import { createServices } from '@/server/container';
+import type { DomainError, Result } from '@/server/domain/result';
 import type { SeedSpec } from '@/server/testing/fixtures';
 import { seed } from '@/server/testing/fixtures';
 import { createTestDb } from '@/server/testing/harness';
+
+function unwrap<T>(result: Result<T, DomainError>): T {
+    if (!result.ok) {
+        throw new Error(
+            `expected ok result, got error: ${JSON.stringify(result.error)}`,
+        );
+    }
+    return result.value;
+}
 
 /**
  * One competition ('amnd') with two FINAL seasons (2024 tier 2, 2025 tier 1)
@@ -77,12 +87,12 @@ function baseSpec(): SeedSpec {
     };
 }
 
-describe('loadMethodData', () => {
+describe('method service', () => {
     it('returns coverage years and grade weights', async () => {
         const db = createTestDb();
         await seed(db, baseSpec());
 
-        const result = await loadMethodData(db);
+        const result = unwrap(await createServices(db).method.getPage());
 
         expect(result.coverage.years).toEqual([2024, 2025]);
         expect(result.coverage.rankedYears).toEqual([2024, 2025]);

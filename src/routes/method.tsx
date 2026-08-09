@@ -1,14 +1,19 @@
-import { createFileRoute } from '@tanstack/react-router';
+import { createFileRoute, notFound } from '@tanstack/react-router';
 import { createServerFn } from '@tanstack/react-start';
 import { MethodPage } from '@/components/method/method-page';
 import { getDb } from '@/db';
-import { loadMethodData } from '@/server/loaders/method';
+import { createServices, describeDomainError } from '@/server/container';
 
-export type { MethodData } from '@/server/loaders/method';
+export type { MethodPageDto as MethodData } from '@/server/dto/method.dto';
 
-const loadMethod = createServerFn({ method: 'GET' }).handler(async () =>
-    loadMethodData(getDb()),
-);
+const loadMethod = createServerFn({ method: 'GET' }).handler(async () => {
+    const result = await createServices(getDb()).method.getPage();
+    if (!result.ok) {
+        if (result.error.kind === 'not-found') throw notFound();
+        throw new Error(describeDomainError(result.error));
+    }
+    return result.value;
+});
 
 export const Route = createFileRoute('/method')({
     loader: async () => loadMethod(),
