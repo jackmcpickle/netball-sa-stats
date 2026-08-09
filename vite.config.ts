@@ -196,7 +196,6 @@ export default defineConfig({
             '**/worker-configuration.d.ts',
             'src/vite-env.d.ts',
             'e2e/',
-            'scripts/mobile-*.mjs',
         ],
         overrides: [
             {
