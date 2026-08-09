@@ -7,8 +7,8 @@ import {
 } from '@/components/format';
 import { DataTable, type DataTableColumn } from '@/components/ui/data-table';
 import { NoteMarker } from '@/components/ui/note-marker';
-import type { ClubGradeResult } from '@/data/types';
 import type { TableState } from '@/db/queries/pagination';
+import type { ClubGradeResult } from '@/server/dto/club-profile.dto';
 
 function renderYearCell(result: ClubGradeResult): ReactNode {
     return <span className="numeric text-[13px] text-ink">{result.year}</span>;

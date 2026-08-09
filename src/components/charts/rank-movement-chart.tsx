@@ -18,7 +18,7 @@ import {
 import { gapLabel, timelineSlots } from '@/components/charts/timeline-slots';
 import { useChartInteraction } from '@/components/charts/use-chart-interaction';
 import { ClubLink } from '@/components/links';
-import type { ClubRankSeries } from '@/data/types';
+import type { ClubRankSeries } from '@/server/dto/rankings.dto';
 
 const PLOT: Plot = { x0: 44, x1: 1060, y0: 16, y1: 300 };
 const VIEW_BOX = '0 0 1240 344';

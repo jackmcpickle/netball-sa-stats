@@ -1,8 +1,18 @@
 import { describe, expect, it } from 'vitest';
-import { loadClubsIndexData } from '@/server/loaders/clubs-index';
+import { createServices } from '@/server/container';
+import type { DomainError, Result } from '@/server/domain/result';
 import type { SeedSpec } from '@/server/testing/fixtures';
 import { seed } from '@/server/testing/fixtures';
 import { createTestDb } from '@/server/testing/harness';
+
+function unwrap<T>(result: Result<T, DomainError>): T {
+    if (!result.ok) {
+        throw new Error(
+            `expected ok result, got error: ${JSON.stringify(result.error)}`,
+        );
+    }
+    return result.value;
+}
 
 /**
  * Shared seed: one competition ('amnd') with two FINAL seasons (2024, 2025),
@@ -108,12 +118,14 @@ function baseSpec(): SeedSpec {
     };
 }
 
-describe('loadClubsIndexData', () => {
+describe('clubs index service', () => {
     it('hides unranked clubs by default and orders present before past', async () => {
         const db = createTestDb();
         await seed(db, baseSpec());
 
-        const defaultResult = await loadClubsIndexData(db, {});
+        const defaultResult = unwrap(
+            await createServices(db).clubs.getIndexPage({}),
+        );
 
         // includePast defaults to false: only the two clubs ranked in the
         // latest (2025) season show up, regardless of the four clubs in the
@@ -126,7 +138,9 @@ describe('loadClubsIndexData', () => {
             defaultResult.entries.map((entry) => entry.club.key).sort(),
         ).toEqual(['contax', 'garville']);
 
-        const withPast = await loadClubsIndexData(db, { includePast: true });
+        const withPast = unwrap(
+            await createServices(db).clubs.getIndexPage({ includePast: true }),
+        );
 
         // Present entries (2) come first, past entries (ajax, phantom) after.
         expect(
@@ -147,7 +161,9 @@ describe('loadClubsIndexData', () => {
         const db = createTestDb();
         await seed(db, baseSpec());
 
-        const result = await loadClubsIndexData(db, { includePast: true });
+        const result = unwrap(
+            await createServices(db).clubs.getIndexPage({ includePast: true }),
+        );
 
         const ajax = result.entries.find((entry) => entry.club.key === 'ajax');
         expect(ajax).toBeDefined();
@@ -162,7 +178,9 @@ describe('loadClubsIndexData', () => {
         const db = createTestDb();
         await seed(db, baseSpec());
 
-        const result = await loadClubsIndexData(db, { includePast: true });
+        const result = unwrap(
+            await createServices(db).clubs.getIndexPage({ includePast: true }),
+        );
 
         const phantom = result.entries.find(
             (entry) => entry.club.key === 'phantom',

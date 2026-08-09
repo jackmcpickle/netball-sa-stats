@@ -1,6 +1,6 @@
 import type { JSX } from 'react';
 import { gapLabel } from '@/components/charts/timeline-slots';
-import type { Coverage } from '@/data/types';
+import type { Coverage } from '@/server/dto/shared.dto';
 
 const STATUS_LABEL: Record<string, string> = {
     ranked: 'ranked',

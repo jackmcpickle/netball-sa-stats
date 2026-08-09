@@ -9,7 +9,8 @@ import {
     type TimelineSlot,
 } from '@/components/charts/timeline-slots';
 import { useChartInteraction } from '@/components/charts/use-chart-interaction';
-import type { AccentName, ClubSeasonPoints } from '@/data/types';
+import type { ClubSeasonPoints } from '@/server/dto/club-profile.dto';
+import type { AccentName } from '@/server/dto/shared.dto';
 
 const TRACK = 150;
 const BAR_WIDTH = 46;

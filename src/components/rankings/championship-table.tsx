@@ -9,8 +9,8 @@ import {
 import { ClubLink } from '@/components/links';
 import { DataTable, type DataTableColumn } from '@/components/ui/data-table';
 import { ShareBar } from '@/components/ui/share-bar';
-import type { ChampionshipRow } from '@/data/types';
 import type { TableState } from '@/db/queries/pagination';
+import type { ChampionshipRow } from '@/server/dto/rankings.dto';
 
 const MOVEMENT_TONE = {
     up: 'text-rise',
