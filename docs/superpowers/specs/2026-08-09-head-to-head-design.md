@@ -9,6 +9,11 @@ end-of-season ladders only (`team_season_results`, one row per team per grade pe
 season), so there is no record of who beat whom. Real head-to-head needs
 match-level data, which means ingesting PlayHQ fixtures.
 
+`src/routes/results.tsx` is blocked on the same gap and says so in its own
+`NotAvailable` copy. The two pages have distinct jobs — `/results` is the fixture
+list, `/head-to-head` is the club-versus-club record — but both unlock from one
+`games` table, so they are built together.
+
 Separately, `/clubs` lists every club that has ever appeared, so the grid is
 dominated by cards reading "not ranked in 2025". Clubs no longer competing should
 be hidden by default behind a toggle.
@@ -16,6 +21,11 @@ be hidden by default behind a toggle.
 ## Decisions
 
 - Head to head is built on **real match results**, not a ladder-derived proxy.
+- `/results` is the **fixture list** (season + grade + optional single club);
+  `/head-to-head` is the **two-club record**. They share the query layer, not the
+  page.
+- Head to head filters on **club, club and grade band** — no season picker. Bands
+  default to all, with a per-season breakdown in the body.
 - Fixture ingestion scope for this cycle: **2025 and 2026 seasons only**, senior
   grades first, then juniors once seniors are proven end to end. Wider backfill is
   a later cycle.
@@ -100,8 +110,21 @@ in git. Import fixture directory under
 select feeding a pure, DOM-free aggregator.
 
 ```ts
-buildHeadToHead(rows: readonly GameRow[], clubA: string, clubB: string): HeadToHead
+buildHeadToHead(
+  rows: readonly GameRow[],
+  clubA: string,
+  clubB: string,
+  band: number | 'all',
+): HeadToHead
 ```
+
+### Grade bands, not grade rows
+
+`grades` is season-scoped: "Premier Division 2025" and "Premier Division 2026" are
+separate rows with separate `gradeKey`s. A picker spanning every season therefore
+selects a **band** (tier, via the existing `bandLabel(tier)`, which already
+collapses divisions), never a grade row. The picker is labelled "Grade" in the UI
+and carries an "All grades" option, which is the default.
 
 The select takes games where one side's team belongs to club A and the other to
 club B, joined through `grades` → `seasons` for year, tier and grade name. The
@@ -128,11 +151,14 @@ two-club query. Band labels come from the existing `bandLabel(tier)`.
 `src/routes/head-to-head.tsx` replaces its `NotAvailable` panel, following the
 `/ladders` search-param pattern:
 
-- `validateSearch` zod schema: `{ a?, b?, year?, grade?, includePast? }`,
-  `loaderDeps` derived from search, server fn falling back to valid defaults.
-- Two `SearchableSelect` club pickers, plus `FieldSelect` for season and grade.
-  The grade list is restricted to grades both clubs actually contested, so an
-  empty combination cannot be selected.
+- `validateSearch` zod schema: `{ a?, b?, band?, includePast? }`, `loaderDeps`
+  derived from search, server fn falling back to valid defaults. `band` defaults
+  to `all`. There is no season param — the record spans every season.
+- Two `SearchableSelect` club pickers, plus one `FieldSelect` grade-band picker.
+  The band list is restricted to bands the two clubs have actually met in, plus
+  "All grades", so an empty combination cannot be selected.
+- Premier League bands appear in the same picker as club-tier bands; nothing
+  special-cases the competition.
 - Distinct empty states: a prompt when fewer than two clubs are chosen, and a
   "these clubs have never met" panel when two valid clubs genuinely have no
   meetings — that is an answer, not a failure.
@@ -143,7 +169,25 @@ two-club query. Band labels come from the existing `bandLabel(tier)`.
 - `ShareBar` works unchanged because all state lives in the URL.
 - The club profile page links to head to head against its most-played opponents.
 
-## 4. Present/past club filtering
+## 4. Results page
+
+`src/routes/results.tsx` replaces its `NotAvailable` panel with the fixture list
+the page was always meant to be, using the `/ladders` search-param pattern:
+
+- `validateSearch`: `{ year?, grade?, club? }`. Unlike head to head this page is
+  season-scoped, so it selects a concrete **grade row** (season-scoped `gradeKey`),
+  exactly as `/ladders` already does — the two pages can share the picker.
+- Defaults to the latest season and its first grade. An optional single-club
+  filter narrows to that club's games.
+- Body is a `Table` of round, date, both teams, score and margin, grouped by round.
+  Forfeits and no-results carry a `NoteMarker`.
+- Where two distinct clubs are on the card, each row links to the head-to-head
+  page for that pairing.
+
+Both pages read through the same `games` select helpers; only the aggregation
+differs.
+
+## 5. Present/past club filtering
 
 ### Shared helper — `src/db/queries/club-activity.ts`
 
@@ -171,11 +215,14 @@ ranked key set costs no additional query.
   named directly in the URL stays selectable and visible regardless of the toggle,
   so a shared link involving a defunct club never silently breaks.
 
-## 5. Testing
+## 6. Testing
 
 - `head-to-head.test.ts` — forfeits count, no-results do not, home/away
   normalisation, never-met returns an empty record, per-season and per-band
-  rollups.
+  rollups, and band filtering (a band filter must not change which games are
+  counted for another band).
+- `results.test.ts` — round grouping and margin calculation, including a forfeit
+  and a bye.
 - `club-activity.test.ts` — partition behaviour, including a club with no ranked
   year at all and a dataset with no ranked year at all.
 - Import fixture test for `games-<year>.csv`, including the unknown-team-ID
