@@ -27,7 +27,6 @@ import type { Db } from '@/db';
 import {
     CHAMPIONSHIP_TABLE_SPEC,
     fetchChampionshipHistory,
-    sortChampionshipRows,
 } from '@/db/queries/championship';
 import {
     CLUB_RESULTS_TABLE_SPEC,
@@ -44,6 +43,7 @@ import {
 } from '@/db/queries/grades';
 import type { RawTableState, TableState } from '@/db/queries/pagination';
 import { fetchGradeWeights } from '@/db/queries/weights';
+import { Championship } from '@/server/domain/championship';
 import { Coverage as CoverageDomain } from '@/server/domain/coverage';
 import { TableQuery } from '@/server/domain/table-query';
 
@@ -92,9 +92,12 @@ export async function getChampionshipSeason(
     if (!season) {
         return null;
     }
-    const paged = TableQuery.from(state ?? {}, CHAMPIONSHIP_TABLE_SPEC).apply(
-        season.rows,
-        (rows, q) => sortChampionshipRows(rows, q.state),
+    const championship = Championship.fromHistory(history, year);
+    if (!championship.ok) {
+        return null;
+    }
+    const paged = championship.value.sorted(
+        TableQuery.from(state ?? {}, CHAMPIONSHIP_TABLE_SPEC),
     );
     return {
         ...season,
@@ -102,6 +105,25 @@ export async function getChampionshipSeason(
         totalRows: paged.totalRows,
         tableState: paged.state,
     };
+}
+
+/**
+ * The ranked year immediately before `year`, or `null` when `year` is the
+ * earliest ranked year (or `year` itself is not ranked).
+ */
+export async function getChampionshipPreviousYear(
+    db: Db,
+    year: number,
+): Promise<number | null> {
+    const [history, seasonRows] = await Promise.all([
+        fetchChampionshipHistory(db),
+        fetchSeasons(db),
+    ]);
+    const championship = Championship.fromHistory(history, year);
+    if (!championship.ok) {
+        return null;
+    }
+    return championship.value.previousYear(CoverageDomain.from(seasonRows));
 }
 
 /**
