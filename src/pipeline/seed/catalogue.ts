@@ -67,7 +67,7 @@ type Band = {
  * - C sits below Inter. The archived AMND regrading PDFs show two-way promotion and
  *   relegation between B.5 and C.1, so C is a normal competitive band, just lower.
  */
-const BANDS: readonly Band[] = [
+export const BANDS: readonly Band[] = [
     {
         competitionKey: 'premier_league',
         tier: 1,

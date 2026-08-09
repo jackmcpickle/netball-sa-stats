@@ -195,6 +195,26 @@ export interface ClubProfile {
     readonly gamesPlayed: number;
     readonly seasons: readonly ClubSeasonPoints[];
     readonly results: readonly ClubGradeResult[];
+    readonly trend: ClubTrend;
+}
+
+export interface ClubTrendPoint {
+    readonly year: number;
+    /** 0..1, 1 being top of every grade. Null when nothing was measurable. */
+    readonly strength: number | null;
+    /** Teams fielded. Zero is meaningful here: the club sat the season out. */
+    readonly teams: number;
+}
+
+export interface ClubBandTrend {
+    readonly tier: number;
+    readonly label: string;
+    readonly points: readonly ClubTrendPoint[];
+}
+
+export interface ClubTrend {
+    readonly overall: readonly ClubTrendPoint[];
+    readonly bands: readonly ClubBandTrend[];
 }
 
 export interface LadderRow {
