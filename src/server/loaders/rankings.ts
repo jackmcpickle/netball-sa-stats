@@ -1,6 +1,5 @@
 import {
     championshipSize,
-    getChampionshipPreviousYear,
     getChampionshipSeason,
     getCoverage,
     getRankSeries,
@@ -43,24 +42,25 @@ export async function loadRankingsData(
         data.season !== undefined && coverage.rankedYears.includes(data.season)
             ? data.season
             : await latestRankedYear(db);
-    const [season, previousYear, series, worstRank, clubs, gradesByYear] =
-        await Promise.all([
-            getChampionshipSeason(db, year, {
+    const [season, series, worstRank, clubs, gradesByYear] = await Promise.all([
+        getChampionshipSeason(
+            db,
+            year,
+            {
                 sort: data.sort,
                 dir: data.dir,
                 page: data.page,
                 pageSize: data.pageSize,
-            }),
-            getChampionshipPreviousYear(db, year),
-            getRankSeries(db, 7),
-            championshipSize(db),
-            listClubs(db),
-            Promise.all(
-                coverage.years.map(async (gradeYear) =>
-                    listGrades(db, gradeYear),
-                ),
-            ),
-        ]);
+            },
+            coverage.rankedYears,
+        ),
+        getRankSeries(db, 7),
+        championshipSize(db),
+        listClubs(db),
+        Promise.all(
+            coverage.years.map(async (gradeYear) => listGrades(db, gradeYear)),
+        ),
+    ]);
     if (!season) {
         throw new Error(`No championship for ${String(year)}`);
     }
@@ -69,7 +69,7 @@ export async function loadRankingsData(
         season,
         totalRows: season.totalRows,
         tableState: season.tableState,
-        previousYear,
+        previousYear: season.previousYear,
         series,
         worstRank,
         clubCount: clubs.length,

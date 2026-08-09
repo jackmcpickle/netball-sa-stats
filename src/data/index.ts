@@ -80,10 +80,12 @@ export async function getChampionshipSeason(
     db: Db,
     year: number,
     state?: RawTableState,
+    rankedYears?: readonly number[],
 ): Promise<
     | (ChampionshipSeason & {
           readonly totalRows: number;
           readonly tableState: TableState;
+          readonly previousYear: number | null;
       })
     | null
 > {
@@ -104,26 +106,8 @@ export async function getChampionshipSeason(
         rows: paged.rows,
         totalRows: paged.totalRows,
         tableState: paged.state,
+        previousYear: championship.value.previousYear(rankedYears ?? []),
     };
-}
-
-/**
- * The ranked year immediately before `year`, or `null` when `year` is the
- * earliest ranked year (or `year` itself is not ranked).
- */
-export async function getChampionshipPreviousYear(
-    db: Db,
-    year: number,
-): Promise<number | null> {
-    const [history, seasonRows] = await Promise.all([
-        fetchChampionshipHistory(db),
-        fetchSeasons(db),
-    ]);
-    const championship = Championship.fromHistory(history, year);
-    if (!championship.ok) {
-        return null;
-    }
-    return championship.value.previousYear(CoverageDomain.from(seasonRows));
 }
 
 /**

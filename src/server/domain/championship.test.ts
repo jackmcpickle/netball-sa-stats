@@ -49,6 +49,32 @@ describe('Championship.sorted', () => {
     });
 });
 
+describe('Championship.previousYear', () => {
+    it('is the ranked year immediately before this one', () => {
+        const result = Championship.fromHistory(historyOf(2022, []), 2022);
+        if (!result.ok) {
+            throw new Error('expected ok');
+        }
+        expect(result.value.previousYear([2018, 2020, 2022])).toBe(2020);
+    });
+
+    it('is null for the earliest ranked year', () => {
+        const result = Championship.fromHistory(historyOf(2018, []), 2018);
+        if (!result.ok) {
+            throw new Error('expected ok');
+        }
+        expect(result.value.previousYear([2018, 2020, 2022])).toBeNull();
+    });
+
+    it('is null when the year itself is not ranked', () => {
+        const result = Championship.fromHistory(historyOf(2019, []), 2019);
+        if (!result.ok) {
+            throw new Error('expected ok');
+        }
+        expect(result.value.previousYear([2018, 2020, 2022])).toBeNull();
+    });
+});
+
 describe('Championship.fromHistory', () => {
     it('reports not-found for a year with no season', () => {
         const result = Championship.fromHistory(historyOf(2024, []), 1999);

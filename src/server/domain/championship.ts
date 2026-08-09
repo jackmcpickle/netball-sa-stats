@@ -7,7 +7,6 @@
  */
 import type { ChampionshipRow, ChampionshipSeason } from '@/data/types';
 import type { TableState } from '@/db/queries/pagination';
-import type { Coverage } from '@/server/domain/coverage';
 import type { DomainError, Result } from '@/server/domain/result';
 import { err, ok } from '@/server/domain/result';
 import type { TableQuery } from '@/server/domain/table-query';
@@ -72,8 +71,7 @@ export class Championship {
      * The ranked year immediately before this one, or `null` when this is
      * the earliest ranked year (or there is no earlier ranked year at all).
      */
-    public previousYear(coverage: Coverage): number | null {
-        const rankedYears = coverage.rankedYears();
+    public previousYear(rankedYears: readonly number[]): number | null {
         const index = rankedYears.indexOf(this.year);
         return index > 0 ? (rankedYears[index - 1] ?? null) : null;
     }

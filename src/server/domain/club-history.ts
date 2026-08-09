@@ -166,20 +166,4 @@ export class ClubHistory {
     } {
         return q.apply(toGradeResults(this.resultsData), sortClubResults);
     }
-
-    /**
-     * The most recent ranked year this club fielded a final-season team, or
-     * `null` if it has never fielded one in a ranked year. A club is ranked
-     * in every ranked year it played a final grade — `fetchChampionshipHistory`
-     * builds its club index from the same final rows, so no club with a final
-     * result in a ranked year is missing from that year's championship.
-     */
-    public lastRankedYear(): number | null {
-        const years = this.resultsData
-            .filter(
-                (row) => row.isFinal && this.rankedYearsData.includes(row.year),
-            )
-            .map((row) => row.year);
-        return years.length === 0 ? null : Math.max(...years);
-    }
 }
