@@ -6,9 +6,39 @@ import {
     placementBasesForYear,
     sourcesForYear,
 } from '@/db/queries/era-break';
+import type { TableSpec, TableState } from '@/db/queries/pagination';
 import { fetchResults, toScoringRow } from '@/db/queries/results';
 import type { ResultRow } from '@/db/queries/results';
 import { previousRanks, rankSeasons } from '@/pipeline/scoring/championship';
+
+export const CHAMPIONSHIP_TABLE_SPEC: TableSpec = {
+    sortable: ['rank', 'club', 'points', 'teams'],
+    defaultSort: 'rank',
+    defaultDesc: false,
+} as const;
+
+/**
+ * Every sort gets `rank` as a tiebreaker. Without one, rows with equal points
+ * can swap between requests and the same club appears on two pages — or on
+ * none.
+ */
+export function sortChampionshipRows(
+    rows: readonly ChampionshipRow[],
+    state: TableState,
+): readonly ChampionshipRow[] {
+    const direction = state.desc ? -1 : 1;
+    return [...rows].sort((a, b) => {
+        const primary =
+            state.sort === 'club'
+                ? a.club.name.localeCompare(b.club.name)
+                : state.sort === 'points'
+                  ? a.points - b.points
+                  : state.sort === 'teams'
+                    ? a.teams - b.teams
+                    : a.rank - b.rank;
+        return primary === 0 ? a.rank - b.rank : primary * direction;
+    });
+}
 
 function competitionKeysFor(
     rows: readonly ResultRow[],

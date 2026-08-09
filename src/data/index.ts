@@ -23,11 +23,21 @@ import type {
  * stale silently. It is in the history if the shapes are ever wanted again.
  */
 import { getDb } from '@/db';
-import { fetchChampionshipHistory } from '@/db/queries/championship';
+import {
+    CHAMPIONSHIP_TABLE_SPEC,
+    fetchChampionshipHistory,
+    sortChampionshipRows,
+} from '@/db/queries/championship';
 import { fetchClubProfile } from '@/db/queries/club-profile';
 import { fetchClubs } from '@/db/queries/clubs';
 import { buildCoverage, fetchSeasons } from '@/db/queries/coverage';
 import { fetchGrades, fetchLadder } from '@/db/queries/grades';
+import {
+    offsetFor,
+    resolveTableState,
+    type RawTableState,
+    type TableState,
+} from '@/db/queries/pagination';
 import { fetchGradeWeights } from '@/db/queries/weights';
 
 /** The site now ships the real import rather than generated rows. */
@@ -58,9 +68,28 @@ export async function latestRankedYear(): Promise<number> {
 
 export async function getChampionshipSeason(
     year: number,
-): Promise<ChampionshipSeason | null> {
+    state?: RawTableState,
+): Promise<
+    | (ChampionshipSeason & {
+          readonly totalRows: number;
+          readonly tableState: TableState;
+      })
+    | null
+> {
     const history = await fetchChampionshipHistory(getDb());
-    return history.find((season) => season.year === year) ?? null;
+    const season = history.find((entry) => entry.year === year) ?? null;
+    if (!season) {
+        return null;
+    }
+    const tableState = resolveTableState(state ?? {}, CHAMPIONSHIP_TABLE_SPEC);
+    const sorted = sortChampionshipRows(season.rows, tableState);
+    const offset = offsetFor(tableState);
+    return {
+        ...season,
+        rows: sorted.slice(offset, offset + tableState.pageSize),
+        totalRows: season.rows.length,
+        tableState,
+    };
 }
 
 /**

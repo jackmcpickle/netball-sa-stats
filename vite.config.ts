@@ -122,6 +122,13 @@ export default defineConfig({
                 },
             ],
             'react/forbid-component-props': ['error', { forbid: ['style'] }],
+            // DataTable's `cell: (row) => ReactNode` column spec is a render
+            // prop, not a stray component definition — every DataTable
+            // consumer builds one of these per column.
+            'react/no-unstable-nested-components': [
+                'error',
+                { allowAsProps: true },
+            ],
             'react/react-in-jsx-scope': 'off',
             'react/only-export-components': 'off',
             'func-style': [

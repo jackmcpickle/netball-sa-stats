@@ -16,11 +16,15 @@ import type {
     ClubRankSeries,
     Coverage,
 } from '@/data/types';
+import type { TableState } from '@/db/queries/pagination';
 import { parseOptionalIntParam } from '@/routes/-search-params';
+import { tableSearchSchema } from '@/routes/-table-params';
 
 export interface RankingsData {
     readonly coverage: Coverage;
     readonly season: ChampionshipSeason;
+    readonly totalRows: number;
+    readonly tableState: TableState;
     readonly previousYear: number | null;
     readonly series: readonly ClubRankSeries[];
     readonly worstRank: number;
@@ -28,7 +32,7 @@ export interface RankingsData {
     readonly gradeCount: number;
 }
 
-const searchSchema = z.object({
+const searchSchema = tableSearchSchema.extend({
     season: z.preprocess(parseOptionalIntParam, z.number().int().optional()),
 });
 
@@ -37,7 +41,15 @@ const searchSchema = z.object({
  * database queries without the route or any component changing shape.
  */
 const loadRankings = createServerFn({ method: 'GET' })
-    .validator(z.object({ season: z.number().int().optional() }))
+    .validator(
+        z.object({
+            season: z.number().int().optional(),
+            sort: z.string().optional(),
+            dir: z.enum(['asc', 'desc']).optional(),
+            page: z.number().int().optional(),
+            pageSize: z.number().int().optional(),
+        }),
+    )
     .handler(async ({ data }): Promise<RankingsData> => {
         const coverage = await getCoverage();
         const year =
@@ -48,7 +60,12 @@ const loadRankings = createServerFn({ method: 'GET' })
         const index = coverage.rankedYears.indexOf(year);
         const [season, series, worstRank, clubs, gradesByYear] =
             await Promise.all([
-                getChampionshipSeason(year),
+                getChampionshipSeason(year, {
+                    sort: data.sort,
+                    dir: data.dir,
+                    page: data.page,
+                    pageSize: data.pageSize,
+                }),
                 getRankSeries(7),
                 championshipSize(),
                 listClubs(),
@@ -60,6 +77,8 @@ const loadRankings = createServerFn({ method: 'GET' })
         return {
             coverage,
             season,
+            totalRows: season.totalRows,
+            tableState: season.tableState,
             previousYear:
                 index > 0 ? (coverage.rankedYears[index - 1] ?? null) : null,
             series,
@@ -74,7 +93,13 @@ const loadRankings = createServerFn({ method: 'GET' })
 
 export const Route = createFileRoute('/')({
     validateSearch: searchSchema,
-    loaderDeps: ({ search }) => ({ season: search.season }),
-    loader: async ({ deps }) => loadRankings({ data: { season: deps.season } }),
+    loaderDeps: ({ search }) => ({
+        season: search.season,
+        sort: search.sort,
+        dir: search.dir,
+        page: search.page,
+        pageSize: search.pageSize,
+    }),
+    loader: async ({ deps }) => loadRankings({ data: deps }),
     component: RankingsPage,
 });
