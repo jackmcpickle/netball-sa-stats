@@ -30,20 +30,16 @@ import {
     fetchClubProfile,
 } from '@/db/queries/club-profile';
 import { buildCoverage, fetchSeasons } from '@/db/queries/coverage';
-import {
-    fetchGrades,
-    fetchLadder,
-    LADDER_TABLE_SPEC,
-} from '@/db/queries/grades';
+import { LADDER_TABLE_SPEC } from '@/db/queries/grades';
 import type { RawTableState, TableState } from '@/db/queries/pagination';
 import { fetchGradeWeights } from '@/db/queries/weights';
 import { Championship } from '@/server/domain/championship';
 import { sortClubResults } from '@/server/domain/club-history';
 import { Coverage as CoverageDomain } from '@/server/domain/coverage';
-import { Ladder as LadderDomain } from '@/server/domain/ladder';
 import { TableQuery } from '@/server/domain/table-query';
 import { fetchChampionshipHistory } from '@/server/repos/championship.repo';
 import { fetchClubs } from '@/server/repos/clubs.repo';
+import { createGradesRepo, fetchGrades } from '@/server/repos/grades.repo';
 
 /** The site now ships the real import rather than generated rows. */
 export const IS_SAMPLE_DATA = false;
@@ -231,15 +227,15 @@ export async function getLadderFor(
       })
     | null
 > {
-    const ladder = await fetchLadder(db, gradeKey);
-    if (!ladder) {
+    const result = await createGradesRepo(db).ladder(gradeKey);
+    if (!result.ok) {
         return null;
     }
-    const paged = LadderDomain.from(ladder.grade, ladder.rows).sorted(
+    const paged = result.value.sorted(
         TableQuery.from(state ?? {}, LADDER_TABLE_SPEC),
     );
     return {
-        ...ladder,
+        grade: result.value.grade(),
         rows: paged.rows,
         totalRows: paged.totalRows,
         tableState: paged.state,
