@@ -31,7 +31,6 @@ import {
 import {
     CLUB_RESULTS_TABLE_SPEC,
     fetchClubProfile,
-    sortClubResults,
 } from '@/db/queries/club-profile';
 import { fetchClubs } from '@/db/queries/clubs';
 import { buildCoverage, fetchSeasons } from '@/db/queries/coverage';
@@ -43,6 +42,7 @@ import {
 import type { RawTableState, TableState } from '@/db/queries/pagination';
 import { fetchGradeWeights } from '@/db/queries/weights';
 import { Championship } from '@/server/domain/championship';
+import { sortClubResults } from '@/server/domain/club-history';
 import { Coverage as CoverageDomain } from '@/server/domain/coverage';
 import { Ladder as LadderDomain } from '@/server/domain/ladder';
 import { TableQuery } from '@/server/domain/table-query';
@@ -228,7 +228,7 @@ export async function getClubProfile(
     }
     const paged = TableQuery.from(state ?? {}, CLUB_RESULTS_TABLE_SPEC).apply(
         profile.results,
-        (rows, q) => sortClubResults(rows, q.state),
+        sortClubResults,
     );
     return {
         ...profile,

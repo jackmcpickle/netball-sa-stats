@@ -1,18 +1,17 @@
 import type {
     ChampionshipSeason,
-    ClubGradeResult,
     ClubProfile,
     ClubSeasonPoints,
 } from '@/data/types';
 import type { Db } from '@/db';
 import { fetchChampionshipHistory } from '@/db/queries/championship';
-import { buildClubTrend } from '@/db/queries/club-trend';
 import { accentFor } from '@/db/queries/clubs';
 import { buildCoverage, fetchSeasons } from '@/db/queries/coverage';
-import type { TableSpec, TableState } from '@/db/queries/pagination';
+import type { TableSpec } from '@/db/queries/pagination';
 import { fetchResults } from '@/db/queries/results';
 import type { ResultRow } from '@/db/queries/results';
 import { winRate } from '@/pipeline/scoring/championship';
+import { ClubHistory, toGradeResults } from '@/server/domain/club-history';
 
 // Only ids with a clickable header in ClubResultsTable belong here: 'played',
 // 'lost', and 'points' have comparators but no column of their own (the W-L-D
@@ -22,74 +21,6 @@ export const CLUB_RESULTS_TABLE_SPEC: TableSpec = {
     defaultSort: 'year',
     defaultDesc: true,
 } as const;
-
-function played(result: ClubGradeResult): number {
-    return (result.won ?? 0) + (result.lost ?? 0) + (result.drawn ?? 0);
-}
-
-/** Two points for a win, one for a draw — same scoring as the ladder. */
-function points(result: ClubGradeResult): number {
-    return 2 * (result.won ?? 0) + (result.drawn ?? 0);
-}
-
-type ResultComparator = (a: ClubGradeResult, b: ClubGradeResult) => number;
-
-function numeric(pick: (result: ClubGradeResult) => number): ResultComparator {
-    return (a, b) => pick(a) - pick(b);
-}
-
-const RESULT_COMPARATORS: Record<string, ResultComparator> = {
-    grade: (a, b) => a.gradeName.localeCompare(b.gradeName),
-    position: numeric((result) => result.ladderPosition),
-    played: numeric(played),
-    won: numeric((result) => result.won ?? 0),
-    lost: numeric((result) => result.lost ?? 0),
-    points: numeric(points),
-    year: (a, b) => a.year - b.year,
-};
-
-/**
- * Every sort ties back to (year desc, gradeKey asc). Without that tiebreaker,
- * seasons level on the sorted column can swap between requests and the same
- * grade finish appears on two pages — or on none.
- */
-export function sortClubResults(
-    results: readonly ClubGradeResult[],
-    state: TableState,
-): readonly ClubGradeResult[] {
-    const direction = state.desc ? -1 : 1;
-    const compare = RESULT_COMPARATORS[state.sort] ?? RESULT_COMPARATORS.year;
-    return [...results].sort((a, b) => {
-        const primary = compare(a, b);
-        if (primary !== 0) {
-            return primary * direction;
-        }
-        return a.year === b.year
-            ? a.gradeKey.localeCompare(b.gradeKey)
-            : b.year - a.year;
-    });
-}
-
-/** Most recent season first, then strongest grade first within a season. */
-function toGradeResults(
-    rows: readonly ResultRow[],
-): readonly ClubGradeResult[] {
-    return [...rows].reverse().map(
-        (row): ClubGradeResult => ({
-            year: row.year,
-            gradeKey: row.gradeKey,
-            gradeName: row.gradeName,
-            competitionName: row.competitionName,
-            ladderPosition: row.ladderPosition,
-            teamCount: row.teamCount,
-            won: row.won,
-            lost: row.lost,
-            drawn: row.drawn,
-            percentage: row.percentage,
-            notes: row.notes,
-        }),
-    );
-}
 
 interface Record_ {
     readonly won: number;
@@ -176,15 +107,17 @@ export async function fetchClubProfile(
     const current = history
         .at(-1)
         ?.rows.find((entry) => entry.club.key === clubKey);
+    const club = {
+        key: first.clubKey,
+        name: first.clubName,
+        establishedYear: first.establishedYear,
+        homeVenue: first.homeVenue,
+        accent: accentFor(first.clubKey),
+    };
+    const clubHistory = ClubHistory.from(club, rows, coverage.rankedYears);
 
     return {
-        club: {
-            key: first.clubKey,
-            name: first.clubName,
-            establishedYear: first.establishedYear,
-            homeVenue: first.homeVenue,
-            accent: accentFor(first.clubKey),
-        },
+        club,
         currentRank: current?.rank ?? null,
         bestRank: best?.rank ?? null,
         bestRankYear: best?.year ?? null,
@@ -203,6 +136,6 @@ export async function fetchClubProfile(
         gamesPlayed: record.games,
         seasons,
         results: toGradeResults(rows),
-        trend: buildClubTrend(rows, coverage.rankedYears),
+        trend: clubHistory.trend(),
     };
 }
