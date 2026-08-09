@@ -1,4 +1,4 @@
-import type { JSX } from 'react';
+import { useId, type JSX } from 'react';
 
 export interface ToggleOption {
     readonly value: boolean;
@@ -22,17 +22,18 @@ export function SegmentedToggle({
     readonly hint?: string;
     readonly onValueChange: (next: boolean) => void;
 }): JSX.Element {
+    const labelId = useId();
     return (
         <div className="flex flex-col gap-1.5">
             <span
                 className="label-mono text-ink-muted"
-                id={`toggle-${label}`}
+                id={labelId}
             >
                 {label}
             </span>
             <div
                 role="group"
-                aria-labelledby={`toggle-${label}`}
+                aria-labelledby={labelId}
                 className="inline-flex rounded-card border border-rule bg-paper p-0.5"
             >
                 {options.map((option) => (
