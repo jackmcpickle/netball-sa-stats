@@ -9,7 +9,7 @@ export function PageShell({
     readonly className?: string;
 }): JSX.Element {
     return (
-        <div className={`mx-auto max-w-shell px-5 sm:px-8 ${className}`}>
+        <div className={`mx-auto max-w-shell px-4 sm:px-8 ${className}`}>
             {children}
         </div>
     );

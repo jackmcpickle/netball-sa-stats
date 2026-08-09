@@ -107,18 +107,23 @@ export function ChampionshipTable({
                                     </span>
                                 </Td>
                                 <Td align="right">
-                                    <span className="flex items-center justify-end gap-3">
-                                        <ShareBar
-                                            share={
-                                                leaderPoints > 0
-                                                    ? row.points / leaderPoints
-                                                    : 0
-                                            }
-                                            accent={accentText(row.club.accent)}
-                                        />
+                                    <span className="flex items-center justify-end gap-2 sm:gap-3">
+                                        <span className="hidden sm:inline-flex">
+                                            <ShareBar
+                                                share={
+                                                    leaderPoints > 0
+                                                        ? row.points /
+                                                          leaderPoints
+                                                        : 0
+                                                }
+                                                accent={accentText(
+                                                    row.club.accent,
+                                                )}
+                                            />
+                                        </span>
                                         {coverageChanged ? (
                                             <span
-                                                className="numeric w-14 text-right text-[13px] text-ink-faint"
+                                                className="numeric w-12 text-right text-[13px] text-ink-faint sm:w-14"
                                                 title="Competition coverage, methodology, or a gap in seasons changed since the previous ranked season, so this season is not directly comparable — no movement is shown."
                                             >
                                                 <span className="sr-only">
@@ -132,7 +137,7 @@ export function ChampionshipTable({
                                             </span>
                                         ) : (
                                             <span
-                                                className={`numeric w-14 text-right text-[13px] font-semibold ${MOVEMENT_TONE[movement.direction]}`}
+                                                className={`numeric w-12 text-right text-[13px] font-semibold sm:w-14 ${MOVEMENT_TONE[movement.direction]}`}
                                             >
                                                 <span className="sr-only">
                                                     {movement.description}

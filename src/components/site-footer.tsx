@@ -3,7 +3,7 @@ import type { JSX } from 'react';
 
 export function SiteFooter(): JSX.Element {
     return (
-        <footer className="border-t border-rule bg-paper-raised px-5 py-16 sm:px-8 sm:py-20">
+        <footer className="border-t border-rule bg-paper-raised px-4 py-14 sm:px-8 sm:py-20">
             <div className="mx-auto grid max-w-shell gap-10 sm:grid-cols-2 lg:grid-cols-[2fr_1fr_1fr_1fr] lg:gap-8">
                 <div>
                     <div className="mb-3 flex items-center gap-2.5">

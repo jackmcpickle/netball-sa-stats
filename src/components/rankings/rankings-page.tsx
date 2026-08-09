@@ -37,22 +37,22 @@ export function RankingsPage(): JSX.Element {
 
     return (
         <PageShell className="pb-24">
-            <div className="grid items-end gap-8 pt-16 pb-12 lg:grid-cols-[7fr_5fr] lg:pt-20">
+            <div className="grid items-end gap-8 pt-12 pb-10 sm:pt-16 sm:pb-12 lg:grid-cols-[7fr_5fr] lg:pt-20">
                 <div>
                     <Eyebrow>
                         {`CLUB CHAMPIONSHIP · ${String(firstRanked)}—${String(lastRanked)}`}
                     </Eyebrow>
-                    <h1 className="mt-5 text-[2.75rem] leading-[1.02] font-medium tracking-[-0.09rem] text-pretty text-ink sm:text-[3.5rem] sm:tracking-[-0.12rem] lg:text-display lg:tracking-[-0.156rem]">
+                    <h1 className="mt-5 text-[2.25rem] leading-[1.05] font-medium tracking-[-0.07rem] text-pretty text-ink sm:text-[3.5rem] sm:tracking-[-0.12rem] lg:text-display lg:tracking-[-0.156rem]">
                         {"Which club is really South Australia's strongest?"}
                     </h1>
-                    <p className="mt-6 max-w-[52ch] text-lg leading-[1.55] text-ink-body">
+                    <p className="mt-5 max-w-[52ch] text-base leading-[1.55] text-ink-body sm:mt-6 sm:text-lg">
                         {
                             'Every grade, every season, one number. Ladder finishes across Premier League, its Reserves and the Adelaide Metropolitan Netball Division are weighted by grade and added up into a single club championship score.'
                         }
                     </p>
                 </div>
 
-                <div className="grid gap-5 rounded-panel bg-paper-sunken p-8">
+                <div className="grid gap-5 rounded-panel bg-paper-sunken p-6 sm:p-8">
                     <StatFigure
                         size="lg"
                         value={data.coverage.rankedYears.length}
@@ -62,7 +62,7 @@ export function RankingsPage(): JSX.Element {
                         aria-hidden="true"
                         className="h-px bg-rule-soft"
                     />
-                    <div className="grid grid-cols-3 gap-4">
+                    <div className="grid grid-cols-1 gap-5 sm:grid-cols-3 sm:gap-4">
                         <StatFigure
                             size="sm"
                             value={data.clubCount}
@@ -92,7 +92,7 @@ export function RankingsPage(): JSX.Element {
 
             <Panel
                 tone="raised"
-                className="mb-12 p-6 sm:p-8"
+                className="mb-12 p-5 sm:p-8"
             >
                 <h2 className="text-2xl font-medium tracking-tight text-ink sm:text-panel">
                     {'Rank movement, season by season'}
@@ -100,8 +100,8 @@ export function RankingsPage(): JSX.Element {
                 <p className="mt-2 text-sm text-ink-muted">
                     {`Club championship position across ${String(data.coverage.rankedYears.length)} ranked seasons. Lower is better. Lines break across years with no recovered data.`}
                 </p>
-                <div className="mt-6 overflow-x-auto">
-                    <div className="min-w-[46rem]">
+                <div className="mt-6 overflow-x-auto overscroll-x-contain [-webkit-overflow-scrolling:touch]">
+                    <div className="min-w-[36rem] sm:min-w-[46rem]">
                         <RankMovementChart
                             series={data.series}
                             years={data.coverage.rankedYears}
@@ -111,8 +111,8 @@ export function RankingsPage(): JSX.Element {
                 </div>
             </Panel>
 
-            <div className="mb-4 flex flex-wrap items-center justify-between gap-6">
-                <h2 className="text-3xl font-medium tracking-tight text-ink sm:text-title">
+            <div className="mb-4 flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between sm:gap-6">
+                <h2 className="text-2xl font-medium tracking-tight text-ink sm:text-title">
                     {`${String(data.season.year)} club championship`}
                 </h2>
                 <FieldSelect

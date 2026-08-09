@@ -138,7 +138,7 @@ export function SearchableSelect<Value extends string | number>({
             filter={filterOption}
             onInputValueChange={setQuery}
         >
-            <span className="flex max-w-full min-w-0 items-center gap-3">
+            <span className="flex w-full max-w-full min-w-0 items-center gap-3 sm:w-auto">
                 <Combobox.Label className="shrink-0 text-[13px] text-ink-muted">
                     {label}
                 </Combobox.Label>

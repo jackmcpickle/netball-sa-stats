@@ -6,9 +6,9 @@ import { SiteHeader } from '@/components/site-header';
 /** Header, page, footer. Every route renders inside this. */
 export function RootLayout(): JSX.Element {
     return (
-        <div className="flex min-h-screen flex-col bg-paper">
+        <div className="flex min-h-screen flex-col overflow-x-clip bg-paper">
             <SiteHeader />
-            <main className="flex-1">
+            <main className="min-w-0 flex-1">
                 <Outlet />
             </main>
             <SiteFooter />

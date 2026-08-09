@@ -57,7 +57,7 @@ export function LaddersPage(): JSX.Element {
                 <PageTitle>{'Where every team finished'}</PageTitle>
             </div>
 
-            <div className="mb-6 flex flex-wrap gap-4">
+            <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:flex-wrap">
                 <FieldSelect
                     label="Season"
                     value={data.year}

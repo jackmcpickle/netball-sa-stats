@@ -76,6 +76,9 @@ export default defineConfig({
             'data/archive/fixtures/',
             'data/archive/placements/',
             'worker-configuration.d.ts',
+            'e2e/',
+            'playwright-report/',
+            'test-results/',
         ],
     },
     lint: {
@@ -185,12 +188,14 @@ export default defineConfig({
             '.tanstack/',
             'vite.config.ts',
             'drizzle.config.ts',
+            'playwright.config.ts',
             'src/routeTree.gen.ts',
             'docs/design/',
             'src/components/ui/',
             '.claude/hooks/',
             '**/worker-configuration.d.ts',
             'src/vite-env.d.ts',
+            'e2e/',
         ],
         overrides: [
             {

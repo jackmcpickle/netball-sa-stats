@@ -11,7 +11,7 @@ export function TableFrame({
     readonly children: ReactNode;
 }): JSX.Element {
     return (
-        <div className="overflow-x-auto rounded-card border border-rule bg-paper">
+        <div className="overflow-x-auto overscroll-x-contain rounded-card border border-rule bg-paper [-webkit-overflow-scrolling:touch]">
             {children}
         </div>
     );
@@ -20,13 +20,22 @@ export function TableFrame({
 export function Table({
     caption,
     children,
+    /** `compact` for short tables (e.g. grade weights) that fit phone widths. */
+    layout = 'wide',
 }: {
     /** Visually hidden; the visible heading sits above the frame. */
     readonly caption: string;
     readonly children: ReactNode;
+    readonly layout?: 'wide' | 'compact';
 }): JSX.Element {
     return (
-        <table className="w-full min-w-[44rem] border-collapse text-left">
+        <table
+            className={`w-full border-collapse text-left ${
+                layout === 'compact'
+                    ? 'min-w-0'
+                    : 'min-w-[36rem] sm:min-w-[44rem]'
+            }`}
+        >
             <caption className="sr-only">{caption}</caption>
             {children}
         </table>
@@ -53,7 +62,7 @@ export function Th({
     return (
         <th
             scope={scope}
-            className={`label-mono bg-paper-sunken px-3 py-3.5 font-medium first:pl-6 last:pr-6 ${ALIGN[align]}`}
+            className={`label-mono bg-paper-sunken px-2.5 py-3 font-medium first:pl-4 last:pr-4 sm:px-3 sm:py-3.5 sm:first:pl-6 sm:last:pr-6 ${ALIGN[align]}`}
         >
             {children}
         </th>
@@ -78,7 +87,7 @@ export function Td({
               : 'text-ink-body';
     return (
         <td
-            className={`px-3 py-3.5 text-sm first:pl-6 last:pr-6 ${ALIGN[align]} ${tone}`}
+            className={`px-2.5 py-3 text-sm first:pl-4 last:pr-4 sm:px-3 sm:py-3.5 sm:first:pl-6 sm:last:pr-6 ${ALIGN[align]} ${tone}`}
         >
             {children}
         </td>

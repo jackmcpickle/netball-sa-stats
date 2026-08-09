@@ -67,6 +67,9 @@
 @layer base {
     html {
         background: var(--color-paper);
+        /* Clip accidental horizontal bleed from wide tables/charts; those
+           sections own their own overflow-x-auto scroller instead. */
+        overflow-x: clip;
     }
 
     body {
@@ -76,6 +79,7 @@
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
         text-rendering: optimizeLegibility;
+        overflow-x: clip;
     }
 
     /* The mock's link treatment: ink, underlined, generous offset. */
