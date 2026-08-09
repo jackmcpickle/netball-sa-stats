@@ -5,7 +5,6 @@
  */
 import type { ChampionshipRow, ChampionshipSeason, Club } from '@/data/types';
 import type { Db } from '@/db';
-import { accentFor } from '@/db/queries/clubs';
 import {
     movementBoundaryChanged,
     placementBasesForYear,
@@ -14,6 +13,7 @@ import {
 import { fetchResults, toScoringRow } from '@/db/queries/results';
 import type { ResultRow } from '@/db/queries/results';
 import { previousRanks, rankSeasons } from '@/pipeline/scoring/championship';
+import { accentFor } from '@/server/repos/clubs.repo';
 
 function competitionKeysFor(
     rows: readonly ResultRow[],

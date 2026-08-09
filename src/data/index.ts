@@ -29,7 +29,6 @@ import {
     CLUB_RESULTS_TABLE_SPEC,
     fetchClubProfile,
 } from '@/db/queries/club-profile';
-import { fetchClubs } from '@/db/queries/clubs';
 import { buildCoverage, fetchSeasons } from '@/db/queries/coverage';
 import {
     fetchGrades,
@@ -44,6 +43,7 @@ import { Coverage as CoverageDomain } from '@/server/domain/coverage';
 import { Ladder as LadderDomain } from '@/server/domain/ladder';
 import { TableQuery } from '@/server/domain/table-query';
 import { fetchChampionshipHistory } from '@/server/repos/championship.repo';
+import { fetchClubs } from '@/server/repos/clubs.repo';
 
 /** The site now ships the real import rather than generated rows. */
 export const IS_SAMPLE_DATA = false;

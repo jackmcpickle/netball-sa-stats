@@ -4,7 +4,6 @@ import type {
     ClubSeasonPoints,
 } from '@/data/types';
 import type { Db } from '@/db';
-import { accentFor } from '@/db/queries/clubs';
 import { buildCoverage, fetchSeasons } from '@/db/queries/coverage';
 import type { TableSpec } from '@/db/queries/pagination';
 import { fetchResults } from '@/db/queries/results';
@@ -12,6 +11,7 @@ import type { ResultRow } from '@/db/queries/results';
 import { winRate } from '@/pipeline/scoring/championship';
 import { ClubHistory, toGradeResults } from '@/server/domain/club-history';
 import { fetchChampionshipHistory } from '@/server/repos/championship.repo';
+import { accentFor } from '@/server/repos/clubs.repo';
 
 // Only ids with a clickable header in ClubResultsTable belong here: 'played',
 // 'lost', and 'points' have comparators but no column of their own (the W-L-D

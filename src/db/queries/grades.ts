@@ -1,11 +1,11 @@
 import { asc, eq } from 'drizzle-orm';
 import type { GradeSummary, Ladder, LadderRow } from '@/data/types';
 import type { Db } from '@/db';
-import { accentFor } from '@/db/queries/clubs';
 import { toCompetition } from '@/db/queries/coverage';
 import type { TableSpec } from '@/db/queries/pagination';
 import { fetchResults } from '@/db/queries/results';
 import { competitions, grades, seasons } from '@/db/schema';
+import { accentFor } from '@/server/repos/clubs.repo';
 
 export const LADDER_TABLE_SPEC: TableSpec = {
     sortable: [
