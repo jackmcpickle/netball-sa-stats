@@ -92,6 +92,28 @@ describe('createChampionshipRepo', () => {
             'garville',
         ]);
         expect(history[0]?.rows[0]?.rank).toBe(1);
+
+        // Concrete per-row values for the top two clubs, so a mis-mapped
+        // column (e.g. points swapped with teams, or winPercentage read
+        // from the wrong club) would fail this test.
+        const [contaxRow, garvilleRow] = history[0]?.rows ?? [];
+        // teamCount 2, ladderPosition 1 -> placing 2, weight 1 -> 2 points.
+        expect(contaxRow?.points).toBe(2);
+        // won 10 / played 10 -> 100%.
+        expect(contaxRow?.winPercentage).toBe(100);
+        // No prior ranked season exists yet, so previousRank is null.
+        expect(contaxRow?.previousRank).toBeNull();
+
+        expect(garvilleRow?.rank).toBe(2);
+        // teamCount 2, ladderPosition 2 -> placing 1, weight 1 -> 1 point.
+        expect(garvilleRow?.points).toBe(1);
+        // won 0 / played 10 -> 0%.
+        expect(garvilleRow?.winPercentage).toBe(0);
+        expect(garvilleRow?.previousRank).toBeNull();
+
+        // Only one ranked season exists, so there is nothing to compare
+        // coverage against.
+        expect(history[0]?.coverageChanged).toBe(false);
     });
 
     it('history() over an empty database returns no seasons', async () => {
