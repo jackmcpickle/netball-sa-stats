@@ -15,7 +15,7 @@ interface Row {
 }
 
 const columns = [
-    { id: 'id', header: 'ID', cell: (row: Row) => row.id },
+    { id: 'id', header: 'ID', sortable: true, cell: (row: Row) => row.id },
     {
         id: 'year',
         header: 'YEAR',
@@ -76,7 +76,7 @@ describe('DataTable', () => {
         });
     });
 
-    it('resets to page 1 when the sort column changes', async () => {
+    it('resets to page 1 and starts descending when a new column is clicked', async () => {
         const onChange = vi.fn();
         render(
             <DataTable
@@ -89,10 +89,13 @@ describe('DataTable', () => {
                 onChange={onChange}
             />,
         );
-        await userEvent.click(screen.getByRole('button', { name: /YEAR/ }));
-        expect(onChange).toHaveBeenCalledWith(
-            expect.objectContaining({ page: 1 }),
-        );
+        await userEvent.click(screen.getByRole('button', { name: /ID/ }));
+        expect(onChange).toHaveBeenCalledWith({
+            sort: 'id',
+            desc: true,
+            page: 1,
+            pageSize: 25,
+        });
     });
 
     it('hides pagination when every row fits on one page', () => {

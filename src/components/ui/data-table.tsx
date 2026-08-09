@@ -1,3 +1,6 @@
+// @tanstack/react-table is pinned to an exact version (not ^) in package.json:
+// v9 removed useReactTable/getCoreRowModel's manual-mode API this component
+// relies on, so a caret range would break on next install.
 import {
     flexRender,
     getCoreRowModel,
