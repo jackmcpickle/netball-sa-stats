@@ -42,13 +42,10 @@ import {
     LADDER_TABLE_SPEC,
     sortLadderRows,
 } from '@/db/queries/grades';
-import {
-    applyTableState,
-    type RawTableState,
-    type TableState,
-} from '@/db/queries/pagination';
+import type { RawTableState, TableState } from '@/db/queries/pagination';
 import { fetchGradeWeights } from '@/db/queries/weights';
 import { Coverage as CoverageDomain } from '@/server/domain/coverage';
+import { TableQuery } from '@/server/domain/table-query';
 
 /** The site now ships the real import rather than generated rows. */
 export const IS_SAMPLE_DATA = false;
@@ -95,17 +92,15 @@ export async function getChampionshipSeason(
     if (!season) {
         return null;
     }
-    const paged = applyTableState(
+    const paged = TableQuery.from(state ?? {}, CHAMPIONSHIP_TABLE_SPEC).apply(
         season.rows,
-        state ?? {},
-        CHAMPIONSHIP_TABLE_SPEC,
-        sortChampionshipRows,
+        (rows, q) => sortChampionshipRows(rows, q.state),
     );
     return {
         ...season,
         rows: paged.rows,
         totalRows: paged.totalRows,
-        tableState: paged.tableState,
+        tableState: paged.state,
     };
 }
 
@@ -209,17 +204,15 @@ export async function getClubProfile(
     if (!profile) {
         return null;
     }
-    const paged = applyTableState(
+    const paged = TableQuery.from(state ?? {}, CLUB_RESULTS_TABLE_SPEC).apply(
         profile.results,
-        state ?? {},
-        CLUB_RESULTS_TABLE_SPEC,
-        sortClubResults,
+        (rows, q) => sortClubResults(rows, q.state),
     );
     return {
         ...profile,
         results: paged.rows,
         totalRows: paged.totalRows,
-        tableState: paged.tableState,
+        tableState: paged.state,
     };
 }
 
@@ -238,17 +231,15 @@ export async function getLadderFor(
     if (!ladder) {
         return null;
     }
-    const paged = applyTableState(
+    const paged = TableQuery.from(state ?? {}, LADDER_TABLE_SPEC).apply(
         ladder.rows,
-        state ?? {},
-        LADDER_TABLE_SPEC,
-        sortLadderRows,
+        (rows, q) => sortLadderRows(rows, q.state),
     );
     return {
         ...ladder,
         rows: paged.rows,
         totalRows: paged.totalRows,
-        tableState: paged.tableState,
+        tableState: paged.state,
     };
 }
 

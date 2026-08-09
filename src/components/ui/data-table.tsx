@@ -17,7 +17,8 @@ import {
     Tr,
     type Align,
 } from '@/components/ui/table';
-import { pageCount, type TableState } from '@/db/queries/pagination';
+import type { TableState } from '@/db/queries/pagination';
+import { TableQuery } from '@/server/domain/table-query';
 
 export interface DataTableColumn<T> {
     readonly id: string;
@@ -91,7 +92,7 @@ export function DataTable<T>({
         [onChange, state],
     );
 
-    const pages = pageCount(totalRows, state.pageSize);
+    const pages = TableQuery.pageCount(totalRows, state.pageSize);
     const showPagination = totalRows > state.pageSize;
 
     return (
