@@ -4,6 +4,7 @@ import type { JSX } from 'react';
 import { accentBg, isDarkAccent } from '@/components/accent';
 import { PointsBarChart } from '@/components/charts/points-bar-chart';
 import { TrendChart } from '@/components/charts/trend-chart';
+import { BandTrendGrid } from '@/components/club/band-trend-grid';
 import { ClubResultsTable } from '@/components/club/club-results-table';
 import { formatNumber, formatPercent, NO_VALUE } from '@/components/format';
 import { PageShell, Panel, StatFigure } from '@/components/ui/layout';
@@ -134,6 +135,27 @@ export function ClubProfilePage(): JSX.Element {
                     }
                 </p>
             </Panel>
+
+            {/* Clubs with no graded finishes have no bands to break down. */}
+            {profile.trend.bands.length > 0 && (
+                <Panel className="mb-6 p-6 sm:p-8">
+                    <h2 className="text-lg font-semibold text-ink">
+                        {'Strength by grade band'}
+                    </h2>
+                    <p className="mt-1 max-w-[46rem] text-sm text-ink-muted">
+                        {
+                            'Strongest band first. Every sparkline uses the same 0.00–1.00 axis, so bands can be compared against each other, and the line breaks across seasons the club fielded nothing in that band.'
+                        }
+                    </p>
+                    <div className="mt-6">
+                        <BandTrendGrid
+                            bands={profile.trend.bands}
+                            clubName={profile.club.name}
+                            accent={profile.club.accent}
+                        />
+                    </div>
+                </Panel>
+            )}
 
             <Panel className="mb-6 p-6 sm:p-8">
                 <h2 className="text-lg font-semibold text-ink">
