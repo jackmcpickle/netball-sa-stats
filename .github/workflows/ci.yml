@@ -54,5 +54,22 @@ jobs:
       - name: Apply D1 migrations to local database
         run: pnpm run db:migrate:local
 
+      # Started here rather than via config.webServer so its output is visible
+      # when startup fails.
+      - name: Start dev server
+        run: |
+          pnpm exec vp dev --host 127.0.0.1 --port 3000 > /tmp/dev-server.log 2>&1 &
+          for _ in $(seq 1 60); do
+            if curl -sf http://127.0.0.1:3000 > /dev/null; then exit 0; fi
+            sleep 2
+          done
+          echo "dev server did not start"
+          cat /tmp/dev-server.log
+          exit 1
+
       - name: Playwright
         run: pnpm run test:e2e
+
+      - name: Dev server log
+        if: failure()
+        run: cat /tmp/dev-server.log
