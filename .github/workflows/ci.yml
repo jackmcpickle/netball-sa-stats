@@ -50,9 +50,12 @@ jobs:
       - name: Install Chromium
         run: pnpm exec playwright install --with-deps chromium
 
-      # Seed data ships in the drizzle migrations, so a fresh local D1 is enough.
-      - name: Apply D1 migrations to local database
-        run: pnpm run db:migrate:local
+      # Migrations only seed the catalogue (competitions, grade weights); the
+      # pages 500 without results, so the committed CSVs are imported too.
+      - name: Build local D1 database
+        run: |
+          pnpm run db:migrate:local
+          pnpm exec tsx scripts/import-csv.ts
 
       # Started here rather than via config.webServer so its output is visible
       # when startup fails.
