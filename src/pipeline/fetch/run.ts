@@ -197,8 +197,8 @@ function mergeTeams(
  * across re-scrapes regardless of which teammates exist in the club's
  * collision group. Never derived from position in a sorted group.
  */
-function teamKeyOf(t: TeamRow): string {
-    return `${t.grade_key}|${t.playhq_id}`;
+function teamKeyOf(t: Record<string, CsvValue>): string {
+    return `${String(t.grade_key)}|${String(t.playhq_id ?? '')}`;
 }
 
 function resultKeyOf(r: Record<string, CsvValue>): string {
@@ -358,6 +358,40 @@ export function processGrade(
     };
 }
 
+export interface ExistingCsvRows {
+    readonly seasons: readonly Record<string, string>[];
+    readonly grades: readonly Record<string, string>[];
+    readonly teams: readonly Record<string, string>[];
+    readonly results: readonly Record<string, string>[];
+}
+
+/**
+ * The rows a PlayHQ run must carry over untouched.
+ *
+ * `runFetch` rewrites `seasons.csv`, `grades.csv`, `teams.csv` and
+ * `team_season_results.csv` wholesale, but it only ever sees PlayHQ-era data.
+ * The archive-PDF pipeline writes 2000-2016 into those same files, so without
+ * this a single fetch deletes sixteen seasons of history that no re-run can
+ * restore — the PDFs are a separate pipeline.
+ *
+ * `grades.csv` and `teams.csv` have no `source` column, so archive-ness is
+ * inherited: season -> grade -> team.
+ */
+export function archiveRowsToKeep(existing: ExistingCsvRows): ExistingCsvRows {
+    const seasons = existing.seasons.filter((row) => row.source !== 'playhq');
+    const seasonKeys = new Set(seasons.map((row) => row.season_key));
+    const grades = existing.grades.filter((row) =>
+        seasonKeys.has(row.season_key),
+    );
+    const gradeKeys = new Set(grades.map((row) => row.grade_key));
+    return {
+        seasons,
+        grades,
+        teams: existing.teams.filter((row) => gradeKeys.has(row.grade_key)),
+        results: existing.results.filter((row) => row.source !== 'playhq'),
+    };
+}
+
 /**
  * Whether this grade's fixtures are wanted on this run. Year and grade
  * filters exist so 2025 and 2026 can be backfilled separately, and so a
@@ -449,6 +483,74 @@ async function writeGamesCsvs(
         total += sorted.length;
     }
     return total;
+}
+
+type FetchedRows = {
+    readonly seasons: readonly SeasonRow[];
+    readonly grades: readonly GradeRow[];
+    readonly teams: readonly TeamRow[];
+    readonly results: readonly Record<string, CsvValue>[];
+};
+
+/**
+ * Sorts, merges the archive-PDF rows back in, and writes the shared CSVs.
+ * Split out of `runFetch` to keep it under the function-length budget.
+ */
+async function writeCsvs(
+    fetched: FetchedRows,
+    existingSeasons: readonly Record<string, string>[],
+    clubRegistry: ClubRegistry,
+): Promise<{
+    seasons: number;
+    grades: number;
+    teams: number;
+    results: number;
+}> {
+    const archived = archiveRowsToKeep({
+        seasons: existingSeasons,
+        grades: await readExistingCsv('grades.csv'),
+        teams: await readExistingCsv('teams.csv'),
+        results: await readExistingCsv('team_season_results.csv'),
+    });
+
+    const seasons = [...fetched.seasons, ...archived.seasons].sort((a, b) =>
+        a.season_key.localeCompare(b.season_key),
+    );
+    const grades = [...fetched.grades, ...archived.grades].sort((a, b) =>
+        a.grade_key.localeCompare(b.grade_key),
+    );
+    const teams = [...fetched.teams, ...archived.teams].sort((a, b) =>
+        teamKeyOf(a).localeCompare(teamKeyOf(b)),
+    );
+    const results = [...fetched.results, ...archived.results].sort((a, b) =>
+        resultKeyOf(a).localeCompare(resultKeyOf(b)),
+    );
+
+    await writeFile(resolve(DATA_DIR, 'seasons.csv'), toCsv(seasons), 'utf8');
+    await writeFile(
+        resolve(DATA_DIR, 'clubs.csv'),
+        toCsv(clubRegistry.getClubs()),
+        'utf8',
+    );
+    await writeFile(
+        resolve(DATA_DIR, 'club_aliases.csv'),
+        toCsv(clubRegistry.getAliases()),
+        'utf8',
+    );
+    await writeFile(resolve(DATA_DIR, 'grades.csv'), toCsv(grades), 'utf8');
+    await writeFile(resolve(DATA_DIR, 'teams.csv'), toCsv(teams), 'utf8');
+    await writeFile(
+        resolve(DATA_DIR, 'team_season_results.csv'),
+        toCsv(results),
+        'utf8',
+    );
+
+    return {
+        seasons: seasons.length,
+        grades: grades.length,
+        teams: teams.length,
+        results: results.length,
+    };
 }
 
 /** Loads the curated `clubs.csv`/`club_aliases.csv` state into a fresh registry. */
@@ -624,54 +726,18 @@ export async function runFetch(options: FetchOptions): Promise<FetchReport> {
         }
     }
 
-    const sortedSeasons = [...seasonRows.values()].sort((a, b) =>
-        a.season_key.localeCompare(b.season_key),
-    );
-    const sortedGrades = [...gradeRows].sort((a, b) =>
-        a.grade_key.localeCompare(b.grade_key),
-    );
-    const sortedTeams = [...teamRows.values()].sort((a, b) =>
-        teamKeyOf(a).localeCompare(teamKeyOf(b)),
-    );
-    const sortedResults = [...resultRows].sort((a, b) =>
-        resultKeyOf(a).localeCompare(resultKeyOf(b)),
-    );
-
-    await writeFile(
-        resolve(DATA_DIR, 'seasons.csv'),
-        toCsv(sortedSeasons),
-        'utf8',
-    );
-    await writeFile(
-        resolve(DATA_DIR, 'clubs.csv'),
-        toCsv(clubRegistry.getClubs()),
-        'utf8',
-    );
-    await writeFile(
-        resolve(DATA_DIR, 'club_aliases.csv'),
-        toCsv(clubRegistry.getAliases()),
-        'utf8',
-    );
-    await writeFile(
-        resolve(DATA_DIR, 'grades.csv'),
-        toCsv(sortedGrades),
-        'utf8',
-    );
-    await writeFile(resolve(DATA_DIR, 'teams.csv'), toCsv(sortedTeams), 'utf8');
-    await writeFile(
-        resolve(DATA_DIR, 'team_season_results.csv'),
-        toCsv(sortedResults),
-        'utf8',
+    const written = await writeCsvs(
+        {
+            seasons: [...seasonRows.values()],
+            grades: gradeRows,
+            teams: [...teamRows.values()],
+            results: resultRows,
+        },
+        existingSeasons,
+        clubRegistry,
     );
 
     const games = await writeGamesCsvs(gamesByYear);
 
-    return {
-        seasons: sortedSeasons.length,
-        grades: sortedGrades.length,
-        teams: sortedTeams.length,
-        results: sortedResults.length,
-        games,
-        skippedGrades,
-    };
+    return { ...written, games, skippedGrades };
 }

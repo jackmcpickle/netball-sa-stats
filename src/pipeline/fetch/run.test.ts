@@ -4,7 +4,11 @@ import { describe, expect, it } from 'vitest';
 import { ClubRegistry } from '@/pipeline/fetch/club-registry';
 import { flattenStandings } from '@/pipeline/fetch/ladder';
 import type { Standing } from '@/pipeline/fetch/ladder';
-import { processGrade, resolveCompetitionKey } from '@/pipeline/fetch/run';
+import {
+    archiveRowsToKeep,
+    processGrade,
+    resolveCompetitionKey,
+} from '@/pipeline/fetch/run';
 import type { GradeContext } from '@/pipeline/fetch/run';
 import type { GradeLadderResponse } from '@/pipeline/fetch/types';
 
@@ -283,5 +287,74 @@ describe('team identity: playhq_id, not synthetic squad_number index', () => {
         expect(byName.get('Walkerville 2')?.playhq_id).toBe(
             'team-walkerville-2',
         );
+    });
+});
+
+describe('archiveRowsToKeep', () => {
+    // The PlayHQ walk only ever sees PlayHQ seasons, but it rewrites the same
+    // CSVs the archive-PDF pipeline writes into. Without this, one `--games`
+    // run silently deletes 16 seasons of 2000-2016 history.
+    const existing = {
+        seasons: [
+            {
+                season_key: 'amnd-winter-2005',
+                source: 'archive_pdf',
+            },
+            {
+                season_key: 'amnd-winter-2025',
+                source: 'playhq',
+            },
+        ],
+        grades: [
+            { season_key: 'amnd-winter-2005', grade_key: 'a-2005' },
+            { season_key: 'amnd-winter-2025', grade_key: 'a-2025' },
+        ],
+        teams: [
+            { grade_key: 'a-2005', playhq_id: '' },
+            { grade_key: 'a-2025', playhq_id: 'p1' },
+        ],
+        results: [
+            { grade_key: 'a-2005', source: 'archive_pdf' },
+            { grade_key: 'a-2025', source: 'playhq' },
+        ],
+    };
+
+    it('keeps archive seasons and drops playhq ones', () => {
+        const kept = archiveRowsToKeep(existing);
+        expect(kept.seasons.map((row) => row.season_key)).toEqual([
+            'amnd-winter-2005',
+        ]);
+    });
+
+    it('keeps grades belonging to an archive season', () => {
+        const kept = archiveRowsToKeep(existing);
+        expect(kept.grades.map((row) => row.grade_key)).toEqual(['a-2005']);
+    });
+
+    it('keeps teams belonging to an archive grade', () => {
+        // teams.csv has no source column, so archive-ness is inherited
+        // through grade -> season.
+        const kept = archiveRowsToKeep(existing);
+        expect(kept.teams).toHaveLength(1);
+        expect(kept.teams[0].grade_key).toBe('a-2005');
+    });
+
+    it('keeps archive results and drops playhq ones', () => {
+        const kept = archiveRowsToKeep(existing);
+        expect(kept.results).toHaveLength(1);
+        expect(kept.results[0].source).toBe('archive_pdf');
+    });
+
+    it('keeps nothing when there is no archive data at all', () => {
+        const kept = archiveRowsToKeep({
+            seasons: [{ season_key: 'a', source: 'playhq' }],
+            grades: [{ season_key: 'a', grade_key: 'g' }],
+            teams: [{ grade_key: 'g', playhq_id: 'p' }],
+            results: [{ grade_key: 'g', source: 'playhq' }],
+        });
+        expect(kept.seasons).toEqual([]);
+        expect(kept.grades).toEqual([]);
+        expect(kept.teams).toEqual([]);
+        expect(kept.results).toEqual([]);
     });
 });
