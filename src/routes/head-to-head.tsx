@@ -1,51 +1,65 @@
-import { createFileRoute, Link } from '@tanstack/react-router';
-import type { JSX } from 'react';
+import { createFileRoute } from '@tanstack/react-router';
+import { createServerFn } from '@tanstack/react-start';
+import { z } from 'zod';
+import { HeadToHeadPage } from '@/components/head-to-head/head-to-head-page';
+import { getDb } from '@/db';
 import {
-    Eyebrow,
-    NotAvailable,
-    PageShell,
-    PageTitle,
-} from '@/components/ui/layout';
+    parseOptionalBoolParam,
+    parseOptionalIntParam,
+} from '@/routes/-search-params';
+import { tableSearchDeps, tableSearchSchema } from '@/routes/-table-params';
+import { createServices, resolvePageResult } from '@/server/container';
+
+export type {
+    HeadToHeadPageDto as HeadToHeadData,
+    Meeting,
+} from '@/server/dto/head-to-head.dto';
 
 /**
- * The design has a full club-versus-club section. It needs match results —
- * individual fixtures with scores — and the import only holds end-of-season
- * ladders. Rendering it with sample matches would imply a feature that does
- * not exist, so the page states the gap instead.
+ * `band` is a tier number or the literal `'all'`. Anything else — including a
+ * tier the pair never met in — is dropped here or in the service, so a stale
+ * shared link renders the all-grades view rather than a 500.
  */
-function HeadToHeadPage(): JSX.Element {
-    return (
-        <PageShell className="py-12 pb-24 sm:py-16">
-            <Eyebrow>{'CLUB VS CLUB'}</Eyebrow>
-            <div className="mt-4 mb-8">
-                <PageTitle>{'Head to head'}</PageTitle>
-            </div>
-            <NotAvailable
-                title="Head to head needs match results, and we only hold ladders"
-                reason="Every meeting between two clubs — the score, the round, the margin — comes from individual fixtures. The dataset behind this site is built from end-of-season ladders, which record how a team finished but not who it beat along the way. Until fixture-level results are imported, there is nothing here that would be true."
-            >
-                <p className="mt-6 text-sm text-ink-muted">
-                    {'In the meantime, the '}
-                    <Link
-                        to="/"
-                        className="text-ink"
-                    >
-                        {'championship rankings'}
-                    </Link>
-                    {' and each '}
-                    <Link
-                        to="/clubs"
-                        className="text-ink"
-                    >
-                        {'club profile'}
-                    </Link>
-                    {' compare clubs on the record we do have.'}
-                </p>
-            </NotAvailable>
-        </PageShell>
-    );
-}
+const bandSchema = z.preprocess(
+    (value) => (value === 'all' ? 'all' : parseOptionalIntParam(value)),
+    z.union([z.literal('all'), z.number().int()]).optional(),
+);
+
+const searchSchema = tableSearchSchema.extend({
+    a: z.string().optional(),
+    b: z.string().optional(),
+    band: bandSchema,
+    includePast: z.preprocess(parseOptionalBoolParam, z.boolean().optional()),
+});
+
+const loadHeadToHead = createServerFn({ method: 'GET' })
+    .validator(
+        z.object({
+            a: z.string().optional(),
+            b: z.string().optional(),
+            band: z.union([z.literal('all'), z.number().int()]).optional(),
+            includePast: z.boolean().optional(),
+            sort: z.string().optional(),
+            dir: z.enum(['asc', 'desc']).optional(),
+            page: z.number().int().optional(),
+            pageSize: z.number().int().optional(),
+        }),
+    )
+    .handler(async ({ data }) => {
+        return resolvePageResult(
+            await createServices(getDb()).headToHead.getPage(data),
+        );
+    });
 
 export const Route = createFileRoute('/head-to-head')({
+    validateSearch: searchSchema,
+    loaderDeps: ({ search }) => ({
+        a: search.a,
+        b: search.b,
+        band: search.band,
+        includePast: search.includePast,
+        ...tableSearchDeps(search),
+    }),
+    loader: async ({ deps }) => loadHeadToHead({ data: deps }),
     component: HeadToHeadPage,
 });

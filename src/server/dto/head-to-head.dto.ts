@@ -7,6 +7,7 @@
  * a bye is synthesised with only one side, and a scheduled final can carry
  * PlayHQ's `ProvisionalTeam` — an undecided side with no team behind it.
  */
+import type { TableState } from '@/db/queries/pagination';
 import type { GameStatus } from '@/db/schema';
 import type { Club, ClubKey } from '@/server/dto/shared.dto';
 
@@ -111,4 +112,16 @@ export interface HeadToHeadPageDto {
     readonly bands: readonly BandOption[];
     /** Null until two distinct clubs are selected. */
     readonly h2h: HeadToHead | null;
+    /**
+     * `h2h.meetings` sorted and sliced for the table. Kept beside `h2h`
+     * rather than inside it so the summary and roll-ups still read from the
+     * complete list — a W-L-D of "page 1 of 3" would be a lie.
+     */
+    readonly meetings: MeetingsTableDto | null;
+}
+
+export interface MeetingsTableDto {
+    readonly rows: readonly Meeting[];
+    readonly totalRows: number;
+    readonly tableState: TableState;
 }

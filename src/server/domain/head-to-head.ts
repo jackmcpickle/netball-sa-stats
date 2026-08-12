@@ -13,7 +13,9 @@
  *    side, and a scheduled final can carry an undecided `ProvisionalTeam`;
  *    neither is a meeting between these two clubs.
  */
+import type { TableSpec } from '@/db/queries/pagination';
 import { bandLabel } from '@/pipeline/scoring/bands';
+import type { TableQuery } from '@/server/domain/table-query';
 import type {
     BandFilter,
     BandRecord,
@@ -234,4 +236,41 @@ export function topOpponents(
             ? left.name.localeCompare(right.name)
             : right.played - left.played,
     );
+}
+
+/**
+ * Sort allow-list for the meetings table. Sorting a head-to-head by score is
+ * deliberately absent: `scoreA` on a forfeit row is fabricated, so a
+ * "biggest win" sort would put phantom results at the top.
+ */
+export const MEETINGS_TABLE_SPEC: TableSpec = {
+    sortable: ['year', 'round', 'gradeName'],
+    defaultSort: 'year',
+    defaultDesc: true,
+};
+
+type MeetingComparator = (left: Meeting, right: Meeting) => number;
+
+const MEETING_COMPARATORS: Record<string, MeetingComparator> = {
+    year: (left, right) => left.year - right.year,
+    round: (left, right) => (left.round ?? 0) - (right.round ?? 0),
+    gradeName: (left, right) => left.gradeName.localeCompare(right.gradeName),
+};
+
+/**
+ * Every sort ties back to (year desc, round desc). Without that tiebreaker,
+ * meetings level on the sorted column can swap between requests and the same
+ * fixture appears on two pages — or on none.
+ */
+export function sortMeetings(
+    meetings: readonly Meeting[],
+    q: TableQuery,
+): readonly Meeting[] {
+    const { sort, desc } = q.state;
+    const direction = desc ? -1 : 1;
+    const compare = MEETING_COMPARATORS[sort] ?? MEETING_COMPARATORS.year;
+    return [...meetings].sort((left, right) => {
+        const primary = compare(left, right);
+        return primary === 0 ? byRecency(left, right) : primary * direction;
+    });
 }

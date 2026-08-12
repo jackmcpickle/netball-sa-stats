@@ -7,9 +7,14 @@
 import { bandLabel } from '@/pipeline/scoring/bands';
 import type { Repos } from '@/server/container';
 import { partitionClubs } from '@/server/domain/club-directory';
-import { buildHeadToHead } from '@/server/domain/head-to-head';
+import {
+    buildHeadToHead,
+    MEETINGS_TABLE_SPEC,
+    sortMeetings,
+} from '@/server/domain/head-to-head';
 import type { DomainError, Result } from '@/server/domain/result';
 import { ok } from '@/server/domain/result';
+import { TableQuery } from '@/server/domain/table-query';
 import type {
     BandFilter,
     BandOption,
@@ -102,6 +107,7 @@ export function createHeadToHeadService(repos: Repos): {
                     band: 'all',
                     bands: [],
                     h2h: null,
+                    meetings: null,
                 });
             }
 
@@ -115,6 +121,17 @@ export function createHeadToHeadService(repos: Repos): {
                 ? (params.band as number)
                 : 'all';
 
+            const h2h = buildHeadToHead(facts, a.key, b.key, band);
+            const paged = TableQuery.from(
+                {
+                    sort: params.sort,
+                    dir: params.dir,
+                    page: params.page,
+                    pageSize: params.pageSize,
+                },
+                MEETINGS_TABLE_SPEC,
+            ).apply(h2h.meetings, sortMeetings);
+
             return ok({
                 clubs,
                 includePast,
@@ -122,7 +139,12 @@ export function createHeadToHeadService(repos: Repos): {
                 b,
                 band,
                 bands,
-                h2h: buildHeadToHead(facts, a.key, b.key, band),
+                h2h,
+                meetings: {
+                    rows: paged.rows,
+                    totalRows: paged.totalRows,
+                    tableState: paged.state,
+                },
             });
         },
     };
