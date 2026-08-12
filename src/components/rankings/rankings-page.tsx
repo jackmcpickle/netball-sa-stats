@@ -6,6 +6,7 @@ import { CoverageNote } from '@/components/coverage-note';
 import { ChampionshipTable } from '@/components/rankings/championship-table';
 import { Eyebrow, PageShell, Panel, StatFigure } from '@/components/ui/layout';
 import { FieldSelect } from '@/components/ui/select';
+import type { TableState } from '@/db/queries/pagination';
 
 const routeApi = getRouteApi('/');
 
@@ -16,6 +17,22 @@ export function RankingsPage(): JSX.Element {
     const onSeasonChange = useCallback(
         (season: number) => {
             void navigate({ search: { season }, resetScroll: false });
+        },
+        [navigate],
+    );
+
+    const onTableChange = useCallback(
+        (next: TableState) => {
+            void navigate({
+                search: (previous) => ({
+                    ...previous,
+                    sort: next.sort,
+                    dir: next.desc ? 'desc' : 'asc',
+                    page: next.page,
+                    pageSize: next.pageSize,
+                }),
+                resetScroll: false,
+            });
         },
         [navigate],
     );
@@ -123,12 +140,15 @@ export function RankingsPage(): JSX.Element {
                 />
             </div>
 
-            {data.season.rows.length > 0 ? (
+            {data.totalRows > 0 ? (
                 <ChampionshipTable
                     rows={data.season.rows}
                     year={data.season.year}
                     previousYear={data.previousYear}
                     coverageChanged={data.season.coverageChanged}
+                    totalRows={data.totalRows}
+                    state={data.tableState}
+                    onChange={onTableChange}
                 />
             ) : (
                 <Panel className="p-8">

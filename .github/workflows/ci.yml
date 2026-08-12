@@ -1,0 +1,81 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    name: check + unit tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Format, lint, type check
+        run: pnpm exec vp check
+
+      - name: Unit tests
+        run: pnpm exec vp test --coverage
+
+  e2e:
+    name: e2e (playwright)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Install Chromium
+        run: pnpm exec playwright install --with-deps chromium
+
+      # Migrations only seed the catalogue (competitions, grade weights); the
+      # pages 500 without results, so the committed CSVs are imported too.
+      - name: Build local D1 database
+        run: |
+          pnpm run db:migrate:local
+          pnpm exec tsx scripts/import-csv.ts
+
+      # Started here rather than via config.webServer so its output is visible
+      # when startup fails.
+      - name: Start dev server
+        run: |
+          pnpm exec vp dev --host 127.0.0.1 --port 3000 > /tmp/dev-server.log 2>&1 &
+          for _ in $(seq 1 60); do
+            if curl -s -o /dev/null http://127.0.0.1:3000; then
+              echo "responding with HTTP $(curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1:3000)"
+              exit 0
+            fi
+            sleep 2
+          done
+          echo "dev server did not start"
+          cat /tmp/dev-server.log
+          exit 1
+
+      - name: Playwright
+        run: pnpm run test:e2e
+
+      - name: Dev server log
+        if: failure()
+        run: cat /tmp/dev-server.log

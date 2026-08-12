@@ -18,7 +18,8 @@ import {
 import { gapLabel, timelineSlots } from '@/components/charts/timeline-slots';
 import { useChartInteraction } from '@/components/charts/use-chart-interaction';
 import { NO_VALUE } from '@/components/format';
-import type { AccentName, ClubTrendPoint } from '@/data/types';
+import type { ClubTrendPoint } from '@/server/dto/club-profile.dto';
+import type { AccentName } from '@/server/dto/shared.dto';
 
 const PLOT: Plot = { x0: 44, x1: 1180, y0: 16, y1: 236 };
 const TEAMS_BASELINE = 300;

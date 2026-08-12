@@ -1,7 +1,7 @@
 /**
  * The championship formula, and nothing else.
  *
- * Pure functions over plain rows: no database, no Drizzle, no `@/data` types.
+ * Pure functions over plain rows: no database, no Drizzle, no DTO types.
  * The Worker joins `team_season_results` to `grade_weights` at query time and
  * feeds the result in here, so re-weighting a grade in D1 re-ranks every season
  * with no re-import. There is exactly one implementation of the formula and it

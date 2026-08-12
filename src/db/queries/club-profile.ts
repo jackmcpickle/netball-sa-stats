@@ -1,38 +1,26 @@
-import type {
-    ChampionshipSeason,
-    ClubGradeResult,
-    ClubProfile,
-    ClubSeasonPoints,
-} from '@/data/types';
 import type { Db } from '@/db';
-import { fetchChampionshipHistory } from '@/db/queries/championship';
-import { buildClubTrend } from '@/db/queries/club-trend';
-import { accentFor } from '@/db/queries/clubs';
 import { buildCoverage, fetchSeasons } from '@/db/queries/coverage';
+import type { TableSpec } from '@/db/queries/pagination';
 import { fetchResults } from '@/db/queries/results';
 import type { ResultRow } from '@/db/queries/results';
 import { winRate } from '@/pipeline/scoring/championship';
+import { ClubHistory, toGradeResults } from '@/server/domain/club-history';
+import type {
+    ClubProfile,
+    ClubSeasonPoints,
+} from '@/server/dto/club-profile.dto';
+import type { ChampionshipSeason } from '@/server/dto/rankings.dto';
+import { fetchChampionshipHistory } from '@/server/repos/championship.repo';
+import { accentFor } from '@/server/repos/club-accent';
 
-/** Most recent season first, then strongest grade first within a season. */
-function toGradeResults(
-    rows: readonly ResultRow[],
-): readonly ClubGradeResult[] {
-    return [...rows].reverse().map(
-        (row): ClubGradeResult => ({
-            year: row.year,
-            gradeKey: row.gradeKey,
-            gradeName: row.gradeName,
-            competitionName: row.competitionName,
-            ladderPosition: row.ladderPosition,
-            teamCount: row.teamCount,
-            won: row.won,
-            lost: row.lost,
-            drawn: row.drawn,
-            percentage: row.percentage,
-            notes: row.notes,
-        }),
-    );
-}
+// Only ids with a clickable header in ClubResultsTable belong here: 'played',
+// 'lost', and 'points' have comparators but no column of their own (the W-L-D
+// record is one combined column, sortable via 'won').
+export const CLUB_RESULTS_TABLE_SPEC: TableSpec = {
+    sortable: ['year', 'grade', 'position', 'won'],
+    defaultSort: 'year',
+    defaultDesc: true,
+} as const;
 
 interface Record_ {
     readonly won: number;
@@ -119,15 +107,17 @@ export async function fetchClubProfile(
     const current = history
         .at(-1)
         ?.rows.find((entry) => entry.club.key === clubKey);
+    const club = {
+        key: first.clubKey,
+        name: first.clubName,
+        establishedYear: first.establishedYear,
+        homeVenue: first.homeVenue,
+        accent: accentFor(first.clubKey),
+    };
+    const clubHistory = ClubHistory.from(rows, coverage.rankedYears);
 
     return {
-        club: {
-            key: first.clubKey,
-            name: first.clubName,
-            establishedYear: first.establishedYear,
-            homeVenue: first.homeVenue,
-            accent: accentFor(first.clubKey),
-        },
+        club,
         currentRank: current?.rank ?? null,
         bestRank: best?.rank ?? null,
         bestRankYear: best?.year ?? null,
@@ -146,6 +136,6 @@ export async function fetchClubProfile(
         gamesPlayed: record.games,
         seasons,
         results: toGradeResults(rows),
-        trend: buildClubTrend(rows, coverage.rankedYears),
+        trend: clubHistory.trend(),
     };
 }

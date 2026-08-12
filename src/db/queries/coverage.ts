@@ -1,14 +1,18 @@
-import { asc, eq } from 'drizzle-orm';
+import { methodologyBreak, timelineGaps } from '@/db/queries/era-break';
+import type { SeasonRow } from '@/db/queries/seasons';
+import { Coverage as CoverageDomain } from '@/server/domain/coverage';
 import type {
     Competition,
     Coverage,
     CoverageChange,
     SeasonCoverage,
-} from '@/data/types';
-import type { Db } from '@/db';
-import { methodologyBreak, timelineGaps } from '@/db/queries/era-break';
-import { competitions, seasons } from '@/db/schema';
-import type { Source } from '@/db/schema';
+} from '@/server/dto/shared.dto';
+
+export type { SeasonRow } from '@/db/queries/seasons';
+export { fetchSeasons } from '@/db/queries/seasons';
+
+/** The site now ships the real import rather than generated rows. */
+export const IS_SAMPLE_DATA = false;
 
 /**
  * Short forms for tight table cells. Not in the database: it is presentation,
@@ -22,52 +26,6 @@ const SHORT_NAMES: Readonly<Record<string, string>> = {
 
 export function toCompetition(key: string, name: string): Competition {
     return { key, name, shortName: SHORT_NAMES[key] ?? name };
-}
-
-export interface SeasonRow {
-    readonly seasonId: number;
-    readonly seasonKey: string;
-    readonly startYear: number;
-    readonly isFinal: boolean;
-    readonly source: Source;
-    readonly competitionKey: string;
-    readonly competitionName: string;
-}
-
-export async function fetchSeasons(db: Db): Promise<readonly SeasonRow[]> {
-    return db
-        .select({
-            seasonId: seasons.id,
-            seasonKey: seasons.seasonKey,
-            startYear: seasons.startYear,
-            isFinal: seasons.isFinal,
-            source: seasons.source,
-            competitionKey: competitions.key,
-            competitionName: competitions.name,
-        })
-        .from(seasons)
-        .innerJoin(competitions, eq(competitions.id, seasons.competitionId))
-        .orderBy(asc(seasons.startYear), asc(competitions.id));
-}
-
-/** Every year the site holds any data for, ascending. */
-export function coveredYears(rows: readonly SeasonRow[]): readonly number[] {
-    return [...new Set(rows.map((row) => row.startYear))].sort((a, b) => a - b);
-}
-
-/**
- * A year is rankable only when every competition that ran it has finished. One
- * in-progress season would make the championship a partial count, which is
- * worse than no championship at all.
- */
-export function rankedYears(rows: readonly SeasonRow[]): readonly number[] {
-    return coveredYears(rows).filter((year) => {
-        const inYear = rows.filter((row) => row.startYear === year);
-        return (
-            inYear.some((row) => row.isFinal) &&
-            inYear.every((row) => row.isFinal)
-        );
-    });
 }
 
 function seasonCoverage(
@@ -101,7 +59,7 @@ function seasonCoverage(
 export function coverageChangeNote(
     rows: readonly SeasonRow[],
 ): CoverageChange | null {
-    const years = coveredYears(rows);
+    const years = CoverageDomain.from(rows).years();
     const firstYear = years[0];
     if (firstYear === undefined) {
         return null;
@@ -133,8 +91,9 @@ export function buildCoverage(
     rows: readonly SeasonRow[],
     isSampleData: boolean,
 ): Coverage {
-    const years = coveredYears(rows);
-    const ranked = rankedYears(rows);
+    const coverage = CoverageDomain.from(rows);
+    const years = coverage.years();
+    const ranked = coverage.rankedYears();
     const keys = [...new Set(rows.map((row) => row.competitionKey))];
     const sourceByYear = new Map<number, Set<string>>();
     for (const row of rows) {

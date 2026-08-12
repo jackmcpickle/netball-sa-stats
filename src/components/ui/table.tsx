@@ -54,14 +54,18 @@ export function Th({
     children,
     align = 'left',
     scope = 'col',
+    ariaSort,
 }: {
     readonly children: ReactNode;
     readonly align?: Align;
     readonly scope?: 'col' | 'row';
+    /** Announced by screen readers; an arrow glyph alone conveys nothing. */
+    readonly ariaSort?: 'ascending' | 'descending' | 'none';
 }): JSX.Element {
     return (
         <th
             scope={scope}
+            aria-sort={ariaSort}
             className={`label-mono bg-paper-sunken px-2.5 py-3 font-medium first:pl-4 last:pr-4 sm:px-3 sm:py-3.5 sm:first:pl-6 sm:last:pr-6 ${ALIGN[align]}`}
         >
             {children}

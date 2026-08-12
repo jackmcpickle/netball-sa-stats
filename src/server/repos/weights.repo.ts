@@ -1,14 +1,16 @@
+/**
+ * The published grade-weighting table. `fetchGradeWeights` used to live in
+ * `src/db/queries/weights.ts`; that fetch logic now lives here. Read from D1
+ * rather than from the seed module on purpose: the Method page must show the
+ * weights that actually rank the clubs, including any edited by hand after
+ * the seed ran.
+ */
 import { asc, eq } from 'drizzle-orm';
-import type { GradeWeightRow } from '@/data/types';
 import type { Db } from '@/db';
 import { toCompetition } from '@/db/queries/coverage';
 import { competitions, gradeWeights } from '@/db/schema';
+import type { GradeWeightRow } from '@/server/dto/method.dto';
 
-/**
- * The published weighting table. It is read from D1 rather than from the seed
- * module on purpose: the Method page must show the weights that actually rank
- * the clubs, including any edited by hand after the seed ran.
- */
 export async function fetchGradeWeights(
     db: Db,
 ): Promise<readonly GradeWeightRow[]> {
@@ -36,4 +38,14 @@ export async function fetchGradeWeights(
         division: row.division,
         weight: row.weight,
     }));
+}
+
+export function createWeightsRepo(db: Db): {
+    all(): Promise<readonly GradeWeightRow[]>;
+} {
+    return {
+        async all(): Promise<readonly GradeWeightRow[]> {
+            return fetchGradeWeights(db);
+        },
+    };
 }

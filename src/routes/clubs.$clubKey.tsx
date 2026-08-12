@@ -1,22 +1,29 @@
-import { createFileRoute, notFound } from '@tanstack/react-router';
+import { createFileRoute } from '@tanstack/react-router';
 import { createServerFn } from '@tanstack/react-start';
 import type { JSX } from 'react';
 import { z } from 'zod';
 import { ClubProfilePage } from '@/components/club/club-profile-page';
 import { PageShell } from '@/components/ui/layout';
-import { getClubProfile, listClubs } from '@/data';
-import type { Club, ClubProfile } from '@/data/types';
+import { getDb } from '@/db';
+import { tableSearchSchema } from '@/routes/-table-params';
+import { createServices, resolvePageResult } from '@/server/container';
 
-export interface ClubProfileData {
-    readonly profile: ClubProfile;
-    readonly clubs: readonly Club[];
-}
+export type { ClubProfilePageDto as ClubProfileData } from '@/server/dto/club-profile.dto';
 
 const loadClub = createServerFn({ method: 'GET' })
-    .validator(z.object({ clubKey: z.string() }))
-    .handler(async ({ data }): Promise<ClubProfileData | null> => {
-        const profile = await getClubProfile(data.clubKey);
-        return profile ? { profile, clubs: await listClubs() } : null;
+    .validator(
+        z.object({
+            clubKey: z.string(),
+            sort: z.string().optional(),
+            dir: z.enum(['asc', 'desc']).optional(),
+            page: z.number().int().optional(),
+            pageSize: z.number().int().optional(),
+        }),
+    )
+    .handler(async ({ data }) => {
+        return resolvePageResult(
+            await createServices(getDb()).clubs.getProfilePage(data),
+        );
     });
 
 function ClubNotFound(): JSX.Element {
@@ -33,13 +40,15 @@ function ClubNotFound(): JSX.Element {
 }
 
 export const Route = createFileRoute('/clubs/$clubKey')({
-    loader: async ({ params }) => {
-        const data = await loadClub({ data: { clubKey: params.clubKey } });
-        if (!data) {
-            throw notFound();
-        }
-        return data;
-    },
+    validateSearch: tableSearchSchema,
+    loaderDeps: ({ search }) => ({
+        sort: search.sort,
+        dir: search.dir,
+        page: search.page,
+        pageSize: search.pageSize,
+    }),
+    loader: async ({ params, deps }) =>
+        loadClub({ data: { clubKey: params.clubKey, ...deps } }),
     component: ClubProfilePage,
     notFoundComponent: ClubNotFound,
 });

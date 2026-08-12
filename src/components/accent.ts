@@ -1,4 +1,4 @@
-import type { AccentName } from '@/data/types';
+import type { AccentName } from '@/server/dto/shared.dto';
 
 /**
  * Accent name to static Tailwind classes.

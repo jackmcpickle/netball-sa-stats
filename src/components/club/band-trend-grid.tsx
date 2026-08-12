@@ -9,7 +9,11 @@ import {
 } from '@/components/charts/scale';
 import { strengthPath } from '@/components/charts/trend-chart';
 import { NO_VALUE } from '@/components/format';
-import type { AccentName, ClubBandTrend, ClubTrendPoint } from '@/data/types';
+import type {
+    ClubBandTrend,
+    ClubTrendPoint,
+} from '@/server/dto/club-profile.dto';
+import type { AccentName } from '@/server/dto/shared.dto';
 
 const PLOT: Plot = { x0: 3, x1: 237, y0: 5, y1: 51 };
 const VIEW_BOX = '0 0 240 56';

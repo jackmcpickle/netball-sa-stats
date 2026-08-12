@@ -122,6 +122,13 @@ export default defineConfig({
                 },
             ],
             'react/forbid-component-props': ['error', { forbid: ['style'] }],
+            // DataTable's `cell: (row) => ReactNode` column spec is a render
+            // prop, not a stray component definition — every DataTable
+            // consumer builds one of these per column.
+            'react/no-unstable-nested-components': [
+                'error',
+                { allowAsProps: true },
+            ],
             'react/react-in-jsx-scope': 'off',
             'react/only-export-components': 'off',
             'func-style': [
@@ -225,8 +232,7 @@ export default defineConfig({
     },
     test: {
         // Node by default: pipeline, scoring and db logic are the bulk of the suite.
-        // Component tests opt in per file with `// @vitest-environment jsdom`
-        // (needs the jsdom package, not installed yet).
+        // Component tests opt in per file with `// @vitest-environment jsdom`.
         environment: 'node',
         hookTimeout: 30_000,
         testTimeout: 15_000,
@@ -247,6 +253,11 @@ export default defineConfig({
                 functions: 0,
                 lines: 0,
                 statements: 0,
+                'src/server/**': {
+                    statements: 90,
+                    functions: 85,
+                    branches: 80,
+                },
             },
         },
     },
