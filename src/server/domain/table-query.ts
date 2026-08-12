@@ -17,13 +17,31 @@ import {
 } from '@/db/queries/pagination';
 
 /**
+ * What a repo needs in order to fetch one page in SQL, and nothing more.
+ * `sort` has already been matched against the table's allow-list, so a repo
+ * may map it to a column without re-validating; it is never the raw URL
+ * value. `offset` is already clamped to the last page.
+ */
+export interface PageRequest {
+    readonly sort: string;
+    readonly desc: boolean;
+    readonly limit: number;
+    readonly offset: number;
+}
+
+export interface PagedResult<T> {
+    readonly rows: readonly T[];
+    readonly totalRows: number;
+    readonly state: TableState;
+}
+
+/**
  * Search params are attacker-controlled, so the sort column is matched
- * against a per-table allow-list rather than sanitised. All three tables
- * fetch every row and sort/paginate in JS (see `TableQuery.apply`) — the
- * allow-list buys no DB-level savings, it just stops an unknown column id
- * (or a hostile string) from reaching the in-memory comparators.
- * Everything unrecognised silently falls back — a hostile URL gets the
- * default view, not a 500.
+ * against a per-table allow-list rather than sanitised. The allow-list is
+ * what lets a repo interpolate the column into `orderBy` — and what stops an
+ * unknown column id (or a hostile string) from reaching either SQL or the
+ * in-memory comparators. Everything unrecognised silently falls back: a
+ * hostile URL gets the default view, not a 500.
  */
 function resolveTableState(raw: RawTableState, spec: TableSpec): TableState {
     const sort =
@@ -66,17 +84,9 @@ export class TableQuery {
     public apply<T>(
         rows: readonly T[],
         sort: (rows: readonly T[], q: TableQuery) => readonly T[],
-    ): {
-        readonly rows: readonly T[];
-        readonly totalRows: number;
-        readonly state: TableState;
-    } {
+    ): PagedResult<T> {
         const totalRows = rows.length;
-        const page = Math.min(
-            this.state.page,
-            pageCount(totalRows, this.state.pageSize),
-        );
-        const clamped = new TableQuery({ ...this.state, page });
+        const clamped = this.clampedTo(totalRows);
         const sorted = sort(rows, clamped);
         const offset = offsetFor(clamped.state);
         return {
@@ -84,5 +94,50 @@ export class TableQuery {
             totalRows,
             state: clamped.state,
         };
+    }
+
+    /**
+     * The SQL counterpart of `apply`, and the reason it exists as a method
+     * rather than as two calls at each call site: the clamp needs a row
+     * count, and a repo fetching one page does not have one. Counting first
+     * and only then fetching is enforced here, once, instead of being a rule
+     * five services have to remember.
+     */
+    public async page<T>(
+        countRows: () => Promise<number>,
+        fetchRows: (request: PageRequest) => Promise<readonly T[]>,
+    ): Promise<PagedResult<T>> {
+        const totalRows = await countRows();
+        const clamped = this.clampedTo(totalRows);
+        return {
+            rows: await fetchRows(clamped.request()),
+            totalRows,
+            state: clamped.state,
+        };
+    }
+
+    /** The slice this query asks for, ready to hand to a repo. */
+    public request(): PageRequest {
+        return {
+            sort: this.state.sort,
+            desc: this.state.desc,
+            limit: this.state.pageSize,
+            offset: offsetFor(this.state),
+        };
+    }
+
+    /**
+     * `from` alone can floor an out-of-range page at 1 but never clamp it to
+     * the last page, because it has no row count. This does, so `?page=999`
+     * on a 3-page table lands on page 3 rather than an empty page.
+     */
+    private clampedTo(totalRows: number): TableQuery {
+        return new TableQuery({
+            ...this.state,
+            page: Math.min(
+                this.state.page,
+                pageCount(totalRows, this.state.pageSize),
+            ),
+        });
     }
 }
