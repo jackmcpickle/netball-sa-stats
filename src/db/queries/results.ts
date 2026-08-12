@@ -4,8 +4,9 @@
  * time, from `grade_weights`. Nothing precomputes a score into a column, so
  * editing a weight row re-ranks every season with no re-import.
  */
-import { and, asc, eq, sql } from 'drizzle-orm';
+import { and, asc, count, eq, sql } from 'drizzle-orm';
 import type { SQL } from 'drizzle-orm';
+import type { SQLiteColumn } from 'drizzle-orm/sqlite-core';
 import type { Db } from '@/db';
 import {
     clubs,
@@ -84,11 +85,45 @@ function filters(filter: ResultFilter): SQL | undefined {
     return parts.length > 0 ? and(...parts) : undefined;
 }
 
+/**
+ * How a caller wants one page of this join ordered and sliced. `order` is
+ * built by the repo that owns the table, from an allow-listed sort id — see
+ * `LADDER_ORDER` / `CLUB_RESULT_ORDER`.
+ */
+export interface ResultPage {
+    readonly order: readonly (SQL | SQLiteColumn)[];
+    readonly limit: number;
+    readonly offset: number;
+}
+
+/** Row count for the same filter, so a page can be clamped before fetching. */
+export async function countResults(
+    db: Db,
+    filter: ResultFilter = {},
+): Promise<number> {
+    const [row] = await db
+        .select({ total: count() })
+        .from(teamSeasonResults)
+        .innerJoin(grades, eq(grades.id, teamSeasonResults.gradeId))
+        .innerJoin(seasons, eq(seasons.id, grades.seasonId))
+        .innerJoin(competitions, eq(competitions.id, seasons.competitionId))
+        .innerJoin(teams, eq(teams.id, teamSeasonResults.teamId))
+        .innerJoin(clubs, eq(clubs.id, teams.clubId))
+        .where(filters(filter));
+    return row?.total ?? 0;
+}
+
+/**
+ * Without `page`, every matching row in the site's canonical order — which is
+ * what the championship scoring needs, since a rank computed over one page
+ * would be meaningless. With `page`, SQL orders and slices instead.
+ */
 export async function fetchResults(
     db: Db,
     filter: ResultFilter = {},
+    page?: ResultPage,
 ): Promise<readonly ResultRow[]> {
-    return db
+    const query = db
         .select({
             clubKey: clubs.clubKey,
             clubName: clubs.name,
@@ -127,11 +162,17 @@ export async function fetchResults(
         .leftJoin(gradeWeights, weightJoin())
         .where(filters(filter))
         .orderBy(
-            asc(seasons.startYear),
-            asc(grades.tier),
-            asc(grades.division),
-            asc(teamSeasonResults.ladderPosition),
+            ...(page?.order ?? [
+                asc(seasons.startYear),
+                asc(grades.tier),
+                asc(grades.division),
+                asc(teamSeasonResults.ladderPosition),
+            ]),
         );
+
+    return page === undefined
+        ? query
+        : query.limit(page.limit).offset(page.offset);
 }
 
 /** Narrow a joined row down to what the scoring module is allowed to see. */

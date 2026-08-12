@@ -6,7 +6,11 @@ import type { Repos } from '@/server/container';
 import type { DomainError, Result } from '@/server/domain/result';
 import { ok } from '@/server/domain/result';
 import { TableQuery } from '@/server/domain/table-query';
-import type { LaddersPageDto, LaddersParams } from '@/server/dto/ladders.dto';
+import type {
+    LadderDto,
+    LaddersPageDto,
+    LaddersParams,
+} from '@/server/dto/ladders.dto';
 
 export function createLaddersService(repos: Repos): {
     getPage(
@@ -43,8 +47,35 @@ export function createLaddersService(repos: Repos): {
                 });
             }
 
-            const ladderResult = await repos.grades.ladder(gradeKey);
-            if (!ladderResult.ok) {
+            // Counted first so the page can be clamped, then one page is
+            // fetched. A ladder is only ever 6-12 teams, so this is for
+            // consistency with the other tables rather than for speed —
+            // every table now sorts and slices in the same place.
+            let grade: LadderDto['grade'] | null = null;
+            const paged = await TableQuery.from(
+                {
+                    sort: params.sort,
+                    dir: params.dir,
+                    page: params.page,
+                    pageSize: params.pageSize,
+                },
+                LADDER_TABLE_SPEC,
+            ).page(
+                async () => repos.grades.countLadder(gradeKey),
+                async (request) => {
+                    const result = await repos.grades.ladderPage(
+                        gradeKey,
+                        request,
+                    );
+                    if (!result.ok) {
+                        return [];
+                    }
+                    grade = result.value.grade;
+                    return result.value.rows;
+                },
+            );
+
+            if (grade === null) {
                 return ok({
                     years: coverage.years(),
                     year,
@@ -52,24 +83,13 @@ export function createLaddersService(repos: Repos): {
                     ladder: null,
                 });
             }
-            const paged = ladderResult.value.sorted(
-                TableQuery.from(
-                    {
-                        sort: params.sort,
-                        dir: params.dir,
-                        page: params.page,
-                        pageSize: params.pageSize,
-                    },
-                    LADDER_TABLE_SPEC,
-                ),
-            );
 
             return ok({
                 years: coverage.years(),
                 year,
                 grades,
                 ladder: {
-                    grade: ladderResult.value.grade(),
+                    grade,
                     rows: paged.rows,
                     totalRows: paged.totalRows,
                     tableState: paged.state,
