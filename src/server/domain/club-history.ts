@@ -8,7 +8,6 @@
 import type { ResultRow } from '@/db/queries/results';
 import { bandLabel } from '@/pipeline/scoring/bands';
 import { meanStrength } from '@/pipeline/scoring/strength';
-import type { TableQuery } from '@/server/domain/table-query';
 import type {
     ClubBandTrend,
     ClubGradeResult,
@@ -16,59 +15,15 @@ import type {
     ClubTrendPoint,
 } from '@/server/dto/club-profile.dto';
 
-function played(result: ClubGradeResult): number {
-    return (result.won ?? 0) + (result.lost ?? 0) + (result.drawn ?? 0);
-}
-
-/** Two points for a win, one for a draw — same scoring as the ladder. */
-function points(result: ClubGradeResult): number {
-    return 2 * (result.won ?? 0) + (result.drawn ?? 0);
-}
-
-type ResultComparator = (a: ClubGradeResult, b: ClubGradeResult) => number;
-
-function numeric(pick: (result: ClubGradeResult) => number): ResultComparator {
-    return (a, b) => pick(a) - pick(b);
-}
-
-const RESULT_COMPARATORS: Record<string, ResultComparator> = {
-    grade: (a, b) => a.gradeName.localeCompare(b.gradeName),
-    position: numeric((result) => result.ladderPosition),
-    played: numeric(played),
-    won: numeric((result) => result.won ?? 0),
-    lost: numeric((result) => result.lost ?? 0),
-    points: numeric(points),
-    year: (a, b) => a.year - b.year,
-};
-
 /**
- * Every sort ties back to (year desc, gradeKey asc). Without that tiebreaker,
- * seasons level on the sorted column can swap between requests and the same
- * grade finish appears on two pages — or on none.
+ * Narrows joined rows to what the results table renders. Order is the
+ * caller's: SQL sorts and slices the page (`clubResultPageFor` in
+ * `clubs.repo.ts`), so this must not reorder anything.
  */
-export function sortClubResults(
-    results: readonly ClubGradeResult[],
-    q: TableQuery,
-): readonly ClubGradeResult[] {
-    const { sort, desc } = q.state;
-    const direction = desc ? -1 : 1;
-    const compare = RESULT_COMPARATORS[sort] ?? RESULT_COMPARATORS.year;
-    return [...results].sort((a, b) => {
-        const primary = compare(a, b);
-        if (primary !== 0) {
-            return primary * direction;
-        }
-        return a.year === b.year
-            ? a.gradeKey.localeCompare(b.gradeKey)
-            : b.year - a.year;
-    });
-}
-
-/** Most recent season first, then strongest grade first within a season. */
 export function toGradeResults(
     rows: readonly ResultRow[],
 ): readonly ClubGradeResult[] {
-    return [...rows].reverse().map(
+    return rows.map(
         (row): ClubGradeResult => ({
             year: row.year,
             gradeKey: row.gradeKey,

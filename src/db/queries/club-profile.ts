@@ -4,7 +4,7 @@ import type { TableSpec } from '@/db/queries/pagination';
 import { fetchResults } from '@/db/queries/results';
 import type { ResultRow } from '@/db/queries/results';
 import { winRate } from '@/pipeline/scoring/championship';
-import { ClubHistory, toGradeResults } from '@/server/domain/club-history';
+import { ClubHistory } from '@/server/domain/club-history';
 import type {
     ClubProfile,
     ClubSeasonPoints,
@@ -70,6 +70,13 @@ function seasonPoints(
     });
 }
 
+/**
+ * Every career figure on the profile — win rate, minor premierships, the
+ * strength trend — is an aggregate over the club's whole history, so this
+ * still reads every row. What it no longer does is carry those rows into the
+ * results table: that is a separate, SQL-paged query (`resultsPage` on the
+ * clubs repo), so only the 50 rows actually shown get mapped to DTOs.
+ */
 export async function fetchClubProfile(
     db: Db,
     clubKey: string,
@@ -135,7 +142,6 @@ export async function fetchClubProfile(
         winPercentage: winRate(record.won, record.games, record.hasRecord),
         gamesPlayed: record.games,
         seasons,
-        results: toGradeResults(rows),
         trend: clubHistory.trend(),
     };
 }

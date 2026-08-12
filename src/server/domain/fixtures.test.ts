@@ -1,13 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import {
-    FIXTURES_TABLE_SPEC,
-    marginFor,
-    sortFixtures,
-    toResultRows,
-} from '@/server/domain/fixtures';
-import { TableQuery } from '@/server/domain/table-query';
+import { marginFor, toResultRows } from '@/server/domain/fixtures';
 import type { GameFact } from '@/server/dto/head-to-head.dto';
-import type { ResultRow } from '@/server/dto/results.dto';
 
 function fact(overrides: Partial<GameFact>): GameFact {
     return {
@@ -27,29 +20,6 @@ function fact(overrides: Partial<GameFact>): GameFact {
         status: 'final',
         ...overrides,
     };
-}
-
-function row(overrides: Partial<ResultRow>): ResultRow {
-    return {
-        round: 1,
-        roundName: 'Round 1',
-        isFinals: false,
-        playedAt: null,
-        homeTeamName: 'A',
-        awayTeamName: 'B',
-        homeClubKey: 'a',
-        awayClubKey: 'b',
-        homeScore: 50,
-        awayScore: 32,
-        margin: 18,
-        status: 'final',
-        canCompare: true,
-        ...overrides,
-    };
-}
-
-function query(sort: string, dir: 'asc' | 'desc'): TableQuery {
-    return TableQuery.from({ sort, dir }, FIXTURES_TABLE_SPEC);
 }
 
 describe('marginFor', () => {
@@ -114,55 +84,5 @@ describe('toResultRows', () => {
         ]);
         expect(result.isFinals).toBe(true);
         expect(result.roundName).toBe('Grand Final');
-    });
-});
-
-describe('sortFixtures', () => {
-    it('sorts by round ascending by default', () => {
-        const sorted = sortFixtures(
-            [row({ round: 9 }), row({ round: 2 })],
-            query('round', 'asc'),
-        );
-        expect(sorted.map((entry) => entry.round)).toEqual([2, 9]);
-    });
-
-    it('is stable for rows level on the sorted column', () => {
-        // Many games share a round number. Without a tiebreaker the same
-        // fixture can appear on two pages, or on none.
-        const rows = [
-            row({ round: 1, homeTeamName: 'C' }),
-            row({ round: 1, homeTeamName: 'A' }),
-            row({ round: 1, homeTeamName: 'B' }),
-        ];
-        const forwards = sortFixtures(rows, query('round', 'asc'));
-        const backwards = sortFixtures(
-            [...rows].reverse(),
-            query('round', 'asc'),
-        );
-        expect(forwards.map((entry) => entry.homeTeamName)).toEqual(
-            backwards.map((entry) => entry.homeTeamName),
-        );
-    });
-
-    it('puts an unplayed game last on a margin sort, in either direction', () => {
-        const rows = [row({ margin: null, status: 'bye' }), row({ margin: 4 })];
-        expect(
-            sortFixtures(rows, query('margin', 'asc')).map(
-                (entry) => entry.margin,
-            ),
-        ).toEqual([4, null]);
-        expect(
-            sortFixtures(rows, query('margin', 'desc')).map(
-                (entry) => entry.margin,
-            ),
-        ).toEqual([4, null]);
-    });
-
-    it('falls back to the default column for an unknown sort', () => {
-        const sorted = sortFixtures(
-            [row({ round: 9 }), row({ round: 2 })],
-            query('nonesuch', 'asc'),
-        );
-        expect(sorted.map((entry) => entry.round)).toEqual([2, 9]);
     });
 });

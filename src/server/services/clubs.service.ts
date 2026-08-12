@@ -6,7 +6,6 @@
 import { CLUB_RESULTS_TABLE_SPEC } from '@/db/queries/club-profile';
 import type { Repos } from '@/server/container';
 import { partitionClubs } from '@/server/domain/club-directory';
-import { sortClubResults } from '@/server/domain/club-history';
 import { topOpponents } from '@/server/domain/head-to-head';
 import type { DomainError, Result } from '@/server/domain/result';
 import { err, ok } from '@/server/domain/result';
@@ -96,7 +95,10 @@ export function createClubsService(repos: Repos): {
                     key: params.clubKey,
                 });
             }
-            const paged = TableQuery.from(
+            // The aggregates above span the club's whole history; the table
+            // below is one page, counted and sliced in SQL like every other
+            // table on the site.
+            const paged = await TableQuery.from(
                 {
                     sort: params.sort,
                     dir: params.dir,
@@ -104,7 +106,11 @@ export function createClubsService(repos: Repos): {
                     pageSize: params.pageSize,
                 },
                 CLUB_RESULTS_TABLE_SPEC,
-            ).apply(profile.results, sortClubResults);
+            ).page(
+                async () => repos.clubs.countResults(params.clubKey),
+                async (request) =>
+                    repos.clubs.resultsPage(params.clubKey, request),
+            );
             const [clubs, counts] = await Promise.all([
                 repos.clubs.all(),
                 repos.games.opponentCounts(params.clubKey),

@@ -1,5 +1,21 @@
 # Club present/past filter + server-side DataTable Implementation Plan
 
+> **STATUS: COMPLETE (as of 2026-08-12).** Shipped before the DDD refactor,
+> so the unticked checkboxes below are historical, not outstanding work. The
+> File Structure table points at paths that no longer exist. As built:
+>
+> | Plan says                                            | Actually lives at                                    |
+> | ---------------------------------------------------- | ---------------------------------------------------- |
+> | `src/db/queries/club-activity.ts` (`partitionClubs`) | `src/server/domain/club-directory.ts`                |
+> | `src/data/types.ts`                                  | `src/server/dto/shared.dto.ts`                       |
+> | `DataTable`                                          | `src/components/ui/data-table.tsx`                   |
+> | `SegmentedToggle`                                    | `src/components/ui/toggle.tsx`                       |
+> | `resolveTableState`                                  | `src/server/domain/table-query.ts` (as `TableQuery`) |
+> | `tableSearchSchema`                                  | `src/routes/-table-params.ts`                        |
+>
+> Since 2026-08-12 the tables sort and slice in SQL rather than in memory —
+> see `TableQuery#page`. `resolveTableState` is no longer exported.
+
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** Hide clubs with no rank in the latest championship year behind a toggle, and move every tabular list onto one generic, server-sorted, server-paginated table component.

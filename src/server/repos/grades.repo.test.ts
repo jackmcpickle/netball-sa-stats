@@ -1,8 +1,19 @@
 import { describe, expect, it } from 'vitest';
+import { LADDER_TABLE_SPEC } from '@/db/queries/grades';
+import type { PageRequest } from '@/server/domain/table-query';
+import { TableQuery } from '@/server/domain/table-query';
 import { createGradesRepo } from '@/server/repos/grades.repo';
 import type { SeedSpec } from '@/server/testing/fixtures';
 import { seed } from '@/server/testing/fixtures';
 import { createTestDb } from '@/server/testing/harness';
+
+/** A page large enough to hold any ladder these tests seed. */
+function wholeLadder(sort: string, dir: 'asc' | 'desc'): PageRequest {
+    return TableQuery.from(
+        { sort, dir, pageSize: 100 },
+        LADDER_TABLE_SPEC,
+    ).request();
+}
 
 function baseSpec(): SeedSpec {
     return {
@@ -155,22 +166,69 @@ describe('createGradesRepo', () => {
         expect(gradesFor2099).toEqual([]);
     });
 
-    it('ladder() builds a Ladder over the grade’s rows, position ascending', async () => {
+    it('ladderPage() returns the grade and its rows, position ascending', async () => {
         const db = createTestDb();
         await seed(db, baseSpec());
 
-        const result = await createGradesRepo(db).ladder('amnd-2024-a1');
+        const result = await createGradesRepo(db).ladderPage(
+            'amnd-2024-a1',
+            wholeLadder('position', 'asc'),
+        );
 
         expect(result.ok).toBe(true);
         if (!result.ok) return;
-        expect(result.value.grade().key).toBe('amnd-2024-a1');
+        expect(result.value.grade.key).toBe('amnd-2024-a1');
+        expect(result.value.rows.map((row) => row.position)).toEqual([1, 2]);
     });
 
-    it('ladder() returns not-found for an unknown grade key', async () => {
+    it('countLadder() counts the grade’s rows', async () => {
         const db = createTestDb();
         await seed(db, baseSpec());
 
-        const result = await createGradesRepo(db).ladder('does-not-exist');
+        expect(await createGradesRepo(db).countLadder('amnd-2024-a1')).toBe(2);
+        expect(await createGradesRepo(db).countLadder('nonesuch')).toBe(0);
+    });
+
+    it('ladderPage() sorts on an allow-listed column, ties broken by position', async () => {
+        const db = createTestDb();
+        await seed(db, baseSpec());
+
+        const result = await createGradesRepo(db).ladderPage(
+            'amnd-2024-a1',
+            wholeLadder('team', 'asc'),
+        );
+
+        expect(result.ok).toBe(true);
+        if (!result.ok) return;
+        expect(result.value.rows.map((row) => row.displayName)).toEqual([
+            'Contax',
+            'Garville',
+        ]);
+    });
+
+    it('ladderPage() slices to the requested page', async () => {
+        const db = createTestDb();
+        await seed(db, baseSpec());
+
+        const result = await createGradesRepo(db).ladderPage('amnd-2024-a1', {
+            ...wholeLadder('position', 'asc'),
+            limit: 1,
+            offset: 1,
+        });
+
+        expect(result.ok).toBe(true);
+        if (!result.ok) return;
+        expect(result.value.rows.map((row) => row.position)).toEqual([2]);
+    });
+
+    it('ladderPage() returns not-found for an unknown grade key', async () => {
+        const db = createTestDb();
+        await seed(db, baseSpec());
+
+        const result = await createGradesRepo(db).ladderPage(
+            'does-not-exist',
+            wholeLadder('position', 'asc'),
+        );
 
         expect(result).toEqual({
             ok: false,

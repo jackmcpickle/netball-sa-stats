@@ -1,5 +1,33 @@
 # Head-to-head and Results Pages Implementation Plan
 
+> **STATUS: COMPLETE (as of 2026-08-12).**
+>
+> **One rule in this plan is WRONG and was not implemented as written.**
+> Global Constraints below say "Goal totals only count games with both scores
+> present". They do not: PlayHQ fabricates a nominal 0–20 scoreline on every
+> forfeit row, so goal totals filter on `status`, and a forfeit contributes a
+> result but no goals. See `src/db/schema.ts` (the `games` docblock) and
+> `buildHeadToHead` in `src/server/domain/head-to-head.ts`. The same applies
+> to `marginFor`: a forfeit has no margin. The constraint was written before
+> the API was probed.
+>
+> The File Structure table is also stale — it predates the DDD refactor and
+> targets `src/db/queries/*` plus a `src/data/index.ts` that no longer exists.
+> As built:
+>
+> | Plan says                            | Actually lives at                                                                                                   |
+> | ------------------------------------ | ------------------------------------------------------------------------------------------------------------------- |
+> | `src/db/queries/head-to-head.ts`     | `src/server/domain/head-to-head.ts`                                                                                 |
+> | `src/db/queries/games.ts`            | `src/server/repos/games.repo.ts`                                                                                    |
+> | `src/db/queries/results.ts` (create) | `src/server/domain/fixtures.ts` — the existing `src/db/queries/results.ts` is the _ladder_ query and was left alone |
+> | `src/data/index.ts`                  | `src/server/services/{head-to-head,results}.service.ts` via `createServices`                                        |
+> | `src/data/types.ts`                  | `src/server/dto/{head-to-head,results}.dto.ts`                                                                      |
+>
+> Two further departures: the meetings and fixture tables are paged through
+> `TableQuery`, and since 2026-08-12 the fixture list sorts and slices in SQL.
+> Task 3 Step 2 item 7 asks for a `ShareBar`; the component of that name in
+> this repo is a bar chart, and no share-link UI exists, so it was skipped.
+
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** Replace the two `NotAvailable` stubs with real pages — `/head-to-head` showing the record between two clubs across every season, and `/results` listing every fixture for a season and grade.
@@ -19,7 +47,7 @@
 - Route loaders read from `src/data/index.ts` only, never `src/db/*` directly.
 - String literals in JSX are wrapped in braces: `{'Head to head'}`.
 - Tokens only: `text-ink`, `text-ink-body`, `text-ink-muted`, `bg-paper`, `bg-paper-sunken`, `border-rule`, `rounded-card`, `.numeric`, `.label-mono`.
-- Forfeits count toward W-L-D; `bye`, `no_result` and `scheduled` do not. Goal totals only count games with both scores present.
+- Forfeits count toward W-L-D; `bye`, `no_result` and `scheduled` do not. ~~Goal totals only count games with both scores present.~~ **Corrected 2026-08-12: goal totals count `final` games only — a forfeit's 0–20 scoreline is fabricated by PlayHQ, so it contributes a result but no goals.**
 - Head-to-head filters on **club, club and grade band** — there is no season filter. Bands come from `bandLabel(tier)` in `src/pipeline/scoring/bands.ts`, because `grades` rows are season-scoped and cannot back a cross-season picker.
 - Default page size 50, `pageSize` clamped to `[25, 50, 100]`.
 - Branch is `feature/head-to-head`. Commit after every task.
