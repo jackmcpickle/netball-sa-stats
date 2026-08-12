@@ -74,6 +74,25 @@ export type TeamSeasonResultImportRow = {
     scrapedAt: number | null;
 };
 
+export type GameImportRow = {
+    gradeKey: string;
+    playhqId: string;
+    round: number | null;
+    roundName: string | null;
+    playedAt: number | null;
+    /** PlayHQ team ids, resolved against `teams.playhq_id` at validation. */
+    homePlayhqId: string | null;
+    awayPlayhqId: string | null;
+    homeScore: number | null;
+    awayScore: number | null;
+    status: string;
+    forfeitingSide: string | null;
+    source: string;
+    scrapedAt: number | null;
+    /** Which `games-<year>.csv` this row came from, for error messages. */
+    file: string;
+};
+
 export type ImportData = {
     seasons: SeasonImportRow[];
     clubs: ClubImportRow[];
@@ -81,6 +100,7 @@ export type ImportData = {
     grades: GradeImportRow[];
     teams: TeamImportRow[];
     results: TeamSeasonResultImportRow[];
+    games: GameImportRow[];
 };
 
 /** Row failed validation: named so the operator can find it in the CSV. */

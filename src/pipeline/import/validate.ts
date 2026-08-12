@@ -6,6 +6,7 @@
  * layers the cross-file invariants from the task brief on top.
  */
 import { z } from 'zod';
+import { FORFEIT_SIDES, GAME_STATUSES } from '@/db/schema';
 import {
     clubAliasInsertSchema,
     clubInsertSchema,
@@ -17,6 +18,7 @@ import {
 import type {
     ClubAliasImportRow,
     ClubImportRow,
+    GameImportRow,
     GradeImportRow,
     ImportData,
     PlayedMismatchWarning,
@@ -398,6 +400,153 @@ export function validateResults(
  * Compares a grade to the same (competitionKey, tier, division) grade in the
  * immediately preceding season of the same competition.
  */
+/** Statuses whose row must carry both scores. */
+const SCORED_STATUSES = new Set<string>(['final', 'forfeit']);
+
+function resolveSide(
+    row: GameImportRow,
+    index: number,
+    playhqId: string | null,
+    side: 'home' | 'away',
+    teamIdsByGradeAndPlayhqId: ReadonlyMap<string, number>,
+): void {
+    if (playhqId === null) {
+        // Only a bye (one side) or an undecided finals slot may lack a team.
+        if (row.status === 'bye' || row.status === 'scheduled') return;
+        throw new ImportValidationError(
+            row.file,
+            line(index),
+            `${side} team missing on a ${row.status} game — only byes and scheduled finals may have an empty side`,
+            row,
+        );
+    }
+    if (!teamIdsByGradeAndPlayhqId.has(`${row.gradeKey}:${playhqId}`)) {
+        throw new ImportValidationError(
+            row.file,
+            line(index),
+            `${side} team ${playhqId} not found in teams.csv for grade ${row.gradeKey} — refusing to invent a team`,
+            row,
+        );
+    }
+}
+
+function checkGameShape(row: GameImportRow, index: number): void {
+    if (!GAME_STATUSES.includes(row.status as (typeof GAME_STATUSES)[number])) {
+        throw new ImportValidationError(
+            row.file,
+            line(index),
+            `unknown status "${row.status}" (expected one of ${GAME_STATUSES.join(', ')})`,
+            row,
+        );
+    }
+    const hasScores = row.homeScore !== null && row.awayScore !== null;
+    if (SCORED_STATUSES.has(row.status) && !hasScores) {
+        throw new ImportValidationError(
+            row.file,
+            line(index),
+            `${row.status} game is missing a score — a result with no score is a no_result, not a 0-0`,
+            row,
+        );
+    }
+    if (
+        row.status === 'bye' &&
+        (row.homeScore !== null || row.awayScore !== null)
+    ) {
+        throw new ImportValidationError(
+            row.file,
+            line(index),
+            'bye carries a score',
+            row,
+        );
+    }
+    if (row.status === 'forfeit' && row.forfeitingSide === null) {
+        throw new ImportValidationError(
+            row.file,
+            line(index),
+            'forfeit is missing forfeiting_side',
+            row,
+        );
+    }
+    if (
+        row.forfeitingSide !== null &&
+        !FORFEIT_SIDES.includes(
+            row.forfeitingSide as (typeof FORFEIT_SIDES)[number],
+        )
+    ) {
+        throw new ImportValidationError(
+            row.file,
+            line(index),
+            `unknown forfeiting_side "${row.forfeitingSide}"`,
+            row,
+        );
+    }
+    if (row.homePlayhqId !== null && row.homePlayhqId === row.awayPlayhqId) {
+        throw new ImportValidationError(
+            row.file,
+            line(index),
+            'home and away are the same team',
+            row,
+        );
+    }
+}
+
+/**
+ * An unresolvable team id is a hard failure, never a silently invented team —
+ * the same rule `validateResults` applies. Team ids are grade-scoped, so the
+ * lookup key is `${gradeKey}:${playhqId}`.
+ */
+export function validateGames(
+    rows: readonly GameImportRow[],
+    teamIdsByGradeAndPlayhqId: ReadonlyMap<string, number>,
+    gradeKeys: ReadonlySet<string>,
+): void {
+    const seen = new Set<string>();
+    rows.forEach((row, index) => {
+        if (!gradeKeys.has(row.gradeKey)) {
+            throw new ImportValidationError(
+                row.file,
+                line(index),
+                `grade_key ${row.gradeKey} not found in grades.csv`,
+                row.gradeKey,
+            );
+        }
+        if (row.playhqId === '') {
+            throw new ImportValidationError(
+                row.file,
+                line(index),
+                'missing playhq_id — the game identity key',
+                row,
+            );
+        }
+        const identity = `${row.gradeKey}:${row.playhqId}`;
+        if (seen.has(identity)) {
+            throw new ImportValidationError(
+                row.file,
+                line(index),
+                `duplicate game ${identity}`,
+                row,
+            );
+        }
+        seen.add(identity);
+
+        checkGameShape(row, index);
+        resolveSide(
+            row,
+            index,
+            row.homePlayhqId,
+            'home',
+            teamIdsByGradeAndPlayhqId,
+        );
+        resolveSide(
+            row,
+            index,
+            row.awayPlayhqId,
+            'away',
+            teamIdsByGradeAndPlayhqId,
+        );
+    });
+}
+
 export function findTeamCountWarnings(data: ImportData): TeamCountWarning[] {
     const seasonByKey = new Map(data.seasons.map((s) => [s.seasonKey, s]));
     type Key = string;
@@ -466,6 +615,14 @@ export function validateImportData(
         clubKeys,
         gradesByKey,
     );
+    // Games resolve against the same grade-scoped team identity as results.
+    const teamIds = new Map(
+        data.teams.map((team, index) => [
+            `${team.gradeKey}:${String(team.playhqId)}`,
+            index,
+        ]),
+    );
+    validateGames(data.games, teamIds, gradeKeys);
     return {
         teamCountWarnings: findTeamCountWarnings(data),
         playedMismatchWarnings,

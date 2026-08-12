@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import type {
     ClubImportRow,
+    GameImportRow,
     GradeImportRow,
     SeasonImportRow,
     TeamImportRow,
@@ -9,6 +10,7 @@ import type {
 import { ImportValidationError } from '@/pipeline/import/types';
 import {
     validateClubAliases,
+    validateGames,
     validateGrades,
     validateImportData,
     validateResults,
@@ -422,6 +424,7 @@ describe('validateImportData', () => {
                     grades: [prevGrade, currGrade],
                     teams: [goodTeam],
                     results: [...prevResults, ...currResults],
+                    games: [],
                 },
                 competitionKeys,
             );
@@ -433,5 +436,182 @@ describe('validateImportData', () => {
             previousTeamCount: 10,
         });
         expect(playedMismatchWarnings).toHaveLength(0);
+    });
+});
+
+describe('validateGames', () => {
+    // Team identity is grade-scoped, so the resolution map is keyed
+    // `${gradeKey}:${playhqId}` — see `teams_grade_playhq_idx` in schema.ts.
+    const teamIds = new Map([
+        ['premier-2026:t1', 1],
+        ['premier-2026:t2', 2],
+    ]);
+    const gradeKeys = new Set(['premier-2026']);
+
+    function gameRow(overrides: Partial<GameImportRow> = {}): GameImportRow {
+        return {
+            gradeKey: 'premier-2026',
+            playhqId: 'g1',
+            round: 1,
+            roundName: 'Round 1',
+            playedAt: null,
+            homePlayhqId: 't1',
+            awayPlayhqId: 't2',
+            homeScore: 40,
+            awayScore: 30,
+            status: 'final',
+            forfeitingSide: null,
+            source: 'playhq',
+            scrapedAt: 1,
+            file: 'games-2026.csv',
+            ...overrides,
+        };
+    }
+
+    it('accepts a well-formed final', () => {
+        expect(() => {
+            validateGames([gameRow()], teamIds, gradeKeys);
+        }).not.toThrow();
+    });
+
+    it('fails loudly on a team id that is not in teams.csv', () => {
+        expect(() => {
+            validateGames(
+                [gameRow({ homePlayhqId: 'ghost' })],
+                teamIds,
+                gradeKeys,
+            );
+        }).toThrow(ImportValidationError);
+    });
+
+    it('fails on a grade that is not in grades.csv', () => {
+        expect(() => {
+            validateGames(
+                [gameRow({ gradeKey: 'nope-2026' })],
+                teamIds,
+                gradeKeys,
+            );
+        }).toThrow(/grade_key/u);
+    });
+
+    it('rejects an unknown status', () => {
+        expect(() => {
+            validateGames(
+                [gameRow({ status: 'abandoned-ish' })],
+                teamIds,
+                gradeKeys,
+            );
+        }).toThrow(/status/u);
+    });
+
+    it('rejects a final missing a score', () => {
+        // A final with no score is a no_result; letting it through would put
+        // a phantom 0-0 into every head-to-head record.
+        expect(() => {
+            validateGames([gameRow({ homeScore: null })], teamIds, gradeKeys);
+        }).toThrow(/score/u);
+    });
+
+    it('rejects a bye carrying a score', () => {
+        expect(() => {
+            validateGames(
+                [
+                    gameRow({
+                        status: 'bye',
+                        awayPlayhqId: null,
+                        homeScore: 20,
+                        awayScore: null,
+                    }),
+                ],
+                teamIds,
+                gradeKeys,
+            );
+        }).toThrow(/bye/u);
+    });
+
+    it('allows a bye with one empty side', () => {
+        expect(() => {
+            validateGames(
+                [
+                    gameRow({
+                        status: 'bye',
+                        awayPlayhqId: null,
+                        homeScore: null,
+                        awayScore: null,
+                    }),
+                ],
+                teamIds,
+                gradeKeys,
+            );
+        }).not.toThrow();
+    });
+
+    it('allows a scheduled game with no scores', () => {
+        expect(() => {
+            validateGames(
+                [
+                    gameRow({
+                        status: 'scheduled',
+                        homeScore: null,
+                        awayScore: null,
+                    }),
+                ],
+                teamIds,
+                gradeKeys,
+            );
+        }).not.toThrow();
+    });
+
+    it('allows a scheduled finals game with an undecided side', () => {
+        // A ProvisionalTeam has no id, so there is nothing to resolve.
+        expect(() => {
+            validateGames(
+                [
+                    gameRow({
+                        status: 'scheduled',
+                        awayPlayhqId: null,
+                        homeScore: null,
+                        awayScore: null,
+                    }),
+                ],
+                teamIds,
+                gradeKeys,
+            );
+        }).not.toThrow();
+    });
+
+    it('rejects a game whose two sides are the same team', () => {
+        expect(() => {
+            validateGames(
+                [gameRow({ awayPlayhqId: 't1' })],
+                teamIds,
+                gradeKeys,
+            );
+        }).toThrow(/same team/u);
+    });
+
+    it('rejects a forfeit with no forfeiting side', () => {
+        expect(() => {
+            validateGames(
+                [
+                    gameRow({
+                        status: 'forfeit',
+                        forfeitingSide: null,
+                        homeScore: 0,
+                        awayScore: 20,
+                    }),
+                ],
+                teamIds,
+                gradeKeys,
+            );
+        }).toThrow(/forfeiting_side/u);
+    });
+
+    it('rejects a duplicate (grade, playhq id)', () => {
+        // The unique index would reject it at insert; catching it here names
+        // the CSV line instead of failing mid-batch.
+        expect(() => {
+            validateGames([gameRow(), gameRow()], teamIds, gradeKeys);
+        }).toThrow(/duplicate/u);
     });
 });

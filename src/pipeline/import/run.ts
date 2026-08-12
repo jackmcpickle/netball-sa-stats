@@ -4,19 +4,21 @@
  * (see `src/pipeline/import/executors.ts` for the wrangler-CLI and in-memory
  * implementations). Thin CLI wrapper lives in `scripts/import-csv.ts`.
  */
-import { readFile } from 'node:fs/promises';
+import { readdir, readFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { parseCsv } from '@/pipeline/csv';
 import { generateImportSql } from '@/pipeline/import/generate-sql';
 import {
     parseClubAliasRow,
     parseClubRow,
+    parseGameRow,
     parseGradeRow,
     parseSeasonRow,
     parseTeamRow,
     parseTeamSeasonResultRow,
 } from '@/pipeline/import/parse';
 import type {
+    GameImportRow,
     ImportData,
     ImportExecutor,
     PlayedMismatchWarning,
@@ -27,6 +29,7 @@ import { validateImportData } from '@/pipeline/import/validate';
 
 export type ImportReport = {
     seasons: number;
+    games: number;
     clubs: number;
     clubAliases: number;
     grades: number;
@@ -44,8 +47,28 @@ async function readCsv(
     return parseCsv(text);
 }
 
+/**
+ * Fixtures are split per season (`games-2025.csv`, `games-2026.csv`) to keep
+ * each file reviewable in a diff, so they are discovered rather than named.
+ * A directory with no games file at all is valid — the fixture backfill is
+ * independent of the ladder import.
+ */
+async function readGameCsvs(dataDir: string): Promise<GameImportRow[]> {
+    const entries = await readdir(dataDir);
+    const files = entries
+        .filter((name) => /^games-\d{4}\.csv$/u.test(name))
+        .sort((a, b) => a.localeCompare(b));
+    const perFile = await Promise.all(
+        files.map(async (file) => {
+            const rows = await readCsv(dataDir, file);
+            return rows.map((raw) => parseGameRow(raw, file));
+        }),
+    );
+    return perFile.flat();
+}
+
 export async function loadImportData(dataDir: string): Promise<ImportData> {
-    const [seasons, clubs, clubAliases, grades, teams, results] =
+    const [seasons, clubs, clubAliases, grades, teams, results, games] =
         await Promise.all([
             readCsv(dataDir, 'seasons.csv'),
             readCsv(dataDir, 'clubs.csv'),
@@ -53,6 +76,7 @@ export async function loadImportData(dataDir: string): Promise<ImportData> {
             readCsv(dataDir, 'grades.csv'),
             readCsv(dataDir, 'teams.csv'),
             readCsv(dataDir, 'team_season_results.csv'),
+            readGameCsvs(dataDir),
         ]);
     return {
         seasons: seasons.map(parseSeasonRow),
@@ -61,6 +85,7 @@ export async function loadImportData(dataDir: string): Promise<ImportData> {
         grades: grades.map(parseGradeRow),
         teams: teams.map(parseTeamRow),
         results: results.map(parseTeamSeasonResultRow),
+        games,
     };
 }
 
@@ -103,6 +128,7 @@ async function assertRowCountsMatch(
         { table: 'grades', expected: data.grades.length },
         { table: 'teams', expected: data.teams.length },
         { table: 'team_season_results', expected: data.results.length },
+        { table: 'games', expected: data.games.length },
     ];
     for (const { table, expected } of tables) {
         // eslint-disable-next-line no-await-in-loop -- small fixed list, sequential is fine and keeps errors ordered
@@ -185,6 +211,7 @@ export async function runImport(
     await assertGradeWeightCoverage(executor.queryAll);
 
     return {
+        games: data.games.length,
         seasons: data.seasons.length,
         clubs: data.clubs.length,
         clubAliases: data.clubAliases.length,

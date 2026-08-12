@@ -1,0 +1,5 @@
+grade_key,playhq_id,round,round_name,played_at,home_playhq_id,away_playhq_id,home_score,away_score,status,forfeiting_side,source,scraped_at
+amnd-winter-2023-a-grade,g-final,1,Round 1,1700000000,team-a-2023-agrade,team-b-2023-agrade,50,40,final,,playhq,1700000000000
+amnd-winter-2023-a-grade,g-forfeit,2,Round 2,1700100000,team-a-2023-agrade,team-b-2023-agrade,20,0,forfeit,away,playhq,1700000000000
+amnd-winter-2023-a-grade,bye:r3:team-a-2023-agrade,3,Round 3,,team-a-2023-agrade,,,,bye,,playhq,1700000000000
+amnd-winter-2023-a-grade,g-noresult,4,Round 4,1700300000,team-a-2023-agrade,team-b-2023-agrade,,,no_result,,playhq,1700000000000
