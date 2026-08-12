@@ -1,5 +1,20 @@
 # PlayHQ Fixture Ingestion Implementation Plan
 
+> **STATUS: COMPLETE (as of 2026-08-12).** All 8 tasks; 7 and 8 merged,
+> because the fetch has no senior/junior filter and juniors arrived in the
+> same pass. Commits `0100ff7`..`1df8718`.
+>
+> The Self-Review Notes at the foot of this plan predate two decisions taken
+> during implementation and are stale on both counts:
+>
+> - `games.is_finals` exists. Ladders are regular-season only, so finals must
+>   be separable to reconcile against them.
+> - Teams resolve season-wide by `playhq_id`, never via the club's own grade.
+>   Junior grading rounds put a team in fixtures outside its final grade, and
+>   joining team→grade misattributes roughly 8% of games.
+>
+> `docs/playhq-api.md` §6 is the accurate record of what was learned.
+
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** Land a `games` table holding real match results for the 2025 and 2026 seasons, so head-to-head and results pages have something true to show.
