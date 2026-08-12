@@ -6,8 +6,9 @@ import { PointsBarChart } from '@/components/charts/points-bar-chart';
 import { TrendChart } from '@/components/charts/trend-chart';
 import { BandTrendGrid } from '@/components/club/band-trend-grid';
 import { ClubResultsTable } from '@/components/club/club-results-table';
-import { formatNumber, formatPercent, NO_VALUE } from '@/components/format';
-import { PageShell, Panel, StatFigure } from '@/components/ui/layout';
+import { ClubStatGrid } from '@/components/club/club-stat-grid';
+import { TopOpponentsPanel } from '@/components/club/top-opponents-panel';
+import { PageShell, Panel } from '@/components/ui/layout';
 import { FieldSelect } from '@/components/ui/select';
 import type { TableState } from '@/db/queries/pagination';
 
@@ -26,7 +27,7 @@ function nextTableSearch(
 }
 
 export function ClubProfilePage(): JSX.Element {
-    const { profile, clubs } = routeApi.useLoaderData();
+    const { profile, clubs, topOpponents } = routeApi.useLoaderData();
     const navigate = useNavigate();
     const tableNavigate = routeApi.useNavigate();
 
@@ -109,36 +110,7 @@ export function ClubProfilePage(): JSX.Element {
                     </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-3 sm:gap-4">
-                    <div className="rounded-card bg-paper-sunken p-4 sm:p-6">
-                        <StatFigure
-                            value={formatNumber(profile.careerPoints, 0)}
-                            caption="championship points, all seasons"
-                        />
-                    </div>
-                    <div className="rounded-card bg-paper-sunken p-4 sm:p-6">
-                        <StatFigure
-                            value={profile.minorPremierships}
-                            caption="grade ladders topped"
-                        />
-                    </div>
-                    <div className="rounded-card bg-paper-sunken p-4 sm:p-6">
-                        <StatFigure
-                            value={formatPercent(profile.winPercentage)}
-                            caption="win rate across all grades"
-                        />
-                    </div>
-                    <div className="rounded-card bg-paper-sunken p-4 sm:p-6">
-                        <StatFigure
-                            value={
-                                profile.gamesPlayed > 0
-                                    ? profile.gamesPlayed
-                                    : NO_VALUE
-                            }
-                            caption="games played"
-                        />
-                    </div>
-                </div>
+                <ClubStatGrid profile={profile} />
             </div>
 
             <Panel className="mb-6 p-5 sm:p-8">
@@ -202,6 +174,12 @@ export function ClubProfilePage(): JSX.Element {
                     </div>
                 </div>
             </Panel>
+
+            <TopOpponentsPanel
+                clubKey={profile.club.key}
+                clubName={profile.club.name}
+                opponents={topOpponents}
+            />
 
             <h2 className="mb-4 text-lg font-semibold text-ink">
                 {'Season by season, grade by grade'}
