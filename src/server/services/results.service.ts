@@ -5,11 +5,7 @@
  * competition.
  */
 import type { Repos } from '@/server/container';
-import {
-    FIXTURES_TABLE_SPEC,
-    sortFixtures,
-    toResultRows,
-} from '@/server/domain/fixtures';
+import { FIXTURES_TABLE_SPEC, toResultRows } from '@/server/domain/fixtures';
 import type { DomainError, Result } from '@/server/domain/result';
 import { ok } from '@/server/domain/result';
 import { TableQuery } from '@/server/domain/table-query';
@@ -47,10 +43,25 @@ export function createResultsService(repos: Repos): {
                 });
             }
 
-            const rows = toResultRows(
-                await repos.games.factsForGrade(grade.key),
+            // Counted first so the page can be clamped, then one page is
+            // fetched — the grade's other 250 fixtures never leave SQLite.
+            const paged = await TableQuery.from(
+                {
+                    sort: params.sort,
+                    dir: params.dir,
+                    page: params.page,
+                    pageSize: params.pageSize,
+                },
+                FIXTURES_TABLE_SPEC,
+            ).page(
+                async () => repos.games.countForGrade(grade.key),
+                async (request) =>
+                    toResultRows(
+                        await repos.games.pageForGrade(grade.key, request),
+                    ),
             );
-            if (rows.length === 0) {
+
+            if (paged.totalRows === 0) {
                 // A grade with no fixtures is a real state: ladders go back to
                 // the archive, but fixtures only exist from 2025.
                 return ok({
@@ -60,16 +71,6 @@ export function createResultsService(repos: Repos): {
                     fixtures: null,
                 });
             }
-
-            const paged = TableQuery.from(
-                {
-                    sort: params.sort,
-                    dir: params.dir,
-                    page: params.page,
-                    pageSize: params.pageSize,
-                },
-                FIXTURES_TABLE_SPEC,
-            ).apply(rows, sortFixtures);
 
             return ok({
                 years: coverage.years(),

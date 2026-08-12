@@ -1,5 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import type { Db } from '@/db';
+import type { PageRequest } from '@/server/domain/table-query';
+import { TableQuery } from '@/server/domain/table-query';
 import { createGamesRepo } from '@/server/repos/games.repo';
 import type { SeedResult, SeedSpec } from '@/server/testing/fixtures';
 import { seed, seedGames } from '@/server/testing/fixtures';
@@ -123,7 +125,18 @@ describe('fetchGameFactsForPair', () => {
     });
 });
 
-describe('fetchGameFactsForGrade', () => {
+const GRADE_SPEC = {
+    sortable: ['round', 'playedAt', 'home', 'away', 'margin'],
+    defaultSort: 'round',
+    defaultDesc: false,
+} as const;
+
+/** A page big enough to hold any fixture set these tests seed. */
+function wholeGrade(): PageRequest {
+    return TableQuery.from({ pageSize: 100 }, GRADE_SPEC).request();
+}
+
+describe('fetchGamePageForGrade', () => {
     it('keeps a bye, which has only one side', async () => {
         // A left join, not inner: an inner join would drop the row entirely
         // and the grade's round list would have a hole in it.
@@ -137,7 +150,10 @@ describe('fetchGameFactsForGrade', () => {
             },
         ]);
 
-        const facts = await createGamesRepo(db).factsForGrade('amnd-2025-a1');
+        const facts = await createGamesRepo(db).pageForGrade(
+            'amnd-2025-a1',
+            wholeGrade(),
+        );
         expect(facts).toHaveLength(1);
         expect(facts[0].homeClubKey).toBe('matrics');
         expect(facts[0].awayClubKey).toBeNull();
@@ -157,7 +173,10 @@ describe('fetchGameFactsForGrade', () => {
             },
         ]);
 
-        const facts = await createGamesRepo(db).factsForGrade('amnd-2025-a1');
+        const facts = await createGamesRepo(db).pageForGrade(
+            'amnd-2025-a1',
+            wholeGrade(),
+        );
         expect(facts).toHaveLength(1);
         expect(facts[0].isFinals).toBe(true);
         expect(facts[0].roundName).toBe('Grand Final');
@@ -182,7 +201,10 @@ describe('fetchGameFactsForGrade', () => {
             },
         ]);
 
-        const facts = await createGamesRepo(db).factsForGrade('amnd-2025-a1');
+        const facts = await createGamesRepo(db).pageForGrade(
+            'amnd-2025-a1',
+            wholeGrade(),
+        );
         expect(facts.map((fact) => fact.round)).toEqual([2, 99]);
     });
 
@@ -192,9 +214,12 @@ describe('fetchGameFactsForGrade', () => {
             { gradeKey: 'amnd-2026-a1', home: 'contax', away: 'garville' },
         ]);
 
-        expect(await createGamesRepo(db).factsForGrade('amnd-2025-a1')).toEqual(
-            [],
-        );
+        expect(
+            await createGamesRepo(db).pageForGrade(
+                'amnd-2025-a1',
+                wholeGrade(),
+            ),
+        ).toEqual([]);
     });
 });
 
@@ -237,5 +262,150 @@ describe('fetchOpponentCounts', () => {
     it('is empty for a club with no fixtures', async () => {
         const { db } = await setup();
         expect(await createGamesRepo(db).opponentCounts('contax')).toEqual([]);
+    });
+});
+
+describe('fetchGamePageForGrade paging and sorting', () => {
+    function request(sort: string, dir: 'asc' | 'desc'): PageRequest {
+        return TableQuery.from({ sort, dir }, GRADE_SPEC).request();
+    }
+
+    async function withFixtures(): Promise<Db> {
+        const { db, seeded } = await setup();
+        await seedGames(db, seeded, [
+            {
+                gradeKey: 'amnd-2025-a1',
+                home: 'contax',
+                away: 'garville',
+                round: 2,
+                playedAt: 200,
+                homeScore: 50,
+                awayScore: 32,
+            },
+            {
+                gradeKey: 'amnd-2025-a1',
+                home: 'garville',
+                away: 'matrics',
+                round: 1,
+                playedAt: 100,
+                homeScore: 40,
+                awayScore: 39,
+            },
+            {
+                gradeKey: 'amnd-2025-a1',
+                home: 'matrics',
+                away: null,
+                round: 3,
+                status: 'bye',
+            },
+            {
+                gradeKey: 'amnd-2025-a1',
+                home: 'contax',
+                away: 'matrics',
+                round: 4,
+                homeScore: 20,
+                awayScore: 0,
+                status: 'forfeit',
+            },
+        ]);
+        return db;
+    }
+
+    it('counts every fixture in the grade, including byes', async () => {
+        const db = await withFixtures();
+        expect(await createGamesRepo(db).countForGrade('amnd-2025-a1')).toBe(4);
+    });
+
+    it('counts nothing for a grade with no fixtures', async () => {
+        const { db } = await setup();
+        expect(await createGamesRepo(db).countForGrade('amnd-2025-a1')).toBe(0);
+    });
+
+    it('orders by round ascending by default', async () => {
+        const db = await withFixtures();
+        const facts = await createGamesRepo(db).pageForGrade(
+            'amnd-2025-a1',
+            request('round', 'asc'),
+        );
+        expect(facts.map((fact) => fact.round)).toEqual([1, 2, 3, 4]);
+    });
+
+    it('sorts by a derived margin, computed in SQL', async () => {
+        const db = await withFixtures();
+        const facts = await createGamesRepo(db).pageForGrade(
+            'amnd-2025-a1',
+            request('margin', 'desc'),
+        );
+        // 18 then 1; the bye and the forfeit have no margin at all.
+        expect(facts.slice(0, 2).map((fact) => fact.round)).toEqual([2, 1]);
+    });
+
+    it('sorts a fabricated forfeit scoreline last, not as a 20-goal win', async () => {
+        // PlayHQ writes 0-20 on a forfeit. Treating that as a margin would
+        // put a game nobody played at the top of the biggest-wins view.
+        const db = await withFixtures();
+        const facts = await createGamesRepo(db).pageForGrade(
+            'amnd-2025-a1',
+            request('margin', 'desc'),
+        );
+        expect(facts.at(-1)?.status).toBeOneOf(['bye', 'forfeit']);
+        expect(
+            facts
+                .slice(-2)
+                .map((fact) => fact.status)
+                .sort(),
+        ).toEqual(['bye', 'forfeit']);
+    });
+
+    it('keeps rows without a value last whichever way the column points', async () => {
+        const db = await withFixtures();
+        const repo = createGamesRepo(db);
+        for (const dir of ['asc', 'desc'] as const) {
+            // eslint-disable-next-line no-await-in-loop -- two directions, in order
+            const facts = await repo.pageForGrade(
+                'amnd-2025-a1',
+                request('playedAt', dir),
+            );
+            expect(
+                facts.slice(-2).every((fact) => fact.playedAt === null),
+            ).toBe(true);
+        }
+    });
+
+    it('sorts by team name', async () => {
+        const db = await withFixtures();
+        const facts = await createGamesRepo(db).pageForGrade(
+            'amnd-2025-a1',
+            request('home', 'asc'),
+        );
+        expect(facts.map((fact) => fact.homeTeamName)).toEqual([
+            'Contax',
+            'Contax',
+            'Garville',
+            'Matrics',
+        ]);
+    });
+
+    it('slices to the requested page without repeating or losing a row', async () => {
+        const db = await withFixtures();
+        const repo = createGamesRepo(db);
+        const base = request('round', 'asc');
+        const first = await repo.pageForGrade('amnd-2025-a1', {
+            ...base,
+            limit: 2,
+            offset: 0,
+        });
+        const second = await repo.pageForGrade('amnd-2025-a1', {
+            ...base,
+            limit: 2,
+            offset: 2,
+        });
+        expect(first.map((fact) => fact.round)).toEqual([1, 2]);
+        expect(second.map((fact) => fact.round)).toEqual([3, 4]);
+    });
+
+    it('excludes another grade', async () => {
+        const db = await withFixtures();
+        expect(await createGamesRepo(db).countForGrade('amnd-2026-a1')).toBe(0);
     });
 });

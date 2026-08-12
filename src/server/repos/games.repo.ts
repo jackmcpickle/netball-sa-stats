@@ -12,6 +12,7 @@ import {
     and,
     asc,
     count,
+    desc,
     eq,
     inArray,
     ne,
@@ -19,10 +20,11 @@ import {
     type SQL,
     sql,
 } from 'drizzle-orm';
-import { alias } from 'drizzle-orm/sqlite-core';
+import { alias, type SQLiteColumn } from 'drizzle-orm/sqlite-core';
 import type { Db } from '@/db';
 import { clubs, games, grades, seasons, teams } from '@/db/schema';
 import type { OpponentCount } from '@/server/domain/head-to-head';
+import type { PageRequest } from '@/server/domain/table-query';
 import type { GameFact } from '@/server/dto/head-to-head.dto';
 
 const homeTeams = alias(teams, 'home_teams');
@@ -48,20 +50,64 @@ const FACT_COLUMNS = {
 };
 
 /**
+ * The winning margin, in SQL, so the fixture table can sort on it without
+ * reading every row. Mirrors `marginFor` in `domain/fixtures.ts` exactly,
+ * including the forfeit rule: PlayHQ writes a nominal 0–20 on a forfeit, and
+ * a 20-goal margin nobody played would otherwise top a biggest-wins sort.
+ */
+const MARGIN = sql<number | null>`
+    case when ${games.status} = 'final'
+        and ${games.homeScore} is not null
+        and ${games.awayScore} is not null
+    then abs(${games.homeScore} - ${games.awayScore}) end
+`;
+
+const ORDER_COLUMNS: Record<string, SQL | SQLiteColumn> = {
+    round: games.round,
+    playedAt: games.playedAt,
+    home: homeTeams.displayName,
+    away: awayTeams.displayName,
+    margin: MARGIN,
+};
+
+/**
+ * SQLite sorts nulls FIRST, in both directions. Left alone, an ascending
+ * margin sort would open with every bye and unplayed final rather than with
+ * the closest game, so each ordering leads with an explicit `is null` key.
+ *
+ * The trailing `(round, home, away)` tiebreaker is what keeps paging stable:
+ * many fixtures share a round, and without it SQLite may order them
+ * differently per query, so a row appears on two pages or on none.
+ */
+function orderFor(request: PageRequest): (SQL | SQLiteColumn)[] {
+    const column = ORDER_COLUMNS[request.sort] ?? games.round;
+    return [
+        sql`${column} is null`,
+        request.desc ? desc(column) : asc(column),
+        sql`${games.round} is null`,
+        asc(games.round),
+        asc(homeTeams.displayName),
+        asc(awayTeams.displayName),
+    ];
+}
+
+/**
  * Both sides are left joins, not inner: a bye has one null side and a
  * scheduled final can carry an undecided `ProvisionalTeam`. Inner joins would
  * silently drop both, and the fixture list would show a grade's rounds with
  * holes in them.
  *
- * Ordered by `(round, id)` in SQL. The `games.id` tiebreaker matters: many
- * games share a round number, and without it SQLite may return a different
- * order per call.
+ * With no `request`, every matching row comes back ordered by `(round, id)`
+ * — the shape the head-to-head aggregate needs, since a record computed over
+ * one page would be wrong. With a `request`, SQL does the ordering and
+ * slicing instead.
  */
 async function fetchFacts(
     db: Db,
     where: SQL | undefined,
+    request?: PageRequest,
 ): Promise<readonly GameFact[]> {
-    const rows = await db
+    const ordered = db
         .select(FACT_COLUMNS)
         .from(games)
         .innerJoin(grades, eq(grades.id, games.gradeId))
@@ -71,7 +117,16 @@ async function fetchFacts(
         .leftJoin(homeClubs, eq(homeClubs.id, homeTeams.clubId))
         .leftJoin(awayClubs, eq(awayClubs.id, awayTeams.clubId))
         .where(where)
-        .orderBy(asc(games.round), asc(games.id));
+        .orderBy(
+            ...(request === undefined
+                ? [asc(games.round), asc(games.id)]
+                : orderFor(request)),
+        );
+
+    const rows =
+        request === undefined
+            ? await ordered
+            : await ordered.limit(request.limit).offset(request.offset);
 
     return rows.map(
         (row): GameFact => ({
@@ -114,12 +169,25 @@ export async function fetchGameFactsForPair(
     );
 }
 
-/** Every fixture in one grade, ordered so finals fall after the last round. */
-export async function fetchGameFactsForGrade(
+export async function countGamesForGrade(
     db: Db,
     gradeKey: string,
+): Promise<number> {
+    const [row] = await db
+        .select({ total: count() })
+        .from(games)
+        .innerJoin(grades, eq(grades.id, games.gradeId))
+        .where(eq(grades.gradeKey, gradeKey));
+    return row?.total ?? 0;
+}
+
+/** One page of a grade's fixtures, sorted and sliced in SQL. */
+export async function fetchGamePageForGrade(
+    db: Db,
+    gradeKey: string,
+    request: PageRequest,
 ): Promise<readonly GameFact[]> {
-    return fetchFacts(db, eq(grades.gradeKey, gradeKey));
+    return fetchFacts(db, eq(grades.gradeKey, gradeKey), request);
 }
 
 /**
@@ -172,7 +240,11 @@ export async function fetchOpponentCounts(
 
 export function createGamesRepo(db: Db): {
     factsForPair(clubA: string, clubB: string): Promise<readonly GameFact[]>;
-    factsForGrade(gradeKey: string): Promise<readonly GameFact[]>;
+    countForGrade(gradeKey: string): Promise<number>;
+    pageForGrade(
+        gradeKey: string,
+        request: PageRequest,
+    ): Promise<readonly GameFact[]>;
     opponentCounts(clubKey: string): Promise<readonly OpponentCount[]>;
 } {
     return {
@@ -182,8 +254,14 @@ export function createGamesRepo(db: Db): {
         ): Promise<readonly GameFact[]> {
             return fetchGameFactsForPair(db, clubA, clubB);
         },
-        async factsForGrade(gradeKey: string): Promise<readonly GameFact[]> {
-            return fetchGameFactsForGrade(db, gradeKey);
+        async countForGrade(gradeKey: string): Promise<number> {
+            return countGamesForGrade(db, gradeKey);
+        },
+        async pageForGrade(
+            gradeKey: string,
+            request: PageRequest,
+        ): Promise<readonly GameFact[]> {
+            return fetchGamePageForGrade(db, gradeKey, request);
         },
         async opponentCounts(
             clubKey: string,
