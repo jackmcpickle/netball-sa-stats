@@ -55,7 +55,6 @@ export interface ClubProfile {
     readonly winPercentage: number | null;
     readonly gamesPlayed: number;
     readonly seasons: readonly ClubSeasonPoints[];
-    readonly results: readonly ClubGradeResult[];
     readonly trend: ClubTrend;
 }
 
@@ -78,6 +77,8 @@ export interface TopOpponent {
 
 export interface ClubProfilePageDto {
     readonly profile: ClubProfile & {
+        /** One page of the results table, fetched separately from the aggregates. */
+        readonly results: readonly ClubGradeResult[];
         readonly totalRows: number;
         readonly tableState: TableState;
     };
