@@ -212,6 +212,75 @@ export const teamSeasonResults = sqliteTable(
     ],
 );
 
+export const GAME_STATUSES = [
+    'final',
+    'forfeit',
+    'no_result',
+    'bye',
+    'scheduled',
+] as const;
+export type GameStatus = (typeof GAME_STATUSES)[number];
+
+/**
+ * `both` covers PlayHQ's `DOUBLE_FORFEIT`, where neither side turned up and
+ * neither is awarded the win. Never observed in sampling (see
+ * `docs/playhq-api.md` §6) but it is a real value in their enum, and a
+ * backfill run should not die on the first one.
+ */
+export const FORFEIT_SIDES = ['home', 'away', 'both'] as const;
+export type ForfeitSide = (typeof FORFEIT_SIDES)[number];
+
+/**
+ * One row per fixture. Hangs off `grades`, not `seasons`: a grade already
+ * carries its season, tier and division, so every season/grade/band filter the
+ * site already has applies to games through a single join.
+ *
+ * `status` is stored rather than derived so the "forfeits count as results"
+ * decision can be revisited without a re-scrape. Team ids are nullable because
+ * a bye has only one side — and note that a bye is *synthesised* at import,
+ * since PlayHQ returns byes as a round-level team list rather than as a game.
+ *
+ * Scores on a `forfeit` row are PlayHQ's fabricated 0–20 scoreline, not goals
+ * anyone shot. Goal totals must filter on `status`, not on "both scores
+ * present", or every head-to-head differential absorbs phantom 20-goal margins.
+ */
+export const games = sqliteTable(
+    'games',
+    {
+        id: integer('id').primaryKey({ autoIncrement: true }),
+        gradeId: integer('grade_id')
+            .notNull()
+            .references(() => grades.id, { onDelete: 'cascade' }),
+        playhqId: text('playhq_id').notNull(),
+        round: integer('round'),
+        roundName: text('round_name'),
+        /** Epoch seconds, null when PlayHQ has no scheduled time. */
+        playedAt: integer('played_at'),
+        homeTeamId: integer('home_team_id').references(() => teams.id, {
+            onDelete: 'cascade',
+        }),
+        awayTeamId: integer('away_team_id').references(() => teams.id, {
+            onDelete: 'cascade',
+        }),
+        homeScore: integer('home_score'),
+        awayScore: integer('away_score'),
+        status: text('status').notNull().$type<GameStatus>(),
+        forfeitingSide: text('forfeiting_side').$type<ForfeitSide>(),
+        source: text('source').notNull().$type<Source>(),
+        scrapedAt: integer('scraped_at'),
+        createdAt: text('created_at')
+            .notNull()
+            .default(sql`(current_timestamp)`),
+    },
+    (t) => [
+        /** Identity is (grade, playhq id) — the same rule `teams` uses. */
+        uniqueIndex('games_grade_playhq_idx').on(t.gradeId, t.playhqId),
+        index('games_grade_idx').on(t.gradeId),
+        index('games_home_team_idx').on(t.homeTeamId),
+        index('games_away_team_idx').on(t.awayTeamId),
+    ],
+);
+
 /**
  * Championship weighting. Seeded from a formula but editable per row, and applied
  * at query time so a re-weight re-ranks every season without a re-import.
@@ -272,6 +341,7 @@ export const gradesRelations = relations(grades, ({ one, many }) => ({
     }),
     teams: many(teams),
     results: many(teamSeasonResults),
+    games: many(games),
 }));
 
 export const teamsRelations = relations(teams, ({ one, many }) => ({
@@ -294,6 +364,20 @@ export const teamSeasonResultsRelations = relations(
     }),
 );
 
+export const gamesRelations = relations(games, ({ one }) => ({
+    grade: one(grades, { fields: [games.gradeId], references: [grades.id] }),
+    homeTeam: one(teams, {
+        fields: [games.homeTeamId],
+        references: [teams.id],
+        relationName: 'homeTeam',
+    }),
+    awayTeam: one(teams, {
+        fields: [games.awayTeamId],
+        references: [teams.id],
+        relationName: 'awayTeam',
+    }),
+}));
+
 export const gradeWeightsRelations = relations(gradeWeights, ({ one }) => ({
     competition: one(competitions, {
         fields: [gradeWeights.competitionId],
@@ -315,5 +399,7 @@ export type Team = typeof teams.$inferSelect;
 export type NewTeam = typeof teams.$inferInsert;
 export type TeamSeasonResult = typeof teamSeasonResults.$inferSelect;
 export type NewTeamSeasonResult = typeof teamSeasonResults.$inferInsert;
+export type Game = typeof games.$inferSelect;
+export type NewGame = typeof games.$inferInsert;
 export type GradeWeight = typeof gradeWeights.$inferSelect;
 export type NewGradeWeight = typeof gradeWeights.$inferInsert;
