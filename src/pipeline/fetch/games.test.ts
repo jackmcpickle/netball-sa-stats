@@ -233,6 +233,27 @@ describe('toGameRows', () => {
         expect(rows[0].round_name).toBe('Round 1');
     });
 
+    it('shifts finals past the last regular round', () => {
+        // PlayHQ restarts finals numbering at 1, so the capture has both a
+        // "Round 1" and a "Finals Round 1". Left alone, the semi final sorts
+        // in among the season opener.
+        const rows = toGameRows(premier, 'premier-2026', 1);
+        const regular = premier.filter((round) => !round.isFinalsRound).length;
+        const grandFinal = rows.find((row) => row.round_name === 'Grand Final');
+        expect(regular).toBe(14);
+        expect(grandFinal?.round).toBe(17);
+        expect(
+            rows.filter((row) => row.round === 1 && row.status !== 'bye'),
+        ).toHaveLength(4);
+    });
+
+    it('names a finals game by its alias rather than the round', () => {
+        const rows = toGameRows(premier, 'premier-2026', 1);
+        expect(rows.some((row) => row.round_name === 'Preliminary Final')).toBe(
+            true,
+        );
+    });
+
     it('synthesises a one-sided row for each bye team', () => {
         // PlayHQ returns byes as a round-level team list, not as games, so
         // without this the ladder's `byes` count has nothing to reconcile

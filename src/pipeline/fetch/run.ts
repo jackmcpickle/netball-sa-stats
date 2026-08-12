@@ -10,6 +10,8 @@ import { parseCsv, toCsv } from '@/pipeline/csv';
 import type { CsvValue } from '@/pipeline/csv';
 import { ClubRegistry } from '@/pipeline/fetch/club-registry';
 import type { ClubAliasRow, ClubRow } from '@/pipeline/fetch/club-registry';
+import { toGameRows } from '@/pipeline/fetch/games';
+import type { GameRow } from '@/pipeline/fetch/games';
 import { parseGradeName } from '@/pipeline/fetch/grade-name';
 import {
     buildGradeKey,
@@ -24,6 +26,7 @@ import type { Standing } from '@/pipeline/fetch/ladder';
 import { cachedGraphQL } from '@/pipeline/fetch/playhq-client';
 import type {
     DiscoverCompetitionsResponse,
+    GradeAllRoundsResponse,
     GradeLadderResponse,
     GradeListDiscoverSeasonResponse,
 } from '@/pipeline/fetch/types';
@@ -69,6 +72,12 @@ type TeamRow = {
 
 export type FetchOptions = {
     refresh: boolean;
+    /** Also fetch fixtures and write `data/games-<year>.csv`. */
+    games?: boolean;
+    /** Restrict the games fetch to these season start years. Empty means all. */
+    years?: readonly number[];
+    /** Restrict the games fetch to a single PlayHQ grade id, for spot checks. */
+    gradeId?: string;
 };
 
 export type FetchReport = {
@@ -76,6 +85,7 @@ export type FetchReport = {
     grades: number;
     teams: number;
     results: number;
+    games: number;
     skippedGrades: {
         seasonKey: string;
         gradeName: string;
@@ -348,6 +358,99 @@ export function processGrade(
     };
 }
 
+/**
+ * Whether this grade's fixtures are wanted on this run. Year and grade
+ * filters exist so 2025 and 2026 can be backfilled separately, and so a
+ * single grade can be spot-checked without walking the whole catalogue.
+ */
+function wantsGames(
+    options: FetchOptions,
+    startYear: number,
+    gradePlayhqId: string,
+): boolean {
+    if (options.games !== true) return false;
+    if (options.gradeId !== undefined && options.gradeId !== gradePlayhqId) {
+        return false;
+    }
+    const years = options.years ?? [];
+    return years.length === 0 || years.includes(startYear);
+}
+
+/**
+ * Fetches one grade's fixtures. Returns `[]` for a grade with no published
+ * fixture rather than throwing — a brand-new season lists grades before it
+ * lists games.
+ */
+async function fetchGamesForGrade(
+    gradePlayhqId: string,
+    gradeKey: string,
+    refresh: boolean,
+): Promise<readonly GameRow[]> {
+    const cachePath = resolve(RAW_DIR, `gradeAllRounds_${gradePlayhqId}.json`);
+    const response = (await cachedGraphQL(
+        cachePath,
+        'gradeAllRounds',
+        { gradeID: gradePlayhqId },
+        refresh,
+    )) as GradeAllRoundsResponse;
+    const rounds = response.data.discoverGradeFixture;
+    if (rounds === null) return [];
+    // As with ladders, scraped_at is the capture's mtime so a cache-only
+    // re-run reproduces a byte-identical CSV.
+    const cacheStat = await stat(cachePath);
+    return toGameRows(rounds, gradeKey, Math.floor(cacheStat.mtimeMs));
+}
+
+/**
+ * Fetches and accumulates one grade's fixtures, if this run wants them.
+ * Called for a grade that has already been accepted into `grades.csv`, so a
+ * games row can never reference a grade_key that does not exist.
+ */
+async function collectGames(
+    gamesByYear: Map<number, readonly GameRow[]>,
+    options: FetchOptions,
+    grade: {
+        startYear: number;
+        gradePlayhqId: string;
+        gradeKey: string;
+    },
+): Promise<void> {
+    if (!wantsGames(options, grade.startYear, grade.gradePlayhqId)) return;
+    const rows = await fetchGamesForGrade(
+        grade.gradePlayhqId,
+        grade.gradeKey,
+        options.refresh,
+    );
+    gamesByYear.set(grade.startYear, [
+        ...(gamesByYear.get(grade.startYear) ?? []),
+        ...rows,
+    ]);
+}
+
+/** Sorted so a re-run diffs on real changes rather than row order. */
+function gameKeyOf(row: GameRow): string {
+    return `${row.grade_key}|${String(row.round ?? 0).padStart(4, '0')}|${row.playhq_id}`;
+}
+
+async function writeGamesCsvs(
+    gamesByYear: ReadonlyMap<number, readonly GameRow[]>,
+): Promise<number> {
+    let total = 0;
+    for (const [year, rows] of [...gamesByYear].sort((a, b) => a[0] - b[0])) {
+        const sorted = [...rows].sort((a, b) =>
+            gameKeyOf(a).localeCompare(gameKeyOf(b)),
+        );
+        // eslint-disable-next-line no-await-in-loop -- a handful of files, written in order for a stable log.
+        await writeFile(
+            resolve(DATA_DIR, `games-${String(year)}.csv`),
+            toCsv(sorted),
+            'utf8',
+        );
+        total += sorted.length;
+    }
+    return total;
+}
+
 /** Loads the curated `clubs.csv`/`club_aliases.csv` state into a fresh registry. */
 async function loadClubRegistry(): Promise<ClubRegistry> {
     const existingClubs = (
@@ -390,6 +493,7 @@ export async function runFetch(options: FetchOptions): Promise<FetchReport> {
     const gradeRows: GradeRow[] = [];
     const teamRows = new Map<string, TeamRow>();
     const resultRows: Record<string, CsvValue>[] = [];
+    const gamesByYear = new Map<number, readonly GameRow[]>();
     const skippedGrades: FetchReport['skippedGrades'] = [];
 
     const jobs: {
@@ -509,6 +613,13 @@ export async function runFetch(options: FetchOptions): Promise<FetchReport> {
                 gradeRows.push(processed.gradeRow);
                 resultRows.push(...processed.results);
                 mergeTeams(teamRows, processed.teams);
+
+                // eslint-disable-next-line no-await-in-loop -- sequential by design: PlayHQ etiquette caps us at ~1 req/sec.
+                await collectGames(gamesByYear, options, {
+                    startYear,
+                    gradePlayhqId: grade.id,
+                    gradeKey: processed.gradeRow.grade_key,
+                });
             }
         }
     }
@@ -553,11 +664,14 @@ export async function runFetch(options: FetchOptions): Promise<FetchReport> {
         'utf8',
     );
 
+    const games = await writeGamesCsvs(gamesByYear);
+
     return {
         seasons: sortedSeasons.length,
         grades: sortedGrades.length,
         teams: sortedTeams.length,
         results: sortedResults.length,
+        games,
         skippedGrades,
     };
 }

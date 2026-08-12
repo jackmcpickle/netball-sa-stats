@@ -212,6 +212,30 @@ function teamId(team: FixtureTeam | null): string | null {
 }
 
 /**
+ * PlayHQ restarts round numbering at 1 for finals, so a grade has two
+ * "round 1"s — the season opener and the first final. Finals are shifted past
+ * the last regular round so `round` sorts chronologically and identifies a
+ * round uniquely within a grade. `roundName` keeps PlayHQ's own label, so
+ * nothing user-facing shows the shifted number.
+ */
+function roundNumbers(rounds: readonly FixtureRound[]): Map<string, number> {
+    const regular = rounds.filter((round) => !round.isFinalsRound);
+    const lastRegular = regular.reduce(
+        (max, round) => Math.max(max, round.number ?? 0),
+        0,
+    );
+    const numbers = new Map<string, number>();
+    for (const round of rounds) {
+        if (round.number === null) continue;
+        numbers.set(
+            round.id,
+            round.isFinalsRound ? lastRegular + round.number : round.number,
+        );
+    }
+    return numbers;
+}
+
+/**
  * Flattens rounds to CSV rows, synthesising one row per bye team. Bye rows
  * take a composite `bye:<round>:<team>` id because PlayHQ gives them no game
  * id of their own — it is stable across re-scrapes, which is all the
@@ -226,15 +250,17 @@ export function toGameRows(
     scrapedAt: number,
 ): readonly GameRow[] {
     const rows: GameRow[] = [];
+    const numbers = roundNumbers(rounds);
 
     for (const round of rounds) {
+        const roundNumber = numbers.get(round.id) ?? round.number;
         for (const game of round.games) {
             const { status, forfeitingSide } = classifyGame(game);
             const scored = status === 'final' || status === 'forfeit';
             rows.push({
                 grade_key: gradeKey,
                 playhq_id: game.id,
-                round: round.number,
+                round: roundNumber,
                 round_name: game.alias ?? round.name,
                 played_at: playedAtEpoch(
                     game.date,
@@ -255,7 +281,7 @@ export function toGameRows(
             rows.push({
                 grade_key: gradeKey,
                 playhq_id: `bye:${round.id}:${team.id ?? team.name}`,
-                round: round.number,
+                round: roundNumber,
                 round_name: round.name,
                 played_at: null,
                 home_playhq_id: teamId(team),

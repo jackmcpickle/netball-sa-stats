@@ -19,6 +19,8 @@ export const QUERIES = {
         'query gradeListDiscoverSeason($id: String!) { discoverSeason(seasonID: $id) { id name competition { id name type organisation { id name } } status { name value } grades { id name day { name value } gender { name value } age { name value } } } }',
     gradeLadder:
         'query gradeLadder($gradeID: ID!) { discoverGrade(gradeID: $gradeID) { id name ladderType ladder { pool { id name } standings { team { id name organisation { id name type } } played won lost drawn byes pointsFor pointsAgainst pointsDifference forfeits percentage competitionPoints } } } }',
+    gradeAllRounds:
+        'query gradeAllRounds($gradeID: ID!) { discoverGradeFixture(gradeID: $gradeID) { id name number abbreviatedName provisionalDates isFinalsRound grade { type hideScores } byes { id name organisation { id name type } } games { id alias pool { id name } home { ... on ProvisionalTeam { name } ... on DiscoverTeam { id name organisation { id name type } } } away { ... on ProvisionalTeam { name } ... on DiscoverTeam { id name organisation { id name type } } } result { winner { name value } outcome { name value } home { outcome { name value } statistics { count type { value } } gameOutcomeDescription } away { outcome { name value } statistics { count type { value } } gameOutcomeDescription } } status { name value } date dates allocation { time court { id name venue { id name } } } } } }',
 } as const;
 
 type QueryName = keyof typeof QUERIES;
