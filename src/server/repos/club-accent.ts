@@ -1,7 +1,7 @@
 /**
- * `accentFor` split out from `clubs.repo.ts` so that `db/queries/club-profile.ts`
- * (which needs it) and `clubs.repo.ts` (which needs `fetchClubProfile` from
- * `club-profile.ts`) don't import each other and form a cycle.
+ * `accentFor` lives here rather than in `clubs.repo.ts` because three repos
+ * (`clubs`, `grades`, `championship`) each render a club and need it, and a
+ * shared leaf module keeps them from importing one another.
  */
 import type { AccentName } from '@/server/dto/shared.dto';
 

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { fetchClubProfile } from '@/db/queries/club-profile';
+import { fetchClubProfile } from '@/server/repos/clubs.repo';
 import type { SeedSpec } from '@/server/testing/fixtures';
 import { seed } from '@/server/testing/fixtures';
 import { createTestDb } from '@/server/testing/harness';

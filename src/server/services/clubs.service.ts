@@ -3,7 +3,7 @@
  * `src/server/loaders/club-profile.ts` — both pages are about clubs, so one
  * service serves both.
  */
-import { CLUB_RESULTS_TABLE_SPEC } from '@/db/queries/club-profile';
+import { CLUB_RESULTS_TABLE_SPEC } from '@/db/queries/clubs';
 import type { Repos } from '@/server/container';
 import { partitionClubs } from '@/server/domain/club-directory';
 import { sortClubResults } from '@/server/domain/club-history';
