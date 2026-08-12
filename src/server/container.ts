@@ -17,6 +17,7 @@ import { createHeadToHeadService } from '@/server/services/head-to-head.service'
 import { createLaddersService } from '@/server/services/ladders.service';
 import { createMethodService } from '@/server/services/method.service';
 import { createRankingsService } from '@/server/services/rankings.service';
+import { createResultsService } from '@/server/services/results.service';
 
 export interface Repos {
     readonly seasons: ReturnType<typeof createSeasonsRepo>;
@@ -44,6 +45,7 @@ export function createServices(db: Db): {
     readonly clubs: ReturnType<typeof createClubsService>;
     readonly method: ReturnType<typeof createMethodService>;
     readonly headToHead: ReturnType<typeof createHeadToHeadService>;
+    readonly results: ReturnType<typeof createResultsService>;
 } {
     const repos = createRepos(db);
     return {
@@ -52,6 +54,7 @@ export function createServices(db: Db): {
         clubs: createClubsService(repos),
         method: createMethodService(repos),
         headToHead: createHeadToHeadService(repos),
+        results: createResultsService(repos),
     };
 }
 

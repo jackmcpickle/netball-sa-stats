@@ -1,42 +1,46 @@
-import { createFileRoute, Link } from '@tanstack/react-router';
-import type { JSX } from 'react';
-import {
-    Eyebrow,
-    NotAvailable,
-    PageShell,
-    PageTitle,
-} from '@/components/ui/layout';
+import { createFileRoute } from '@tanstack/react-router';
+import { createServerFn } from '@tanstack/react-start';
+import { z } from 'zod';
+import { ResultsPage } from '@/components/results/results-page';
+import { getDb } from '@/db';
+import { parseOptionalIntParam } from '@/routes/-search-params';
+import { tableSearchDeps, tableSearchSchema } from '@/routes/-table-params';
+import { createServices, resolvePageResult } from '@/server/container';
 
-/**
- * Same gap as head to head: the design lists round-by-round scorelines, and
- * the dataset holds ladders only.
- */
-function ResultsPage(): JSX.Element {
-    return (
-        <PageShell className="py-12 pb-24 sm:py-16">
-            <Eyebrow>{'MATCH RESULTS'}</Eyebrow>
-            <div className="mt-4 mb-8">
-                <PageTitle>{'Results'}</PageTitle>
-            </div>
-            <NotAvailable
-                title="Round-by-round results are not imported yet"
-                reason="This page is meant to list every fixture with its score and margin. The import currently reads published ladders, which summarise a season rather than list it. No scoreline on this site would be a real one, so none is shown."
-            >
-                <p className="mt-6 text-sm text-ink-muted">
-                    {'Season standings are on the '}
-                    <Link
-                        to="/ladders"
-                        className="text-ink"
-                    >
-                        {'ladders page'}
-                    </Link>
-                    {'.'}
-                </p>
-            </NotAvailable>
-        </PageShell>
-    );
-}
+export type {
+    ResultRow,
+    ResultsPageDto as ResultsData,
+} from '@/server/dto/results.dto';
+
+const searchSchema = tableSearchSchema.extend({
+    year: z.preprocess(parseOptionalIntParam, z.number().int().optional()),
+    grade: z.string().optional(),
+});
+
+const loadResults = createServerFn({ method: 'GET' })
+    .validator(
+        z.object({
+            year: z.number().int().optional(),
+            grade: z.string().optional(),
+            sort: z.string().optional(),
+            dir: z.enum(['asc', 'desc']).optional(),
+            page: z.number().int().optional(),
+            pageSize: z.number().int().optional(),
+        }),
+    )
+    .handler(async ({ data }) => {
+        return resolvePageResult(
+            await createServices(getDb()).results.getPage(data),
+        );
+    });
 
 export const Route = createFileRoute('/results')({
+    validateSearch: searchSchema,
+    loaderDeps: ({ search }) => ({
+        year: search.year,
+        grade: search.grade,
+        ...tableSearchDeps(search),
+    }),
+    loader: async ({ deps }) => loadResults({ data: deps }),
     component: ResultsPage,
 });
