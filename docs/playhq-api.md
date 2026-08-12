@@ -246,16 +246,32 @@ six grades sampled, with no exceptions and no zero-filled placeholder. A
 `FINAL` always carried a `TOTAL_SCORE` for both sides (0 games with an empty
 statistics array). So `status` derives cleanly:
 
-| Condition                              | `status`    |
-| -------------------------------------- | ----------- |
-| team appears in round `byes[]`         | `bye`       |
-| `outcome.value` matches `*_FORFEIT`    | `forfeit`   |
-| `result != null`, both scores present  | `final`     |
-| `result == null`, `status == UPCOMING` | `scheduled` |
-| `result == null`, `status == FINAL`    | `no_result` |
+| Condition                                    | `status`    |
+| -------------------------------------------- | ----------- |
+| team appears in round `byes[]`               | `bye`       |
+| `outcome.value` matches `*_FORFEIT`          | `forfeit`   |
+| `outcome.value` is `CANCELLED` / `ABANDONED` | `no_result` |
+| `result != null`, both scores present        | `final`     |
+| `result == null`, `status == UPCOMING`       | `scheduled` |
+| `result == null`, `status == PENDING`        | `no_result` |
+| `result == null`, `status == FINAL`          | `no_result` |
 
-The last row was **never observed** — it stays in the mapping as the safe
-fallback, not as a case seen in the wild.
+**Corrected 2026-08-12 by the full 2025/2026 backfill** (~5,500 games, 90
+grades), which found two cases the four-grade sample did not:
+
+- **`CANCELLED`** (1 game) is an `outcome.value` _and_ a `status.value`, and it
+  carries a fabricated **0–0** `TOTAL_SCORE` on both sides. Read as a scored
+  outcome it becomes a 0–0 draw in two clubs' records, which is why unknown
+  outcomes must fail loudly rather than default.
+- **`PENDING`** (20 games) is a game whose date has passed but whose score was
+  never entered. It is not `UPCOMING`: mapping it to `scheduled` would leave
+  finished games sitting in the fixture list forever.
+
+An unrecognised **status** now fails loudly too, for the same reason as an
+unrecognised outcome.
+
+`FINAL` with a `null` result is still never observed; it stays as the safe
+fallback rather than a case seen in the wild.
 
 **Forfeits.** Represented as an `outcome.value`, not a flag:
 `HOME_TEAM_WON_BY_FORFEIT`, `AWAY_TEAM_WON_BY_FORFEIT`, `DOUBLE_FORFEIT`, with
@@ -305,13 +321,47 @@ exhaustive list of what the server sends. The mapping must **fail loudly on an
 unrecognised outcome** rather than defaulting it — silently treating an unknown
 outcome as a normal win is how a forfeit ends up scored 0–20 in a club's record.
 
+### Finals restart their round numbering
+
+`discoverGradeFixture` numbers finals rounds from 1 again, so a grade has both
+a "Round 1" and a "Finals Round 1" (Premier 2026: 14 regular rounds, then
+finals rounds 1–3). Left alone, a semi final sorts in among the season opener.
+The mapping shifts finals past the last regular round and records
+`isFinalsRound` as `games.is_finals`.
+
+That flag is not cosmetic: **a ladder covers the regular season only**, so any
+reconciliation of games against `team_season_results` has to exclude finals or
+every finalist appears to have won more games than its ladder row credits.
+
+### Grading rounds: a team's games are not confined to its own grade
+
+Junior competitions play grading rounds, then regrade. A team's ladder row —
+and so its `teams.csv` row — lives in the grade it _finished_ in, while its
+first games sit in the grade it started in. Across 2025/2026 this affects
+**430 of 5,509 games (7.8%) over 63 grades**.
+
+Games therefore resolve a team by `playhq_id` **season-wide, not grade-scoped**
+as the ladder import does. PlayHQ team ids are globally unique (verified: 6,565
+ids, none used by two teams), and `checkTeamIdsGloballyUnique` enforces that at
+import, since the database's `(grade_id, playhq_id)` index does not.
+
+One team in 2025/2026 appears on no ladder in any grade — a Matrics side that
+forfeited round 1 and never played again. Such a game is reported and skipped,
+never imported against an invented team.
+
 ### Sampling done
 
-`a95c2301` Premier 2026, `ae6df43a` Reserves 2026, `98973113` AMND A Grade
-2026, `3723a749` AMND Junior 8 2024, plus `2b0f8026`, `342dcf4e`, `667de82a`,
-`29ceb297`, `100e118c`, `0bbfa081`, `a5f3df82` scanned for outcome
-distribution — ~700 games, 11 grades, three seasons, both tiers. Four raw
-captures committed under `data/raw/probe/gradeAllRounds_*.json`.
+Spike: `a95c2301` Premier 2026, `ae6df43a` Reserves 2026, `98973113` AMND A
+Grade 2026, `3723a749` AMND Junior 8 2024, plus seven more scanned for outcome
+distribution — ~700 games, 11 grades. Four raw captures committed under
+`data/raw/probe/gradeAllRounds_*.json`.
+
+Full backfill (2026-08-12): all 90 grades of 2025 and 2026, 5,509 games.
+Cross-checked against ladders with `scripts/check-games.ts`: **5 mismatches
+across 674 team-season rows**, none systematic — two teams whose grading-round
+games were played under a different team id, three single win/draw
+disagreements of the kind `PlayedMismatchWarning` already documents as upstream
+inconsistency.
 
 ### Verdict
 
@@ -321,13 +371,16 @@ can proceed.
 
 ## Unknowns / open items
 
-- Whether a `ProvisionalTeam` (id-less finals side) actually occurs in the
-  2025/2026 grades in scope — handled defensively, never observed.
-- `no_result` (`FINAL` with a `null` result) was never observed; the status
-  derivation covers it untested.
-- `DOUBLE_FORFEIT`, `ABANDONED` and `CANCELLED` outcomes were never observed,
-  so their score/`result` shape is unknown. `forfeitingSide` has no value for a
-  double forfeit — the spec's `'home' | 'away'` column cannot express it.
+- `ProvisionalTeam` (id-less finals side) **does occur**: Premier 2026's
+  Preliminary and Grand Finals both have two undecided sides. They import as
+  `scheduled` with null teams rather than inventing one.
+- `no_result` (`FINAL` with a `null` result) was never observed even across the
+  full backfill; the status derivation covers it untested.
+- `DOUBLE_FORFEIT` and `ABANDONED` still never observed, so their score shape
+  is unknown. `forfeitingSide` carries `'both'` for a double forfeit — the
+  spec's `'home' | 'away'` could not express it.
+- Only **one** forfeit exists in all of 2025/2026 (plus the 2024 probe grade),
+  so the forfeit path is real but barely exercised by production data.
 - Whether `games[].pool` matters — `null` in every fixture sampled, same open
   question as `gradeLadder`'s `pool` below.
 - 2022 Premier League season/grade IDs: not found on PlayHQ at all (see §4).
