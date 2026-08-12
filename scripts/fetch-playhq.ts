@@ -5,15 +5,23 @@
  *
  * Usage:
  *   pnpm exec tsx scripts/fetch-playhq.ts [--refresh]
+ *     [--games] [--year=2026 ...] [--grade=<playhq id>]
  */
 import { runFetch } from '../src/pipeline/fetch/run.ts';
 
 const refresh = process.argv.includes('--refresh');
+const games = process.argv.includes('--games');
+const years = process.argv
+    .filter((arg) => arg.startsWith('--year='))
+    .map((arg) => Number(arg.slice('--year='.length)))
+    .filter((year) => !Number.isNaN(year));
+const gradeArg = process.argv.find((arg) => arg.startsWith('--grade='));
+const gradeId = gradeArg?.slice('--grade='.length);
 
-const report = await runFetch({ refresh });
+const report = await runFetch({ refresh, games, years, gradeId });
 
 console.warn(
-    `fetched ${report.seasons} seasons, ${report.grades} grades, ${report.teams} teams, ${report.results} results`,
+    `fetched ${report.seasons} seasons, ${report.grades} grades, ${report.teams} teams, ${report.results} results, ${report.games} games`,
 );
 const tooFewTeams = report.skippedGrades.filter(
     (g) => g.reason === 'too_few_teams',

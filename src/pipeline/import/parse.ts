@@ -2,6 +2,7 @@
 import type {
     ClubAliasImportRow,
     ClubImportRow,
+    GameImportRow,
     GradeImportRow,
     RawRow,
     SeasonImportRow,
@@ -73,6 +74,26 @@ export function parseTeamRow(raw: RawRow): TeamImportRow {
         displayName: raw.display_name ?? '',
         squadNumber: num(raw.squad_number ?? ''),
         playhqId: str(raw.playhq_id ?? ''),
+    };
+}
+
+export function parseGameRow(raw: RawRow, file: string): GameImportRow {
+    return {
+        gradeKey: raw.grade_key ?? '',
+        playhqId: raw.playhq_id ?? '',
+        round: num(raw.round ?? ''),
+        roundName: str(raw.round_name ?? ''),
+        isFinals: bool(raw.is_finals ?? ''),
+        playedAt: num(raw.played_at ?? ''),
+        homePlayhqId: str(raw.home_playhq_id ?? ''),
+        awayPlayhqId: str(raw.away_playhq_id ?? ''),
+        homeScore: num(raw.home_score ?? ''),
+        awayScore: num(raw.away_score ?? ''),
+        status: raw.status ?? '',
+        forfeitingSide: str(raw.forfeiting_side ?? ''),
+        source: raw.source ?? '',
+        scrapedAt: num(raw.scraped_at ?? ''),
+        file,
     };
 }
 

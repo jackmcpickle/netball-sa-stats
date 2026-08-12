@@ -6,6 +6,7 @@
  * layers the cross-file invariants from the task brief on top.
  */
 import { z } from 'zod';
+import { FORFEIT_SIDES, GAME_STATUSES } from '@/db/schema';
 import {
     clubAliasInsertSchema,
     clubInsertSchema,
@@ -17,6 +18,7 @@ import {
 import type {
     ClubAliasImportRow,
     ClubImportRow,
+    GameImportRow,
     GradeImportRow,
     ImportData,
     PlayedMismatchWarning,
@@ -24,6 +26,7 @@ import type {
     TeamCountWarning,
     TeamImportRow,
     TeamSeasonResultImportRow,
+    UnresolvedTeamWarning,
 } from '@/pipeline/import/types';
 import { ImportValidationError } from '@/pipeline/import/types';
 
@@ -191,6 +194,31 @@ function checkTeamNaturalKeyCollisions(rows: readonly TeamImportRow[]): void {
     });
 }
 
+/**
+ * Games resolve a team by `playhq_id` alone (see `resolveSide`), so that id
+ * must identify exactly one team across the whole dataset. The `teams` unique
+ * index is only `(grade_id, playhq_id)`, so nothing in the database enforces
+ * this — without the check, a collision would make the resolving subquery
+ * pick an arbitrary team and attribute real games to the wrong one.
+ */
+function checkTeamIdsGloballyUnique(rows: readonly TeamImportRow[]): void {
+    const seen = new Map<string, string>();
+    rows.forEach((row, index) => {
+        if (row.playhqId === null) return;
+        const firstGrade = seen.get(row.playhqId);
+        if (firstGrade !== undefined) {
+            throw new ImportValidationError(
+                'teams.csv',
+                line(index),
+                `playhq_id ${row.playhqId} is used by two teams (${firstGrade} and ${row.gradeKey}) — ` +
+                    'games resolve teams by this id alone, so it must be globally unique',
+                row,
+            );
+        }
+        seen.set(row.playhqId, row.gradeKey);
+    });
+}
+
 export function validateTeams(
     rows: readonly TeamImportRow[],
     clubKeys: ReadonlySet<string>,
@@ -236,6 +264,7 @@ export function validateTeams(
         }
     });
     checkTeamNaturalKeyCollisions(rows);
+    checkTeamIdsGloballyUnique(rows);
 }
 
 /**
@@ -398,6 +427,160 @@ export function validateResults(
  * Compares a grade to the same (competitionKey, tier, division) grade in the
  * immediately preceding season of the same competition.
  */
+/** Statuses whose row must carry both scores. */
+const SCORED_STATUSES = new Set<string>(['final', 'forfeit']);
+
+/**
+ * Resolves one side, returning the unresolved PlayHQ id if there is one.
+ *
+ * Teams are looked up **season-wide, not grade-scoped**. Junior competitions
+ * run grading rounds: a team plays its first few games in one grade, then is
+ * regraded, and its ladder row — and so its `teams.csv` row — lives in the
+ * grade it finished in. Requiring the team to belong to the game's own grade
+ * would discard ~8% of fixtures, all of them real, played games.
+ */
+function resolveSide(
+    row: GameImportRow,
+    index: number,
+    playhqId: string | null,
+    side: 'home' | 'away',
+    teamPlayhqIds: ReadonlySet<string>,
+): string | null {
+    if (playhqId === null) {
+        // Only a bye (one side) or an undecided finals slot may lack a team.
+        if (row.status === 'bye' || row.status === 'scheduled') return null;
+        throw new ImportValidationError(
+            row.file,
+            line(index),
+            `${side} team missing on a ${row.status} game — only byes and scheduled finals may have an empty side`,
+            row,
+        );
+    }
+    return teamPlayhqIds.has(playhqId) ? null : playhqId;
+}
+
+function checkGameShape(row: GameImportRow, index: number): void {
+    if (!GAME_STATUSES.includes(row.status as (typeof GAME_STATUSES)[number])) {
+        throw new ImportValidationError(
+            row.file,
+            line(index),
+            `unknown status "${row.status}" (expected one of ${GAME_STATUSES.join(', ')})`,
+            row,
+        );
+    }
+    const hasScores = row.homeScore !== null && row.awayScore !== null;
+    if (SCORED_STATUSES.has(row.status) && !hasScores) {
+        throw new ImportValidationError(
+            row.file,
+            line(index),
+            `${row.status} game is missing a score — a result with no score is a no_result, not a 0-0`,
+            row,
+        );
+    }
+    if (
+        row.status === 'bye' &&
+        (row.homeScore !== null || row.awayScore !== null)
+    ) {
+        throw new ImportValidationError(
+            row.file,
+            line(index),
+            'bye carries a score',
+            row,
+        );
+    }
+    if (row.status === 'forfeit' && row.forfeitingSide === null) {
+        throw new ImportValidationError(
+            row.file,
+            line(index),
+            'forfeit is missing forfeiting_side',
+            row,
+        );
+    }
+    if (
+        row.forfeitingSide !== null &&
+        !FORFEIT_SIDES.includes(
+            row.forfeitingSide as (typeof FORFEIT_SIDES)[number],
+        )
+    ) {
+        throw new ImportValidationError(
+            row.file,
+            line(index),
+            `unknown forfeiting_side "${row.forfeitingSide}"`,
+            row,
+        );
+    }
+    if (row.homePlayhqId !== null && row.homePlayhqId === row.awayPlayhqId) {
+        throw new ImportValidationError(
+            row.file,
+            line(index),
+            'home and away are the same team',
+            row,
+        );
+    }
+}
+
+/**
+ * An unresolvable team id is a hard failure, never a silently invented team —
+ * the same rule `validateResults` applies. Team ids are grade-scoped, so the
+ * lookup key is `${gradeKey}:${playhqId}`.
+ */
+export function validateGames(
+    rows: readonly GameImportRow[],
+    teamPlayhqIds: ReadonlySet<string>,
+    gradeKeys: ReadonlySet<string>,
+): UnresolvedTeamWarning[] {
+    const unresolved: UnresolvedTeamWarning[] = [];
+    const seen = new Set<string>();
+    rows.forEach((row, index) => {
+        if (!gradeKeys.has(row.gradeKey)) {
+            throw new ImportValidationError(
+                row.file,
+                line(index),
+                `grade_key ${row.gradeKey} not found in grades.csv`,
+                row.gradeKey,
+            );
+        }
+        if (row.playhqId === '') {
+            throw new ImportValidationError(
+                row.file,
+                line(index),
+                'missing playhq_id — the game identity key',
+                row,
+            );
+        }
+        const identity = `${row.gradeKey}:${row.playhqId}`;
+        if (seen.has(identity)) {
+            throw new ImportValidationError(
+                row.file,
+                line(index),
+                `duplicate game ${identity}`,
+                row,
+            );
+        }
+        seen.add(identity);
+
+        checkGameShape(row, index);
+        const missing = [
+            resolveSide(row, index, row.homePlayhqId, 'home', teamPlayhqIds),
+            resolveSide(row, index, row.awayPlayhqId, 'away', teamPlayhqIds),
+        ].filter((id): id is string => id !== null);
+        if (missing.length > 0) {
+            // A team that appears on no ladder in any grade — it withdrew
+            // before completing a game, so there is nothing to resolve and
+            // nothing may be invented. Reported and skipped rather than
+            // failing the whole import over one abandoned fixture.
+            unresolved.push({
+                file: row.file,
+                line: line(index),
+                gradeKey: row.gradeKey,
+                playhqId: row.playhqId,
+                missingTeamIds: missing,
+            });
+        }
+    });
+    return unresolved;
+}
+
 export function findTeamCountWarnings(data: ImportData): TeamCountWarning[] {
     const seasonByKey = new Map(data.seasons.map((s) => [s.seasonKey, s]));
     type Key = string;
@@ -446,6 +629,7 @@ export function findTeamCountWarnings(data: ImportData): TeamCountWarning[] {
 export type ImportWarnings = {
     teamCountWarnings: TeamCountWarning[];
     playedMismatchWarnings: PlayedMismatchWarning[];
+    unresolvedTeamWarnings: UnresolvedTeamWarning[];
 };
 
 export function validateImportData(
@@ -466,8 +650,20 @@ export function validateImportData(
         clubKeys,
         gradesByKey,
     );
+    // Season-wide, not grade-scoped: see `resolveSide` on grading rounds.
+    const teamPlayhqIds = new Set(
+        data.teams
+            .map((team) => team.playhqId)
+            .filter((id): id is string => id !== null),
+    );
+    const unresolvedTeamWarnings = validateGames(
+        data.games,
+        teamPlayhqIds,
+        gradeKeys,
+    );
     return {
         teamCountWarnings: findTeamCountWarnings(data),
         playedMismatchWarnings,
+        unresolvedTeamWarnings,
     };
 }

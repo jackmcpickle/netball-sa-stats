@@ -1,4 +1,5 @@
 /** Shapes of the three PlayHQ GraphQL responses used by the fetch pipeline. */
+import type { FixtureRound } from '@/pipeline/fetch/games';
 import type { LadderPool } from '@/pipeline/fetch/ladder';
 
 export type DiscoverCompetitionsResponse = {
@@ -38,6 +39,13 @@ export type GradeListDiscoverSeasonResponse = {
                 age: { name: string; value: string } | null;
             }[];
         } | null;
+    };
+};
+
+export type GradeAllRoundsResponse = {
+    data: {
+        /** One entry per round; null for a grade with no fixture published. */
+        discoverGradeFixture: readonly FixtureRound[] | null;
     };
 };
 

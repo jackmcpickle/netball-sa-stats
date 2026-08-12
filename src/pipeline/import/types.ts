@@ -74,6 +74,26 @@ export type TeamSeasonResultImportRow = {
     scrapedAt: number | null;
 };
 
+export type GameImportRow = {
+    gradeKey: string;
+    playhqId: string;
+    round: number | null;
+    roundName: string | null;
+    isFinals: boolean;
+    playedAt: number | null;
+    /** PlayHQ team ids, resolved against `teams.playhq_id` at validation. */
+    homePlayhqId: string | null;
+    awayPlayhqId: string | null;
+    homeScore: number | null;
+    awayScore: number | null;
+    status: string;
+    forfeitingSide: string | null;
+    source: string;
+    scrapedAt: number | null;
+    /** Which `games-<year>.csv` this row came from, for error messages. */
+    file: string;
+};
+
 export type ImportData = {
     seasons: SeasonImportRow[];
     clubs: ClubImportRow[];
@@ -81,6 +101,7 @@ export type ImportData = {
     grades: GradeImportRow[];
     teams: TeamImportRow[];
     results: TeamSeasonResultImportRow[];
+    games: GameImportRow[];
 };
 
 /** Row failed validation: named so the operator can find it in the CSV. */
@@ -129,6 +150,20 @@ export type PlayedMismatchWarning = {
     won: number;
     drawn: number;
     lost: number;
+};
+
+/**
+ * A game referencing a team that appears on no ladder in any grade — it
+ * withdrew before completing a game. The game is skipped, never imported with
+ * an invented team, and reported so a systematic mapping fault (many rows)
+ * is distinguishable from the odd withdrawal (one or two).
+ */
+export type UnresolvedTeamWarning = {
+    file: string;
+    line: number;
+    gradeKey: string;
+    playhqId: string;
+    missingTeamIds: string[];
 };
 
 /** Talks to whatever D1 the caller wired up (local wrangler, remote wrangler, in-memory sqlite for tests). */

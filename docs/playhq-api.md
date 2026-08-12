@@ -180,8 +180,209 @@ The one gotcha is the `Origin` header — without it every request 404s from
 the edge with no GraphQL error body, which could easily be misread as "this
 operation doesn't exist" if not tested carefully.
 
+## 6. Fixtures: `gradeAllRounds($gradeID: ID!)`
+
+Verified 2026-08-12 against the same tenant, same headers as §1, no auth.
+Recovered from bundle `https://www.playhq.com/assets/index.3dcc83db.js` by
+grepping `query <name>` and reading the operation bodies.
+
+Four candidates carry fixture data. `gradeAllRounds` is the one to use:
+
+| Operation                | Root field               | Why not                                            |
+| ------------------------ | ------------------------ | -------------------------------------------------- |
+| `discoverFixtureByRound` | `discoverFixtureByRound` | Needs a `roundID` — one request per round.         |
+| `discoverFixtureByDate`  | `discoverFixtureByDate`  | Needs a `gameDate` — one request per playing date. |
+| `gradeRounds`            | `discoverGrade.rounds`   | Round list only, no games.                         |
+| **`gradeAllRounds`**     | `discoverGradeFixture`   | **Whole grade, every round, one request.**         |
+
+`discoverGradeFixture` returns an **array of rounds**, each with its `games`
+and its `byes`. Field set below is the app's query with the cricket/rugby
+statistics, logos and `tenantConfiguration` dropped, as §2 did for the ladder:
+
+```
+curl -X POST https://api.playhq.com/graphql \
+  -H 'Content-Type: application/json' -H 'tenant: netball-australia' \
+  -H 'Origin: https://www.playhq.com' -H 'User-Agent: <project UA>' \
+  -d '{"operationName":"gradeAllRounds",
+       "variables":{"gradeID":"a95c2301"},
+       "query":"query gradeAllRounds($gradeID: ID!) { discoverGradeFixture(gradeID: $gradeID) { id name number abbreviatedName provisionalDates isFinalsRound grade { type hideScores } byes { id name organisation { id name type } } games { id alias pool { id name } home { ... on ProvisionalTeam { name } ... on DiscoverTeam { id name organisation { id name type } } } away { ... on ProvisionalTeam { name } ... on DiscoverTeam { id name organisation { id name type } } } result { winner { name value } outcome { name value } home { outcome { name value } statistics { count type { value } } gameOutcomeDescription } away { outcome { name value } statistics { count type { value } } gameOutcomeDescription } } status { name value } date dates allocation { time court { id name venue { id name } } } } } }"}'
+```
+
+`number` and `abbreviatedName` are not in the app's own `gradeAllRounds`
+selection but are valid on the round type (added here and confirmed 200) —
+`number` is what the spec's `games.round` column wants.
+
+### Pagination
+
+**None.** No `limit`/`after`/`cursor` argument exists on `discoverGradeFixture`.
+Premier Division 2026 (`a95c2301`, 8 teams) returned all **17 rounds / 60
+games** in a single 57 KB response. Reserves 2026 returned 17 rounds / 76
+games at 75 KB. One request per grade.
+
+### Field mapping onto `games`
+
+| Our column       | PlayHQ field                                                                 | Verified |
+| ---------------- | ---------------------------------------------------------------------------- | -------- |
+| `playhqId`       | `games[].id`                                                                 | yes      |
+| `round`          | round `number`                                                               | yes      |
+| `roundName`      | round `name` (e.g. `Round 1`); finals carry `games[].alias` (`Semi Final 1`) | yes      |
+| `playedAt`       | `games[].date` (`YYYY-MM-DD`) + `allocation.time` (`HH:MM:SS`), local        | yes      |
+| `homeTeamId`     | `games[].home.id` → `teams.playhq_id`                                        | yes      |
+| `awayTeamId`     | `games[].away.id`                                                            | yes      |
+| `homeScore`      | `result.home.statistics[type.value == "TOTAL_SCORE"].count`                  | yes      |
+| `awayScore`      | `result.away.statistics[...]`                                                | yes      |
+| `status`         | derived — see below                                                          | yes      |
+| `forfeitingSide` | derived from `result.outcome.value`                                          | yes      |
+
+`TOTAL_SCORE` is the **only** statistic type present on netball games. The
+score is not a scalar field; it is a one-element array that must be looked up
+by `type.value`.
+
+### Answers to the spike's questions
+
+**Score field, and unplayed games.** `result` is `null` exactly when
+`status.value == "UPCOMING"`, and non-null exactly when `FINAL` — across all
+six grades sampled, with no exceptions and no zero-filled placeholder. A
+`FINAL` always carried a `TOTAL_SCORE` for both sides (0 games with an empty
+statistics array). So `status` derives cleanly:
+
+| Condition                                    | `status`    |
+| -------------------------------------------- | ----------- |
+| team appears in round `byes[]`               | `bye`       |
+| `outcome.value` matches `*_FORFEIT`          | `forfeit`   |
+| `outcome.value` is `CANCELLED` / `ABANDONED` | `no_result` |
+| `result != null`, both scores present        | `final`     |
+| `result == null`, `status == UPCOMING`       | `scheduled` |
+| `result == null`, `status == PENDING`        | `no_result` |
+| `result == null`, `status == FINAL`          | `no_result` |
+
+**Corrected 2026-08-12 by the full 2025/2026 backfill** (~5,500 games, 90
+grades), which found two cases the four-grade sample did not:
+
+- **`CANCELLED`** (1 game) is an `outcome.value` _and_ a `status.value`, and it
+  carries a fabricated **0–0** `TOTAL_SCORE` on both sides. Read as a scored
+  outcome it becomes a 0–0 draw in two clubs' records, which is why unknown
+  outcomes must fail loudly rather than default.
+- **`PENDING`** (20 games) is a game whose date has passed but whose score was
+  never entered. It is not `UPCOMING`: mapping it to `scheduled` would leave
+  finished games sitting in the fixture list forever.
+
+An unrecognised **status** now fails loudly too, for the same reason as an
+unrecognised outcome.
+
+`FINAL` with a `null` result is still never observed; it stays as the safe
+fallback rather than a case seen in the wild.
+
+**Forfeits.** Represented as an `outcome.value`, not a flag:
+`HOME_TEAM_WON_BY_FORFEIT`, `AWAY_TEAM_WON_BY_FORFEIT`, `DOUBLE_FORFEIT`, with
+per-side `result.<side>.outcome.value` of `WON_BY_FORFEIT` / `LOST_BY_FORFEIT`.
+Confirmed on game `36f8dab8` (AMND Junior 8 2024, `3723a749`): South Adelaide
+0 – Reynella 1 20, `AWAY_TEAM_WON_BY_FORFEIT`.
+
+**A forfeit carries a synthetic 0–20 scoreline.** This contradicts the design
+spec's assumption that a forfeit "contributes a result but no goals" via absent
+scores — the scores are present and fabricated by PlayHQ. Goal totals must be
+filtered on `status != 'forfeit'`, not on "both scores present", or every
+head-to-head goal differential absorbs phantom 20-goal margins.
+
+**Byes.** Not games. A bye is an entry in the **round-level** `byes: [Team]`
+array, and the team appears in no game that round. Confirmed on Reserves 2026
+(`ae6df43a`), 9 rounds each with one bye team. The spec's `games` row for a bye
+(one team, one null side) therefore has to be **synthesised** from `byes[]`; it
+does not come back from the API as a game.
+
+**Draws.** `outcome.value == "DRAW_BY_SCORE"` with `winner == null` and equal
+scores. Confirmed in AMND A Grade 2026 (`98973113`, 3 draws) and three other
+grades — common enough that a mapping which assumes a winner is wrong.
+
+**Team ids match `gradeLadder`.** Premier 2026 fixture team ids
+(`9965376c` Contax, `3ac22eae` Garville, `e7e6387c` Oakdale) are exactly the
+`ladder[].standings[].team.id` values in
+`data/raw/gradeLadder_a95c2301.json` — all 8 ids match. The join to
+`teams.playhq_id` holds, so no name matching is needed.
+
+**`ProvisionalTeam`.** `home`/`away` are a union. Finals fixtures scheduled
+before qualification can return a `ProvisionalTeam` (name only, **no `id`**).
+Not observed in the samples taken, but the union is in the app's own query, so
+the mapping must handle an id-less side rather than assume `DiscoverTeam`.
+
+### Observed enum values
+
+- `status.value`: `UPCOMING`, `FINAL`. (`IN_PROGRESS`, `CANCELLED` exist in
+  the bundle, not seen.)
+- `result.outcome.value`: `HOME_TEAM_WON_BY_SCORE`, `AWAY_TEAM_WON_BY_SCORE`,
+  `DRAW_BY_SCORE`, `AWAY_TEAM_WON_BY_FORFEIT`. The bundle additionally defines
+  `HOME_TEAM_WON_BY_FORFEIT`, `DOUBLE_FORFEIT`, `ABANDONED`, `CANCELLED`,
+  `*_BY_DISQUALIFICATION`, `*_BY_PENALTY_SHOOTOUT`, `DLS`.
+
+Note the bundle's client-side enum does **not** contain the `*_BY_SCORE` or
+`DRAW_BY_SCORE` values that every real response returns, so it is not an
+exhaustive list of what the server sends. The mapping must **fail loudly on an
+unrecognised outcome** rather than defaulting it — silently treating an unknown
+outcome as a normal win is how a forfeit ends up scored 0–20 in a club's record.
+
+### Finals restart their round numbering
+
+`discoverGradeFixture` numbers finals rounds from 1 again, so a grade has both
+a "Round 1" and a "Finals Round 1" (Premier 2026: 14 regular rounds, then
+finals rounds 1–3). Left alone, a semi final sorts in among the season opener.
+The mapping shifts finals past the last regular round and records
+`isFinalsRound` as `games.is_finals`.
+
+That flag is not cosmetic: **a ladder covers the regular season only**, so any
+reconciliation of games against `team_season_results` has to exclude finals or
+every finalist appears to have won more games than its ladder row credits.
+
+### Grading rounds: a team's games are not confined to its own grade
+
+Junior competitions play grading rounds, then regrade. A team's ladder row —
+and so its `teams.csv` row — lives in the grade it _finished_ in, while its
+first games sit in the grade it started in. Across 2025/2026 this affects
+**430 of 5,509 games (7.8%) over 63 grades**.
+
+Games therefore resolve a team by `playhq_id` **season-wide, not grade-scoped**
+as the ladder import does. PlayHQ team ids are globally unique (verified: 6,565
+ids, none used by two teams), and `checkTeamIdsGloballyUnique` enforces that at
+import, since the database's `(grade_id, playhq_id)` index does not.
+
+One team in 2025/2026 appears on no ladder in any grade — a Matrics side that
+forfeited round 1 and never played again. Such a game is reported and skipped,
+never imported against an invented team.
+
+### Sampling done
+
+Spike: `a95c2301` Premier 2026, `ae6df43a` Reserves 2026, `98973113` AMND A
+Grade 2026, `3723a749` AMND Junior 8 2024, plus seven more scanned for outcome
+distribution — ~700 games, 11 grades. Four raw captures committed under
+`data/raw/probe/gradeAllRounds_*.json`.
+
+Full backfill (2026-08-12): all 90 grades of 2025 and 2026, 5,509 games.
+Cross-checked against ladders with `scripts/check-games.ts`: **5 mismatches
+across 674 team-season rows**, none systematic — two teams whose grading-round
+games were played under a different team id, three single win/draw
+disagreements of the kind `PlayedMismatchWarning` already documents as upstream
+inconsistency.
+
+### Verdict
+
+**Gate passes.** Public, unauthenticated, one request per grade, no
+pagination, and the team ids join to what we already store. Fixture ingestion
+can proceed.
+
 ## Unknowns / open items
 
+- `ProvisionalTeam` (id-less finals side) **does occur**: Premier 2026's
+  Preliminary and Grand Finals both have two undecided sides. They import as
+  `scheduled` with null teams rather than inventing one.
+- `no_result` (`FINAL` with a `null` result) was never observed even across the
+  full backfill; the status derivation covers it untested.
+- `DOUBLE_FORFEIT` and `ABANDONED` still never observed, so their score shape
+  is unknown. `forfeitingSide` carries `'both'` for a double forfeit — the
+  spec's `'home' | 'away'` could not express it.
+- Only **one** forfeit exists in all of 2025/2026 (plus the 2024 probe grade),
+  so the forfeit path is real but barely exercised by production data.
+- Whether `games[].pool` matters — `null` in every fixture sampled, same open
+  question as `gradeLadder`'s `pool` below.
 - 2022 Premier League season/grade IDs: not found on PlayHQ at all (see §4).
   Task 2 needs a decision on whether 2022 is out of scope for the PlayHQ
   pipeline or sourced from the archive-PDF pipeline instead.

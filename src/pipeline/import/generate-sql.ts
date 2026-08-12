@@ -15,6 +15,7 @@ import { sqlBool, sqlNumber, sqlText } from '@/pipeline/import/sql-format';
 import type {
     ClubAliasImportRow,
     ClubImportRow,
+    GameImportRow,
     GradeImportRow,
     ImportData,
     SeasonImportRow,
@@ -58,6 +59,23 @@ function resultStatement(row: TeamSeasonResultImportRow): string {
     const teamSubquery = `(SELECT id FROM teams WHERE grade_id = (SELECT id FROM grades WHERE grade_key = ${sqlText(row.gradeKey)}) AND playhq_id IS ${sqlText(row.playhqId)})`;
     const gradeSubquery = `(SELECT id FROM grades WHERE grade_key = ${sqlText(row.gradeKey)})`;
     return `INSERT INTO team_season_results (team_id, grade_id, ladder_position, position_uncertain, played, won, drawn, lost, byes, goals_for, goals_against, goal_difference, points, percentage, shots_attempted, shots_scored, source, placement_basis, notes, scraped_at) SELECT ${teamSubquery}, ${gradeSubquery}, ${sqlNumber(row.ladderPosition)}, ${sqlBool(row.positionUncertain)}, ${sqlNumber(row.played)}, ${sqlNumber(row.won)}, ${sqlNumber(row.drawn)}, ${sqlNumber(row.lost)}, ${sqlNumber(row.byes)}, ${sqlNumber(row.goalsFor)}, ${sqlNumber(row.goalsAgainst)}, ${sqlNumber(row.goalDifference)}, ${sqlNumber(row.points)}, ${sqlNumber(row.percentage)}, ${sqlNumber(row.shotsAttempted)}, ${sqlNumber(row.shotsScored)}, ${sqlText(row.source)}, ${sqlText(row.placementBasis)}, ${sqlText(row.notes)}, ${sqlNumber(row.scrapedAt)} ON CONFLICT(team_id, grade_id) DO UPDATE SET ladder_position = excluded.ladder_position, position_uncertain = excluded.position_uncertain, played = excluded.played, won = excluded.won, drawn = excluded.drawn, lost = excluded.lost, byes = excluded.byes, goals_for = excluded.goals_for, goals_against = excluded.goals_against, goal_difference = excluded.goal_difference, points = excluded.points, percentage = excluded.percentage, shots_attempted = excluded.shots_attempted, shots_scored = excluded.shots_scored, source = excluded.source, placement_basis = excluded.placement_basis, notes = excluded.notes, scraped_at = excluded.scraped_at;`;
+}
+
+/**
+ * Resolved by PlayHQ team id alone, *not* grade-scoped like the results are:
+ * a team regraded after junior grading rounds plays games in a grade whose
+ * ladder it never appears on. PlayHQ team ids are globally unique, which
+ * `checkTeamIdsGloballyUnique` enforces before this runs. A bye's away side
+ * is genuinely NULL, so the subquery is omitted entirely.
+ */
+function gameTeamSubquery(playhqId: string | null): string {
+    if (playhqId === null) return 'NULL';
+    return `(SELECT id FROM teams WHERE playhq_id IS ${sqlText(playhqId)})`;
+}
+
+function gameStatement(row: GameImportRow): string {
+    const gradeSubquery = `(SELECT id FROM grades WHERE grade_key = ${sqlText(row.gradeKey)})`;
+    return `INSERT INTO games (grade_id, playhq_id, round, round_name, is_finals, played_at, home_team_id, away_team_id, home_score, away_score, status, forfeiting_side, source, scraped_at) VALUES (${gradeSubquery}, ${sqlText(row.playhqId)}, ${sqlNumber(row.round)}, ${sqlText(row.roundName)}, ${sqlBool(row.isFinals)}, ${sqlNumber(row.playedAt)}, ${gameTeamSubquery(row.homePlayhqId)}, ${gameTeamSubquery(row.awayPlayhqId)}, ${sqlNumber(row.homeScore)}, ${sqlNumber(row.awayScore)}, ${sqlText(row.status)}, ${sqlText(row.forfeitingSide)}, ${sqlText(row.source)}, ${sqlNumber(row.scrapedAt)}) ON CONFLICT(grade_id, playhq_id) DO UPDATE SET round = excluded.round, round_name = excluded.round_name, is_finals = excluded.is_finals, played_at = excluded.played_at, home_team_id = excluded.home_team_id, away_team_id = excluded.away_team_id, home_score = excluded.home_score, away_score = excluded.away_score, status = excluded.status, forfeiting_side = excluded.forfeiting_side, source = excluded.source, scraped_at = excluded.scraped_at;`;
 }
 
 function chunkStatements(
@@ -107,5 +125,7 @@ export function generateImportSql(
             data.results.map(resultStatement),
             chunkSize,
         ),
+        // After teams: games reference them.
+        ...chunkStatements('games', data.games.map(gameStatement), chunkSize),
     ];
 }

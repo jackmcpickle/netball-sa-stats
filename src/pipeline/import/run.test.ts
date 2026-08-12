@@ -12,6 +12,11 @@ const TWO_TEAMS_ONE_CLUB_FIXTURE_DIR = resolve(
     import.meta.dirname,
     '__fixtures__/two-teams-one-club',
 );
+const GAMES_FIXTURE_DIR = resolve(import.meta.dirname, '__fixtures__/games');
+const GAMES_UNKNOWN_TEAM_FIXTURE_DIR = resolve(
+    import.meta.dirname,
+    '__fixtures__/games-unknown-team',
+);
 
 function tableRows(db: DatabaseSync, table: string): Record<string, unknown>[] {
     return db.prepare(`SELECT * FROM ${table} ORDER BY id`).all();
@@ -184,5 +189,84 @@ describe('runImport', () => {
                 executor: createSqliteExecutor(db),
             }),
         ).rejects.toThrow(/grade_weights does not cover every imported grade/u);
+    });
+});
+
+describe('games import', () => {
+    let db: DatabaseSync;
+
+    beforeEach(async () => {
+        db = await createMigratedDb();
+    });
+
+    afterEach(() => {
+        db.close();
+    });
+
+    it('imports finals, forfeits, byes and no-results with their statuses', async () => {
+        const report = await runImport({
+            dataDir: GAMES_FIXTURE_DIR,
+            executor: createSqliteExecutor(db),
+        });
+        expect(report.games).toBe(4);
+
+        const rows = db
+            .prepare(
+                `SELECT g.playhq_id AS playhqId, g.status, g.round,
+                        g.forfeiting_side AS forfeitingSide,
+                        g.home_score AS homeScore, g.away_score AS awayScore,
+                        home.display_name AS homeName,
+                        away.display_name AS awayName
+                 FROM games g
+                 LEFT JOIN teams home ON home.id = g.home_team_id
+                 LEFT JOIN teams away ON away.id = g.away_team_id
+                 ORDER BY g.round;`,
+            )
+            .all() as Record<string, unknown>[];
+
+        expect(rows.map((row) => row.status)).toEqual([
+            'final',
+            'forfeit',
+            'bye',
+            'no_result',
+        ]);
+        // Team ids resolved through the grade-scoped natural key.
+        expect(rows[0].homeName).toBe('Fixture Club A');
+        expect(rows[0].awayName).toBe('Fixture Club B');
+        expect(rows[1].forfeitingSide).toBe('away');
+        // A bye has one side and no score.
+        expect(rows[2].awayName).toBeNull();
+        expect(rows[2].homeScore).toBeNull();
+    });
+
+    it('is idempotent — a re-import leaves the same four rows', async () => {
+        const options = {
+            dataDir: GAMES_FIXTURE_DIR,
+            executor: createSqliteExecutor(db),
+        };
+        await runImport(options);
+        await runImport(options);
+        const count = db.prepare('SELECT COUNT(*) AS n FROM games;').get() as {
+            n: number;
+        };
+        expect(count.n).toBe(4);
+    });
+
+    it('skips and reports a game whose team is on no ladder anywhere', async () => {
+        // Never imported with an invented team, and never silently dropped:
+        // the row is reported so a systematic fault is visible.
+        const report = await runImport({
+            dataDir: GAMES_UNKNOWN_TEAM_FIXTURE_DIR,
+            executor: createSqliteExecutor(db),
+        });
+        expect(report.games).toBe(0);
+        expect(report.unresolvedTeamWarnings).toHaveLength(1);
+        expect(report.unresolvedTeamWarnings[0].missingTeamIds).toEqual([
+            'ghost-team',
+        ]);
+        const count = db.prepare('SELECT COUNT(*) AS n FROM games;').get() as {
+            n: number;
+        };
+        expect(count.n).toBe(0);
     });
 });

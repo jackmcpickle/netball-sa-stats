@@ -45,6 +45,16 @@ try {
             `${report.playedMismatchWarnings.length} row(s) had a played/won+drawn+lost mismatch (upstream PlayHQ data) — imported unchanged, see notes`,
         );
     }
+    for (const unresolved of report.unresolvedTeamWarnings) {
+        console.warn(
+            `warning: ${unresolved.file}:${unresolved.line} ${unresolved.gradeKey} game ${unresolved.playhqId} references team(s) ${unresolved.missingTeamIds.join(', ')} that appear on no ladder — game skipped, never invented`,
+        );
+    }
+    if (report.unresolvedTeamWarnings.length > 0) {
+        console.warn(
+            `${report.unresolvedTeamWarnings.length} game(s) skipped for an unresolvable team (a withdrawal). Many of these at once means a mapping fault, not a withdrawal.`,
+        );
+    }
 } catch (error) {
     if (error instanceof ImportValidationError) {
         console.error(`import failed: ${error.message}`);

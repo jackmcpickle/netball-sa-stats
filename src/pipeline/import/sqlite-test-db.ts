@@ -3,17 +3,27 @@
  * for tests only. No network, no live D1, no new dependency — `node:sqlite`
  * ships with Node 22+.
  */
-import { readFile } from 'node:fs/promises';
+import { readdir, readFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { DatabaseSync } from 'node:sqlite';
 
 const ROOT = resolve(import.meta.dirname, '..', '..', '..');
 
+/**
+ * Applies *every* migration in order, not just the first two — otherwise the
+ * test database silently drifts from real D1 and a table added by a later
+ * migration (e.g. `games`) is missing only in tests.
+ */
 export async function createMigratedDb(): Promise<DatabaseSync> {
     const db = new DatabaseSync(':memory:');
-    const init = await readFile(resolve(ROOT, 'drizzle/0000_init.sql'), 'utf8');
-    const seed = await readFile(resolve(ROOT, 'drizzle/0001_seed.sql'), 'utf8');
-    db.exec(init.replaceAll('--> statement-breakpoint', ''));
-    db.exec(seed);
+    const dir = resolve(ROOT, 'drizzle');
+    const files = (await readdir(dir))
+        .filter((name) => name.endsWith('.sql'))
+        .sort((a, b) => a.localeCompare(b));
+    for (const file of files) {
+        // eslint-disable-next-line no-await-in-loop -- migrations must apply in order.
+        const sql = await readFile(resolve(dir, file), 'utf8');
+        db.exec(sql.replaceAll('--> statement-breakpoint', ''));
+    }
     return db;
 }
