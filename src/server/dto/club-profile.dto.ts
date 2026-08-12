@@ -67,10 +67,21 @@ export interface ClubProfileParams {
     readonly pageSize?: number;
 }
 
+/**
+ * A club this one has played most often, and the record between them.
+ * Fixture-derived, so it covers 2025 onwards only — see `docs/playhq-api.md`.
+ */
+export interface TopOpponent {
+    readonly club: Club;
+    readonly played: number;
+}
+
 export interface ClubProfilePageDto {
     readonly profile: ClubProfile & {
         readonly totalRows: number;
         readonly tableState: TableState;
     };
     readonly clubs: readonly Club[];
+    /** Empty when the club has no fixture-level data at all. */
+    readonly topOpponents: readonly TopOpponent[];
 }

@@ -8,8 +8,10 @@ import type { Db } from '@/db';
 import {
     clubs,
     competitions,
+    type GameStatus,
     gradeWeights,
     grades,
+    games,
     seasons,
     teams,
     teamSeasonResults,
@@ -264,4 +266,66 @@ export async function seed(db: Db, spec: SeedSpec): Promise<SeedResult> {
     }
 
     return result;
+}
+
+export interface GameSpec {
+    /** `gradeKey` from the seed spec; the game hangs off that grade. */
+    gradeKey: string;
+    /** Club keys. Null is a real shape — a bye, or an undecided finalist. */
+    home: string | null;
+    away: string | null;
+    round?: number;
+    roundName?: string;
+    isFinals?: boolean;
+    playedAt?: number;
+    homeScore?: number | null;
+    awayScore?: number | null;
+    status?: GameStatus;
+}
+
+function teamIdFor(
+    result: SeedResult,
+    gradeKey: string,
+    club: string | null,
+): number | null {
+    return club === null
+        ? null
+        : (result.teams.get(`${gradeKey}:${club}`) ?? null);
+}
+
+/**
+ * Adds fixtures on top of an existing `seed()` graph. Separate from `seed()`
+ * because games reference teams by (grade, club), so the team rows must
+ * already exist — and most tests want ladders without fixtures.
+ */
+export async function seedGames(
+    db: Db,
+    result: SeedResult,
+    specs: readonly GameSpec[],
+): Promise<void> {
+    if (specs.length === 0) {
+        return;
+    }
+    await db.insert(games).values(
+        specs.map((spec, index) => {
+            const gradeId = result.grades.get(spec.gradeKey);
+            if (gradeId === undefined) {
+                throw new Error(`seedGames: unknown grade ${spec.gradeKey}`);
+            }
+            return {
+                gradeId,
+                playhqId: `game-${spec.gradeKey}-${String(index)}`,
+                round: spec.round ?? 1,
+                roundName: spec.roundName ?? `Round ${String(spec.round ?? 1)}`,
+                isFinals: spec.isFinals ?? false,
+                playedAt: spec.playedAt ?? null,
+                homeTeamId: teamIdFor(result, spec.gradeKey, spec.home),
+                awayTeamId: teamIdFor(result, spec.gradeKey, spec.away),
+                homeScore: spec.homeScore ?? null,
+                awayScore: spec.awayScore ?? null,
+                status: spec.status ?? 'final',
+                source: 'playhq' as const,
+            };
+        }),
+    );
 }

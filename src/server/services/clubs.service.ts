@@ -7,6 +7,7 @@ import { CLUB_RESULTS_TABLE_SPEC } from '@/db/queries/club-profile';
 import type { Repos } from '@/server/container';
 import { partitionClubs } from '@/server/domain/club-directory';
 import { sortClubResults } from '@/server/domain/club-history';
+import { topOpponents } from '@/server/domain/head-to-head';
 import type { DomainError, Result } from '@/server/domain/result';
 import { err, ok } from '@/server/domain/result';
 import { TableQuery } from '@/server/domain/table-query';
@@ -16,6 +17,9 @@ import type {
 } from '@/server/dto/club-profile.dto';
 import type { ClubIndexPageDto, ClubIndexParams } from '@/server/dto/clubs.dto';
 import type { ChampionshipSeason } from '@/server/dto/rankings.dto';
+
+/** Five is the design's figure: enough to be a shortlist, not a directory. */
+const TOP_OPPONENT_LIMIT = 5;
 
 function lastRankedYears(
     history: readonly ChampionshipSeason[],
@@ -101,7 +105,11 @@ export function createClubsService(repos: Repos): {
                 },
                 CLUB_RESULTS_TABLE_SPEC,
             ).apply(profile.results, sortClubResults);
-            const clubs = await repos.clubs.all();
+            const [clubs, counts] = await Promise.all([
+                repos.clubs.all(),
+                repos.games.opponentCounts(params.clubKey),
+            ]);
+            const byKey = new Map(clubs.map((club) => [club.key, club]));
 
             return ok({
                 profile: {
@@ -111,6 +119,16 @@ export function createClubsService(repos: Repos): {
                     tableState: paged.state,
                 },
                 clubs,
+                topOpponents: topOpponents(counts)
+                    .slice(0, TOP_OPPONENT_LIMIT)
+                    .flatMap((count) => {
+                        const club = byKey.get(count.clubKey);
+                        // A counted opponent with no club row would be a
+                        // broken link, so it is dropped rather than faked.
+                        return club === undefined
+                            ? []
+                            : [{ club, played: count.played }];
+                    }),
             });
         },
     };

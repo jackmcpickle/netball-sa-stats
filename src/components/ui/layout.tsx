@@ -82,33 +82,3 @@ export function StatFigure({
         </div>
     );
 }
-
-/**
- * The honest empty state for a feature the data cannot support yet. Never
- * dressed up with placeholder figures — a fake number is worse than no page.
- */
-export function NotAvailable({
-    title,
-    reason,
-    children,
-}: {
-    readonly title: string;
-    readonly reason: string;
-    readonly children?: ReactNode;
-}): JSX.Element {
-    return (
-        <Panel
-            tone="raised"
-            className="p-8 sm:p-12"
-        >
-            <p className="label-mono">{'NOT AVAILABLE YET'}</p>
-            <h2 className="mt-4 text-2xl font-medium tracking-tight text-ink sm:text-panel">
-                {title}
-            </h2>
-            <p className="mt-4 max-w-[56ch] leading-relaxed text-ink-body">
-                {reason}
-            </p>
-            {children}
-        </Panel>
-    );
-}

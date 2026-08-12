@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { createServices } from '@/server/container';
 import type { DomainError, Result } from '@/server/domain/result';
 import type { SeedSpec } from '@/server/testing/fixtures';
-import { seed } from '@/server/testing/fixtures';
+import { seed, seedGames } from '@/server/testing/fixtures';
 import { createTestDb } from '@/server/testing/harness';
 
 function unwrap<T>(result: Result<T, DomainError>): T {
@@ -211,5 +211,58 @@ describe('club profile service', () => {
         expect(result.profile.tableState.page).toBe(expectedPageCount);
         expect(result.profile.tableState.page).not.toBe(999);
         expect(result.profile.results.length).toBe(expectedLastPageRows);
+    });
+});
+
+describe('clubs.getProfilePage top opponents', () => {
+    it('is empty for a club with no fixture data', async () => {
+        // Ladders reach back to the archive; fixtures start in 2025. An
+        // empty list must render as nothing, not as a box of zeroes.
+        const db = createTestDb();
+        await seed(db, baseSpec());
+
+        const result = unwrap(
+            await createServices(db).clubs.getProfilePage({
+                clubKey: 'contax',
+            }),
+        );
+        expect(result.topOpponents).toEqual([]);
+    });
+
+    it('ranks opponents by games played, most first', async () => {
+        const db = createTestDb();
+        const seeded = await seed(db, baseSpec());
+        await seedGames(db, seeded, [
+            { gradeKey: 'amnd-2024-a1', home: 'contax', away: 'garville' },
+            { gradeKey: 'amnd-2024-a1', home: 'garville', away: 'contax' },
+            { gradeKey: 'amnd-2024-a1', home: 'contax', away: 'ajax' },
+        ]);
+
+        const result = unwrap(
+            await createServices(db).clubs.getProfilePage({
+                clubKey: 'contax',
+            }),
+        );
+        expect(
+            result.topOpponents.map((entry) => [entry.club.key, entry.played]),
+        ).toEqual([
+            ['garville', 2],
+            ['ajax', 1],
+        ]);
+    });
+
+    it('never lists the club itself', async () => {
+        const db = createTestDb();
+        const seeded = await seed(db, baseSpec());
+        await seedGames(db, seeded, [
+            { gradeKey: 'amnd-2024-a1', home: 'contax', away: 'contax' },
+        ]);
+
+        const result = unwrap(
+            await createServices(db).clubs.getProfilePage({
+                clubKey: 'contax',
+            }),
+        );
+        expect(result.topOpponents).toEqual([]);
     });
 });

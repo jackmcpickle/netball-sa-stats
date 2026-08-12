@@ -9,9 +9,9 @@ interface NavItem {
 }
 
 /**
- * `Results` and `Head to head` are in the nav on purpose: both are named in the
- * design, and hiding them would quietly imply the site never intended to have
- * them. Each lands on an explicit "not available yet" page.
+ * `Results` and `Head to head` are fixture-backed, and fixtures only cover
+ * 2025 onwards — each page says so where the data runs out, rather than
+ * being hidden from the nav for the seasons it cannot answer.
  */
 const NAV: readonly NavItem[] = [
     { to: '/', label: 'Rankings' },
