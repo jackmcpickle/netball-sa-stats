@@ -45,6 +45,25 @@ export function MethodPage(): JSX.Element {
                     </p>
 
                     <h2 className="mt-10 mb-4 text-lg font-semibold text-ink">
+                        {'Fixture-level results'}
+                    </h2>
+                    <p className="leading-[1.55] text-ink-body">
+                        {
+                            'The results and head-to-head pages are built from individual fixtures — round, date, both sides and the score. That import covers 2025 onwards only. Everything earlier on this site, including every championship figure, is derived from ladders, which record how a team finished but not who it beat along the way. A head-to-head record is therefore not a complete history of two clubs; it is a complete record of their meetings since 2025.'
+                        }
+                    </p>
+                    <p className="mt-5 leading-[1.55] text-ink-body">
+                        {
+                            'A forfeit is a result but not a scoreline: PlayHQ records a nominal 0–20 on forfeited fixtures, so those games count toward won–lost–drawn but contribute no goals and show no margin. Byes are stored as fixtures with one side, and a scheduled final can name no teams at all until the sides are decided — both appear in a grade’s fixture list rather than being quietly dropped.'
+                        }
+                    </p>
+                    <p className="mt-5 leading-[1.55] text-ink-body">
+                        {
+                            'Ladders cover the regular season only, so finals are flagged separately and excluded when fixtures are reconciled against a ladder. Finals are labelled by name — “Grand Final”, not “round 16”.'
+                        }
+                    </p>
+
+                    <h2 className="mt-10 mb-4 text-lg font-semibold text-ink">
                         {'Club strength'}
                     </h2>
                     <p className="leading-[1.55] text-ink-body">
