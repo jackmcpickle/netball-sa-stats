@@ -3,6 +3,20 @@
  * fetch: the record, the roll-ups, the meetings, and the band picker's
  * options. Bands come from the fetched facts rather than a second query, so
  * the picker can only ever offer a tier the two clubs have actually met in.
+ *
+ * This is the one table on the site that is NOT paged in SQL, and that is
+ * deliberate. The W-L-D record has to be computed over every meeting — a
+ * record reflecting "page 1 of 3" would simply be wrong — so the full pair
+ * fetch happens regardless, and paging the meetings in SQL would be a second
+ * query on top of it rather than instead of it. Avoiding the full fetch would
+ * mean reimplementing the record, `bySeason` and `byBand` as SQL aggregates,
+ * which would duplicate the forfeit rule (results count, goals do not) in
+ * three more places and hollow out the tested pure aggregator.
+ *
+ * Measured on the current dataset (5,508 games, 2025-2026): the busiest pair
+ * is 195 rows, against 94 for the largest single grade. Revisit if fixtures
+ * are ever backfilled past 2025 — a full-history pair could reach a few
+ * thousand rows, at which point SQL aggregates start to earn their keep.
  */
 import { bandLabel } from '@/pipeline/scoring/bands';
 import type { Repos } from '@/server/container';
