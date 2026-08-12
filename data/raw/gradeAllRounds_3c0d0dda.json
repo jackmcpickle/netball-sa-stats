@@ -1,0 +1,3938 @@
+{
+    "data": {
+        "discoverGradeFixture": [
+            {
+                "id": "68f6e568",
+                "name": "Round 1",
+                "number": 1,
+                "abbreviatedName": "R1",
+                "provisionalDates": null,
+                "isFinalsRound": false,
+                "grade": {
+                    "type": "REGULAR",
+                    "hideScores": false
+                },
+                "byes": [],
+                "games": [
+                    {
+                        "id": "8578ffbb",
+                        "alias": null,
+                        "pool": null,
+                        "home": {
+                            "id": "d14125fe",
+                            "name": "Metro Jets",
+                            "organisation": {
+                                "id": "601b914e",
+                                "name": "Metro Jets",
+                                "type": "CLUB"
+                            }
+                        },
+                        "away": {
+                            "id": "d8198dde",
+                            "name": "Walkerville",
+                            "organisation": {
+                                "id": "a83c7a81",
+                                "name": "Walkerville",
+                                "type": "CLUB"
+                            }
+                        },
+                        "result": {
+                            "winner": {
+                                "name": "Team B",
+                                "value": "AWAY"
+                            },
+                            "outcome": {
+                                "name": "Team A won by points",
+                                "value": "AWAY_TEAM_WON_BY_SCORE"
+                            },
+                            "home": {
+                                "outcome": {
+                                    "name": "Loss",
+                                    "value": "LOST"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 21,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            },
+                            "away": {
+                                "outcome": {
+                                    "name": "Win",
+                                    "value": "WON"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 61,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            }
+                        },
+                        "status": {
+                            "name": "Final",
+                            "value": "FINAL"
+                        },
+                        "date": "2025-04-12",
+                        "dates": ["2025-04-12"],
+                        "allocation": {
+                            "time": "11:15:00",
+                            "court": {
+                                "id": "d3c818ac-0620-43a8-91f1-9b9a73feac38",
+                                "name": "Stadium Court 13",
+                                "venue": {
+                                    "id": "d03c720a-9ff8-4c33-ba5a-ec28831d1b2a",
+                                    "name": "Netball SA"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "c353b137",
+                        "alias": null,
+                        "pool": null,
+                        "home": {
+                            "id": "b9a818ba",
+                            "name": "Contax",
+                            "organisation": {
+                                "id": "a8ee2320",
+                                "name": "Contax",
+                                "type": "CLUB"
+                            }
+                        },
+                        "away": {
+                            "id": "8892f53c",
+                            "name": "Garville",
+                            "organisation": {
+                                "id": "241b44c0",
+                                "name": "Garville",
+                                "type": "CLUB"
+                            }
+                        },
+                        "result": {
+                            "winner": {
+                                "name": "Team A",
+                                "value": "HOME"
+                            },
+                            "outcome": {
+                                "name": "Team A won by points",
+                                "value": "HOME_TEAM_WON_BY_SCORE"
+                            },
+                            "home": {
+                                "outcome": {
+                                    "name": "Win",
+                                    "value": "WON"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 56,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            },
+                            "away": {
+                                "outcome": {
+                                    "name": "Loss",
+                                    "value": "LOST"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 30,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            }
+                        },
+                        "status": {
+                            "name": "Final",
+                            "value": "FINAL"
+                        },
+                        "date": "2025-04-12",
+                        "dates": ["2025-04-12"],
+                        "allocation": {
+                            "time": "11:15:00",
+                            "court": {
+                                "id": "c92f4f80-65fe-4cb5-82ac-43a2f8d335a8",
+                                "name": "Stadium Court 14",
+                                "venue": {
+                                    "id": "d03c720a-9ff8-4c33-ba5a-ec28831d1b2a",
+                                    "name": "Netball SA"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "09499277",
+                        "alias": null,
+                        "pool": null,
+                        "home": {
+                            "id": "a5ab522e",
+                            "name": "Newton Jaguars",
+                            "organisation": {
+                                "id": "d275f255",
+                                "name": "Norwood Netball Club",
+                                "type": "CLUB"
+                            }
+                        },
+                        "away": {
+                            "id": "cbb7c207",
+                            "name": "Tango",
+                            "organisation": {
+                                "id": "d4389d20",
+                                "name": "Tango Netball Club Inc",
+                                "type": "CLUB"
+                            }
+                        },
+                        "result": {
+                            "winner": {
+                                "name": "Team B",
+                                "value": "AWAY"
+                            },
+                            "outcome": {
+                                "name": "Team A won by points",
+                                "value": "AWAY_TEAM_WON_BY_SCORE"
+                            },
+                            "home": {
+                                "outcome": {
+                                    "name": "Loss",
+                                    "value": "LOST"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 26,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            },
+                            "away": {
+                                "outcome": {
+                                    "name": "Win",
+                                    "value": "WON"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 28,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            }
+                        },
+                        "status": {
+                            "name": "Final",
+                            "value": "FINAL"
+                        },
+                        "date": "2025-04-12",
+                        "dates": ["2025-04-12"],
+                        "allocation": {
+                            "time": "11:15:00",
+                            "court": {
+                                "id": "b06d1cde-fda4-4ef4-9888-193f3566def1",
+                                "name": "Stadium Court 20",
+                                "venue": {
+                                    "id": "d03c720a-9ff8-4c33-ba5a-ec28831d1b2a",
+                                    "name": "Netball SA"
+                                }
+                            }
+                        }
+                    }
+                ]
+            },
+            {
+                "id": "8a8124a5",
+                "name": "Round 2",
+                "number": 2,
+                "abbreviatedName": "R2",
+                "provisionalDates": null,
+                "isFinalsRound": false,
+                "grade": {
+                    "type": "REGULAR",
+                    "hideScores": false
+                },
+                "byes": [],
+                "games": [
+                    {
+                        "id": "1795457c",
+                        "alias": null,
+                        "pool": null,
+                        "home": {
+                            "id": "8892f53c",
+                            "name": "Garville",
+                            "organisation": {
+                                "id": "241b44c0",
+                                "name": "Garville",
+                                "type": "CLUB"
+                            }
+                        },
+                        "away": {
+                            "id": "d14125fe",
+                            "name": "Metro Jets",
+                            "organisation": {
+                                "id": "601b914e",
+                                "name": "Metro Jets",
+                                "type": "CLUB"
+                            }
+                        },
+                        "result": {
+                            "winner": {
+                                "name": "Team A",
+                                "value": "HOME"
+                            },
+                            "outcome": {
+                                "name": "Team A won by points",
+                                "value": "HOME_TEAM_WON_BY_SCORE"
+                            },
+                            "home": {
+                                "outcome": {
+                                    "name": "Win",
+                                    "value": "WON"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 54,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            },
+                            "away": {
+                                "outcome": {
+                                    "name": "Loss",
+                                    "value": "LOST"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 25,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            }
+                        },
+                        "status": {
+                            "name": "Final",
+                            "value": "FINAL"
+                        },
+                        "date": "2025-05-03",
+                        "dates": ["2025-05-03"],
+                        "allocation": {
+                            "time": "11:15:00",
+                            "court": {
+                                "id": "d3c818ac-0620-43a8-91f1-9b9a73feac38",
+                                "name": "Stadium Court 13",
+                                "venue": {
+                                    "id": "d03c720a-9ff8-4c33-ba5a-ec28831d1b2a",
+                                    "name": "Netball SA"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "df4b68be",
+                        "alias": null,
+                        "pool": null,
+                        "home": {
+                            "id": "d8198dde",
+                            "name": "Walkerville",
+                            "organisation": {
+                                "id": "a83c7a81",
+                                "name": "Walkerville",
+                                "type": "CLUB"
+                            }
+                        },
+                        "away": {
+                            "id": "a5ab522e",
+                            "name": "Newton Jaguars",
+                            "organisation": {
+                                "id": "d275f255",
+                                "name": "Norwood Netball Club",
+                                "type": "CLUB"
+                            }
+                        },
+                        "result": {
+                            "winner": {
+                                "name": "Team A",
+                                "value": "HOME"
+                            },
+                            "outcome": {
+                                "name": "Team A won by points",
+                                "value": "HOME_TEAM_WON_BY_SCORE"
+                            },
+                            "home": {
+                                "outcome": {
+                                    "name": "Win",
+                                    "value": "WON"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 42,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            },
+                            "away": {
+                                "outcome": {
+                                    "name": "Loss",
+                                    "value": "LOST"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 22,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            }
+                        },
+                        "status": {
+                            "name": "Final",
+                            "value": "FINAL"
+                        },
+                        "date": "2025-05-03",
+                        "dates": ["2025-05-03"],
+                        "allocation": {
+                            "time": "11:15:00",
+                            "court": {
+                                "id": "c92f4f80-65fe-4cb5-82ac-43a2f8d335a8",
+                                "name": "Stadium Court 14",
+                                "venue": {
+                                    "id": "d03c720a-9ff8-4c33-ba5a-ec28831d1b2a",
+                                    "name": "Netball SA"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "db2611de",
+                        "alias": null,
+                        "pool": null,
+                        "home": {
+                            "id": "cbb7c207",
+                            "name": "Tango",
+                            "organisation": {
+                                "id": "d4389d20",
+                                "name": "Tango Netball Club Inc",
+                                "type": "CLUB"
+                            }
+                        },
+                        "away": {
+                            "id": "b9a818ba",
+                            "name": "Contax",
+                            "organisation": {
+                                "id": "a8ee2320",
+                                "name": "Contax",
+                                "type": "CLUB"
+                            }
+                        },
+                        "result": {
+                            "winner": {
+                                "name": "Team B",
+                                "value": "AWAY"
+                            },
+                            "outcome": {
+                                "name": "Team A won by points",
+                                "value": "AWAY_TEAM_WON_BY_SCORE"
+                            },
+                            "home": {
+                                "outcome": {
+                                    "name": "Loss",
+                                    "value": "LOST"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 27,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            },
+                            "away": {
+                                "outcome": {
+                                    "name": "Win",
+                                    "value": "WON"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 40,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            }
+                        },
+                        "status": {
+                            "name": "Final",
+                            "value": "FINAL"
+                        },
+                        "date": "2025-05-03",
+                        "dates": ["2025-05-03"],
+                        "allocation": {
+                            "time": "11:15:00",
+                            "court": {
+                                "id": "b06d1cde-fda4-4ef4-9888-193f3566def1",
+                                "name": "Stadium Court 20",
+                                "venue": {
+                                    "id": "d03c720a-9ff8-4c33-ba5a-ec28831d1b2a",
+                                    "name": "Netball SA"
+                                }
+                            }
+                        }
+                    }
+                ]
+            },
+            {
+                "id": "22e3f838",
+                "name": "Round 3",
+                "number": 3,
+                "abbreviatedName": "R3",
+                "provisionalDates": null,
+                "isFinalsRound": false,
+                "grade": {
+                    "type": "REGULAR",
+                    "hideScores": false
+                },
+                "byes": [],
+                "games": [
+                    {
+                        "id": "af69c0bc",
+                        "alias": null,
+                        "pool": null,
+                        "home": {
+                            "id": "cbb7c207",
+                            "name": "Tango",
+                            "organisation": {
+                                "id": "d4389d20",
+                                "name": "Tango Netball Club Inc",
+                                "type": "CLUB"
+                            }
+                        },
+                        "away": {
+                            "id": "d8198dde",
+                            "name": "Walkerville",
+                            "organisation": {
+                                "id": "a83c7a81",
+                                "name": "Walkerville",
+                                "type": "CLUB"
+                            }
+                        },
+                        "result": {
+                            "winner": {
+                                "name": "Team B",
+                                "value": "AWAY"
+                            },
+                            "outcome": {
+                                "name": "Team A won by points",
+                                "value": "AWAY_TEAM_WON_BY_SCORE"
+                            },
+                            "home": {
+                                "outcome": {
+                                    "name": "Loss",
+                                    "value": "LOST"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 25,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            },
+                            "away": {
+                                "outcome": {
+                                    "name": "Win",
+                                    "value": "WON"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 33,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            }
+                        },
+                        "status": {
+                            "name": "Final",
+                            "value": "FINAL"
+                        },
+                        "date": "2025-05-10",
+                        "dates": ["2025-05-10"],
+                        "allocation": {
+                            "time": "11:15:00",
+                            "court": {
+                                "id": "d3c818ac-0620-43a8-91f1-9b9a73feac38",
+                                "name": "Stadium Court 13",
+                                "venue": {
+                                    "id": "d03c720a-9ff8-4c33-ba5a-ec28831d1b2a",
+                                    "name": "Netball SA"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "e5776aaa",
+                        "alias": null,
+                        "pool": null,
+                        "home": {
+                            "id": "a5ab522e",
+                            "name": "Newton Jaguars",
+                            "organisation": {
+                                "id": "d275f255",
+                                "name": "Norwood Netball Club",
+                                "type": "CLUB"
+                            }
+                        },
+                        "away": {
+                            "id": "8892f53c",
+                            "name": "Garville",
+                            "organisation": {
+                                "id": "241b44c0",
+                                "name": "Garville",
+                                "type": "CLUB"
+                            }
+                        },
+                        "result": {
+                            "winner": {
+                                "name": "Team A",
+                                "value": "HOME"
+                            },
+                            "outcome": {
+                                "name": "Team A won by points",
+                                "value": "HOME_TEAM_WON_BY_SCORE"
+                            },
+                            "home": {
+                                "outcome": {
+                                    "name": "Win",
+                                    "value": "WON"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 58,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            },
+                            "away": {
+                                "outcome": {
+                                    "name": "Loss",
+                                    "value": "LOST"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 42,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            }
+                        },
+                        "status": {
+                            "name": "Final",
+                            "value": "FINAL"
+                        },
+                        "date": "2025-05-10",
+                        "dates": ["2025-05-10"],
+                        "allocation": {
+                            "time": "11:15:00",
+                            "court": {
+                                "id": "c92f4f80-65fe-4cb5-82ac-43a2f8d335a8",
+                                "name": "Stadium Court 14",
+                                "venue": {
+                                    "id": "d03c720a-9ff8-4c33-ba5a-ec28831d1b2a",
+                                    "name": "Netball SA"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "c6e2b1c9",
+                        "alias": null,
+                        "pool": null,
+                        "home": {
+                            "id": "b9a818ba",
+                            "name": "Contax",
+                            "organisation": {
+                                "id": "a8ee2320",
+                                "name": "Contax",
+                                "type": "CLUB"
+                            }
+                        },
+                        "away": {
+                            "id": "d14125fe",
+                            "name": "Metro Jets",
+                            "organisation": {
+                                "id": "601b914e",
+                                "name": "Metro Jets",
+                                "type": "CLUB"
+                            }
+                        },
+                        "result": {
+                            "winner": {
+                                "name": "Team A",
+                                "value": "HOME"
+                            },
+                            "outcome": {
+                                "name": "Team A won by points",
+                                "value": "HOME_TEAM_WON_BY_SCORE"
+                            },
+                            "home": {
+                                "outcome": {
+                                    "name": "Win",
+                                    "value": "WON"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 51,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            },
+                            "away": {
+                                "outcome": {
+                                    "name": "Loss",
+                                    "value": "LOST"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 24,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            }
+                        },
+                        "status": {
+                            "name": "Final",
+                            "value": "FINAL"
+                        },
+                        "date": "2025-05-10",
+                        "dates": ["2025-05-10"],
+                        "allocation": {
+                            "time": "11:15:00",
+                            "court": {
+                                "id": "b06d1cde-fda4-4ef4-9888-193f3566def1",
+                                "name": "Stadium Court 20",
+                                "venue": {
+                                    "id": "d03c720a-9ff8-4c33-ba5a-ec28831d1b2a",
+                                    "name": "Netball SA"
+                                }
+                            }
+                        }
+                    }
+                ]
+            },
+            {
+                "id": "987d535d",
+                "name": "Round 4",
+                "number": 4,
+                "abbreviatedName": "R4",
+                "provisionalDates": null,
+                "isFinalsRound": false,
+                "grade": {
+                    "type": "REGULAR",
+                    "hideScores": false
+                },
+                "byes": [],
+                "games": [
+                    {
+                        "id": "2b3290e4",
+                        "alias": null,
+                        "pool": null,
+                        "home": {
+                            "id": "d8198dde",
+                            "name": "Walkerville",
+                            "organisation": {
+                                "id": "a83c7a81",
+                                "name": "Walkerville",
+                                "type": "CLUB"
+                            }
+                        },
+                        "away": {
+                            "id": "b9a818ba",
+                            "name": "Contax",
+                            "organisation": {
+                                "id": "a8ee2320",
+                                "name": "Contax",
+                                "type": "CLUB"
+                            }
+                        },
+                        "result": {
+                            "winner": {
+                                "name": "Team B",
+                                "value": "AWAY"
+                            },
+                            "outcome": {
+                                "name": "Team A won by points",
+                                "value": "AWAY_TEAM_WON_BY_SCORE"
+                            },
+                            "home": {
+                                "outcome": {
+                                    "name": "Loss",
+                                    "value": "LOST"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 30,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            },
+                            "away": {
+                                "outcome": {
+                                    "name": "Win",
+                                    "value": "WON"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 41,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            }
+                        },
+                        "status": {
+                            "name": "Final",
+                            "value": "FINAL"
+                        },
+                        "date": "2025-05-17",
+                        "dates": ["2025-05-17"],
+                        "allocation": {
+                            "time": "11:15:00",
+                            "court": {
+                                "id": "d3c818ac-0620-43a8-91f1-9b9a73feac38",
+                                "name": "Stadium Court 13",
+                                "venue": {
+                                    "id": "d03c720a-9ff8-4c33-ba5a-ec28831d1b2a",
+                                    "name": "Netball SA"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "f9fb435b",
+                        "alias": null,
+                        "pool": null,
+                        "home": {
+                            "id": "d14125fe",
+                            "name": "Metro Jets",
+                            "organisation": {
+                                "id": "601b914e",
+                                "name": "Metro Jets",
+                                "type": "CLUB"
+                            }
+                        },
+                        "away": {
+                            "id": "a5ab522e",
+                            "name": "Newton Jaguars",
+                            "organisation": {
+                                "id": "d275f255",
+                                "name": "Norwood Netball Club",
+                                "type": "CLUB"
+                            }
+                        },
+                        "result": {
+                            "winner": {
+                                "name": "Team B",
+                                "value": "AWAY"
+                            },
+                            "outcome": {
+                                "name": "Team A won by points",
+                                "value": "AWAY_TEAM_WON_BY_SCORE"
+                            },
+                            "home": {
+                                "outcome": {
+                                    "name": "Loss",
+                                    "value": "LOST"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 23,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            },
+                            "away": {
+                                "outcome": {
+                                    "name": "Win",
+                                    "value": "WON"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 32,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            }
+                        },
+                        "status": {
+                            "name": "Final",
+                            "value": "FINAL"
+                        },
+                        "date": "2025-05-17",
+                        "dates": ["2025-05-17"],
+                        "allocation": {
+                            "time": "11:15:00",
+                            "court": {
+                                "id": "b06d1cde-fda4-4ef4-9888-193f3566def1",
+                                "name": "Stadium Court 20",
+                                "venue": {
+                                    "id": "d03c720a-9ff8-4c33-ba5a-ec28831d1b2a",
+                                    "name": "Netball SA"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "c090b9ce",
+                        "alias": null,
+                        "pool": null,
+                        "home": {
+                            "id": "8892f53c",
+                            "name": "Garville",
+                            "organisation": {
+                                "id": "241b44c0",
+                                "name": "Garville",
+                                "type": "CLUB"
+                            }
+                        },
+                        "away": {
+                            "id": "cbb7c207",
+                            "name": "Tango",
+                            "organisation": {
+                                "id": "d4389d20",
+                                "name": "Tango Netball Club Inc",
+                                "type": "CLUB"
+                            }
+                        },
+                        "result": {
+                            "winner": {
+                                "name": "Team A",
+                                "value": "HOME"
+                            },
+                            "outcome": {
+                                "name": "Team A won by points",
+                                "value": "HOME_TEAM_WON_BY_SCORE"
+                            },
+                            "home": {
+                                "outcome": {
+                                    "name": "Win",
+                                    "value": "WON"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 43,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            },
+                            "away": {
+                                "outcome": {
+                                    "name": "Loss",
+                                    "value": "LOST"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 37,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            }
+                        },
+                        "status": {
+                            "name": "Final",
+                            "value": "FINAL"
+                        },
+                        "date": "2025-05-17",
+                        "dates": ["2025-05-17"],
+                        "allocation": {
+                            "time": "12:45:00",
+                            "court": {
+                                "id": "8c54a575-731c-4c98-9008-a1c578bcdecc",
+                                "name": "Stadium Court 27",
+                                "venue": {
+                                    "id": "d03c720a-9ff8-4c33-ba5a-ec28831d1b2a",
+                                    "name": "Netball SA"
+                                }
+                            }
+                        }
+                    }
+                ]
+            },
+            {
+                "id": "65845205",
+                "name": "Round 5",
+                "number": 5,
+                "abbreviatedName": "R5",
+                "provisionalDates": null,
+                "isFinalsRound": false,
+                "grade": {
+                    "type": "REGULAR",
+                    "hideScores": false
+                },
+                "byes": [],
+                "games": [
+                    {
+                        "id": "3b6f5918",
+                        "alias": null,
+                        "pool": null,
+                        "home": {
+                            "id": "b9a818ba",
+                            "name": "Contax",
+                            "organisation": {
+                                "id": "a8ee2320",
+                                "name": "Contax",
+                                "type": "CLUB"
+                            }
+                        },
+                        "away": {
+                            "id": "a5ab522e",
+                            "name": "Newton Jaguars",
+                            "organisation": {
+                                "id": "d275f255",
+                                "name": "Norwood Netball Club",
+                                "type": "CLUB"
+                            }
+                        },
+                        "result": {
+                            "winner": {
+                                "name": "Team A",
+                                "value": "HOME"
+                            },
+                            "outcome": {
+                                "name": "Team A won by points",
+                                "value": "HOME_TEAM_WON_BY_SCORE"
+                            },
+                            "home": {
+                                "outcome": {
+                                    "name": "Win",
+                                    "value": "WON"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 47,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            },
+                            "away": {
+                                "outcome": {
+                                    "name": "Loss",
+                                    "value": "LOST"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 36,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            }
+                        },
+                        "status": {
+                            "name": "Final",
+                            "value": "FINAL"
+                        },
+                        "date": "2025-05-24",
+                        "dates": ["2025-05-24"],
+                        "allocation": {
+                            "time": "11:15:00",
+                            "court": {
+                                "id": "14282f66-f811-499a-b290-7ef3e1bda26b",
+                                "name": "Stadium Court 01",
+                                "venue": {
+                                    "id": "d03c720a-9ff8-4c33-ba5a-ec28831d1b2a",
+                                    "name": "Netball SA"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "b7f0cd30",
+                        "alias": null,
+                        "pool": null,
+                        "home": {
+                            "id": "cbb7c207",
+                            "name": "Tango",
+                            "organisation": {
+                                "id": "d4389d20",
+                                "name": "Tango Netball Club Inc",
+                                "type": "CLUB"
+                            }
+                        },
+                        "away": {
+                            "id": "d14125fe",
+                            "name": "Metro Jets",
+                            "organisation": {
+                                "id": "601b914e",
+                                "name": "Metro Jets",
+                                "type": "CLUB"
+                            }
+                        },
+                        "result": {
+                            "winner": {
+                                "name": "Team A",
+                                "value": "HOME"
+                            },
+                            "outcome": {
+                                "name": "Team A won by points",
+                                "value": "HOME_TEAM_WON_BY_SCORE"
+                            },
+                            "home": {
+                                "outcome": {
+                                    "name": "Win",
+                                    "value": "WON"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 39,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            },
+                            "away": {
+                                "outcome": {
+                                    "name": "Loss",
+                                    "value": "LOST"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 28,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            }
+                        },
+                        "status": {
+                            "name": "Final",
+                            "value": "FINAL"
+                        },
+                        "date": "2025-05-24",
+                        "dates": ["2025-05-24"],
+                        "allocation": {
+                            "time": "11:15:00",
+                            "court": {
+                                "id": "c32e815f-9a6c-4a85-a271-839d47788b40",
+                                "name": "Stadium Court 02",
+                                "venue": {
+                                    "id": "d03c720a-9ff8-4c33-ba5a-ec28831d1b2a",
+                                    "name": "Netball SA"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "52dbea4a",
+                        "alias": null,
+                        "pool": null,
+                        "home": {
+                            "id": "d8198dde",
+                            "name": "Walkerville",
+                            "organisation": {
+                                "id": "a83c7a81",
+                                "name": "Walkerville",
+                                "type": "CLUB"
+                            }
+                        },
+                        "away": {
+                            "id": "8892f53c",
+                            "name": "Garville",
+                            "organisation": {
+                                "id": "241b44c0",
+                                "name": "Garville",
+                                "type": "CLUB"
+                            }
+                        },
+                        "result": {
+                            "winner": {
+                                "name": "Team A",
+                                "value": "HOME"
+                            },
+                            "outcome": {
+                                "name": "Team A won by points",
+                                "value": "HOME_TEAM_WON_BY_SCORE"
+                            },
+                            "home": {
+                                "outcome": {
+                                    "name": "Win",
+                                    "value": "WON"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 71,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            },
+                            "away": {
+                                "outcome": {
+                                    "name": "Loss",
+                                    "value": "LOST"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 38,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            }
+                        },
+                        "status": {
+                            "name": "Final",
+                            "value": "FINAL"
+                        },
+                        "date": "2025-05-24",
+                        "dates": ["2025-05-24"],
+                        "allocation": {
+                            "time": "11:15:00",
+                            "court": {
+                                "id": "a88054ce-070f-4742-98ae-0099b2a66daa",
+                                "name": "Stadium Court 03",
+                                "venue": {
+                                    "id": "d03c720a-9ff8-4c33-ba5a-ec28831d1b2a",
+                                    "name": "Netball SA"
+                                }
+                            }
+                        }
+                    }
+                ]
+            },
+            {
+                "id": "58fe38d2",
+                "name": "Round 6",
+                "number": 6,
+                "abbreviatedName": "R6",
+                "provisionalDates": null,
+                "isFinalsRound": false,
+                "grade": {
+                    "type": "REGULAR",
+                    "hideScores": false
+                },
+                "byes": [],
+                "games": [
+                    {
+                        "id": "63dfb2b9",
+                        "alias": null,
+                        "pool": null,
+                        "home": {
+                            "id": "d8198dde",
+                            "name": "Walkerville",
+                            "organisation": {
+                                "id": "a83c7a81",
+                                "name": "Walkerville",
+                                "type": "CLUB"
+                            }
+                        },
+                        "away": {
+                            "id": "d14125fe",
+                            "name": "Metro Jets",
+                            "organisation": {
+                                "id": "601b914e",
+                                "name": "Metro Jets",
+                                "type": "CLUB"
+                            }
+                        },
+                        "result": {
+                            "winner": {
+                                "name": "Team A",
+                                "value": "HOME"
+                            },
+                            "outcome": {
+                                "name": "Team A won by points",
+                                "value": "HOME_TEAM_WON_BY_SCORE"
+                            },
+                            "home": {
+                                "outcome": {
+                                    "name": "Win",
+                                    "value": "WON"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 61,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            },
+                            "away": {
+                                "outcome": {
+                                    "name": "Loss",
+                                    "value": "LOST"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 20,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            }
+                        },
+                        "status": {
+                            "name": "Final",
+                            "value": "FINAL"
+                        },
+                        "date": "2025-06-21",
+                        "dates": ["2025-06-21"],
+                        "allocation": {
+                            "time": "11:15:00",
+                            "court": {
+                                "id": "a88054ce-070f-4742-98ae-0099b2a66daa",
+                                "name": "Stadium Court 03",
+                                "venue": {
+                                    "id": "d03c720a-9ff8-4c33-ba5a-ec28831d1b2a",
+                                    "name": "Netball SA"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "791c88a8",
+                        "alias": null,
+                        "pool": null,
+                        "home": {
+                            "id": "8892f53c",
+                            "name": "Garville",
+                            "organisation": {
+                                "id": "241b44c0",
+                                "name": "Garville",
+                                "type": "CLUB"
+                            }
+                        },
+                        "away": {
+                            "id": "b9a818ba",
+                            "name": "Contax",
+                            "organisation": {
+                                "id": "a8ee2320",
+                                "name": "Contax",
+                                "type": "CLUB"
+                            }
+                        },
+                        "result": {
+                            "winner": {
+                                "name": "Team B",
+                                "value": "AWAY"
+                            },
+                            "outcome": {
+                                "name": "Team A won by points",
+                                "value": "AWAY_TEAM_WON_BY_SCORE"
+                            },
+                            "home": {
+                                "outcome": {
+                                    "name": "Loss",
+                                    "value": "LOST"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 45,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            },
+                            "away": {
+                                "outcome": {
+                                    "name": "Win",
+                                    "value": "WON"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 62,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            }
+                        },
+                        "status": {
+                            "name": "Final",
+                            "value": "FINAL"
+                        },
+                        "date": "2025-06-21",
+                        "dates": ["2025-06-21"],
+                        "allocation": {
+                            "time": "11:15:00",
+                            "court": {
+                                "id": "14282f66-f811-499a-b290-7ef3e1bda26b",
+                                "name": "Stadium Court 01",
+                                "venue": {
+                                    "id": "d03c720a-9ff8-4c33-ba5a-ec28831d1b2a",
+                                    "name": "Netball SA"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "50cfcb7b",
+                        "alias": null,
+                        "pool": null,
+                        "home": {
+                            "id": "cbb7c207",
+                            "name": "Tango",
+                            "organisation": {
+                                "id": "d4389d20",
+                                "name": "Tango Netball Club Inc",
+                                "type": "CLUB"
+                            }
+                        },
+                        "away": {
+                            "id": "a5ab522e",
+                            "name": "Newton Jaguars",
+                            "organisation": {
+                                "id": "d275f255",
+                                "name": "Norwood Netball Club",
+                                "type": "CLUB"
+                            }
+                        },
+                        "result": {
+                            "winner": {
+                                "name": "Team B",
+                                "value": "AWAY"
+                            },
+                            "outcome": {
+                                "name": "Team A won by points",
+                                "value": "AWAY_TEAM_WON_BY_SCORE"
+                            },
+                            "home": {
+                                "outcome": {
+                                    "name": "Loss",
+                                    "value": "LOST"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 31,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            },
+                            "away": {
+                                "outcome": {
+                                    "name": "Win",
+                                    "value": "WON"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 36,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            }
+                        },
+                        "status": {
+                            "name": "Final",
+                            "value": "FINAL"
+                        },
+                        "date": "2025-06-21",
+                        "dates": ["2025-06-21"],
+                        "allocation": {
+                            "time": "11:15:00",
+                            "court": {
+                                "id": "c32e815f-9a6c-4a85-a271-839d47788b40",
+                                "name": "Stadium Court 02",
+                                "venue": {
+                                    "id": "d03c720a-9ff8-4c33-ba5a-ec28831d1b2a",
+                                    "name": "Netball SA"
+                                }
+                            }
+                        }
+                    }
+                ]
+            },
+            {
+                "id": "506b7e6c",
+                "name": "Round 7",
+                "number": 7,
+                "abbreviatedName": "R7",
+                "provisionalDates": null,
+                "isFinalsRound": false,
+                "grade": {
+                    "type": "REGULAR",
+                    "hideScores": false
+                },
+                "byes": [],
+                "games": [
+                    {
+                        "id": "1f9311f4",
+                        "alias": null,
+                        "pool": null,
+                        "home": {
+                            "id": "d14125fe",
+                            "name": "Metro Jets",
+                            "organisation": {
+                                "id": "601b914e",
+                                "name": "Metro Jets",
+                                "type": "CLUB"
+                            }
+                        },
+                        "away": {
+                            "id": "8892f53c",
+                            "name": "Garville",
+                            "organisation": {
+                                "id": "241b44c0",
+                                "name": "Garville",
+                                "type": "CLUB"
+                            }
+                        },
+                        "result": {
+                            "winner": {
+                                "name": "Team B",
+                                "value": "AWAY"
+                            },
+                            "outcome": {
+                                "name": "Team A won by points",
+                                "value": "AWAY_TEAM_WON_BY_SCORE"
+                            },
+                            "home": {
+                                "outcome": {
+                                    "name": "Loss",
+                                    "value": "LOST"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 30,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            },
+                            "away": {
+                                "outcome": {
+                                    "name": "Win",
+                                    "value": "WON"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 39,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            }
+                        },
+                        "status": {
+                            "name": "Final",
+                            "value": "FINAL"
+                        },
+                        "date": "2025-06-28",
+                        "dates": ["2025-06-28"],
+                        "allocation": {
+                            "time": "11:15:00",
+                            "court": {
+                                "id": "d3c818ac-0620-43a8-91f1-9b9a73feac38",
+                                "name": "Stadium Court 13",
+                                "venue": {
+                                    "id": "d03c720a-9ff8-4c33-ba5a-ec28831d1b2a",
+                                    "name": "Netball SA"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "fee3cdb5",
+                        "alias": null,
+                        "pool": null,
+                        "home": {
+                            "id": "a5ab522e",
+                            "name": "Newton Jaguars",
+                            "organisation": {
+                                "id": "d275f255",
+                                "name": "Norwood Netball Club",
+                                "type": "CLUB"
+                            }
+                        },
+                        "away": {
+                            "id": "d8198dde",
+                            "name": "Walkerville",
+                            "organisation": {
+                                "id": "a83c7a81",
+                                "name": "Walkerville",
+                                "type": "CLUB"
+                            }
+                        },
+                        "result": {
+                            "winner": {
+                                "name": "Team B",
+                                "value": "AWAY"
+                            },
+                            "outcome": {
+                                "name": "Team A won by points",
+                                "value": "AWAY_TEAM_WON_BY_SCORE"
+                            },
+                            "home": {
+                                "outcome": {
+                                    "name": "Loss",
+                                    "value": "LOST"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 27,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            },
+                            "away": {
+                                "outcome": {
+                                    "name": "Win",
+                                    "value": "WON"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 31,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            }
+                        },
+                        "status": {
+                            "name": "Final",
+                            "value": "FINAL"
+                        },
+                        "date": "2025-06-28",
+                        "dates": ["2025-06-28"],
+                        "allocation": {
+                            "time": "11:15:00",
+                            "court": {
+                                "id": "c92f4f80-65fe-4cb5-82ac-43a2f8d335a8",
+                                "name": "Stadium Court 14",
+                                "venue": {
+                                    "id": "d03c720a-9ff8-4c33-ba5a-ec28831d1b2a",
+                                    "name": "Netball SA"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "2b801f8a",
+                        "alias": null,
+                        "pool": null,
+                        "home": {
+                            "id": "b9a818ba",
+                            "name": "Contax",
+                            "organisation": {
+                                "id": "a8ee2320",
+                                "name": "Contax",
+                                "type": "CLUB"
+                            }
+                        },
+                        "away": {
+                            "id": "cbb7c207",
+                            "name": "Tango",
+                            "organisation": {
+                                "id": "d4389d20",
+                                "name": "Tango Netball Club Inc",
+                                "type": "CLUB"
+                            }
+                        },
+                        "result": {
+                            "winner": {
+                                "name": "Team A",
+                                "value": "HOME"
+                            },
+                            "outcome": {
+                                "name": "Team A won by points",
+                                "value": "HOME_TEAM_WON_BY_SCORE"
+                            },
+                            "home": {
+                                "outcome": {
+                                    "name": "Win",
+                                    "value": "WON"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 41,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            },
+                            "away": {
+                                "outcome": {
+                                    "name": "Loss",
+                                    "value": "LOST"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 22,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            }
+                        },
+                        "status": {
+                            "name": "Final",
+                            "value": "FINAL"
+                        },
+                        "date": "2025-06-28",
+                        "dates": ["2025-06-28"],
+                        "allocation": {
+                            "time": "11:15:00",
+                            "court": {
+                                "id": "b06d1cde-fda4-4ef4-9888-193f3566def1",
+                                "name": "Stadium Court 20",
+                                "venue": {
+                                    "id": "d03c720a-9ff8-4c33-ba5a-ec28831d1b2a",
+                                    "name": "Netball SA"
+                                }
+                            }
+                        }
+                    }
+                ]
+            },
+            {
+                "id": "a5e903d6",
+                "name": "Round 8",
+                "number": 8,
+                "abbreviatedName": "R8",
+                "provisionalDates": null,
+                "isFinalsRound": false,
+                "grade": {
+                    "type": "REGULAR",
+                    "hideScores": false
+                },
+                "byes": [],
+                "games": [
+                    {
+                        "id": "61c777c9",
+                        "alias": null,
+                        "pool": null,
+                        "home": {
+                            "id": "d8198dde",
+                            "name": "Walkerville",
+                            "organisation": {
+                                "id": "a83c7a81",
+                                "name": "Walkerville",
+                                "type": "CLUB"
+                            }
+                        },
+                        "away": {
+                            "id": "cbb7c207",
+                            "name": "Tango",
+                            "organisation": {
+                                "id": "d4389d20",
+                                "name": "Tango Netball Club Inc",
+                                "type": "CLUB"
+                            }
+                        },
+                        "result": {
+                            "winner": {
+                                "name": "Team A",
+                                "value": "HOME"
+                            },
+                            "outcome": {
+                                "name": "Team A won by points",
+                                "value": "HOME_TEAM_WON_BY_SCORE"
+                            },
+                            "home": {
+                                "outcome": {
+                                    "name": "Win",
+                                    "value": "WON"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 57,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            },
+                            "away": {
+                                "outcome": {
+                                    "name": "Loss",
+                                    "value": "LOST"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 24,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            }
+                        },
+                        "status": {
+                            "name": "Final",
+                            "value": "FINAL"
+                        },
+                        "date": "2025-07-05",
+                        "dates": ["2025-07-05"],
+                        "allocation": {
+                            "time": "11:15:00",
+                            "court": {
+                                "id": "9146c829-5b6b-413d-9d56-280105a08e21",
+                                "name": "Stadium Court 19",
+                                "venue": {
+                                    "id": "d03c720a-9ff8-4c33-ba5a-ec28831d1b2a",
+                                    "name": "Netball SA"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "64cbb17b",
+                        "alias": null,
+                        "pool": null,
+                        "home": {
+                            "id": "8892f53c",
+                            "name": "Garville",
+                            "organisation": {
+                                "id": "241b44c0",
+                                "name": "Garville",
+                                "type": "CLUB"
+                            }
+                        },
+                        "away": {
+                            "id": "a5ab522e",
+                            "name": "Newton Jaguars",
+                            "organisation": {
+                                "id": "d275f255",
+                                "name": "Norwood Netball Club",
+                                "type": "CLUB"
+                            }
+                        },
+                        "result": {
+                            "winner": {
+                                "name": "Team B",
+                                "value": "AWAY"
+                            },
+                            "outcome": {
+                                "name": "Team A won by points",
+                                "value": "AWAY_TEAM_WON_BY_SCORE"
+                            },
+                            "home": {
+                                "outcome": {
+                                    "name": "Loss",
+                                    "value": "LOST"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 41,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            },
+                            "away": {
+                                "outcome": {
+                                    "name": "Win",
+                                    "value": "WON"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 50,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            }
+                        },
+                        "status": {
+                            "name": "Final",
+                            "value": "FINAL"
+                        },
+                        "date": "2025-07-05",
+                        "dates": ["2025-07-05"],
+                        "allocation": {
+                            "time": "11:15:00",
+                            "court": {
+                                "id": "b06d1cde-fda4-4ef4-9888-193f3566def1",
+                                "name": "Stadium Court 20",
+                                "venue": {
+                                    "id": "d03c720a-9ff8-4c33-ba5a-ec28831d1b2a",
+                                    "name": "Netball SA"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "362d861c",
+                        "alias": null,
+                        "pool": null,
+                        "home": {
+                            "id": "d14125fe",
+                            "name": "Metro Jets",
+                            "organisation": {
+                                "id": "601b914e",
+                                "name": "Metro Jets",
+                                "type": "CLUB"
+                            }
+                        },
+                        "away": {
+                            "id": "b9a818ba",
+                            "name": "Contax",
+                            "organisation": {
+                                "id": "a8ee2320",
+                                "name": "Contax",
+                                "type": "CLUB"
+                            }
+                        },
+                        "result": {
+                            "winner": {
+                                "name": "Team B",
+                                "value": "AWAY"
+                            },
+                            "outcome": {
+                                "name": "Team A won by points",
+                                "value": "AWAY_TEAM_WON_BY_SCORE"
+                            },
+                            "home": {
+                                "outcome": {
+                                    "name": "Loss",
+                                    "value": "LOST"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 0,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            },
+                            "away": {
+                                "outcome": {
+                                    "name": "Win",
+                                    "value": "WON"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 20,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            }
+                        },
+                        "status": {
+                            "name": "Final",
+                            "value": "FINAL"
+                        },
+                        "date": "2025-07-05",
+                        "dates": ["2025-07-05"],
+                        "allocation": {
+                            "time": "11:15:00",
+                            "court": {
+                                "id": "2baf42c2-69e3-4423-b427-549bda5db2c1",
+                                "name": "Stadium Court 26",
+                                "venue": {
+                                    "id": "d03c720a-9ff8-4c33-ba5a-ec28831d1b2a",
+                                    "name": "Netball SA"
+                                }
+                            }
+                        }
+                    }
+                ]
+            },
+            {
+                "id": "b6e11061",
+                "name": "Round 9",
+                "number": 9,
+                "abbreviatedName": "R9",
+                "provisionalDates": null,
+                "isFinalsRound": false,
+                "grade": {
+                    "type": "REGULAR",
+                    "hideScores": false
+                },
+                "byes": [],
+                "games": [
+                    {
+                        "id": "04290f22",
+                        "alias": null,
+                        "pool": null,
+                        "home": {
+                            "id": "cbb7c207",
+                            "name": "Tango",
+                            "organisation": {
+                                "id": "d4389d20",
+                                "name": "Tango Netball Club Inc",
+                                "type": "CLUB"
+                            }
+                        },
+                        "away": {
+                            "id": "8892f53c",
+                            "name": "Garville",
+                            "organisation": {
+                                "id": "241b44c0",
+                                "name": "Garville",
+                                "type": "CLUB"
+                            }
+                        },
+                        "result": {
+                            "winner": {
+                                "name": "Team A",
+                                "value": "HOME"
+                            },
+                            "outcome": {
+                                "name": "Team A won by points",
+                                "value": "HOME_TEAM_WON_BY_SCORE"
+                            },
+                            "home": {
+                                "outcome": {
+                                    "name": "Win",
+                                    "value": "WON"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 41,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            },
+                            "away": {
+                                "outcome": {
+                                    "name": "Loss",
+                                    "value": "LOST"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 38,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            }
+                        },
+                        "status": {
+                            "name": "Final",
+                            "value": "FINAL"
+                        },
+                        "date": "2025-07-19",
+                        "dates": ["2025-07-19"],
+                        "allocation": {
+                            "time": "11:15:00",
+                            "court": {
+                                "id": "50e3421d-0c17-4f01-a5ca-f3376bb617a7",
+                                "name": "Stadium Court 25",
+                                "venue": {
+                                    "id": "d03c720a-9ff8-4c33-ba5a-ec28831d1b2a",
+                                    "name": "Netball SA"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "f169419a",
+                        "alias": null,
+                        "pool": null,
+                        "home": {
+                            "id": "b9a818ba",
+                            "name": "Contax",
+                            "organisation": {
+                                "id": "a8ee2320",
+                                "name": "Contax",
+                                "type": "CLUB"
+                            }
+                        },
+                        "away": {
+                            "id": "d8198dde",
+                            "name": "Walkerville",
+                            "organisation": {
+                                "id": "a83c7a81",
+                                "name": "Walkerville",
+                                "type": "CLUB"
+                            }
+                        },
+                        "result": {
+                            "winner": {
+                                "name": "Team B",
+                                "value": "AWAY"
+                            },
+                            "outcome": {
+                                "name": "Team A won by points",
+                                "value": "AWAY_TEAM_WON_BY_SCORE"
+                            },
+                            "home": {
+                                "outcome": {
+                                    "name": "Loss",
+                                    "value": "LOST"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 36,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            },
+                            "away": {
+                                "outcome": {
+                                    "name": "Win",
+                                    "value": "WON"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 48,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            }
+                        },
+                        "status": {
+                            "name": "Final",
+                            "value": "FINAL"
+                        },
+                        "date": "2025-07-19",
+                        "dates": ["2025-07-19"],
+                        "allocation": {
+                            "time": "11:15:00",
+                            "court": {
+                                "id": "97d366b0-5a6f-4d25-b6ab-0972be95e427",
+                                "name": "Stadium Court 24",
+                                "venue": {
+                                    "id": "d03c720a-9ff8-4c33-ba5a-ec28831d1b2a",
+                                    "name": "Netball SA"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "6fd8cd68",
+                        "alias": null,
+                        "pool": null,
+                        "home": {
+                            "id": "a5ab522e",
+                            "name": "Newton Jaguars",
+                            "organisation": {
+                                "id": "d275f255",
+                                "name": "Norwood Netball Club",
+                                "type": "CLUB"
+                            }
+                        },
+                        "away": {
+                            "id": "d14125fe",
+                            "name": "Metro Jets",
+                            "organisation": {
+                                "id": "601b914e",
+                                "name": "Metro Jets",
+                                "type": "CLUB"
+                            }
+                        },
+                        "result": {
+                            "winner": {
+                                "name": "Team A",
+                                "value": "HOME"
+                            },
+                            "outcome": {
+                                "name": "Team A won by points",
+                                "value": "HOME_TEAM_WON_BY_SCORE"
+                            },
+                            "home": {
+                                "outcome": {
+                                    "name": "Win",
+                                    "value": "WON"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 62,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            },
+                            "away": {
+                                "outcome": {
+                                    "name": "Loss",
+                                    "value": "LOST"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 19,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            }
+                        },
+                        "status": {
+                            "name": "Final",
+                            "value": "FINAL"
+                        },
+                        "date": "2025-07-19",
+                        "dates": ["2025-07-19"],
+                        "allocation": {
+                            "time": "11:15:00",
+                            "court": {
+                                "id": "b06d1cde-fda4-4ef4-9888-193f3566def1",
+                                "name": "Stadium Court 20",
+                                "venue": {
+                                    "id": "d03c720a-9ff8-4c33-ba5a-ec28831d1b2a",
+                                    "name": "Netball SA"
+                                }
+                            }
+                        }
+                    }
+                ]
+            },
+            {
+                "id": "463a61ba",
+                "name": "Round 10",
+                "number": 10,
+                "abbreviatedName": "R10",
+                "provisionalDates": null,
+                "isFinalsRound": false,
+                "grade": {
+                    "type": "REGULAR",
+                    "hideScores": false
+                },
+                "byes": [],
+                "games": [
+                    {
+                        "id": "6ba47562",
+                        "alias": null,
+                        "pool": null,
+                        "home": {
+                            "id": "a5ab522e",
+                            "name": "Newton Jaguars",
+                            "organisation": {
+                                "id": "d275f255",
+                                "name": "Norwood Netball Club",
+                                "type": "CLUB"
+                            }
+                        },
+                        "away": {
+                            "id": "b9a818ba",
+                            "name": "Contax",
+                            "organisation": {
+                                "id": "a8ee2320",
+                                "name": "Contax",
+                                "type": "CLUB"
+                            }
+                        },
+                        "result": {
+                            "winner": {
+                                "name": "Team B",
+                                "value": "AWAY"
+                            },
+                            "outcome": {
+                                "name": "Team A won by points",
+                                "value": "AWAY_TEAM_WON_BY_SCORE"
+                            },
+                            "home": {
+                                "outcome": {
+                                    "name": "Loss",
+                                    "value": "LOST"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 34,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            },
+                            "away": {
+                                "outcome": {
+                                    "name": "Win",
+                                    "value": "WON"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 42,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            }
+                        },
+                        "status": {
+                            "name": "Final",
+                            "value": "FINAL"
+                        },
+                        "date": "2025-07-26",
+                        "dates": ["2025-07-26"],
+                        "allocation": {
+                            "time": "11:15:00",
+                            "court": {
+                                "id": "d3c818ac-0620-43a8-91f1-9b9a73feac38",
+                                "name": "Stadium Court 13",
+                                "venue": {
+                                    "id": "d03c720a-9ff8-4c33-ba5a-ec28831d1b2a",
+                                    "name": "Netball SA"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "f5064bfb",
+                        "alias": null,
+                        "pool": null,
+                        "home": {
+                            "id": "d14125fe",
+                            "name": "Metro Jets",
+                            "organisation": {
+                                "id": "601b914e",
+                                "name": "Metro Jets",
+                                "type": "CLUB"
+                            }
+                        },
+                        "away": {
+                            "id": "cbb7c207",
+                            "name": "Tango",
+                            "organisation": {
+                                "id": "d4389d20",
+                                "name": "Tango Netball Club Inc",
+                                "type": "CLUB"
+                            }
+                        },
+                        "result": {
+                            "winner": {
+                                "name": "Team B",
+                                "value": "AWAY"
+                            },
+                            "outcome": {
+                                "name": "Team A won by points",
+                                "value": "AWAY_TEAM_WON_BY_SCORE"
+                            },
+                            "home": {
+                                "outcome": {
+                                    "name": "Loss",
+                                    "value": "LOST"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 20,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            },
+                            "away": {
+                                "outcome": {
+                                    "name": "Win",
+                                    "value": "WON"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 31,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            }
+                        },
+                        "status": {
+                            "name": "Final",
+                            "value": "FINAL"
+                        },
+                        "date": "2025-07-26",
+                        "dates": ["2025-07-26"],
+                        "allocation": {
+                            "time": "11:15:00",
+                            "court": {
+                                "id": "c92f4f80-65fe-4cb5-82ac-43a2f8d335a8",
+                                "name": "Stadium Court 14",
+                                "venue": {
+                                    "id": "d03c720a-9ff8-4c33-ba5a-ec28831d1b2a",
+                                    "name": "Netball SA"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "8c34fda1",
+                        "alias": null,
+                        "pool": null,
+                        "home": {
+                            "id": "8892f53c",
+                            "name": "Garville",
+                            "organisation": {
+                                "id": "241b44c0",
+                                "name": "Garville",
+                                "type": "CLUB"
+                            }
+                        },
+                        "away": {
+                            "id": "d8198dde",
+                            "name": "Walkerville",
+                            "organisation": {
+                                "id": "a83c7a81",
+                                "name": "Walkerville",
+                                "type": "CLUB"
+                            }
+                        },
+                        "result": {
+                            "winner": {
+                                "name": "Team B",
+                                "value": "AWAY"
+                            },
+                            "outcome": {
+                                "name": "Team A won by points",
+                                "value": "AWAY_TEAM_WON_BY_SCORE"
+                            },
+                            "home": {
+                                "outcome": {
+                                    "name": "Loss",
+                                    "value": "LOST"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 42,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            },
+                            "away": {
+                                "outcome": {
+                                    "name": "Win",
+                                    "value": "WON"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 55,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            }
+                        },
+                        "status": {
+                            "name": "Final",
+                            "value": "FINAL"
+                        },
+                        "date": "2025-07-26",
+                        "dates": ["2025-07-26"],
+                        "allocation": {
+                            "time": "11:15:00",
+                            "court": {
+                                "id": "b06d1cde-fda4-4ef4-9888-193f3566def1",
+                                "name": "Stadium Court 20",
+                                "venue": {
+                                    "id": "d03c720a-9ff8-4c33-ba5a-ec28831d1b2a",
+                                    "name": "Netball SA"
+                                }
+                            }
+                        }
+                    }
+                ]
+            },
+            {
+                "id": "1eda9019",
+                "name": "Round 11",
+                "number": 11,
+                "abbreviatedName": "R11",
+                "provisionalDates": null,
+                "isFinalsRound": false,
+                "grade": {
+                    "type": "REGULAR",
+                    "hideScores": false
+                },
+                "byes": [],
+                "games": [
+                    {
+                        "id": "dadf6f84",
+                        "alias": null,
+                        "pool": null,
+                        "home": {
+                            "id": "d14125fe",
+                            "name": "Metro Jets",
+                            "organisation": {
+                                "id": "601b914e",
+                                "name": "Metro Jets",
+                                "type": "CLUB"
+                            }
+                        },
+                        "away": {
+                            "id": "d8198dde",
+                            "name": "Walkerville",
+                            "organisation": {
+                                "id": "a83c7a81",
+                                "name": "Walkerville",
+                                "type": "CLUB"
+                            }
+                        },
+                        "result": {
+                            "winner": {
+                                "name": "Team B",
+                                "value": "AWAY"
+                            },
+                            "outcome": {
+                                "name": "Team A won by points",
+                                "value": "AWAY_TEAM_WON_BY_SCORE"
+                            },
+                            "home": {
+                                "outcome": {
+                                    "name": "Loss",
+                                    "value": "LOST"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 19,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            },
+                            "away": {
+                                "outcome": {
+                                    "name": "Win",
+                                    "value": "WON"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 47,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            }
+                        },
+                        "status": {
+                            "name": "Final",
+                            "value": "FINAL"
+                        },
+                        "date": "2025-08-02",
+                        "dates": ["2025-08-02"],
+                        "allocation": {
+                            "time": "11:15:00",
+                            "court": {
+                                "id": "d3c818ac-0620-43a8-91f1-9b9a73feac38",
+                                "name": "Stadium Court 13",
+                                "venue": {
+                                    "id": "d03c720a-9ff8-4c33-ba5a-ec28831d1b2a",
+                                    "name": "Netball SA"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "bf57e165",
+                        "alias": null,
+                        "pool": null,
+                        "home": {
+                            "id": "b9a818ba",
+                            "name": "Contax",
+                            "organisation": {
+                                "id": "a8ee2320",
+                                "name": "Contax",
+                                "type": "CLUB"
+                            }
+                        },
+                        "away": {
+                            "id": "8892f53c",
+                            "name": "Garville",
+                            "organisation": {
+                                "id": "241b44c0",
+                                "name": "Garville",
+                                "type": "CLUB"
+                            }
+                        },
+                        "result": {
+                            "winner": {
+                                "name": "Team A",
+                                "value": "HOME"
+                            },
+                            "outcome": {
+                                "name": "Team A won by points",
+                                "value": "HOME_TEAM_WON_BY_SCORE"
+                            },
+                            "home": {
+                                "outcome": {
+                                    "name": "Win",
+                                    "value": "WON"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 63,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            },
+                            "away": {
+                                "outcome": {
+                                    "name": "Loss",
+                                    "value": "LOST"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 41,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            }
+                        },
+                        "status": {
+                            "name": "Final",
+                            "value": "FINAL"
+                        },
+                        "date": "2025-08-02",
+                        "dates": ["2025-08-02"],
+                        "allocation": {
+                            "time": "11:15:00",
+                            "court": {
+                                "id": "c92f4f80-65fe-4cb5-82ac-43a2f8d335a8",
+                                "name": "Stadium Court 14",
+                                "venue": {
+                                    "id": "d03c720a-9ff8-4c33-ba5a-ec28831d1b2a",
+                                    "name": "Netball SA"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "a3665ee4",
+                        "alias": null,
+                        "pool": null,
+                        "home": {
+                            "id": "a5ab522e",
+                            "name": "Newton Jaguars",
+                            "organisation": {
+                                "id": "d275f255",
+                                "name": "Norwood Netball Club",
+                                "type": "CLUB"
+                            }
+                        },
+                        "away": {
+                            "id": "cbb7c207",
+                            "name": "Tango",
+                            "organisation": {
+                                "id": "d4389d20",
+                                "name": "Tango Netball Club Inc",
+                                "type": "CLUB"
+                            }
+                        },
+                        "result": {
+                            "winner": {
+                                "name": "Team A",
+                                "value": "HOME"
+                            },
+                            "outcome": {
+                                "name": "Team A won by points",
+                                "value": "HOME_TEAM_WON_BY_SCORE"
+                            },
+                            "home": {
+                                "outcome": {
+                                    "name": "Win",
+                                    "value": "WON"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 39,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            },
+                            "away": {
+                                "outcome": {
+                                    "name": "Loss",
+                                    "value": "LOST"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 28,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            }
+                        },
+                        "status": {
+                            "name": "Final",
+                            "value": "FINAL"
+                        },
+                        "date": "2025-08-02",
+                        "dates": ["2025-08-02"],
+                        "allocation": {
+                            "time": "12:45:00",
+                            "court": {
+                                "id": "8d165b28-2fcd-47d7-b8fe-1829ce0e0d94",
+                                "name": "Stadium Court 23",
+                                "venue": {
+                                    "id": "d03c720a-9ff8-4c33-ba5a-ec28831d1b2a",
+                                    "name": "Netball SA"
+                                }
+                            }
+                        }
+                    }
+                ]
+            },
+            {
+                "id": "fc821936",
+                "name": "Round 12",
+                "number": 12,
+                "abbreviatedName": "R12",
+                "provisionalDates": null,
+                "isFinalsRound": false,
+                "grade": {
+                    "type": "REGULAR",
+                    "hideScores": false
+                },
+                "byes": [],
+                "games": [
+                    {
+                        "id": "0ce2fa61",
+                        "alias": null,
+                        "pool": null,
+                        "home": {
+                            "id": "8892f53c",
+                            "name": "Garville",
+                            "organisation": {
+                                "id": "241b44c0",
+                                "name": "Garville",
+                                "type": "CLUB"
+                            }
+                        },
+                        "away": {
+                            "id": "d14125fe",
+                            "name": "Metro Jets",
+                            "organisation": {
+                                "id": "601b914e",
+                                "name": "Metro Jets",
+                                "type": "CLUB"
+                            }
+                        },
+                        "result": {
+                            "winner": {
+                                "name": "Team A",
+                                "value": "HOME"
+                            },
+                            "outcome": {
+                                "name": "Team A won by points",
+                                "value": "HOME_TEAM_WON_BY_SCORE"
+                            },
+                            "home": {
+                                "outcome": {
+                                    "name": "Win",
+                                    "value": "WON"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 52,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            },
+                            "away": {
+                                "outcome": {
+                                    "name": "Loss",
+                                    "value": "LOST"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 46,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            }
+                        },
+                        "status": {
+                            "name": "Final",
+                            "value": "FINAL"
+                        },
+                        "date": "2025-08-09",
+                        "dates": ["2025-08-09"],
+                        "allocation": {
+                            "time": "12:45:00",
+                            "court": {
+                                "id": "8d165b28-2fcd-47d7-b8fe-1829ce0e0d94",
+                                "name": "Stadium Court 23",
+                                "venue": {
+                                    "id": "d03c720a-9ff8-4c33-ba5a-ec28831d1b2a",
+                                    "name": "Netball SA"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "759c4b07",
+                        "alias": null,
+                        "pool": null,
+                        "home": {
+                            "id": "d8198dde",
+                            "name": "Walkerville",
+                            "organisation": {
+                                "id": "a83c7a81",
+                                "name": "Walkerville",
+                                "type": "CLUB"
+                            }
+                        },
+                        "away": {
+                            "id": "a5ab522e",
+                            "name": "Newton Jaguars",
+                            "organisation": {
+                                "id": "d275f255",
+                                "name": "Norwood Netball Club",
+                                "type": "CLUB"
+                            }
+                        },
+                        "result": {
+                            "winner": null,
+                            "outcome": {
+                                "name": "Draw",
+                                "value": "DRAW_BY_SCORE"
+                            },
+                            "home": {
+                                "outcome": {
+                                    "name": "Draw",
+                                    "value": "DREW"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 38,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            },
+                            "away": {
+                                "outcome": {
+                                    "name": "Draw",
+                                    "value": "DREW"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 38,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            }
+                        },
+                        "status": {
+                            "name": "Final",
+                            "value": "FINAL"
+                        },
+                        "date": "2025-08-09",
+                        "dates": ["2025-08-09"],
+                        "allocation": {
+                            "time": "12:45:00",
+                            "court": {
+                                "id": "97d366b0-5a6f-4d25-b6ab-0972be95e427",
+                                "name": "Stadium Court 24",
+                                "venue": {
+                                    "id": "d03c720a-9ff8-4c33-ba5a-ec28831d1b2a",
+                                    "name": "Netball SA"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "3e36dd2a",
+                        "alias": null,
+                        "pool": null,
+                        "home": {
+                            "id": "cbb7c207",
+                            "name": "Tango",
+                            "organisation": {
+                                "id": "d4389d20",
+                                "name": "Tango Netball Club Inc",
+                                "type": "CLUB"
+                            }
+                        },
+                        "away": {
+                            "id": "b9a818ba",
+                            "name": "Contax",
+                            "organisation": {
+                                "id": "a8ee2320",
+                                "name": "Contax",
+                                "type": "CLUB"
+                            }
+                        },
+                        "result": {
+                            "winner": {
+                                "name": "Team B",
+                                "value": "AWAY"
+                            },
+                            "outcome": {
+                                "name": "Team A won by points",
+                                "value": "AWAY_TEAM_WON_BY_SCORE"
+                            },
+                            "home": {
+                                "outcome": {
+                                    "name": "Loss",
+                                    "value": "LOST"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 25,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            },
+                            "away": {
+                                "outcome": {
+                                    "name": "Win",
+                                    "value": "WON"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 36,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            }
+                        },
+                        "status": {
+                            "name": "Final",
+                            "value": "FINAL"
+                        },
+                        "date": "2025-08-09",
+                        "dates": ["2025-08-09"],
+                        "allocation": {
+                            "time": "12:45:00",
+                            "court": {
+                                "id": "50e3421d-0c17-4f01-a5ca-f3376bb617a7",
+                                "name": "Stadium Court 25",
+                                "venue": {
+                                    "id": "d03c720a-9ff8-4c33-ba5a-ec28831d1b2a",
+                                    "name": "Netball SA"
+                                }
+                            }
+                        }
+                    }
+                ]
+            },
+            {
+                "id": "e7ceaf8c",
+                "name": "Round 13",
+                "number": 13,
+                "abbreviatedName": "R13",
+                "provisionalDates": null,
+                "isFinalsRound": false,
+                "grade": {
+                    "type": "REGULAR",
+                    "hideScores": false
+                },
+                "byes": [],
+                "games": [
+                    {
+                        "id": "698dd729",
+                        "alias": null,
+                        "pool": null,
+                        "home": {
+                            "id": "cbb7c207",
+                            "name": "Tango",
+                            "organisation": {
+                                "id": "d4389d20",
+                                "name": "Tango Netball Club Inc",
+                                "type": "CLUB"
+                            }
+                        },
+                        "away": {
+                            "id": "d8198dde",
+                            "name": "Walkerville",
+                            "organisation": {
+                                "id": "a83c7a81",
+                                "name": "Walkerville",
+                                "type": "CLUB"
+                            }
+                        },
+                        "result": {
+                            "winner": {
+                                "name": "Team B",
+                                "value": "AWAY"
+                            },
+                            "outcome": {
+                                "name": "Team A won by points",
+                                "value": "AWAY_TEAM_WON_BY_SCORE"
+                            },
+                            "home": {
+                                "outcome": {
+                                    "name": "Loss",
+                                    "value": "LOST"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 0,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            },
+                            "away": {
+                                "outcome": {
+                                    "name": "Win",
+                                    "value": "WON"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 20,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            }
+                        },
+                        "status": {
+                            "name": "Final",
+                            "value": "FINAL"
+                        },
+                        "date": "2025-08-23",
+                        "dates": ["2025-08-23"],
+                        "allocation": {
+                            "time": "11:15:00",
+                            "court": {
+                                "id": "d3c818ac-0620-43a8-91f1-9b9a73feac38",
+                                "name": "Stadium Court 13",
+                                "venue": {
+                                    "id": "d03c720a-9ff8-4c33-ba5a-ec28831d1b2a",
+                                    "name": "Netball SA"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "e8531dec",
+                        "alias": null,
+                        "pool": null,
+                        "home": {
+                            "id": "a5ab522e",
+                            "name": "Newton Jaguars",
+                            "organisation": {
+                                "id": "d275f255",
+                                "name": "Norwood Netball Club",
+                                "type": "CLUB"
+                            }
+                        },
+                        "away": {
+                            "id": "8892f53c",
+                            "name": "Garville",
+                            "organisation": {
+                                "id": "241b44c0",
+                                "name": "Garville",
+                                "type": "CLUB"
+                            }
+                        },
+                        "result": {
+                            "winner": {
+                                "name": "Team A",
+                                "value": "HOME"
+                            },
+                            "outcome": {
+                                "name": "Team A won by points",
+                                "value": "HOME_TEAM_WON_BY_SCORE"
+                            },
+                            "home": {
+                                "outcome": {
+                                    "name": "Win",
+                                    "value": "WON"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 64,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            },
+                            "away": {
+                                "outcome": {
+                                    "name": "Loss",
+                                    "value": "LOST"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 36,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            }
+                        },
+                        "status": {
+                            "name": "Final",
+                            "value": "FINAL"
+                        },
+                        "date": "2025-08-23",
+                        "dates": ["2025-08-23"],
+                        "allocation": {
+                            "time": "11:15:00",
+                            "court": {
+                                "id": "c92f4f80-65fe-4cb5-82ac-43a2f8d335a8",
+                                "name": "Stadium Court 14",
+                                "venue": {
+                                    "id": "d03c720a-9ff8-4c33-ba5a-ec28831d1b2a",
+                                    "name": "Netball SA"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "dfb73b98",
+                        "alias": null,
+                        "pool": null,
+                        "home": {
+                            "id": "b9a818ba",
+                            "name": "Contax",
+                            "organisation": {
+                                "id": "a8ee2320",
+                                "name": "Contax",
+                                "type": "CLUB"
+                            }
+                        },
+                        "away": {
+                            "id": "d14125fe",
+                            "name": "Metro Jets",
+                            "organisation": {
+                                "id": "601b914e",
+                                "name": "Metro Jets",
+                                "type": "CLUB"
+                            }
+                        },
+                        "result": {
+                            "winner": {
+                                "name": "Team A",
+                                "value": "HOME"
+                            },
+                            "outcome": {
+                                "name": "Team A won by points",
+                                "value": "HOME_TEAM_WON_BY_SCORE"
+                            },
+                            "home": {
+                                "outcome": {
+                                    "name": "Win",
+                                    "value": "WON"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 51,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            },
+                            "away": {
+                                "outcome": {
+                                    "name": "Loss",
+                                    "value": "LOST"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 27,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            }
+                        },
+                        "status": {
+                            "name": "Final",
+                            "value": "FINAL"
+                        },
+                        "date": "2025-08-23",
+                        "dates": ["2025-08-23"],
+                        "allocation": {
+                            "time": "11:15:00",
+                            "court": {
+                                "id": "b06d1cde-fda4-4ef4-9888-193f3566def1",
+                                "name": "Stadium Court 20",
+                                "venue": {
+                                    "id": "d03c720a-9ff8-4c33-ba5a-ec28831d1b2a",
+                                    "name": "Netball SA"
+                                }
+                            }
+                        }
+                    }
+                ]
+            },
+            {
+                "id": "c440a20f",
+                "name": "Round 14",
+                "number": 14,
+                "abbreviatedName": "R14",
+                "provisionalDates": null,
+                "isFinalsRound": false,
+                "grade": {
+                    "type": "REGULAR",
+                    "hideScores": false
+                },
+                "byes": [],
+                "games": [
+                    {
+                        "id": "cd1225ab",
+                        "alias": null,
+                        "pool": null,
+                        "home": {
+                            "id": "8892f53c",
+                            "name": "Garville",
+                            "organisation": {
+                                "id": "241b44c0",
+                                "name": "Garville",
+                                "type": "CLUB"
+                            }
+                        },
+                        "away": {
+                            "id": "cbb7c207",
+                            "name": "Tango",
+                            "organisation": {
+                                "id": "d4389d20",
+                                "name": "Tango Netball Club Inc",
+                                "type": "CLUB"
+                            }
+                        },
+                        "result": {
+                            "winner": {
+                                "name": "Team B",
+                                "value": "AWAY"
+                            },
+                            "outcome": {
+                                "name": "Team A won by points",
+                                "value": "AWAY_TEAM_WON_BY_SCORE"
+                            },
+                            "home": {
+                                "outcome": {
+                                    "name": "Loss",
+                                    "value": "LOST"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 40,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            },
+                            "away": {
+                                "outcome": {
+                                    "name": "Win",
+                                    "value": "WON"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 51,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            }
+                        },
+                        "status": {
+                            "name": "Final",
+                            "value": "FINAL"
+                        },
+                        "date": "2025-08-30",
+                        "dates": ["2025-08-30"],
+                        "allocation": {
+                            "time": "11:15:00",
+                            "court": {
+                                "id": "97d366b0-5a6f-4d25-b6ab-0972be95e427",
+                                "name": "Stadium Court 24",
+                                "venue": {
+                                    "id": "d03c720a-9ff8-4c33-ba5a-ec28831d1b2a",
+                                    "name": "Netball SA"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "c64d26f1",
+                        "alias": null,
+                        "pool": null,
+                        "home": {
+                            "id": "d8198dde",
+                            "name": "Walkerville",
+                            "organisation": {
+                                "id": "a83c7a81",
+                                "name": "Walkerville",
+                                "type": "CLUB"
+                            }
+                        },
+                        "away": {
+                            "id": "b9a818ba",
+                            "name": "Contax",
+                            "organisation": {
+                                "id": "a8ee2320",
+                                "name": "Contax",
+                                "type": "CLUB"
+                            }
+                        },
+                        "result": {
+                            "winner": {
+                                "name": "Team B",
+                                "value": "AWAY"
+                            },
+                            "outcome": {
+                                "name": "Team A won by points",
+                                "value": "AWAY_TEAM_WON_BY_SCORE"
+                            },
+                            "home": {
+                                "outcome": {
+                                    "name": "Loss",
+                                    "value": "LOST"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 30,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            },
+                            "away": {
+                                "outcome": {
+                                    "name": "Win",
+                                    "value": "WON"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 34,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            }
+                        },
+                        "status": {
+                            "name": "Final",
+                            "value": "FINAL"
+                        },
+                        "date": "2025-08-30",
+                        "dates": ["2025-08-30"],
+                        "allocation": {
+                            "time": "11:15:00",
+                            "court": {
+                                "id": "50e3421d-0c17-4f01-a5ca-f3376bb617a7",
+                                "name": "Stadium Court 25",
+                                "venue": {
+                                    "id": "d03c720a-9ff8-4c33-ba5a-ec28831d1b2a",
+                                    "name": "Netball SA"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "c749c64b",
+                        "alias": null,
+                        "pool": null,
+                        "home": {
+                            "id": "d14125fe",
+                            "name": "Metro Jets",
+                            "organisation": {
+                                "id": "601b914e",
+                                "name": "Metro Jets",
+                                "type": "CLUB"
+                            }
+                        },
+                        "away": {
+                            "id": "a5ab522e",
+                            "name": "Newton Jaguars",
+                            "organisation": {
+                                "id": "d275f255",
+                                "name": "Norwood Netball Club",
+                                "type": "CLUB"
+                            }
+                        },
+                        "result": {
+                            "winner": {
+                                "name": "Team B",
+                                "value": "AWAY"
+                            },
+                            "outcome": {
+                                "name": "Team A won by points",
+                                "value": "AWAY_TEAM_WON_BY_SCORE"
+                            },
+                            "home": {
+                                "outcome": {
+                                    "name": "Loss",
+                                    "value": "LOST"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 26,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            },
+                            "away": {
+                                "outcome": {
+                                    "name": "Win",
+                                    "value": "WON"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 49,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            }
+                        },
+                        "status": {
+                            "name": "Final",
+                            "value": "FINAL"
+                        },
+                        "date": "2025-08-30",
+                        "dates": ["2025-08-30"],
+                        "allocation": {
+                            "time": "11:15:00",
+                            "court": {
+                                "id": "2baf42c2-69e3-4423-b427-549bda5db2c1",
+                                "name": "Stadium Court 26",
+                                "venue": {
+                                    "id": "d03c720a-9ff8-4c33-ba5a-ec28831d1b2a",
+                                    "name": "Netball SA"
+                                }
+                            }
+                        }
+                    }
+                ]
+            },
+            {
+                "id": "53528e7b",
+                "name": "Finals Round 1",
+                "number": 1,
+                "abbreviatedName": "FR1",
+                "provisionalDates": null,
+                "isFinalsRound": true,
+                "grade": {
+                    "type": "REGULAR",
+                    "hideScores": false
+                },
+                "byes": [],
+                "games": [
+                    {
+                        "id": "73434874",
+                        "alias": "Qualifying Final",
+                        "pool": null,
+                        "home": {
+                            "id": "b9a818ba",
+                            "name": "Contax",
+                            "organisation": {
+                                "id": "a8ee2320",
+                                "name": "Contax",
+                                "type": "CLUB"
+                            }
+                        },
+                        "away": {
+                            "id": "d8198dde",
+                            "name": "Walkerville",
+                            "organisation": {
+                                "id": "a83c7a81",
+                                "name": "Walkerville",
+                                "type": "CLUB"
+                            }
+                        },
+                        "result": {
+                            "winner": {
+                                "name": "Team A",
+                                "value": "HOME"
+                            },
+                            "outcome": {
+                                "name": "Team A won by points",
+                                "value": "HOME_TEAM_WON_BY_SCORE"
+                            },
+                            "home": {
+                                "outcome": {
+                                    "name": "Win",
+                                    "value": "WON"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 46,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            },
+                            "away": {
+                                "outcome": {
+                                    "name": "Loss",
+                                    "value": "LOST"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 38,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            }
+                        },
+                        "status": {
+                            "name": "Final",
+                            "value": "FINAL"
+                        },
+                        "date": "2025-09-06",
+                        "dates": ["2025-09-06"],
+                        "allocation": {
+                            "time": "11:15:00",
+                            "court": {
+                                "id": "d99f218c-6365-49e9-94d2-abe8dacb7581",
+                                "name": "Stadium Court 09",
+                                "venue": {
+                                    "id": "d03c720a-9ff8-4c33-ba5a-ec28831d1b2a",
+                                    "name": "Netball SA"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "e97cc625",
+                        "alias": "Elimination Final",
+                        "pool": null,
+                        "home": {
+                            "id": "a5ab522e",
+                            "name": "Newton Jaguars",
+                            "organisation": {
+                                "id": "d275f255",
+                                "name": "Norwood Netball Club",
+                                "type": "CLUB"
+                            }
+                        },
+                        "away": {
+                            "id": "cbb7c207",
+                            "name": "Tango",
+                            "organisation": {
+                                "id": "d4389d20",
+                                "name": "Tango Netball Club Inc",
+                                "type": "CLUB"
+                            }
+                        },
+                        "result": {
+                            "winner": {
+                                "name": "Team A",
+                                "value": "HOME"
+                            },
+                            "outcome": {
+                                "name": "Team A won by points",
+                                "value": "HOME_TEAM_WON_BY_SCORE"
+                            },
+                            "home": {
+                                "outcome": {
+                                    "name": "Win",
+                                    "value": "WON"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 29,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            },
+                            "away": {
+                                "outcome": {
+                                    "name": "Loss",
+                                    "value": "LOST"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 25,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            }
+                        },
+                        "status": {
+                            "name": "Final",
+                            "value": "FINAL"
+                        },
+                        "date": "2025-09-06",
+                        "dates": ["2025-09-06"],
+                        "allocation": {
+                            "time": "11:15:00",
+                            "court": {
+                                "id": "a1cf912c-4f8a-4083-8e6d-02e5ace66ab2",
+                                "name": "Stadium Court 12",
+                                "venue": {
+                                    "id": "d03c720a-9ff8-4c33-ba5a-ec28831d1b2a",
+                                    "name": "Netball SA"
+                                }
+                            }
+                        }
+                    }
+                ]
+            },
+            {
+                "id": "419e348f",
+                "name": "Preliminary Final",
+                "number": 2,
+                "abbreviatedName": "PF",
+                "provisionalDates": null,
+                "isFinalsRound": true,
+                "grade": {
+                    "type": "REGULAR",
+                    "hideScores": false
+                },
+                "byes": [],
+                "games": [
+                    {
+                        "id": "288e7bf1",
+                        "alias": "Preliminary Final",
+                        "pool": null,
+                        "home": {
+                            "id": "d8198dde",
+                            "name": "Walkerville",
+                            "organisation": {
+                                "id": "a83c7a81",
+                                "name": "Walkerville",
+                                "type": "CLUB"
+                            }
+                        },
+                        "away": {
+                            "id": "a5ab522e",
+                            "name": "Newton Jaguars",
+                            "organisation": {
+                                "id": "d275f255",
+                                "name": "Norwood Netball Club",
+                                "type": "CLUB"
+                            }
+                        },
+                        "result": {
+                            "winner": {
+                                "name": "Team A",
+                                "value": "HOME"
+                            },
+                            "outcome": {
+                                "name": "Team A won by points",
+                                "value": "HOME_TEAM_WON_BY_SCORE"
+                            },
+                            "home": {
+                                "outcome": {
+                                    "name": "Win",
+                                    "value": "WON"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 43,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            },
+                            "away": {
+                                "outcome": {
+                                    "name": "Loss",
+                                    "value": "LOST"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 32,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            }
+                        },
+                        "status": {
+                            "name": "Final",
+                            "value": "FINAL"
+                        },
+                        "date": "2025-09-13",
+                        "dates": ["2025-09-13"],
+                        "allocation": {
+                            "time": "11:15:00",
+                            "court": {
+                                "id": "4197787f-83bc-42d8-98e7-851257b5ff7a",
+                                "name": "Stadium Court 07",
+                                "venue": {
+                                    "id": "d03c720a-9ff8-4c33-ba5a-ec28831d1b2a",
+                                    "name": "Netball SA"
+                                }
+                            }
+                        }
+                    }
+                ]
+            },
+            {
+                "id": "7788ba87",
+                "name": "Grand Final",
+                "number": 3,
+                "abbreviatedName": "GF",
+                "provisionalDates": null,
+                "isFinalsRound": true,
+                "grade": {
+                    "type": "REGULAR",
+                    "hideScores": false
+                },
+                "byes": [],
+                "games": [
+                    {
+                        "id": "e92831f4",
+                        "alias": "Grand Final",
+                        "pool": null,
+                        "home": {
+                            "id": "b9a818ba",
+                            "name": "Contax",
+                            "organisation": {
+                                "id": "a8ee2320",
+                                "name": "Contax",
+                                "type": "CLUB"
+                            }
+                        },
+                        "away": {
+                            "id": "d8198dde",
+                            "name": "Walkerville",
+                            "organisation": {
+                                "id": "a83c7a81",
+                                "name": "Walkerville",
+                                "type": "CLUB"
+                            }
+                        },
+                        "result": {
+                            "winner": {
+                                "name": "Team B",
+                                "value": "AWAY"
+                            },
+                            "outcome": {
+                                "name": "Team A won by points",
+                                "value": "AWAY_TEAM_WON_BY_SCORE"
+                            },
+                            "home": {
+                                "outcome": {
+                                    "name": "Loss",
+                                    "value": "LOST"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 42,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            },
+                            "away": {
+                                "outcome": {
+                                    "name": "Win",
+                                    "value": "WON"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 47,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            }
+                        },
+                        "status": {
+                            "name": "Final",
+                            "value": "FINAL"
+                        },
+                        "date": "2025-09-20",
+                        "dates": ["2025-09-20"],
+                        "allocation": {
+                            "time": "11:15:00",
+                            "court": {
+                                "id": "108fc004-fa88-471c-9182-8632a08a1110",
+                                "name": "Stadium Court 11",
+                                "venue": {
+                                    "id": "d03c720a-9ff8-4c33-ba5a-ec28831d1b2a",
+                                    "name": "Netball SA"
+                                }
+                            }
+                        }
+                    }
+                ]
+            }
+        ]
+    }
+}

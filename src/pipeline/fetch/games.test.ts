@@ -157,6 +157,33 @@ describe('classifyGame', () => {
         });
     });
 
+    it('is no_result for a cancelled game, ignoring its fake 0-0', () => {
+        // Real capture: game 255b6f94 comes back CANCELLED with a 0-0
+        // TOTAL_SCORE on both sides. Scored as a draw it would invent a 0-0
+        // in two clubs' records.
+        expect(classifyGame(result('CANCELLED', 0, 0))).toEqual({
+            status: 'no_result',
+            forfeitingSide: null,
+        });
+    });
+
+    it('is no_result for a pending game, which has already been played', () => {
+        // PENDING means the date has passed but no score was entered.
+        expect(
+            classifyGame(
+                game({ status: { name: 'Pending', value: 'PENDING' } }),
+            ),
+        ).toEqual({ status: 'no_result', forfeitingSide: null });
+    });
+
+    it('throws on an unrecognised status rather than guessing', () => {
+        expect(() =>
+            classifyGame(
+                game({ status: { name: 'Eh', value: 'TIME_TRAVELLING' } }),
+            ),
+        ).toThrow(/TIME_TRAVELLING/u);
+    });
+
     it('throws on an unrecognised outcome rather than guessing', () => {
         // PlayHQ's client-side enum is not exhaustive of what the server
         // sends, so an unknown value means the mapping is out of date.
@@ -245,6 +272,21 @@ describe('toGameRows', () => {
         expect(
             rows.filter((row) => row.round === 1 && row.status !== 'bye'),
         ).toHaveLength(4);
+    });
+
+    it('flags finals, so they can be excluded when reconciling against a ladder', () => {
+        // A ladder is the regular season only. Without this flag, every
+        // finalist looks like it won more games than the ladder credits.
+        const rows = toGameRows(premier, 'premier-2026', 1);
+        const finals = rows.filter((row) => row.is_finals === 1);
+        const expected = premier
+            .filter((round) => round.isFinalsRound)
+            .flatMap((round) => round.games).length;
+        expect(finals).toHaveLength(expected);
+        expect(finals.length).toBeGreaterThan(0);
+        expect(
+            rows.filter((row) => row.round_name === 'Round 1')[0].is_finals,
+        ).toBe(0);
     });
 
     it('names a finals game by its alias rather than the round', () => {

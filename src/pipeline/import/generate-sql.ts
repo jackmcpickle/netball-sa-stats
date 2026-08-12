@@ -62,19 +62,20 @@ function resultStatement(row: TeamSeasonResultImportRow): string {
 }
 
 /**
- * Teams are resolved by the same grade-scoped `(grade, playhq_id)` subquery
- * the results use. A bye's away side is genuinely NULL, so the subquery is
- * omitted rather than evaluated against a NULL id.
+ * Resolved by PlayHQ team id alone, *not* grade-scoped like the results are:
+ * a team regraded after junior grading rounds plays games in a grade whose
+ * ladder it never appears on. PlayHQ team ids are globally unique, which
+ * `checkTeamIdsGloballyUnique` enforces before this runs. A bye's away side
+ * is genuinely NULL, so the subquery is omitted entirely.
  */
-function gameTeamSubquery(gradeKey: string, playhqId: string | null): string {
+function gameTeamSubquery(playhqId: string | null): string {
     if (playhqId === null) return 'NULL';
-    const gradeSubquery = `(SELECT id FROM grades WHERE grade_key = ${sqlText(gradeKey)})`;
-    return `(SELECT id FROM teams WHERE grade_id = ${gradeSubquery} AND playhq_id IS ${sqlText(playhqId)})`;
+    return `(SELECT id FROM teams WHERE playhq_id IS ${sqlText(playhqId)})`;
 }
 
 function gameStatement(row: GameImportRow): string {
     const gradeSubquery = `(SELECT id FROM grades WHERE grade_key = ${sqlText(row.gradeKey)})`;
-    return `INSERT INTO games (grade_id, playhq_id, round, round_name, played_at, home_team_id, away_team_id, home_score, away_score, status, forfeiting_side, source, scraped_at) VALUES (${gradeSubquery}, ${sqlText(row.playhqId)}, ${sqlNumber(row.round)}, ${sqlText(row.roundName)}, ${sqlNumber(row.playedAt)}, ${gameTeamSubquery(row.gradeKey, row.homePlayhqId)}, ${gameTeamSubquery(row.gradeKey, row.awayPlayhqId)}, ${sqlNumber(row.homeScore)}, ${sqlNumber(row.awayScore)}, ${sqlText(row.status)}, ${sqlText(row.forfeitingSide)}, ${sqlText(row.source)}, ${sqlNumber(row.scrapedAt)}) ON CONFLICT(grade_id, playhq_id) DO UPDATE SET round = excluded.round, round_name = excluded.round_name, played_at = excluded.played_at, home_team_id = excluded.home_team_id, away_team_id = excluded.away_team_id, home_score = excluded.home_score, away_score = excluded.away_score, status = excluded.status, forfeiting_side = excluded.forfeiting_side, source = excluded.source, scraped_at = excluded.scraped_at;`;
+    return `INSERT INTO games (grade_id, playhq_id, round, round_name, is_finals, played_at, home_team_id, away_team_id, home_score, away_score, status, forfeiting_side, source, scraped_at) VALUES (${gradeSubquery}, ${sqlText(row.playhqId)}, ${sqlNumber(row.round)}, ${sqlText(row.roundName)}, ${sqlBool(row.isFinals)}, ${sqlNumber(row.playedAt)}, ${gameTeamSubquery(row.homePlayhqId)}, ${gameTeamSubquery(row.awayPlayhqId)}, ${sqlNumber(row.homeScore)}, ${sqlNumber(row.awayScore)}, ${sqlText(row.status)}, ${sqlText(row.forfeitingSide)}, ${sqlText(row.source)}, ${sqlNumber(row.scrapedAt)}) ON CONFLICT(grade_id, playhq_id) DO UPDATE SET round = excluded.round, round_name = excluded.round_name, is_finals = excluded.is_finals, played_at = excluded.played_at, home_team_id = excluded.home_team_id, away_team_id = excluded.away_team_id, home_score = excluded.home_score, away_score = excluded.away_score, status = excluded.status, forfeiting_side = excluded.forfeiting_side, source = excluded.source, scraped_at = excluded.scraped_at;`;
 }
 
 function chunkStatements(

@@ -65,6 +65,7 @@ export type GameRow = Record<string, CsvValue> & {
     playhq_id: string;
     round: number | null;
     round_name: string | null;
+    is_finals: number;
     played_at: number | null;
     home_playhq_id: string | null;
     away_playhq_id: string | null;
@@ -101,6 +102,26 @@ const SCORE_OUTCOMES = new Set([
     'DRAW_BY_SCORE',
 ]);
 
+/**
+ * Outcomes where the game did not produce a result. `CANCELLED` carries a
+ * fabricated 0-0 scoreline, so it must be recognised explicitly — treating it
+ * as a scored draw would invent a 0-0 in both clubs' records.
+ */
+const NO_RESULT_OUTCOMES = new Set(['CANCELLED', 'ABANDONED']);
+
+/**
+ * Only `UPCOMING` is genuinely a future fixture. `PENDING` is a game whose
+ * date has passed but whose score was never entered — calling that
+ * "scheduled" would put finished games in the upcoming list forever.
+ */
+const UNPLAYED_STATUSES: Record<string, GameStatus> = {
+    UPCOMING: 'scheduled',
+    PENDING: 'no_result',
+    CANCELLED: 'no_result',
+    FINAL: 'no_result',
+    IN_PROGRESS: 'scheduled',
+};
+
 export interface GameClassification {
     readonly status: GameStatus;
     readonly forfeitingSide: ForfeitSide | null;
@@ -116,14 +137,18 @@ export interface GameClassification {
  */
 export function classifyGame(game: FixtureGame): GameClassification {
     if (game.result === null) {
-        return {
-            status: game.status.value === 'FINAL' ? 'no_result' : 'scheduled',
-            forfeitingSide: null,
-        };
+        const status = UNPLAYED_STATUSES[game.status.value];
+        if (status === undefined) {
+            throw new Error(
+                `Unrecognised PlayHQ game status "${game.status.value}" on game ${game.id}. ` +
+                    'Add it to games.ts and document it in docs/playhq-api.md §6.',
+            );
+        }
+        return { status, forfeitingSide: null };
     }
 
     const outcome = game.result.outcome?.value ?? null;
-    if (outcome === null) {
+    if (outcome === null || NO_RESULT_OUTCOMES.has(outcome)) {
         return { status: 'no_result', forfeitingSide: null };
     }
 
@@ -262,6 +287,7 @@ export function toGameRows(
                 playhq_id: game.id,
                 round: roundNumber,
                 round_name: game.alias ?? round.name,
+                is_finals: round.isFinalsRound ? 1 : 0,
                 played_at: playedAtEpoch(
                     game.date,
                     game.allocation?.time ?? null,
@@ -283,6 +309,7 @@ export function toGameRows(
                 playhq_id: `bye:${round.id}:${team.id ?? team.name}`,
                 round: roundNumber,
                 round_name: round.name,
+                is_finals: round.isFinalsRound ? 1 : 0,
                 played_at: null,
                 home_playhq_id: teamId(team),
                 away_playhq_id: null,

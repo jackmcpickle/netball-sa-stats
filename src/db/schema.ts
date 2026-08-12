@@ -254,6 +254,14 @@ export const games = sqliteTable(
         playhqId: text('playhq_id').notNull(),
         round: integer('round'),
         roundName: text('round_name'),
+        /**
+         * Ladders cover the regular season only, so finals must be separable
+         * to reconcile games against them — and a final is worth labelling as
+         * one rather than showing as "round 15".
+         */
+        isFinals: integer('is_finals', { mode: 'boolean' })
+            .notNull()
+            .default(false),
         /** Epoch seconds, null when PlayHQ has no scheduled time. */
         playedAt: integer('played_at'),
         homeTeamId: integer('home_team_id').references(() => teams.id, {

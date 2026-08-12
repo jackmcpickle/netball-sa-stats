@@ -23,6 +23,7 @@ import type {
     ImportExecutor,
     PlayedMismatchWarning,
     TeamCountWarning,
+    UnresolvedTeamWarning,
 } from '@/pipeline/import/types';
 import { ImportValidationError } from '@/pipeline/import/types';
 import { validateImportData } from '@/pipeline/import/validate';
@@ -37,6 +38,7 @@ export type ImportReport = {
     results: number;
     warnings: TeamCountWarning[];
     playedMismatchWarnings: PlayedMismatchWarning[];
+    unresolvedTeamWarnings: UnresolvedTeamWarning[];
 };
 
 async function readCsv(
@@ -192,9 +194,22 @@ export async function runImport(
     const { dataDir, executor } = options;
     const data = await loadImportData(dataDir);
     const competitionKeys = await loadCompetitionKeys(executor.queryAll);
-    const { teamCountWarnings, playedMismatchWarnings } = validateImportData(
-        data,
-        competitionKeys,
+    const {
+        teamCountWarnings,
+        playedMismatchWarnings,
+        unresolvedTeamWarnings,
+    } = validateImportData(data, competitionKeys);
+
+    // Games whose team withdrew before it ever appeared on a ladder cannot be
+    // resolved and are dropped here, so the row-count assertion below still
+    // compares like with like.
+    const skipped = new Set(
+        unresolvedTeamWarnings.map(
+            (warning) => `${warning.gradeKey}:${warning.playhqId}`,
+        ),
+    );
+    data.games = data.games.filter(
+        (game) => !skipped.has(`${game.gradeKey}:${game.playhqId}`),
     );
 
     // generateImportSql runs after validation, which may have annotated
@@ -220,5 +235,6 @@ export async function runImport(
         results: data.results.length,
         warnings: teamCountWarnings,
         playedMismatchWarnings,
+        unresolvedTeamWarnings,
     };
 }

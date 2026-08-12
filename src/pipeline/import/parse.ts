@@ -83,6 +83,7 @@ export function parseGameRow(raw: RawRow, file: string): GameImportRow {
         playhqId: raw.playhq_id ?? '',
         round: num(raw.round ?? ''),
         roundName: str(raw.round_name ?? ''),
+        isFinals: bool(raw.is_finals ?? ''),
         playedAt: num(raw.played_at ?? ''),
         homePlayhqId: str(raw.home_playhq_id ?? ''),
         awayPlayhqId: str(raw.away_playhq_id ?? ''),

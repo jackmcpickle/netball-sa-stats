@@ -252,12 +252,21 @@ describe('games import', () => {
         expect(count.n).toBe(4);
     });
 
-    it('fails loudly on a team id that is not in teams.csv', async () => {
-        await expect(
-            runImport({
-                dataDir: GAMES_UNKNOWN_TEAM_FIXTURE_DIR,
-                executor: createSqliteExecutor(db),
-            }),
-        ).rejects.toThrow(ImportValidationError);
+    it('skips and reports a game whose team is on no ladder anywhere', async () => {
+        // Never imported with an invented team, and never silently dropped:
+        // the row is reported so a systematic fault is visible.
+        const report = await runImport({
+            dataDir: GAMES_UNKNOWN_TEAM_FIXTURE_DIR,
+            executor: createSqliteExecutor(db),
+        });
+        expect(report.games).toBe(0);
+        expect(report.unresolvedTeamWarnings).toHaveLength(1);
+        expect(report.unresolvedTeamWarnings[0].missingTeamIds).toEqual([
+            'ghost-team',
+        ]);
+        const count = db.prepare('SELECT COUNT(*) AS n FROM games;').get() as {
+            n: number;
+        };
+        expect(count.n).toBe(0);
     });
 });

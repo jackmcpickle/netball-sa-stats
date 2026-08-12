@@ -440,12 +440,9 @@ describe('validateImportData', () => {
 });
 
 describe('validateGames', () => {
-    // Team identity is grade-scoped, so the resolution map is keyed
-    // `${gradeKey}:${playhqId}` — see `teams_grade_playhq_idx` in schema.ts.
-    const teamIds = new Map([
-        ['premier-2026:t1', 1],
-        ['premier-2026:t2', 2],
-    ]);
+    // Resolved season-wide, not grade-scoped: a team regraded after junior
+    // grading rounds plays games in a grade whose ladder it never reaches.
+    const teamIds = new Set(['t1', 't2']);
     const gradeKeys = new Set(['premier-2026']);
 
     function gameRow(overrides: Partial<GameImportRow> = {}): GameImportRow {
@@ -454,6 +451,7 @@ describe('validateGames', () => {
             playhqId: 'g1',
             round: 1,
             roundName: 'Round 1',
+            isFinals: false,
             playedAt: null,
             homePlayhqId: 't1',
             awayPlayhqId: 't2',
@@ -474,14 +472,24 @@ describe('validateGames', () => {
         }).not.toThrow();
     });
 
-    it('fails loudly on a team id that is not in teams.csv', () => {
-        expect(() => {
-            validateGames(
-                [gameRow({ homePlayhqId: 'ghost' })],
-                teamIds,
-                gradeKeys,
-            );
-        }).toThrow(ImportValidationError);
+    it('reports (and skips) a team id that is on no ladder anywhere', () => {
+        // A team that withdrew before completing a game. Never invented, but
+        // one abandoned fixture must not block the whole import.
+        const unresolved = validateGames(
+            [gameRow({ homePlayhqId: 'ghost' })],
+            teamIds,
+            gradeKeys,
+        );
+        expect(unresolved).toHaveLength(1);
+        expect(unresolved[0].missingTeamIds).toEqual(['ghost']);
+    });
+
+    it('accepts a team whose ladder row lives in another grade', () => {
+        // Junior grading rounds: the game was played in this grade, and must
+        // not be dropped just because the team was regraded afterwards.
+        expect(
+            validateGames([gameRow()], new Set(['t1', 't2']), gradeKeys),
+        ).toEqual([]);
     });
 
     it('fails on a grade that is not in grades.csv', () => {

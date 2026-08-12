@@ -1,0 +1,4466 @@
+{
+    "data": {
+        "discoverGradeFixture": [
+            {
+                "id": "11056649",
+                "name": "Round 1",
+                "number": 1,
+                "abbreviatedName": "R1",
+                "provisionalDates": null,
+                "isFinalsRound": false,
+                "grade": {
+                    "type": "REGULAR",
+                    "hideScores": false
+                },
+                "byes": [],
+                "games": [
+                    {
+                        "id": "5e8ab847",
+                        "alias": null,
+                        "pool": null,
+                        "home": {
+                            "id": "4a51bb63",
+                            "name": "Metro Jets",
+                            "organisation": {
+                                "id": "601b914e",
+                                "name": "Metro Jets",
+                                "type": "CLUB"
+                            }
+                        },
+                        "away": {
+                            "id": "39614777",
+                            "name": "Norwood",
+                            "organisation": {
+                                "id": "d275f255",
+                                "name": "Norwood Netball Club",
+                                "type": "CLUB"
+                            }
+                        },
+                        "result": {
+                            "winner": {
+                                "name": "Team A",
+                                "value": "HOME"
+                            },
+                            "outcome": {
+                                "name": "Team A won by points",
+                                "value": "HOME_TEAM_WON_BY_SCORE"
+                            },
+                            "home": {
+                                "outcome": {
+                                    "name": "Win",
+                                    "value": "WON"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 30,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            },
+                            "away": {
+                                "outcome": {
+                                    "name": "Loss",
+                                    "value": "LOST"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 13,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            }
+                        },
+                        "status": {
+                            "name": "Final",
+                            "value": "FINAL"
+                        },
+                        "date": "2026-05-08",
+                        "dates": ["2026-05-08"],
+                        "allocation": {
+                            "time": "18:30:00",
+                            "court": {
+                                "id": "59870c2c-9d37-4bc1-8693-ef4db6ed4f2c",
+                                "name": "Stadium Court 29",
+                                "venue": {
+                                    "id": "d03c720a-9ff8-4c33-ba5a-ec28831d1b2a",
+                                    "name": "Netball SA"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "7e246689",
+                        "alias": null,
+                        "pool": null,
+                        "home": {
+                            "id": "221e9d7a",
+                            "name": "Oakdale Gold",
+                            "organisation": {
+                                "id": "2f66832f",
+                                "name": "Oakdale Netball Club (SA)",
+                                "type": "CLUB"
+                            }
+                        },
+                        "away": {
+                            "id": "7090f5e1",
+                            "name": "Contax",
+                            "organisation": {
+                                "id": "a8ee2320",
+                                "name": "Contax",
+                                "type": "CLUB"
+                            }
+                        },
+                        "result": {
+                            "winner": {
+                                "name": "Team A",
+                                "value": "HOME"
+                            },
+                            "outcome": {
+                                "name": "Team A won by points",
+                                "value": "HOME_TEAM_WON_BY_SCORE"
+                            },
+                            "home": {
+                                "outcome": {
+                                    "name": "Win",
+                                    "value": "WON"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 33,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            },
+                            "away": {
+                                "outcome": {
+                                    "name": "Loss",
+                                    "value": "LOST"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 24,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            }
+                        },
+                        "status": {
+                            "name": "Final",
+                            "value": "FINAL"
+                        },
+                        "date": "2026-05-08",
+                        "dates": ["2026-05-08"],
+                        "allocation": {
+                            "time": "18:30:00",
+                            "court": {
+                                "id": "07997757-ba70-41dc-bfa2-4df7c0ab938a",
+                                "name": "Stadium Court 30",
+                                "venue": {
+                                    "id": "d03c720a-9ff8-4c33-ba5a-ec28831d1b2a",
+                                    "name": "Netball SA"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "2e3efd1c",
+                        "alias": null,
+                        "pool": null,
+                        "home": {
+                            "id": "0ec99cbf",
+                            "name": "Walkerville 1",
+                            "organisation": {
+                                "id": "a83c7a81",
+                                "name": "Walkerville",
+                                "type": "CLUB"
+                            }
+                        },
+                        "away": {
+                            "id": "ca973843",
+                            "name": "South Adelaide",
+                            "organisation": {
+                                "id": "2e63c9f2",
+                                "name": "South Adelaide Netball Club",
+                                "type": "CLUB"
+                            }
+                        },
+                        "result": {
+                            "winner": {
+                                "name": "Team A",
+                                "value": "HOME"
+                            },
+                            "outcome": {
+                                "name": "Team A won by points",
+                                "value": "HOME_TEAM_WON_BY_SCORE"
+                            },
+                            "home": {
+                                "outcome": {
+                                    "name": "Win",
+                                    "value": "WON"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 20,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            },
+                            "away": {
+                                "outcome": {
+                                    "name": "Loss",
+                                    "value": "LOST"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 14,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            }
+                        },
+                        "status": {
+                            "name": "Final",
+                            "value": "FINAL"
+                        },
+                        "date": "2026-05-08",
+                        "dates": ["2026-05-08"],
+                        "allocation": {
+                            "time": "18:30:00",
+                            "court": {
+                                "id": "a8230845-11bc-45dd-916f-8e585edc64b0",
+                                "name": "Stadium Court 31",
+                                "venue": {
+                                    "id": "d03c720a-9ff8-4c33-ba5a-ec28831d1b2a",
+                                    "name": "Netball SA"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "14036fdd",
+                        "alias": null,
+                        "pool": null,
+                        "home": {
+                            "id": "a997a212",
+                            "name": "Walkerville 2",
+                            "organisation": {
+                                "id": "a83c7a81",
+                                "name": "Walkerville",
+                                "type": "CLUB"
+                            }
+                        },
+                        "away": {
+                            "id": "f95f3183",
+                            "name": "Matrics",
+                            "organisation": {
+                                "id": "0969cc64",
+                                "name": "Matrics",
+                                "type": "CLUB"
+                            }
+                        },
+                        "result": {
+                            "winner": {
+                                "name": "Team B",
+                                "value": "AWAY"
+                            },
+                            "outcome": {
+                                "name": "Team A won by points",
+                                "value": "AWAY_TEAM_WON_BY_SCORE"
+                            },
+                            "home": {
+                                "outcome": {
+                                    "name": "Loss",
+                                    "value": "LOST"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 18,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            },
+                            "away": {
+                                "outcome": {
+                                    "name": "Win",
+                                    "value": "WON"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 31,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            }
+                        },
+                        "status": {
+                            "name": "Final",
+                            "value": "FINAL"
+                        },
+                        "date": "2026-05-08",
+                        "dates": ["2026-05-08"],
+                        "allocation": {
+                            "time": "18:30:00",
+                            "court": {
+                                "id": "62bdbfc6-f787-4478-8291-b8a4b5a37a82",
+                                "name": "Stadium Court 32",
+                                "venue": {
+                                    "id": "d03c720a-9ff8-4c33-ba5a-ec28831d1b2a",
+                                    "name": "Netball SA"
+                                }
+                            }
+                        }
+                    }
+                ]
+            },
+            {
+                "id": "d23f0e69",
+                "name": "Round 2",
+                "number": 2,
+                "abbreviatedName": "R2",
+                "provisionalDates": null,
+                "isFinalsRound": false,
+                "grade": {
+                    "type": "REGULAR",
+                    "hideScores": false
+                },
+                "byes": [],
+                "games": [
+                    {
+                        "id": "1f9adc4e",
+                        "alias": null,
+                        "pool": null,
+                        "home": {
+                            "id": "39614777",
+                            "name": "Norwood",
+                            "organisation": {
+                                "id": "d275f255",
+                                "name": "Norwood Netball Club",
+                                "type": "CLUB"
+                            }
+                        },
+                        "away": {
+                            "id": "0ec99cbf",
+                            "name": "Walkerville 1",
+                            "organisation": {
+                                "id": "a83c7a81",
+                                "name": "Walkerville",
+                                "type": "CLUB"
+                            }
+                        },
+                        "result": {
+                            "winner": {
+                                "name": "Team B",
+                                "value": "AWAY"
+                            },
+                            "outcome": {
+                                "name": "Team A won by points",
+                                "value": "AWAY_TEAM_WON_BY_SCORE"
+                            },
+                            "home": {
+                                "outcome": {
+                                    "name": "Loss",
+                                    "value": "LOST"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 7,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            },
+                            "away": {
+                                "outcome": {
+                                    "name": "Win",
+                                    "value": "WON"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 27,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            }
+                        },
+                        "status": {
+                            "name": "Final",
+                            "value": "FINAL"
+                        },
+                        "date": "2026-05-15",
+                        "dates": ["2026-05-15"],
+                        "allocation": {
+                            "time": "18:30:00",
+                            "court": {
+                                "id": "59870c2c-9d37-4bc1-8693-ef4db6ed4f2c",
+                                "name": "Stadium Court 29",
+                                "venue": {
+                                    "id": "d03c720a-9ff8-4c33-ba5a-ec28831d1b2a",
+                                    "name": "Netball SA"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "0c9a9917",
+                        "alias": null,
+                        "pool": null,
+                        "home": {
+                            "id": "ca973843",
+                            "name": "South Adelaide",
+                            "organisation": {
+                                "id": "2e63c9f2",
+                                "name": "South Adelaide Netball Club",
+                                "type": "CLUB"
+                            }
+                        },
+                        "away": {
+                            "id": "a997a212",
+                            "name": "Walkerville 2",
+                            "organisation": {
+                                "id": "a83c7a81",
+                                "name": "Walkerville",
+                                "type": "CLUB"
+                            }
+                        },
+                        "result": {
+                            "winner": null,
+                            "outcome": {
+                                "name": "Draw",
+                                "value": "DRAW_BY_SCORE"
+                            },
+                            "home": {
+                                "outcome": {
+                                    "name": "Draw",
+                                    "value": "DREW"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 17,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            },
+                            "away": {
+                                "outcome": {
+                                    "name": "Draw",
+                                    "value": "DREW"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 17,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            }
+                        },
+                        "status": {
+                            "name": "Final",
+                            "value": "FINAL"
+                        },
+                        "date": "2026-05-15",
+                        "dates": ["2026-05-15"],
+                        "allocation": {
+                            "time": "18:30:00",
+                            "court": {
+                                "id": "07997757-ba70-41dc-bfa2-4df7c0ab938a",
+                                "name": "Stadium Court 30",
+                                "venue": {
+                                    "id": "d03c720a-9ff8-4c33-ba5a-ec28831d1b2a",
+                                    "name": "Netball SA"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "889afb7c",
+                        "alias": null,
+                        "pool": null,
+                        "home": {
+                            "id": "f95f3183",
+                            "name": "Matrics",
+                            "organisation": {
+                                "id": "0969cc64",
+                                "name": "Matrics",
+                                "type": "CLUB"
+                            }
+                        },
+                        "away": {
+                            "id": "221e9d7a",
+                            "name": "Oakdale Gold",
+                            "organisation": {
+                                "id": "2f66832f",
+                                "name": "Oakdale Netball Club (SA)",
+                                "type": "CLUB"
+                            }
+                        },
+                        "result": {
+                            "winner": {
+                                "name": "Team B",
+                                "value": "AWAY"
+                            },
+                            "outcome": {
+                                "name": "Team A won by points",
+                                "value": "AWAY_TEAM_WON_BY_SCORE"
+                            },
+                            "home": {
+                                "outcome": {
+                                    "name": "Loss",
+                                    "value": "LOST"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 10,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            },
+                            "away": {
+                                "outcome": {
+                                    "name": "Win",
+                                    "value": "WON"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 37,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            }
+                        },
+                        "status": {
+                            "name": "Final",
+                            "value": "FINAL"
+                        },
+                        "date": "2026-05-15",
+                        "dates": ["2026-05-15"],
+                        "allocation": {
+                            "time": "18:30:00",
+                            "court": {
+                                "id": "a8230845-11bc-45dd-916f-8e585edc64b0",
+                                "name": "Stadium Court 31",
+                                "venue": {
+                                    "id": "d03c720a-9ff8-4c33-ba5a-ec28831d1b2a",
+                                    "name": "Netball SA"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "bd4ce5ad",
+                        "alias": null,
+                        "pool": null,
+                        "home": {
+                            "id": "7090f5e1",
+                            "name": "Contax",
+                            "organisation": {
+                                "id": "a8ee2320",
+                                "name": "Contax",
+                                "type": "CLUB"
+                            }
+                        },
+                        "away": {
+                            "id": "4a51bb63",
+                            "name": "Metro Jets",
+                            "organisation": {
+                                "id": "601b914e",
+                                "name": "Metro Jets",
+                                "type": "CLUB"
+                            }
+                        },
+                        "result": {
+                            "winner": {
+                                "name": "Team A",
+                                "value": "HOME"
+                            },
+                            "outcome": {
+                                "name": "Team A won by points",
+                                "value": "HOME_TEAM_WON_BY_SCORE"
+                            },
+                            "home": {
+                                "outcome": {
+                                    "name": "Win",
+                                    "value": "WON"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 15,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            },
+                            "away": {
+                                "outcome": {
+                                    "name": "Loss",
+                                    "value": "LOST"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 8,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            }
+                        },
+                        "status": {
+                            "name": "Final",
+                            "value": "FINAL"
+                        },
+                        "date": "2026-05-15",
+                        "dates": ["2026-05-15"],
+                        "allocation": {
+                            "time": "18:30:00",
+                            "court": {
+                                "id": "62bdbfc6-f787-4478-8291-b8a4b5a37a82",
+                                "name": "Stadium Court 32",
+                                "venue": {
+                                    "id": "d03c720a-9ff8-4c33-ba5a-ec28831d1b2a",
+                                    "name": "Netball SA"
+                                }
+                            }
+                        }
+                    }
+                ]
+            },
+            {
+                "id": "6b832838",
+                "name": "Round 3",
+                "number": 3,
+                "abbreviatedName": "R3",
+                "provisionalDates": null,
+                "isFinalsRound": false,
+                "grade": {
+                    "type": "REGULAR",
+                    "hideScores": false
+                },
+                "byes": [],
+                "games": [
+                    {
+                        "id": "15f4cc22",
+                        "alias": null,
+                        "pool": null,
+                        "home": {
+                            "id": "f95f3183",
+                            "name": "Matrics",
+                            "organisation": {
+                                "id": "0969cc64",
+                                "name": "Matrics",
+                                "type": "CLUB"
+                            }
+                        },
+                        "away": {
+                            "id": "ca973843",
+                            "name": "South Adelaide",
+                            "organisation": {
+                                "id": "2e63c9f2",
+                                "name": "South Adelaide Netball Club",
+                                "type": "CLUB"
+                            }
+                        },
+                        "result": {
+                            "winner": {
+                                "name": "Team A",
+                                "value": "HOME"
+                            },
+                            "outcome": {
+                                "name": "Team A won by points",
+                                "value": "HOME_TEAM_WON_BY_SCORE"
+                            },
+                            "home": {
+                                "outcome": {
+                                    "name": "Win",
+                                    "value": "WON"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 26,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            },
+                            "away": {
+                                "outcome": {
+                                    "name": "Loss",
+                                    "value": "LOST"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 23,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            }
+                        },
+                        "status": {
+                            "name": "Final",
+                            "value": "FINAL"
+                        },
+                        "date": "2026-05-22",
+                        "dates": ["2026-05-22"],
+                        "allocation": {
+                            "time": "18:30:00",
+                            "court": {
+                                "id": "59870c2c-9d37-4bc1-8693-ef4db6ed4f2c",
+                                "name": "Stadium Court 29",
+                                "venue": {
+                                    "id": "d03c720a-9ff8-4c33-ba5a-ec28831d1b2a",
+                                    "name": "Netball SA"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "c415ecd1",
+                        "alias": null,
+                        "pool": null,
+                        "home": {
+                            "id": "0ec99cbf",
+                            "name": "Walkerville 1",
+                            "organisation": {
+                                "id": "a83c7a81",
+                                "name": "Walkerville",
+                                "type": "CLUB"
+                            }
+                        },
+                        "away": {
+                            "id": "7090f5e1",
+                            "name": "Contax",
+                            "organisation": {
+                                "id": "a8ee2320",
+                                "name": "Contax",
+                                "type": "CLUB"
+                            }
+                        },
+                        "result": {
+                            "winner": {
+                                "name": "Team A",
+                                "value": "HOME"
+                            },
+                            "outcome": {
+                                "name": "Team A won by points",
+                                "value": "HOME_TEAM_WON_BY_SCORE"
+                            },
+                            "home": {
+                                "outcome": {
+                                    "name": "Win",
+                                    "value": "WON"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 26,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            },
+                            "away": {
+                                "outcome": {
+                                    "name": "Loss",
+                                    "value": "LOST"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 18,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            }
+                        },
+                        "status": {
+                            "name": "Final",
+                            "value": "FINAL"
+                        },
+                        "date": "2026-05-22",
+                        "dates": ["2026-05-22"],
+                        "allocation": {
+                            "time": "18:30:00",
+                            "court": {
+                                "id": "07997757-ba70-41dc-bfa2-4df7c0ab938a",
+                                "name": "Stadium Court 30",
+                                "venue": {
+                                    "id": "d03c720a-9ff8-4c33-ba5a-ec28831d1b2a",
+                                    "name": "Netball SA"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "01aae81e",
+                        "alias": null,
+                        "pool": null,
+                        "home": {
+                            "id": "a997a212",
+                            "name": "Walkerville 2",
+                            "organisation": {
+                                "id": "a83c7a81",
+                                "name": "Walkerville",
+                                "type": "CLUB"
+                            }
+                        },
+                        "away": {
+                            "id": "39614777",
+                            "name": "Norwood",
+                            "organisation": {
+                                "id": "d275f255",
+                                "name": "Norwood Netball Club",
+                                "type": "CLUB"
+                            }
+                        },
+                        "result": {
+                            "winner": {
+                                "name": "Team B",
+                                "value": "AWAY"
+                            },
+                            "outcome": {
+                                "name": "Team A won by points",
+                                "value": "AWAY_TEAM_WON_BY_SCORE"
+                            },
+                            "home": {
+                                "outcome": {
+                                    "name": "Loss",
+                                    "value": "LOST"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 17,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            },
+                            "away": {
+                                "outcome": {
+                                    "name": "Win",
+                                    "value": "WON"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 23,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            }
+                        },
+                        "status": {
+                            "name": "Final",
+                            "value": "FINAL"
+                        },
+                        "date": "2026-05-22",
+                        "dates": ["2026-05-22"],
+                        "allocation": {
+                            "time": "18:30:00",
+                            "court": {
+                                "id": "a8230845-11bc-45dd-916f-8e585edc64b0",
+                                "name": "Stadium Court 31",
+                                "venue": {
+                                    "id": "d03c720a-9ff8-4c33-ba5a-ec28831d1b2a",
+                                    "name": "Netball SA"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "e74cc5ee",
+                        "alias": null,
+                        "pool": null,
+                        "home": {
+                            "id": "221e9d7a",
+                            "name": "Oakdale Gold",
+                            "organisation": {
+                                "id": "2f66832f",
+                                "name": "Oakdale Netball Club (SA)",
+                                "type": "CLUB"
+                            }
+                        },
+                        "away": {
+                            "id": "4a51bb63",
+                            "name": "Metro Jets",
+                            "organisation": {
+                                "id": "601b914e",
+                                "name": "Metro Jets",
+                                "type": "CLUB"
+                            }
+                        },
+                        "result": {
+                            "winner": {
+                                "name": "Team A",
+                                "value": "HOME"
+                            },
+                            "outcome": {
+                                "name": "Team A won by points",
+                                "value": "HOME_TEAM_WON_BY_SCORE"
+                            },
+                            "home": {
+                                "outcome": {
+                                    "name": "Win",
+                                    "value": "WON"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 44,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            },
+                            "away": {
+                                "outcome": {
+                                    "name": "Loss",
+                                    "value": "LOST"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 12,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            }
+                        },
+                        "status": {
+                            "name": "Final",
+                            "value": "FINAL"
+                        },
+                        "date": "2026-05-22",
+                        "dates": ["2026-05-22"],
+                        "allocation": {
+                            "time": "18:30:00",
+                            "court": {
+                                "id": "62bdbfc6-f787-4478-8291-b8a4b5a37a82",
+                                "name": "Stadium Court 32",
+                                "venue": {
+                                    "id": "d03c720a-9ff8-4c33-ba5a-ec28831d1b2a",
+                                    "name": "Netball SA"
+                                }
+                            }
+                        }
+                    }
+                ]
+            },
+            {
+                "id": "5e9c8938",
+                "name": "Round 4",
+                "number": 4,
+                "abbreviatedName": "R4",
+                "provisionalDates": null,
+                "isFinalsRound": false,
+                "grade": {
+                    "type": "REGULAR",
+                    "hideScores": false
+                },
+                "byes": [],
+                "games": [
+                    {
+                        "id": "70abf81d",
+                        "alias": null,
+                        "pool": null,
+                        "home": {
+                            "id": "4a51bb63",
+                            "name": "Metro Jets",
+                            "organisation": {
+                                "id": "601b914e",
+                                "name": "Metro Jets",
+                                "type": "CLUB"
+                            }
+                        },
+                        "away": {
+                            "id": "0ec99cbf",
+                            "name": "Walkerville 1",
+                            "organisation": {
+                                "id": "a83c7a81",
+                                "name": "Walkerville",
+                                "type": "CLUB"
+                            }
+                        },
+                        "result": {
+                            "winner": {
+                                "name": "Team B",
+                                "value": "AWAY"
+                            },
+                            "outcome": {
+                                "name": "Team A won by points",
+                                "value": "AWAY_TEAM_WON_BY_SCORE"
+                            },
+                            "home": {
+                                "outcome": {
+                                    "name": "Loss",
+                                    "value": "LOST"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 8,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            },
+                            "away": {
+                                "outcome": {
+                                    "name": "Win",
+                                    "value": "WON"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 20,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            }
+                        },
+                        "status": {
+                            "name": "Final",
+                            "value": "FINAL"
+                        },
+                        "date": "2026-05-29",
+                        "dates": ["2026-05-29"],
+                        "allocation": {
+                            "time": "18:30:00",
+                            "court": {
+                                "id": "59870c2c-9d37-4bc1-8693-ef4db6ed4f2c",
+                                "name": "Stadium Court 29",
+                                "venue": {
+                                    "id": "d03c720a-9ff8-4c33-ba5a-ec28831d1b2a",
+                                    "name": "Netball SA"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "dd7f0eef",
+                        "alias": null,
+                        "pool": null,
+                        "home": {
+                            "id": "39614777",
+                            "name": "Norwood",
+                            "organisation": {
+                                "id": "d275f255",
+                                "name": "Norwood Netball Club",
+                                "type": "CLUB"
+                            }
+                        },
+                        "away": {
+                            "id": "f95f3183",
+                            "name": "Matrics",
+                            "organisation": {
+                                "id": "0969cc64",
+                                "name": "Matrics",
+                                "type": "CLUB"
+                            }
+                        },
+                        "result": {
+                            "winner": {
+                                "name": "Team B",
+                                "value": "AWAY"
+                            },
+                            "outcome": {
+                                "name": "Team A won by points",
+                                "value": "AWAY_TEAM_WON_BY_SCORE"
+                            },
+                            "home": {
+                                "outcome": {
+                                    "name": "Loss",
+                                    "value": "LOST"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 17,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            },
+                            "away": {
+                                "outcome": {
+                                    "name": "Win",
+                                    "value": "WON"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 23,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            }
+                        },
+                        "status": {
+                            "name": "Final",
+                            "value": "FINAL"
+                        },
+                        "date": "2026-05-29",
+                        "dates": ["2026-05-29"],
+                        "allocation": {
+                            "time": "18:30:00",
+                            "court": {
+                                "id": "07997757-ba70-41dc-bfa2-4df7c0ab938a",
+                                "name": "Stadium Court 30",
+                                "venue": {
+                                    "id": "d03c720a-9ff8-4c33-ba5a-ec28831d1b2a",
+                                    "name": "Netball SA"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "e5511aa7",
+                        "alias": null,
+                        "pool": null,
+                        "home": {
+                            "id": "7090f5e1",
+                            "name": "Contax",
+                            "organisation": {
+                                "id": "a8ee2320",
+                                "name": "Contax",
+                                "type": "CLUB"
+                            }
+                        },
+                        "away": {
+                            "id": "a997a212",
+                            "name": "Walkerville 2",
+                            "organisation": {
+                                "id": "a83c7a81",
+                                "name": "Walkerville",
+                                "type": "CLUB"
+                            }
+                        },
+                        "result": {
+                            "winner": {
+                                "name": "Team A",
+                                "value": "HOME"
+                            },
+                            "outcome": {
+                                "name": "Team A won by points",
+                                "value": "HOME_TEAM_WON_BY_SCORE"
+                            },
+                            "home": {
+                                "outcome": {
+                                    "name": "Win",
+                                    "value": "WON"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 40,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            },
+                            "away": {
+                                "outcome": {
+                                    "name": "Loss",
+                                    "value": "LOST"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 4,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            }
+                        },
+                        "status": {
+                            "name": "Final",
+                            "value": "FINAL"
+                        },
+                        "date": "2026-05-29",
+                        "dates": ["2026-05-29"],
+                        "allocation": {
+                            "time": "18:30:00",
+                            "court": {
+                                "id": "a8230845-11bc-45dd-916f-8e585edc64b0",
+                                "name": "Stadium Court 31",
+                                "venue": {
+                                    "id": "d03c720a-9ff8-4c33-ba5a-ec28831d1b2a",
+                                    "name": "Netball SA"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "badaa81c",
+                        "alias": null,
+                        "pool": null,
+                        "home": {
+                            "id": "ca973843",
+                            "name": "South Adelaide",
+                            "organisation": {
+                                "id": "2e63c9f2",
+                                "name": "South Adelaide Netball Club",
+                                "type": "CLUB"
+                            }
+                        },
+                        "away": {
+                            "id": "221e9d7a",
+                            "name": "Oakdale Gold",
+                            "organisation": {
+                                "id": "2f66832f",
+                                "name": "Oakdale Netball Club (SA)",
+                                "type": "CLUB"
+                            }
+                        },
+                        "result": {
+                            "winner": {
+                                "name": "Team B",
+                                "value": "AWAY"
+                            },
+                            "outcome": {
+                                "name": "Team A won by points",
+                                "value": "AWAY_TEAM_WON_BY_SCORE"
+                            },
+                            "home": {
+                                "outcome": {
+                                    "name": "Loss",
+                                    "value": "LOST"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 7,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            },
+                            "away": {
+                                "outcome": {
+                                    "name": "Win",
+                                    "value": "WON"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 38,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            }
+                        },
+                        "status": {
+                            "name": "Final",
+                            "value": "FINAL"
+                        },
+                        "date": "2026-05-29",
+                        "dates": ["2026-05-29"],
+                        "allocation": {
+                            "time": "18:30:00",
+                            "court": {
+                                "id": "62bdbfc6-f787-4478-8291-b8a4b5a37a82",
+                                "name": "Stadium Court 32",
+                                "venue": {
+                                    "id": "d03c720a-9ff8-4c33-ba5a-ec28831d1b2a",
+                                    "name": "Netball SA"
+                                }
+                            }
+                        }
+                    }
+                ]
+            },
+            {
+                "id": "5d3a644f",
+                "name": "Round 5",
+                "number": 5,
+                "abbreviatedName": "R5",
+                "provisionalDates": null,
+                "isFinalsRound": false,
+                "grade": {
+                    "type": "REGULAR",
+                    "hideScores": false
+                },
+                "byes": [
+                    {
+                        "id": "f95f3183",
+                        "name": "Matrics",
+                        "organisation": {
+                            "id": "0969cc64",
+                            "name": "Matrics",
+                            "type": "CLUB"
+                        }
+                    }
+                ],
+                "games": [
+                    {
+                        "id": "2dd9a1fe",
+                        "alias": null,
+                        "pool": null,
+                        "home": {
+                            "id": "a997a212",
+                            "name": "Walkerville 2",
+                            "organisation": {
+                                "id": "a83c7a81",
+                                "name": "Walkerville",
+                                "type": "CLUB"
+                            }
+                        },
+                        "away": {
+                            "id": "ca973843",
+                            "name": "South Adelaide",
+                            "organisation": {
+                                "id": "2e63c9f2",
+                                "name": "South Adelaide Netball Club",
+                                "type": "CLUB"
+                            }
+                        },
+                        "result": {
+                            "winner": {
+                                "name": "Team B",
+                                "value": "AWAY"
+                            },
+                            "outcome": {
+                                "name": "Team A won by points",
+                                "value": "AWAY_TEAM_WON_BY_SCORE"
+                            },
+                            "home": {
+                                "outcome": {
+                                    "name": "Loss",
+                                    "value": "LOST"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 16,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            },
+                            "away": {
+                                "outcome": {
+                                    "name": "Win",
+                                    "value": "WON"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 30,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            }
+                        },
+                        "status": {
+                            "name": "Final",
+                            "value": "FINAL"
+                        },
+                        "date": "2026-06-12",
+                        "dates": ["2026-06-12"],
+                        "allocation": {
+                            "time": "18:30:00",
+                            "court": {
+                                "id": "59870c2c-9d37-4bc1-8693-ef4db6ed4f2c",
+                                "name": "Stadium Court 29",
+                                "venue": {
+                                    "id": "d03c720a-9ff8-4c33-ba5a-ec28831d1b2a",
+                                    "name": "Netball SA"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "8788e9e8",
+                        "alias": null,
+                        "pool": null,
+                        "home": {
+                            "id": "0ec99cbf",
+                            "name": "Walkerville 1",
+                            "organisation": {
+                                "id": "a83c7a81",
+                                "name": "Walkerville",
+                                "type": "CLUB"
+                            }
+                        },
+                        "away": {
+                            "id": "39614777",
+                            "name": "Norwood",
+                            "organisation": {
+                                "id": "d275f255",
+                                "name": "Norwood Netball Club",
+                                "type": "CLUB"
+                            }
+                        },
+                        "result": {
+                            "winner": {
+                                "name": "Team A",
+                                "value": "HOME"
+                            },
+                            "outcome": {
+                                "name": "Team A won by points",
+                                "value": "HOME_TEAM_WON_BY_SCORE"
+                            },
+                            "home": {
+                                "outcome": {
+                                    "name": "Win",
+                                    "value": "WON"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 33,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            },
+                            "away": {
+                                "outcome": {
+                                    "name": "Loss",
+                                    "value": "LOST"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 8,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            }
+                        },
+                        "status": {
+                            "name": "Final",
+                            "value": "FINAL"
+                        },
+                        "date": "2026-06-12",
+                        "dates": ["2026-06-12"],
+                        "allocation": {
+                            "time": "18:30:00",
+                            "court": {
+                                "id": "07997757-ba70-41dc-bfa2-4df7c0ab938a",
+                                "name": "Stadium Court 30",
+                                "venue": {
+                                    "id": "d03c720a-9ff8-4c33-ba5a-ec28831d1b2a",
+                                    "name": "Netball SA"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "c55959ec",
+                        "alias": null,
+                        "pool": null,
+                        "home": {
+                            "id": "4a51bb63",
+                            "name": "Metro Jets",
+                            "organisation": {
+                                "id": "601b914e",
+                                "name": "Metro Jets",
+                                "type": "CLUB"
+                            }
+                        },
+                        "away": {
+                            "id": "2d1d0097",
+                            "name": "Garville",
+                            "organisation": {
+                                "id": "241b44c0",
+                                "name": "Garville",
+                                "type": "CLUB"
+                            }
+                        },
+                        "result": {
+                            "winner": {
+                                "name": "Team A",
+                                "value": "HOME"
+                            },
+                            "outcome": {
+                                "name": "Team A won by points",
+                                "value": "HOME_TEAM_WON_BY_SCORE"
+                            },
+                            "home": {
+                                "outcome": {
+                                    "name": "Win",
+                                    "value": "WON"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 26,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            },
+                            "away": {
+                                "outcome": {
+                                    "name": "Loss",
+                                    "value": "LOST"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 4,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            }
+                        },
+                        "status": {
+                            "name": "Final",
+                            "value": "FINAL"
+                        },
+                        "date": "2026-06-12",
+                        "dates": ["2026-06-12"],
+                        "allocation": {
+                            "time": "18:30:00",
+                            "court": {
+                                "id": "a8230845-11bc-45dd-916f-8e585edc64b0",
+                                "name": "Stadium Court 31",
+                                "venue": {
+                                    "id": "d03c720a-9ff8-4c33-ba5a-ec28831d1b2a",
+                                    "name": "Netball SA"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "ee15ed5e",
+                        "alias": null,
+                        "pool": null,
+                        "home": {
+                            "id": "7090f5e1",
+                            "name": "Contax",
+                            "organisation": {
+                                "id": "a8ee2320",
+                                "name": "Contax",
+                                "type": "CLUB"
+                            }
+                        },
+                        "away": {
+                            "id": "7b68a3cc",
+                            "name": "Oakdale",
+                            "organisation": {
+                                "id": "2f66832f",
+                                "name": "Oakdale Netball Club (SA)",
+                                "type": "CLUB"
+                            }
+                        },
+                        "result": {
+                            "winner": {
+                                "name": "Team A",
+                                "value": "HOME"
+                            },
+                            "outcome": {
+                                "name": "Team A won by points",
+                                "value": "HOME_TEAM_WON_BY_SCORE"
+                            },
+                            "home": {
+                                "outcome": {
+                                    "name": "Win",
+                                    "value": "WON"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 35,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            },
+                            "away": {
+                                "outcome": {
+                                    "name": "Loss",
+                                    "value": "LOST"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 8,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            }
+                        },
+                        "status": {
+                            "name": "Final",
+                            "value": "FINAL"
+                        },
+                        "date": "2026-06-12",
+                        "dates": ["2026-06-12"],
+                        "allocation": {
+                            "time": "18:30:00",
+                            "court": {
+                                "id": "62bdbfc6-f787-4478-8291-b8a4b5a37a82",
+                                "name": "Stadium Court 32",
+                                "venue": {
+                                    "id": "d03c720a-9ff8-4c33-ba5a-ec28831d1b2a",
+                                    "name": "Netball SA"
+                                }
+                            }
+                        }
+                    }
+                ]
+            },
+            {
+                "id": "a09a2163",
+                "name": "Round 6",
+                "number": 6,
+                "abbreviatedName": "R6",
+                "provisionalDates": null,
+                "isFinalsRound": false,
+                "grade": {
+                    "type": "REGULAR",
+                    "hideScores": false
+                },
+                "byes": [
+                    {
+                        "id": "a997a212",
+                        "name": "Walkerville 2",
+                        "organisation": {
+                            "id": "a83c7a81",
+                            "name": "Walkerville",
+                            "type": "CLUB"
+                        }
+                    }
+                ],
+                "games": [
+                    {
+                        "id": "a615a476",
+                        "alias": null,
+                        "pool": null,
+                        "home": {
+                            "id": "f95f3183",
+                            "name": "Matrics",
+                            "organisation": {
+                                "id": "0969cc64",
+                                "name": "Matrics",
+                                "type": "CLUB"
+                            }
+                        },
+                        "away": {
+                            "id": "0ec99cbf",
+                            "name": "Walkerville 1",
+                            "organisation": {
+                                "id": "a83c7a81",
+                                "name": "Walkerville",
+                                "type": "CLUB"
+                            }
+                        },
+                        "result": {
+                            "winner": {
+                                "name": "Team B",
+                                "value": "AWAY"
+                            },
+                            "outcome": {
+                                "name": "Team A won by points",
+                                "value": "AWAY_TEAM_WON_BY_SCORE"
+                            },
+                            "home": {
+                                "outcome": {
+                                    "name": "Loss",
+                                    "value": "LOST"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 8,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            },
+                            "away": {
+                                "outcome": {
+                                    "name": "Win",
+                                    "value": "WON"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 28,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            }
+                        },
+                        "status": {
+                            "name": "Final",
+                            "value": "FINAL"
+                        },
+                        "date": "2026-06-19",
+                        "dates": ["2026-06-19"],
+                        "allocation": {
+                            "time": "18:30:00",
+                            "court": {
+                                "id": "59870c2c-9d37-4bc1-8693-ef4db6ed4f2c",
+                                "name": "Stadium Court 29",
+                                "venue": {
+                                    "id": "d03c720a-9ff8-4c33-ba5a-ec28831d1b2a",
+                                    "name": "Netball SA"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "06364c82",
+                        "alias": null,
+                        "pool": null,
+                        "home": {
+                            "id": "ca973843",
+                            "name": "South Adelaide",
+                            "organisation": {
+                                "id": "2e63c9f2",
+                                "name": "South Adelaide Netball Club",
+                                "type": "CLUB"
+                            }
+                        },
+                        "away": {
+                            "id": "4a51bb63",
+                            "name": "Metro Jets",
+                            "organisation": {
+                                "id": "601b914e",
+                                "name": "Metro Jets",
+                                "type": "CLUB"
+                            }
+                        },
+                        "result": {
+                            "winner": {
+                                "name": "Team B",
+                                "value": "AWAY"
+                            },
+                            "outcome": {
+                                "name": "Team A won by points",
+                                "value": "AWAY_TEAM_WON_BY_SCORE"
+                            },
+                            "home": {
+                                "outcome": {
+                                    "name": "Loss",
+                                    "value": "LOST"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 10,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            },
+                            "away": {
+                                "outcome": {
+                                    "name": "Win",
+                                    "value": "WON"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 27,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            }
+                        },
+                        "status": {
+                            "name": "Final",
+                            "value": "FINAL"
+                        },
+                        "date": "2026-06-19",
+                        "dates": ["2026-06-19"],
+                        "allocation": {
+                            "time": "18:30:00",
+                            "court": {
+                                "id": "07997757-ba70-41dc-bfa2-4df7c0ab938a",
+                                "name": "Stadium Court 30",
+                                "venue": {
+                                    "id": "d03c720a-9ff8-4c33-ba5a-ec28831d1b2a",
+                                    "name": "Netball SA"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "8a338eba",
+                        "alias": null,
+                        "pool": null,
+                        "home": {
+                            "id": "39614777",
+                            "name": "Norwood",
+                            "organisation": {
+                                "id": "d275f255",
+                                "name": "Norwood Netball Club",
+                                "type": "CLUB"
+                            }
+                        },
+                        "away": {
+                            "id": "7090f5e1",
+                            "name": "Contax",
+                            "organisation": {
+                                "id": "a8ee2320",
+                                "name": "Contax",
+                                "type": "CLUB"
+                            }
+                        },
+                        "result": {
+                            "winner": {
+                                "name": "Team B",
+                                "value": "AWAY"
+                            },
+                            "outcome": {
+                                "name": "Team A won by points",
+                                "value": "AWAY_TEAM_WON_BY_SCORE"
+                            },
+                            "home": {
+                                "outcome": {
+                                    "name": "Loss",
+                                    "value": "LOST"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 11,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            },
+                            "away": {
+                                "outcome": {
+                                    "name": "Win",
+                                    "value": "WON"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 37,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            }
+                        },
+                        "status": {
+                            "name": "Final",
+                            "value": "FINAL"
+                        },
+                        "date": "2026-06-19",
+                        "dates": ["2026-06-19"],
+                        "allocation": {
+                            "time": "18:30:00",
+                            "court": {
+                                "id": "a8230845-11bc-45dd-916f-8e585edc64b0",
+                                "name": "Stadium Court 31",
+                                "venue": {
+                                    "id": "d03c720a-9ff8-4c33-ba5a-ec28831d1b2a",
+                                    "name": "Netball SA"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "8d61eb5b",
+                        "alias": null,
+                        "pool": null,
+                        "home": {
+                            "id": "2d1d0097",
+                            "name": "Garville",
+                            "organisation": {
+                                "id": "241b44c0",
+                                "name": "Garville",
+                                "type": "CLUB"
+                            }
+                        },
+                        "away": {
+                            "id": "7b68a3cc",
+                            "name": "Oakdale",
+                            "organisation": {
+                                "id": "2f66832f",
+                                "name": "Oakdale Netball Club (SA)",
+                                "type": "CLUB"
+                            }
+                        },
+                        "result": {
+                            "winner": {
+                                "name": "Team B",
+                                "value": "AWAY"
+                            },
+                            "outcome": {
+                                "name": "Team A won by points",
+                                "value": "AWAY_TEAM_WON_BY_SCORE"
+                            },
+                            "home": {
+                                "outcome": {
+                                    "name": "Loss",
+                                    "value": "LOST"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 9,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            },
+                            "away": {
+                                "outcome": {
+                                    "name": "Win",
+                                    "value": "WON"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 22,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            }
+                        },
+                        "status": {
+                            "name": "Final",
+                            "value": "FINAL"
+                        },
+                        "date": "2026-06-19",
+                        "dates": ["2026-06-19"],
+                        "allocation": {
+                            "time": "18:30:00",
+                            "court": {
+                                "id": "62bdbfc6-f787-4478-8291-b8a4b5a37a82",
+                                "name": "Stadium Court 32",
+                                "venue": {
+                                    "id": "d03c720a-9ff8-4c33-ba5a-ec28831d1b2a",
+                                    "name": "Netball SA"
+                                }
+                            }
+                        }
+                    }
+                ]
+            },
+            {
+                "id": "e0fda42c",
+                "name": "Round 7",
+                "number": 7,
+                "abbreviatedName": "R7",
+                "provisionalDates": null,
+                "isFinalsRound": false,
+                "grade": {
+                    "type": "REGULAR",
+                    "hideScores": false
+                },
+                "byes": [
+                    {
+                        "id": "0ec99cbf",
+                        "name": "Walkerville 1",
+                        "organisation": {
+                            "id": "a83c7a81",
+                            "name": "Walkerville",
+                            "type": "CLUB"
+                        }
+                    }
+                ],
+                "games": [
+                    {
+                        "id": "c5f0c67f",
+                        "alias": null,
+                        "pool": null,
+                        "home": {
+                            "id": "4a51bb63",
+                            "name": "Metro Jets",
+                            "organisation": {
+                                "id": "601b914e",
+                                "name": "Metro Jets",
+                                "type": "CLUB"
+                            }
+                        },
+                        "away": {
+                            "id": "a997a212",
+                            "name": "Walkerville 2",
+                            "organisation": {
+                                "id": "a83c7a81",
+                                "name": "Walkerville",
+                                "type": "CLUB"
+                            }
+                        },
+                        "result": {
+                            "winner": {
+                                "name": "Team A",
+                                "value": "HOME"
+                            },
+                            "outcome": {
+                                "name": "Team A won by points",
+                                "value": "HOME_TEAM_WON_BY_SCORE"
+                            },
+                            "home": {
+                                "outcome": {
+                                    "name": "Win",
+                                    "value": "WON"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 39,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            },
+                            "away": {
+                                "outcome": {
+                                    "name": "Loss",
+                                    "value": "LOST"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 15,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            }
+                        },
+                        "status": {
+                            "name": "Final",
+                            "value": "FINAL"
+                        },
+                        "date": "2026-06-26",
+                        "dates": ["2026-06-26"],
+                        "allocation": {
+                            "time": "18:30:00",
+                            "court": {
+                                "id": "59870c2c-9d37-4bc1-8693-ef4db6ed4f2c",
+                                "name": "Stadium Court 29",
+                                "venue": {
+                                    "id": "d03c720a-9ff8-4c33-ba5a-ec28831d1b2a",
+                                    "name": "Netball SA"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "0a20f592",
+                        "alias": null,
+                        "pool": null,
+                        "home": {
+                            "id": "7090f5e1",
+                            "name": "Contax",
+                            "organisation": {
+                                "id": "a8ee2320",
+                                "name": "Contax",
+                                "type": "CLUB"
+                            }
+                        },
+                        "away": {
+                            "id": "f95f3183",
+                            "name": "Matrics",
+                            "organisation": {
+                                "id": "0969cc64",
+                                "name": "Matrics",
+                                "type": "CLUB"
+                            }
+                        },
+                        "result": {
+                            "winner": {
+                                "name": "Team A",
+                                "value": "HOME"
+                            },
+                            "outcome": {
+                                "name": "Team A won by points",
+                                "value": "HOME_TEAM_WON_BY_SCORE"
+                            },
+                            "home": {
+                                "outcome": {
+                                    "name": "Win",
+                                    "value": "WON"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 40,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            },
+                            "away": {
+                                "outcome": {
+                                    "name": "Loss",
+                                    "value": "LOST"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 16,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            }
+                        },
+                        "status": {
+                            "name": "Final",
+                            "value": "FINAL"
+                        },
+                        "date": "2026-06-26",
+                        "dates": ["2026-06-26"],
+                        "allocation": {
+                            "time": "18:30:00",
+                            "court": {
+                                "id": "07997757-ba70-41dc-bfa2-4df7c0ab938a",
+                                "name": "Stadium Court 30",
+                                "venue": {
+                                    "id": "d03c720a-9ff8-4c33-ba5a-ec28831d1b2a",
+                                    "name": "Netball SA"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "095b16df",
+                        "alias": null,
+                        "pool": null,
+                        "home": {
+                            "id": "7b68a3cc",
+                            "name": "Oakdale",
+                            "organisation": {
+                                "id": "2f66832f",
+                                "name": "Oakdale Netball Club (SA)",
+                                "type": "CLUB"
+                            }
+                        },
+                        "away": {
+                            "id": "ca973843",
+                            "name": "South Adelaide",
+                            "organisation": {
+                                "id": "2e63c9f2",
+                                "name": "South Adelaide Netball Club",
+                                "type": "CLUB"
+                            }
+                        },
+                        "result": {
+                            "winner": {
+                                "name": "Team A",
+                                "value": "HOME"
+                            },
+                            "outcome": {
+                                "name": "Team A won by points",
+                                "value": "HOME_TEAM_WON_BY_SCORE"
+                            },
+                            "home": {
+                                "outcome": {
+                                    "name": "Win",
+                                    "value": "WON"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 19,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            },
+                            "away": {
+                                "outcome": {
+                                    "name": "Loss",
+                                    "value": "LOST"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 11,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            }
+                        },
+                        "status": {
+                            "name": "Final",
+                            "value": "FINAL"
+                        },
+                        "date": "2026-06-26",
+                        "dates": ["2026-06-26"],
+                        "allocation": {
+                            "time": "18:30:00",
+                            "court": {
+                                "id": "a8230845-11bc-45dd-916f-8e585edc64b0",
+                                "name": "Stadium Court 31",
+                                "venue": {
+                                    "id": "d03c720a-9ff8-4c33-ba5a-ec28831d1b2a",
+                                    "name": "Netball SA"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "d92820ba",
+                        "alias": null,
+                        "pool": null,
+                        "home": {
+                            "id": "2d1d0097",
+                            "name": "Garville",
+                            "organisation": {
+                                "id": "241b44c0",
+                                "name": "Garville",
+                                "type": "CLUB"
+                            }
+                        },
+                        "away": {
+                            "id": "39614777",
+                            "name": "Norwood",
+                            "organisation": {
+                                "id": "d275f255",
+                                "name": "Norwood Netball Club",
+                                "type": "CLUB"
+                            }
+                        },
+                        "result": {
+                            "winner": {
+                                "name": "Team B",
+                                "value": "AWAY"
+                            },
+                            "outcome": {
+                                "name": "Team A won by points",
+                                "value": "AWAY_TEAM_WON_BY_SCORE"
+                            },
+                            "home": {
+                                "outcome": {
+                                    "name": "Loss",
+                                    "value": "LOST"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 14,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            },
+                            "away": {
+                                "outcome": {
+                                    "name": "Win",
+                                    "value": "WON"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 21,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            }
+                        },
+                        "status": {
+                            "name": "Final",
+                            "value": "FINAL"
+                        },
+                        "date": "2026-06-26",
+                        "dates": ["2026-06-26"],
+                        "allocation": {
+                            "time": "18:30:00",
+                            "court": {
+                                "id": "62bdbfc6-f787-4478-8291-b8a4b5a37a82",
+                                "name": "Stadium Court 32",
+                                "venue": {
+                                    "id": "d03c720a-9ff8-4c33-ba5a-ec28831d1b2a",
+                                    "name": "Netball SA"
+                                }
+                            }
+                        }
+                    }
+                ]
+            },
+            {
+                "id": "54c06edd",
+                "name": "Round 8",
+                "number": 8,
+                "abbreviatedName": "R8",
+                "provisionalDates": null,
+                "isFinalsRound": false,
+                "grade": {
+                    "type": "REGULAR",
+                    "hideScores": false
+                },
+                "byes": [
+                    {
+                        "id": "4a51bb63",
+                        "name": "Metro Jets",
+                        "organisation": {
+                            "id": "601b914e",
+                            "name": "Metro Jets",
+                            "type": "CLUB"
+                        }
+                    }
+                ],
+                "games": [
+                    {
+                        "id": "2eeaa9ac",
+                        "alias": null,
+                        "pool": null,
+                        "home": {
+                            "id": "0ec99cbf",
+                            "name": "Walkerville 1",
+                            "organisation": {
+                                "id": "a83c7a81",
+                                "name": "Walkerville",
+                                "type": "CLUB"
+                            }
+                        },
+                        "away": {
+                            "id": "7090f5e1",
+                            "name": "Contax",
+                            "organisation": {
+                                "id": "a8ee2320",
+                                "name": "Contax",
+                                "type": "CLUB"
+                            }
+                        },
+                        "result": {
+                            "winner": {
+                                "name": "Team B",
+                                "value": "AWAY"
+                            },
+                            "outcome": {
+                                "name": "Team A won by points",
+                                "value": "AWAY_TEAM_WON_BY_SCORE"
+                            },
+                            "home": {
+                                "outcome": {
+                                    "name": "Loss",
+                                    "value": "LOST"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 12,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            },
+                            "away": {
+                                "outcome": {
+                                    "name": "Win",
+                                    "value": "WON"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 30,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            }
+                        },
+                        "status": {
+                            "name": "Final",
+                            "value": "FINAL"
+                        },
+                        "date": "2026-07-17",
+                        "dates": ["2026-07-17"],
+                        "allocation": {
+                            "time": "18:30:00",
+                            "court": {
+                                "id": "59870c2c-9d37-4bc1-8693-ef4db6ed4f2c",
+                                "name": "Stadium Court 29",
+                                "venue": {
+                                    "id": "d03c720a-9ff8-4c33-ba5a-ec28831d1b2a",
+                                    "name": "Netball SA"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "9bee60d7",
+                        "alias": null,
+                        "pool": null,
+                        "home": {
+                            "id": "a997a212",
+                            "name": "Walkerville 2",
+                            "organisation": {
+                                "id": "a83c7a81",
+                                "name": "Walkerville",
+                                "type": "CLUB"
+                            }
+                        },
+                        "away": {
+                            "id": "7b68a3cc",
+                            "name": "Oakdale",
+                            "organisation": {
+                                "id": "2f66832f",
+                                "name": "Oakdale Netball Club (SA)",
+                                "type": "CLUB"
+                            }
+                        },
+                        "result": {
+                            "winner": {
+                                "name": "Team B",
+                                "value": "AWAY"
+                            },
+                            "outcome": {
+                                "name": "Team A won by points",
+                                "value": "AWAY_TEAM_WON_BY_SCORE"
+                            },
+                            "home": {
+                                "outcome": {
+                                    "name": "Loss",
+                                    "value": "LOST"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 10,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            },
+                            "away": {
+                                "outcome": {
+                                    "name": "Win",
+                                    "value": "WON"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 27,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            }
+                        },
+                        "status": {
+                            "name": "Final",
+                            "value": "FINAL"
+                        },
+                        "date": "2026-07-17",
+                        "dates": ["2026-07-17"],
+                        "allocation": {
+                            "time": "18:30:00",
+                            "court": {
+                                "id": "07997757-ba70-41dc-bfa2-4df7c0ab938a",
+                                "name": "Stadium Court 30",
+                                "venue": {
+                                    "id": "d03c720a-9ff8-4c33-ba5a-ec28831d1b2a",
+                                    "name": "Netball SA"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "71e8b5e8",
+                        "alias": null,
+                        "pool": null,
+                        "home": {
+                            "id": "f95f3183",
+                            "name": "Matrics",
+                            "organisation": {
+                                "id": "0969cc64",
+                                "name": "Matrics",
+                                "type": "CLUB"
+                            }
+                        },
+                        "away": {
+                            "id": "2d1d0097",
+                            "name": "Garville",
+                            "organisation": {
+                                "id": "241b44c0",
+                                "name": "Garville",
+                                "type": "CLUB"
+                            }
+                        },
+                        "result": {
+                            "winner": {
+                                "name": "Team A",
+                                "value": "HOME"
+                            },
+                            "outcome": {
+                                "name": "Team A won by points",
+                                "value": "HOME_TEAM_WON_BY_SCORE"
+                            },
+                            "home": {
+                                "outcome": {
+                                    "name": "Win",
+                                    "value": "WON"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 37,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            },
+                            "away": {
+                                "outcome": {
+                                    "name": "Loss",
+                                    "value": "LOST"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 15,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            }
+                        },
+                        "status": {
+                            "name": "Final",
+                            "value": "FINAL"
+                        },
+                        "date": "2026-07-17",
+                        "dates": ["2026-07-17"],
+                        "allocation": {
+                            "time": "18:30:00",
+                            "court": {
+                                "id": "a8230845-11bc-45dd-916f-8e585edc64b0",
+                                "name": "Stadium Court 31",
+                                "venue": {
+                                    "id": "d03c720a-9ff8-4c33-ba5a-ec28831d1b2a",
+                                    "name": "Netball SA"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "2f653a8c",
+                        "alias": null,
+                        "pool": null,
+                        "home": {
+                            "id": "ca973843",
+                            "name": "South Adelaide",
+                            "organisation": {
+                                "id": "2e63c9f2",
+                                "name": "South Adelaide Netball Club",
+                                "type": "CLUB"
+                            }
+                        },
+                        "away": {
+                            "id": "39614777",
+                            "name": "Norwood",
+                            "organisation": {
+                                "id": "d275f255",
+                                "name": "Norwood Netball Club",
+                                "type": "CLUB"
+                            }
+                        },
+                        "result": {
+                            "winner": {
+                                "name": "Team B",
+                                "value": "AWAY"
+                            },
+                            "outcome": {
+                                "name": "Team A won by points",
+                                "value": "AWAY_TEAM_WON_BY_SCORE"
+                            },
+                            "home": {
+                                "outcome": {
+                                    "name": "Loss",
+                                    "value": "LOST"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 12,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            },
+                            "away": {
+                                "outcome": {
+                                    "name": "Win",
+                                    "value": "WON"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 18,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            }
+                        },
+                        "status": {
+                            "name": "Final",
+                            "value": "FINAL"
+                        },
+                        "date": "2026-07-17",
+                        "dates": ["2026-07-17"],
+                        "allocation": {
+                            "time": "18:30:00",
+                            "court": {
+                                "id": "62bdbfc6-f787-4478-8291-b8a4b5a37a82",
+                                "name": "Stadium Court 32",
+                                "venue": {
+                                    "id": "d03c720a-9ff8-4c33-ba5a-ec28831d1b2a",
+                                    "name": "Netball SA"
+                                }
+                            }
+                        }
+                    }
+                ]
+            },
+            {
+                "id": "30330820",
+                "name": "Round 9",
+                "number": 9,
+                "abbreviatedName": "R9",
+                "provisionalDates": null,
+                "isFinalsRound": false,
+                "grade": {
+                    "type": "REGULAR",
+                    "hideScores": false
+                },
+                "byes": [
+                    {
+                        "id": "7090f5e1",
+                        "name": "Contax",
+                        "organisation": {
+                            "id": "a8ee2320",
+                            "name": "Contax",
+                            "type": "CLUB"
+                        }
+                    }
+                ],
+                "games": [
+                    {
+                        "id": "c3c59815",
+                        "alias": null,
+                        "pool": null,
+                        "home": {
+                            "id": "7b68a3cc",
+                            "name": "Oakdale",
+                            "organisation": {
+                                "id": "2f66832f",
+                                "name": "Oakdale Netball Club (SA)",
+                                "type": "CLUB"
+                            }
+                        },
+                        "away": {
+                            "id": "4a51bb63",
+                            "name": "Metro Jets",
+                            "organisation": {
+                                "id": "601b914e",
+                                "name": "Metro Jets",
+                                "type": "CLUB"
+                            }
+                        },
+                        "result": {
+                            "winner": {
+                                "name": "Team A",
+                                "value": "HOME"
+                            },
+                            "outcome": {
+                                "name": "Team A won by points",
+                                "value": "HOME_TEAM_WON_BY_SCORE"
+                            },
+                            "home": {
+                                "outcome": {
+                                    "name": "Win",
+                                    "value": "WON"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 22,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            },
+                            "away": {
+                                "outcome": {
+                                    "name": "Loss",
+                                    "value": "LOST"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 17,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            }
+                        },
+                        "status": {
+                            "name": "Final",
+                            "value": "FINAL"
+                        },
+                        "date": "2026-07-24",
+                        "dates": ["2026-07-24"],
+                        "allocation": {
+                            "time": "18:30:00",
+                            "court": {
+                                "id": "59870c2c-9d37-4bc1-8693-ef4db6ed4f2c",
+                                "name": "Stadium Court 29",
+                                "venue": {
+                                    "id": "d03c720a-9ff8-4c33-ba5a-ec28831d1b2a",
+                                    "name": "Netball SA"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "3558ea4b",
+                        "alias": null,
+                        "pool": null,
+                        "home": {
+                            "id": "2d1d0097",
+                            "name": "Garville",
+                            "organisation": {
+                                "id": "241b44c0",
+                                "name": "Garville",
+                                "type": "CLUB"
+                            }
+                        },
+                        "away": {
+                            "id": "0ec99cbf",
+                            "name": "Walkerville 1",
+                            "organisation": {
+                                "id": "a83c7a81",
+                                "name": "Walkerville",
+                                "type": "CLUB"
+                            }
+                        },
+                        "result": {
+                            "winner": {
+                                "name": "Team B",
+                                "value": "AWAY"
+                            },
+                            "outcome": {
+                                "name": "Team A won by points",
+                                "value": "AWAY_TEAM_WON_BY_SCORE"
+                            },
+                            "home": {
+                                "outcome": {
+                                    "name": "Loss",
+                                    "value": "LOST"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 11,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            },
+                            "away": {
+                                "outcome": {
+                                    "name": "Win",
+                                    "value": "WON"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 34,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            }
+                        },
+                        "status": {
+                            "name": "Final",
+                            "value": "FINAL"
+                        },
+                        "date": "2026-07-24",
+                        "dates": ["2026-07-24"],
+                        "allocation": {
+                            "time": "18:30:00",
+                            "court": {
+                                "id": "07997757-ba70-41dc-bfa2-4df7c0ab938a",
+                                "name": "Stadium Court 30",
+                                "venue": {
+                                    "id": "d03c720a-9ff8-4c33-ba5a-ec28831d1b2a",
+                                    "name": "Netball SA"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "a2589448",
+                        "alias": null,
+                        "pool": null,
+                        "home": {
+                            "id": "39614777",
+                            "name": "Norwood",
+                            "organisation": {
+                                "id": "d275f255",
+                                "name": "Norwood Netball Club",
+                                "type": "CLUB"
+                            }
+                        },
+                        "away": {
+                            "id": "a997a212",
+                            "name": "Walkerville 2",
+                            "organisation": {
+                                "id": "a83c7a81",
+                                "name": "Walkerville",
+                                "type": "CLUB"
+                            }
+                        },
+                        "result": {
+                            "winner": {
+                                "name": "Team A",
+                                "value": "HOME"
+                            },
+                            "outcome": {
+                                "name": "Team A won by points",
+                                "value": "HOME_TEAM_WON_BY_SCORE"
+                            },
+                            "home": {
+                                "outcome": {
+                                    "name": "Win",
+                                    "value": "WON"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 42,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            },
+                            "away": {
+                                "outcome": {
+                                    "name": "Loss",
+                                    "value": "LOST"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 23,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            }
+                        },
+                        "status": {
+                            "name": "Final",
+                            "value": "FINAL"
+                        },
+                        "date": "2026-07-24",
+                        "dates": ["2026-07-24"],
+                        "allocation": {
+                            "time": "18:30:00",
+                            "court": {
+                                "id": "a8230845-11bc-45dd-916f-8e585edc64b0",
+                                "name": "Stadium Court 31",
+                                "venue": {
+                                    "id": "d03c720a-9ff8-4c33-ba5a-ec28831d1b2a",
+                                    "name": "Netball SA"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "cc650ba8",
+                        "alias": null,
+                        "pool": null,
+                        "home": {
+                            "id": "ca973843",
+                            "name": "South Adelaide",
+                            "organisation": {
+                                "id": "2e63c9f2",
+                                "name": "South Adelaide Netball Club",
+                                "type": "CLUB"
+                            }
+                        },
+                        "away": {
+                            "id": "f95f3183",
+                            "name": "Matrics",
+                            "organisation": {
+                                "id": "0969cc64",
+                                "name": "Matrics",
+                                "type": "CLUB"
+                            }
+                        },
+                        "result": {
+                            "winner": {
+                                "name": "Team B",
+                                "value": "AWAY"
+                            },
+                            "outcome": {
+                                "name": "Team A won by points",
+                                "value": "AWAY_TEAM_WON_BY_SCORE"
+                            },
+                            "home": {
+                                "outcome": {
+                                    "name": "Loss",
+                                    "value": "LOST"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 20,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            },
+                            "away": {
+                                "outcome": {
+                                    "name": "Win",
+                                    "value": "WON"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 32,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            }
+                        },
+                        "status": {
+                            "name": "Final",
+                            "value": "FINAL"
+                        },
+                        "date": "2026-07-24",
+                        "dates": ["2026-07-24"],
+                        "allocation": {
+                            "time": "18:30:00",
+                            "court": {
+                                "id": "62bdbfc6-f787-4478-8291-b8a4b5a37a82",
+                                "name": "Stadium Court 32",
+                                "venue": {
+                                    "id": "d03c720a-9ff8-4c33-ba5a-ec28831d1b2a",
+                                    "name": "Netball SA"
+                                }
+                            }
+                        }
+                    }
+                ]
+            },
+            {
+                "id": "7d62544f",
+                "name": "Round 10",
+                "number": 10,
+                "abbreviatedName": "R10",
+                "provisionalDates": null,
+                "isFinalsRound": false,
+                "grade": {
+                    "type": "REGULAR",
+                    "hideScores": false
+                },
+                "byes": [
+                    {
+                        "id": "7b68a3cc",
+                        "name": "Oakdale",
+                        "organisation": {
+                            "id": "2f66832f",
+                            "name": "Oakdale Netball Club (SA)",
+                            "type": "CLUB"
+                        }
+                    }
+                ],
+                "games": [
+                    {
+                        "id": "9f712e05",
+                        "alias": null,
+                        "pool": null,
+                        "home": {
+                            "id": "7090f5e1",
+                            "name": "Contax",
+                            "organisation": {
+                                "id": "a8ee2320",
+                                "name": "Contax",
+                                "type": "CLUB"
+                            }
+                        },
+                        "away": {
+                            "id": "2d1d0097",
+                            "name": "Garville",
+                            "organisation": {
+                                "id": "241b44c0",
+                                "name": "Garville",
+                                "type": "CLUB"
+                            }
+                        },
+                        "result": {
+                            "winner": {
+                                "name": "Team A",
+                                "value": "HOME"
+                            },
+                            "outcome": {
+                                "name": "Team A won by points",
+                                "value": "HOME_TEAM_WON_BY_SCORE"
+                            },
+                            "home": {
+                                "outcome": {
+                                    "name": "Win",
+                                    "value": "WON"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 29,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            },
+                            "away": {
+                                "outcome": {
+                                    "name": "Loss",
+                                    "value": "LOST"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 11,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            }
+                        },
+                        "status": {
+                            "name": "Final",
+                            "value": "FINAL"
+                        },
+                        "date": "2026-07-31",
+                        "dates": ["2026-07-31"],
+                        "allocation": {
+                            "time": "18:30:00",
+                            "court": {
+                                "id": "59870c2c-9d37-4bc1-8693-ef4db6ed4f2c",
+                                "name": "Stadium Court 29",
+                                "venue": {
+                                    "id": "d03c720a-9ff8-4c33-ba5a-ec28831d1b2a",
+                                    "name": "Netball SA"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "d83e983b",
+                        "alias": null,
+                        "pool": null,
+                        "home": {
+                            "id": "4a51bb63",
+                            "name": "Metro Jets",
+                            "organisation": {
+                                "id": "601b914e",
+                                "name": "Metro Jets",
+                                "type": "CLUB"
+                            }
+                        },
+                        "away": {
+                            "id": "39614777",
+                            "name": "Norwood",
+                            "organisation": {
+                                "id": "d275f255",
+                                "name": "Norwood Netball Club",
+                                "type": "CLUB"
+                            }
+                        },
+                        "result": {
+                            "winner": {
+                                "name": "Team A",
+                                "value": "HOME"
+                            },
+                            "outcome": {
+                                "name": "Team A won by points",
+                                "value": "HOME_TEAM_WON_BY_SCORE"
+                            },
+                            "home": {
+                                "outcome": {
+                                    "name": "Win",
+                                    "value": "WON"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 25,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            },
+                            "away": {
+                                "outcome": {
+                                    "name": "Loss",
+                                    "value": "LOST"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 10,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            }
+                        },
+                        "status": {
+                            "name": "Final",
+                            "value": "FINAL"
+                        },
+                        "date": "2026-07-31",
+                        "dates": ["2026-07-31"],
+                        "allocation": {
+                            "time": "18:30:00",
+                            "court": {
+                                "id": "07997757-ba70-41dc-bfa2-4df7c0ab938a",
+                                "name": "Stadium Court 30",
+                                "venue": {
+                                    "id": "d03c720a-9ff8-4c33-ba5a-ec28831d1b2a",
+                                    "name": "Netball SA"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "e6731c2f",
+                        "alias": null,
+                        "pool": null,
+                        "home": {
+                            "id": "0ec99cbf",
+                            "name": "Walkerville 1",
+                            "organisation": {
+                                "id": "a83c7a81",
+                                "name": "Walkerville",
+                                "type": "CLUB"
+                            }
+                        },
+                        "away": {
+                            "id": "ca973843",
+                            "name": "South Adelaide",
+                            "organisation": {
+                                "id": "2e63c9f2",
+                                "name": "South Adelaide Netball Club",
+                                "type": "CLUB"
+                            }
+                        },
+                        "result": {
+                            "winner": {
+                                "name": "Team A",
+                                "value": "HOME"
+                            },
+                            "outcome": {
+                                "name": "Team A won by points",
+                                "value": "HOME_TEAM_WON_BY_SCORE"
+                            },
+                            "home": {
+                                "outcome": {
+                                    "name": "Win",
+                                    "value": "WON"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 19,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            },
+                            "away": {
+                                "outcome": {
+                                    "name": "Loss",
+                                    "value": "LOST"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 10,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            }
+                        },
+                        "status": {
+                            "name": "Final",
+                            "value": "FINAL"
+                        },
+                        "date": "2026-07-31",
+                        "dates": ["2026-07-31"],
+                        "allocation": {
+                            "time": "18:30:00",
+                            "court": {
+                                "id": "a8230845-11bc-45dd-916f-8e585edc64b0",
+                                "name": "Stadium Court 31",
+                                "venue": {
+                                    "id": "d03c720a-9ff8-4c33-ba5a-ec28831d1b2a",
+                                    "name": "Netball SA"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "04e1afb3",
+                        "alias": null,
+                        "pool": null,
+                        "home": {
+                            "id": "a997a212",
+                            "name": "Walkerville 2",
+                            "organisation": {
+                                "id": "a83c7a81",
+                                "name": "Walkerville",
+                                "type": "CLUB"
+                            }
+                        },
+                        "away": {
+                            "id": "f95f3183",
+                            "name": "Matrics",
+                            "organisation": {
+                                "id": "0969cc64",
+                                "name": "Matrics",
+                                "type": "CLUB"
+                            }
+                        },
+                        "result": {
+                            "winner": {
+                                "name": "Team B",
+                                "value": "AWAY"
+                            },
+                            "outcome": {
+                                "name": "Team A won by points",
+                                "value": "AWAY_TEAM_WON_BY_SCORE"
+                            },
+                            "home": {
+                                "outcome": {
+                                    "name": "Loss",
+                                    "value": "LOST"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 21,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            },
+                            "away": {
+                                "outcome": {
+                                    "name": "Win",
+                                    "value": "WON"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 43,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            }
+                        },
+                        "status": {
+                            "name": "Final",
+                            "value": "FINAL"
+                        },
+                        "date": "2026-07-31",
+                        "dates": ["2026-07-31"],
+                        "allocation": {
+                            "time": "18:30:00",
+                            "court": {
+                                "id": "62bdbfc6-f787-4478-8291-b8a4b5a37a82",
+                                "name": "Stadium Court 32",
+                                "venue": {
+                                    "id": "d03c720a-9ff8-4c33-ba5a-ec28831d1b2a",
+                                    "name": "Netball SA"
+                                }
+                            }
+                        }
+                    }
+                ]
+            },
+            {
+                "id": "46c6d19e",
+                "name": "Round 11",
+                "number": 11,
+                "abbreviatedName": "R11",
+                "provisionalDates": null,
+                "isFinalsRound": false,
+                "grade": {
+                    "type": "REGULAR",
+                    "hideScores": false
+                },
+                "byes": [
+                    {
+                        "id": "2d1d0097",
+                        "name": "Garville",
+                        "organisation": {
+                            "id": "241b44c0",
+                            "name": "Garville",
+                            "type": "CLUB"
+                        }
+                    }
+                ],
+                "games": [
+                    {
+                        "id": "d0aecf54",
+                        "alias": null,
+                        "pool": null,
+                        "home": {
+                            "id": "39614777",
+                            "name": "Norwood",
+                            "organisation": {
+                                "id": "d275f255",
+                                "name": "Norwood Netball Club",
+                                "type": "CLUB"
+                            }
+                        },
+                        "away": {
+                            "id": "7b68a3cc",
+                            "name": "Oakdale",
+                            "organisation": {
+                                "id": "2f66832f",
+                                "name": "Oakdale Netball Club (SA)",
+                                "type": "CLUB"
+                            }
+                        },
+                        "result": {
+                            "winner": {
+                                "name": "Team B",
+                                "value": "AWAY"
+                            },
+                            "outcome": {
+                                "name": "Team A won by points",
+                                "value": "AWAY_TEAM_WON_BY_SCORE"
+                            },
+                            "home": {
+                                "outcome": {
+                                    "name": "Loss",
+                                    "value": "LOST"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 11,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            },
+                            "away": {
+                                "outcome": {
+                                    "name": "Win",
+                                    "value": "WON"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 13,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            }
+                        },
+                        "status": {
+                            "name": "Final",
+                            "value": "FINAL"
+                        },
+                        "date": "2026-08-07",
+                        "dates": ["2026-08-07"],
+                        "allocation": {
+                            "time": "18:30:00",
+                            "court": {
+                                "id": "59870c2c-9d37-4bc1-8693-ef4db6ed4f2c",
+                                "name": "Stadium Court 29",
+                                "venue": {
+                                    "id": "d03c720a-9ff8-4c33-ba5a-ec28831d1b2a",
+                                    "name": "Netball SA"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "18a41c95",
+                        "alias": null,
+                        "pool": null,
+                        "home": {
+                            "id": "ca973843",
+                            "name": "South Adelaide",
+                            "organisation": {
+                                "id": "2e63c9f2",
+                                "name": "South Adelaide Netball Club",
+                                "type": "CLUB"
+                            }
+                        },
+                        "away": {
+                            "id": "7090f5e1",
+                            "name": "Contax",
+                            "organisation": {
+                                "id": "a8ee2320",
+                                "name": "Contax",
+                                "type": "CLUB"
+                            }
+                        },
+                        "result": {
+                            "winner": {
+                                "name": "Team B",
+                                "value": "AWAY"
+                            },
+                            "outcome": {
+                                "name": "Team A won by points",
+                                "value": "AWAY_TEAM_WON_BY_SCORE"
+                            },
+                            "home": {
+                                "outcome": {
+                                    "name": "Loss",
+                                    "value": "LOST"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 17,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            },
+                            "away": {
+                                "outcome": {
+                                    "name": "Win",
+                                    "value": "WON"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 26,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            }
+                        },
+                        "status": {
+                            "name": "Final",
+                            "value": "FINAL"
+                        },
+                        "date": "2026-08-07",
+                        "dates": ["2026-08-07"],
+                        "allocation": {
+                            "time": "18:30:00",
+                            "court": {
+                                "id": "07997757-ba70-41dc-bfa2-4df7c0ab938a",
+                                "name": "Stadium Court 30",
+                                "venue": {
+                                    "id": "d03c720a-9ff8-4c33-ba5a-ec28831d1b2a",
+                                    "name": "Netball SA"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "2c0c8884",
+                        "alias": null,
+                        "pool": null,
+                        "home": {
+                            "id": "f95f3183",
+                            "name": "Matrics",
+                            "organisation": {
+                                "id": "0969cc64",
+                                "name": "Matrics",
+                                "type": "CLUB"
+                            }
+                        },
+                        "away": {
+                            "id": "4a51bb63",
+                            "name": "Metro Jets",
+                            "organisation": {
+                                "id": "601b914e",
+                                "name": "Metro Jets",
+                                "type": "CLUB"
+                            }
+                        },
+                        "result": {
+                            "winner": {
+                                "name": "Team A",
+                                "value": "HOME"
+                            },
+                            "outcome": {
+                                "name": "Team A won by points",
+                                "value": "HOME_TEAM_WON_BY_SCORE"
+                            },
+                            "home": {
+                                "outcome": {
+                                    "name": "Win",
+                                    "value": "WON"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 27,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            },
+                            "away": {
+                                "outcome": {
+                                    "name": "Loss",
+                                    "value": "LOST"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 25,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            }
+                        },
+                        "status": {
+                            "name": "Final",
+                            "value": "FINAL"
+                        },
+                        "date": "2026-08-07",
+                        "dates": ["2026-08-07"],
+                        "allocation": {
+                            "time": "18:30:00",
+                            "court": {
+                                "id": "a8230845-11bc-45dd-916f-8e585edc64b0",
+                                "name": "Stadium Court 31",
+                                "venue": {
+                                    "id": "d03c720a-9ff8-4c33-ba5a-ec28831d1b2a",
+                                    "name": "Netball SA"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "fccd0f04",
+                        "alias": null,
+                        "pool": null,
+                        "home": {
+                            "id": "a997a212",
+                            "name": "Walkerville 2",
+                            "organisation": {
+                                "id": "a83c7a81",
+                                "name": "Walkerville",
+                                "type": "CLUB"
+                            }
+                        },
+                        "away": {
+                            "id": "0ec99cbf",
+                            "name": "Walkerville 1",
+                            "organisation": {
+                                "id": "a83c7a81",
+                                "name": "Walkerville",
+                                "type": "CLUB"
+                            }
+                        },
+                        "result": {
+                            "winner": {
+                                "name": "Team B",
+                                "value": "AWAY"
+                            },
+                            "outcome": {
+                                "name": "Team A won by points",
+                                "value": "AWAY_TEAM_WON_BY_SCORE"
+                            },
+                            "home": {
+                                "outcome": {
+                                    "name": "Loss",
+                                    "value": "LOST"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 17,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            },
+                            "away": {
+                                "outcome": {
+                                    "name": "Win",
+                                    "value": "WON"
+                                },
+                                "statistics": [
+                                    {
+                                        "count": 37,
+                                        "type": {
+                                            "value": "TOTAL_SCORE"
+                                        }
+                                    }
+                                ],
+                                "gameOutcomeDescription": ""
+                            }
+                        },
+                        "status": {
+                            "name": "Final",
+                            "value": "FINAL"
+                        },
+                        "date": "2026-08-07",
+                        "dates": ["2026-08-07"],
+                        "allocation": {
+                            "time": "18:30:00",
+                            "court": {
+                                "id": "62bdbfc6-f787-4478-8291-b8a4b5a37a82",
+                                "name": "Stadium Court 32",
+                                "venue": {
+                                    "id": "d03c720a-9ff8-4c33-ba5a-ec28831d1b2a",
+                                    "name": "Netball SA"
+                                }
+                            }
+                        }
+                    }
+                ]
+            },
+            {
+                "id": "f490b931",
+                "name": "Round 12",
+                "number": 12,
+                "abbreviatedName": "R12",
+                "provisionalDates": null,
+                "isFinalsRound": false,
+                "grade": {
+                    "type": "REGULAR",
+                    "hideScores": false
+                },
+                "byes": [
+                    {
+                        "id": "39614777",
+                        "name": "Norwood",
+                        "organisation": {
+                            "id": "d275f255",
+                            "name": "Norwood Netball Club",
+                            "type": "CLUB"
+                        }
+                    }
+                ],
+                "games": [
+                    {
+                        "id": "334cb323",
+                        "alias": null,
+                        "pool": null,
+                        "home": {
+                            "id": "2d1d0097",
+                            "name": "Garville",
+                            "organisation": {
+                                "id": "241b44c0",
+                                "name": "Garville",
+                                "type": "CLUB"
+                            }
+                        },
+                        "away": {
+                            "id": "ca973843",
+                            "name": "South Adelaide",
+                            "organisation": {
+                                "id": "2e63c9f2",
+                                "name": "South Adelaide Netball Club",
+                                "type": "CLUB"
+                            }
+                        },
+                        "result": null,
+                        "status": {
+                            "name": "Upcoming",
+                            "value": "UPCOMING"
+                        },
+                        "date": "2026-08-14",
+                        "dates": ["2026-08-14"],
+                        "allocation": {
+                            "time": "18:30:00",
+                            "court": {
+                                "id": "59870c2c-9d37-4bc1-8693-ef4db6ed4f2c",
+                                "name": "Stadium Court 29",
+                                "venue": {
+                                    "id": "d03c720a-9ff8-4c33-ba5a-ec28831d1b2a",
+                                    "name": "Netball SA"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "2b004fe0",
+                        "alias": null,
+                        "pool": null,
+                        "home": {
+                            "id": "7b68a3cc",
+                            "name": "Oakdale",
+                            "organisation": {
+                                "id": "2f66832f",
+                                "name": "Oakdale Netball Club (SA)",
+                                "type": "CLUB"
+                            }
+                        },
+                        "away": {
+                            "id": "f95f3183",
+                            "name": "Matrics",
+                            "organisation": {
+                                "id": "0969cc64",
+                                "name": "Matrics",
+                                "type": "CLUB"
+                            }
+                        },
+                        "result": null,
+                        "status": {
+                            "name": "Upcoming",
+                            "value": "UPCOMING"
+                        },
+                        "date": "2026-08-14",
+                        "dates": ["2026-08-14"],
+                        "allocation": {
+                            "time": "18:30:00",
+                            "court": {
+                                "id": "07997757-ba70-41dc-bfa2-4df7c0ab938a",
+                                "name": "Stadium Court 30",
+                                "venue": {
+                                    "id": "d03c720a-9ff8-4c33-ba5a-ec28831d1b2a",
+                                    "name": "Netball SA"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "da64544b",
+                        "alias": null,
+                        "pool": null,
+                        "home": {
+                            "id": "7090f5e1",
+                            "name": "Contax",
+                            "organisation": {
+                                "id": "a8ee2320",
+                                "name": "Contax",
+                                "type": "CLUB"
+                            }
+                        },
+                        "away": {
+                            "id": "a997a212",
+                            "name": "Walkerville 2",
+                            "organisation": {
+                                "id": "a83c7a81",
+                                "name": "Walkerville",
+                                "type": "CLUB"
+                            }
+                        },
+                        "result": null,
+                        "status": {
+                            "name": "Upcoming",
+                            "value": "UPCOMING"
+                        },
+                        "date": "2026-08-14",
+                        "dates": ["2026-08-14"],
+                        "allocation": {
+                            "time": "18:30:00",
+                            "court": {
+                                "id": "a8230845-11bc-45dd-916f-8e585edc64b0",
+                                "name": "Stadium Court 31",
+                                "venue": {
+                                    "id": "d03c720a-9ff8-4c33-ba5a-ec28831d1b2a",
+                                    "name": "Netball SA"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "e32bbd85",
+                        "alias": null,
+                        "pool": null,
+                        "home": {
+                            "id": "4a51bb63",
+                            "name": "Metro Jets",
+                            "organisation": {
+                                "id": "601b914e",
+                                "name": "Metro Jets",
+                                "type": "CLUB"
+                            }
+                        },
+                        "away": {
+                            "id": "0ec99cbf",
+                            "name": "Walkerville 1",
+                            "organisation": {
+                                "id": "a83c7a81",
+                                "name": "Walkerville",
+                                "type": "CLUB"
+                            }
+                        },
+                        "result": null,
+                        "status": {
+                            "name": "Upcoming",
+                            "value": "UPCOMING"
+                        },
+                        "date": "2026-08-14",
+                        "dates": ["2026-08-14"],
+                        "allocation": {
+                            "time": "18:30:00",
+                            "court": {
+                                "id": "62bdbfc6-f787-4478-8291-b8a4b5a37a82",
+                                "name": "Stadium Court 32",
+                                "venue": {
+                                    "id": "d03c720a-9ff8-4c33-ba5a-ec28831d1b2a",
+                                    "name": "Netball SA"
+                                }
+                            }
+                        }
+                    }
+                ]
+            },
+            {
+                "id": "af002f0e",
+                "name": "Round 13",
+                "number": 13,
+                "abbreviatedName": "R13",
+                "provisionalDates": null,
+                "isFinalsRound": false,
+                "grade": {
+                    "type": "REGULAR",
+                    "hideScores": false
+                },
+                "byes": [
+                    {
+                        "id": "ca973843",
+                        "name": "South Adelaide",
+                        "organisation": {
+                            "id": "2e63c9f2",
+                            "name": "South Adelaide Netball Club",
+                            "type": "CLUB"
+                        }
+                    }
+                ],
+                "games": [
+                    {
+                        "id": "40697e47",
+                        "alias": null,
+                        "pool": null,
+                        "home": {
+                            "id": "f95f3183",
+                            "name": "Matrics",
+                            "organisation": {
+                                "id": "0969cc64",
+                                "name": "Matrics",
+                                "type": "CLUB"
+                            }
+                        },
+                        "away": {
+                            "id": "39614777",
+                            "name": "Norwood",
+                            "organisation": {
+                                "id": "d275f255",
+                                "name": "Norwood Netball Club",
+                                "type": "CLUB"
+                            }
+                        },
+                        "result": null,
+                        "status": {
+                            "name": "Upcoming",
+                            "value": "UPCOMING"
+                        },
+                        "date": "2026-08-21",
+                        "dates": ["2026-08-21"],
+                        "allocation": {
+                            "time": "18:30:00",
+                            "court": {
+                                "id": "59870c2c-9d37-4bc1-8693-ef4db6ed4f2c",
+                                "name": "Stadium Court 29",
+                                "venue": {
+                                    "id": "d03c720a-9ff8-4c33-ba5a-ec28831d1b2a",
+                                    "name": "Netball SA"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "ffadc3f1",
+                        "alias": null,
+                        "pool": null,
+                        "home": {
+                            "id": "a997a212",
+                            "name": "Walkerville 2",
+                            "organisation": {
+                                "id": "a83c7a81",
+                                "name": "Walkerville",
+                                "type": "CLUB"
+                            }
+                        },
+                        "away": {
+                            "id": "2d1d0097",
+                            "name": "Garville",
+                            "organisation": {
+                                "id": "241b44c0",
+                                "name": "Garville",
+                                "type": "CLUB"
+                            }
+                        },
+                        "result": null,
+                        "status": {
+                            "name": "Upcoming",
+                            "value": "UPCOMING"
+                        },
+                        "date": "2026-08-21",
+                        "dates": ["2026-08-21"],
+                        "allocation": {
+                            "time": "18:30:00",
+                            "court": {
+                                "id": "07997757-ba70-41dc-bfa2-4df7c0ab938a",
+                                "name": "Stadium Court 30",
+                                "venue": {
+                                    "id": "d03c720a-9ff8-4c33-ba5a-ec28831d1b2a",
+                                    "name": "Netball SA"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "c9838335",
+                        "alias": null,
+                        "pool": null,
+                        "home": {
+                            "id": "0ec99cbf",
+                            "name": "Walkerville 1",
+                            "organisation": {
+                                "id": "a83c7a81",
+                                "name": "Walkerville",
+                                "type": "CLUB"
+                            }
+                        },
+                        "away": {
+                            "id": "7b68a3cc",
+                            "name": "Oakdale",
+                            "organisation": {
+                                "id": "2f66832f",
+                                "name": "Oakdale Netball Club (SA)",
+                                "type": "CLUB"
+                            }
+                        },
+                        "result": null,
+                        "status": {
+                            "name": "Upcoming",
+                            "value": "UPCOMING"
+                        },
+                        "date": "2026-08-21",
+                        "dates": ["2026-08-21"],
+                        "allocation": {
+                            "time": "18:30:00",
+                            "court": {
+                                "id": "a8230845-11bc-45dd-916f-8e585edc64b0",
+                                "name": "Stadium Court 31",
+                                "venue": {
+                                    "id": "d03c720a-9ff8-4c33-ba5a-ec28831d1b2a",
+                                    "name": "Netball SA"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "bffb3c5f",
+                        "alias": null,
+                        "pool": null,
+                        "home": {
+                            "id": "4a51bb63",
+                            "name": "Metro Jets",
+                            "organisation": {
+                                "id": "601b914e",
+                                "name": "Metro Jets",
+                                "type": "CLUB"
+                            }
+                        },
+                        "away": {
+                            "id": "7090f5e1",
+                            "name": "Contax",
+                            "organisation": {
+                                "id": "a8ee2320",
+                                "name": "Contax",
+                                "type": "CLUB"
+                            }
+                        },
+                        "result": null,
+                        "status": {
+                            "name": "Upcoming",
+                            "value": "UPCOMING"
+                        },
+                        "date": "2026-08-21",
+                        "dates": ["2026-08-21"],
+                        "allocation": {
+                            "time": "18:30:00",
+                            "court": {
+                                "id": "62bdbfc6-f787-4478-8291-b8a4b5a37a82",
+                                "name": "Stadium Court 32",
+                                "venue": {
+                                    "id": "d03c720a-9ff8-4c33-ba5a-ec28831d1b2a",
+                                    "name": "Netball SA"
+                                }
+                            }
+                        }
+                    }
+                ]
+            },
+            {
+                "id": "35d0294c",
+                "name": "Round 14",
+                "number": 14,
+                "abbreviatedName": "R14",
+                "provisionalDates": null,
+                "isFinalsRound": false,
+                "grade": {
+                    "type": "REGULAR",
+                    "hideScores": false
+                },
+                "byes": [
+                    {
+                        "id": "f95f3183",
+                        "name": "Matrics",
+                        "organisation": {
+                            "id": "0969cc64",
+                            "name": "Matrics",
+                            "type": "CLUB"
+                        }
+                    }
+                ],
+                "games": [
+                    {
+                        "id": "6559e35a",
+                        "alias": null,
+                        "pool": null,
+                        "home": {
+                            "id": "ca973843",
+                            "name": "South Adelaide",
+                            "organisation": {
+                                "id": "2e63c9f2",
+                                "name": "South Adelaide Netball Club",
+                                "type": "CLUB"
+                            }
+                        },
+                        "away": {
+                            "id": "a997a212",
+                            "name": "Walkerville 2",
+                            "organisation": {
+                                "id": "a83c7a81",
+                                "name": "Walkerville",
+                                "type": "CLUB"
+                            }
+                        },
+                        "result": null,
+                        "status": {
+                            "name": "Upcoming",
+                            "value": "UPCOMING"
+                        },
+                        "date": "2026-08-28",
+                        "dates": ["2026-08-28"],
+                        "allocation": {
+                            "time": "18:30:00",
+                            "court": {
+                                "id": "59870c2c-9d37-4bc1-8693-ef4db6ed4f2c",
+                                "name": "Stadium Court 29",
+                                "venue": {
+                                    "id": "d03c720a-9ff8-4c33-ba5a-ec28831d1b2a",
+                                    "name": "Netball SA"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "aec5b3b5",
+                        "alias": null,
+                        "pool": null,
+                        "home": {
+                            "id": "39614777",
+                            "name": "Norwood",
+                            "organisation": {
+                                "id": "d275f255",
+                                "name": "Norwood Netball Club",
+                                "type": "CLUB"
+                            }
+                        },
+                        "away": {
+                            "id": "0ec99cbf",
+                            "name": "Walkerville 1",
+                            "organisation": {
+                                "id": "a83c7a81",
+                                "name": "Walkerville",
+                                "type": "CLUB"
+                            }
+                        },
+                        "result": null,
+                        "status": {
+                            "name": "Upcoming",
+                            "value": "UPCOMING"
+                        },
+                        "date": "2026-08-28",
+                        "dates": ["2026-08-28"],
+                        "allocation": {
+                            "time": "18:30:00",
+                            "court": {
+                                "id": "07997757-ba70-41dc-bfa2-4df7c0ab938a",
+                                "name": "Stadium Court 30",
+                                "venue": {
+                                    "id": "d03c720a-9ff8-4c33-ba5a-ec28831d1b2a",
+                                    "name": "Netball SA"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "9aeb75a2",
+                        "alias": null,
+                        "pool": null,
+                        "home": {
+                            "id": "2d1d0097",
+                            "name": "Garville",
+                            "organisation": {
+                                "id": "241b44c0",
+                                "name": "Garville",
+                                "type": "CLUB"
+                            }
+                        },
+                        "away": {
+                            "id": "4a51bb63",
+                            "name": "Metro Jets",
+                            "organisation": {
+                                "id": "601b914e",
+                                "name": "Metro Jets",
+                                "type": "CLUB"
+                            }
+                        },
+                        "result": null,
+                        "status": {
+                            "name": "Upcoming",
+                            "value": "UPCOMING"
+                        },
+                        "date": "2026-08-28",
+                        "dates": ["2026-08-28"],
+                        "allocation": {
+                            "time": "18:30:00",
+                            "court": {
+                                "id": "a8230845-11bc-45dd-916f-8e585edc64b0",
+                                "name": "Stadium Court 31",
+                                "venue": {
+                                    "id": "d03c720a-9ff8-4c33-ba5a-ec28831d1b2a",
+                                    "name": "Netball SA"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "983bea8b",
+                        "alias": null,
+                        "pool": null,
+                        "home": {
+                            "id": "7b68a3cc",
+                            "name": "Oakdale",
+                            "organisation": {
+                                "id": "2f66832f",
+                                "name": "Oakdale Netball Club (SA)",
+                                "type": "CLUB"
+                            }
+                        },
+                        "away": {
+                            "id": "7090f5e1",
+                            "name": "Contax",
+                            "organisation": {
+                                "id": "a8ee2320",
+                                "name": "Contax",
+                                "type": "CLUB"
+                            }
+                        },
+                        "result": null,
+                        "status": {
+                            "name": "Upcoming",
+                            "value": "UPCOMING"
+                        },
+                        "date": "2026-08-28",
+                        "dates": ["2026-08-28"],
+                        "allocation": {
+                            "time": "18:30:00",
+                            "court": {
+                                "id": "62bdbfc6-f787-4478-8291-b8a4b5a37a82",
+                                "name": "Stadium Court 32",
+                                "venue": {
+                                    "id": "d03c720a-9ff8-4c33-ba5a-ec28831d1b2a",
+                                    "name": "Netball SA"
+                                }
+                            }
+                        }
+                    }
+                ]
+            },
+            {
+                "id": "ec263b58",
+                "name": "Finals Round 1",
+                "number": 1,
+                "abbreviatedName": "FR1",
+                "provisionalDates": null,
+                "isFinalsRound": true,
+                "grade": {
+                    "type": "REGULAR",
+                    "hideScores": false
+                },
+                "byes": [],
+                "games": [
+                    {
+                        "id": "ea9e9f9b",
+                        "alias": "Qualifying Final",
+                        "pool": null,
+                        "home": {
+                            "name": "Ladder Position 1"
+                        },
+                        "away": {
+                            "name": "Ladder Position 2"
+                        },
+                        "result": null,
+                        "status": {
+                            "name": "Upcoming",
+                            "value": "UPCOMING"
+                        },
+                        "date": "2026-09-04",
+                        "dates": ["2026-09-04"],
+                        "allocation": {
+                            "time": "18:30:00",
+                            "court": {
+                                "id": "59870c2c-9d37-4bc1-8693-ef4db6ed4f2c",
+                                "name": "Stadium Court 29",
+                                "venue": {
+                                    "id": "d03c720a-9ff8-4c33-ba5a-ec28831d1b2a",
+                                    "name": "Netball SA"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "5450d9f4",
+                        "alias": "Elimination Final",
+                        "pool": null,
+                        "home": {
+                            "name": "Ladder Position 3"
+                        },
+                        "away": {
+                            "name": "Ladder Position 4"
+                        },
+                        "result": null,
+                        "status": {
+                            "name": "Upcoming",
+                            "value": "UPCOMING"
+                        },
+                        "date": "2026-09-04",
+                        "dates": ["2026-09-04"],
+                        "allocation": {
+                            "time": "18:30:00",
+                            "court": {
+                                "id": "a8230845-11bc-45dd-916f-8e585edc64b0",
+                                "name": "Stadium Court 31",
+                                "venue": {
+                                    "id": "d03c720a-9ff8-4c33-ba5a-ec28831d1b2a",
+                                    "name": "Netball SA"
+                                }
+                            }
+                        }
+                    }
+                ]
+            },
+            {
+                "id": "c06aeea2",
+                "name": "Preliminary Final",
+                "number": 2,
+                "abbreviatedName": "PF",
+                "provisionalDates": null,
+                "isFinalsRound": true,
+                "grade": {
+                    "type": "REGULAR",
+                    "hideScores": false
+                },
+                "byes": [],
+                "games": [
+                    {
+                        "id": "2dacf560",
+                        "alias": "Preliminary Final",
+                        "pool": null,
+                        "home": {
+                            "name": "Loser Game 1"
+                        },
+                        "away": {
+                            "name": "Winner Game 2"
+                        },
+                        "result": null,
+                        "status": {
+                            "name": "Upcoming",
+                            "value": "UPCOMING"
+                        },
+                        "date": "2026-09-11",
+                        "dates": ["2026-09-11"],
+                        "allocation": null
+                    }
+                ]
+            },
+            {
+                "id": "c46023d8",
+                "name": "Grand Final",
+                "number": 3,
+                "abbreviatedName": "GF",
+                "provisionalDates": null,
+                "isFinalsRound": true,
+                "grade": {
+                    "type": "REGULAR",
+                    "hideScores": false
+                },
+                "byes": [],
+                "games": [
+                    {
+                        "id": "7771eea8",
+                        "alias": "Grand Final",
+                        "pool": null,
+                        "home": {
+                            "name": "Winner Game 1"
+                        },
+                        "away": {
+                            "name": "Winner Game 3"
+                        },
+                        "result": null,
+                        "status": {
+                            "name": "Upcoming",
+                            "value": "UPCOMING"
+                        },
+                        "date": "2026-09-18",
+                        "dates": ["2026-09-18"],
+                        "allocation": null
+                    }
+                ]
+            }
+        ]
+    }
+}
