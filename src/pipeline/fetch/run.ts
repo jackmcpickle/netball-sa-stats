@@ -4,10 +4,11 @@
  * holds the actual logic so it can be tested (the pure pieces, at least)
  * without a workerd runtime.
  */
-import { mkdir, readFile, stat, writeFile } from 'node:fs/promises';
+import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { parseCsv, toCsv } from '@/pipeline/csv';
 import type { CsvValue } from '@/pipeline/csv';
+import { capturedAt } from '@/pipeline/fetch/captured-at';
 import { ClubRegistry } from '@/pipeline/fetch/club-registry';
 import type { ClubAliasRow, ClubRow } from '@/pipeline/fetch/club-registry';
 import { toGameRows } from '@/pipeline/fetch/games';
@@ -429,10 +430,9 @@ async function fetchGamesForGrade(
     )) as GradeAllRoundsResponse;
     const rounds = response.data.discoverGradeFixture;
     if (rounds === null) return [];
-    // As with ladders, scraped_at is the capture's mtime so a cache-only
-    // re-run reproduces a byte-identical CSV.
-    const cacheStat = await stat(cachePath);
-    return toGameRows(rounds, gradeKey, Math.floor(cacheStat.mtimeMs));
+    // As with ladders, scraped_at is when the capture was fetched, so a
+    // cache-only re-run reproduces a byte-identical CSV.
+    return toGameRows(rounds, gradeKey, await capturedAt(cachePath));
 }
 
 /**
@@ -664,12 +664,12 @@ export async function runFetch(options: FetchOptions): Promise<FetchReport> {
                     { gradeID: grade.id },
                     refresh,
                 )) as GradeLadderResponse;
-                // scraped_at is the raw capture's mtime, not `Date.now()` — so a
-                // cache-only re-run (unchanged upstream) reproduces byte-identical
-                // CSVs instead of a fresh timestamp on every row every time.
+                // scraped_at is when the capture was fetched, not `Date.now()`
+                // — so a cache-only re-run (unchanged upstream) reproduces
+                // byte-identical CSVs instead of a fresh timestamp on every row
+                // every time.
                 // eslint-disable-next-line no-await-in-loop -- sequential by design: PlayHQ etiquette caps us at ~1 req/sec.
-                const gradeCacheStat = await stat(gradeCachePath);
-                const scrapedAt = Math.floor(gradeCacheStat.mtimeMs);
+                const scrapedAt = await capturedAt(gradeCachePath);
 
                 const discoverGrade = gradeResponse.data.discoverGrade;
                 const standings: readonly Standing[] =

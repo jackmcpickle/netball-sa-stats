@@ -6,6 +6,7 @@
  */
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { dirname } from 'node:path';
+import { recordCapture } from '@/pipeline/fetch/captured-at';
 
 const ENDPOINT = 'https://api.playhq.com/graphql';
 const USER_AGENT =
@@ -124,5 +125,7 @@ export async function cachedGraphQL(
     }
     const result = await requestGraphQL(operationName, variables);
     await writeCache(cachePath, result);
+    // Stamped here, not read off the file later: mtimes do not survive git.
+    await recordCapture(cachePath, Date.now());
     return result;
 }
