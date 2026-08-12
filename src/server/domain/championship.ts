@@ -71,6 +71,23 @@ export class Championship {
         return index > 0 ? (rankedYears[index - 1] ?? null) : null;
     }
 
+    /**
+     * The one table still sorted and sliced in memory, and the only one that
+     * cannot move to SQL without a schema change.
+     *
+     * A championship row's rank is not stored anywhere: it is computed by
+     * `rankSeasons` over every final season, with each grade's weight
+     * resolved at query time from `grade_weights`. That is deliberate — see
+     * `db/queries/results.ts` — because it means editing a weight re-ranks
+     * every season with no re-import. Paging in SQL would mean materialising
+     * ranks into a table maintained by the importer, which trades that
+     * property away.
+     *
+     * The cost of leaving it is nil: a season holds at most 32 clubs, so it
+     * never fills even one page, and the full history is already fetched for
+     * rank movement and the worst-rank axis. Revisit only if the
+     * query-time-weights rule is ever dropped.
+     */
     public sorted(q: TableQuery): {
         readonly rows: readonly ChampionshipRow[];
         readonly totalRows: number;
