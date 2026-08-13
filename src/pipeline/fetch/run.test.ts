@@ -1,11 +1,13 @@
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
-import { describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
+import { createMemoryStore } from '@/pipeline/fetch/capture-store';
 import { ClubRegistry } from '@/pipeline/fetch/club-registry';
 import { flattenStandings } from '@/pipeline/fetch/ladder';
 import type { Standing } from '@/pipeline/fetch/ladder';
 import {
     archiveRowsToKeep,
+    collectPlayHqData,
     processGrade,
     resolveCompetitionKey,
 } from '@/pipeline/fetch/run';
@@ -356,5 +358,394 @@ describe('archiveRowsToKeep', () => {
         expect(kept.grades).toEqual([]);
         expect(kept.teams).toEqual([]);
         expect(kept.results).toEqual([]);
+    });
+});
+
+const CAPTURED_AT_MS = 1_700_000_000_000;
+
+function seedEntry(data: unknown): { data: unknown; capturedAtMs: number } {
+    return { data, capturedAtMs: CAPTURED_AT_MS };
+}
+
+function discoverEnvelope(
+    orgId: string,
+    orgName: string,
+    seasons: readonly {
+        id: string;
+        name: string;
+        startDate: string;
+        status?: string;
+    }[],
+): unknown {
+    return {
+        data: {
+            discoverCompetitions: [
+                {
+                    id: 'comp',
+                    name: orgName,
+                    seasons: seasons.map((season) => ({
+                        id: season.id,
+                        name: season.name,
+                        startDate: season.startDate,
+                        endDate: season.startDate,
+                        status: {
+                            name: season.status ?? 'Completed',
+                            value: (season.status ?? 'COMPLETED').toUpperCase(),
+                        },
+                    })),
+                    organisation: { id: orgId, name: orgName },
+                },
+            ],
+        },
+    };
+}
+
+function seasonEnvelope(
+    seasonId: string,
+    seasonName: string,
+    grades: readonly { id: string; name: string }[],
+): unknown {
+    return {
+        data: {
+            discoverSeason: {
+                id: seasonId,
+                name: seasonName,
+                competition: {
+                    id: 'c',
+                    name: 'AMND',
+                    type: 'COMPETITION',
+                    organisation: { id: AMND_ORG_ID, name: 'AMND' },
+                },
+                status: { name: 'Completed', value: 'COMPLETED' },
+                grades: grades.map((grade) => ({
+                    id: grade.id,
+                    name: grade.name,
+                    day: null,
+                    gender: null,
+                    age: null,
+                })),
+            },
+        },
+    };
+}
+
+function ladderEnvelope(
+    gradeId: string,
+    gradeName: string,
+    standings: readonly Standing[],
+): unknown {
+    return {
+        data: {
+            discoverGrade: {
+                id: gradeId,
+                name: gradeName,
+                ladderType: 'STANDARD',
+                ladder: [{ pool: null, standings }],
+            },
+        },
+    };
+}
+
+function twoTeamStandings(): readonly Standing[] {
+    return [
+        makeStanding({
+            teamId: 'team-a',
+            teamName: 'Club A',
+            orgId: 'org-a',
+            orgName: 'Club A',
+        }),
+        makeStanding({
+            teamId: 'team-b',
+            teamName: 'Club B',
+            orgId: 'org-b',
+            orgName: 'Club B',
+        }),
+    ];
+}
+
+function gamesEnvelope(): unknown {
+    return {
+        data: {
+            discoverGradeFixture: [
+                {
+                    id: 'round-1',
+                    name: 'Round 1',
+                    number: 1,
+                    abbreviatedName: 'R1',
+                    isFinalsRound: false,
+                    byes: [],
+                    games: [
+                        {
+                            id: 'game-1',
+                            alias: null,
+                            pool: null,
+                            home: { id: 'team-a', name: 'Club A' },
+                            away: { id: 'team-b', name: 'Club B' },
+                            result: {
+                                winner: { name: 'Home', value: 'HOME' },
+                                outcome: {
+                                    name: 'Home won',
+                                    value: 'HOME_TEAM_WON_BY_SCORE',
+                                },
+                                home: {
+                                    outcome: {
+                                        name: 'Win',
+                                        value: 'WIN',
+                                    },
+                                    statistics: [
+                                        {
+                                            count: 40,
+                                            type: { value: 'TOTAL_SCORE' },
+                                        },
+                                    ],
+                                    gameOutcomeDescription: '',
+                                },
+                                away: {
+                                    outcome: {
+                                        name: 'Loss',
+                                        value: 'LOSS',
+                                    },
+                                    statistics: [
+                                        {
+                                            count: 30,
+                                            type: { value: 'TOTAL_SCORE' },
+                                        },
+                                    ],
+                                    gameOutcomeDescription: '',
+                                },
+                            },
+                            status: { name: 'Final', value: 'FINAL' },
+                            date: '2024-05-01',
+                            dates: ['2024-05-01'],
+                            allocation: { time: '18:00:00' },
+                        },
+                    ],
+                },
+            ],
+        },
+    };
+}
+
+describe('collectPlayHqData', () => {
+    afterEach(() => {
+        vi.restoreAllMocks();
+    });
+
+    it('collects ImportData from a memory store without hitting PlayHQ or writing CSV', async () => {
+        const fetchSpy = vi
+            .spyOn(globalThis, 'fetch')
+            .mockImplementation(() => {
+                throw new Error('live PlayHQ must not be called');
+            });
+        const store = createMemoryStore(
+            new Map([
+                [
+                    `discoverCompetitions_${AMND_ORG_ID}.json`,
+                    seedEntry(
+                        discoverEnvelope(AMND_ORG_ID, 'AMND', [
+                            {
+                                id: 'season-2024',
+                                name: 'Winter 2024',
+                                startDate: '2024-04-01',
+                            },
+                        ]),
+                    ),
+                ],
+                [
+                    `discoverCompetitions_${NETBALL_SA_ORG_ID}.json`,
+                    seedEntry({ data: { discoverCompetitions: [] } }),
+                ],
+                [
+                    'gradeListDiscoverSeason_season-2024.json',
+                    seedEntry(
+                        seasonEnvelope('season-2024', 'Winter 2024', [
+                            { id: 'grade-a', name: 'A GRADE' },
+                        ]),
+                    ),
+                ],
+                [
+                    'gradeLadder_grade-a.json',
+                    seedEntry(
+                        ladderEnvelope(
+                            'grade-a',
+                            'A GRADE',
+                            twoTeamStandings(),
+                        ),
+                    ),
+                ],
+            ]),
+        );
+
+        const collected = await collectPlayHqData({
+            store,
+            cacheFirst: true,
+            clubRegistry: new ClubRegistry([], []),
+            isFinalBySeasonKey: new Map(),
+        });
+
+        expect(fetchSpy).not.toHaveBeenCalled();
+        expect(collected.importData.seasons).toHaveLength(1);
+        expect(collected.importData.seasons[0]).toMatchObject({
+            seasonKey: 'amnd-winter-2024',
+            isFinal: false,
+            source: 'playhq',
+            playhqId: 'season-2024',
+        });
+        expect(collected.importData.grades).toHaveLength(1);
+        expect(collected.importData.teams).toHaveLength(2);
+        expect(collected.importData.results).toHaveLength(2);
+        expect(collected.importData.games).toEqual([]);
+        expect(collected.report).toMatchObject({
+            seasons: 1,
+            grades: 1,
+            teams: 2,
+            results: 2,
+            games: 0,
+        });
+        expect(collected.seasons[0]?.status).toBe('completed');
+    });
+
+    it('filters seasons to years when years is non-empty', async () => {
+        const fetchSpy = vi
+            .spyOn(globalThis, 'fetch')
+            .mockImplementation(() => {
+                throw new Error('live PlayHQ must not be called');
+            });
+        const store = createMemoryStore(
+            new Map([
+                [
+                    `discoverCompetitions_${AMND_ORG_ID}.json`,
+                    seedEntry(
+                        discoverEnvelope(AMND_ORG_ID, 'AMND', [
+                            {
+                                id: 'season-2024',
+                                name: 'Winter 2024',
+                                startDate: '2024-04-01',
+                            },
+                            {
+                                id: 'season-2025',
+                                name: 'Winter 2025',
+                                startDate: '2025-04-01',
+                            },
+                        ]),
+                    ),
+                ],
+                [
+                    `discoverCompetitions_${NETBALL_SA_ORG_ID}.json`,
+                    seedEntry({ data: { discoverCompetitions: [] } }),
+                ],
+                [
+                    'gradeListDiscoverSeason_season-2024.json',
+                    seedEntry(
+                        seasonEnvelope('season-2024', 'Winter 2024', [
+                            { id: 'grade-a', name: 'A GRADE' },
+                        ]),
+                    ),
+                ],
+                [
+                    'gradeLadder_grade-a.json',
+                    seedEntry(
+                        ladderEnvelope(
+                            'grade-a',
+                            'A GRADE',
+                            twoTeamStandings(),
+                        ),
+                    ),
+                ],
+            ]),
+        );
+
+        const collected = await collectPlayHqData({
+            store,
+            cacheFirst: true,
+            clubRegistry: new ClubRegistry([], []),
+            isFinalBySeasonKey: new Map(),
+            years: [2024],
+        });
+
+        expect(fetchSpy).not.toHaveBeenCalled();
+        expect(
+            collected.importData.seasons.map((row) => row.seasonKey),
+        ).toEqual(['amnd-winter-2024']);
+    });
+
+    it('restricts games by gradeId while still collecting the grade ladder', async () => {
+        vi.spyOn(globalThis, 'fetch').mockImplementation(() => {
+            throw new Error('live PlayHQ must not be called');
+        });
+        const store = createMemoryStore(
+            new Map([
+                [
+                    `discoverCompetitions_${AMND_ORG_ID}.json`,
+                    seedEntry(
+                        discoverEnvelope(AMND_ORG_ID, 'AMND', [
+                            {
+                                id: 'season-2024',
+                                name: 'Winter 2024',
+                                startDate: '2024-04-01',
+                            },
+                        ]),
+                    ),
+                ],
+                [
+                    `discoverCompetitions_${NETBALL_SA_ORG_ID}.json`,
+                    seedEntry({ data: { discoverCompetitions: [] } }),
+                ],
+                [
+                    'gradeListDiscoverSeason_season-2024.json',
+                    seedEntry(
+                        seasonEnvelope('season-2024', 'Winter 2024', [
+                            { id: 'grade-a', name: 'A GRADE' },
+                            { id: 'grade-b', name: 'B1' },
+                        ]),
+                    ),
+                ],
+                [
+                    'gradeLadder_grade-a.json',
+                    seedEntry(
+                        ladderEnvelope(
+                            'grade-a',
+                            'A GRADE',
+                            twoTeamStandings(),
+                        ),
+                    ),
+                ],
+                [
+                    'gradeLadder_grade-b.json',
+                    seedEntry(
+                        ladderEnvelope(
+                            'grade-b',
+                            'B1',
+                            twoTeamStandings().map((row, index) => ({
+                                ...row,
+                                team: {
+                                    ...row.team,
+                                    id: `${row.team.id}-b${String(index)}`,
+                                },
+                            })),
+                        ),
+                    ),
+                ],
+                ['gradeAllRounds_grade-a.json', seedEntry(gamesEnvelope())],
+            ]),
+        );
+
+        const collected = await collectPlayHqData({
+            store,
+            cacheFirst: true,
+            clubRegistry: new ClubRegistry([], []),
+            isFinalBySeasonKey: new Map(),
+            games: true,
+            gradeId: 'grade-a',
+        });
+
+        expect(collected.importData.grades).toHaveLength(2);
+        expect(collected.importData.games).toHaveLength(1);
+        expect(collected.importData.games[0]).toMatchObject({
+            playhqId: 'game-1',
+            file: 'games-2024.csv',
+            isFinals: false,
+        });
+        expect(collected.report.games).toBe(1);
     });
 });

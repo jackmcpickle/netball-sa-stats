@@ -26,12 +26,14 @@ import {
 } from '@/pipeline/fetch/ladder';
 import type { Standing } from '@/pipeline/fetch/ladder';
 import { cachedGraphQL } from '@/pipeline/fetch/playhq-client';
+import { toImportData } from '@/pipeline/fetch/to-import';
 import type {
     DiscoverCompetitionsResponse,
     GradeAllRoundsResponse,
     GradeLadderResponse,
     GradeListDiscoverSeasonResponse,
 } from '@/pipeline/fetch/types';
+import type { ImportData } from '@/pipeline/import/types';
 
 const ROOT = resolve(import.meta.dirname, '..', '..', '..');
 const DATA_DIR = resolve(ROOT, 'data');
@@ -40,7 +42,7 @@ const RAW_DIR = resolve(DATA_DIR, 'raw');
 const AMND_ORG_ID = '7a5f35e1';
 const NETBALL_SA_ORG_ID = '6fefc037';
 
-type SeasonRow = {
+export type SeasonRow = {
     competition_key: string;
     season_key: string;
     competition_period: 'winter' | 'summer' | 'annual';
@@ -53,7 +55,7 @@ type SeasonRow = {
     status: string;
 };
 
-type GradeRow = {
+export type GradeRow = {
     season_key: string;
     grade_key: string;
     name: string;
@@ -64,7 +66,7 @@ type GradeRow = {
     playhq_id: string;
 };
 
-type TeamRow = {
+export type TeamRow = {
     club_key: string;
     grade_key: string;
     display_name: string;
@@ -76,7 +78,7 @@ export type FetchOptions = {
     refresh: boolean;
     /** Also fetch fixtures and write `data/games-<year>.csv`. */
     games?: boolean;
-    /** Restrict the games fetch to these season start years. Empty means all. */
+    /** Restrict collect to these season start years (ladders and games). Empty means all. */
     years?: readonly number[];
     /** Restrict the games fetch to a single PlayHQ grade id, for spot checks. */
     gradeId?: string;
@@ -94,6 +96,27 @@ export type FetchReport = {
         teamCount: number;
         reason: 'too_few_teams' | 'out_of_scope';
     }[];
+};
+
+export type CollectOptions = {
+    store: CaptureStore;
+    cacheFirst: boolean;
+    clubRegistry: ClubRegistry;
+    isFinalBySeasonKey: ReadonlyMap<string, string>;
+    games?: boolean;
+    years?: readonly number[];
+    gradeId?: string;
+};
+
+export type CollectedPlayHq = {
+    importData: ImportData;
+    report: FetchReport;
+    /** Snake-case rows for the CLI CSV writer (preserves season `status`). */
+    seasons: readonly SeasonRow[];
+    grades: readonly GradeRow[];
+    teams: readonly TeamRow[];
+    results: readonly Record<string, CsvValue>[];
+    gamesByYear: ReadonlyMap<number, readonly GameRow[]>;
 };
 
 async function readExistingCsv<T extends Record<string, string>>(
@@ -126,7 +149,7 @@ type SeasonEntry = {
 async function discoverSeasons(
     store: CaptureStore,
     orgId: string,
-    refresh: boolean,
+    cacheFirst: boolean,
 ): Promise<{ competitionName: string; season: SeasonEntry }[]> {
     const key = `discoverCompetitions_${orgId}.json`;
     const response = (await cachedGraphQL(
@@ -134,7 +157,7 @@ async function discoverSeasons(
         key,
         'discoverCompetitions',
         { organisationID: orgId },
-        !refresh,
+        cacheFirst,
     )) as DiscoverCompetitionsResponse;
 
     return response.data.discoverCompetitions.flatMap((competition) =>
@@ -401,8 +424,17 @@ export function archiveRowsToKeep(existing: ExistingCsvRows): ExistingCsvRows {
  * filters exist so 2025 and 2026 can be backfilled separately, and so a
  * single grade can be spot-checked without walking the whole catalogue.
  */
+function yearWanted(
+    years: readonly number[] | undefined,
+    startYear: number,
+): boolean {
+    return (
+        years === undefined || years.length === 0 || years.includes(startYear)
+    );
+}
+
 function wantsGames(
-    options: FetchOptions,
+    options: Pick<CollectOptions, 'games' | 'years' | 'gradeId'>,
     startYear: number,
     gradePlayhqId: string,
 ): boolean {
@@ -410,8 +442,7 @@ function wantsGames(
     if (options.gradeId !== undefined && options.gradeId !== gradePlayhqId) {
         return false;
     }
-    const years = options.years ?? [];
-    return years.length === 0 || years.includes(startYear);
+    return yearWanted(options.years, startYear);
 }
 
 /**
@@ -423,7 +454,7 @@ async function fetchGamesForGrade(
     store: CaptureStore,
     gradePlayhqId: string,
     gradeKey: string,
-    refresh: boolean,
+    cacheFirst: boolean,
 ): Promise<readonly GameRow[]> {
     const key = `gradeAllRounds_${gradePlayhqId}.json`;
     const response = (await cachedGraphQL(
@@ -431,7 +462,7 @@ async function fetchGamesForGrade(
         key,
         'gradeAllRounds',
         { gradeID: gradePlayhqId },
-        !refresh,
+        cacheFirst,
     )) as GradeAllRoundsResponse;
     const rounds = response.data.discoverGradeFixture;
     if (rounds === null) return [];
@@ -452,7 +483,7 @@ async function fetchGamesForGrade(
 async function collectGames(
     store: CaptureStore,
     gamesByYear: Map<number, readonly GameRow[]>,
-    options: FetchOptions,
+    options: Pick<CollectOptions, 'games' | 'years' | 'gradeId' | 'cacheFirst'>,
     grade: {
         startYear: number;
         gradePlayhqId: string;
@@ -464,7 +495,7 @@ async function collectGames(
         store,
         grade.gradePlayhqId,
         grade.gradeKey,
-        options.refresh,
+        options.cacheFirst,
     );
     gamesByYear.set(grade.startYear, [
         ...(gamesByYear.get(grade.startYear) ?? []),
@@ -590,50 +621,152 @@ async function loadClubRegistry(): Promise<ClubRegistry> {
     return new ClubRegistry(existingClubs, existingAliases);
 }
 
-export async function runFetch(options: FetchOptions): Promise<FetchReport> {
-    const { refresh } = options;
-    await mkdir(RAW_DIR, { recursive: true });
-    const store = createFsStore(RAW_DIR);
+type CollectJob = {
+    orgId: string;
+    period: 'winter' | 'annual';
+    minYear: number;
+};
 
-    const existingSeasons =
-        await readExistingCsv<Record<string, string>>('seasons.csv');
-    const isFinalBySeasonKey = new Map(
-        existingSeasons.map((row) => [row.season_key, row.is_final]),
+const COLLECT_JOBS: readonly CollectJob[] = [
+    { orgId: AMND_ORG_ID, period: 'winter', minYear: 2022 },
+    { orgId: NETBALL_SA_ORG_ID, period: 'annual', minYear: 2023 },
+];
+
+type CollectAccumulator = {
+    seasonRows: Map<string, SeasonRow>;
+    gradeRows: GradeRow[];
+    teamRows: Map<string, TeamRow>;
+    resultRows: Record<string, CsvValue>[];
+    gamesByYear: Map<number, readonly GameRow[]>;
+    skippedGrades: FetchReport['skippedGrades'];
+};
+
+async function ingestGrade(
+    options: CollectOptions,
+    job: CollectJob,
+    season: SeasonEntry,
+    startYear: number,
+    grade: {
+        id: string;
+        name: string;
+        age: { name: string } | null;
+    },
+    acc: CollectAccumulator,
+): Promise<void> {
+    const competitionKey = resolveCompetitionKey(job.orgId, grade.name);
+    // Out of scope, e.g. "Walking Netball 50+" under the Premier League season.
+    // Reported (not just dropped) so a grade that genuinely comes into
+    // scope later under a catalogued org doesn't silently vanish.
+    if (competitionKey === null) {
+        recordOutOfScopeGrade(
+            acc.skippedGrades,
+            job.orgId,
+            season.id,
+            season.name,
+            grade.name,
+        );
+        return;
+    }
+
+    const gradeCaptureKey = `gradeLadder_${grade.id}.json`;
+    const gradeResponse = (await cachedGraphQL(
+        options.store,
+        gradeCaptureKey,
+        'gradeLadder',
+        { gradeID: grade.id },
+        options.cacheFirst,
+    )) as GradeLadderResponse;
+    // scraped_at is when the capture was fetched, not `Date.now()`
+    // — so a cache-only re-run (unchanged upstream) reproduces
+    // byte-identical CSVs instead of a fresh timestamp on every row
+    // every time.
+    const scrapedAt = await options.store.capturedAtMs(gradeCaptureKey);
+    if (scrapedAt === undefined) {
+        throw new Error(`missing capturedAtMs for ${gradeCaptureKey}`);
+    }
+
+    const discoverGrade = gradeResponse.data.discoverGrade;
+    const standings: readonly Standing[] =
+        discoverGrade === null ? [] : flattenStandings(discoverGrade.ladder);
+
+    const seasonKeyPreview = buildSeasonKey(
+        competitionKey,
+        job.period,
+        startYear,
     );
+    if (standings.length < 2) {
+        acc.skippedGrades.push({
+            seasonKey: seasonKeyPreview,
+            gradeName: grade.name,
+            teamCount: standings.length,
+            reason: 'too_few_teams',
+        });
+        return;
+    }
 
-    const clubRegistry = await loadClubRegistry();
+    const processed = processGrade(
+        grade,
+        standings,
+        {
+            orgId: job.orgId,
+            period: job.period,
+            startYear,
+            seasonName: season.name,
+            seasonPlayhqId: season.id,
+            seasonStatus: season.status.value.toLowerCase(),
+            isFinalBySeasonKey: options.isFinalBySeasonKey,
+        },
+        options.clubRegistry,
+        scrapedAt,
+    );
+    // Unreachable: already filtered above. Kept for type safety.
+    if (processed === null) return;
+    if (!acc.seasonRows.has(processed.seasonKey)) {
+        acc.seasonRows.set(processed.seasonKey, processed.seasonRow);
+    }
+    acc.gradeRows.push(processed.gradeRow);
+    acc.resultRows.push(...processed.results);
+    mergeTeams(acc.teamRows, processed.teams);
 
-    const seasonRows = new Map<string, SeasonRow>();
-    const gradeRows: GradeRow[] = [];
-    const teamRows = new Map<string, TeamRow>();
-    const resultRows: Record<string, CsvValue>[] = [];
-    const gamesByYear = new Map<number, readonly GameRow[]>();
-    const skippedGrades: FetchReport['skippedGrades'] = [];
+    await collectGames(options.store, acc.gamesByYear, options, {
+        startYear,
+        gradePlayhqId: grade.id,
+        gradeKey: processed.gradeRow.grade_key,
+    });
+}
 
-    const jobs: {
-        orgId: string;
-        period: 'winter' | 'annual';
-        minYear: number;
-    }[] = [
-        { orgId: AMND_ORG_ID, period: 'winter', minYear: 2022 },
-        { orgId: NETBALL_SA_ORG_ID, period: 'annual', minYear: 2023 },
-    ];
+export async function collectPlayHqData(
+    options: CollectOptions,
+): Promise<CollectedPlayHq> {
+    const acc: CollectAccumulator = {
+        seasonRows: new Map(),
+        gradeRows: [],
+        teamRows: new Map(),
+        resultRows: [],
+        gamesByYear: new Map(),
+        skippedGrades: [],
+    };
 
-    for (const job of jobs) {
+    for (const job of COLLECT_JOBS) {
         // eslint-disable-next-line no-await-in-loop -- sequential by design: PlayHQ etiquette caps us at ~1 req/sec.
-        const entries = await discoverSeasons(store, job.orgId, refresh);
+        const entries = await discoverSeasons(
+            options.store,
+            job.orgId,
+            options.cacheFirst,
+        );
         for (const { season } of entries) {
             const startYear = parseStartYear(season.startDate);
             if (startYear < job.minYear) continue;
+            if (!yearWanted(options.years, startYear)) continue;
 
-            const seasonKey = `gradeListDiscoverSeason_${season.id}.json`;
+            const seasonCaptureKey = `gradeListDiscoverSeason_${season.id}.json`;
             // eslint-disable-next-line no-await-in-loop -- sequential by design: PlayHQ etiquette caps us at ~1 req/sec.
             const seasonResponse = (await cachedGraphQL(
-                store,
-                seasonKey,
+                options.store,
+                seasonCaptureKey,
                 'gradeListDiscoverSeason',
                 { id: season.id },
-                !refresh,
+                options.cacheFirst,
             )) as GradeListDiscoverSeasonResponse;
 
             const discoverSeason = seasonResponse.data.discoverSeason;
@@ -645,110 +778,74 @@ export async function runFetch(options: FetchOptions): Promise<FetchReport> {
             }
 
             for (const grade of discoverSeason.grades) {
-                const competitionKey = resolveCompetitionKey(
-                    job.orgId,
-                    grade.name,
-                );
-                // Out of scope, e.g. "Walking Netball 50+" under the Premier League season.
-                // Reported (not just dropped) so a grade that genuinely comes into
-                // scope later under a catalogued org doesn't silently vanish.
-                if (competitionKey === null) {
-                    recordOutOfScopeGrade(
-                        skippedGrades,
-                        job.orgId,
-                        season.id,
-                        season.name,
-                        grade.name,
-                    );
-                    continue;
-                }
-
-                const gradeKey = `gradeLadder_${grade.id}.json`;
                 // eslint-disable-next-line no-await-in-loop -- sequential by design: PlayHQ etiquette caps us at ~1 req/sec.
-                const gradeResponse = (await cachedGraphQL(
-                    store,
-                    gradeKey,
-                    'gradeLadder',
-                    { gradeID: grade.id },
-                    !refresh,
-                )) as GradeLadderResponse;
-                // scraped_at is when the capture was fetched, not `Date.now()`
-                // — so a cache-only re-run (unchanged upstream) reproduces
-                // byte-identical CSVs instead of a fresh timestamp on every row
-                // every time.
-                // eslint-disable-next-line no-await-in-loop -- sequential by design: PlayHQ etiquette caps us at ~1 req/sec.
-                const scrapedAt = await store.capturedAtMs(gradeKey);
-                if (scrapedAt === undefined) {
-                    throw new Error(`missing capturedAtMs for ${gradeKey}`);
-                }
-
-                const discoverGrade = gradeResponse.data.discoverGrade;
-                const standings: readonly Standing[] =
-                    discoverGrade === null
-                        ? []
-                        : flattenStandings(discoverGrade.ladder);
-
-                const seasonKeyPreview = buildSeasonKey(
-                    competitionKey,
-                    job.period,
-                    startYear,
-                );
-                if (standings.length < 2) {
-                    skippedGrades.push({
-                        seasonKey: seasonKeyPreview,
-                        gradeName: grade.name,
-                        teamCount: standings.length,
-                        reason: 'too_few_teams',
-                    });
-                    continue;
-                }
-
-                const processed = processGrade(
-                    grade,
-                    standings,
-                    {
-                        orgId: job.orgId,
-                        period: job.period,
-                        startYear,
-                        seasonName: season.name,
-                        seasonPlayhqId: season.id,
-                        seasonStatus: season.status.value.toLowerCase(),
-                        isFinalBySeasonKey,
-                    },
-                    clubRegistry,
-                    scrapedAt,
-                );
-                // Unreachable: already filtered above. Kept for type safety.
-                if (processed === null) continue;
-                if (!seasonRows.has(processed.seasonKey)) {
-                    seasonRows.set(processed.seasonKey, processed.seasonRow);
-                }
-                gradeRows.push(processed.gradeRow);
-                resultRows.push(...processed.results);
-                mergeTeams(teamRows, processed.teams);
-
-                // eslint-disable-next-line no-await-in-loop -- sequential by design: PlayHQ etiquette caps us at ~1 req/sec.
-                await collectGames(store, gamesByYear, options, {
-                    startYear,
-                    gradePlayhqId: grade.id,
-                    gradeKey: processed.gradeRow.grade_key,
-                });
+                await ingestGrade(options, job, season, startYear, grade, acc);
             }
         }
     }
 
+    const seasons = [...acc.seasonRows.values()];
+    const teams = [...acc.teamRows.values()];
+    const games = [...acc.gamesByYear.values()].flat();
+    return {
+        importData: toImportData({
+            seasons,
+            clubs: options.clubRegistry.getClubs(),
+            aliases: options.clubRegistry.getAliases(),
+            grades: acc.gradeRows,
+            teams,
+            results: acc.resultRows,
+            games,
+        }),
+        report: {
+            seasons: seasons.length,
+            grades: acc.gradeRows.length,
+            teams: teams.length,
+            results: acc.resultRows.length,
+            games: games.length,
+            skippedGrades: acc.skippedGrades,
+        },
+        seasons,
+        grades: acc.gradeRows,
+        teams,
+        results: acc.resultRows,
+        gamesByYear: acc.gamesByYear,
+    };
+}
+
+export async function runFetch(options: FetchOptions): Promise<FetchReport> {
+    await mkdir(RAW_DIR, { recursive: true });
+    const store = createFsStore(RAW_DIR);
+
+    const existingSeasons =
+        await readExistingCsv<Record<string, string>>('seasons.csv');
+    const isFinalBySeasonKey = new Map(
+        existingSeasons.map((row) => [row.season_key, row.is_final]),
+    );
+
+    const clubRegistry = await loadClubRegistry();
+    const collected = await collectPlayHqData({
+        store,
+        cacheFirst: !options.refresh,
+        clubRegistry,
+        isFinalBySeasonKey,
+        games: options.games,
+        years: options.years,
+        gradeId: options.gradeId,
+    });
+
     const written = await writeCsvs(
         {
-            seasons: [...seasonRows.values()],
-            grades: gradeRows,
-            teams: [...teamRows.values()],
-            results: resultRows,
+            seasons: collected.seasons,
+            grades: collected.grades,
+            teams: collected.teams,
+            results: collected.results,
         },
         existingSeasons,
         clubRegistry,
     );
 
-    const games = await writeGamesCsvs(gamesByYear);
+    const games = await writeGamesCsvs(collected.gamesByYear);
 
-    return { ...written, games, skippedGrades };
+    return { ...written, games, skippedGrades: collected.report.skippedGrades };
 }
