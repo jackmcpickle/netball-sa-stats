@@ -93,3 +93,16 @@ export function createSqliteExecutor(db: DatabaseSync): ImportExecutor {
         },
     };
 }
+
+/** D1 binding from a Worker or test fake — same SQL interface as sqlite. */
+export function createD1Executor(db: D1Database): ImportExecutor {
+    return {
+        queryAll: async (sql) => {
+            const result = await db.prepare(sql).all();
+            return result.results ?? [];
+        },
+        batch: async (batch) => {
+            await db.batch(batch.map((sql) => db.prepare(sql)));
+        },
+    };
+}
