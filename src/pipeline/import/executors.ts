@@ -23,6 +23,11 @@ import { join } from 'node:path';
 import { DatabaseSync } from 'node:sqlite';
 import type { ImportExecutor } from '@/pipeline/import/types';
 
+// The D1 executor lives in its own module so workerd callers never reach the
+// `node:sqlite`/`node:child_process` imports above; re-exported here so the
+// CLI keeps a single place to pick an executor from.
+export { createD1Executor } from '@/pipeline/import/d1-executor';
+
 export type WranglerTarget = 'local' | 'remote';
 
 /** Runs generated SQL against local or remote D1 via `wrangler d1 execute`. */

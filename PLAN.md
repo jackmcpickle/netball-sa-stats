@@ -12,7 +12,7 @@ Primary question: which club is really SA's strongest — including depth, not j
 
 This repo **is** the app. No monorepo, no separate package.
 
-- **Runtime:** Cloudflare Workers via TanStack Start (`main: @tanstack/react-start/server-entry`)
+- **Runtime:** Cloudflare Workers via TanStack Start (`main: src/worker.ts`)
 - **DB:** Cloudflare D1, binding `DB`, database `netball-stats` (`901da6ea-c57d-4529-915e-2d1718186efa`)
 - **ORM:** Drizzle (`drizzle-orm/d1`), migrations in `drizzle/`, applied with `wrangler d1 migrations apply`
 - **Tooling:** Vite+ (`vp`), pnpm, Vitest (`vp test`)
@@ -67,7 +67,7 @@ Two stages, deliberately decoupled.
 
 **Consequence:** committed CSV is the real source of truth, D1 a queryable projection. CSVs must carry everything — `team_count`, `position_uncertain`, `source`, `placement_basis` — not just the display columns.
 
-**No Worker-side sync.** No `POST /sync`, no cron. A Worker cannot run a browser and shares the datacenter IP range PlayHQ blocks. Sync runs a handful of times a year by hand.
+**Live ACTIVE seasons** can sync via `PlayHqImportWorkflow` (manual `/admin` Run import once secrets exist). Git CSV remains the archive for completed seasons. Weekly cron is **not** enabled until a Worker-isolate probe of `api.playhq.com` returns 200. See [docs/superpowers/specs/2026-08-13-playhq-automated-import-design.md](./docs/superpowers/specs/2026-08-13-playhq-automated-import-design.md).
 
 ## Scope
 
@@ -126,7 +126,7 @@ The schema still carries `source`, `placement_basis`, `position_uncertain` and n
 
 Re-publishing rather than personal archiving, so: **1 request/second**, descriptive User-Agent with a contact, responses cached to `data/raw/` so re-runs never re-hit the source.
 
-PlayHQ returns CloudFront 403 to datacenter IPs. Fetch runs from a residential network with real browser automation.
+PlayHQ HTML org pages still 403 datacenter IPs. GraphQL with the identifying User-Agent and required `Origin` / `tenant` headers is the fetch path (`src/pipeline/fetch/playhq-client.ts`). CLI caches to `data/raw/`; the Worker stores live captures in R2. Weekly cron stays off until a Worker-isolate probe of `api.playhq.com` returns 200.
 
 ## Data model
 

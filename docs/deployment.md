@@ -54,6 +54,50 @@ never been created in production — `0006_games.sql` and `0007_games_is_finals.
 applied locally but never remotely, so both pages 500'd on every request while passing
 locally and in CI.
 
+## PlayHQ import workflow
+
+Worker `netball-stats` uses `"main": "src/worker.ts"`. That entry re-exports TanStack
+Start `fetch` and the `PlayHqImportWorkflow` class.
+
+| Resource         | Value                                             |
+| ---------------- | ------------------------------------------------- |
+| R2 bucket        | `netball-stats-playhq-raw` (binding `PLAYHQ_RAW`) |
+| Workflow name    | `playhq-import`                                   |
+| Workflow binding | `PLAYHQ_IMPORT`                                   |
+| Workflow class   | `PlayHqImportWorkflow`                            |
+
+Weekly cron is **not** enabled. Do not add `schedules` to `wrangler.jsonc` until a
+Worker-isolate probe of `https://api.playhq.com/graphql` returns HTTP 200.
+
+### Secrets (production Worker only)
+
+Admin secrets are production Worker secrets, not committed, and never in
+`wrangler.jsonc`:
+
+```bash
+npx wrangler secret put ADMIN_PASSWORD
+npx wrangler secret put ADMIN_SESSION_SECRET
+```
+
+`ADMIN_SESSION_SECRET` must be ≥32 random bytes (hex or base64).
+
+### Admin
+
+`/admin/login` exists. There is no public nav link. Preview builds still must not
+migrate from random branches — keep using `cf:preview` (see **Preview builds must
+not touch production** above).
+
+### Finishing the isolate spike after merge
+
+1. Deploy production (`pnpm run cf:deploy` or the Workers Builds deploy command).
+2. Put the admin secrets if they are not already set.
+3. `npx wrangler workflows trigger playhq-import` (or Run import on `/admin` once
+   logged in).
+4. Confirm PlayHQ HTTP status from `npx wrangler tail` or dashboard logs. Record
+   it in `docs/superpowers/specs/2026-08-13-playhq-automated-import-design.md`.
+5. Add `"schedules": ["30 22 * * SAT"]` on the **workflow binding** only if
+   isolate HTTP 200. Redeploy. Do not add schedules on a standing 403.
+
 ## Schema is not data
 
 Migrations only create the catalogue and empty tables. Game rows come from the ingestion

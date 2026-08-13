@@ -10,8 +10,13 @@ import { createChampionshipRepo } from '@/server/repos/championship.repo';
 import { createClubsRepo } from '@/server/repos/clubs.repo';
 import { createGamesRepo } from '@/server/repos/games.repo';
 import { createGradesRepo } from '@/server/repos/grades.repo';
+import { createImportRunsRepo } from '@/server/repos/import-runs.repo';
 import { createSeasonsRepo } from '@/server/repos/seasons.repo';
 import { createWeightsRepo } from '@/server/repos/weights.repo';
+import {
+    createAdminService,
+    type StartImport,
+} from '@/server/services/admin.service';
 import { createClubsService } from '@/server/services/clubs.service';
 import { createHeadToHeadService } from '@/server/services/head-to-head.service';
 import { createLaddersService } from '@/server/services/ladders.service';
@@ -39,13 +44,21 @@ function createRepos(db: Db): Repos {
     };
 }
 
-export function createServices(db: Db): {
+async function defaultStartImport(): Promise<void> {
+    throw new Error('PLAYHQ_IMPORT is not bound');
+}
+
+export function createServices(
+    db: Db,
+    extras?: { startImport?: StartImport },
+): {
     readonly rankings: ReturnType<typeof createRankingsService>;
     readonly ladders: ReturnType<typeof createLaddersService>;
     readonly clubs: ReturnType<typeof createClubsService>;
     readonly method: ReturnType<typeof createMethodService>;
     readonly headToHead: ReturnType<typeof createHeadToHeadService>;
     readonly results: ReturnType<typeof createResultsService>;
+    readonly admin: ReturnType<typeof createAdminService>;
 } {
     const repos = createRepos(db);
     return {
@@ -55,6 +68,9 @@ export function createServices(db: Db): {
         method: createMethodService(repos),
         headToHead: createHeadToHeadService(repos),
         results: createResultsService(repos),
+        admin: createAdminService(createImportRunsRepo(db), {
+            startImport: extras?.startImport ?? defaultStartImport,
+        }),
     };
 }
 

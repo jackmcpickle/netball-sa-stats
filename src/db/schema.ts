@@ -293,6 +293,31 @@ export const games = sqliteTable(
  * Championship weighting. Seeded from a formula but editable per row, and applied
  * at query time so a re-weight re-ranks every season without a re-import.
  */
+export const IMPORT_RUN_STATUSES = [
+    'running',
+    'ok',
+    'error',
+    'skipped',
+] as const;
+export type ImportRunStatus = (typeof IMPORT_RUN_STATUSES)[number];
+
+export const importRuns = sqliteTable('import_runs', {
+    id: integer('id').primaryKey({ autoIncrement: true }),
+    instanceId: text('instance_id').notNull().unique(),
+    startedAt: integer('started_at').notNull(),
+    finishedAt: integer('finished_at'),
+    status: text('status').notNull().$type<ImportRunStatus>(),
+    yearsJson: text('years_json'),
+    games: integer('games', { mode: 'boolean' }).notNull(),
+    seasons: integer('seasons'),
+    grades: integer('grades'),
+    teams: integer('teams'),
+    results: integer('results'),
+    gamesCount: integer('games_count'),
+    warningsJson: text('warnings_json'),
+    errorText: text('error_text'),
+});
+
 export const gradeWeights = sqliteTable(
     'grade_weights',
     {
@@ -411,3 +436,5 @@ export type Game = typeof games.$inferSelect;
 export type NewGame = typeof games.$inferInsert;
 export type GradeWeight = typeof gradeWeights.$inferSelect;
 export type NewGradeWeight = typeof gradeWeights.$inferInsert;
+export type ImportRunRow = typeof importRuns.$inferSelect;
+export type NewImportRun = typeof importRuns.$inferInsert;

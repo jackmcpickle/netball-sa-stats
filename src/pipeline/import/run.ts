@@ -188,11 +188,13 @@ export type RunImportOptions = {
     executor: ImportExecutor;
 };
 
-export async function runImport(
-    options: RunImportOptions,
+export type ImportCountsMode = 'exact' | 'subset';
+
+export async function runImportData(
+    data: ImportData,
+    executor: ImportExecutor,
+    counts: ImportCountsMode,
 ): Promise<ImportReport> {
-    const { dataDir, executor } = options;
-    const data = await loadImportData(dataDir);
     const competitionKeys = await loadCompetitionKeys(executor.queryAll);
     const {
         teamCountWarnings,
@@ -200,9 +202,6 @@ export async function runImport(
         unresolvedTeamWarnings,
     } = validateImportData(data, competitionKeys);
 
-    // Games whose team withdrew before it ever appeared on a ladder cannot be
-    // resolved and are dropped here, so the row-count assertion below still
-    // compares like with like.
     const skipped = new Set(
         unresolvedTeamWarnings.map(
             (warning) => `${warning.gradeKey}:${warning.playhqId}`,
@@ -212,17 +211,15 @@ export async function runImport(
         (game) => !skipped.has(`${game.gradeKey}:${game.playhqId}`),
     );
 
-    // generateImportSql runs after validation, which may have annotated
-    // `notes` on mismatched result rows — the SQL must reflect that.
     const batches = generateImportSql(data);
-    // Batches must run in dependency order (seasons -> ... -> results), so
-    // this can't be parallelised with Promise.all.
     for (const batch of batches) {
         // eslint-disable-next-line no-await-in-loop -- sequential by requirement
         await executor.batch(batch.statements);
     }
 
-    await assertRowCountsMatch(executor.queryAll, data);
+    if (counts === 'exact') {
+        await assertRowCountsMatch(executor.queryAll, data);
+    }
     await assertGradeWeightCoverage(executor.queryAll);
 
     return {
@@ -237,4 +234,12 @@ export async function runImport(
         playedMismatchWarnings,
         unresolvedTeamWarnings,
     };
+}
+
+export async function runImport(
+    options: RunImportOptions,
+): Promise<ImportReport> {
+    const { dataDir, executor } = options;
+    const data = await loadImportData(dataDir);
+    return runImportData(data, executor, 'exact');
 }

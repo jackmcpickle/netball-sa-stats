@@ -2,9 +2,13 @@ import { resolve } from 'node:path';
 import type { DatabaseSync } from 'node:sqlite';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import { createSqliteExecutor } from '@/pipeline/import/executors';
-import { runImport } from '@/pipeline/import/run';
+import {
+    loadImportData,
+    runImport,
+    runImportData,
+} from '@/pipeline/import/run';
 import { createMigratedDb } from '@/pipeline/import/sqlite-test-db';
-import type { ImportExecutor } from '@/pipeline/import/types';
+import type { ImportData, ImportExecutor } from '@/pipeline/import/types';
 import { ImportValidationError } from '@/pipeline/import/types';
 
 const FIXTURE_DIR = resolve(import.meta.dirname, '__fixtures__/basic');
@@ -166,6 +170,53 @@ describe('runImport', () => {
         await expect(
             runImport({ dataDir: FIXTURE_DIR, executor: lossy }),
         ).rejects.toThrow(/row count mismatch/u);
+    });
+
+    it('upserts a subset without deleting other seasons or asserting whole-table counts', async () => {
+        await runImport({
+            dataDir: FIXTURE_DIR,
+            executor: createSqliteExecutor(db),
+        });
+
+        const full = await loadImportData(FIXTURE_DIR);
+        const seasonKey = 'amnd-winter-2024';
+        const gradeKeys = new Set(
+            full.grades
+                .filter((grade) => grade.seasonKey === seasonKey)
+                .map((grade) => grade.gradeKey),
+        );
+        const subset: ImportData = {
+            seasons: full.seasons
+                .filter((season) => season.seasonKey === seasonKey)
+                .map((season) => ({
+                    ...season,
+                    label: 'Updated Winter 2024',
+                    playhqId: 'updated-playhq-id',
+                })),
+            clubs: full.clubs,
+            clubAliases: full.clubAliases,
+            grades: full.grades.filter(
+                (grade) => grade.seasonKey === seasonKey,
+            ),
+            teams: full.teams.filter((team) => gradeKeys.has(team.gradeKey)),
+            results: full.results.filter((result) =>
+                gradeKeys.has(result.gradeKey),
+            ),
+            games: full.games.filter((game) => gradeKeys.has(game.gradeKey)),
+        };
+
+        await expect(
+            runImportData(subset, createSqliteExecutor(db), 'subset'),
+        ).resolves.toBeDefined();
+
+        expect(tableRows(db, 'seasons')).toHaveLength(2);
+        const updated = db
+            .prepare(
+                'SELECT label, playhq_id AS playhqId FROM seasons WHERE season_key = ?',
+            )
+            .get(seasonKey) as { label: string; playhqId: string };
+        expect(updated.label).toBe('Updated Winter 2024');
+        expect(updated.playhqId).toBe('updated-playhq-id');
     });
 
     it('fails loudly when an imported grade has no matching grade_weights row', async () => {
