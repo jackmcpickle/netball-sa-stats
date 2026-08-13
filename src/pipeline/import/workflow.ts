@@ -22,9 +22,10 @@ export class PlayHqImportWorkflow extends WorkflowEntrypoint<
         event: WorkflowEvent<PlayHqJobParams>,
         step: WorkflowStep,
     ): Promise<void> {
+        const payload = event.payload ?? { games: true };
         const params: PlayHqJobParams = {
-            games: event.payload.games ?? true,
-            years: event.payload.years,
+            games: payload.games ?? true,
+            years: payload.years,
         };
         const instanceId = event.instanceId;
         await step.do(

@@ -23,9 +23,9 @@ PlayHQ does.
 
 PLAN.md forbade Worker-side sync for two reasons that no longer hold:
 
-| Original assumption | Today |
-| --- | --- |
-| “A Worker cannot run a browser.” | Fetch is GraphQL (`src/pipeline/fetch/playhq-client.ts`), not Playwright. |
+| Original assumption                  | Today                                                                                                                                                                                                                                      |
+| ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| “A Worker cannot run a browser.”     | Fetch is GraphQL (`src/pipeline/fetch/playhq-client.ts`), not Playwright.                                                                                                                                                                  |
 | “Datacenter IPs get CloudFront 403.” | The HTML org page still 403s on a default UA. The GraphQL endpoint with `Origin: https://www.playhq.com` returned HTTP 200 from this cloud environment for `discoverCompetitions`. Transient 403/502 still happen and are already retried. |
 
 The pipeline itself is worth keeping: rate-limited fetch, raw capture, pure
@@ -199,7 +199,7 @@ seasons even if PlayHQ already marked them `COMPLETED`.
 **Cache vs replay.** The CLI’s `cachedGraphQL(..., refresh)` reads `data/raw`
 so a local re-run can be offline. The Workflow does **not** use that
 cache-first path. Each PlayHQ `step.do` always hits the network on its first
-successful attempt; Workflows then replays the *step result* (the R2 key) if
+successful attempt; Workflows then replays the _step result_ (the R2 key) if
 a later step fails. Last week’s R2 object is an audit copy, not a cache hit.
 Do not thread CLI `--refresh` into the Worker.
 
@@ -281,12 +281,12 @@ to kick a run without `wrangler`. Not linked from the public nav.
 
 ### Auth approaches
 
-| Approach | Verdict |
-| --- | --- |
-| **Cloudflare Access on `workers.dev`** | One-click Access protects the **whole** Worker. Rankings must stay public. Reject. |
-| **Access on `/admin*` only** | Needs a custom domain and a Zero Trust path policy. Right later, wrong now — the site is `workers_dev: true` with no custom hostname. |
-| **HTTP Basic Auth** | Browser prompt, no logout, grim on a phone. Reject as the UI. |
-| **Shared password + signed cookie** | Form at `/admin/login`, HttpOnly cookie, same site chrome. Matches “password-protected” and works on `workers.dev`. **Do this.** |
+| Approach                               | Verdict                                                                                                                               |
+| -------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| **Cloudflare Access on `workers.dev`** | One-click Access protects the **whole** Worker. Rankings must stay public. Reject.                                                    |
+| **Access on `/admin*` only**           | Needs a custom domain and a Zero Trust path policy. Right later, wrong now — the site is `workers_dev: true` with no custom hostname. |
+| **HTTP Basic Auth**                    | Browser prompt, no logout, grim on a phone. Reject as the UI.                                                                         |
+| **Shared password + signed cookie**    | Form at `/admin/login`, HttpOnly cookie, same site chrome. Matches “password-protected” and works on `workers.dev`. **Do this.**      |
 
 Access can wrap `/admin*` later if a custom domain lands. The cookie gate
 stays as defence in depth; it does not disappear.
@@ -364,14 +364,14 @@ a `running` row exists, then `env.PLAYHQ_IMPORT.create(...)`.
 
 ## Error handling
 
-| Failure | Behaviour |
-| --- | --- |
-| Transient PlayHQ 403/502 | Step retry, exponential, up to 6. |
+| Failure                                | Behaviour                                                                                                                                                                              |
+| -------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Transient PlayHQ 403/502               | Step retry, exponential, up to 6.                                                                                                                                                      |
 | Persistent PlayHQ failure on one grade | Fail the workflow after retries. Do not upsert a partial season. Re-run: Workflows replay successful steps (R2 keys already written) and only retries the failed grade’s network call. |
-| Validation error | Fail before `upsert`. Previous D1 data remains. |
-| D1 batch error | Retry the upsert step only (SQL is idempotent). |
-| Overlapping cron or admin “Run import” | `lock` inserts `skipped`; admin button stays disabled while any row is `running`. |
-| New club / unresolved fixture team | Same as CLI: warn, skip invented teams, never invent. |
+| Validation error                       | Fail before `upsert`. Previous D1 data remains.                                                                                                                                        |
+| D1 batch error                         | Retry the upsert step only (SQL is idempotent).                                                                                                                                        |
+| Overlapping cron or admin “Run import” | `lock` inserts `skipped`; admin button stays disabled while any row is `running`.                                                                                                      |
+| New club / unresolved fixture team     | Same as CLI: warn, skip invented teams, never invent.                                                                                                                                  |
 
 If the Worker-isolate spike shows **standing** 403 (not transient), stop.
 Fall back is a Cloudflare Tunnel on a home machine exposing a tiny
@@ -394,6 +394,22 @@ and a headless browser still egresses from Cloudflare.
   `wrangler dev --remote`, one `discoverCompetitions` call. Record HTTP
   status in this spec’s follow-up note. Implementation does not proceed to
   cron-on-production without that.
+
+### Follow-up: Worker-isolate probe (2026-08-13)
+
+The isolate probe was **not run** from the cloud-agent environment that
+landed Tasks 1–9 (`wrangler` unauthenticated; `CLOUDFLARE_API_TOKEN`
+unset, 2026-08-13). A Node/VM `discoverCompetitions` 200 is **not** a
+substitute. No isolate HTTP status was observed — neither 200 nor a
+standing 403.
+
+`wrangler.jsonc` has **no** `schedules`. Cron stays off until someone
+deploys this branch, triggers `playhq-import` (`npx wrangler workflows
+trigger playhq-import`, or `/admin` Run import once secrets exist), and
+records isolate HTTP status from Worker logs. Add
+`schedules: ["30 22 * * SAT"]` on the Workflow binding only if that
+status is 200. If the isolate returns a standing 403, stop; the tunnel
+fallback in **Error handling** remains unimplemented.
 
 ## Out of scope
 
