@@ -27,30 +27,30 @@
 
 ## File Structure
 
-| File | Responsibility |
-| --- | --- |
-| `src/pipeline/fetch/capture-store.ts` | `CaptureStore` type, `createMemoryStore`, `createFsStore`. |
-| `src/pipeline/fetch/playhq-client.ts` | GraphQL + cache via `CaptureStore`; no `node:fs`. |
-| `src/pipeline/fetch/run.ts` | Collect PlayHQ rows in memory; CLI still writes CSV. |
-| `src/pipeline/fetch/to-import.ts` | Fetch row types → `ImportData`. |
-| `src/pipeline/import/run.ts` | `runImportData(data, executor, { counts })`. |
-| `src/pipeline/import/executors.ts` | `createD1Executor`. |
-| `src/db/schema.ts` + `drizzle/0008_import_runs.sql` | `import_runs` table. |
-| `src/server/admin-auth.ts` | Password HMAC + cookie sign/verify. |
-| `src/server/repos/import-runs.repo.ts` | D1 access for runs. |
-| `src/server/services/admin.service.ts` | Page DTO + start-import gate. |
-| `src/server/dto/admin.dto.ts` | Wire shapes for `/admin`. |
-| `src/components/admin/admin-page.tsx` | Status strip, table, run form, sign out. |
-| `src/components/admin/admin-login-page.tsx` | Password form. |
-| `src/routes/admin.tsx` | Layout + session `beforeLoad`. |
-| `src/routes/admin.index.tsx` | Authenticated dashboard. |
-| `src/routes/admin.login.tsx` | Login (cookie not required). |
-| `src/pipeline/import/playhq-job.ts` | Worker/CLI-agnostic job: lock → fetch → validate → upsert → record. |
-| `src/pipeline/fetch/r2-store.ts` | R2 `CaptureStore`. |
-| `src/pipeline/import/workflow.ts` | `PlayHqImportWorkflow` wrapping `playhq-job`. |
-| `src/worker.ts` | Re-export Start `fetch` + Workflow class. |
-| `wrangler.jsonc` | R2 + Workflow bindings; `schedules` only in Task 9. |
-| `docs/deployment.md`, `PLAN.md` | Secrets, R2, admin, revised no-Worker-sync. |
+| File                                                | Responsibility                                                      |
+| --------------------------------------------------- | ------------------------------------------------------------------- |
+| `src/pipeline/fetch/capture-store.ts`               | `CaptureStore` type, `createMemoryStore`, `createFsStore`.          |
+| `src/pipeline/fetch/playhq-client.ts`               | GraphQL + cache via `CaptureStore`; no `node:fs`.                   |
+| `src/pipeline/fetch/run.ts`                         | Collect PlayHQ rows in memory; CLI still writes CSV.                |
+| `src/pipeline/fetch/to-import.ts`                   | Fetch row types → `ImportData`.                                     |
+| `src/pipeline/import/run.ts`                        | `runImportData(data, executor, { counts })`.                        |
+| `src/pipeline/import/executors.ts`                  | `createD1Executor`.                                                 |
+| `src/db/schema.ts` + `drizzle/0008_import_runs.sql` | `import_runs` table.                                                |
+| `src/server/admin-auth.ts`                          | Password HMAC + cookie sign/verify.                                 |
+| `src/server/repos/import-runs.repo.ts`              | D1 access for runs.                                                 |
+| `src/server/services/admin.service.ts`              | Page DTO + start-import gate.                                       |
+| `src/server/dto/admin.dto.ts`                       | Wire shapes for `/admin`.                                           |
+| `src/components/admin/admin-page.tsx`               | Status strip, table, run form, sign out.                            |
+| `src/components/admin/admin-login-page.tsx`         | Password form.                                                      |
+| `src/routes/admin.tsx`                              | Layout + session `beforeLoad`.                                      |
+| `src/routes/admin.index.tsx`                        | Authenticated dashboard.                                            |
+| `src/routes/admin.login.tsx`                        | Login (cookie not required).                                        |
+| `src/pipeline/import/playhq-job.ts`                 | Worker/CLI-agnostic job: lock → fetch → validate → upsert → record. |
+| `src/pipeline/fetch/r2-store.ts`                    | R2 `CaptureStore`.                                                  |
+| `src/pipeline/import/workflow.ts`                   | `PlayHqImportWorkflow` wrapping `playhq-job`.                       |
+| `src/worker.ts`                                     | Re-export Start `fetch` + Workflow class.                           |
+| `wrangler.jsonc`                                    | R2 + Workflow bindings; `schedules` only in Task 9.                 |
+| `docs/deployment.md`, `PLAN.md`                     | Secrets, R2, admin, revised no-Worker-sync.                         |
 
 ---
 
@@ -109,7 +109,9 @@ import {
 
 describe('createMemoryStore', () => {
     it('returns undefined for a missing key', async () => {
-        expect(await createMemoryStore().get('gradeLadder_x.json')).toBeUndefined();
+        expect(
+            await createMemoryStore().get('gradeLadder_x.json'),
+        ).toBeUndefined();
     });
 
     it('round-trips put/get and capturedAtMs', async () => {
@@ -354,7 +356,9 @@ export async function runImportData(
     counts: ImportCountsMode,
 ): Promise<ImportReport>;
 
-export async function runImport(options: RunImportOptions): Promise<ImportReport>;
+export async function runImport(
+    options: RunImportOptions,
+): Promise<ImportReport>;
 // runImport loads CSV then runImportData(data, executor, 'exact')
 
 export function createD1Executor(db: D1Database): ImportExecutor;
@@ -442,7 +446,12 @@ git commit -m "feat: import in-memory rows with subset upserts"
 **Interfaces:**
 
 ```ts
-export const IMPORT_RUN_STATUSES = ['running', 'ok', 'error', 'skipped'] as const;
+export const IMPORT_RUN_STATUSES = [
+    'running',
+    'ok',
+    'error',
+    'skipped',
+] as const;
 export type ImportRunStatus = (typeof IMPORT_RUN_STATUSES)[number];
 
 export type ImportRun = {
@@ -480,10 +489,18 @@ export function createImportRunsRepo(db: Db): {
         finishedAt: number;
     }): Promise<number>;
     markSkipped(id: number, finishedAt: number): Promise<void>;
-    markOk(id: number, finishedAt: number, counts: {
-        seasons: number; grades: number; teams: number;
-        results: number; gamesCount: number; warningsJson: string;
-    }): Promise<void>;
+    markOk(
+        id: number,
+        finishedAt: number,
+        counts: {
+            seasons: number;
+            grades: number;
+            teams: number;
+            results: number;
+            gamesCount: number;
+            warningsJson: string;
+        },
+    ): Promise<void>;
     markError(id: number, finishedAt: number, errorText: string): Promise<void>;
 };
 ```
@@ -603,7 +620,11 @@ async function hmacBytes(secret: string, message: string): Promise<Uint8Array> {
         ['sign'],
     );
     return new Uint8Array(
-        await crypto.subtle.sign('HMAC', key, new TextEncoder().encode(message)),
+        await crypto.subtle.sign(
+            'HMAC',
+            key,
+            new TextEncoder().encode(message),
+        ),
     );
 }
 
@@ -669,10 +690,19 @@ export type AdminPageDto = {
 
 export function createAdminService(
     repo: ReturnType<typeof createImportRunsRepo>,
-    deps: { startImport: (params: { years?: number[]; games: boolean }) => Promise<void> },
+    deps: {
+        startImport: (params: {
+            years?: number[];
+            games: boolean;
+        }) => Promise<void>;
+    },
 ): {
     getPage(): Promise<AdminPageDto>;
-    runImport(yearsText: string): Promise<Result<true, { kind: 'already-running' } | { kind: 'bad-years' }>>;
+    runImport(
+        yearsText: string,
+    ): Promise<
+        Result<true, { kind: 'already-running' } | { kind: 'bad-years' }>
+    >;
 };
 ```
 
@@ -681,9 +711,10 @@ export function createAdminService(
 Do **not** read `cloudflare:workers` inside the service. The route’s server fn passes `startImport`. Until Task 8, the route can pass `async () => { throw new Error('import workflow is not wired yet'); }` — no: Task 6 tests mock `startImport`. The route in this task should call a function in `src/pipeline/import/start-import.ts`:
 
 ```ts
-export async function startPlayHqImport(
-    params: { years?: number[]; games: boolean },
-): Promise<void> {
+export async function startPlayHqImport(params: {
+    years?: number[];
+    games: boolean;
+}): Promise<void> {
     const { env } = await import('cloudflare:workers');
     await env.PLAYHQ_IMPORT.create({
         id: `playhq-${new Date().toISOString()}`,
@@ -837,7 +868,10 @@ export class PlayHqImportWorkflow extends WorkflowEntrypoint<
     Env,
     PlayHqJobParams
 > {
-    async run(event: WorkflowEvent<PlayHqJobParams>, step: WorkflowStep): Promise<void>;
+    async run(
+        event: WorkflowEvent<PlayHqJobParams>,
+        step: WorkflowStep,
+    ): Promise<void>;
 }
 ```
 
@@ -845,7 +879,10 @@ Fake R2 for tests:
 
 ```ts
 class MemoryR2 {
-    private readonly map = new Map<string, { body: string; capturedAtMs: string }>();
+    private readonly map = new Map<
+        string,
+        { body: string; capturedAtMs: string }
+    >();
     async get(key: string) {
         const hit = this.map.get(key);
         if (!hit) return null;
@@ -854,7 +891,11 @@ class MemoryR2 {
             customMetadata: { capturedAtMs: hit.capturedAtMs },
         };
     }
-    async put(key: string, value: string, opts?: { customMetadata?: Record<string, string> }) {
+    async put(
+        key: string,
+        value: string,
+        opts?: { customMetadata?: Record<string, string> },
+    ) {
         this.map.set(key, {
             body: value,
             capturedAtMs: opts?.customMetadata?.capturedAtMs ?? '0',
@@ -868,24 +909,28 @@ R2 keys: `raw/${key}` for GraphQL, `runs/${instanceId}/import.json` only if a la
 Workflow `run`:
 
 ```ts
-    const params = event.params ?? { games: true };
+const params = event.params ?? { games: true };
 const instanceId = event.instanceId;
-await step.do('lock-and-import', {
-    retries: { limit: 0, delay: '10 seconds', backoff: 'constant' },
-}, async () => {
-    const executor = createD1Executor(this.env.DB);
-    const db = drizzle(this.env.DB, { schema, casing: 'snake_case' });
-    await runPlayHqJob({
-        params,
-        store: createR2Store(this.env.PLAYHQ_RAW),
-        executor,
-        cacheFirst: false,
-        nowEpochSeconds: Math.floor(Date.now() / 1000),
-        instanceId,
-        runs: createImportRunsRepo(db),
-        isFinalBySeasonKey: await loadIsFinalMap(executor),
-    });
-});
+await step.do(
+    'lock-and-import',
+    {
+        retries: { limit: 0, delay: '10 seconds', backoff: 'constant' },
+    },
+    async () => {
+        const executor = createD1Executor(this.env.DB);
+        const db = drizzle(this.env.DB, { schema, casing: 'snake_case' });
+        await runPlayHqJob({
+            params,
+            store: createR2Store(this.env.PLAYHQ_RAW),
+            executor,
+            cacheFirst: false,
+            nowEpochSeconds: Math.floor(Date.now() / 1000),
+            instanceId,
+            runs: createImportRunsRepo(db),
+            isFinalBySeasonKey: await loadIsFinalMap(executor),
+        });
+    },
+);
 ```
 
 **Do not** put one GraphQL call per `step.do` in v1 if that requires copying the collect loop into the workflow class. The spec preferred per-call steps for 403 retry; `requestGraphQL` already retries 6 times with 10s backoff. That is enough for v1. A later pass can split steps. YAGNI.
@@ -1006,23 +1051,23 @@ git commit -m "docs: record PlayHQ Worker isolate probe failure; cron left disab
 
 **Spec coverage**
 
-| Spec item | Task |
-| --- | --- |
-| CaptureStore / no `node:fs` in the client | 1 |
-| Collect without CSV; CLI still writes CSV | 2 |
-| D1 executor; subset upsert; validate before write | 3 |
-| `import_runs` running→ok/error/skipped | 4, 7 |
-| ACTIVE seasons; years override | 7 |
-| Serial PlayHQ; 1 req/sec (existing rate limit) | 1, 7 |
-| R2 raw; Workflow; worker entry | 8 |
-| Admin password cookie; no Access-on-workers.dev | 5–6 |
-| `/admin` table, run button, noindex, no nav link | 6 |
-| No schedules until isolate 200 | 9 |
-| Club registry from D1 | 7 |
-| `is_final` not clobbered | 8 (`loadIsFinalMap`) |
-| Tunnel fallback | 9 gate (stop, don’t build) |
-| dump-csv.ts | out of scope (spec: optional, not v1) |
-| Per-GraphQL `step.do` | deferred YAGNI; client retries remain |
+| Spec item                                         | Task                                  |
+| ------------------------------------------------- | ------------------------------------- |
+| CaptureStore / no `node:fs` in the client         | 1                                     |
+| Collect without CSV; CLI still writes CSV         | 2                                     |
+| D1 executor; subset upsert; validate before write | 3                                     |
+| `import_runs` running→ok/error/skipped            | 4, 7                                  |
+| ACTIVE seasons; years override                    | 7                                     |
+| Serial PlayHQ; 1 req/sec (existing rate limit)    | 1, 7                                  |
+| R2 raw; Workflow; worker entry                    | 8                                     |
+| Admin password cookie; no Access-on-workers.dev   | 5–6                                   |
+| `/admin` table, run button, noindex, no nav link  | 6                                     |
+| No schedules until isolate 200                    | 9                                     |
+| Club registry from D1                             | 7                                     |
+| `is_final` not clobbered                          | 8 (`loadIsFinalMap`)                  |
+| Tunnel fallback                                   | 9 gate (stop, don’t build)            |
+| dump-csv.ts                                       | out of scope (spec: optional, not v1) |
+| Per-GraphQL `step.do`                             | deferred YAGNI; client retries remain |
 
 **Placeholders:** none intended. Cookie helper import path is “grep the installed Start package” because this repo has no cookie usage yet — that is a lookup, not a TBD feature.
 
