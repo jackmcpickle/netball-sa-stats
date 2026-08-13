@@ -401,11 +401,25 @@ export interface ExistingCsvRows {
  * this a single fetch deletes sixteen seasons of history that no re-run can
  * restore — the PDFs are a separate pipeline.
  *
- * `grades.csv` and `teams.csv` have no `source` column, so archive-ness is
+ * A `--year` (or other subset) collect only accumulates those seasons, so
+ * existing PlayHQ rows for season_keys this run did not fetch must also
+ * survive. `fetchedSeasonKeys` omitted means "treat every PlayHQ season as
+ * fetched" — the historical full-walk behaviour.
+ *
+ * `grades.csv` and `teams.csv` have no `source` column, so retention is
  * inherited: season -> grade -> team.
  */
-export function archiveRowsToKeep(existing: ExistingCsvRows): ExistingCsvRows {
-    const seasons = existing.seasons.filter((row) => row.source !== 'playhq');
+export function archiveRowsToKeep(
+    existing: ExistingCsvRows,
+    fetchedSeasonKeys?: ReadonlySet<string>,
+): ExistingCsvRows {
+    const seasons = existing.seasons.filter((row) => {
+        if (row.source !== 'playhq') return true;
+        return (
+            fetchedSeasonKeys !== undefined &&
+            !fetchedSeasonKeys.has(row.season_key)
+        );
+    });
     const seasonKeys = new Set(seasons.map((row) => row.season_key));
     const grades = existing.grades.filter((row) =>
         seasonKeys.has(row.season_key),
@@ -415,7 +429,9 @@ export function archiveRowsToKeep(existing: ExistingCsvRows): ExistingCsvRows {
         seasons,
         grades,
         teams: existing.teams.filter((row) => gradeKeys.has(row.grade_key)),
-        results: existing.results.filter((row) => row.source !== 'playhq'),
+        results: existing.results.filter(
+            (row) => row.source !== 'playhq' || gradeKeys.has(row.grade_key),
+        ),
     };
 }
 
@@ -548,12 +564,15 @@ async function writeCsvs(
     teams: number;
     results: number;
 }> {
-    const archived = archiveRowsToKeep({
-        seasons: existingSeasons,
-        grades: await readExistingCsv('grades.csv'),
-        teams: await readExistingCsv('teams.csv'),
-        results: await readExistingCsv('team_season_results.csv'),
-    });
+    const archived = archiveRowsToKeep(
+        {
+            seasons: existingSeasons,
+            grades: await readExistingCsv('grades.csv'),
+            teams: await readExistingCsv('teams.csv'),
+            results: await readExistingCsv('team_season_results.csv'),
+        },
+        new Set(fetched.seasons.map((row) => row.season_key)),
+    );
 
     const seasons = [...fetched.seasons, ...archived.seasons].sort((a, b) =>
         a.season_key.localeCompare(b.season_key),

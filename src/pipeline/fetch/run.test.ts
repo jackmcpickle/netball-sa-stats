@@ -359,6 +359,57 @@ describe('archiveRowsToKeep', () => {
         expect(kept.teams).toEqual([]);
         expect(kept.results).toEqual([]);
     });
+
+    it('still drops playhq seasons that this run fetched', () => {
+        const kept = archiveRowsToKeep(existing, new Set(['amnd-winter-2025']));
+        expect(kept.seasons.map((row) => row.season_key)).toEqual([
+            'amnd-winter-2005',
+        ]);
+        expect(kept.grades.map((row) => row.grade_key)).toEqual(['a-2005']);
+        expect(kept.results.map((row) => row.source)).toEqual(['archive_pdf']);
+    });
+
+    it('keeps playhq seasons this run did not fetch, plus archive rows', () => {
+        // `--year=2026` only accumulates 2026; writeCsvs must not wipe 2025.
+        const yearFiltered = {
+            seasons: [
+                ...existing.seasons,
+                { season_key: 'amnd-winter-2026', source: 'playhq' },
+            ],
+            grades: [
+                ...existing.grades,
+                { season_key: 'amnd-winter-2026', grade_key: 'a-2026' },
+            ],
+            teams: [
+                ...existing.teams,
+                { grade_key: 'a-2026', playhq_id: 'p2' },
+            ],
+            results: [
+                ...existing.results,
+                { grade_key: 'a-2026', source: 'playhq' },
+            ],
+        };
+        const kept = archiveRowsToKeep(
+            yearFiltered,
+            new Set(['amnd-winter-2026']),
+        );
+        expect(kept.seasons.map((row) => row.season_key)).toEqual([
+            'amnd-winter-2005',
+            'amnd-winter-2025',
+        ]);
+        expect(kept.grades.map((row) => row.grade_key)).toEqual([
+            'a-2005',
+            'a-2025',
+        ]);
+        expect(kept.teams.map((row) => row.grade_key)).toEqual([
+            'a-2005',
+            'a-2025',
+        ]);
+        expect(kept.results.map((row) => row.grade_key)).toEqual([
+            'a-2005',
+            'a-2025',
+        ]);
+    });
 });
 
 const CAPTURED_AT_MS = 1_700_000_000_000;
