@@ -8,7 +8,8 @@ import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { parseCsv, toCsv } from '@/pipeline/csv';
 import type { CsvValue } from '@/pipeline/csv';
-import { capturedAt } from '@/pipeline/fetch/captured-at';
+import { createFsStore } from '@/pipeline/fetch/capture-store';
+import type { CaptureStore } from '@/pipeline/fetch/capture-store';
 import { ClubRegistry } from '@/pipeline/fetch/club-registry';
 import type { ClubAliasRow, ClubRow } from '@/pipeline/fetch/club-registry';
 import { toGameRows } from '@/pipeline/fetch/games';
@@ -123,15 +124,17 @@ type SeasonEntry = {
 
 /** Resolves every (competition entry, season) pair PlayHQ lists for an org. */
 async function discoverSeasons(
+    store: CaptureStore,
     orgId: string,
     refresh: boolean,
 ): Promise<{ competitionName: string; season: SeasonEntry }[]> {
-    const cachePath = resolve(RAW_DIR, `discoverCompetitions_${orgId}.json`);
+    const key = `discoverCompetitions_${orgId}.json`;
     const response = (await cachedGraphQL(
-        cachePath,
+        store,
+        key,
         'discoverCompetitions',
         { organisationID: orgId },
-        refresh,
+        !refresh,
     )) as DiscoverCompetitionsResponse;
 
     return response.data.discoverCompetitions.flatMap((competition) =>
@@ -417,22 +420,28 @@ function wantsGames(
  * lists games.
  */
 async function fetchGamesForGrade(
+    store: CaptureStore,
     gradePlayhqId: string,
     gradeKey: string,
     refresh: boolean,
 ): Promise<readonly GameRow[]> {
-    const cachePath = resolve(RAW_DIR, `gradeAllRounds_${gradePlayhqId}.json`);
+    const key = `gradeAllRounds_${gradePlayhqId}.json`;
     const response = (await cachedGraphQL(
-        cachePath,
+        store,
+        key,
         'gradeAllRounds',
         { gradeID: gradePlayhqId },
-        refresh,
+        !refresh,
     )) as GradeAllRoundsResponse;
     const rounds = response.data.discoverGradeFixture;
     if (rounds === null) return [];
     // As with ladders, scraped_at is when the capture was fetched, so a
     // cache-only re-run reproduces a byte-identical CSV.
-    return toGameRows(rounds, gradeKey, await capturedAt(cachePath));
+    const scrapedAt = await store.capturedAtMs(key);
+    if (scrapedAt === undefined) {
+        throw new Error(`missing capturedAtMs for ${key}`);
+    }
+    return toGameRows(rounds, gradeKey, scrapedAt);
 }
 
 /**
@@ -441,6 +450,7 @@ async function fetchGamesForGrade(
  * games row can never reference a grade_key that does not exist.
  */
 async function collectGames(
+    store: CaptureStore,
     gamesByYear: Map<number, readonly GameRow[]>,
     options: FetchOptions,
     grade: {
@@ -451,6 +461,7 @@ async function collectGames(
 ): Promise<void> {
     if (!wantsGames(options, grade.startYear, grade.gradePlayhqId)) return;
     const rows = await fetchGamesForGrade(
+        store,
         grade.gradePlayhqId,
         grade.gradeKey,
         options.refresh,
@@ -582,6 +593,7 @@ async function loadClubRegistry(): Promise<ClubRegistry> {
 export async function runFetch(options: FetchOptions): Promise<FetchReport> {
     const { refresh } = options;
     await mkdir(RAW_DIR, { recursive: true });
+    const store = createFsStore(RAW_DIR);
 
     const existingSeasons =
         await readExistingCsv<Record<string, string>>('seasons.csv');
@@ -609,21 +621,19 @@ export async function runFetch(options: FetchOptions): Promise<FetchReport> {
 
     for (const job of jobs) {
         // eslint-disable-next-line no-await-in-loop -- sequential by design: PlayHQ etiquette caps us at ~1 req/sec.
-        const entries = await discoverSeasons(job.orgId, refresh);
+        const entries = await discoverSeasons(store, job.orgId, refresh);
         for (const { season } of entries) {
             const startYear = parseStartYear(season.startDate);
             if (startYear < job.minYear) continue;
 
-            const seasonCachePath = resolve(
-                RAW_DIR,
-                `gradeListDiscoverSeason_${season.id}.json`,
-            );
+            const seasonKey = `gradeListDiscoverSeason_${season.id}.json`;
             // eslint-disable-next-line no-await-in-loop -- sequential by design: PlayHQ etiquette caps us at ~1 req/sec.
             const seasonResponse = (await cachedGraphQL(
-                seasonCachePath,
+                store,
+                seasonKey,
                 'gradeListDiscoverSeason',
                 { id: season.id },
-                refresh,
+                !refresh,
             )) as GradeListDiscoverSeasonResponse;
 
             const discoverSeason = seasonResponse.data.discoverSeason;
@@ -653,23 +663,24 @@ export async function runFetch(options: FetchOptions): Promise<FetchReport> {
                     continue;
                 }
 
-                const gradeCachePath = resolve(
-                    RAW_DIR,
-                    `gradeLadder_${grade.id}.json`,
-                );
+                const gradeKey = `gradeLadder_${grade.id}.json`;
                 // eslint-disable-next-line no-await-in-loop -- sequential by design: PlayHQ etiquette caps us at ~1 req/sec.
                 const gradeResponse = (await cachedGraphQL(
-                    gradeCachePath,
+                    store,
+                    gradeKey,
                     'gradeLadder',
                     { gradeID: grade.id },
-                    refresh,
+                    !refresh,
                 )) as GradeLadderResponse;
                 // scraped_at is when the capture was fetched, not `Date.now()`
                 // — so a cache-only re-run (unchanged upstream) reproduces
                 // byte-identical CSVs instead of a fresh timestamp on every row
                 // every time.
                 // eslint-disable-next-line no-await-in-loop -- sequential by design: PlayHQ etiquette caps us at ~1 req/sec.
-                const scrapedAt = await capturedAt(gradeCachePath);
+                const scrapedAt = await store.capturedAtMs(gradeKey);
+                if (scrapedAt === undefined) {
+                    throw new Error(`missing capturedAtMs for ${gradeKey}`);
+                }
 
                 const discoverGrade = gradeResponse.data.discoverGrade;
                 const standings: readonly Standing[] =
@@ -717,7 +728,7 @@ export async function runFetch(options: FetchOptions): Promise<FetchReport> {
                 mergeTeams(teamRows, processed.teams);
 
                 // eslint-disable-next-line no-await-in-loop -- sequential by design: PlayHQ etiquette caps us at ~1 req/sec.
-                await collectGames(gamesByYear, options, {
+                await collectGames(store, gamesByYear, options, {
                     startYear,
                     gradePlayhqId: grade.id,
                     gradeKey: processed.gradeRow.grade_key,

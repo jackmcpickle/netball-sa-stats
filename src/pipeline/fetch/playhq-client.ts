@@ -4,9 +4,7 @@
  * network unless `--refresh` is passed. Query strings are copied verbatim
  * from `docs/playhq-api.md` §2 — do not hand-edit them here.
  */
-import { mkdir, readFile, writeFile } from 'node:fs/promises';
-import { dirname } from 'node:path';
-import { recordCapture } from '@/pipeline/fetch/captured-at';
+import type { CaptureStore } from '@/pipeline/fetch/capture-store';
 
 const ENDPOINT = 'https://api.playhq.com/graphql';
 const USER_AGENT =
@@ -95,37 +93,22 @@ async function requestGraphQL(
     );
 }
 
-async function readCache(path: string): Promise<unknown> {
-    try {
-        const text = await readFile(path, 'utf8');
-        return JSON.parse(text) as unknown;
-    } catch {
-        return undefined;
-    }
-}
-
-async function writeCache(path: string, data: unknown): Promise<void> {
-    await mkdir(dirname(path), { recursive: true });
-    await writeFile(path, `${JSON.stringify(data, null, 4)}\n`, 'utf8');
-}
-
 /**
  * Cache-first GraphQL call. Returns the raw `{ data: ... }` envelope so
  * callers can distinguish "operation returned null" from "not fetched yet".
  */
 export async function cachedGraphQL(
-    cachePath: string,
+    store: CaptureStore,
+    key: string,
     operationName: QueryName,
     variables: Record<string, string>,
-    refresh: boolean,
+    cacheFirst: boolean,
 ): Promise<unknown> {
-    if (!refresh) {
-        const cached = await readCache(cachePath);
+    if (cacheFirst) {
+        const cached = await store.get(key);
         if (cached !== undefined) return cached;
     }
     const result = await requestGraphQL(operationName, variables);
-    await writeCache(cachePath, result);
-    // Stamped here, not read off the file later: mtimes do not survive git.
-    await recordCapture(cachePath, Date.now());
+    await store.put(key, result, Date.now());
     return result;
 }
