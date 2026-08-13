@@ -13,7 +13,7 @@ Cloudflare dashboard → Worker `netball-stats` → **Settings → Build**:
 | ---------------------- | ------------------------------ |
 | Build command          | _(empty — `cf:deploy` builds)_ |
 | Deploy command         | `pnpm run cf:deploy`           |
-| Preview deploy command | `npx wrangler versions upload` |
+| Preview deploy command | `pnpm run cf:preview`          |
 
 `cf:deploy` is `build && db:migrate:remote && wrangler deploy`. It builds itself rather
 than relying on the dashboard's separate build command — an empty build command there
@@ -33,11 +33,19 @@ Workers Builds' auto-created token grants Workers Scripts / KV / R2 — **not D1
 `D1 (edit)` the migration step fails with a bare exit code 1 and no useful log output.
 Add it under My Profile → API Tokens.
 
-### Leave migrations out of the preview command
+### Preview builds must not touch production
 
-Preview builds deploy with `wrangler versions upload` but share the one production D1 —
-there is no preview database. Putting `--remote` migrations in the preview deploy command
-would let any pushed branch mutate production schema.
+A PR build that runs `cf:deploy` ships that branch to production — `wrangler deploy`
+promotes to 100% of traffic, and the `--remote` migration would let any pushed branch
+mutate the production schema. `cf:preview` exists for this: it builds and runs
+`wrangler versions upload`, which uploads a version and gives it a preview URL without
+promoting it and without migrating.
+
+It still needs its own build step, for the same reason `cf:deploy` does — a bare
+`npx wrangler versions upload` fails on the missing generated entry point.
+
+There is no preview database. Preview versions read the one production D1, so treat a
+preview URL as read-only against live data.
 
 ## Why this exists
 
