@@ -123,6 +123,8 @@ describe('createImportRunsRepo', () => {
 
         const stale = await repo.runningOlderThan(1000);
         expect(stale.map((run) => run.id)).toEqual([staleId]);
+        expect(await repo.hasRunningSince(1000)).toBe(true);
+        expect(await repo.hasRunningSince(6000)).toBe(false);
 
         await repo.markError(staleId, 2000, 'boom');
         expect(await repo.hasRunning()).toBe(true);

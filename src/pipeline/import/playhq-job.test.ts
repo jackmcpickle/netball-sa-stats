@@ -26,6 +26,8 @@ import { createImportRunsRepo } from '@/server/repos/import-runs.repo';
 import { createTestDb } from '@/server/testing/harness';
 
 const NOW = 1_700_000_000;
+/** Wall clock when the job finishes: a collect is not instantaneous. */
+const FINISHED = NOW + 42;
 const STALE_AFTER_SECONDS = 7200;
 
 function resultRow(
@@ -160,6 +162,12 @@ function stubCollected(clubRegistry: ClubRegistry): CollectedPlayHq {
     };
 }
 
+/** `stubCollected` resolves both clubs against an empty database. */
+const NEW_CLUB_WARNINGS = [
+    'warning: new club fixture-club-a (Fixture Club A, playhq_id=org-club-a) — curate later',
+    'warning: new club fixture-club-b (Fixture Club B, playhq_id=org-club-b) — curate later',
+];
+
 function stubCollect(): Mock<
     (options: CollectOptions) => Promise<CollectedPlayHq>
 > {
@@ -175,9 +183,11 @@ describe('runPlayHqJob', () => {
 
     beforeEach(async () => {
         db = await createMigratedDb();
+        vi.spyOn(Date, 'now').mockReturnValue(FINISHED * 1000);
     });
 
     afterEach(() => {
+        vi.restoreAllMocks();
         db.close();
     });
 
@@ -219,9 +229,57 @@ describe('runPlayHqJob', () => {
             teams: 2,
             results: 2,
             gamesCount: 0,
-            warningsJson: '[]',
+            warningsJson: JSON.stringify(NEW_CLUB_WARNINGS),
             errorText: null,
         });
+    });
+
+    it('warns about skipped grades alongside newly minted clubs', async () => {
+        const runs = createImportRunsRepo(createTestDb());
+        const collect = vi.fn(
+            async (options: CollectOptions): Promise<CollectedPlayHq> => {
+                const collected = stubCollected(options.clubRegistry);
+                return {
+                    ...collected,
+                    report: {
+                        ...collected.report,
+                        skippedGrades: [
+                            {
+                                seasonKey: 'amnd-winter-2026',
+                                gradeName: 'C Grade',
+                                teamCount: 1,
+                                reason: 'too_few_teams',
+                            },
+                            {
+                                seasonKey: 'season-id',
+                                gradeName: 'Walking Netball 50+',
+                                teamCount: -1,
+                                reason: 'out_of_scope',
+                            },
+                        ],
+                    },
+                };
+            },
+        );
+
+        await runPlayHqJob({
+            params: { games: false },
+            store,
+            executor: createSqliteExecutor(db),
+            cacheFirst: true,
+            nowEpochSeconds: NOW,
+            instanceId: 'job-warnings',
+            runs,
+            isFinalBySeasonKey,
+            collect,
+        });
+
+        const listed = await runs.list();
+        expect(JSON.parse(listed[0].warningsJson ?? '[]')).toEqual([
+            'warning: skipped grade amnd-winter-2026 / C Grade — too_few_teams (1 team(s))',
+            'warning: skipped grade season-id / Walking Netball 50+ — out_of_scope (not a catalogued competition)',
+            ...NEW_CLUB_WARNINGS,
+        ]);
     });
 
     it('skips when a fresh running row exists', async () => {
@@ -259,7 +317,7 @@ describe('runPlayHqJob', () => {
             status: 'skipped',
             yearsJson: '[2026]',
             games: false,
-            finishedAt: NOW,
+            finishedAt: FINISHED,
         });
     });
 
@@ -293,11 +351,56 @@ describe('runPlayHqJob', () => {
         ).toMatchObject({
             status: 'error',
             errorText: 'stale running row',
-            finishedAt: NOW,
+            finishedAt: FINISHED,
         });
         expect(
             listed.find((row) => row.instanceId === 'job-after-stale'),
         ).toMatchObject({ status: 'ok' });
+    });
+
+    it('skips when a stale running row sits beside a fresh one', async () => {
+        const runs = createImportRunsRepo(createTestDb());
+        await runs.insertRunning({
+            instanceId: 'stale-run',
+            startedAt: NOW - STALE_AFTER_SECONDS - 1,
+            yearsJson: null,
+            games: true,
+        });
+        await runs.insertRunning({
+            instanceId: 'fresh-run',
+            startedAt: NOW - 60,
+            yearsJson: null,
+            games: true,
+        });
+        const collect = stubCollect();
+
+        const result = await runPlayHqJob({
+            params: { games: true },
+            store,
+            executor: createSqliteExecutor(db),
+            cacheFirst: true,
+            nowEpochSeconds: NOW,
+            instanceId: 'job-stale-plus-fresh',
+            runs,
+            isFinalBySeasonKey,
+            collect,
+        });
+
+        expect(result).toEqual({ skipped: true });
+        expect(collect).not.toHaveBeenCalled();
+        const listed = await runs.list();
+        expect(
+            listed.find((row) => row.instanceId === 'job-stale-plus-fresh'),
+        ).toMatchObject({ status: 'skipped', finishedAt: FINISHED });
+        // The fresh row still owns the lock, so the stale one is left alone
+        // rather than reaped as cover for a second concurrent import.
+        expect(
+            listed
+                .filter((row) => row.status === 'running')
+                .map((row) => {
+                    return row.instanceId;
+                }),
+        ).toEqual(['fresh-run', 'stale-run']);
     });
 
     it('marks error and rethrows when collect throws', async () => {
@@ -325,7 +428,7 @@ describe('runPlayHqJob', () => {
             instanceId: 'job-error',
             status: 'error',
             errorText: 'probe failed',
-            finishedAt: NOW,
+            finishedAt: FINISHED,
         });
     });
 

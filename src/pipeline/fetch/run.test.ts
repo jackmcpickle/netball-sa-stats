@@ -10,6 +10,7 @@ import {
     collectPlayHqData,
     processGrade,
     resolveCompetitionKey,
+    seasonWanted,
 } from '@/pipeline/fetch/run';
 import type { GradeContext } from '@/pipeline/fetch/run';
 import type { GradeLadderResponse } from '@/pipeline/fetch/types';
@@ -66,6 +67,40 @@ describe('resolveCompetitionKey', () => {
         expect(
             resolveCompetitionKey(NETBALL_SA_ORG_ID, 'Walking Netball 50+'),
         ).toBeNull();
+    });
+});
+
+describe('seasonWanted', () => {
+    function season(
+        startDate: string,
+        status: string,
+    ): {
+        startDate: string;
+        status: { value: string };
+    } {
+        return { startDate, status: { value: status } };
+    }
+
+    it('keeps only active seasons when no years are requested', () => {
+        expect(seasonWanted(season('2026-04-01', 'ACTIVE'), undefined)).toBe(
+            true,
+        );
+        expect(seasonWanted(season('2024-04-01', 'COMPLETED'), undefined)).toBe(
+            false,
+        );
+    });
+
+    it('keeps a requested year regardless of status', () => {
+        expect(seasonWanted(season('2024-04-01', 'COMPLETED'), [2024])).toBe(
+            true,
+        );
+        expect(seasonWanted(season('2025-04-01', 'ACTIVE'), [2024])).toBe(
+            false,
+        );
+    });
+
+    it('treats an empty year list as the CLI full walk, status ignored', () => {
+        expect(seasonWanted(season('2024-04-01', 'COMPLETED'), [])).toBe(true);
     });
 });
 
@@ -598,6 +633,7 @@ describe('collectPlayHqData', () => {
                                 id: 'season-2024',
                                 name: 'Winter 2024',
                                 startDate: '2024-04-01',
+                                status: 'active',
                             },
                         ]),
                     ),
@@ -653,7 +689,46 @@ describe('collectPlayHqData', () => {
             results: 2,
             games: 0,
         });
-        expect(collected.seasons[0]?.status).toBe('completed');
+        expect(collected.seasons[0]?.status).toBe('active');
+    });
+
+    it('never requests a completed season when years is omitted', async () => {
+        // The scheduled import passes no years. Only the season list is in
+        // the store: reaching a completed season's grades would mean a live
+        // PlayHQ request, which the spy turns into a failure.
+        vi.spyOn(globalThis, 'fetch').mockImplementation(() => {
+            throw new Error('live PlayHQ must not be called');
+        });
+        const store = createMemoryStore(
+            new Map([
+                [
+                    `discoverCompetitions_${AMND_ORG_ID}.json`,
+                    seedEntry(
+                        discoverEnvelope(AMND_ORG_ID, 'AMND', [
+                            {
+                                id: 'season-2024',
+                                name: 'Winter 2024',
+                                startDate: '2024-04-01',
+                            },
+                        ]),
+                    ),
+                ],
+                [
+                    `discoverCompetitions_${NETBALL_SA_ORG_ID}.json`,
+                    seedEntry({ data: { discoverCompetitions: [] } }),
+                ],
+            ]),
+        );
+
+        const collected = await collectPlayHqData({
+            store,
+            cacheFirst: true,
+            clubRegistry: new ClubRegistry([], []),
+            isFinalBySeasonKey: new Map(),
+        });
+
+        expect(collected.seasons).toEqual([]);
+        expect(collected.report.seasons).toBe(0);
     });
 
     it('filters seasons to years when years is non-empty', async () => {
@@ -734,6 +809,7 @@ describe('collectPlayHqData', () => {
                                 id: 'season-2024',
                                 name: 'Winter 2024',
                                 startDate: '2024-04-01',
+                                status: 'active',
                             },
                         ]),
                     ),

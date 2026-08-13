@@ -7,10 +7,12 @@ class MemoryR2 {
         string,
         { body: string; capturedAtMs: string }
     >();
+    public getCalls = 0;
     public async get(key: string): Promise<{
         json: () => Promise<unknown>;
         customMetadata: { capturedAtMs: string };
     } | null> {
+        this.getCalls += 1;
         const hit = this.map.get(key);
         if (!hit) return null;
         return {
@@ -18,6 +20,14 @@ class MemoryR2 {
             customMetadata: { capturedAtMs: hit.capturedAtMs },
         };
     }
+    public async head(
+        key: string,
+    ): Promise<{ customMetadata: { capturedAtMs: string } } | null> {
+        const hit = this.map.get(key);
+        if (!hit) return null;
+        return { customMetadata: { capturedAtMs: hit.capturedAtMs } };
+    }
+
     public async put(
         key: string,
         value: string,
@@ -60,5 +70,13 @@ describe('createR2Store', () => {
         expect(
             await storeOf(new MemoryR2()).capturedAtMs('gradeLadder_x.json'),
         ).toBeUndefined();
+    });
+
+    it('reads capturedAtMs from head, without downloading the body', async () => {
+        const bucket = new MemoryR2();
+        const store = storeOf(bucket);
+        await store.put('gradeLadder_x.json', { data: 1 }, 1_700_000_000_000);
+        await store.capturedAtMs('gradeLadder_x.json');
+        expect(bucket.getCalls).toBe(0);
     });
 });

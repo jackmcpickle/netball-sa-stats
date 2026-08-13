@@ -6,7 +6,7 @@ import {
 import { drizzle } from 'drizzle-orm/d1';
 import * as schema from '@/db/schema';
 import { createR2Store } from '@/pipeline/fetch/r2-store';
-import { createD1Executor } from '@/pipeline/import/executors';
+import { createD1Executor } from '@/pipeline/import/d1-executor';
 import {
     loadIsFinalMap,
     runPlayHqJob,

@@ -5,8 +5,8 @@
  */
 import type { CsvValue } from '@/pipeline/csv';
 import type { ClubAliasRow, ClubRow } from '@/pipeline/fetch/club-registry';
+import type { GradeRow, SeasonRow, TeamRow } from '@/pipeline/fetch/collect';
 import type { GameRow } from '@/pipeline/fetch/games';
-import type { GradeRow, SeasonRow, TeamRow } from '@/pipeline/fetch/run';
 import type {
     ClubAliasImportRow,
     ClubImportRow,

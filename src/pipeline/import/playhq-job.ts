@@ -4,15 +4,17 @@
  */
 import type { CsvValue } from '@/pipeline/csv';
 import type { CaptureStore } from '@/pipeline/fetch/capture-store';
+import type { ClubRegistry } from '@/pipeline/fetch/club-registry';
 import { clubRegistryFromExecutor } from '@/pipeline/fetch/club-registry-from-db';
-import type { GameRow } from '@/pipeline/fetch/games';
 import {
     collectPlayHqData,
     type CollectedPlayHq,
+    type FetchReport,
     type GradeRow,
     type SeasonRow,
     type TeamRow,
-} from '@/pipeline/fetch/run';
+} from '@/pipeline/fetch/collect';
+import type { GameRow } from '@/pipeline/fetch/games';
 import { toImportData } from '@/pipeline/fetch/to-import';
 import { runImportData, type ImportReport } from '@/pipeline/import/run';
 import type { ImportExecutor } from '@/pipeline/import/types';
@@ -100,6 +102,50 @@ function subsetCollected(
     return { seasons, grades, teams, results, games };
 }
 
+/**
+ * Wall-clock completion time, distinct from `nowEpochSeconds` (which stamps
+ * `startedAt` and the stale-lock cutoff). A collect can run for minutes, so
+ * reusing the start instant here would report every import as instantaneous.
+ */
+function finishedNow(): number {
+    return Math.floor(Date.now() / 1000);
+}
+
+/**
+ * Grades the collect walked past. The scheduled import has no console to
+ * print to, so these ride along in `warningsJson` exactly as the CLI prints
+ * them — a grade quietly dropping out of scope is how a season goes missing.
+ */
+function skippedGradeWarnings(
+    skippedGrades: FetchReport['skippedGrades'],
+): string[] {
+    return skippedGrades.map((skipped) => {
+        const detail =
+            skipped.reason === 'too_few_teams'
+                ? `too_few_teams (${skipped.teamCount} team(s))`
+                : 'out_of_scope (not a catalogued competition)';
+        return `warning: skipped grade ${skipped.seasonKey} / ${skipped.gradeName} — ${detail}`;
+    });
+}
+
+/**
+ * Clubs the registry minted during this collect. A club created from a
+ * PlayHQ organisation name is a guess until a human curates it, so surface
+ * each one rather than letting it appear silently in the database.
+ */
+function newClubWarnings(
+    clubRegistry: ClubRegistry,
+    knownClubKeys: ReadonlySet<string>,
+): string[] {
+    return clubRegistry
+        .getClubs()
+        .filter((club) => !knownClubKeys.has(club.club_key))
+        .map(
+            (club) =>
+                `warning: new club ${club.club_key} (${club.name}, playhq_id=${club.playhq_id ?? 'null'}) — curate later`,
+        );
+}
+
 function warningMessages(report: ImportReport): string[] {
     const messages: string[] = [];
     for (const warning of report.warnings) {
@@ -138,24 +184,22 @@ async function acquireLock(input: {
     games: boolean;
 }): Promise<number | { skipped: true }> {
     const cutoff = input.nowEpochSeconds - STALE_AFTER_SECONDS;
-    const stale = await input.runs.runningOlderThan(cutoff);
-    if ((await input.runs.hasRunning()) && stale.length === 0) {
+    // A fresh `running` row wins outright, even when a stale one sits beside
+    // it: reaping the stale row is not permission to start a second import
+    // alongside the one that is genuinely still going.
+    if (await input.runs.hasRunningSince(cutoff)) {
         await input.runs.insertSkipped({
             instanceId: input.instanceId,
             startedAt: input.nowEpochSeconds,
             yearsJson: input.yearsJson,
             games: input.games,
-            finishedAt: input.nowEpochSeconds,
+            finishedAt: finishedNow(),
         });
         return { skipped: true };
     }
-    for (const row of stale) {
+    for (const row of await input.runs.runningOlderThan(cutoff)) {
         // eslint-disable-next-line no-await-in-loop -- serial by design; do not Promise.all PlayHQ-adjacent work
-        await input.runs.markError(
-            row.id,
-            input.nowEpochSeconds,
-            'stale running row',
-        );
+        await input.runs.markError(row.id, finishedNow(), 'stale running row');
     }
     return input.runs.insertRunning({
         instanceId: input.instanceId,
@@ -165,10 +209,19 @@ async function acquireLock(input: {
     });
 }
 
-async function collectAndImport(input: PlayHqJobInput): Promise<ImportReport> {
+type JobOutcome = {
+    report: ImportReport;
+    /** Warnings the collect produced, which `ImportReport` cannot carry. */
+    collectWarnings: string[];
+};
+
+async function collectAndImport(input: PlayHqJobInput): Promise<JobOutcome> {
     const collect = input.collect ?? collectPlayHqData;
     const clubRegistry = await clubRegistryFromExecutor(
         input.executor.queryAll,
+    );
+    const knownClubKeys = new Set(
+        clubRegistry.getClubs().map((club) => club.club_key),
     );
     const collected = await collect({
         store: input.store,
@@ -188,7 +241,13 @@ async function collectAndImport(input: PlayHqJobInput): Promise<ImportReport> {
         results: subset.results,
         games: subset.games,
     });
-    return runImportData(data, input.executor, 'subset');
+    return {
+        report: await runImportData(data, input.executor, 'subset'),
+        collectWarnings: [
+            ...skippedGradeWarnings(collected.report.skippedGrades),
+            ...newClubWarnings(clubRegistry, knownClubKeys),
+        ],
+    };
 }
 
 export async function runPlayHqJob(
@@ -205,22 +264,21 @@ export async function runPlayHqJob(
     if (typeof lock !== 'number') return lock;
 
     try {
-        const report = await collectAndImport(input);
-        await input.runs.markOk(lock, input.nowEpochSeconds, {
+        const { report, collectWarnings } = await collectAndImport(input);
+        await input.runs.markOk(lock, finishedNow(), {
             seasons: report.seasons,
             grades: report.grades,
             teams: report.teams,
             results: report.results,
             gamesCount: report.games,
-            warningsJson: JSON.stringify(warningMessages(report)),
+            warningsJson: JSON.stringify([
+                ...warningMessages(report),
+                ...collectWarnings,
+            ]),
         });
         return report;
     } catch (error) {
-        await input.runs.markError(
-            lock,
-            input.nowEpochSeconds,
-            errorMessage(error),
-        );
+        await input.runs.markError(lock, finishedNow(), errorMessage(error));
         throw error;
     }
 }

@@ -17,7 +17,8 @@ export function createR2Store(bucket: R2Bucket): CaptureStore {
             });
         },
         async capturedAtMs(key) {
-            const object = await bucket.get(rawKey(key));
+            // `head` so a timestamp check never streams the capture body.
+            const object = await bucket.head(rawKey(key));
             if (object === null) return undefined;
             const raw = object.customMetadata?.capturedAtMs;
             if (raw === undefined) return undefined;

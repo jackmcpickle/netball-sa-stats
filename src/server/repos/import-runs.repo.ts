@@ -1,4 +1,4 @@
-import { and, desc, eq, lt } from 'drizzle-orm';
+import { and, desc, eq, gte, lt } from 'drizzle-orm';
 import type { Db } from '@/db';
 import { importRuns, type ImportRunStatus } from '@/db/schema';
 
@@ -41,6 +41,7 @@ function toImportRun(row: typeof importRuns.$inferSelect): ImportRun {
 export function createImportRunsRepo(db: Db): {
     list(): Promise<ImportRun[]>;
     hasRunning(): Promise<boolean>;
+    hasRunningSince(epochSeconds: number): Promise<boolean>;
     runningOlderThan(epochSeconds: number): Promise<ImportRun[]>;
     insertRunning(input: {
         instanceId: string;
@@ -84,6 +85,21 @@ export function createImportRunsRepo(db: Db): {
                 .select({ id: importRuns.id })
                 .from(importRuns)
                 .where(eq(importRuns.status, 'running'))
+                .get();
+            return row !== undefined;
+        },
+
+        /** A `running` row young enough that a real import may still hold it. */
+        async hasRunningSince(epochSeconds: number): Promise<boolean> {
+            const row = await db
+                .select({ id: importRuns.id })
+                .from(importRuns)
+                .where(
+                    and(
+                        eq(importRuns.status, 'running'),
+                        gte(importRuns.startedAt, epochSeconds),
+                    ),
+                )
                 .get();
             return row !== undefined;
         },
