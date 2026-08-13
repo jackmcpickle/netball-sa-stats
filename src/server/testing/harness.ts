@@ -44,11 +44,19 @@ export function createTestDb(): Db {
                 stmt.run(...(params as SQLInputValue[]));
                 return { rows: [] };
             }
-            stmt.setReturnArrays(true);
-            const rows = stmt.all(
-                ...(params as SQLInputValue[]),
-            ) as unknown as unknown[][];
-            return method === 'get' ? { rows: rows[0] ?? [] } : { rows };
+            if (method === 'get') {
+                const row = stmt.get(...(params as SQLInputValue[]));
+                if (!row) {
+                    return { rows: undefined as unknown as unknown[] };
+                }
+                return {
+                    rows: Object.values(row as Record<string, unknown>),
+                };
+            }
+            const raw = stmt.all(...(params as SQLInputValue[]));
+            return {
+                rows: raw.map((row) => Object.values(row)),
+            };
         },
         { schema, casing: 'snake_case' },
     );
