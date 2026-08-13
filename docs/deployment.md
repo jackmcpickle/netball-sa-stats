@@ -11,13 +11,19 @@ Cloudflare dashboard → Worker `netball-stats` → **Settings → Build**:
 
 | Setting                | Value                          |
 | ---------------------- | ------------------------------ |
-| Build command          | `pnpm run build`               |
+| Build command          | _(empty — `cf:deploy` builds)_ |
 | Deploy command         | `pnpm run cf:deploy`           |
 | Preview deploy command | `npx wrangler versions upload` |
 
-`cf:deploy` is `db:migrate:remote && wrangler deploy` — migrations first, so a failed
-migration aborts the deploy rather than shipping code against a schema that isn't there.
-Migrations are additive, so applying before the new code goes live is the safe order.
+`cf:deploy` is `build && db:migrate:remote && wrangler deploy`. It builds itself rather
+than relying on the dashboard's separate build command — an empty build command there
+means `wrangler deploy` dies with `entry-point file at
+"@tanstack/react-start/server-entry" was not found`, since Vite generates that entry
+point. One field to configure, not two.
+
+Migrations run before the deploy, so a failed migration aborts rather than shipping code
+against a schema that isn't there. Migrations are additive, so applying before the new
+code goes live is the safe order.
 
 `d1_migrations` records what has been applied, so re-running on every build is idempotent.
 

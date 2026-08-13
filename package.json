@@ -12,7 +12,7 @@
         "db:generate": "drizzle-kit generate",
         "db:migrate:local": "wrangler d1 migrations apply netball-stats --local",
         "db:migrate:remote": "wrangler d1 migrations apply netball-stats --remote",
-        "cf:deploy": "pnpm run db:migrate:remote && wrangler deploy",
+        "cf:deploy": "pnpm run build && pnpm run db:migrate:remote && wrangler deploy",
         "test:e2e": "playwright test",
         "prepare": "vp config"
     },
