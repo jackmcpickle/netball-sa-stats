@@ -109,11 +109,12 @@ This is the fit.
 
 ## Decision
 
-**C.** Cron-triggered Workflow. Current season, ladders + games, every Sunday
-morning Adelaide time. Raw captures in a new R2 bucket. Validated upserts
-into the existing D1. Git CSV stays the human-reviewed archive; a dump
-script can open a PR after notable runs. No Queues, no Browser Rendering, no
-home tunnel unless the Worker-isolate spike fails.
+**C.** Cron-triggered Workflow, plus a password-gated `/admin` page that
+lists `import_runs` and can start a run. Current season, ladders + games,
+every Sunday morning Adelaide time. Raw captures in a new R2 bucket.
+Validated upserts into the existing D1. Git CSV stays the human-reviewed
+archive. No Queues, no Browser Rendering, no home tunnel unless the
+Worker-isolate spike fails.
 
 ## Architecture
 
@@ -135,8 +136,9 @@ home tunnel unless the Worker-isolate spike fails.
 
 Manual operators still exist:
 
-- `wrangler workflows trigger` / authenticated `POST /internal/import` with
-  `{ years, games }` for a completed-season freeze or a spot year.
+- Password-protected `/admin` — run history, in-flight status, and “Run
+  import” (see **Admin UI** below).
+- `wrangler workflows trigger` as a break-glass if the UI is down.
 - CLI `scripts/fetch-playhq.ts` + `scripts/import-csv.ts` for local work and
   for rebuilding D1 from git CSV (disaster recovery, schema experiments).
 
@@ -203,8 +205,10 @@ Do not thread CLI `--refresh` into the Worker.
 
 Steps (deterministic names, R2 keys not payloads as step returns):
 
-1. `lock` — if another instance is `running`, exit. Instance id
-   `playhq-{yyyy-mm-dd}` from a timestamp taken **inside** this step.
+1. `lock` — timestamp taken **inside** this step. Instance id
+   `playhq-{iso}` (unique per attempt, so a same-day admin run does not
+   collide with cron). If any `import_runs` row is `running`, insert this
+   attempt as `skipped` and exit. Otherwise insert `running` and continue.
 2. `discover-{orgId}` — `discoverCompetitions` for AMND + Netball SA.
 3. `select-seasons` — in-scope catalogued seasons that are `ACTIVE`, or the
    `years` override. Return season ids only.
@@ -223,9 +227,10 @@ Steps (deterministic names, R2 keys not payloads as step returns):
 8. `upsert` — `generateImportSql` + `createD1Executor`. One step covering
    every chunk; a mid-batch D1 error retries the whole upsert (SQL is
    idempotent), so D1 is not left “half a new round”.
-9. `record` — insert `import_runs` (started_at, finished_at, params,
-   counts, warning JSON). Workflow instance retention is 30 days on paid;
-   this table is the durable log.
+9. `record` — update the `import_runs` row (`ok` or `error`, counts,
+   warnings). Workflow instance retention is 30 days on paid; this table
+   is the durable log. A `run()` `catch` also updates the row if an
+   earlier step throws.
 
 Do **not** `Promise.all` the PlayHQ steps. Serial is the product.
 
@@ -235,9 +240,11 @@ Do **not** `Promise.all` the PlayHQ steps. Serial is the product.
 - New R2 bucket `netball-stats-playhq-raw`, binding `PLAYHQ_RAW`.
 - Workflow binding `PLAYHQ_IMPORT`, class `PlayHqImportWorkflow`,
   `schedules: ["30 22 * * SAT"]`.
-- Secret `IMPORT_TRIGGER_TOKEN` for the manual HTTP trigger only.
+- Secrets `ADMIN_PASSWORD` and `ADMIN_SESSION_SECRET` (`wrangler secret put`,
+  never in `wrangler.jsonc`).
 
-No KV. No Queue. No Browser Rendering.
+No KV. No Queue. No Browser Rendering. No `IMPORT_TRIGGER_TOKEN` — the
+admin session is the trigger.
 
 Mcpickle’s account already has unrelated R2 buckets; this one is new and
 scoped to this Worker.
@@ -250,16 +257,110 @@ Workflows need the class exported from the same script. Wrap that entry
 and `PlayHqImportWorkflow` is a named export. Do not put fetch/import logic
 in the wrapper.
 
-Manual trigger: `POST /internal/import` on the Start `fetch` path, bearer
-token, calls `env.PLAYHQ_IMPORT.create({ params })`. Unauthenticated
-requests 404 (do not advertise the route).
+Admin HTTP lives on Start routes (`/admin/*`), not on a second Worker.
 
 ### 6. `import_runs` table
 
-Small, additive migration. Columns: `id`, `instance_id`, `started_at`,
-`finished_at`, `status`, `years_json`, `games`, `seasons`, `grades`,
-`teams`, `results`, `games_count`, `warnings_json`, `error_text`. The
-public site does not read it in v1.
+Small, additive migration. This is the admin page’s data source, not a
+public query.
+
+Columns: `id`, `instance_id`, `started_at`, `finished_at`, `status`
+(`running` | `ok` | `error` | `skipped`), `years_json`, `games`,
+`seasons`, `grades`, `teams`, `results`, `games_count`, `warnings_json`,
+`error_text`.
+
+Insert a `running` row in the Workflow `lock` step (so the admin page
+sees an in-flight import before upsert). Update it in `record`, and in a
+`run()` catch that marks `error` if a later step throws. A crash before
+`lock` is invisible; that is acceptable.
+
+## Admin UI
+
+A one-operator area to see whether Sunday’s import ran, what it wrote, and
+to kick a run without `wrangler`. Not linked from the public nav.
+
+### Auth approaches
+
+| Approach | Verdict |
+| --- | --- |
+| **Cloudflare Access on `workers.dev`** | One-click Access protects the **whole** Worker. Rankings must stay public. Reject. |
+| **Access on `/admin*` only** | Needs a custom domain and a Zero Trust path policy. Right later, wrong now — the site is `workers_dev: true` with no custom hostname. |
+| **HTTP Basic Auth** | Browser prompt, no logout, grim on a phone. Reject as the UI. |
+| **Shared password + signed cookie** | Form at `/admin/login`, HttpOnly cookie, same site chrome. Matches “password-protected” and works on `workers.dev`. **Do this.** |
+
+Access can wrap `/admin*` later if a custom domain lands. The cookie gate
+stays as defence in depth; it does not disappear.
+
+### Session
+
+- Secrets: `ADMIN_PASSWORD` (memorable, operator-chosen) and
+  `ADMIN_SESSION_SECRET` (random 32 bytes). Both via `wrangler secret put`.
+- Login hashes the submitted password and the stored password with HMAC-SHA256
+  keyed by `ADMIN_SESSION_SECRET`, then `timingSafeEqual` on the 32-byte
+  digests (never string `===`, never compare raw lengths).
+- Cookie `nod_admin`: `exp.<unix>.<hmac>`, HttpOnly, Secure, SameSite=Strict,
+  Path=`/`, 7-day expiry. HMAC covers `exp.<unix>`. Path is `/` (not
+  `/admin`) so TanStack Start server functions, which do not live under
+  `/admin`, still receive the cookie. Public loaders ignore it.
+- Failed login: same generic error, no user enumeration, no account lock
+  machinery. One operator.
+- Logout clears the cookie. Changing `ADMIN_PASSWORD` does not revoke
+  cookies; rotating `ADMIN_SESSION_SECRET` does.
+
+`/admin/login` is the only `/admin` route that does not require the cookie.
+Everything else `beforeLoad`s: missing/invalid cookie → redirect to login
+with `?next=`. Unauthenticated `/admin` is 302, not 404 — a secret URL is
+not access control.
+
+`robots` meta on every `/admin*` page: `noindex, nofollow`. No sitemap
+entry. No `Admin` item in `SiteHeader` `NAV`.
+
+### Pages
+
+Same `RootLayout` (header/footer) so it looks like the rest of the site.
+Admin pages add a Sign out control in the page body, not the public nav.
+
+**`/admin/login`** — password field, submit. After success, go to `next` or
+`/admin`.
+
+**`/admin`** — one page, no pagination (weekly cron → tens of rows/year).
+
+1. Status strip: last run (time, status), and if a row is `running`, “Import
+   in progress” with elapsed time. No live step list in v1 (Workflow
+   dashboard remains the debugger).
+2. **Run import** button. Starts `PLAYHQ_IMPORT.create` with cron defaults
+   (`games: true`, ACTIVE seasons). Disabled while any row is `running`.
+   Optional collapsed fields: `years` (comma-separated start years) for a
+   completed-season freeze. Not a public button.
+3. Table, using the existing `Table` primitives (not `DataTable` — that
+   component is wired to championship pagination). Columns: started
+   (Adelaide-local), status, seasons, grades, games, warnings, duration.
+4. Selected row: `error_text` if any, then the warning list (new clubs,
+   unresolved teams, played/W+D+L mismatches) — the same strings the CLI
+   already prints.
+
+No second route for detail. No charts. No raw R2 browser.
+
+### Server shape
+
+Follow the existing DDD seam: `ImportRunsRepo` + `AdminService` behind
+`createServices`. Routes call `createServerFn` like every other page.
+Auth helpers live in `src/server/admin-auth.ts` (cookie parse/sign/verify,
+password compare) and are unit-tested with a fake secret — they do not
+touch D1.
+
+`Run import` is a POST server function that checks the session, refuses if
+a `running` row exists, then `env.PLAYHQ_IMPORT.create(...)`.
+
+### Testing
+
+- Password compare: equal, unequal, empty, wrong length — all
+  `timingSafeEqual` paths.
+- Cookie: valid, expired, tampered HMAC, missing → redirect.
+- Loader: unauthenticated `/admin` never returns run rows (redirect before
+  query).
+- Admin table: fixture a handful of `import_runs` in the sqlite harness;
+  assert status strip and warning panel.
 
 ## Error handling
 
@@ -269,7 +370,7 @@ public site does not read it in v1.
 | Persistent PlayHQ failure on one grade | Fail the workflow after retries. Do not upsert a partial season. Re-run: Workflows replay successful steps (R2 keys already written) and only retries the failed grade’s network call. |
 | Validation error | Fail before `upsert`. Previous D1 data remains. |
 | D1 batch error | Retry the upsert step only (SQL is idempotent). |
-| Overlapping cron | Step 1 no-ops. |
+| Overlapping cron or admin “Run import” | `lock` inserts `skipped`; admin button stays disabled while any row is `running`. |
 | New club / unresolved fixture team | Same as CLI: warn, skip invented teams, never invent. |
 
 If the Worker-isolate spike shows **standing** 403 (not transient), stop.
@@ -288,6 +389,7 @@ and a headless browser still egresses from Cloudflare.
 - Workflow: `cloudflare:test` introspector for “discover → one grade →
   validate → upsert” with PlayHQ mocked at the store/client boundary. Do
   not hit PlayHQ from CI.
+- Admin auth and `/admin` loader tests as listed under **Admin UI**.
 - Spike (manual, once): `wrangler deploy` of a throwaway fetch step, or
   `wrangler dev --remote`, one `discoverCompetitions` call. Record HTTP
   status in this spec’s follow-up note. Implementation does not proceed to
@@ -299,13 +401,14 @@ and a headless browser still egresses from Cloudflare.
 - City Night / Super League / Juniors (still no org IDs).
 - Rewriting git CSV from the Worker.
 - Recomputing ladders from fixtures (PlayHQ ladder remains the fact table).
-- Public “Sync now” button.
+- Public “Sync now” button (admin “Run import” is in scope).
 - Queues, Durable Object rate limiters, Browser Rendering.
 
 ## Success
 
 - Sunday morning, current-season ladders and fixtures in D1 match PlayHQ
   without a laptop.
+- `/admin` shows that run (or its failure) without `wrangler tail`.
 - A failed grade does not leave D1 half-updated.
 - Re-running the workflow is a no-diff upsert when PlayHQ is unchanged.
 - `scripts/fetch-playhq.ts` / `import-csv.ts` still rebuild everything from
@@ -320,7 +423,9 @@ Refactor order, so the Worker is a new adapter not a fork:
 1. `CaptureStore` + fs implementation; client tests green.
 2. `runFetch` returns rows without requiring CSV; CLI writes CSV.
 3. `createD1Executor`; import tests green.
-4. R2 store + Workflow + wrapper entry + `import_runs` migration.
-5. Worker-isolate PlayHQ spike, then enable `schedules`.
+4. R2 store + Workflow + wrapper entry + `import_runs` migration (insert
+   `running` on lock).
+5. `/admin` login + runs table + Run import, against the sqlite harness.
+6. Worker-isolate PlayHQ spike, then enable `schedules`.
 
 Do not enable cron until the spike passes.
