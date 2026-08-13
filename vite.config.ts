@@ -225,6 +225,12 @@ export default defineConfig({
                     'import/no-unassigned-import': 'off',
                 },
             },
+            {
+                files: ['src/worker.ts'],
+                rules: {
+                    'import/no-default-export': 'off',
+                },
+            },
         ],
     },
     run: {

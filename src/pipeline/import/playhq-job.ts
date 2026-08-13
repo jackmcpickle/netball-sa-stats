@@ -23,6 +23,28 @@ const STALE_AFTER_SECONDS = 7200;
 
 export type PlayHqJobParams = { years?: number[]; games: boolean };
 
+function stringifyIsFinal(value: unknown): string {
+    if (value === true || value === 1 || value === '1') return '1';
+    return '0';
+}
+
+/** Curated `seasons.is_final` as CSV `'0'`/`'1'` so collect cannot clobber it. */
+export async function loadIsFinalMap(
+    executor: ImportExecutor,
+): Promise<ReadonlyMap<string, string>> {
+    const rows = await executor.queryAll(
+        'SELECT season_key, is_final FROM seasons;',
+    );
+    const map = new Map<string, string>();
+    for (const row of rows) {
+        if (typeof row.season_key !== 'string' || row.season_key.length === 0) {
+            continue;
+        }
+        map.set(row.season_key, stringifyIsFinal(row.is_final));
+    }
+    return map;
+}
+
 export type PlayHqJobInput = {
     params: PlayHqJobParams;
     store: CaptureStore;

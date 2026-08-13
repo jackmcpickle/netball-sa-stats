@@ -5,13 +5,26 @@
     "preview_urls": true,
     "compatibility_date": "2026-08-07",
     "compatibility_flags": ["nodejs_compat"],
-    "main": "@tanstack/react-start/server-entry",
+    "main": "src/worker.ts",
     "d1_databases": [
         {
             "binding": "DB",
             "database_name": "netball-stats",
             "database_id": "901da6ea-c57d-4529-915e-2d1718186efa",
             "migrations_dir": "drizzle",
+        },
+    ],
+    "r2_buckets": [
+        {
+            "binding": "PLAYHQ_RAW",
+            "bucket_name": "netball-stats-playhq-raw",
+        },
+    ],
+    "workflows": [
+        {
+            "name": "playhq-import",
+            "binding": "PLAYHQ_IMPORT",
+            "class_name": "PlayHqImportWorkflow",
         },
     ],
     "observability": {

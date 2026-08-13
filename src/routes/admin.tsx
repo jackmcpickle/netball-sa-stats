@@ -1,10 +1,10 @@
 import { createFileRoute, Outlet, redirect } from '@tanstack/react-router';
 import { createServerFn } from '@tanstack/react-start';
 import { getCookie, setResponseHeader } from '@tanstack/react-start/server';
-import { env } from 'cloudflare:workers';
 import type { JSX } from 'react';
 import { z } from 'zod';
 import { getDb } from '@/db';
+import { startPlayHqImport } from '@/pipeline/import/start-import';
 import {
     ADMIN_COOKIE,
     clearSessionCookieHeader,
@@ -14,21 +14,8 @@ import {
     signSession,
     verifySession,
 } from '@/server/admin-auth';
+import { readAdminSecrets } from '@/server/admin-env';
 import { createServices } from '@/server/container';
-
-export function readAdminSecrets(): {
-    password: string;
-    sessionSecret: string;
-} {
-    const secrets = env as typeof env & {
-        ADMIN_PASSWORD?: string;
-        ADMIN_SESSION_SECRET?: string;
-    };
-    return {
-        password: secrets.ADMIN_PASSWORD ?? '',
-        sessionSecret: secrets.ADMIN_SESSION_SECRET ?? '',
-    };
-}
 
 export const ensureAdminSession = createServerFn({ method: 'GET' })
     .validator(z.object({ next: z.string().optional() }))
@@ -56,7 +43,9 @@ export const runImport = createServerFn({ method: 'POST' })
     .validator(z.object({ yearsText: z.string() }))
     .handler(async ({ data }) => {
         await ensureAdminSession({ data: { next: '/admin' } });
-        return createServices(getDb()).admin.runImport(data.yearsText);
+        return createServices(getDb(), {
+            startImport: startPlayHqImport,
+        }).admin.runImport(data.yearsText);
     });
 
 export const logout = createServerFn({ method: 'POST' }).handler(async () => {
