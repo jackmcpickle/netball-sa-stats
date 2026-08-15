@@ -1,3 +1,4 @@
+import { isNull } from 'es-toolkit';
 import { describe, expect, it } from 'vitest';
 import type { Db } from '@/db';
 import type { PageRequest } from '@/server/domain/table-query';
@@ -374,7 +375,7 @@ describe('fetchGamePageForGrade paging and sorting', () => {
                 request('playedAt', dir),
             );
             expect(
-                facts.slice(-2).every((fact) => fact.playedAt === null),
+                facts.slice(-2).every((fact) => isNull(fact.playedAt)),
             ).toBeTruthy();
         }
     });

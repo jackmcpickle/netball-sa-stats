@@ -1,3 +1,4 @@
+import { isUndefined } from 'es-toolkit';
 /**
  * Response-type coverage for every route: the discovery files must come back
  * as the content type crawlers expect, and every page route must declare a
@@ -85,7 +86,7 @@ interface UncheckedRoute {
 
 /** Narrows a route module's `Route` export to the surface these tests drive. */
 function asRoute(route: UncheckedRoute): ServerRouteLike {
-    if (route.options === undefined) {
+    if (isUndefined(route.options)) {
         throw new Error('module exports no Route with options');
     }
     // SAFETY: `options` is present, and every route in this repo builds it
@@ -96,7 +97,7 @@ function asRoute(route: UncheckedRoute): ServerRouteLike {
 
 async function get(route: ServerRouteLike, path: string): Promise<Response> {
     const handler = route.options.server?.handlers?.GET;
-    if (handler === undefined) {
+    if (isUndefined(handler)) {
         throw new Error('route has no GET handler');
     }
     return await handler({
@@ -202,7 +203,7 @@ describe('page routes', () => {
                 href: `https://netballsa.com${path}`,
             });
             expect(
-                head?.meta?.some((tag) => tag['script:ld+json'] !== undefined),
+                head?.meta?.some((tag) => !isUndefined(tag['script:ld+json'])),
             ).toBeTruthy();
             expect(
                 head?.meta?.some((tag) => tag.property === 'og:title'),

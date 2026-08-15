@@ -1,3 +1,4 @@
+import { isUndefined } from 'es-toolkit';
 /**
  * Replaces `src/server/loaders/rankings.ts`. Assembles the rankings page DTO
  * from repos + the `Championship` domain object, returning a `Result` instead
@@ -73,7 +74,7 @@ export function createRankingsService(repos: Repos): RankingsService {
             const { rankedYears } = coverage;
             let resolvedYear: number;
             if (
-                params.season !== undefined &&
+                !isUndefined(params.season) &&
                 rankedYears.includes(params.season)
             ) {
                 resolvedYear = params.season;

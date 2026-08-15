@@ -1,3 +1,4 @@
+import { isNull, isUndefined } from 'es-toolkit';
 /**
  * Shared CSV helpers. Lifted out of `scripts/generate-seed.ts` so the fetch
  * pipeline (and anything else) can reuse the exact same escaping rules
@@ -7,7 +8,7 @@
 export type CsvValue = string | number | null;
 
 export function cell(value: CsvValue): string {
-    if (value === null) {
+    if (isNull(value)) {
         return '';
     }
     const text = String(value);
@@ -16,7 +17,7 @@ export function cell(value: CsvValue): string {
 
 export function toCsv(rows: readonly Record<string, CsvValue>[]): string {
     const [first] = rows;
-    if (first === undefined) {
+    if (isUndefined(first)) {
         return '';
     }
     const headers = Object.keys(first);
@@ -95,7 +96,7 @@ export function parseCsv(text: string): Record<string, string>[] {
     state.rows.push(state.row);
 
     const [header, ...body] = state.rows;
-    if (header === undefined) {
+    if (isUndefined(header)) {
         return [];
     }
     return body.map((cells) =>

@@ -1,3 +1,4 @@
+import { isNull } from 'es-toolkit';
 /**
  * The domain object for "every meeting between two clubs". Pure: the repo
  * hands it already-joined `GameFact`s and it folds them into a record, two
@@ -43,7 +44,7 @@ function isMeeting(fact: GameFact, a: ClubKey, b: ClubKey): boolean {
         return false;
     }
     const { homeClubKey: home, awayClubKey: away } = fact;
-    if (home === null || away === null) {
+    if (isNull(home) || isNull(away)) {
         return false;
     }
     return (home === a && away === b) || (home === b && away === a);
@@ -65,7 +66,7 @@ function resultOf(sided: Sided): 'W' | 'L' | 'D' | null {
         return null;
     }
     const { scoreA, scoreB } = sided;
-    if (scoreA === null || scoreB === null) {
+    if (isNull(scoreA) || isNull(scoreB)) {
         // A forfeit PlayHQ never scored. It counts as played but the winner
         // cannot be read off the scoreline, so `forfeitingSide` would be the
         // only source — and it is not on `GameFact`. Treat as no verdict.
@@ -139,8 +140,8 @@ function accumulate(tally: Tally, sided: Sided): void {
     // Rule 1: goals come off played games only, never a fabricated forfeit.
     if (
         sided.fact.status === 'final' &&
-        sided.scoreA !== null &&
-        sided.scoreB !== null
+        !isNull(sided.scoreA) &&
+        !isNull(sided.scoreB)
     ) {
         tally.goalsFor += sided.scoreA;
         tally.goalsAgainst += sided.scoreB;

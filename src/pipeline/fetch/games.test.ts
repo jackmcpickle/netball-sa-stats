@@ -1,4 +1,5 @@
 import { readFileSync } from 'node:fs';
+import { isNull } from 'es-toolkit';
 import { describe, expect, it } from 'vitest';
 import {
     classifyGame,
@@ -240,8 +241,8 @@ describe(toGameRows, () => {
         const rows = toGameRows(premier, 'premier-2026', 1);
         const played = rows.filter((row) => row.status === 'final');
         expect(played.length).toBeGreaterThan(0);
-        expect(played.every((row) => row.home_playhq_id !== null)).toBeTruthy();
-        expect(played.every((row) => row.away_playhq_id !== null)).toBeTruthy();
+        expect(played.every((row) => !isNull(row.home_playhq_id))).toBeTruthy();
+        expect(played.every((row) => !isNull(row.away_playhq_id))).toBeTruthy();
     });
 
     it('never emits two rows with the same playhq id', () => {
@@ -309,9 +310,9 @@ describe(toGameRows, () => {
         const expected = reserves.flatMap((round) => round.byes);
         expect(byes).toHaveLength(expected.length);
         expect(byes.length).toBeGreaterThan(0);
-        expect(byes.every((row) => row.away_playhq_id === null)).toBeTruthy();
-        expect(byes.every((row) => row.home_playhq_id !== null)).toBeTruthy();
-        expect(byes.every((row) => row.home_score === null)).toBeTruthy();
+        expect(byes.every((row) => isNull(row.away_playhq_id))).toBeTruthy();
+        expect(byes.every((row) => !isNull(row.home_playhq_id))).toBeTruthy();
+        expect(byes.every((row) => isNull(row.home_score))).toBeTruthy();
     });
 
     it('finds the forfeit in the junior 8 capture and attributes the side', () => {
@@ -336,7 +337,7 @@ describe(toGameRows, () => {
         const rows = toGameRows(premier, 'premier-2026', 1);
         const scheduled = rows.filter((row) => row.status === 'scheduled');
         expect(scheduled).toHaveLength(4);
-        expect(scheduled.every((row) => row.home_score === null)).toBeTruthy();
+        expect(scheduled.every((row) => isNull(row.home_score))).toBeTruthy();
     });
 
     it('leaves an unqualified finals side null rather than inventing a team', () => {

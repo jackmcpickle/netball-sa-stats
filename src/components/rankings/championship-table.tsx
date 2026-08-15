@@ -1,3 +1,4 @@
+import { isNull } from 'es-toolkit';
 import type { JSX, ReactNode } from 'react';
 import { useCallback, useMemo } from 'react';
 import { accentText } from '@/components/accent';
@@ -65,7 +66,7 @@ function movementHeaderLabel(
     if (coverageChanged) {
         return 'COVERAGE CHANGED';
     }
-    return previousYear === null ? 'VS PREVIOUS' : `VS ${String(previousYear)}`;
+    return isNull(previousYear) ? 'VS PREVIOUS' : `VS ${String(previousYear)}`;
 }
 
 function renderMovementCell(

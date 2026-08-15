@@ -1,3 +1,4 @@
+import { isUndefined } from 'es-toolkit';
 import { useId, type JSX } from 'react';
 
 export interface ToggleOption {
@@ -54,7 +55,7 @@ export function SegmentedToggle({
                     </button>
                 ))}
             </div>
-            {hint !== undefined && (
+            {!isUndefined(hint) && (
                 <span className="text-[13px] text-ink-muted">{hint}</span>
             )}
         </div>

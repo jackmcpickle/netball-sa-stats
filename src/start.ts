@@ -8,6 +8,7 @@
  *    headers, so an agent can discover both without parsing HTML.
  */
 import { createMiddleware, createStart } from '@tanstack/react-start';
+import { isNull } from 'es-toolkit';
 import { getDb } from '@/db';
 import { prefersMarkdown } from '@/seo/markdown/negotiate';
 import { normalisePath, renderMarkdown } from '@/seo/markdown/resolve';
@@ -37,7 +38,7 @@ const markdownTwin = createMiddleware({ type: 'request' }).server(
             return await next();
         }
         const body = await renderMarkdown(getDb(), url);
-        if (body === null) {
+        if (isNull(body)) {
             // No markdown twin, or the entity does not exist: an explicit
             // `.md` request is a 404, an `Accept` preference just falls back.
             if (!url.pathname.endsWith('.md')) {

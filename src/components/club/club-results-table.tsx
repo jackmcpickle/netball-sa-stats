@@ -1,3 +1,4 @@
+import { isNull } from 'es-toolkit';
 import type { JSX, ReactNode } from 'react';
 import { useCallback, useMemo } from 'react';
 import {
@@ -19,7 +20,7 @@ function renderGradeCell(result: ClubGradeResult): ReactNode {
     return (
         <>
             {result.gradeName}
-            {result.notes !== null && <NoteMarker note={result.notes} />}
+            {!isNull(result.notes) && <NoteMarker note={result.notes} />}
         </>
     );
 }

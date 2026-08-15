@@ -1,3 +1,4 @@
+import { isNull } from 'es-toolkit';
 import { useMemo } from 'react';
 import type { JSX, PointerEvent as ReactPointerEvent } from 'react';
 import { accentText } from '@/components/accent';
@@ -51,7 +52,7 @@ function buildHits(
     const hits: ChartHit[] = [];
     for (const point of points) {
         const index = years.indexOf(point.year);
-        if (point.strength === null || index === -1) {
+        if (isNull(point.strength) || index === -1) {
             continue;
         }
         hits.push({
@@ -300,7 +301,7 @@ export function TrendChart({
     const years = useMemo(() => points.map((point) => point.year), [points]);
     const maxTeams = Math.max(1, ...points.map((point) => point.teams));
     const segments = strengthPath(points);
-    const measured = points.filter((point) => point.strength !== null);
+    const measured = points.filter((point) => !isNull(point.strength));
     const hits = useMemo(
         () => buildHits(points, years, title),
         [points, years, title],

@@ -1,4 +1,5 @@
 import { and, desc, eq, gte, lt } from 'drizzle-orm';
+import { isUndefined } from 'es-toolkit';
 import type { Db } from '@/db';
 import { importRuns } from '@/db/schema';
 import type { ImportRunStatus } from '@/db/schema';
@@ -108,7 +109,7 @@ export function createImportRunsRepo(db: Db): ImportRunsRepo {
                 .from(importRuns)
                 .where(eq(importRuns.status, 'running'))
                 .get();
-            return row !== undefined;
+            return !isUndefined(row);
         },
 
         /** A `running` row young enough that a real import may still hold it. */
@@ -123,7 +124,7 @@ export function createImportRunsRepo(db: Db): ImportRunsRepo {
                     ),
                 )
                 .get();
-            return row !== undefined;
+            return !isUndefined(row);
         },
 
         async runningOlderThan(epochSeconds: number): Promise<ImportRun[]> {

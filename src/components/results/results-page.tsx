@@ -1,4 +1,5 @@
 import { getRouteApi } from '@tanstack/react-router';
+import { isNull } from 'es-toolkit';
 import type { JSX, ReactNode } from 'react';
 import { useCallback, useMemo } from 'react';
 import { NO_VALUE } from '@/components/format';
@@ -54,7 +55,7 @@ function renderRoundCell(row: ResultRow): ReactNode {
 function renderDateCell(row: ResultRow): ReactNode {
     return (
         <span className="numeric text-ink-muted">
-            {row.playedAt === null
+            {isNull(row.playedAt)
                 ? NO_VALUE
                 : DATE_FORMAT.format(new Date(row.playedAt * 1000))}
         </span>
@@ -73,13 +74,13 @@ function renderAwayCell(row: ResultRow): ReactNode {
 function renderScoreCell(row: ResultRow): ReactNode {
     const note = statusNote(row);
     const scoreline =
-        row.homeScore === null || row.awayScore === null
+        isNull(row.homeScore) || isNull(row.awayScore)
             ? NO_VALUE
             : `${String(row.homeScore)}–${String(row.awayScore)}`;
     return (
         <span className="numeric">
             {scoreline}
-            {note !== null && <NoteMarker note={note} />}
+            {!isNull(note) && <NoteMarker note={note} />}
         </span>
     );
 }
@@ -90,11 +91,7 @@ function renderMarginCell(row: ResultRow): ReactNode {
 
 /** Only rendered where two different clubs are present — see `canCompare`. */
 function renderCompareCell(row: ResultRow): ReactNode {
-    if (
-        !row.canCompare ||
-        row.homeClubKey === null ||
-        row.awayClubKey === null
-    ) {
+    if (!row.canCompare || isNull(row.homeClubKey) || isNull(row.awayClubKey)) {
         return null;
     }
     return (
@@ -141,7 +138,7 @@ function fixtureKey(row: ResultRow): string {
 }
 
 function emptyStateMessage(year: number | null, hasGrades: boolean): string {
-    if (year === null) {
+    if (isNull(year)) {
         return 'No seasons are recorded yet.';
     }
     if (!hasGrades) {

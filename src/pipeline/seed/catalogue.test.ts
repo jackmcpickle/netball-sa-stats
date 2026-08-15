@@ -1,5 +1,6 @@
 import { readFileSync, readdirSync } from 'node:fs';
 import { resolve } from 'node:path';
+import { isNull } from 'es-toolkit';
 import { describe, expect, it } from 'vitest';
 import {
     COMPETITION_SEEDS,
@@ -16,7 +17,7 @@ describe('competition catalogue', () => {
     it('only claims data for competitions with a confirmed org id', () => {
         const withDataMissingOrgId = COMPETITION_SEEDS.filter(
             (competition) =>
-                competition.hasData && competition.playhqOrgId === null,
+                competition.hasData && isNull(competition.playhqOrgId),
         ).map((competition) => competition.key);
         expect(withDataMissingOrgId).toStrictEqual([]);
     });

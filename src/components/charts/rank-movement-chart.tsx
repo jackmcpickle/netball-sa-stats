@@ -1,3 +1,4 @@
+import { isNull } from 'es-toolkit';
 import { useMemo } from 'react';
 import type { JSX, PointerEvent as ReactPointerEvent } from 'react';
 import { accentText } from '@/components/accent';
@@ -175,7 +176,7 @@ function seriesMarks(
 ): JSX.Element[] {
     return series.map((entry) => {
         const points = seriesPolyline(entry, years, axisMax);
-        const last = points.findLast((point) => point !== null);
+        const last = points.findLast((point) => !isNull(point));
         const isFocus = entry.club.key === focusKey;
         return (
             <g

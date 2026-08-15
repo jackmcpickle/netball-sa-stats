@@ -1,3 +1,4 @@
+import { isNull } from 'es-toolkit';
 import { sqlBool, sqlNumber, sqlText } from '@/pipeline/import/sql-format';
 /**
  * Typed, validated import rows -> upsert SQL. Parents are resolved by
@@ -69,7 +70,7 @@ function resultStatement(row: TeamSeasonResultImportRow): string {
  * is genuinely NULL, so the subquery is omitted entirely.
  */
 function gameTeamSubquery(playhqId: string | null): string {
-    if (playhqId === null) {
+    if (isNull(playhqId)) {
         return 'NULL';
     }
     return `(SELECT id FROM teams WHERE playhq_id IS ${sqlText(playhqId)})`;

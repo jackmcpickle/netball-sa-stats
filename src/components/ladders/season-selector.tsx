@@ -1,3 +1,4 @@
+import { isNull } from 'es-toolkit';
 import type { ReactNode } from 'react';
 import { FieldSelect } from '@/components/ui/select';
 
@@ -13,7 +14,7 @@ export function SeasonSelector({
     options,
     onValueChange,
 }: SeasonSelectorProps): ReactNode {
-    if (year === null) {
+    if (isNull(year)) {
         return null;
     }
     return (

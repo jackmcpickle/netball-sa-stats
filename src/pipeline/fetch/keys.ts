@@ -1,3 +1,4 @@
+import { isUndefined } from 'es-toolkit';
 /** Slug and stable-key helpers shared across the fetch pipeline. */
 
 export function slugify(name: string): string {
@@ -42,5 +43,5 @@ export function buildGradeKey(seasonKey: string, gradeName: string): string {
 export function extractSquadNumber(teamName: string): number | null {
     const squadNumber = /\s(?<squadNumber>\d+)$/u.exec(teamName.trimEnd())
         ?.groups?.squadNumber;
-    return squadNumber === undefined ? null : Number(squadNumber);
+    return isUndefined(squadNumber) ? null : Number(squadNumber);
 }

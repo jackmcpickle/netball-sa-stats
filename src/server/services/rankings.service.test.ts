@@ -1,3 +1,4 @@
+import { isUndefined } from 'es-toolkit';
 import { describe, expect, it } from 'vitest';
 import { createServices } from '@/server/container';
 import type { DomainError, Result } from '@/server/domain/result';
@@ -177,7 +178,7 @@ describe('rankings service', () => {
         const championshipGrade = spec.competitions[0]?.seasons.find(
             (season) => season.seasonKey === 'amnd-2025',
         )?.grades[0];
-        if (championshipGrade === undefined) {
+        if (isUndefined(championshipGrade)) {
             throw new Error('expected amnd-2025-a1 grade in base spec');
         }
         const extraClubCount = 60;

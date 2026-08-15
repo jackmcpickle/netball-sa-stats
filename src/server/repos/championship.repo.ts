@@ -1,3 +1,4 @@
+import { isUndefined } from 'es-toolkit';
 /**
  * Every finished season's results, ranked. `fetchChampionshipHistory` used to
  * live in `src/db/queries/championship.ts`; that fetch + assembly logic now
@@ -70,7 +71,7 @@ export async function fetchChampionshipHistory(
         // or methodology changes (archive Final Premiership Placings → PlayHQ
         // regular-season ladders).
         const coverageChanged =
-            previousSeason !== undefined &&
+            !isUndefined(previousSeason) &&
             movementBoundaryChanged({
                 year: season.year,
                 previousYear: previousSeason.year,

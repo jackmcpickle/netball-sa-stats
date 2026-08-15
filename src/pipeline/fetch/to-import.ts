@@ -1,3 +1,4 @@
+import { isNil, isNull, isUndefined } from 'es-toolkit';
 /**
  * Maps snake_case fetch rows to the camelCase `ImportData` the importer
  * already consumes. Field names match `parse.ts`; values are taken from the
@@ -19,14 +20,14 @@ import type {
 } from '@/pipeline/import/types';
 
 function toNum(value: CsvValue | undefined): number | null {
-    if (value === null || value === undefined || value === '') {
+    if (isNil(value) || value === '') {
         return null;
     }
     return Number(value);
 }
 
 function toStr(value: CsvValue | undefined): string | null {
-    if (value === null || value === undefined || value === '') {
+    if (isNil(value) || value === '') {
         return null;
     }
     return String(value);
@@ -129,10 +130,10 @@ function gamesFileOf(row: GameRow): string {
         /-(?:winter|summer|annual)-(?<startYear>\d{4})(?:-|$)/u.exec(
             row.grade_key,
         )?.groups?.startYear;
-    if (startYear !== undefined) {
+    if (!isUndefined(startYear)) {
         return `games-${startYear}.csv`;
     }
-    if (row.played_at !== null) {
+    if (!isNull(row.played_at)) {
         return `games-${new Date(row.played_at * 1000).getUTCFullYear()}.csv`;
     }
     return 'games-unknown.csv';

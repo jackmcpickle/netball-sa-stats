@@ -1,3 +1,4 @@
+import { isNull, isUndefined } from 'es-toolkit';
 /**
  * Serves `/head-to-head`. Everything the page shows is derived from one pair
  * fetch: the record, the roll-ups, the meetings, and the band picker's
@@ -48,7 +49,7 @@ function findClub(
     clubs: readonly Club[],
     key: string | undefined,
 ): Club | null {
-    if (key === undefined) {
+    if (isUndefined(key)) {
         return null;
     }
     return clubs.find((club) => club.key === key) ?? null;
@@ -70,7 +71,7 @@ function visibleClubs(
     }
     const keys = new Set(present.map((club) => club.key));
     const extra = selected.filter(
-        (club): club is Club => club !== null && !keys.has(club.key),
+        (club): club is Club => !isNull(club) && !keys.has(club.key),
     );
     return extra.length === 0
         ? present
@@ -114,7 +115,7 @@ export function createHeadToHeadService(repos: Repos): HeadToHeadService {
             const b = findClub(allClubs, params.b);
             const clubs = visibleClubs(allClubs, present, includePast, [a, b]);
 
-            if (a === null || b === null || a.key === b.key) {
+            if (isNull(a) || isNull(b) || a.key === b.key) {
                 return ok({
                     clubs,
                     includePast,

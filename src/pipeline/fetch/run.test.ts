@@ -1,5 +1,6 @@
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
+import { isNull } from 'es-toolkit';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { createMemoryStore } from '@/pipeline/fetch/capture-store';
 import { ClubRegistry } from '@/pipeline/fetch/club-registry';
@@ -31,7 +32,7 @@ function loadStandings(): readonly Standing[] {
         readFileSync(ladderFixturePath, 'utf-8'),
     ) as GradeLadderResponse;
     const { discoverGrade } = response.data;
-    if (discoverGrade === null) {
+    if (isNull(discoverGrade)) {
         throw new Error('fixture has no discoverGrade');
     }
     return flattenStandings(discoverGrade.ladder);

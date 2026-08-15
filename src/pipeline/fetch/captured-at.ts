@@ -14,6 +14,7 @@
  */
 import { mkdir, readFile, stat, writeFile } from 'node:fs/promises';
 import { basename, dirname, join } from 'node:path';
+import { isNull } from 'es-toolkit';
 
 export const MANIFEST_NAME = 'captured-at.json';
 
@@ -31,7 +32,7 @@ async function readManifest(cachePath: string): Promise<Manifest> {
         // is an open `Record<string, number>` and every read of it re-checks
         // `typeof recorded === 'number'` (see `capturedAt`), so a manifest
         // with unexpected values degrades to "no recorded timestamp".
-        return typeof parsed === 'object' && parsed !== null
+        return typeof parsed === 'object' && !isNull(parsed)
             ? (parsed as Manifest)
             : {};
     } catch {

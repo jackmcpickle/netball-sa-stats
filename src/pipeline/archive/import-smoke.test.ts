@@ -1,4 +1,5 @@
 import { join, resolve } from 'node:path';
+import { isNull } from 'es-toolkit';
 import { describe, expect, it } from 'vitest';
 import { loadImportData } from '@/pipeline/import/run';
 import { validateImportData } from '@/pipeline/import/validate';
@@ -30,7 +31,7 @@ describe('archive CSV import smoke', () => {
 
         expect(archiveSeasons).toHaveLength(16);
         expect(archiveResults).toHaveLength(4965);
-        expect(archiveResults.every((row) => row.played === null)).toBeTruthy();
+        expect(archiveResults.every((row) => isNull(row.played))).toBeTruthy();
         expect(
             archiveResults.every(
                 (row) =>

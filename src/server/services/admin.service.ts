@@ -1,3 +1,4 @@
+import { isNull, isUndefined } from 'es-toolkit';
 import { NO_VALUE } from '@/components/format';
 import { err, ok } from '@/server/domain/result';
 import type { Result } from '@/server/domain/result';
@@ -49,14 +50,14 @@ function durationLabel(run: ImportRun, nowEpochSeconds: number): string {
     if (run.status === 'running') {
         return formatDuration(nowEpochSeconds - run.startedAt);
     }
-    if (run.finishedAt === null) {
+    if (isNull(run.finishedAt)) {
         return NO_VALUE;
     }
     return formatDuration(run.finishedAt - run.startedAt);
 }
 
 function parseWarnings(json: string | null): readonly string[] {
-    if (json === null) {
+    if (isNull(json)) {
         return [];
     }
     try {
@@ -123,7 +124,7 @@ export function createAdminService(
             const dtos = runs.map((run) => toRunDto(run, nowEpochSeconds));
             const runningRun = dtos.find((run) => run.status === 'running');
             return {
-                running: runningRun !== undefined,
+                running: !isUndefined(runningRun),
                 runningElapsedLabel: runningRun?.durationLabel ?? null,
                 lastStatus: dtos[0]?.status ?? null,
                 runs: dtos,
@@ -141,7 +142,7 @@ export function createAdminService(
                 return years;
             }
             await deps.startImport(
-                years.value === undefined
+                isUndefined(years.value)
                     ? { games: true }
                     : { years: years.value, games: true },
             );

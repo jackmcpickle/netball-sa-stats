@@ -1,3 +1,5 @@
+import { isNull, isUndefined } from 'es-toolkit';
+
 export interface ClubAliasRow {
     club_key: string;
     alias_text: string;
@@ -30,12 +32,10 @@ export function normaliseArchiveClubName(name: string): string {
 }
 
 function contextText(context: ResolveContext): string {
-    const grade =
-        context.gradeName === undefined ? '' : ` ${context.gradeName}`;
-    const position =
-        context.ladderPosition === undefined
-            ? ''
-            : ` position ${String(context.ladderPosition)}`;
+    const grade = isUndefined(context.gradeName) ? '' : ` ${context.gradeName}`;
+    const position = isUndefined(context.ladderPosition)
+        ? ''
+        : ` position ${String(context.ladderPosition)}`;
     return `${String(context.year)}${grade}${position}`;
 }
 
@@ -50,7 +50,7 @@ export function createArchiveClubResolver(
     for (const alias of aliases) {
         const normalised = normaliseArchiveClubName(alias.alias_text);
         const existing = byAlias.get(normalised);
-        if (existing !== undefined && existing !== alias.club_key) {
+        if (!isUndefined(existing) && existing !== alias.club_key) {
             throw new Error(
                 `Archive alias "${alias.alias_text}" maps to both ${existing} and ${alias.club_key}`,
             );
@@ -61,7 +61,7 @@ export function createArchiveClubResolver(
     return {
         resolve(name, context) {
             const clubKey = byAlias.get(normaliseArchiveClubName(name));
-            if (clubKey === undefined) {
+            if (isUndefined(clubKey)) {
                 throw new Error(
                     `Unknown archive club name "${name}" in ${contextText(context)}`,
                 );
@@ -74,7 +74,8 @@ export function createArchiveClubResolver(
 export function syntheticArchivePlayhqId(
     input: SyntheticArchivePlayhqIdInput,
 ): string {
-    const squad =
-        input.squadNumber === null ? 'none' : String(input.squadNumber);
+    const squad = isNull(input.squadNumber)
+        ? 'none'
+        : String(input.squadNumber);
     return `archive:${input.seasonKey}:${input.gradeSlug}:${input.clubKey}:${squad}`;
 }

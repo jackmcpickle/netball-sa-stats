@@ -1,3 +1,4 @@
+import { isNull, isUndefined } from 'es-toolkit';
 /**
  * Seeds a nested competition → season → grade → result graph into a test db
  * created by `createTestDb()`, defaulting the fields real imports always set
@@ -86,7 +87,7 @@ async function seedClub(
     resultSpec: ResultSpec,
 ): Promise<number> {
     const existing = result.clubs.get(resultSpec.clubKey);
-    if (existing !== undefined) {
+    if (!isUndefined(existing)) {
         return existing;
     }
     const [clubRow] = await db
@@ -288,7 +289,7 @@ function teamIdFor(
     gradeKey: string,
     club: string | null,
 ): number | null {
-    return club === null
+    return isNull(club)
         ? null
         : (result.teams.get(`${gradeKey}:${club}`) ?? null);
 }
@@ -309,7 +310,7 @@ export async function seedGames(
     await db.insert(games).values(
         specs.map((spec, index) => {
             const gradeId = result.grades.get(spec.gradeKey);
-            if (gradeId === undefined) {
+            if (isUndefined(gradeId)) {
                 throw new Error(`seedGames: unknown grade ${spec.gradeKey}`);
             }
             return {

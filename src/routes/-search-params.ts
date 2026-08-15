@@ -1,3 +1,4 @@
+import { isUndefined } from 'es-toolkit';
 /**
  * Coerces an optional search-param value to an integer, treating anything
  * unparseable (NaN, empty string, out-of-range hints) as absent rather than
@@ -6,7 +7,7 @@
  */
 // oxlint-disable-next-line anti-slop/no-unknown-parameters -- this IS the query-string parse boundary; TanStack hands validateSearch genuinely unknown values
 export function parseOptionalIntParam(value: unknown): number | undefined {
-    if (value === undefined || value === '') {
+    if (isUndefined(value) || value === '') {
         return undefined;
     }
     const parsed = Number(value);

@@ -1,4 +1,5 @@
 import { getRouteApi, useNavigate } from '@tanstack/react-router';
+import { isNull } from 'es-toolkit';
 import { useCallback, useMemo } from 'react';
 import type { JSX } from 'react';
 import { accentBg, isDarkAccent } from '@/components/accent';
@@ -82,11 +83,11 @@ export function ClubProfilePage(): JSX.Element {
                     className={`flex min-h-[200px] flex-col justify-between rounded-panel p-6 sm:min-h-[220px] sm:p-8 ${accentBg(profile.club.accent)}`}
                 >
                     <p className={`label-mono ${heroSoft}`}>
-                        {profile.club.establishedYear === null &&
-                        profile.club.homeVenue === null
+                        {isNull(profile.club.establishedYear) &&
+                        isNull(profile.club.homeVenue)
                             ? 'FOUNDING YEAR AND HOME VENUE NOT PUBLISHED'
                             : [
-                                  profile.club.establishedYear === null
+                                  isNull(profile.club.establishedYear)
                                       ? null
                                       : `EST. ${String(profile.club.establishedYear)}`,
                                   profile.club.homeVenue?.toUpperCase() ?? null,
@@ -101,10 +102,10 @@ export function ClubProfilePage(): JSX.Element {
                             {profile.club.name}
                         </h1>
                         <p className={`mt-4 text-base ${heroSoft}`}>
-                            {profile.currentRank === null
+                            {isNull(profile.currentRank)
                                 ? 'Not ranked in the most recent completed season'
                                 : `Current rank #${String(profile.currentRank)}`}
-                            {profile.bestRank !== null &&
+                            {!isNull(profile.bestRank) &&
                                 ` · best finish #${String(profile.bestRank)} in ${String(profile.bestRankYear)}`}
                         </p>
                     </div>

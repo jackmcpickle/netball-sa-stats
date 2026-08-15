@@ -1,3 +1,4 @@
+import { isUndefined } from 'es-toolkit';
 /**
  * PlayHQ GraphQL client: fixed headers, ~1req/sec rate limit, and a
  * cache-first fetch keyed by operation+id so re-runs never re-hit the
@@ -111,7 +112,7 @@ export async function cachedGraphQL(
 ): Promise<unknown> {
     if (cacheFirst) {
         const cached = await store.get(key);
-        if (cached !== undefined) {
+        if (!isUndefined(cached)) {
             return cached;
         }
     }

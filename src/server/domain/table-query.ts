@@ -1,3 +1,4 @@
+import { isUndefined } from 'es-toolkit';
 /**
  * The domain object for "sort, page, and slice a table". `resolveTableState`,
  * `applyTableState`, `offsetFor`, and `pageCount` used to live as free
@@ -58,12 +59,12 @@ function resolveDesc(dir: string | undefined, fallback: boolean): boolean {
 
 function resolveTableState(raw: RawTableState, spec: TableSpec): TableState {
     const sort =
-        raw.sort !== undefined && spec.sortable.includes(raw.sort)
+        !isUndefined(raw.sort) && spec.sortable.includes(raw.sort)
             ? raw.sort
             : spec.defaultSort;
     const desc = resolveDesc(raw.dir, spec.defaultDesc);
     const page =
-        raw.page !== undefined && Number.isInteger(raw.page) && raw.page > 0
+        !isUndefined(raw.page) && Number.isInteger(raw.page) && raw.page > 0
             ? raw.page
             : 1;
     const pageSize =

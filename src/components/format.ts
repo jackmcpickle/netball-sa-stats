@@ -1,3 +1,4 @@
+import { isNil, isNull } from 'es-toolkit';
 /**
  * Display formatting. Every "we do not have this" case resolves to an em dash
  * rather than a zero, so a missing figure is never mistaken for a real one.
@@ -9,16 +10,14 @@ export function formatNumber(
     value: number | null | undefined,
     decimals = 0,
 ): string {
-    if (value === null || value === undefined || !Number.isFinite(value)) {
+    if (isNil(value) || !Number.isFinite(value)) {
         return NO_VALUE;
     }
     return value.toFixed(decimals);
 }
 
 export function formatPercent(value: number | null | undefined): string {
-    return value === null || value === undefined
-        ? NO_VALUE
-        : `${value.toFixed(1)}%`;
+    return isNil(value) ? NO_VALUE : `${value.toFixed(1)}%`;
 }
 
 /** `12–4–1`, or `12–4` when there were no draws. */
@@ -27,11 +26,11 @@ export function formatRecord(
     lost: number | null,
     drawn: number | null,
 ): string {
-    if (won === null || lost === null) {
+    if (isNull(won) || isNull(lost)) {
         return NO_VALUE;
     }
     const parts = [won, lost];
-    if (drawn !== null && drawn > 0) {
+    if (!isNull(drawn) && drawn > 0) {
         parts.push(drawn);
     }
     return parts.map(String).join('–');
@@ -53,7 +52,7 @@ export function describeMovement(
     rank: number,
     previousRank: number | null,
 ): Movement {
-    if (previousRank === null) {
+    if (isNull(previousRank)) {
         return {
             label: 'new',
             description: 'First ranked season',

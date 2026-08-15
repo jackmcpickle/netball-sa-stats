@@ -1,4 +1,5 @@
 import { getRouteApi } from '@tanstack/react-router';
+import { isNull } from 'es-toolkit';
 import type { JSX, ReactNode } from 'react';
 import { useCallback, useMemo } from 'react';
 import { NO_VALUE } from '@/components/format';
@@ -53,13 +54,13 @@ function renderTeamBCell(meeting: Meeting): ReactNode {
 function renderScoreCell(meeting: Meeting): ReactNode {
     const note = meetingNote(meeting);
     const scoreline =
-        meeting.scoreA === null || meeting.scoreB === null
+        isNull(meeting.scoreA) || isNull(meeting.scoreB)
             ? NO_VALUE
             : `${String(meeting.scoreA)}–${String(meeting.scoreB)}`;
     return (
         <span className="numeric">
             {scoreline}
-            {note !== null && <NoteMarker note={note} />}
+            {!isNull(note) && <NoteMarker note={note} />}
         </span>
     );
 }
@@ -187,11 +188,11 @@ export function HeadToHeadPage(): JSX.Element {
     );
 
     const { a, b, h2h, meetings } = data;
-    const neverMet = h2h !== null && h2h.meetings.length === 0;
+    const neverMet = !isNull(h2h) && h2h.meetings.length === 0;
     /** The loaded record, or `null` when the pair has never met. */
     const record = neverMet ? null : h2h;
     /** Both clubs, or `null` until the user has picked a pair. */
-    const pair = a === null || b === null ? null : { a, b };
+    const pair = isNull(a) || isNull(b) ? null : { a, b };
 
     return (
         <PageShell className="py-12 pb-24 sm:py-16">
@@ -233,7 +234,7 @@ export function HeadToHeadPage(): JSX.Element {
                 />
             </div>
 
-            {h2h === null && (
+            {isNull(h2h) && (
                 <Panel className="p-8">
                     <p className="text-ink-body">
                         Pick two different clubs to see their record.
@@ -249,7 +250,7 @@ export function HeadToHeadPage(): JSX.Element {
                 </Panel>
             )}
 
-            {record !== null && pair !== null && (
+            {!isNull(record) && !isNull(pair) && (
                 <>
                     <RecordSummary
                         a={pair.a}
@@ -257,7 +258,7 @@ export function HeadToHeadPage(): JSX.Element {
                         record={record.record}
                     />
                     <SeasonStrip seasons={record.bySeason} />
-                    {meetings !== null && (
+                    {!isNull(meetings) && (
                         <DataTable
                             caption={`Meetings between ${pair.a.name} and ${pair.b.name}`}
                             columns={MEETING_COLUMNS}

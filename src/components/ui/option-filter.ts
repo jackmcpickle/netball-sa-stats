@@ -1,3 +1,4 @@
+import { isUndefined } from 'es-toolkit';
 /**
  * Filtering for the searchable select. Kept as plain functions so the matching
  * rules can be unit tested without a DOM.
@@ -38,7 +39,7 @@ export function matchesQuery(option: FilterableOption, query: string): boolean {
     }
 
     const haystack = normaliseQuery(
-        option.hint === undefined
+        isUndefined(option.hint)
             ? option.label
             : `${option.label} ${option.hint}`,
     );

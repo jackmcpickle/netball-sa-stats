@@ -1,3 +1,4 @@
+import { isUndefined } from 'es-toolkit';
 /**
  * When consecutive ranked seasons are not comparable for movement arrows:
  * different competition sets, a calendar gap, or a methodology/source change
@@ -78,7 +79,7 @@ export function timelineGaps(rankedYears: readonly number[]): readonly {
     for (let i = 1; i < rankedYears.length; i += 1) {
         const prev = rankedYears[i - 1];
         const next = rankedYears[i];
-        if (prev === undefined || next === undefined || next - prev <= 1) {
+        if (isUndefined(prev) || isUndefined(next) || next - prev <= 1) {
             continue;
         }
         const missing: number[] = [];
@@ -101,7 +102,7 @@ export function methodologyBreak(args: {
     for (let i = 1; i < args.rankedYears.length; i += 1) {
         const prev = args.rankedYears[i - 1];
         const next = args.rankedYears[i];
-        if (prev === undefined || next === undefined) {
+        if (isUndefined(prev) || isUndefined(next)) {
             continue;
         }
         const previousSources = args.sourceByYear.get(prev) ?? new Set();

@@ -1,3 +1,4 @@
+import { isUndefined } from 'es-toolkit';
 import { describe, expect, it } from 'vitest';
 import { createServices } from '@/server/container';
 import type { DomainError, Result } from '@/server/domain/result';
@@ -207,7 +208,7 @@ describe('ladders service', () => {
         const gradeWithNoResults = spec.competitions[0]?.seasons.find(
             (season) => season.seasonKey === 'amnd-2024',
         )?.grades[0];
-        if (gradeWithNoResults === undefined) {
+        if (isUndefined(gradeWithNoResults)) {
             throw new Error('expected amnd-2024-a1 grade in base spec');
         }
         gradeWithNoResults.results = [];

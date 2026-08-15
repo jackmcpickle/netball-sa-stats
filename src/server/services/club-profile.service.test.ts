@@ -1,3 +1,4 @@
+import { isUndefined } from 'es-toolkit';
 import { describe, expect, it } from 'vitest';
 import { createServices } from '@/server/container';
 import type { DomainError, Result } from '@/server/domain/result';
@@ -149,7 +150,7 @@ describe('club profile service', () => {
             competitions: [{ key: 'amnd', name: 'AMND', seasons: [] }],
         };
         const [competition] = spec.competitions;
-        if (competition === undefined) {
+        if (isUndefined(competition)) {
             throw new Error('expected amnd competition in spec');
         }
         // Default page size is 50; seed 60 seasons each with one grade, so

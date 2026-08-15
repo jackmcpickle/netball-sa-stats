@@ -1,3 +1,4 @@
+import { isNull, isUndefined } from 'es-toolkit';
 import { parseGradeName } from '@/pipeline/fetch/grade-name';
 import { slugify } from '@/pipeline/fetch/keys';
 
@@ -20,7 +21,7 @@ function normaliseGradeHeader(name: string): string {
 
 function letterGradeName(normalised: string): string | null {
     const grade = /^(?<letter>[A-H]) ?(?<division>\d+)?$/u.exec(normalised);
-    if (grade === null) {
+    if (isNull(grade)) {
         return null;
     }
     const { letter, division } = grade.groups ?? {};
@@ -30,10 +31,10 @@ function letterGradeName(normalised: string): string | null {
     if (letter === 'A' && division === '2') {
         return 'A. Grade';
     }
-    if (letter === 'H' && division === undefined) {
+    if (letter === 'H' && isUndefined(division)) {
         return 'H Grade';
     }
-    return division === undefined ? null : `${letter}. ${division}`;
+    return isUndefined(division) ? null : `${letter}. ${division}`;
 }
 
 function namedSeniorGrade(normalised: string): string | null {
@@ -58,7 +59,7 @@ function numberedGradeName(normalised: string): string | null {
     ];
     for (const [pattern, prefix] of rules) {
         const division = pattern.exec(normalised)?.groups?.division;
-        if (division !== undefined) {
+        if (!isUndefined(division)) {
             return `${prefix} ${division}`;
         }
     }

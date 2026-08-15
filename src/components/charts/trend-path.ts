@@ -1,3 +1,4 @@
+import { isNull, isUndefined } from 'es-toolkit';
 /**
  * Pure trend-series helpers, kept out of the component module so the chart
  * file exports components only.
@@ -18,13 +19,13 @@ export function strengthPath(
     for (const point of points) {
         const previous = current.at(-1);
         const brokenCalendar =
-            previous !== undefined && point.year - previous.year > 1;
-        if (point.strength === null || brokenCalendar) {
+            !isUndefined(previous) && point.year - previous.year > 1;
+        if (isNull(point.strength) || brokenCalendar) {
             if (current.length > 0) {
                 segments.push(current);
             }
             current = [];
-            if (point.strength === null) {
+            if (isNull(point.strength)) {
                 continue;
             }
         }
@@ -37,7 +38,7 @@ export function strengthPath(
 }
 
 export function formatStrength(strength: number | null): string {
-    return strength === null ? NO_VALUE : strength.toFixed(3);
+    return isNull(strength) ? NO_VALUE : strength.toFixed(3);
 }
 
 /**
@@ -53,7 +54,7 @@ export function describeTrendSlot(
     if (!point) {
         return `${String(year)}: ${NO_VALUE}`;
     }
-    if (point.strength === null) {
+    if (isNull(point.strength)) {
         const cause =
             point.teams === 0 ? 'no teams fielded' : 'no measurable finish';
         return `${String(point.year)}: ${cause}, strength ${NO_VALUE}`;

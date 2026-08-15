@@ -1,3 +1,4 @@
+import { isNull, isUndefined } from 'es-toolkit';
 /**
  * Stage 1 collect: PlayHQ -> normalised rows, with no filesystem access.
  *
@@ -276,7 +277,7 @@ export function processGrade(
     scrapedAt: number,
 ): ProcessedGrade | null {
     const competitionKey = resolveCompetitionKey(ctx.orgId, grade.name);
-    if (competitionKey === null) {
+    if (isNull(competitionKey)) {
         return null;
     }
     const seasonKey = buildSeasonKey(competitionKey, ctx.period, ctx.startYear);
@@ -373,7 +374,7 @@ function yearWanted(
     startYear: number,
 ): boolean {
     return (
-        years === undefined || years.length === 0 || years.includes(startYear)
+        isUndefined(years) || years.length === 0 || years.includes(startYear)
     );
 }
 
@@ -391,7 +392,7 @@ export function seasonWanted(
     season: { startDate: string; status: { value: string } },
     years: readonly number[] | undefined,
 ): boolean {
-    if (years === undefined) {
+    if (isUndefined(years)) {
         return season.status.value.toLowerCase() === 'active';
     }
     return yearWanted(years, parseStartYear(season.startDate));
@@ -405,7 +406,7 @@ function wantsGames(
     if (options.games !== true) {
         return false;
     }
-    if (options.gradeId !== undefined && options.gradeId !== gradePlayhqId) {
+    if (!isUndefined(options.gradeId) && options.gradeId !== gradePlayhqId) {
         return false;
     }
     return yearWanted(options.years, startYear);
@@ -434,13 +435,13 @@ async function fetchGamesForGrade(
         cacheFirst,
     )) as GradeAllRoundsResponse;
     const rounds = response.data.discoverGradeFixture;
-    if (rounds === null) {
+    if (isNull(rounds)) {
         return [];
     }
     // As with ladders, scraped_at is when the capture was fetched, so a
     // cache-only re-run reproduces a byte-identical CSV.
     const scrapedAt = await store.capturedAtMs(key);
-    if (scrapedAt === undefined) {
+    if (isUndefined(scrapedAt)) {
         throw new Error(`missing capturedAtMs for ${key}`);
     }
     return toGameRows(rounds, gradeKey, scrapedAt);
@@ -512,7 +513,7 @@ async function ingestGrade(
     // Out of scope, e.g. "Walking Netball 50+" under the Premier League season.
     // Reported (not just dropped) so a grade that genuinely comes into
     // scope later under a catalogued org doesn't silently vanish.
-    if (competitionKey === null) {
+    if (isNull(competitionKey)) {
         recordOutOfScopeGrade(
             acc.skippedGrades,
             job.orgId,
@@ -539,13 +540,14 @@ async function ingestGrade(
     // byte-identical CSVs instead of a fresh timestamp on every row
     // every time.
     const scrapedAt = await options.store.capturedAtMs(gradeCaptureKey);
-    if (scrapedAt === undefined) {
+    if (isUndefined(scrapedAt)) {
         throw new Error(`missing capturedAtMs for ${gradeCaptureKey}`);
     }
 
     const { discoverGrade } = gradeResponse.data;
-    const standings: readonly Standing[] =
-        discoverGrade === null ? [] : flattenStandings(discoverGrade.ladder);
+    const standings: readonly Standing[] = isNull(discoverGrade)
+        ? []
+        : flattenStandings(discoverGrade.ladder);
 
     const seasonKeyPreview = buildSeasonKey(
         competitionKey,
@@ -578,7 +580,7 @@ async function ingestGrade(
         scrapedAt,
     );
     // Unreachable: already filtered above. Kept for type safety.
-    if (processed === null) {
+    if (isNull(processed)) {
         return;
     }
     if (!acc.seasonRows.has(processed.seasonKey)) {
@@ -624,7 +626,7 @@ async function ingestSeason(
     )) as GradeListDiscoverSeasonResponse;
 
     const { discoverSeason } = seasonResponse.data;
-    if (discoverSeason === null) {
+    if (isNull(discoverSeason)) {
         console.warn(
             `discoverSeason returned null for season ${season.id} (${season.name}), skipping`,
         );

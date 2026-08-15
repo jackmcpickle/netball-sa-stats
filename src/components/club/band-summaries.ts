@@ -1,3 +1,4 @@
+import { isNull } from 'es-toolkit';
 /**
  * Per-band trend figures for the club sparkline grid. Kept out of the
  * component module so that file exports components only.
@@ -56,7 +57,7 @@ export function bandSummaries(
     bands: readonly ClubBandTrend[],
 ): readonly BandSummary[] {
     return bands.flatMap((band): BandSummary[] => {
-        const measured = band.points.filter((point) => point.strength !== null);
+        const measured = band.points.filter((point) => !isNull(point.strength));
         const latest = measured.at(-1);
         const [first] = measured;
         if (!latest || !first) {

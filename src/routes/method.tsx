@@ -1,5 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { createServerFn } from '@tanstack/react-start';
+import { isNull, isUndefined } from 'es-toolkit';
 import { MethodPage } from '@/components/method/method-page';
 import { getDb } from '@/db';
 import { METHOD_FAQ } from '@/seo/faq';
@@ -26,7 +27,7 @@ export const Route = createFileRoute('/method')({
             description: DESCRIPTION,
             path: '/method',
             dateModified:
-                loaderData === undefined || loaderData.updatedAt === null
+                isUndefined(loaderData) || isNull(loaderData.updatedAt)
                     ? undefined
                     : new Date(loaderData.updatedAt * 1000).toISOString(),
             schema: [

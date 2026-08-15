@@ -1,3 +1,4 @@
+import { isNil } from 'es-toolkit';
 /** Minimal GitHub-flavoured markdown helpers for the agent-facing pages. */
 
 /** Escapes the only character that can break a markdown table cell. */
@@ -6,7 +7,7 @@ function cell(value: string): string {
 }
 
 export function formatCell(value: string | number | null | undefined): string {
-    if (value === null || value === undefined) {
+    if (isNil(value)) {
         return '—';
     }
     return cell(String(value));

@@ -1,3 +1,4 @@
+import { isUndefined } from 'es-toolkit';
 /**
  * Head tags are a response type too: a missing canonical or a malformed
  * JSON-LD graph is invisible in the browser and fatal to a crawler.
@@ -17,9 +18,9 @@ function contentOf(
 }
 
 function graphOf(meta: readonly MetaTag[]): readonly JsonLdNode[] {
-    const node = meta.find((tag) => tag['script:ld+json'] !== undefined);
+    const node = meta.find((tag) => !isUndefined(tag['script:ld+json']));
     const graph = node?.['script:ld+json']?.['@graph'];
-    if (graph === undefined) {
+    if (isUndefined(graph)) {
         throw new Error('head() emitted no JSON-LD @graph');
     }
     return graph;
@@ -130,7 +131,7 @@ describe(pageHead, () => {
             title: 'Page',
             description: 'x',
             path: '/',
-        }).meta.find((tag) => tag['script:ld+json'] !== undefined);
+        }).meta.find((tag) => !isUndefined(tag['script:ld+json']));
         const parsed = structuredClone(node?.['script:ld+json']);
         expect(parsed?.['@context']).toBe('https://schema.org');
     });
@@ -146,7 +147,7 @@ describe(pageHead, () => {
             'noindex, nofollow',
         );
         expect(
-            head.meta.some((tag) => tag['script:ld+json'] !== undefined),
+            head.meta.some((tag) => !isUndefined(tag['script:ld+json'])),
         ).toBeFalsy();
         expect(head.links.some((link) => link.rel === 'alternate')).toBeFalsy();
     });

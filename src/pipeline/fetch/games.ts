@@ -1,3 +1,4 @@
+import { isNull, isUndefined } from 'es-toolkit';
 import type { ForfeitSide, GameStatus } from '@/db/schema';
 /**
  * Pure mapping from a `gradeAllRounds` response to `games` CSV rows. No
@@ -84,7 +85,7 @@ const SCORE_STATISTIC = 'TOTAL_SCORE';
 
 /** Netball's only statistic type, and it arrives as an array, not a field. */
 export function scoreOf(side: SideResult | null): number | null {
-    if (side === null) {
+    if (isNull(side)) {
         return null;
     }
     const stat = side.statistics.find(
@@ -146,9 +147,9 @@ export interface GameClassification {
  * up in a club's goal differential.
  */
 export function classifyGame(game: FixtureGame): GameClassification {
-    if (game.result === null) {
+    if (isNull(game.result)) {
         const status = UNPLAYED_STATUSES.get(game.status.value);
-        if (status === undefined) {
+        if (isUndefined(status)) {
             throw new Error(
                 `Unrecognised PlayHQ game status "${game.status.value}" on game ${game.id}. ` +
                     'Add it to games.ts and document it in docs/playhq-api.md §6.',
@@ -158,12 +159,12 @@ export function classifyGame(game: FixtureGame): GameClassification {
     }
 
     const outcome = game.result.outcome?.value ?? null;
-    if (outcome === null || NO_RESULT_OUTCOMES.has(outcome)) {
+    if (isNull(outcome) || NO_RESULT_OUTCOMES.has(outcome)) {
         return { status: 'no_result', forfeitingSide: null };
     }
 
     const forfeitingSide = FORFEIT_OUTCOMES.get(outcome);
-    if (forfeitingSide !== undefined) {
+    if (!isUndefined(forfeitingSide)) {
         return { status: 'forfeit', forfeitingSide };
     }
 
@@ -178,7 +179,7 @@ export function classifyGame(game: FixtureGame): GameClassification {
     // result PlayHQ never recorded.
     const home = scoreOf(game.result.home);
     const away = scoreOf(game.result.away);
-    if (home === null || away === null) {
+    if (isNull(home) || isNull(away)) {
         return { status: 'no_result', forfeitingSide: null };
     }
     return { status: 'final', forfeitingSide: null };
@@ -231,7 +232,7 @@ export function playedAtEpoch(
     date: string | null,
     time: string | null,
 ): number | null {
-    if (date === null || date === '') {
+    if (isNull(date) || date === '') {
         return null;
     }
     const [year, month, day] = date.split('-').map(Number);
@@ -262,7 +263,7 @@ function roundNumbers(rounds: readonly FixtureRound[]): Map<string, number> {
     }
     const numbers = new Map<string, number>();
     for (const round of rounds) {
-        if (round.number === null) {
+        if (isNull(round.number)) {
             continue;
         }
         numbers.set(

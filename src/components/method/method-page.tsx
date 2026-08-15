@@ -1,4 +1,5 @@
 import { getRouteApi } from '@tanstack/react-router';
+import { isNull } from 'es-toolkit';
 import type { JSX } from 'react';
 import { CoverageNote } from '@/components/coverage-note';
 import { FaqSection } from '@/components/faq-section';
@@ -225,7 +226,7 @@ export function MethodPage(): JSX.Element {
             <Eyebrow>METHOD & DATA</Eyebrow>
             <div className="mt-4 mb-10">
                 <PageTitle>How the championship score is built</PageTitle>
-                {updatedAt !== null && (
+                {!isNull(updatedAt) && (
                     <p className="mt-4 text-sm text-ink-muted">
                         {'Data last updated '}
                         <time

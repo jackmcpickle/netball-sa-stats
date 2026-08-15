@@ -1,4 +1,5 @@
 import { getRouteApi } from '@tanstack/react-router';
+import { isNull } from 'es-toolkit';
 import { useCallback } from 'react';
 import type { JSX } from 'react';
 import { accentText } from '@/components/accent';
@@ -12,10 +13,10 @@ const routeApi = getRouteApi('/clubs/');
 
 /** The line under a club's rank: its points, or why it has no rank. */
 function clubSummaryLine(entry: ClubIndexEntry, year: number): string {
-    if (entry.rank !== null) {
+    if (!isNull(entry.rank)) {
         return `${formatNumber(entry.points, 1)} pts · ${String(entry.teams)} teams`;
     }
-    if (entry.lastRankedYear === null) {
+    if (isNull(entry.lastRankedYear)) {
         return `not ranked in ${String(year)}`;
     }
     return `last ranked ${String(entry.lastRankedYear)}`;
@@ -72,14 +73,14 @@ export function ClubIndexPage(): JSX.Element {
                                 <span
                                     aria-hidden="true"
                                     className={`mt-1.5 size-2.5 shrink-0 rounded-full ${
-                                        entry.rank === null
+                                        isNull(entry.rank)
                                             ? 'border border-current bg-transparent'
                                             : 'bg-current'
                                     } ${accentText(entry.club.accent)}`}
                                 />
                                 <span
                                     className={`text-base font-semibold ${
-                                        entry.rank === null
+                                        isNull(entry.rank)
                                             ? 'text-ink-muted'
                                             : 'text-ink'
                                     }`}
@@ -89,7 +90,7 @@ export function ClubIndexPage(): JSX.Element {
                             </span>
                             <span className="flex items-baseline gap-4">
                                 <span className="numeric text-2xl font-medium text-ink">
-                                    {entry.rank === null
+                                    {isNull(entry.rank)
                                         ? NO_VALUE
                                         : `#${String(entry.rank)}`}
                                 </span>

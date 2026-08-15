@@ -1,3 +1,4 @@
+import { isNil, isNull, isUndefined } from 'es-toolkit';
 import type { JSX } from 'react';
 import { gapLabel } from '@/components/charts/timeline-slots';
 import type { Coverage } from '@/server/dto/shared.dto';
@@ -44,11 +45,11 @@ export function CoverageNote({
                 WHAT THIS COVERS
             </h2>
             <p className="mt-4 max-w-[64ch] leading-relaxed text-ink-body">
-                {first === undefined || last === undefined
+                {isUndefined(first) || isUndefined(last)
                     ? 'No completed seasons are ranked yet.'
                     : `Rankings span ${String(coverage.rankedYears.length)} completed seasons from ${String(first)} to ${String(last)}.`}
             </p>
-            {gapText !== null && (
+            {!isNull(gapText) && (
                 <p className="mt-3 max-w-[64ch] leading-relaxed text-ink-body">
                     {`No public ladder data was recovered for ${gapText}, so the timeline shows a break there rather than inventing continuity.`}
                 </p>
@@ -80,8 +81,7 @@ export function CoverageNote({
                                     }`}
                                 >
                                     {`${String(season.year)} · ${statusLabel(season.status)}`}
-                                    {season.note === null ||
-                                    season.note === undefined ? null : (
+                                    {isNil(season.note) ? null : (
                                         <span className="sr-only">
                                             {` — ${season.note}`}
                                         </span>

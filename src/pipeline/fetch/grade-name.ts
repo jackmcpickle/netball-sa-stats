@@ -1,3 +1,4 @@
+import { isNull, isUndefined } from 'es-toolkit';
 /**
  * Parses PlayHQ grade display names into (tier, division), per the band
  * table in `src/pipeline/seed/catalogue.ts` (authoritative tier numbering).
@@ -52,11 +53,11 @@ export function parseGradeName(name: string): ParsedGrade {
     const normalised = normalise(name);
     for (const rule of RULES) {
         const match = normalised.match(rule.pattern);
-        if (match !== null) {
+        if (!isNull(match)) {
             const digits = match.groups?.division;
             return {
                 tier: rule.tier,
-                division: digits === undefined ? null : Number(digits),
+                division: isUndefined(digits) ? null : Number(digits),
             };
         }
     }

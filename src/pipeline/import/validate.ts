@@ -1,3 +1,4 @@
+import { isNull, isUndefined } from 'es-toolkit';
 /**
  * Validates parsed CSV rows before anything is written. Reuses the Zod insert
  * schemas from `src/db/validation.ts` for per-row field rules (via a placeholder
@@ -188,7 +189,7 @@ function checkTeamNaturalKeyCollisions(rows: readonly TeamImportRow[]): void {
     for (const [index, row] of rows.entries()) {
         const key = `${row.gradeKey}|${row.playhqId ?? 'null'}`;
         const firstLine = seen.get(key);
-        if (firstLine !== undefined) {
+        if (!isUndefined(firstLine)) {
             throw new ImportValidationError(
                 TEAMS_FILE,
                 line(index),
@@ -211,11 +212,11 @@ function checkTeamNaturalKeyCollisions(rows: readonly TeamImportRow[]): void {
 function checkTeamIdsGloballyUnique(rows: readonly TeamImportRow[]): void {
     const seen = new Map<string, string>();
     for (const [index, row] of rows.entries()) {
-        if (row.playhqId === null) {
+        if (isNull(row.playhqId)) {
             continue;
         }
         const firstGrade = seen.get(row.playhqId);
-        if (firstGrade !== undefined) {
+        if (!isUndefined(firstGrade)) {
             throw new ImportValidationError(
                 TEAMS_FILE,
                 line(index),
@@ -263,7 +264,7 @@ export function validateTeams(
                 row.gradeKey,
             );
         }
-        if (row.playhqId === null) {
+        if (isNull(row.playhqId)) {
             throw new ImportValidationError(
                 TEAMS_FILE,
                 line(index),
@@ -300,7 +301,7 @@ function checkPlayedReconciliation(
 ): PlayedMismatchWarning | null {
     const { played, won, drawn, lost } = row;
     const anyCountMissing =
-        played === null || won === null || drawn === null || lost === null;
+        isNull(played) || isNull(won) || isNull(drawn) || isNull(lost);
     if (anyCountMissing) {
         return null;
     }
@@ -308,7 +309,7 @@ function checkPlayedReconciliation(
         return null;
     }
     const note = playedMismatchNote(played, won, drawn, lost);
-    row.notes = row.notes === null ? note : `${row.notes} ${note}`;
+    row.notes = isNull(row.notes) ? note : `${row.notes} ${note}`;
     return {
         gradeKey: row.gradeKey,
         clubKey: row.clubKey,
@@ -355,7 +356,7 @@ function checkResultRowFields(
                 row.gradeKey,
             );
         }
-        if (row.playhqId === null) {
+        if (isNull(row.playhqId)) {
             throw new ImportValidationError(
                 RESULTS_FILE,
                 line(index),
@@ -378,7 +379,7 @@ function checkGradeLadders(
     const byGrade = new Map<string, TeamSeasonResultImportRow[]>();
     for (const row of rows) {
         const existing = byGrade.get(row.gradeKey);
-        if (existing === undefined) {
+        if (isUndefined(existing)) {
             byGrade.set(row.gradeKey, [row]);
         } else {
             existing.push(row);
@@ -411,7 +412,7 @@ function checkGradeLadders(
             const rowIndex = rows.indexOf(row);
             const key = row.playhqId ?? 'null';
             const firstLine = seenTeamKeys.get(key);
-            if (firstLine !== undefined) {
+            if (!isUndefined(firstLine)) {
                 throw new ImportValidationError(
                     RESULTS_FILE,
                     line(rowIndex),
@@ -423,7 +424,7 @@ function checkGradeLadders(
             seenTeamKeys.set(key, line(rowIndex));
         }
         const grade = gradesByKey.get(gradeKey);
-        if (grade !== undefined && grade.teamCount !== gradeRows.length) {
+        if (!isUndefined(grade) && grade.teamCount !== gradeRows.length) {
             throw new ImportValidationError(
                 RESULTS_FILE,
                 null,
@@ -445,7 +446,7 @@ export function validateResults(
     const playedMismatches: PlayedMismatchWarning[] = [];
     for (const row of rows) {
         const warning = checkPlayedReconciliation(row);
-        if (warning !== null) {
+        if (!isNull(warning)) {
             playedMismatches.push(warning);
         }
     }
@@ -477,7 +478,7 @@ function resolveSide(
     side: 'home' | 'away',
     teamPlayhqIds: ReadonlySet<string>,
 ): string | null {
-    if (playhqId === null) {
+    if (isNull(playhqId)) {
         // Only a bye (one side) or an undecided finals slot may lack a team.
         if (row.status === 'bye' || row.status === 'scheduled') {
             return null;
@@ -503,7 +504,7 @@ function validateGameRow(row: GameImportRow, index: number): void {
             row,
         );
     }
-    const hasScores = row.homeScore !== null && row.awayScore !== null;
+    const hasScores = !isNull(row.homeScore) && !isNull(row.awayScore);
     if (SCORED_STATUSES.has(row.status) && !hasScores) {
         throw new ImportValidationError(
             row.file,
@@ -514,7 +515,7 @@ function validateGameRow(row: GameImportRow, index: number): void {
     }
     if (
         row.status === 'bye' &&
-        (row.homeScore !== null || row.awayScore !== null)
+        (!isNull(row.homeScore) || !isNull(row.awayScore))
     ) {
         throw new ImportValidationError(
             row.file,
@@ -523,7 +524,7 @@ function validateGameRow(row: GameImportRow, index: number): void {
             row,
         );
     }
-    if (row.status === 'forfeit' && row.forfeitingSide === null) {
+    if (row.status === 'forfeit' && isNull(row.forfeitingSide)) {
         throw new ImportValidationError(
             row.file,
             line(index),
@@ -532,7 +533,7 @@ function validateGameRow(row: GameImportRow, index: number): void {
         );
     }
     if (
-        row.forfeitingSide !== null &&
+        !isNull(row.forfeitingSide) &&
         !knownForfeitSides.includes(row.forfeitingSide)
     ) {
         throw new ImportValidationError(
@@ -542,7 +543,7 @@ function validateGameRow(row: GameImportRow, index: number): void {
             row,
         );
     }
-    if (row.homePlayhqId !== null && row.homePlayhqId === row.awayPlayhqId) {
+    if (!isNull(row.homePlayhqId) && row.homePlayhqId === row.awayPlayhqId) {
         throw new ImportValidationError(
             row.file,
             line(index),
@@ -596,7 +597,7 @@ export function validateGames(
         const missing = [
             resolveSide(row, index, row.homePlayhqId, 'home', teamPlayhqIds),
             resolveSide(row, index, row.awayPlayhqId, 'away', teamPlayhqIds),
-        ].filter((id): id is string => id !== null);
+        ].filter((id): id is string => !isNull(id));
         if (missing.length > 0) {
             // A team that appears on no ladder in any grade — it withdrew
             // before completing a game, so there is nothing to resolve and
@@ -623,7 +624,7 @@ export function findTeamCountWarnings(data: ImportData): TeamCountWarning[] {
     >();
     for (const grade of data.grades) {
         const season = seasonByKey.get(grade.seasonKey);
-        if (season === undefined) {
+        if (isUndefined(season)) {
             continue;
         }
         const key = `${season.competitionKey}|${grade.tier}|${grade.division ?? ''}`;
@@ -643,7 +644,7 @@ export function findTeamCountWarnings(data: ImportData): TeamCountWarning[] {
         for (let i = 1; i < entries.length; i += 1) {
             const prev = entries[i - 1];
             const curr = entries[i];
-            if (prev === undefined || curr === undefined) {
+            if (isUndefined(prev) || isUndefined(curr)) {
                 continue;
             }
             const { teamCount: previousTeamCount } = prev.grade;
@@ -690,7 +691,7 @@ export function validateImportData(
     const teamPlayhqIds = new Set(
         data.teams
             .map((team) => team.playhqId)
-            .filter((id): id is string => id !== null),
+            .filter((id): id is string => !isNull(id)),
     );
     const unresolvedTeamWarnings = validateGames(
         data.games,

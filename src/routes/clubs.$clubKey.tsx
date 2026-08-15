@@ -1,5 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { createServerFn } from '@tanstack/react-start';
+import { isNil, isUndefined } from 'es-toolkit';
 import type { JSX } from 'react';
 import { z } from 'zod';
 import { ClubProfilePage } from '@/components/club/club-profile-page';
@@ -68,10 +69,9 @@ export const Route = createFileRoute('/clubs/$clubKey')({
         const profile = loaderData?.profile;
         const establishedYear = profile?.club.establishedYear;
         const name = profile?.club.name ?? 'Club';
-        const description =
-            profile === undefined
-                ? `Championship record, ladder finishes and strength trend for ${name} in South Australian netball.`
-                : describeClub(profile);
+        const description = isUndefined(profile)
+            ? `Championship record, ladder finishes and strength trend for ${name} in South Australian netball.`
+            : describeClub(profile);
         return pageHead({
             title: name,
             description,
@@ -85,11 +85,9 @@ export const Route = createFileRoute('/clubs/$clubKey')({
                     // `undefined` members are dropped by `JSON.stringify`, so
                     // an unknown venue or founding year simply omits the key.
                     location: profile?.club.homeVenue ?? undefined,
-                    foundingDate:
-                        establishedYear === null ||
-                        establishedYear === undefined
-                            ? undefined
-                            : String(establishedYear),
+                    foundingDate: isNil(establishedYear)
+                        ? undefined
+                        : String(establishedYear),
                     memberOf: {
                         '@type': 'SportsOrganization',
                         name: 'Netball SA',

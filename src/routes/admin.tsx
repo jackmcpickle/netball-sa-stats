@@ -1,6 +1,7 @@
 import { createFileRoute, Outlet, redirect } from '@tanstack/react-router';
 import { createServerFn } from '@tanstack/react-start';
 import { getCookie, setResponseHeader } from '@tanstack/react-start/server';
+import { isUndefined } from 'es-toolkit';
 import type { JSX } from 'react';
 import { z } from 'zod';
 import { getDb } from '@/db';
@@ -87,7 +88,7 @@ export const loginAdmin = createServerFn({ method: 'POST' })
         const expiresAt = Math.floor(Date.now() / 1000) + SESSION_TTL_SECONDS;
         const value = await signSession(expiresAt, sessionSecret);
         setResponseHeader('Set-Cookie', sessionCookieHeader(value));
-        if (next !== undefined && next.startsWith('/admin')) {
+        if (!isUndefined(next) && next.startsWith('/admin')) {
             throw redirect({ href: next });
         }
         throw redirect({ to: ADMIN_PATH });

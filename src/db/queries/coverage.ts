@@ -1,3 +1,4 @@
+import { isUndefined } from 'es-toolkit';
 import { methodologyBreak, timelineGaps } from '@/db/queries/era-break';
 import type { SeasonRow } from '@/db/queries/seasons';
 import { Coverage as CoverageDomain } from '@/server/domain/coverage';
@@ -61,7 +62,7 @@ export function coverageChangeNote(
 ): CoverageChange | null {
     const years = CoverageDomain.from(rows).years();
     const [firstYear] = years;
-    if (firstYear === undefined) {
+    if (isUndefined(firstYear)) {
         return null;
     }
     const firstAppearance = new Map<string, number>();
@@ -70,7 +71,7 @@ export function coverageChangeNote(
     const nameByKey = new Map<string, string>();
     for (const row of rows) {
         const known = firstAppearance.get(row.competitionKey);
-        if (known === undefined || row.startYear < known) {
+        if (isUndefined(known) || row.startYear < known) {
             firstAppearance.set(row.competitionKey, row.startYear);
         }
         if (!nameByKey.has(row.competitionKey)) {

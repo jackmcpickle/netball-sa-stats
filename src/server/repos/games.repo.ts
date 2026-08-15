@@ -12,6 +12,7 @@ import { and, asc, count, desc, eq, inArray, ne, or, sql } from 'drizzle-orm';
 import type { SQL } from 'drizzle-orm';
 import { alias } from 'drizzle-orm/sqlite-core';
 import type { SQLiteColumn } from 'drizzle-orm/sqlite-core';
+import { isUndefined } from 'es-toolkit';
 import type { Db } from '@/db';
 import { clubs, games, grades, seasons, teams } from '@/db/schema';
 import type { OpponentCount } from '@/server/domain/head-to-head';
@@ -109,15 +110,14 @@ async function fetchFacts(
         .leftJoin(awayClubs, eq(awayClubs.id, awayTeams.clubId))
         .where(where)
         .orderBy(
-            ...(request === undefined
+            ...(isUndefined(request)
                 ? [asc(games.round), asc(games.id)]
                 : orderFor(request)),
         );
 
-    const rows =
-        request === undefined
-            ? await ordered
-            : await ordered.limit(request.limit).offset(request.offset);
+    const rows = isUndefined(request)
+        ? await ordered
+        : await ordered.limit(request.limit).offset(request.offset);
 
     return rows.map(
         (row): GameFact => ({

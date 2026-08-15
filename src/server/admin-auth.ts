@@ -1,3 +1,5 @@
+import { isNull, isUndefined } from 'es-toolkit';
+
 export const ADMIN_COOKIE = 'nod_admin';
 export const SESSION_TTL_SECONDS = 7 * 24 * 60 * 60;
 
@@ -88,7 +90,7 @@ export async function verifySession(
     sessionSecret: string,
     nowEpochSeconds: number,
 ): Promise<boolean> {
-    if (cookieValue === undefined) {
+    if (isUndefined(cookieValue)) {
         return false;
     }
 
@@ -112,7 +114,7 @@ export async function verifySession(
     }
 
     const providedBytes = hexToBytes(providedHex);
-    if (providedBytes === null) {
+    if (isNull(providedBytes)) {
         return false;
     }
 

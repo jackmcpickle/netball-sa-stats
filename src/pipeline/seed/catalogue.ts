@@ -1,3 +1,4 @@
+import { isUndefined } from 'es-toolkit';
 /**
  * The competition catalogue and the grade-weight defaults.
  *
@@ -160,7 +161,7 @@ function round(n: number): number {
 }
 
 function expandBand(band: Band): GradeWeightSeed[] {
-    if (band.divisions === undefined) {
+    if (isUndefined(band.divisions)) {
         return [
             {
                 competitionKey: band.competitionKey,

@@ -1,5 +1,6 @@
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
+import { isNull, isUndefined } from 'es-toolkit';
 import { describe, expect, it } from 'vitest';
 import { extractSquadNumber } from '@/pipeline/fetch/keys';
 import {
@@ -25,7 +26,7 @@ function loadFixture(): GradeLadderResponse {
 describe(mapStandingsToResults, () => {
     const response = loadFixture();
     const { discoverGrade } = response.data;
-    if (discoverGrade === null) {
+    if (isNull(discoverGrade)) {
         throw new Error('fixture has no discoverGrade');
     }
     const standings = flattenStandings(discoverGrade.ladder);
@@ -57,7 +58,7 @@ describe(mapStandingsToResults, () => {
             (standing) => extractSquadNumber(standing.team.name),
         );
         const [contax] = rows;
-        if (contax === undefined) {
+        if (isUndefined(contax)) {
             throw new Error('missing row');
         }
         expect(contax.goals_for).toBe(879);

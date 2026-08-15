@@ -7,6 +7,7 @@
 import { and, asc, count, eq, sql } from 'drizzle-orm';
 import type { SQL } from 'drizzle-orm';
 import type { SQLiteColumn } from 'drizzle-orm/sqlite-core';
+import { isUndefined } from 'es-toolkit';
 import type { Db } from '@/db';
 import {
     clubs,
@@ -73,13 +74,13 @@ function filters(filter: ResultFilter): SQL | undefined {
     if (filter.finalOnly === true) {
         parts.push(sql`${seasons.isFinal} = 1`);
     }
-    if (filter.year !== undefined) {
+    if (!isUndefined(filter.year)) {
         parts.push(eq(seasons.startYear, filter.year));
     }
-    if (filter.gradeKey !== undefined) {
+    if (!isUndefined(filter.gradeKey)) {
         parts.push(eq(grades.gradeKey, filter.gradeKey));
     }
-    if (filter.clubKey !== undefined) {
+    if (!isUndefined(filter.clubKey)) {
         parts.push(eq(clubs.clubKey, filter.clubKey));
     }
     return parts.length > 0 ? and(...parts) : undefined;
@@ -170,7 +171,7 @@ export async function fetchResults(
             ]),
         );
 
-    return page === undefined
+    return isUndefined(page)
         ? await query
         : await query.limit(page.limit).offset(page.offset);
 }

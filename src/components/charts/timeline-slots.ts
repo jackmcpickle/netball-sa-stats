@@ -1,3 +1,4 @@
+import { isUndefined } from 'es-toolkit';
 /**
  * Expand ranked years into chart slots, inserting gap markers where the
  * calendar is missing seasons so a continuous bar/line cannot imply coverage.
@@ -17,12 +18,12 @@ export function timelineSlots(
     const slots: TimelineSlot[] = [];
     for (let i = 0; i < rankedYears.length; i += 1) {
         const year = rankedYears[i];
-        if (year === undefined) {
+        if (isUndefined(year)) {
             continue;
         }
         if (i > 0) {
             const prev = rankedYears[i - 1];
-            if (prev !== undefined && year - prev > 1) {
+            if (!isUndefined(prev) && year - prev > 1) {
                 const missing: number[] = [];
                 for (
                     let missingYear = prev + 1;

@@ -1,5 +1,6 @@
 import { getRouteApi, useRouter } from '@tanstack/react-router';
 import { useServerFn } from '@tanstack/react-start';
+import { isNull, isUndefined } from 'es-toolkit';
 import { useCallback, useState } from 'react';
 import type { JSX } from 'react';
 import { NO_VALUE } from '@/components/format';
@@ -31,15 +32,15 @@ interface RunButtonEvent {
  */
 function formField(form: FormData, name: string): string {
     const value = form.get(name);
-    return value instanceof File || value === null ? '' : value;
+    return value instanceof File || isNull(value) ? '' : value;
 }
 
 function statusStrip(page: AdminPageDto): string {
-    if (page.running && page.runningElapsedLabel !== null) {
+    if (page.running && !isNull(page.runningElapsedLabel)) {
         return `Import in progress · ${page.runningElapsedLabel}`;
     }
     const [latest] = page.runs;
-    if (page.lastStatus !== null && latest !== undefined) {
+    if (!isNull(page.lastStatus) && !isUndefined(latest)) {
         return `Last run: ${latest.startedLabel} · ${page.lastStatus}`;
     }
     return 'No import runs yet';
@@ -53,13 +54,13 @@ function runErrorMessage(kind: RunImportError['kind']): string {
 }
 
 function cellValue(value: number | null): string {
-    return value === null ? NO_VALUE : String(value);
+    return isNull(value) ? NO_VALUE : String(value);
 }
 
 function renderSelectedDetail(
     run: AdminRunDto | undefined,
 ): JSX.Element | null {
-    if (run === undefined) {
+    if (isUndefined(run)) {
         return null;
     }
     return (
@@ -68,7 +69,7 @@ function renderSelectedDetail(
             aria-live="polite"
         >
             <h2 className="mb-3 text-lg font-semibold text-ink">Run detail</h2>
-            {run.errorText === null ? null : (
+            {isNull(run.errorText) ? null : (
                 <p className="text-sm text-fall">{run.errorText}</p>
             )}
             {run.warnings.length > 0 ? (
@@ -78,7 +79,7 @@ function renderSelectedDetail(
                     ))}
                 </ul>
             ) : null}
-            {run.errorText === null && run.warnings.length === 0 ? (
+            {isNull(run.errorText) && run.warnings.length === 0 ? (
                 <p className="text-sm text-ink-muted">
                     No errors or warnings for this run.
                 </p>
@@ -151,7 +152,7 @@ export function AdminPage(): JSX.Element {
 
     const onSelectRun = useCallback((event: RunButtonEvent) => {
         const raw = event.currentTarget.dataset.runId;
-        if (raw === undefined) {
+        if (isUndefined(raw)) {
             return;
         }
         setSelectedId(Number(raw));
@@ -235,7 +236,7 @@ export function AdminPage(): JSX.Element {
                         />
                     </label>
                 </details>
-                {runError === null ? null : (
+                {isNull(runError) ? null : (
                     <p className="text-sm text-fall">{runError}</p>
                 )}
             </form>

@@ -1,3 +1,4 @@
+import { isUndefined } from 'es-toolkit';
 /**
  * The domain object for "what years/seasons does the site hold data for".
  * `coveredYears`/`rankedYears` used to live as free functions in
@@ -53,7 +54,7 @@ export class Coverage {
     /** The most recent ranked year, or `no-ranked-seasons` instead of throwing. */
     public latestRankedYear(): Result<number, DomainError> {
         const year = this.rankedYears().at(-1);
-        return year === undefined
+        return isUndefined(year)
             ? err({ kind: 'no-ranked-seasons' })
             : ok(year);
     }
@@ -68,7 +69,7 @@ export class Coverage {
      */
     public resolveYear(requested?: number): number | undefined {
         const years = this.years();
-        if (requested !== undefined && years.includes(requested)) {
+        if (!isUndefined(requested) && years.includes(requested)) {
             return requested;
         }
         return years.at(-1);

@@ -1,3 +1,4 @@
+import { isNull, isUndefined } from 'es-toolkit';
 /**
  * Replaces `src/server/loaders/ladders.ts`.
  */
@@ -25,7 +26,7 @@ export function createLaddersService(repos: Repos): LaddersService {
         ): Promise<Result<LaddersPageDto, DomainError>> {
             const coverage = await repos.seasons.coverage();
             const year = coverage.resolveYear(params.year);
-            if (year === undefined) {
+            if (isUndefined(year)) {
                 return ok({
                     years: coverage.years(),
                     year: null,
@@ -35,12 +36,12 @@ export function createLaddersService(repos: Repos): LaddersService {
             }
             const grades = await repos.grades.forYear(year);
             const gradeKey =
-                params.grade !== undefined &&
+                !isUndefined(params.grade) &&
                 grades.some((grade) => grade.key === params.grade)
                     ? params.grade
                     : grades[0]?.key;
 
-            if (gradeKey === undefined) {
+            if (isUndefined(gradeKey)) {
                 return ok({
                     years: coverage.years(),
                     year,
@@ -78,7 +79,7 @@ export function createLaddersService(repos: Repos): LaddersService {
                 },
             );
 
-            if (grade === null) {
+            if (isNull(grade)) {
                 return ok({
                     years: coverage.years(),
                     year,

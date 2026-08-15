@@ -1,3 +1,4 @@
+import { isNull } from 'es-toolkit';
 /**
  * Maps a request URL to the markdown twin of the page it names. Returns null
  * when the path has no markdown form, which is the signal to fall through to
@@ -31,7 +32,7 @@ export function normalisePath(pathname: string): string {
 
 function intParam(params: URLSearchParams, key: string): number | undefined {
     const raw = params.get(key);
-    if (raw === null || raw.trim() === '') {
+    if (isNull(raw) || raw.trim() === '') {
         return undefined;
     }
     const value = Number(raw);
@@ -40,7 +41,7 @@ function intParam(params: URLSearchParams, key: string): number | undefined {
 
 function stringParam(params: URLSearchParams, key: string): string | undefined {
     const raw = params.get(key);
-    return raw === null || raw === '' ? undefined : raw;
+    return isNull(raw) || raw === '' ? undefined : raw;
 }
 
 function dirParam(params: URLSearchParams): 'asc' | 'desc' | undefined {
@@ -75,7 +76,7 @@ function render<T>(
     to: (value: T) => string,
 ): string | null {
     const value = unwrap(result);
-    return value === null ? null : to(value);
+    return isNull(value) ? null : to(value);
 }
 
 export async function renderMarkdown(db: Db, url: URL): Promise<string | null> {

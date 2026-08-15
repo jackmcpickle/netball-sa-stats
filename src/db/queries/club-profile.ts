@@ -1,3 +1,4 @@
+import { isNull } from 'es-toolkit';
 import type { Db } from '@/db';
 import { buildCoverage, fetchSeasons } from '@/db/queries/coverage';
 import type { TableSpec } from '@/db/queries/pagination';
@@ -33,7 +34,7 @@ function careerRecord(rows: readonly ResultRow[]): CareerRecord {
     let games = 0;
     let hasRecord = false;
     for (const row of rows) {
-        if (row.won === null && row.lost === null && row.drawn === null) {
+        if (isNull(row.won) && isNull(row.lost) && isNull(row.drawn)) {
             continue;
         }
         hasRecord = true;
@@ -83,7 +84,7 @@ function betterRank(
     season: ClubSeasonPoints,
     bestSoFar: ClubSeasonPoints | null,
 ): boolean {
-    if (bestSoFar === null) {
+    if (isNull(bestSoFar)) {
         return true;
     }
     return (season.rank ?? Infinity) < (bestSoFar.rank ?? Infinity);
@@ -113,7 +114,7 @@ export async function fetchClubProfile(
         clubKey,
     );
 
-    const rankedSeasons = seasons.filter((season) => season.rank !== null);
+    const rankedSeasons = seasons.filter((season) => !isNull(season.rank));
     let best: ClubSeasonPoints | null = null;
     for (const season of rankedSeasons) {
         if (betterRank(season, best)) {

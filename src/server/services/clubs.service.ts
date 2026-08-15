@@ -1,3 +1,4 @@
+import { isUndefined } from 'es-toolkit';
 /**
  * Replaces `src/server/loaders/clubs-index.ts` and
  * `src/server/loaders/club-profile.ts` — both pages are about clubs, so one
@@ -27,7 +28,7 @@ function lastRankedYears(
     for (const season of history) {
         for (const row of season.rows) {
             const seen = latest.get(row.club.key);
-            if (seen === undefined || season.year > seen) {
+            if (isUndefined(seen) || season.year > seen) {
                 latest.set(row.club.key, season.year);
             }
         }
@@ -134,7 +135,7 @@ export function createClubsService(repos: Repos): ClubsService {
                         const club = byKey.get(count.clubKey);
                         // A counted opponent with no club row would be a
                         // broken link, so it is dropped rather than faked.
-                        return club === undefined
+                        return isUndefined(club)
                             ? []
                             : [{ club, played: count.played }];
                     }),

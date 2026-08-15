@@ -1,4 +1,5 @@
 import { Select } from '@base-ui/react/select';
+import { isNull } from 'es-toolkit';
 import type { JSX, ReactNode } from 'react';
 
 export interface SelectOption<Value extends string | number> {
@@ -72,7 +73,7 @@ export function FieldSelect<Value extends string | number>({
     // Base UI allows clearing to null; this select is always populated, so a
     // null is treated as "no change" rather than pushed at the caller.
     const handleChange = (next: Value | null): void => {
-        if (next !== null) {
+        if (!isNull(next)) {
             onValueChange(next);
         }
     };

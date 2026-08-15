@@ -1,3 +1,4 @@
+import { isNull } from 'es-toolkit';
 /**
  * Markdown twins of the HTML pages. An agent that sends
  * `Accept: text/markdown`, or asks for `/ladders.md`, gets these instead of a
@@ -92,7 +93,7 @@ export function renderRankings(data: RankingsPageDto): string {
         row.club.name,
         row.points,
         row.teams,
-        row.winPercentage === null ? null : `${row.winPercentage.toFixed(1)}%`,
+        isNull(row.winPercentage) ? null : `${row.winPercentage.toFixed(1)}%`,
         row.minorPremierships,
         row.previousRank,
     ]);
@@ -136,40 +137,26 @@ export function renderRankings(data: RankingsPageDto): string {
 
 export function renderLadders(data: LaddersPageDto): string {
     const { ladder } = data;
-    const body =
-        ladder === null
-            ? '_No ladder is available for this season and grade._'
-            : section(
-                  `## ${ladder.grade.name} — ${ladder.grade.year} (${ladder.grade.competition.name}, ${ladder.grade.teamCount} teams)`,
-                  table(
-                      [
-                          'Pos',
-                          'Team',
-                          'P',
-                          'W',
-                          'L',
-                          'D',
-                          'GF',
-                          'GA',
-                          '%',
-                          'Pts',
-                      ],
-                      ladder.rows.map((row) => [
-                          row.position,
-                          row.displayName,
-                          row.played,
-                          row.won,
-                          row.lost,
-                          row.drawn,
-                          row.goalsFor,
-                          row.goalsAgainst,
-                          row.percentage === null
-                              ? null
-                              : row.percentage.toFixed(1),
-                          row.points,
-                      ]),
-                  ),
-              );
+    const body = isNull(ladder)
+        ? '_No ladder is available for this season and grade._'
+        : section(
+              `## ${ladder.grade.name} — ${ladder.grade.year} (${ladder.grade.competition.name}, ${ladder.grade.teamCount} teams)`,
+              table(
+                  ['Pos', 'Team', 'P', 'W', 'L', 'D', 'GF', 'GA', '%', 'Pts'],
+                  ladder.rows.map((row) => [
+                      row.position,
+                      row.displayName,
+                      row.played,
+                      row.won,
+                      row.lost,
+                      row.drawn,
+                      row.goalsFor,
+                      row.goalsAgainst,
+                      isNull(row.percentage) ? null : row.percentage.toFixed(1),
+                      row.points,
+                  ]),
+              ),
+          );
     return [
         header({
             title: 'Ladders',
@@ -193,25 +180,24 @@ export function renderLadders(data: LaddersPageDto): string {
 
 export function renderResults(data: ResultsPageDto): string {
     const { fixtures } = data;
-    const body =
-        fixtures === null
-            ? '_No fixtures are available for this season and grade._'
-            : section(
-                  `## ${fixtures.grade.name} — ${fixtures.grade.year} (${fixtures.grade.competition.name})`,
-                  table(
-                      ['Round', 'Home', 'Score', 'Away', 'Margin', 'Status'],
-                      fixtures.rows.map((row) => [
-                          row.roundName ?? row.round,
-                          row.homeTeamName,
-                          row.homeScore === null || row.awayScore === null
-                              ? null
-                              : `${row.homeScore}–${row.awayScore}`,
-                          row.awayTeamName,
-                          row.margin,
-                          row.status,
-                      ]),
-                  ),
-              );
+    const body = isNull(fixtures)
+        ? '_No fixtures are available for this season and grade._'
+        : section(
+              `## ${fixtures.grade.name} — ${fixtures.grade.year} (${fixtures.grade.competition.name})`,
+              table(
+                  ['Round', 'Home', 'Score', 'Away', 'Margin', 'Status'],
+                  fixtures.rows.map((row) => [
+                      row.roundName ?? row.round,
+                      row.homeTeamName,
+                      isNull(row.homeScore) || isNull(row.awayScore)
+                          ? null
+                          : `${row.homeScore}–${row.awayScore}`,
+                      row.awayTeamName,
+                      row.margin,
+                      row.status,
+                  ]),
+              ),
+          );
     return [
         header({
             title: 'Results',
@@ -300,7 +286,7 @@ export function renderClubProfile(data: ClubProfilePageDto): string {
                     ['Current rank', profile.currentRank],
                     [
                         'Best rank',
-                        profile.bestRank === null
+                        isNull(profile.bestRank)
                             ? null
                             : `${profile.bestRank} (${profile.bestRankYear ?? '—'})`,
                     ],
@@ -308,7 +294,7 @@ export function renderClubProfile(data: ClubProfilePageDto): string {
                     ['Minor premierships', profile.minorPremierships],
                     [
                         'Win percentage (2022+)',
-                        profile.winPercentage === null
+                        isNull(profile.winPercentage)
                             ? null
                             : `${profile.winPercentage.toFixed(1)}%`,
                     ],
@@ -346,7 +332,7 @@ export function renderHeadToHead(data: HeadToHeadPageDto): string {
     const { a, b, h2h } = data;
     // Records are always from A's perspective, so B's column is the mirror.
     const body =
-        a === null || b === null || h2h === null
+        isNull(a) || isNull(b) || isNull(h2h)
             ? '_Pick two clubs with `?a=CLUB_KEY&b=CLUB_KEY`. Club keys are listed below._'
             : section(
                   `## ${a.name} vs ${b.name}`,
@@ -371,7 +357,7 @@ export function renderHeadToHead(data: HeadToHeadPageDto): string {
                           meeting.year,
                           meeting.gradeName,
                           meeting.roundName ?? meeting.round,
-                          meeting.scoreA === null || meeting.scoreB === null
+                          isNull(meeting.scoreA) || isNull(meeting.scoreB)
                               ? null
                               : `${meeting.scoreA}–${meeting.scoreB}`,
                           meeting.result,
@@ -417,7 +403,7 @@ export function renderMethod(data: MethodPageDto): string {
             'Seasons still being played are excluded: a mid-season ladder is not a finish.',
         ),
         '',
-        data.updatedAt === null
+        isNull(data.updatedAt)
             ? ''
             : `_Data last updated ${new Date(data.updatedAt * 1000).toISOString().slice(0, 10)}._`,
         '',

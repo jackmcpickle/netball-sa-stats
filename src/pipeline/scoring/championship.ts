@@ -1,3 +1,4 @@
+import { isNull } from 'es-toolkit';
 /**
  * The championship formula, and nothing else.
  *
@@ -80,7 +81,7 @@ function accumulate(totals: Map<string, Accumulator>, row: ScoringRow): void {
     const current = totals.get(row.clubKey) ?? emptyAccumulator();
     current.points += teamPoints(row);
     current.teams += 1;
-    if (row.won !== null || row.lost !== null || row.drawn !== null) {
+    if (!isNull(row.won) || !isNull(row.lost) || !isNull(row.drawn)) {
         current.hasRecord = true;
         current.won += row.won ?? 0;
         current.games += (row.won ?? 0) + (row.lost ?? 0) + (row.drawn ?? 0);
@@ -145,7 +146,7 @@ export function rankClubs(
     let rank = 0;
     let previousPoints: number | null = null;
     return ordered.map((entry, index) => {
-        if (previousPoints === null || entry.points !== previousPoints) {
+        if (isNull(previousPoints) || entry.points !== previousPoints) {
             rank = index + 1;
             previousPoints = entry.points;
         }

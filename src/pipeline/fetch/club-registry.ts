@@ -1,3 +1,4 @@
+import { isNull, isUndefined } from 'es-toolkit';
 /**
  * Club identity + curated club_aliases. `club_key` is assigned once, on
  * first sight of a `playhq_id`, and never changed on re-run. Existing
@@ -45,7 +46,7 @@ export function dedupeAliasesByText(
     const bestByAlias = new Map<string, ClubAliasRow>();
     for (const row of rows) {
         const current = bestByAlias.get(row.alias_text);
-        if (current === undefined) {
+        if (isUndefined(current)) {
             bestByAlias.set(row.alias_text, row);
             continue;
         }
@@ -77,7 +78,7 @@ export class ClubRegistry {
         );
         this.byPlayhqId = new Map(
             existingClubs.flatMap((club) =>
-                club.playhq_id === null
+                isNull(club.playhq_id)
                     ? []
                     : [[club.playhq_id, club.club_key] as const],
             ),
@@ -93,7 +94,7 @@ export class ClubRegistry {
 
     public resolve(organisationId: string, organisationName: string): string {
         const existing = this.byPlayhqId.get(organisationId);
-        if (existing !== undefined) {
+        if (!isUndefined(existing)) {
             // club_key/name stay curated and untouched, but a changed PlayHQ
             // display name is still worth recording as a new alias.
             this.addAlias(existing, organisationName, 'playhq');

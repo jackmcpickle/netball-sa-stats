@@ -1,4 +1,5 @@
 import { Combobox } from '@base-ui/react/combobox';
+import { isNull } from 'es-toolkit';
 import { useCallback, useMemo, useState } from 'react';
 import type { JSX, ReactNode } from 'react';
 import { filterOptions, matchesQuery } from '@/components/ui/option-filter';
@@ -97,7 +98,7 @@ export function SearchableSelect<Value extends string | number>({
         (next: SelectOption<Value> | null): void => {
             // Base UI allows clearing to null; this select is always populated,
             // so a null is treated as "no change" rather than pushed at the caller.
-            if (next !== null) {
+            if (!isNull(next)) {
                 onValueChange(next.value);
             }
         },

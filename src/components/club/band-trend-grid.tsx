@@ -1,3 +1,4 @@
+import { isNull } from 'es-toolkit';
 import type { JSX } from 'react';
 import { accentText } from '@/components/accent';
 import { bandX, linePath, round } from '@/components/charts/scale';
@@ -28,7 +29,7 @@ function strengthY(strength: number): number {
 }
 
 function formatStrength(strength: number | null): string {
-    return strength === null ? NO_VALUE : strength.toFixed(3);
+    return isNull(strength) ? NO_VALUE : strength.toFixed(3);
 }
 
 /** Direction word for a change figure; exact zero reads as "Level". */
@@ -44,7 +45,7 @@ function changeDirection(change: number): string {
 
 /** The trailing sentence of a band caption: how the band has moved. */
 function changeSentence(band: BandSummary): string {
-    if (band.change === null) {
+    if (isNull(band.change)) {
         return 'One measured season.';
     }
     const direction = changeDirection(band.change);

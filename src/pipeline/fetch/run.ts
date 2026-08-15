@@ -6,6 +6,7 @@
  */
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
+import { isUndefined } from 'es-toolkit';
 import { parseCsv, toCsv } from '@/pipeline/csv';
 import type { CsvValue } from '@/pipeline/csv';
 import { createFsStore } from '@/pipeline/fetch/capture-store';
@@ -113,7 +114,7 @@ export function archiveRowsToKeep(
             return true;
         }
         return (
-            fetchedSeasonKeys !== undefined &&
+            !isUndefined(fetchedSeasonKeys) &&
             !fetchedSeasonKeys.has(row.season_key)
         );
     });

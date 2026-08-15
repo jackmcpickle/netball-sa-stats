@@ -1,4 +1,5 @@
 import { getRouteApi } from '@tanstack/react-router';
+import { isNull } from 'es-toolkit';
 import type { JSX, ReactNode } from 'react';
 import { useCallback, useMemo } from 'react';
 import { accentText } from '@/components/accent';
@@ -16,7 +17,7 @@ import type { LadderRow } from '@/server/dto/ladders.dto';
 const routeApi = getRouteApi('/ladders');
 
 function emptyStateMessage(year: number | null): string {
-    return year === null
+    return isNull(year)
         ? 'No seasons are recorded yet.'
         : `No grades are recorded for ${String(year)}.`;
 }
@@ -38,7 +39,7 @@ function renderTeamCell(row: LadderRow): ReactNode {
             >
                 {row.displayName}
             </ClubLink>
-            {row.notes !== null && <NoteMarker note={row.notes} />}
+            {!isNull(row.notes) && <NoteMarker note={row.notes} />}
         </span>
     );
 }

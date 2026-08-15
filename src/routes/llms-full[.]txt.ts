@@ -1,4 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router';
+import { isNull } from 'es-toolkit';
 import { getDb } from '@/db';
 import { llmsFullTxt } from '@/seo/agent-files';
 import { MARKDOWN_PATHS, renderMarkdown } from '@/seo/markdown/resolve';
@@ -19,7 +20,7 @@ export const Route = createFileRoute('/llms-full.txt')({
                     ),
                 );
                 const documents = rendered.filter(
-                    (document) => document !== null,
+                    (document) => !isNull(document),
                 );
                 return new Response(llmsFullTxt(documents), {
                     headers: {

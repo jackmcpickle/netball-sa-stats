@@ -1,3 +1,4 @@
+import { isNull } from 'es-toolkit';
 /**
  * One-sentence factual summaries built from loaded data. Used for meta
  * descriptions and for the opening line of the markdown twin, so both say the
@@ -39,12 +40,11 @@ export function describeClub(
         years.length === 0
             ? 'no ranked seasons yet'
             : `seasons ${Math.min(...years)}–${Math.max(...years)}`;
-    const rank =
-        profile.currentRank === null
-            ? 'currently unranked'
-            : `ranked ${ordinal(profile.currentRank)} in the latest ranked season`;
+    const rank = isNull(profile.currentRank)
+        ? 'currently unranked'
+        : `ranked ${ordinal(profile.currentRank)} in the latest ranked season`;
     const best =
-        profile.bestRank === null || profile.bestRankYear === null
+        isNull(profile.bestRank) || isNull(profile.bestRankYear)
             ? ''
             : `, best finish ${ordinal(profile.bestRank)} in ${profile.bestRankYear}`;
     return `${name} in South Australian netball: ${rank}${best}, ${profile.careerPoints.toLocaleString('en-AU')} career championship points and ${profile.minorPremierships} minor premierships across ${span}.`;

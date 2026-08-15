@@ -1,3 +1,4 @@
+import { isNull } from 'es-toolkit';
 /**
  * The strength formula, and nothing else.
  *
@@ -37,7 +38,7 @@ export function meanStrength(rows: readonly StrengthRow[]): number | null {
     let counted = 0;
     for (const row of rows) {
         const value = normalisedFinish(row.ladderPosition, row.teamCount);
-        if (value === null) {
+        if (isNull(value)) {
             continue;
         }
         total += value;

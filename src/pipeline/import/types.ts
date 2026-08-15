@@ -1,3 +1,4 @@
+import { isNull } from 'es-toolkit';
 /** Shared types for stage 2 of the pipeline: CSV -> D1. */
 
 export type RawRow = Record<string, string>;
@@ -117,7 +118,7 @@ export class ImportValidationError extends Error {
         value?: unknown,
     ) {
         super(
-            line === null
+            isNull(line)
                 ? `${file}: ${message}`
                 : `${file}:${line}: ${message}`,
         );

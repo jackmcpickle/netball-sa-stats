@@ -1,3 +1,4 @@
+import { isNull } from 'es-toolkit';
 /**
  * The domain object for "one grade's fixture list". Pure: turns `GameFact`s
  * into display rows, and sorts them for the table.
@@ -21,7 +22,7 @@ export function marginFor(game: {
     if (game.status !== 'final') {
         return null;
     }
-    if (game.homeScore === null || game.awayScore === null) {
+    if (isNull(game.homeScore) || isNull(game.awayScore)) {
         return null;
     }
     return Math.abs(game.homeScore - game.awayScore);
@@ -43,7 +44,7 @@ export function toResultRows(facts: readonly GameFact[]): readonly ResultRow[] {
             awayScore: fact.awayScore,
             margin: marginFor(fact),
             status: fact.status,
-            canCompare: home !== null && away !== null && home !== away,
+            canCompare: !isNull(home) && !isNull(away) && home !== away,
         };
     });
 }

@@ -1,3 +1,4 @@
+import { isUndefined } from 'es-toolkit';
 /**
  * Worker/CLI-agnostic PlayHQ import job: lock → collect → subset upsert →
  * record. No Workflow class, R2, or live PlayHQ client lives here.
@@ -66,7 +67,7 @@ export interface PlayHqJobInput {
 }
 
 function yearsJsonOf(years: number[] | undefined): string | null {
-    return years === undefined ? null : JSON.stringify(years);
+    return isUndefined(years) ? null : JSON.stringify(years);
 }
 
 function errorMessage(error: unknown): string {
@@ -74,7 +75,7 @@ function errorMessage(error: unknown): string {
 }
 
 function seasonKept(season: SeasonRow, years: number[] | undefined): boolean {
-    if (years !== undefined) {
+    if (!isUndefined(years)) {
         return years.includes(season.start_year);
     }
     return season.status === 'active';

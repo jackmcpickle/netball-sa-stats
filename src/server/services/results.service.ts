@@ -1,3 +1,4 @@
+import { isUndefined } from 'es-toolkit';
 /**
  * Serves `/results`. Season and grade resolution mirrors `ladders.service`
  * deliberately — the two pages share a mental model, and a `/ladders` URL
@@ -24,7 +25,7 @@ export function createResultsService(repos: Repos): ResultsService {
         ): Promise<Result<ResultsPageDto, DomainError>> {
             const coverage = await repos.seasons.coverage();
             const year = coverage.resolveYear(params.year);
-            if (year === undefined) {
+            if (isUndefined(year)) {
                 return ok({
                     years: coverage.years(),
                     year: null,
@@ -36,7 +37,7 @@ export function createResultsService(repos: Repos): ResultsService {
             const grades = await repos.grades.forYear(year);
             const grade =
                 grades.find((entry) => entry.key === params.grade) ?? grades[0];
-            if (grade === undefined) {
+            if (isUndefined(grade)) {
                 return ok({
                     years: coverage.years(),
                     year,

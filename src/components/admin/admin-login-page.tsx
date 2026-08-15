@@ -1,5 +1,6 @@
 import { getRouteApi } from '@tanstack/react-router';
 import { useServerFn } from '@tanstack/react-start';
+import { isNull, isUndefined } from 'es-toolkit';
 import { useCallback } from 'react';
 import type { JSX } from 'react';
 import { Eyebrow, PageShell, PageTitle } from '@/components/ui/layout';
@@ -23,7 +24,7 @@ interface FormSubmitEvent {
  */
 function formField(form: FormData, name: string): string {
     const value = form.get(name);
-    return value instanceof File || value === null ? '' : value;
+    return value instanceof File || isNull(value) ? '' : value;
 }
 
 export function AdminLoginPage(): JSX.Element {
@@ -56,7 +57,7 @@ export function AdminLoginPage(): JSX.Element {
                 className="flex max-w-sm flex-col gap-5"
                 onSubmit={handleSubmit}
             >
-                {next !== undefined && next !== '' ? (
+                {!isUndefined(next) && next !== '' ? (
                     <input
                         type="hidden"
                         name="next"
