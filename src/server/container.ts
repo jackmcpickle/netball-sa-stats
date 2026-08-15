@@ -31,6 +31,7 @@ export interface Repos {
     readonly grades: ReturnType<typeof createGradesRepo>;
     readonly weights: ReturnType<typeof createWeightsRepo>;
     readonly games: ReturnType<typeof createGamesRepo>;
+    readonly importRuns: ReturnType<typeof createImportRunsRepo>;
 }
 
 function createRepos(db: Db): Repos {
@@ -41,6 +42,7 @@ function createRepos(db: Db): Repos {
         grades: createGradesRepo(db),
         weights: createWeightsRepo(db),
         games: createGamesRepo(db),
+        importRuns: createImportRunsRepo(db),
     };
 }
 

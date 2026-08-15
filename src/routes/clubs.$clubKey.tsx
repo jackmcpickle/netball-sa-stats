@@ -6,7 +6,12 @@ import { ClubProfilePage } from '@/components/club/club-profile-page';
 import { PageShell } from '@/components/ui/layout';
 import { getDb } from '@/db';
 import { tableSearchSchema } from '@/routes/-table-params';
+import { describeClub } from '@/seo/descriptions';
+import { pageHead } from '@/seo/head';
+import { absoluteUrl } from '@/seo/site';
+import { breadcrumbSchema } from '@/seo/structured-data';
 import { createServices, resolvePageResult } from '@/server/container';
+import type { ClubProfilePageDto } from '@/server/dto/club-profile.dto';
 
 export type { ClubProfilePageDto as ClubProfileData } from '@/server/dto/club-profile.dto';
 
@@ -40,6 +45,58 @@ function ClubNotFound(): JSX.Element {
 }
 
 export const Route = createFileRoute('/clubs/$clubKey')({
+    // `loaderData` is annotated rather than inferred: reading it inside
+    // `head()` otherwise feeds the route's own loader type back into itself,
+    // and the whole route collapses to `undefined`.
+    head: ({
+        loaderData,
+        params,
+    }: {
+        loaderData?: ClubProfilePageDto;
+        params: { clubKey: string };
+    }) => {
+        const path = `/clubs/${params.clubKey}`;
+        const profile = loaderData?.profile;
+        const name = profile?.club.name ?? 'Club';
+        const description =
+            profile === undefined
+                ? `Championship record, ladder finishes and strength trend for ${name} in South Australian netball.`
+                : describeClub(profile);
+        return pageHead({
+            title: name,
+            description,
+            path,
+            schema: [
+                {
+                    '@type': 'SportsTeam',
+                    name,
+                    sport: 'Netball',
+                    url: absoluteUrl(path),
+                    ...(profile?.club.homeVenue === null ||
+                    profile?.club.homeVenue === undefined
+                        ? {}
+                        : { location: profile.club.homeVenue }),
+                    ...(profile?.club.establishedYear === null ||
+                    profile?.club.establishedYear === undefined
+                        ? {}
+                        : {
+                              foundingDate: String(
+                                  profile.club.establishedYear,
+                              ),
+                          }),
+                    memberOf: {
+                        '@type': 'SportsOrganization',
+                        name: 'Netball SA',
+                    },
+                },
+                breadcrumbSchema([
+                    { name: 'Home', path: '/' },
+                    { name: 'Clubs', path: '/clubs' },
+                    { name, path },
+                ]),
+            ],
+        });
+    },
     validateSearch: tableSearchSchema,
     loaderDeps: ({ search }) => ({
         sort: search.sort,

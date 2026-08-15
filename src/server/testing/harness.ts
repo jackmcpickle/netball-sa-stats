@@ -44,18 +44,22 @@ export function createTestDb(): Db {
                 stmt.run(...(params as SQLInputValue[]));
                 return { rows: [] };
             }
+            // Arrays, not objects: drizzle maps sqlite-proxy rows by
+            // position, and a joined query selecting `name` from two tables
+            // collapses to one key in an object row — which silently shifts
+            // every column after it.
+            stmt.setReturnArrays(true);
             if (method === 'get') {
                 const row = stmt.get(...(params as SQLInputValue[]));
                 if (!row) {
                     return { rows: undefined as unknown as unknown[] };
                 }
-                return {
-                    rows: Object.values(row as Record<string, unknown>),
-                };
+                return { rows: row as unknown as unknown[] };
             }
-            const raw = stmt.all(...(params as SQLInputValue[]));
             return {
-                rows: raw.map((row) => Object.values(row)),
+                rows: stmt.all(
+                    ...(params as SQLInputValue[]),
+                ) as unknown as unknown[][],
             };
         },
         { schema, casing: 'snake_case' },

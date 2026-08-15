@@ -8,6 +8,8 @@ import {
     parseOptionalIntParam,
 } from '@/routes/-search-params';
 import { tableSearchDeps, tableSearchSchema } from '@/routes/-table-params';
+import { pageHead } from '@/seo/head';
+import { breadcrumbSchema } from '@/seo/structured-data';
 import { createServices, resolvePageResult } from '@/server/container';
 
 export type {
@@ -51,7 +53,22 @@ const loadHeadToHead = createServerFn({ method: 'GET' })
         );
     });
 
+const DESCRIPTION =
+    'Head-to-head records between South Australian netball clubs: every meeting since 2025, by grade band, with wins, losses and margins for both sides.';
+
 export const Route = createFileRoute('/head-to-head')({
+    head: () =>
+        pageHead({
+            title: 'Head to head',
+            description: DESCRIPTION,
+            path: '/head-to-head',
+            schema: [
+                breadcrumbSchema([
+                    { name: 'Home', path: '/' },
+                    { name: 'Head to head', path: '/head-to-head' },
+                ]),
+            ],
+        }),
     validateSearch: searchSchema,
     loaderDeps: ({ search }) => ({
         a: search.a,

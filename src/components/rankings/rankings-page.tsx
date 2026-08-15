@@ -3,10 +3,12 @@ import { useCallback, useMemo } from 'react';
 import type { JSX } from 'react';
 import { RankMovementChart } from '@/components/charts/rank-movement-chart';
 import { CoverageNote } from '@/components/coverage-note';
+import { FaqSection } from '@/components/faq-section';
 import { ChampionshipTable } from '@/components/rankings/championship-table';
 import { Eyebrow, PageShell, Panel, StatFigure } from '@/components/ui/layout';
 import { FieldSelect } from '@/components/ui/select';
 import type { TableState } from '@/db/queries/pagination';
+import { HOME_FAQ } from '@/seo/faq';
 
 const routeApi = getRouteApi('/');
 
@@ -157,6 +159,8 @@ export function RankingsPage(): JSX.Element {
                     </p>
                 </Panel>
             )}
+
+            <FaqSection entries={HOME_FAQ} />
         </PageShell>
     );
 }

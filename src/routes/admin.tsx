@@ -5,6 +5,7 @@ import type { JSX } from 'react';
 import { z } from 'zod';
 import { getDb } from '@/db';
 import { startPlayHqImport } from '@/pipeline/import/start-import';
+import { pageHead } from '@/seo/head';
 import {
     ADMIN_COOKIE,
     clearSessionCookieHeader,
@@ -94,14 +95,18 @@ function AdminLayout(): JSX.Element {
 }
 
 export const Route = createFileRoute('/admin')({
+    head: () =>
+        pageHead({
+            title: 'Admin',
+            description: 'Import controls for the netball dataset.',
+            path: '/admin',
+            noIndex: true,
+        }),
     beforeLoad: async ({ location }) => {
         if (location.pathname === '/admin/login') {
             return;
         }
         await ensureAdminSession({ data: { next: location.pathname } });
     },
-    head: () => ({
-        meta: [{ name: 'robots', content: 'noindex, nofollow' }],
-    }),
     component: AdminLayout,
 });

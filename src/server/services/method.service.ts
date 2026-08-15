@@ -12,11 +12,17 @@ export function createMethodService(repos: Repos): {
 } {
     return {
         async getPage(): Promise<Result<MethodPageDto, DomainError>> {
-            const [coverage, weights] = await Promise.all([
+            const [coverage, weights, updatedAt] = await Promise.all([
                 repos.seasons.fullCoverage(),
                 repos.weights.all(),
+                repos.importRuns.lastSuccessAt(),
             ]);
-            return ok({ coverage, weights, isSampleData: IS_SAMPLE_DATA });
+            return ok({
+                coverage,
+                weights,
+                updatedAt,
+                isSampleData: IS_SAMPLE_DATA,
+            });
         },
     };
 }

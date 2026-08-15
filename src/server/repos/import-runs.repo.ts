@@ -40,6 +40,7 @@ function toImportRun(row: typeof importRuns.$inferSelect): ImportRun {
 
 export function createImportRunsRepo(db: Db): {
     list(): Promise<ImportRun[]>;
+    lastSuccessAt(): Promise<number | null>;
     hasRunning(): Promise<boolean>;
     hasRunningSince(epochSeconds: number): Promise<boolean>;
     runningOlderThan(epochSeconds: number): Promise<ImportRun[]>;
@@ -78,6 +79,20 @@ export function createImportRunsRepo(db: Db): {
                 .from(importRuns)
                 .orderBy(desc(importRuns.startedAt), desc(importRuns.id));
             return rows.map(toImportRun);
+        },
+
+        /**
+         * When the dataset was last refreshed, for the public "last updated"
+         * line. Only `ok` runs count — a failed import changed nothing.
+         */
+        async lastSuccessAt(): Promise<number | null> {
+            const row = await db
+                .select({ finishedAt: importRuns.finishedAt })
+                .from(importRuns)
+                .where(eq(importRuns.status, 'ok'))
+                .orderBy(desc(importRuns.finishedAt))
+                .get();
+            return row?.finishedAt ?? null;
         },
 
         async hasRunning(): Promise<boolean> {

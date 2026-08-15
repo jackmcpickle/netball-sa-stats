@@ -20,6 +20,7 @@ const NAV: readonly NavItem[] = [
     { to: '/head-to-head', label: 'Head to head' },
     { to: '/results', label: 'Results' },
     { to: '/method', label: 'Method' },
+    { to: '/about', label: 'About' },
 ];
 
 function isActive(pathname: string, to: string): boolean {

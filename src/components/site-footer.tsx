@@ -57,6 +57,18 @@ export function SiteFooter(): JSX.Element {
                     >
                         {'Method'}
                     </Link>
+                    <Link
+                        to="/about"
+                        className="text-sm text-ink-body no-underline hover:underline"
+                    >
+                        {'About'}
+                    </Link>
+                    <a
+                        href="/llms.txt"
+                        className="text-sm text-ink-body no-underline hover:underline"
+                    >
+                        {'llms.txt'}
+                    </a>
                     {/* Named, not linked: neither exists yet. */}
                     <span className="text-sm text-ink-faint">
                         {'CSV export — not yet'}

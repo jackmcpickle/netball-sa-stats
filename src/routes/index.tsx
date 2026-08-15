@@ -5,6 +5,10 @@ import { RankingsPage } from '@/components/rankings/rankings-page';
 import { getDb } from '@/db';
 import { parseOptionalIntParam } from '@/routes/-search-params';
 import { tableSearchSchema } from '@/routes/-table-params';
+import { HOME_FAQ } from '@/seo/faq';
+import { pageHead } from '@/seo/head';
+import { SITE } from '@/seo/site';
+import { datasetSchema, faqSchema } from '@/seo/structured-data';
 import { createServices, resolvePageResult } from '@/server/container';
 
 export type { RankingsPageDto as RankingsData } from '@/server/dto/rankings.dto';
@@ -33,7 +37,25 @@ const loadRankings = createServerFn({ method: 'GET' })
         );
     });
 
+const DESCRIPTION =
+    'Club championship rankings for South Australian netball: every AMND, Premier League and Reserves ladder finish since 2000, weighted by grade and totalled into one score per club per season.';
+
 export const Route = createFileRoute('/')({
+    head: () =>
+        pageHead({
+            title: SITE.name,
+            description: DESCRIPTION,
+            path: '/',
+            schema: [
+                datasetSchema({
+                    name: 'South Australian netball club championship',
+                    description: DESCRIPTION,
+                    path: '/',
+                    temporalCoverage: '2000/..',
+                }),
+                faqSchema(HOME_FAQ),
+            ],
+        }),
     validateSearch: searchSchema,
     loaderDeps: ({ search }) => ({
         season: search.season,

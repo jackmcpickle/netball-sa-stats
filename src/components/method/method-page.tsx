@@ -1,19 +1,40 @@
 import { getRouteApi } from '@tanstack/react-router';
 import type { JSX } from 'react';
 import { CoverageNote } from '@/components/coverage-note';
+import { FaqSection } from '@/components/faq-section';
 import { Eyebrow, PageShell, PageTitle } from '@/components/ui/layout';
 import { Table, TableFrame, Td, Th, Tr } from '@/components/ui/table';
+import { METHOD_FAQ } from '@/seo/faq';
 
 const routeApi = getRouteApi('/method');
 
 export function MethodPage(): JSX.Element {
-    const { coverage, weights, isSampleData } = routeApi.useLoaderData();
+    const { coverage, weights, isSampleData, updatedAt } =
+        routeApi.useLoaderData();
 
     return (
         <PageShell className="py-12 pb-24 sm:py-16">
             <Eyebrow>{'METHOD & DATA'}</Eyebrow>
             <div className="mt-4 mb-10">
                 <PageTitle>{'How the championship score is built'}</PageTitle>
+                {updatedAt !== null && (
+                    <p className="mt-4 text-sm text-ink-muted">
+                        {'Data last updated '}
+                        <time
+                            dateTime={new Date(updatedAt * 1000).toISOString()}
+                        >
+                            {new Date(updatedAt * 1000).toLocaleDateString(
+                                'en-AU',
+                                {
+                                    day: 'numeric',
+                                    month: 'long',
+                                    year: 'numeric',
+                                },
+                            )}
+                        </time>
+                        {'.'}
+                    </p>
+                )}
             </div>
 
             <div className="grid gap-10 lg:grid-cols-[7fr_5fr] lg:gap-12">
@@ -172,6 +193,8 @@ export function MethodPage(): JSX.Element {
             <div className="mt-12">
                 <CoverageNote coverage={coverage} />
             </div>
+
+            <FaqSection entries={METHOD_FAQ} />
         </PageShell>
     );
 }

@@ -5,6 +5,8 @@ import { LaddersPage } from '@/components/ladders/ladders-page';
 import { getDb } from '@/db';
 import { parseOptionalIntParam } from '@/routes/-search-params';
 import { tableSearchDeps, tableSearchSchema } from '@/routes/-table-params';
+import { pageHead } from '@/seo/head';
+import { breadcrumbSchema } from '@/seo/structured-data';
 import { createServices, resolvePageResult } from '@/server/container';
 
 export type { LaddersPageDto as LaddersData } from '@/server/dto/ladders.dto';
@@ -31,7 +33,22 @@ const loadLadders = createServerFn({ method: 'GET' })
         );
     });
 
+const DESCRIPTION =
+    'Full grade ladders for South Australian netball — position, played, won, lost, goals and percentage for every team in every covered grade and season.';
+
 export const Route = createFileRoute('/ladders')({
+    head: () =>
+        pageHead({
+            title: 'Ladders',
+            description: DESCRIPTION,
+            path: '/ladders',
+            schema: [
+                breadcrumbSchema([
+                    { name: 'Home', path: '/' },
+                    { name: 'Ladders', path: '/ladders' },
+                ]),
+            ],
+        }),
     validateSearch: searchSchema,
     loaderDeps: ({ search }) => ({
         year: search.year,
