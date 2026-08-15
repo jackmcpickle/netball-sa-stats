@@ -8,8 +8,9 @@ interface NetballMarkProps {
  * Netball icon by Made by Made from the Noun Project (#711313),
  * CC BY 3.0 — see footer attribution.
  *
- * Monoline ball: outer circle, equator, and two inward-bowing side arcs —
- * matching the Noun Project glyph, colored via `currentColor` (brand blue).
+ * Monoline ball: outer circle plus three inward-bowing panel seams at 120°,
+ * the netball panel pinwheel. (An equator with two side arcs reads as a
+ * basketball.) Colored via `currentColor` (brand blue).
  */
 export function NetballMark({ className }: NetballMarkProps): JSX.Element {
     return (
@@ -31,11 +32,16 @@ export function NetballMark({ className }: NetballMarkProps): JSX.Element {
                     cy="16"
                     r="13.1"
                 />
-                {/* Horizontal equator */}
-                <path d="M2.9 16h26.2" />
-                {/* Side arcs bowing inward toward centre */}
-                <path d="M8.5 4.1c3.85 4.15 3.85 19.5 0 23.8" />
-                <path d="M23.5 4.1c-3.85 4.15-3.85 19.5 0 23.8" />
+                {/* Panel seams: same arc, rotated 120° apart */}
+                <path d="M4.66 9.45Q16 12.55 27.34 9.45" />
+                <path
+                    d="M4.66 9.45Q16 12.55 27.34 9.45"
+                    transform="rotate(120 16 16)"
+                />
+                <path
+                    d="M4.66 9.45Q16 12.55 27.34 9.45"
+                    transform="rotate(240 16 16)"
+                />
             </g>
         </svg>
     );
