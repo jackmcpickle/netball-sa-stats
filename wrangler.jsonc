@@ -6,6 +6,16 @@
     "compatibility_date": "2026-08-07",
     "compatibility_flags": ["nodejs_compat"],
     "main": "src/worker.ts",
+    "routes": [
+        {
+            "pattern": "netballsa.com",
+            "custom_domain": true,
+        },
+        {
+            "pattern": "www.netballsa.com",
+            "custom_domain": true,
+        },
+    ],
     "d1_databases": [
         {
             "binding": "DB",
