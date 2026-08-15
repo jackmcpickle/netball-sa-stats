@@ -6,6 +6,7 @@
  */
 import { uniqueSlug } from '@/pipeline/fetch/keys';
 
+// oxlint-disable-next-line typescript/consistent-type-definitions -- CSV row: interface has no implicit index signature, so it stops assigning to Record<string, CsvValue>
 export type ClubRow = {
     club_key: string;
     name: string;
@@ -14,6 +15,7 @@ export type ClubRow = {
     playhq_id: string | null;
 };
 
+// oxlint-disable-next-line typescript/consistent-type-definitions -- CSV row: interface has no implicit index signature, so it stops assigning to Record<string, CsvValue>
 export type ClubAliasRow = {
     club_key: string;
     alias_text: string;

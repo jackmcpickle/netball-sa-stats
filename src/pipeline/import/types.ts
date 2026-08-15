@@ -2,7 +2,7 @@
 
 export type RawRow = Record<string, string>;
 
-export type SeasonImportRow = {
+export interface SeasonImportRow {
     competitionKey: string;
     seasonKey: string;
     competitionPeriod: string;
@@ -12,23 +12,23 @@ export type SeasonImportRow = {
     isFinal: boolean;
     playhqId: string | null;
     source: string;
-};
+}
 
-export type ClubImportRow = {
+export interface ClubImportRow {
     clubKey: string;
     name: string;
     establishedYear: number | null;
     homeVenue: string | null;
     playhqId: string | null;
-};
+}
 
-export type ClubAliasImportRow = {
+export interface ClubAliasImportRow {
     clubKey: string;
     aliasText: string;
     source: string;
-};
+}
 
-export type GradeImportRow = {
+export interface GradeImportRow {
     seasonKey: string;
     gradeKey: string;
     name: string;
@@ -37,17 +37,17 @@ export type GradeImportRow = {
     teamCount: number;
     ageBand: string | null;
     playhqId: string | null;
-};
+}
 
-export type TeamImportRow = {
+export interface TeamImportRow {
     clubKey: string;
     gradeKey: string;
     displayName: string;
     squadNumber: number | null;
     playhqId: string | null;
-};
+}
 
-export type TeamSeasonResultImportRow = {
+export interface TeamSeasonResultImportRow {
     gradeKey: string;
     clubKey: string;
     squadNumber: number | null;
@@ -72,9 +72,9 @@ export type TeamSeasonResultImportRow = {
     placementBasis: string;
     notes: string | null;
     scrapedAt: number | null;
-};
+}
 
-export type GameImportRow = {
+export interface GameImportRow {
     gradeKey: string;
     playhqId: string;
     round: number | null;
@@ -92,9 +92,9 @@ export type GameImportRow = {
     scrapedAt: number | null;
     /** Which `games-<year>.csv` this row came from, for error messages. */
     file: string;
-};
+}
 
-export type ImportData = {
+export interface ImportData {
     seasons: SeasonImportRow[];
     clubs: ClubImportRow[];
     clubAliases: ClubAliasImportRow[];
@@ -102,7 +102,7 @@ export type ImportData = {
     teams: TeamImportRow[];
     results: TeamSeasonResultImportRow[];
     games: GameImportRow[];
-};
+}
 
 /** Row failed validation: named so the operator can find it in the CSV. */
 export class ImportValidationError extends Error {
@@ -128,12 +128,12 @@ export class ImportValidationError extends Error {
     }
 }
 
-export type TeamCountWarning = {
+export interface TeamCountWarning {
     gradeKey: string;
     previousGradeKey: string;
     teamCount: number;
     previousTeamCount: number;
-};
+}
 
 /**
  * Upstream (PlayHQ) ladder data where `played !== won + drawn + lost`. Not a
@@ -142,7 +142,7 @@ export type TeamCountWarning = {
  * unchanged; this is recorded for visibility (and mirrored into the row's
  * `notes` column) rather than silently dropped or invented.
  */
-export type PlayedMismatchWarning = {
+export interface PlayedMismatchWarning {
     gradeKey: string;
     clubKey: string;
     displayName: string;
@@ -150,7 +150,7 @@ export type PlayedMismatchWarning = {
     won: number;
     drawn: number;
     lost: number;
-};
+}
 
 /**
  * A game referencing a team that appears on no ladder in any grade — it
@@ -158,16 +158,16 @@ export type PlayedMismatchWarning = {
  * an invented team, and reported so a systematic mapping fault (many rows)
  * is distinguishable from the odd withdrawal (one or two).
  */
-export type UnresolvedTeamWarning = {
+export interface UnresolvedTeamWarning {
     file: string;
     line: number;
     gradeKey: string;
     playhqId: string;
     missingTeamIds: string[];
-};
+}
 
 /** Talks to whatever D1 the caller wired up (local wrangler, remote wrangler, in-memory sqlite for tests). */
-export type ImportExecutor = {
+export interface ImportExecutor {
     queryAll: (sql: string) => Promise<Record<string, unknown>[]>;
     batch: (statements: readonly string[]) => Promise<void>;
-};
+}

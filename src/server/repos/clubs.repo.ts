@@ -50,13 +50,13 @@ function clubResultPageFor(request: PageRequest): ResultPage {
     };
 }
 
-export type ClubRow = {
+export interface ClubRow {
     readonly id: number;
     readonly clubKey: string;
     readonly name: string;
     readonly establishedYear: number | null;
     readonly homeVenue: string | null;
-};
+}
 
 export function toClub(row: ClubRow): Club {
     return {
@@ -82,7 +82,7 @@ export async function fetchClubs(db: Db): Promise<readonly Club[]> {
     return rows.map(toClub);
 }
 
-export type ClubsRepo = {
+export interface ClubsRepo {
     readonly all: () => Promise<readonly Club[]>;
     readonly profile: (clubKey: string) => Promise<ClubProfile | null>;
     readonly countResults: (clubKey: string) => Promise<number>;
@@ -90,7 +90,7 @@ export type ClubsRepo = {
         clubKey: string,
         request: PageRequest,
     ) => Promise<readonly ClubGradeResult[]>;
-};
+}
 
 export function createClubsRepo(db: Db): ClubsRepo {
     return {

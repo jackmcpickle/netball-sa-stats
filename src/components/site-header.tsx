@@ -3,10 +3,10 @@ import { useCallback, useEffect, useState } from 'react';
 import type { JSX } from 'react';
 import { NetballMark } from '@/components/netball-mark';
 
-type NavItem = {
+interface NavItem {
     readonly to: string;
     readonly label: string;
-};
+}
 
 /**
  * `Results` and `Head to head` are fixture-backed, and fixtures only cover

@@ -58,11 +58,11 @@ function rankSeries(
     });
 }
 
-export type RankingsService = {
+export interface RankingsService {
     readonly getPage: (
         params: RankingsParams,
     ) => Promise<Result<RankingsPageDto, DomainError>>;
-};
+}
 
 export function createRankingsService(repos: Repos): RankingsService {
     return {

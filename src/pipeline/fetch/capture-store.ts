@@ -2,13 +2,13 @@ import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { capturedAt, recordCapture } from '@/pipeline/fetch/captured-at';
 
-export type CaptureStore = {
+export interface CaptureStore {
     // Brief API: undefined means a cache miss; `unknown` is the stored payload.
     // oxlint-disable-next-line typescript/no-redundant-type-constituents -- explicit miss vs payload
     get: (key: string) => Promise<unknown | undefined>;
     put: (key: string, data: unknown, capturedAtMs: number) => Promise<void>;
     capturedAtMs: (key: string) => Promise<number | undefined>;
-};
+}
 
 export function createMemoryStore(
     seed?: ReadonlyMap<string, { data: unknown; capturedAtMs: number }>,

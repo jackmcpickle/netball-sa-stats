@@ -662,11 +662,11 @@ export function findTeamCountWarnings(data: ImportData): TeamCountWarning[] {
     return warnings;
 }
 
-export type ImportWarnings = {
+export interface ImportWarnings {
     teamCountWarnings: TeamCountWarning[];
     playedMismatchWarnings: PlayedMismatchWarning[];
     unresolvedTeamWarnings: UnresolvedTeamWarning[];
-};
+}
 
 export function validateImportData(
     data: ImportData,

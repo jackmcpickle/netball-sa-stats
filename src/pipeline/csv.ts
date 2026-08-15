@@ -26,12 +26,12 @@ export function toCsv(rows: readonly Record<string, CsvValue>[]): string {
     return `${[headers.join(','), ...lines].join('\n')}\n`;
 }
 
-type ScanState = {
+interface ScanState {
     rows: string[][];
     row: string[];
     field: string;
     inQuotes: boolean;
-};
+}
 
 /** Consumes one character inside a quoted field; returns characters used. */
 function stepQuoted(state: ScanState, char: string, next?: string): number {

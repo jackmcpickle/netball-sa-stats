@@ -10,26 +10,29 @@ import type { ForfeitSide, GameStatus } from '@/db/schema';
  */
 import type { CsvValue } from '@/pipeline/csv';
 
-export type Statistic = { count: number; type: { value: string } };
+export interface Statistic {
+    count: number;
+    type: { value: string };
+}
 
-export type SideResult = {
+export interface SideResult {
     outcome: { name: string; value: string } | null;
     statistics: readonly Statistic[];
     gameOutcomeDescription: string;
-};
+}
 
 /**
  * `home`/`away` are a GraphQL union. A `DiscoverTeam` has an `id`; a
  * `ProvisionalTeam` — a finals slot whose team is not decided yet — has only
  * a name.
  */
-export type FixtureTeam = {
+export interface FixtureTeam {
     id?: string;
     name: string;
     organisation?: { id: string; name: string; type: string } | null;
-};
+}
 
-export type FixtureGame = {
+export interface FixtureGame {
     id: string;
     alias: string | null;
     pool: { id: string; name: string } | null;
@@ -48,9 +51,9 @@ export type FixtureGame = {
         time: string | null;
         court?: unknown;
     } | null;
-};
+}
 
-export type FixtureRound = {
+export interface FixtureRound {
     id: string;
     name: string;
     number: number | null;
@@ -58,7 +61,7 @@ export type FixtureRound = {
     isFinalsRound: boolean;
     byes: readonly FixtureTeam[];
     games: readonly FixtureGame[];
-};
+}
 
 export type GameRow = Record<string, CsvValue> & {
     grade_key: string;
@@ -129,10 +132,10 @@ const UNPLAYED_STATUSES = new Map<string, GameStatus>(
     } satisfies Record<string, GameStatus>),
 );
 
-export type GameClassification = {
+export interface GameClassification {
     readonly status: GameStatus;
     readonly forfeitingSide: ForfeitSide | null;
-};
+}
 
 /**
  * Derives `status` from the outcome enum, in the order forfeit → played →

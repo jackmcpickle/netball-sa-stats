@@ -116,19 +116,19 @@ function toLadderRow(row: ResultRow): LadderRow {
     };
 }
 
-export type LadderPage = {
+export interface LadderPage {
     readonly grade: GradeSummary;
     readonly rows: readonly LadderRow[];
-};
+}
 
-export type GradesRepo = {
+export interface GradesRepo {
     readonly forYear: (year: number) => Promise<readonly GradeSummary[]>;
     readonly countLadder: (gradeKey: string) => Promise<number>;
     readonly ladderPage: (
         gradeKey: string,
         request: PageRequest,
     ) => Promise<Result<LadderPage, DomainError>>;
-};
+}
 
 export function createGradesRepo(db: Db): GradesRepo {
     return {

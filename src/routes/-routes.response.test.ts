@@ -62,13 +62,13 @@ beforeAll(async () => {
     });
 });
 
-type HandlerCtx = {
+interface HandlerCtx {
     readonly request: Request;
-};
+}
 
 type Handler = (ctx: HandlerCtx) => Promise<Response> | Response;
 
-type ServerRouteLike = {
+interface ServerRouteLike {
     readonly options: {
         readonly server?: { readonly handlers?: { readonly GET?: Handler } };
         readonly head?: (ctx: { loaderData?: unknown; params?: unknown }) => {
@@ -76,10 +76,12 @@ type ServerRouteLike = {
             links?: readonly LinkTag[];
         };
     };
-};
+}
 
 /** A route module's `Route` export before this file has checked its shape. */
-type UncheckedRoute = { readonly options?: unknown };
+interface UncheckedRoute {
+    readonly options?: unknown;
+}
 
 /** Narrows a route module's `Route` export to the surface these tests drive. */
 function asRoute(route: UncheckedRoute): ServerRouteLike {

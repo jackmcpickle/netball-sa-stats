@@ -126,10 +126,7 @@ export default defineConfig({
             // objects infer from the order they are written, and object literals
             // containing `await` change evaluation order when sorted.
             'sort-keys': 'off',
-            // Interfaces get no implicit index signature, so converting the row
-            // types breaks assignment to `Record<string, CsvValue>` all through
-            // the CSV pipeline. The repo's `type` style stays.
-            'typescript/consistent-type-definitions': ['error', 'type'],
+            'typescript/consistent-type-definitions': 'error',
             // Measured: 17 findings, 12 files, and every one needs suppressing,
             // so per-file scoping would buy nothing. Eight are explicit
             // `undefined` arguments to *required* parameters (`ok(undefined)`,

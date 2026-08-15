@@ -20,7 +20,7 @@ function windowMean(points: readonly ClubTrendPoint[]): number {
     return total / points.length;
 }
 
-export type BandSummary = {
+export interface BandSummary {
     readonly tier: number;
     readonly label: string;
     readonly points: readonly ClubTrendPoint[];
@@ -29,7 +29,7 @@ export type BandSummary = {
     readonly first: ClubTrendPoint;
     readonly change: number | null;
     readonly windowSize: number;
-};
+}
 
 /**
  * Words the number of seasons averaged into each end of the change figure

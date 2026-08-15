@@ -17,7 +17,7 @@ import {
 } from '@/db/schema';
 import type { GameStatus } from '@/db/schema';
 
-export type ResultSpec = {
+export interface ResultSpec {
     clubKey: string;
     clubName: string;
     displayName: string;
@@ -32,9 +32,9 @@ export type ResultSpec = {
     goalDifference?: number;
     points?: number;
     percentage?: number;
-};
+}
 
-export type GradeSpec = {
+export interface GradeSpec {
     gradeKey: string;
     name: string;
     tier: number;
@@ -42,9 +42,9 @@ export type GradeSpec = {
     teamCount: number;
     ageBand?: string;
     results: ResultSpec[];
-};
+}
 
-export type SeasonSpec = {
+export interface SeasonSpec {
     seasonKey: string;
     startYear: number;
     endYear?: number;
@@ -52,26 +52,26 @@ export type SeasonSpec = {
     label?: string;
     competitionPeriod?: 'winter' | 'summer' | 'annual';
     grades: GradeSpec[];
-};
+}
 
-export type CompetitionSpec = {
+export interface CompetitionSpec {
     key: string;
     name: string;
     seasons: SeasonSpec[];
-};
+}
 
-export type SeedSpec = {
+export interface SeedSpec {
     competitions: CompetitionSpec[];
-};
+}
 
-export type SeedResult = {
+export interface SeedResult {
     competitions: Map<string, number>;
     seasons: Map<string, number>;
     grades: Map<string, number>;
     clubs: Map<string, number>;
     teams: Map<string, number>;
     results: Map<string, number>;
-};
+}
 
 /**
  * Inserts (or reuses, within a single seed() call) a club by key and
@@ -268,7 +268,7 @@ export async function seed(db: Db, spec: SeedSpec): Promise<SeedResult> {
     return result;
 }
 
-export type GameSpec = {
+export interface GameSpec {
     /** `gradeKey` from the seed spec; the game hangs off that grade. */
     gradeKey: string;
     /** Club keys. Null is a real shape — a bye, or an undecided finalist. */
@@ -281,7 +281,7 @@ export type GameSpec = {
     homeScore?: number | null;
     awayScore?: number | null;
     status?: GameStatus;
-};
+}
 
 function teamIdFor(
     result: SeedResult,

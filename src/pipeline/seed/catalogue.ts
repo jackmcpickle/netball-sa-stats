@@ -6,13 +6,13 @@
  * D1 afterwards — scoring reads the table, not this file.
  */
 
-export type CompetitionSeed = {
+export interface CompetitionSeed {
     key: string;
     name: string;
     playhqOrgId: string | null;
     /** False for competitions seeded for shape only, with no data yet. */
     hasData: boolean;
-};
+}
 
 export const COMPETITION_SEEDS: readonly CompetitionSeed[] = [
     {
@@ -48,7 +48,7 @@ export const COMPETITION_SEEDS: readonly CompetitionSeed[] = [
     { key: 'juniors', name: 'Juniors', playhqOrgId: null, hasData: false },
 ];
 
-type Band = {
+interface Band {
     competitionKey: string;
     tier: number;
     label: string;
@@ -58,7 +58,7 @@ type Band = {
     divisions?: number;
     /** Divisions that never existed, e.g. AMND ran C.1–C.4 and C.6 but no C.5. */
     skip?: readonly number[];
-};
+}
 
 /**
  * Ordering notes for the two contentious calls:
@@ -146,13 +146,13 @@ export const BANDS: readonly Band[] = [
     },
 ];
 
-export type GradeWeightSeed = {
+export interface GradeWeightSeed {
     competitionKey: string;
     tier: number;
     division: number | null;
     label: string;
     weight: number;
-};
+}
 
 // Float arithmetic otherwise yields 0.44999999999999996 for B.6.
 function round(n: number): number {

@@ -36,12 +36,12 @@ function strengthY(strength: number, plot: Plot): number {
     return round(plot.y1 - clamped * (plot.y1 - plot.y0), 2);
 }
 
-type TrendChartProps = {
+interface TrendChartProps {
     readonly points: readonly ClubTrendPoint[];
     /** Names the series for assistive tech, e.g. "Matrics, all grades". */
     readonly title: string;
     readonly accent: AccentName;
-};
+}
 
 function buildHits(
     points: readonly ClubTrendPoint[],
@@ -236,7 +236,7 @@ function strengthSeries(
     );
 }
 
-type TrendSvgProps = {
+interface TrendSvgProps {
     readonly points: readonly ClubTrendPoint[];
     readonly years: readonly number[];
     readonly title: string;
@@ -248,7 +248,7 @@ type TrendSvgProps = {
     readonly svgRef: (node: SVGSVGElement | null) => void;
     readonly onPointerMove: (event: ReactPointerEvent<SVGSVGElement>) => void;
     readonly onPointerLeave: () => void;
-};
+}
 
 function renderTrendSvg({
     points,

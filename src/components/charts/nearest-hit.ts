@@ -3,7 +3,7 @@
  * be unit-tested without DOM or React.
  */
 
-export type ChartHit = {
+export interface ChartHit {
     /** Stable key for React lists and active-state matching. */
     readonly id: string;
     /** Series / club / category label shown as the tooltip title. */
@@ -13,7 +13,7 @@ export type ChartHit = {
     /** Position in SVG viewBox units. */
     readonly x: number;
     readonly y: number;
-};
+}
 
 /**
  * Convert a mouse event into SVG viewBox coordinates for an element inside

@@ -10,7 +10,7 @@ import {
     webSiteSchema,
 } from '@/seo/structured-data';
 
-type PageHeadInput = {
+interface PageHeadInput {
     /** Page title without the site suffix. */
     readonly title: string;
     readonly description: string;
@@ -25,28 +25,28 @@ type PageHeadInput = {
     readonly noIndex?: boolean;
     /** ISO timestamp for the WebPage node, when the page knows one. */
     readonly dateModified?: string;
-};
+}
 
-export type MetaTag = {
+export interface MetaTag {
     readonly title?: string;
     readonly name?: string;
     readonly property?: string;
     readonly content?: string;
     readonly 'script:ld+json'?: JsonLdDocument;
-};
+}
 
 /** The subset of TanStack's `head()` return this module produces. */
-type PageHead = {
+interface PageHead {
     // Mutable arrays: TanStack's `head()` return type is invariant in these.
     readonly meta: MetaTag[];
     readonly links: LinkTag[];
-};
+}
 
-export type LinkTag = {
+export interface LinkTag {
     readonly rel: string;
     readonly href: string;
     readonly type?: string;
-};
+}
 
 export function pageTitle(title: string): string {
     return title === SITE.name

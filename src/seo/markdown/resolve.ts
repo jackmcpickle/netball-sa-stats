@@ -49,12 +49,12 @@ function dirParam(params: URLSearchParams): 'asc' | 'desc' | undefined {
 }
 
 /** The shared table query-string controls every markdown table page accepts. */
-type TableParams = {
+interface TableParams {
     readonly sort?: string;
     readonly dir?: 'asc' | 'desc';
     readonly page?: number;
     readonly pageSize?: number;
-};
+}
 
 function tableParams(params: URLSearchParams): TableParams {
     return {

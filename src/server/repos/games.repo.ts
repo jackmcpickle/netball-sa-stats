@@ -229,7 +229,7 @@ export async function fetchOpponentCounts(
     }));
 }
 
-export type GamesRepo = {
+export interface GamesRepo {
     readonly factsForPair: (
         clubA: string,
         clubB: string,
@@ -242,7 +242,7 @@ export type GamesRepo = {
     readonly opponentCounts: (
         clubKey: string,
     ) => Promise<readonly OpponentCount[]>;
-};
+}
 
 export function createGamesRepo(db: Db): GamesRepo {
     return {

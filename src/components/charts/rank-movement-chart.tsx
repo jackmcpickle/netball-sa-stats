@@ -23,13 +23,13 @@ const AXIS_LABEL_CLASS = 'fill-ink-faint font-mono text-[11px]';
 // oxlint-disable-next-line react-doctor/no-tiny-text -- deliberate dense chart annotation: the gap marker label must fit between two plotted years
 const GAP_LABEL_CLASS = 'fill-ink-faint font-mono text-[9px]';
 
-type RankMovementChartProps = {
+interface RankMovementChartProps {
     readonly series: readonly ClubRankSeries[];
     readonly years: readonly number[];
     readonly worstRank: number;
     /** Drawn heavier, with the rest dimmed. */
     readonly focusKey?: string;
-};
+}
 
 function buildHits(
     series: readonly ClubRankSeries[],
@@ -231,7 +231,7 @@ function seriesMarks(
     });
 }
 
-type RankSvgProps = {
+interface RankSvgProps {
     readonly series: readonly ClubRankSeries[];
     readonly years: readonly number[];
     readonly ticks: readonly number[];
@@ -241,7 +241,7 @@ type RankSvgProps = {
     readonly svgRef: (node: SVGSVGElement | null) => void;
     readonly onPointerMove: (event: ReactPointerEvent<SVGSVGElement>) => void;
     readonly onPointerLeave: () => void;
-};
+}
 
 function renderRankSvg({
     series,

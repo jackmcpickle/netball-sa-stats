@@ -9,16 +9,16 @@
  * unrecognised name throws — never silently dropped or bucketed.
  */
 
-export type ParsedGrade = {
+export interface ParsedGrade {
     tier: number;
     division: number | null;
-};
+}
 
-type Rule = {
+interface Rule {
     /** Matches the whole normalised name; captures the division digits if any. */
     pattern: RegExp;
     tier: number;
-};
+}
 
 // Normalised = uppercased, `.`/`-` collapsed to spaces, runs of whitespace
 // collapsed to one space, trimmed. So "B.3", "B. 3", "B3", "b 3" all match

@@ -24,7 +24,10 @@ import type { createImportRunsRepo } from '@/server/repos/import-runs.repo';
 /** Job policy: a `running` row older than this is treated as crashed. */
 const STALE_AFTER_SECONDS = 7200;
 
-export type PlayHqJobParams = { years?: number[]; games: boolean };
+export interface PlayHqJobParams {
+    years?: number[];
+    games: boolean;
+}
 
 function stringifyIsFinal(value: unknown): string {
     if (value === true || value === 1 || value === '1') {
@@ -50,7 +53,7 @@ export async function loadIsFinalMap(
     return map;
 }
 
-export type PlayHqJobInput = {
+export interface PlayHqJobInput {
     params: PlayHqJobParams;
     store: CaptureStore;
     executor: ImportExecutor;
@@ -60,7 +63,7 @@ export type PlayHqJobInput = {
     runs: ReturnType<typeof createImportRunsRepo>;
     isFinalBySeasonKey: ReadonlyMap<string, string>;
     collect?: typeof collectPlayHqData;
-};
+}
 
 function yearsJsonOf(years: number[] | undefined): string | null {
     return years === undefined ? null : JSON.stringify(years);
@@ -78,13 +81,13 @@ function seasonKept(season: SeasonRow, years: number[] | undefined): boolean {
 }
 
 /** The slice of a collect a year-restricted run actually imports. */
-type CollectedSubset = {
+interface CollectedSubset {
     seasons: SeasonRow[];
     grades: GradeRow[];
     teams: TeamRow[];
     results: Record<string, CsvValue>[];
     games: GameRow[];
-};
+}
 
 function subsetCollected(
     collected: CollectedPlayHq,
@@ -219,11 +222,11 @@ async function acquireLock(input: {
     });
 }
 
-type JobOutcome = {
+interface JobOutcome {
     report: ImportReport;
     /** Warnings the collect produced, which `ImportReport` cannot carry. */
     collectWarnings: string[];
-};
+}
 
 async function collectAndImport(input: PlayHqJobInput): Promise<JobOutcome> {
     const collect = input.collect ?? collectPlayHqData;

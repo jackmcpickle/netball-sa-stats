@@ -12,10 +12,10 @@ const FIELD_CLASS =
 const BUTTON_CLASS =
     'rounded-full border border-rule bg-paper-sunken px-5 py-2.5 text-sm font-semibold text-ink';
 
-type FormSubmitEvent = {
+interface FormSubmitEvent {
     readonly currentTarget: HTMLFormElement;
     readonly preventDefault: () => void;
-};
+}
 
 /**
  * `FormData.get` returns `File | string | null`; only a text field is ever

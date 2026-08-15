@@ -28,7 +28,7 @@ import type {
 import { ImportValidationError } from '@/pipeline/import/types';
 import { validateImportData } from '@/pipeline/import/validate';
 
-export type ImportReport = {
+export interface ImportReport {
     seasons: number;
     games: number;
     clubs: number;
@@ -39,7 +39,7 @@ export type ImportReport = {
     warnings: TeamCountWarning[];
     playedMismatchWarnings: PlayedMismatchWarning[];
     unresolvedTeamWarnings: UnresolvedTeamWarning[];
-};
+}
 
 async function readCsv(
     dataDir: string,
@@ -185,10 +185,10 @@ async function assertGradeWeightCoverage(
     }
 }
 
-export type RunImportOptions = {
+export interface RunImportOptions {
     dataDir: string;
     executor: ImportExecutor;
-};
+}
 
 export type ImportCountsMode = 'exact' | 'subset';
 

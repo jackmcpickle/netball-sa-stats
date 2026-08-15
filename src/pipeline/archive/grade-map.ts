@@ -1,14 +1,14 @@
 import { parseGradeName } from '@/pipeline/fetch/grade-name';
 import { slugify } from '@/pipeline/fetch/keys';
 
-export type ArchiveGrade = {
+export interface ArchiveGrade {
     originalName: string;
     displayName: string;
     tier: number;
     division: number | null;
     ageBand: string;
     slug: string;
-};
+}
 
 function normaliseGradeHeader(name: string): string {
     return name

@@ -54,11 +54,11 @@ function changeSentence(band: BandSummary): string {
     return `${direction} ${magnitude} on ${window}, across ${seasons} measured seasons.`;
 }
 
-type BandTrendGridProps = {
+interface BandTrendGridProps {
     readonly bands: readonly ClubBandTrend[];
     readonly clubName: string;
     readonly accent: AccentName;
-};
+}
 
 /**
  * Small multiples: one sparkline per grade band, strongest band first, so the

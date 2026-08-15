@@ -7,7 +7,7 @@ import type { TableState } from '@/db/queries/pagination';
 import type { GameStatus } from '@/db/schema';
 import type { ClubKey, GradeSummary } from '@/server/dto/shared.dto';
 
-export type ResultRow = {
+export interface ResultRow {
     /** Finals are shifted past the last regular round so they sort last. */
     readonly round: number | null;
     /** PlayHQ's own label. Shown instead of `round` when `isFinals`. */
@@ -27,29 +27,29 @@ export type ResultRow = {
     readonly status: GameStatus;
     /** True when the row can link to a two-club head-to-head. */
     readonly canCompare: boolean;
-};
+}
 
-export type ResultsParams = {
+export interface ResultsParams {
     readonly year?: number;
     readonly grade?: string;
     readonly sort?: string;
     readonly dir?: 'asc' | 'desc';
     readonly page?: number;
     readonly pageSize?: number;
-};
+}
 
-export type FixtureListDto = {
+export interface FixtureListDto {
     readonly grade: GradeSummary;
     readonly rows: readonly ResultRow[];
     readonly totalRows: number;
     readonly tableState: TableState;
-};
+}
 
-export type ResultsPageDto = {
+export interface ResultsPageDto {
     readonly years: readonly number[];
     /** Null only for a genuinely empty dataset. */
     readonly year: number | null;
     readonly grades: readonly GradeSummary[];
     /** Null when the season has no grades, or the grade has no fixtures. */
     readonly fixtures: FixtureListDto | null;
-};
+}

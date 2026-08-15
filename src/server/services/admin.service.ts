@@ -12,12 +12,12 @@ export type StartImport = (params: {
     games: boolean;
 }) => Promise<void>;
 
-export type AdminService = {
+export interface AdminService {
     readonly getPage: () => Promise<AdminPageDto>;
     readonly runImport: (
         yearsText: string,
     ) => Promise<Result<true, RunImportError>>;
-};
+}
 
 export type RunImportError =
     | { kind: 'already-running' }

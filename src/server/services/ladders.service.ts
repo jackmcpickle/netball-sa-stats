@@ -12,11 +12,11 @@ import type {
     LaddersParams,
 } from '@/server/dto/ladders.dto';
 
-export type LaddersService = {
+export interface LaddersService {
     readonly getPage: (
         params: LaddersParams,
     ) => Promise<Result<LaddersPageDto, DomainError>>;
-};
+}
 
 export function createLaddersService(repos: Repos): LaddersService {
     return {

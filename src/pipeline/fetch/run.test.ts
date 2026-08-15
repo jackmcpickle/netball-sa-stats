@@ -76,10 +76,10 @@ describe(resolveCompetitionKey, () => {
 });
 
 /** The slice of a PlayHQ season entry `seasonWanted` actually reads. */
-type SeasonProbe = {
+interface SeasonProbe {
     startDate: string;
     status: { value: string };
-};
+}
 
 function seasonProbe(startDate: string, status: string): SeasonProbe {
     return { startDate, status: { value: status } };
@@ -463,13 +463,18 @@ describe(archiveRowsToKeep, () => {
 const CAPTURED_AT_MS = 1_700_000_000_000;
 
 /** One `createMemoryStore` seed entry: a raw capture plus its fetch time. */
-type CaptureSeedEntry = { data: unknown; capturedAtMs: number };
+interface CaptureSeedEntry {
+    data: unknown;
+    capturedAtMs: number;
+}
 
 /**
  * A PlayHQ GraphQL response envelope. `data` stays `unknown` for the same
  * reason `CaptureStore.get` does — each collect step parses its own slice.
  */
-type CaptureEnvelope = { data: unknown };
+interface CaptureEnvelope {
+    data: unknown;
+}
 
 function seedEntry(data: unknown): CaptureSeedEntry {
     return { data, capturedAtMs: CAPTURED_AT_MS };

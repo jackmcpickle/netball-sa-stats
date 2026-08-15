@@ -35,14 +35,14 @@ function lastRankedYears(
     return latest;
 }
 
-export type ClubsService = {
+export interface ClubsService {
     readonly getIndexPage: (
         params: ClubIndexParams,
     ) => Promise<Result<ClubIndexPageDto, DomainError>>;
     readonly getProfilePage: (
         params: ClubProfileParams,
     ) => Promise<Result<ClubProfilePageDto, DomainError>>;
-};
+}
 
 export function createClubsService(repos: Repos): ClubsService {
     return {

@@ -20,36 +20,36 @@ const YEAR_BASELINE = BASELINE + 20;
 const HEIGHT = YEAR_BASELINE + 10;
 const HIT_DISTANCE = 40;
 
-type PointsBarChartProps = {
+interface PointsBarChartProps {
     readonly seasons: readonly ClubSeasonPoints[];
     readonly accent: AccentName;
-};
+}
 
-type GapDraw = {
+interface GapDraw {
     readonly kind: 'gap';
     readonly key: string;
     readonly x: number;
     readonly label: string;
-};
+}
 
-type BarDraw = {
+interface BarDraw {
     readonly kind: 'bar';
     readonly key: string;
     readonly season: ClubSeasonPoints;
     readonly x: number;
     readonly height: number;
     readonly hit: ChartHit;
-};
+}
 
 type DrawSlot = GapDraw | BarDraw;
 
-type BarLayout = {
+interface BarLayout {
     readonly width: number;
     readonly draws: readonly DrawSlot[];
     readonly slots: readonly TimelineSlot[];
     readonly byYear: Map<number, ClubSeasonPoints>;
     readonly hits: readonly ChartHit[];
-};
+}
 
 /** The bar and its tooltip hit for one ranked-or-not season slot. */
 function barDraw(

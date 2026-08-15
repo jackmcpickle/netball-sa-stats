@@ -22,13 +22,13 @@ export const CLUB_RESULTS_TABLE_SPEC: TableSpec = {
     defaultDesc: true,
 } as const;
 
-type Record_ = {
+interface CareerRecord {
     readonly won: number;
     readonly games: number;
     readonly hasRecord: boolean;
-};
+}
 
-function careerRecord(rows: readonly ResultRow[]): Record_ {
+function careerRecord(rows: readonly ResultRow[]): CareerRecord {
     let won = 0;
     let games = 0;
     let hasRecord = false;

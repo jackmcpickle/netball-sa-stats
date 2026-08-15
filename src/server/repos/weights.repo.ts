@@ -40,9 +40,9 @@ export async function fetchGradeWeights(
     }));
 }
 
-export type WeightsRepo = {
+export interface WeightsRepo {
     readonly all: () => Promise<readonly GradeWeightRow[]>;
-};
+}
 
 export function createWeightsRepo(db: Db): WeightsRepo {
     return {

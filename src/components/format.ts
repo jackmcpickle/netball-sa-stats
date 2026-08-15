@@ -42,11 +42,11 @@ export function formatPosition(position: number, teamCount: number): string {
     return `${String(position)} of ${String(teamCount)}`;
 }
 
-export type Movement = {
+export interface Movement {
     readonly label: string;
     readonly description: string;
     readonly direction: 'up' | 'down' | 'level' | 'new';
-};
+}
 
 /** Rank movement against the previous ranked season. Lower rank is better. */
 export function describeMovement(

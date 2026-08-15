@@ -3,19 +3,19 @@ import { join } from 'node:path';
 import { ARCHIVE_PDF_SOURCES } from './sources.ts';
 import type { ArchivePdfSource } from './sources.ts';
 
-export type FetchArchivePdfsOptions = {
+export interface FetchArchivePdfsOptions {
     rawDir: string;
     sources?: readonly ArchivePdfSource[];
     fetchImpl?: typeof fetch;
     delayMs?: number;
     userAgent?: string;
-};
+}
 
-export type FetchedArchivePdf = {
+export interface FetchedArchivePdf {
     year: number;
     path: string;
     status: 'downloaded' | 'skipped';
-};
+}
 
 const DEFAULT_USER_AGENT =
     'netball-stats archive-pdf-backfill (+https://github.com/)';

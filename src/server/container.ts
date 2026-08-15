@@ -38,7 +38,7 @@ import type { RankingsService } from '@/server/services/rankings.service';
 import { createResultsService } from '@/server/services/results.service';
 import type { ResultsService } from '@/server/services/results.service';
 
-export type Repos = {
+export interface Repos {
     readonly seasons: SeasonsRepo;
     readonly championship: ChampionshipRepo;
     readonly clubs: ClubsRepo;
@@ -46,9 +46,9 @@ export type Repos = {
     readonly weights: WeightsRepo;
     readonly games: GamesRepo;
     readonly importRuns: ImportRunsRepo;
-};
+}
 
-export type Services = {
+export interface Services {
     readonly rankings: RankingsService;
     readonly ladders: LaddersService;
     readonly clubs: ClubsService;
@@ -56,7 +56,7 @@ export type Services = {
     readonly headToHead: HeadToHeadService;
     readonly results: ResultsService;
     readonly admin: AdminService;
-};
+}
 
 function createRepos(db: Db): Repos {
     return {

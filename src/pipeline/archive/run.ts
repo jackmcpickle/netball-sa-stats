@@ -10,17 +10,17 @@ import type { ClubAliasRow } from '@/pipeline/archive/resolve';
 import { ARCHIVE_YEARS } from '@/pipeline/archive/sources';
 import { parseCsv, toCsv } from '@/pipeline/csv';
 
-export type RunArchiveBackfillOptions = {
+export interface RunArchiveBackfillOptions {
     rootDir: string;
     years?: readonly number[];
-};
+}
 
-export type ArchiveBackfillReport = {
+export interface ArchiveBackfillReport {
     seasons: number;
     grades: number;
     teams: number;
     results: number;
-};
+}
 
 async function loadClubAliases(dataDir: string): Promise<ClubAliasRow[]> {
     const text = await readFile(join(dataDir, 'club_aliases.csv'), 'utf-8');

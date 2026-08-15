@@ -9,10 +9,10 @@ import { fetchSeasons } from '@/db/queries/seasons';
 import { Coverage } from '@/server/domain/coverage';
 import type { Coverage as CoverageDto } from '@/server/dto/shared.dto';
 
-export type SeasonsRepo = {
+export interface SeasonsRepo {
     readonly coverage: () => Promise<Coverage>;
     readonly fullCoverage: () => Promise<CoverageDto>;
-};
+}
 
 export function createSeasonsRepo(db: Db): SeasonsRepo {
     return {

@@ -1,7 +1,9 @@
 import { describe, expect, it } from 'vitest';
 import { createD1Executor } from '@/pipeline/import/executors';
 
-type FakeStmt = { all: () => Promise<{ results: Record<string, unknown>[] }> };
+interface FakeStmt {
+    all: () => Promise<{ results: Record<string, unknown>[] }>;
+}
 
 describe(createD1Executor, () => {
     it('prepares SQL for queryAll and batch', async () => {

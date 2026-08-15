@@ -42,7 +42,7 @@ const ROOT = resolve(import.meta.dirname, '..', '..', '..');
 const DATA_DIR = resolve(ROOT, 'data');
 const RAW_DIR = resolve(DATA_DIR, 'raw');
 
-export type FetchOptions = {
+export interface FetchOptions {
     refresh: boolean;
     /** Also fetch fixtures and write `data/games-<year>.csv`. */
     games?: boolean;
@@ -50,7 +50,7 @@ export type FetchOptions = {
     years?: readonly number[];
     /** Restrict the games fetch to a single PlayHQ grade id, for spot checks. */
     gradeId?: string;
-};
+}
 
 async function readExistingCsv<T extends Record<string, string>>(
     fileName: string,
@@ -80,12 +80,12 @@ function resultKeyOf(r: Record<string, CsvValue>): string {
     return `${String(r.grade_key)}|${String(r.ladder_position).padStart(4, '0')}`;
 }
 
-export type ExistingCsvRows = {
+export interface ExistingCsvRows {
     readonly seasons: readonly Record<string, string>[];
     readonly grades: readonly Record<string, string>[];
     readonly teams: readonly Record<string, string>[];
     readonly results: readonly Record<string, string>[];
-};
+}
 
 /**
  * The rows a PlayHQ run must carry over untouched.
@@ -158,12 +158,12 @@ async function writeGamesCsvs(
     return total;
 }
 
-type FetchedRows = {
+interface FetchedRows {
     readonly seasons: readonly SeasonRow[];
     readonly grades: readonly GradeRow[];
     readonly teams: readonly TeamRow[];
     readonly results: readonly Record<string, CsvValue>[];
-};
+}
 
 /**
  * Sorts, merges the archive-PDF rows back in, and writes the shared CSVs.

@@ -2,7 +2,7 @@
 import type { FixtureRound } from '@/pipeline/fetch/games';
 import type { LadderPool } from '@/pipeline/fetch/ladder';
 
-export type DiscoverCompetitionsResponse = {
+export interface DiscoverCompetitionsResponse {
     data: {
         discoverCompetitions: readonly {
             id: string;
@@ -17,9 +17,9 @@ export type DiscoverCompetitionsResponse = {
             organisation: { id: string; name: string };
         }[];
     };
-};
+}
 
-export type GradeListDiscoverSeasonResponse = {
+export interface GradeListDiscoverSeasonResponse {
     data: {
         discoverSeason: {
             id: string;
@@ -40,16 +40,16 @@ export type GradeListDiscoverSeasonResponse = {
             }[];
         } | null;
     };
-};
+}
 
-export type GradeAllRoundsResponse = {
+export interface GradeAllRoundsResponse {
     data: {
         /** One entry per round; null for a grade with no fixture published. */
         discoverGradeFixture: readonly FixtureRound[] | null;
     };
-};
+}
 
-export type GradeLadderResponse = {
+export interface GradeLadderResponse {
     data: {
         discoverGrade: {
             id: string;
@@ -58,4 +58,4 @@ export type GradeLadderResponse = {
             ladder: readonly LadderPool[];
         } | null;
     };
-};
+}

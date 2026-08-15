@@ -5,7 +5,7 @@ import type { CsvValue } from '@/pipeline/csv';
  * against the committed `data/raw/probe/gradeLadder_*.json` captures.
  */
 
-export type Standing = {
+export interface Standing {
     team: {
         id: string;
         name: string;
@@ -22,12 +22,12 @@ export type Standing = {
     forfeits: number;
     percentage: number;
     competitionPoints: number;
-};
+}
 
-export type LadderPool = {
+export interface LadderPool {
     pool: { id: string; name: string } | null;
     standings: readonly Standing[];
-};
+}
 
 /** Flattens across pools in returned order — ladder_position is 1-based over this list. */
 export function flattenStandings(

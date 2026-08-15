@@ -115,9 +115,9 @@ export async function fetchChampionshipHistory(
     });
 }
 
-export type ChampionshipRepo = {
+export interface ChampionshipRepo {
     readonly history: () => Promise<readonly ChampionshipSeason[]>;
-};
+}
 
 export function createChampionshipRepo(db: Db): ChampionshipRepo {
     return {

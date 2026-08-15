@@ -35,6 +35,7 @@ import type { ImportData } from '@/pipeline/import/types';
 const AMND_ORG_ID = '7a5f35e1';
 const NETBALL_SA_ORG_ID = '6fefc037';
 
+// oxlint-disable-next-line typescript/consistent-type-definitions -- CSV row: interface has no implicit index signature, so it stops assigning to Record<string, CsvValue>
 export type SeasonRow = {
     competition_key: string;
     season_key: string;
@@ -48,6 +49,7 @@ export type SeasonRow = {
     status: string;
 };
 
+// oxlint-disable-next-line typescript/consistent-type-definitions -- CSV row: interface has no implicit index signature, so it stops assigning to Record<string, CsvValue>
 export type GradeRow = {
     season_key: string;
     grade_key: string;
@@ -59,6 +61,7 @@ export type GradeRow = {
     playhq_id: string;
 };
 
+// oxlint-disable-next-line typescript/consistent-type-definitions -- CSV row: interface has no implicit index signature, so it stops assigning to Record<string, CsvValue>
 export type TeamRow = {
     club_key: string;
     grade_key: string;
@@ -67,7 +70,7 @@ export type TeamRow = {
     playhq_id: string;
 };
 
-export type FetchReport = {
+export interface FetchReport {
     seasons: number;
     grades: number;
     teams: number;
@@ -79,9 +82,9 @@ export type FetchReport = {
         teamCount: number;
         reason: 'too_few_teams' | 'out_of_scope';
     }[];
-};
+}
 
-export type CollectOptions = {
+export interface CollectOptions {
     store: CaptureStore;
     cacheFirst: boolean;
     clubRegistry: ClubRegistry;
@@ -89,9 +92,9 @@ export type CollectOptions = {
     games?: boolean;
     years?: readonly number[];
     gradeId?: string;
-};
+}
 
-export type CollectedPlayHq = {
+export interface CollectedPlayHq {
     importData: ImportData;
     report: FetchReport;
     /** Snake-case rows for the CLI CSV writer (preserves season `status`). */
@@ -100,7 +103,7 @@ export type CollectedPlayHq = {
     teams: readonly TeamRow[];
     results: readonly Record<string, CsvValue>[];
     gamesByYear: ReadonlyMap<number, readonly GameRow[]>;
-};
+}
 
 function parseStartYear(dateIso: string): number {
     const year = Number(dateIso.slice(0, 4));
@@ -110,12 +113,12 @@ function parseStartYear(dateIso: string): number {
     return year;
 }
 
-type SeasonEntry = {
+interface SeasonEntry {
     id: string;
     name: string;
     startDate: string;
     status: { name: string; value: string };
-};
+}
 
 /** Resolves every (competition entry, season) pair PlayHQ lists for an org. */
 async function discoverSeasons(
@@ -203,7 +206,7 @@ function mergeTeams(
     }
 }
 
-export type GradeContext = {
+export interface GradeContext {
     orgId: string;
     period: 'winter' | 'annual';
     startYear: number;
@@ -211,15 +214,15 @@ export type GradeContext = {
     seasonPlayhqId: string;
     seasonStatus: string;
     isFinalBySeasonKey: ReadonlyMap<string, string>;
-};
+}
 
-type ProcessedGrade = {
+interface ProcessedGrade {
     seasonKey: string;
     seasonRow: SeasonRow;
     gradeRow: GradeRow;
     results: Record<string, CsvValue>[];
     teams: { key: string; row: TeamRow }[];
-};
+}
 
 function registerTeam(
     teams: Map<string, TeamRow>,
@@ -473,25 +476,25 @@ async function collectGames(
     ]);
 }
 
-type CollectJob = {
+interface CollectJob {
     orgId: string;
     period: 'winter' | 'annual';
     minYear: number;
-};
+}
 
 const COLLECT_JOBS: readonly CollectJob[] = [
     { orgId: AMND_ORG_ID, period: 'winter', minYear: 2022 },
     { orgId: NETBALL_SA_ORG_ID, period: 'annual', minYear: 2023 },
 ];
 
-type CollectAccumulator = {
+interface CollectAccumulator {
     seasonRows: Map<string, SeasonRow>;
     gradeRows: GradeRow[];
     teamRows: Map<string, TeamRow>;
     resultRows: Record<string, CsvValue>[];
     gamesByYear: Map<number, readonly GameRow[]>;
     skippedGrades: FetchReport['skippedGrades'];
-};
+}
 
 async function ingestGrade(
     options: CollectOptions,

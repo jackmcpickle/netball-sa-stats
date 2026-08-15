@@ -3,10 +3,10 @@
  */
 import type { Club } from '@/server/dto/shared.dto';
 
-export type ClubPartition = {
+export interface ClubPartition {
     readonly present: readonly Club[];
     readonly past: readonly Club[];
-};
+}
 
 /**
  * A club is "present" when it holds a championship rank in the latest

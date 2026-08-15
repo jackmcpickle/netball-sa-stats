@@ -20,18 +20,20 @@ type JsonLdValue =
     | JsonLdNode;
 
 /** A JSON-LD node object. */
-export type JsonLdNode = { readonly [key: string]: JsonLdValue };
+export interface JsonLdNode {
+    readonly [key: string]: JsonLdValue;
+}
 
 /** A whole JSON-LD document: one `@graph` of cross-referencable nodes. */
-export type JsonLdDocument = {
+export interface JsonLdDocument {
     readonly '@context': string;
     readonly '@graph': readonly JsonLdNode[];
-};
+}
 
 /** A route `head().meta` entry carrying a JSON-LD document. */
-export type JsonLdMetaTag = {
+export interface JsonLdMetaTag {
     readonly 'script:ld+json': JsonLdDocument;
-};
+}
 
 const ORGANIZATION_ID = `${SITE.origin}/#organization`;
 const WEBSITE_ID = `${SITE.origin}/#website`;
@@ -89,10 +91,10 @@ export function webPageSchema(input: {
     } satisfies JsonLdNode;
 }
 
-export type FaqEntry = {
+export interface FaqEntry {
     readonly question: string;
     readonly answer: string;
-};
+}
 
 export function faqSchema(entries: readonly FaqEntry[]) {
     return {
@@ -108,10 +110,10 @@ export function faqSchema(entries: readonly FaqEntry[]) {
     } satisfies JsonLdNode;
 }
 
-export type Crumb = {
+export interface Crumb {
     readonly name: string;
     readonly path: string;
-};
+}
 
 export function breadcrumbSchema(crumbs: readonly Crumb[]) {
     return {

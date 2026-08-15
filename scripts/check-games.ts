@@ -93,7 +93,7 @@ ORDER BY gr.grade_key, r.ladder_position;
 
 type QueryRow = Awaited<ReturnType<ImportExecutor['queryAll']>>[number];
 
-type Row = {
+interface Row {
     gradeKey: string;
     year: number;
     team: string;
@@ -103,7 +103,7 @@ type Row = {
     gamesWon: number;
     gamesLost: number;
     gamesDrawn: number;
-};
+}
 
 // Same route to D1 the importer uses, so there is one way to reach it.
 const executor = createWranglerExecutor('netball-stats', target);

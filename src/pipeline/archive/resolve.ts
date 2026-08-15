@@ -1,21 +1,21 @@
-export type ClubAliasRow = {
+export interface ClubAliasRow {
     club_key: string;
     alias_text: string;
     source: string;
-};
+}
 
-export type ResolveContext = {
+export interface ResolveContext {
     year: number;
     gradeName?: string;
     ladderPosition?: number;
-};
+}
 
-export type SyntheticArchivePlayhqIdInput = {
+export interface SyntheticArchivePlayhqIdInput {
     seasonKey: string;
     gradeSlug: string;
     clubKey: string;
     squadNumber: number | null;
-};
+}
 
 export function normaliseArchiveClubName(name: string): string {
     return (
@@ -39,9 +39,9 @@ function contextText(context: ResolveContext): string {
     return `${String(context.year)}${grade}${position}`;
 }
 
-export type ArchiveClubResolver = {
+export interface ArchiveClubResolver {
     resolve: (name: string, context: ResolveContext) => string;
-};
+}
 
 export function createArchiveClubResolver(
     aliases: readonly ClubAliasRow[],

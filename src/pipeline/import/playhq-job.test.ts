@@ -23,6 +23,7 @@ const FINISHED = NOW + 42;
 const STALE_AFTER_SECONDS = 7200;
 
 /** A `team_season_results` CSV row, the shape `CollectedPlayHq.results` holds. */
+// oxlint-disable-next-line typescript/consistent-type-definitions -- CSV row: interface has no implicit index signature, so it stops assigning to Record<string, CsvValue>
 type ResultCsvRow = {
     grade_key: string;
     club_key: string;
@@ -50,12 +51,12 @@ type ResultCsvRow = {
 };
 
 /** One season's worth of collected rows, as `stubCollected` assembles them. */
-type SeasonBundle = {
+interface SeasonBundle {
     season: SeasonRow;
     grade: GradeRow;
     teams: TeamRow[];
     results: ResultCsvRow[];
-};
+}
 
 function resultRow(
     gradeKey: string,

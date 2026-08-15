@@ -1,9 +1,9 @@
 import { env } from 'cloudflare:workers';
 
-export type AdminSecrets = {
+export interface AdminSecrets {
     readonly password: string;
     readonly sessionSecret: string;
-};
+}
 
 export function readAdminSecrets(): AdminSecrets {
     // SAFETY: the widening only adds two optional members, so it cannot claim

@@ -1,20 +1,20 @@
 // oxlint-disable-next-line sonarjs/no-clear-text-protocols -- the AMND file host serves no TLS; this is a fixed historical source URL, only ever used via the Wayback Machine mirror below.
 const ARCHIVE_BASE_URL = 'http://amnd.sa.netball.com.au/files/40002/files/';
 
-export type ArchivePdfSource = {
+export interface ArchivePdfSource {
     year: number;
     sourceFilename: string;
     rawFilename: string;
     originalUrl: string;
     waybackTimestamp: string | null;
     waybackUrl: string;
-};
+}
 
-type SourceDefinition = {
+interface SourceDefinition {
     year: number;
     sourceFilename: string;
     waybackTimestamp: string | null;
-};
+}
 
 const DEFINITIONS: readonly SourceDefinition[] = [
     {

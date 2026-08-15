@@ -1,6 +1,6 @@
 import type { ImportRunStatus } from '@/db/schema';
 
-export type AdminRunDto = {
+export interface AdminRunDto {
     id: number;
     startedLabel: string;
     status: ImportRunStatus;
@@ -11,11 +11,11 @@ export type AdminRunDto = {
     durationLabel: string;
     errorText: string | null;
     warnings: readonly string[];
-};
+}
 
-export type AdminPageDto = {
+export interface AdminPageDto {
     running: boolean;
     runningElapsedLabel: string | null;
     lastStatus: ImportRunStatus | null;
     runs: readonly AdminRunDto[];
-};
+}

@@ -3,7 +3,7 @@ import type { Db } from '@/db';
 import { importRuns } from '@/db/schema';
 import type { ImportRunStatus } from '@/db/schema';
 
-export type ImportRun = {
+export interface ImportRun {
     id: number;
     instanceId: string;
     startedAt: number;
@@ -18,7 +18,7 @@ export type ImportRun = {
     gamesCount: number | null;
     warningsJson: string | null;
     errorText: string | null;
-};
+}
 
 function toImportRun(row: typeof importRuns.$inferSelect): ImportRun {
     return {
@@ -39,7 +39,7 @@ function toImportRun(row: typeof importRuns.$inferSelect): ImportRun {
     };
 }
 
-export type ImportRunsRepo = {
+export interface ImportRunsRepo {
     readonly list: () => Promise<ImportRun[]>;
     readonly lastSuccessAt: () => Promise<number | null>;
     readonly hasRunning: () => Promise<boolean>;
@@ -76,7 +76,7 @@ export type ImportRunsRepo = {
         finishedAt: number,
         errorText: string,
     ) => Promise<void>;
-};
+}
 
 export function createImportRunsRepo(db: Db): ImportRunsRepo {
     return {

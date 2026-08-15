@@ -7,7 +7,7 @@
 import type { DomainError, Result } from '@/server/domain/result';
 import { err, ok } from '@/server/domain/result';
 
-export type SeasonRow = {
+export interface SeasonRow {
     readonly seasonId: number;
     readonly seasonKey: string;
     readonly startYear: number;
@@ -15,7 +15,7 @@ export type SeasonRow = {
     readonly source: string;
     readonly competitionKey: string;
     readonly competitionName: string;
-};
+}
 
 export class Coverage {
     private readonly rows: readonly SeasonRow[];

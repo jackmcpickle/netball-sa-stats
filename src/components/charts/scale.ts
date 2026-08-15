@@ -6,13 +6,13 @@
  * render identically on the server, which costs zero hydration.
  */
 
-export type Plot = {
+export interface Plot {
     /** Inner drawing area, in viewBox units. */
     readonly x0: number;
     readonly x1: number;
     readonly y0: number;
     readonly y1: number;
-};
+}
 
 /** Round to `places` decimals. Keeps generated path strings short and stable. */
 export function round(value: number, places: number): number {
@@ -64,10 +64,10 @@ export function rankTicks(worstRank: number, step: number): number[] {
     return ticks;
 }
 
-export type LinePoint = {
+export interface LinePoint {
     readonly x: number;
     readonly y: number;
-};
+}
 
 /**
  * Polyline path. Gaps in the input (a club that fielded no team that season)

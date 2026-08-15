@@ -32,13 +32,13 @@ function placeTooltip(
     tooltip.style.transform = `translate(${String(left)}px, ${String(top)}px)`;
 }
 
-type UseChartInteractionOptions = {
+interface UseChartInteractionOptions {
     readonly hits: readonly ChartHit[];
     /** Max distance in SVG viewBox units. */
     readonly maxDistance: number;
-};
+}
 
-export type ChartInteraction = {
+export interface ChartInteraction {
     readonly frameRef: (node: HTMLElement | null) => (() => void) | undefined;
     readonly svgRef: (node: SVGSVGElement | null) => void;
     readonly tooltipRef: (node: HTMLDivElement | null) => void;
@@ -48,7 +48,7 @@ export type ChartInteraction = {
     ) => void;
     readonly handlePointerLeave: () => void;
     readonly tooltipId: string;
-};
+}
 
 /**
  * Scroll-reveal + nearest-point tooltip for a chart frame. The tooltip follows

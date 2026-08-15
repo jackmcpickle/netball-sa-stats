@@ -7,9 +7,9 @@ import type { DomainError, Result } from '@/server/domain/result';
 import { ok } from '@/server/domain/result';
 import type { MethodPageDto } from '@/server/dto/method.dto';
 
-export type MethodService = {
+export interface MethodService {
     readonly getPage: () => Promise<Result<MethodPageDto, DomainError>>;
-};
+}
 
 export function createMethodService(repos: Repos): MethodService {
     return {

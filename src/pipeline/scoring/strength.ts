@@ -7,11 +7,11 @@
  * are this club's teams actually performing better, not just more numerous.
  */
 
-export type StrengthRow = {
+export interface StrengthRow {
     /** 1 is best. */
     readonly ladderPosition: number;
     readonly teamCount: number;
-};
+}
 
 /**
  * Finishing position as 0..1, where 1 won the grade. Size-independent, so a

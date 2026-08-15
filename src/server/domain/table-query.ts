@@ -24,18 +24,18 @@ import type {
  * may map it to a column without re-validating; it is never the raw URL
  * value. `offset` is already clamped to the last page.
  */
-export type PageRequest = {
+export interface PageRequest {
     readonly sort: string;
     readonly desc: boolean;
     readonly limit: number;
     readonly offset: number;
-};
+}
 
-export type PagedResult<T> = {
+export interface PagedResult<T> {
     readonly rows: readonly T[];
     readonly totalRows: number;
     readonly state: TableState;
-};
+}
 
 /**
  * Search params are attacker-controlled, so the sort column is matched

@@ -79,11 +79,11 @@ function visibleClubs(
           );
 }
 
-export type HeadToHeadService = {
+export interface HeadToHeadService {
     readonly getPage: (
         params: HeadToHeadParams,
     ) => Promise<Result<HeadToHeadPageDto, DomainError>>;
-};
+}
 
 export function createHeadToHeadService(repos: Repos): HeadToHeadService {
     return {

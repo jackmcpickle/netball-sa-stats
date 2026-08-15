@@ -10,33 +10,33 @@ import { parseCsv, toCsv } from '@/pipeline/csv';
 
 type CsvRow = Record<string, string | number | null>;
 
-export type PlacementTeam = {
+export interface PlacementTeam {
     ladderPosition: number;
     teamName: string;
     squadNumber: number | null;
-};
+}
 
-export type PlacementGrade = {
+export interface PlacementGrade {
     gradeName: string;
     teams: readonly PlacementTeam[];
-};
+}
 
-export type PlacementSeason = {
+export interface PlacementSeason {
     year: number;
     grades: readonly PlacementGrade[];
-};
+}
 
-export type ArchiveEntities = {
+export interface ArchiveEntities {
     seasons: CsvRow[];
     grades: CsvRow[];
     teams: CsvRow[];
     results: CsvRow[];
-};
+}
 
-export type BuildArchiveEntitiesOptions = {
+export interface BuildArchiveEntitiesOptions {
     placements: readonly PlacementSeason[];
     clubAliases: readonly ClubAliasRow[];
-};
+}
 
 const ARCHIVE_RESULT_NULL_STATS = {
     played: null,

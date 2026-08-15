@@ -9,7 +9,7 @@
  */
 
 /** One team's finish in one grade, with the weight resolved at query time. */
-export type ScoringRow = {
+export interface ScoringRow {
     readonly clubKey: string;
     readonly year: number;
     /** 1 is best. */
@@ -27,9 +27,9 @@ export type ScoringRow = {
     readonly won: number | null;
     readonly lost: number | null;
     readonly drawn: number | null;
-};
+}
 
-export type ClubSeasonTotals = {
+export interface ClubSeasonTotals {
     readonly clubKey: string;
     readonly rank: number;
     readonly points: number;
@@ -39,7 +39,7 @@ export type ClubSeasonTotals = {
     /** Games with a recorded outcome, so a null-heavy season reads as 0. */
     readonly gamesPlayed: number;
     readonly minorPremierships: number;
-};
+}
 
 /**
  * A single team's contribution. Last of the grade still earns one unit, so
@@ -55,7 +55,7 @@ function roundPoints(value: number): number {
     return Math.round(value * 10) / 10;
 }
 
-type Accumulator = {
+interface Accumulator {
     points: number;
     teams: number;
     won: number;
@@ -63,7 +63,7 @@ type Accumulator = {
     /** False until a row actually reports win/loss/draw counts. */
     hasRecord: boolean;
     minorPremierships: number;
-};
+}
 
 function emptyAccumulator(): Accumulator {
     return {
@@ -153,10 +153,10 @@ export function rankClubs(
     });
 }
 
-export type RankedSeason = {
+export interface RankedSeason {
     readonly year: number;
     readonly totals: readonly ClubSeasonTotals[];
-};
+}
 
 /**
  * Rank a run of seasons in year order. Nothing here knows which years are

@@ -52,9 +52,9 @@ describe('TableQuery.from', () => {
     });
 });
 
-type Row = {
+interface Row {
     readonly id: number;
-};
+}
 
 function identitySort(rows: readonly Row[], q: TableQuery): readonly Row[] {
     const direction = q.state.desc ? -1 : 1;

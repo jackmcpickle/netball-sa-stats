@@ -16,14 +16,14 @@ const BUTTON_CLASS =
 const FIELD_CLASS =
     'mt-1.5 h-11 w-full max-w-sm rounded-field border border-rule bg-paper px-4 text-base text-ink';
 
-type FormSubmitEvent = {
+interface FormSubmitEvent {
     readonly currentTarget: HTMLFormElement;
     readonly preventDefault: () => void;
-};
+}
 
-type RunButtonEvent = {
+interface RunButtonEvent {
     readonly currentTarget: HTMLButtonElement;
-};
+}
 
 /**
  * `FormData.get` returns `File | string | null`; only a text field is ever

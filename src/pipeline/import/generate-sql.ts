@@ -25,10 +25,10 @@ import type {
 
 export const DEFAULT_CHUNK_SIZE = 100;
 
-export type SqlBatch = {
+export interface SqlBatch {
     table: string;
     statements: string[];
-};
+}
 
 function seasonStatement(row: SeasonImportRow): string {
     return `INSERT INTO seasons (competition_id, season_key, competition_period, label, start_year, end_year, is_final, playhq_id, source) SELECT c.id, ${sqlText(row.seasonKey)}, ${sqlText(row.competitionPeriod)}, ${sqlText(row.label)}, ${sqlNumber(row.startYear)}, ${sqlNumber(row.endYear)}, ${sqlBool(row.isFinal)}, ${sqlText(row.playhqId)}, ${sqlText(row.source)} FROM competitions c WHERE c.key = ${sqlText(row.competitionKey)} ON CONFLICT(season_key) DO UPDATE SET competition_id = excluded.competition_id, competition_period = excluded.competition_period, label = excluded.label, start_year = excluded.start_year, end_year = excluded.end_year, is_final = excluded.is_final, playhq_id = excluded.playhq_id, source = excluded.source;`;
