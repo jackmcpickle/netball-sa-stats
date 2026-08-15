@@ -23,8 +23,8 @@ function clubSummaryLine(entry: ClubIndexEntry, year: number): string {
 }
 
 const TOGGLE_OPTIONS = [
-    { value: false, label: 'Present clubs' },
-    { value: true, label: 'All clubs (incl. past)' },
+    { label: 'Present clubs', value: false },
+    { label: 'All clubs (incl. past)', value: true },
 ] as const;
 
 export function ClubIndexPage(): JSX.Element {
@@ -35,8 +35,8 @@ export function ClubIndexPage(): JSX.Element {
     const onTogglePast = useCallback(
         (includePast: boolean) => {
             void navigate({
-                search: (previous) => ({ ...previous, includePast }),
                 resetScroll: false,
+                search: (previous) => ({ ...previous, includePast }),
             });
         },
         [navigate],

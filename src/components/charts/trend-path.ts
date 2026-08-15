@@ -1,8 +1,8 @@
-import { isNull, isUndefined } from 'es-toolkit';
 /**
  * Pure trend-series helpers, kept out of the component module so the chart
  * file exports components only.
  */
+import { isNull, isUndefined } from 'es-toolkit';
 import { NO_VALUE } from '@/components/format';
 import type { ClubTrendPoint } from '@/server/dto/club-profile.dto';
 

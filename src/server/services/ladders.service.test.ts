@@ -30,15 +30,10 @@ function baseSpec(): SeedSpec {
                 name: 'AMND',
                 seasons: [
                     {
-                        seasonKey: 'amnd-2024',
-                        startYear: 2024,
-                        isFinal: true,
                         grades: [
                             {
                                 gradeKey: 'amnd-2024-a1',
                                 name: 'A1',
-                                tier: 2,
-                                teamCount: 3,
                                 results: [
                                     {
                                         clubKey: 'contax',
@@ -59,19 +54,19 @@ function baseSpec(): SeedSpec {
                                         ladderPosition: 3,
                                     },
                                 ],
+                                teamCount: 3,
+                                tier: 2,
                             },
                         ],
+                        isFinal: true,
+                        seasonKey: 'amnd-2024',
+                        startYear: 2024,
                     },
                     {
-                        seasonKey: 'amnd-2025',
-                        startYear: 2025,
-                        isFinal: true,
                         grades: [
                             {
                                 gradeKey: 'amnd-2025-a1',
                                 name: 'A1',
-                                tier: 2,
-                                teamCount: 3,
                                 results: [
                                     {
                                         clubKey: 'contax',
@@ -92,19 +87,19 @@ function baseSpec(): SeedSpec {
                                         ladderPosition: 3,
                                     },
                                 ],
+                                teamCount: 3,
+                                tier: 2,
                             },
                         ],
+                        isFinal: true,
+                        seasonKey: 'amnd-2025',
+                        startYear: 2025,
                     },
                     {
-                        seasonKey: 'amnd-2026',
-                        startYear: 2026,
-                        isFinal: false,
                         grades: [
                             {
                                 gradeKey: 'amnd-2026-a1',
                                 name: 'A1',
-                                tier: 2,
-                                teamCount: 3,
                                 results: [
                                     {
                                         clubKey: 'contax',
@@ -125,8 +120,13 @@ function baseSpec(): SeedSpec {
                                         ladderPosition: 3,
                                     },
                                 ],
+                                teamCount: 3,
+                                tier: 2,
                             },
                         ],
+                        isFinal: false,
+                        seasonKey: 'amnd-2026',
+                        startYear: 2026,
                     },
                 ],
             },
@@ -158,8 +158,8 @@ describe('ladders service', () => {
 
         const result = unwrap(
             await createServices(db).ladders.getPage({
-                year: 2024,
                 grade: 'does-not-exist',
+                year: 2024,
             }),
         );
 
@@ -175,10 +175,10 @@ describe('ladders service', () => {
             name: 'AMND 2023',
             seasons: [
                 {
+                    grades: [],
+                    isFinal: true,
                     seasonKey: 'amnd-2023',
                     startYear: 2023,
-                    isFinal: true,
-                    grades: [],
                 },
             ],
         });

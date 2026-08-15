@@ -1,9 +1,9 @@
-import { isNull } from 'es-toolkit';
 /**
  * One-sentence factual summaries built from loaded data. Used for meta
  * descriptions and for the opening line of the markdown twin, so both say the
  * same thing and both stay true when the data changes.
  */
+import { isNull } from 'es-toolkit';
 import type { ClubProfile } from '@/server/dto/club-profile.dto';
 
 export function ordinal(value: number): string {

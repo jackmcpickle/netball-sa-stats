@@ -1,4 +1,3 @@
-import { isUndefined } from 'es-toolkit';
 /**
  * The competition catalogue and the grade-weight defaults.
  *
@@ -6,6 +5,7 @@ import { isUndefined } from 'es-toolkit';
  * numbers, so a band can be retuned in one place. Rows stay individually editable in
  * D1 afterwards — scoring reads the table, not this file.
  */
+import { isUndefined } from 'es-toolkit';
 
 export interface CompetitionSeed {
     key: string;
@@ -17,36 +17,36 @@ export interface CompetitionSeed {
 
 export const COMPETITION_SEEDS: readonly CompetitionSeed[] = [
     {
+        hasData: true,
         key: 'amnd',
         name: 'Adelaide Metropolitan Netball Division',
         playhqOrgId: '7a5f35e1',
-        hasData: true,
     },
     {
+        hasData: true,
         key: 'premier_league',
         name: 'Netball SA Premier League',
         playhqOrgId: '6fefc037',
-        hasData: true,
     },
     {
+        hasData: true,
         key: 'premier_league_reserves',
         name: 'Premier League Reserves',
         playhqOrgId: '6fefc037',
-        hasData: true,
     },
     {
+        hasData: false,
         key: 'city_night_division',
         name: 'City Night Division',
         playhqOrgId: null,
-        hasData: false,
     },
     {
+        hasData: false,
         key: 'super_league',
         name: 'Super League',
         playhqOrgId: null,
-        hasData: false,
     },
-    { key: 'juniors', name: 'Juniors', playhqOrgId: null, hasData: false },
+    { hasData: false, key: 'juniors', name: 'Juniors', playhqOrgId: null },
 ];
 
 interface Band {
@@ -70,80 +70,80 @@ interface Band {
  */
 export const BANDS: readonly Band[] = [
     {
-        competitionKey: 'premier_league',
-        tier: 1,
-        label: 'Premier Division',
         base: 1,
+        competitionKey: 'premier_league',
+        label: 'Premier Division',
+        tier: 1,
     },
     {
-        competitionKey: 'premier_league_reserves',
-        tier: 2,
-        label: 'Reserves Division',
         base: 0.8,
+        competitionKey: 'premier_league_reserves',
+        label: 'Reserves Division',
+        tier: 2,
     },
-    { competitionKey: 'amnd', tier: 3, label: 'AMND League', base: 0.75 },
-    { competitionKey: 'amnd', tier: 4, label: 'A. Grade', base: 0.68 },
+    { base: 0.75, competitionKey: 'amnd', label: 'AMND League', tier: 3 },
+    { base: 0.68, competitionKey: 'amnd', label: 'A. Grade', tier: 4 },
     {
-        competitionKey: 'amnd',
-        tier: 5,
-        label: 'B',
         base: 0.62,
-        step: 0.03,
+        competitionKey: 'amnd',
         divisions: 6,
+        label: 'B',
+        step: 0.03,
+        tier: 5,
     },
     {
-        competitionKey: 'amnd',
-        tier: 6,
-        label: 'Inter.',
         base: 0.45,
+        competitionKey: 'amnd',
+        divisions: 6,
+        label: 'Inter.',
         // 0.015, not 0.02: at 0.02, Inter. 6 (0.35) sits under C 1 (0.36),
         // violating "C sits below Inter" below. At 0.015, Inter. 1-6 run
         // 0.45 -> 0.375, all above C 1.
         step: 0.015,
-        divisions: 6,
+        tier: 6,
     },
     {
-        competitionKey: 'amnd',
-        tier: 7,
-        label: 'C',
         base: 0.36,
-        step: 0.02,
+        competitionKey: 'amnd',
         divisions: 6,
+        label: 'C',
+        step: 0.02,
+        tier: 7,
     },
     {
-        competitionKey: 'amnd',
-        tier: 8,
-        label: 'Junior',
         base: 0.38,
-        step: 0.015,
+        competitionKey: 'amnd',
         divisions: 9,
+        label: 'Junior',
+        step: 0.015,
+        tier: 8,
     },
     {
-        competitionKey: 'amnd',
-        tier: 9,
-        label: 'Sub-Junior',
         base: 0.32,
-        step: 0.015,
+        competitionKey: 'amnd',
         divisions: 9,
+        label: 'Sub-Junior',
+        step: 0.015,
+        tier: 9,
     },
     {
-        competitionKey: 'amnd',
-        tier: 10,
-        label: 'Primary',
         base: 0.26,
-        step: 0.015,
+        competitionKey: 'amnd',
         // Primary 7 (and its 2026 7A/7B split, which share division 7) exist in
         // the imported grades, so the band must reach them or those finishes
         // would score nothing.
         divisions: 7,
+        label: 'Primary',
+        step: 0.015,
+        tier: 10,
     },
     {
-        competitionKey: 'amnd',
-        tier: 11,
-        label: 'Sub-Primary',
         base: 0.2,
-        step: 0.015,
+        competitionKey: 'amnd',
         divisions: 2,
+        label: 'Sub-Primary',
+        step: 0.015,
+        tier: 11,
     },
 ];
 
@@ -165,9 +165,9 @@ function expandBand(band: Band): GradeWeightSeed[] {
         return [
             {
                 competitionKey: band.competitionKey,
-                tier: band.tier,
                 division: null,
                 label: band.label,
+                tier: band.tier,
                 weight: round(band.base),
             },
         ];
@@ -178,9 +178,9 @@ function expandBand(band: Band): GradeWeightSeed[] {
         .filter((division) => band.skip?.includes(division) !== true)
         .map((division) => ({
             competitionKey: band.competitionKey,
-            tier: band.tier,
             division,
             label: `${band.label} ${division}`,
+            tier: band.tier,
             weight: round(band.base - (division - 1) * step),
         }));
 }

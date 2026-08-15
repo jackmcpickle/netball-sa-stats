@@ -7,17 +7,17 @@ import {
 describe(strengthPath, () => {
     it('breaks the line where strength is null', () => {
         const segments = strengthPath([
-            { year: 2000, strength: 0.5, teams: 3 },
-            { year: 2001, strength: null, teams: 0 },
-            { year: 2002, strength: 0.8, teams: 4 },
+            { strength: 0.5, teams: 3, year: 2000 },
+            { strength: null, teams: 0, year: 2001 },
+            { strength: 0.8, teams: 4, year: 2002 },
         ]);
         expect(segments).toHaveLength(2);
     });
 
     it('keeps consecutive measured years in one segment', () => {
         const segments = strengthPath([
-            { year: 2000, strength: 0.5, teams: 3 },
-            { year: 2001, strength: 0.6, teams: 3 },
+            { strength: 0.5, teams: 3, year: 2000 },
+            { strength: 0.6, teams: 3, year: 2001 },
         ]);
         expect(segments).toHaveLength(1);
         expect(segments[0]).toHaveLength(2);
@@ -25,15 +25,15 @@ describe(strengthPath, () => {
 
     it('breaks across a calendar gap even when both years are measured', () => {
         const segments = strengthPath([
-            { year: 2014, strength: 0.58, teams: 31 },
-            { year: 2016, strength: 0.54, teams: 33 },
+            { strength: 0.58, teams: 31, year: 2014 },
+            { strength: 0.54, teams: 33, year: 2016 },
         ]);
         expect(segments).toHaveLength(2);
     });
 
     it('returns nothing when no year is measurable', () => {
         expect(
-            strengthPath([{ year: 2000, strength: null, teams: 0 }]),
+            strengthPath([{ strength: null, teams: 0, year: 2000 }]),
         ).toHaveLength(0);
     });
 });
@@ -41,13 +41,13 @@ describe(strengthPath, () => {
 describe(describeTrendSlot, () => {
     it('attributes a null strength to no teams fielded when teams is zero', () => {
         expect(
-            describeTrendSlot({ year: 2000, strength: null, teams: 0 }, 2000),
+            describeTrendSlot({ strength: null, teams: 0, year: 2000 }, 2000),
         ).toBe('2000: no teams fielded, strength —');
     });
 
     it('attributes a null strength to no measurable finish when teams were fielded', () => {
         expect(
-            describeTrendSlot({ year: 2000, strength: null, teams: 1 }, 2000),
+            describeTrendSlot({ strength: null, teams: 1, year: 2000 }, 2000),
         ).toBe('2000: no measurable finish, strength —');
     });
 
@@ -57,7 +57,7 @@ describe(describeTrendSlot, () => {
 
     it('reports strength normally when measured', () => {
         expect(
-            describeTrendSlot({ year: 2000, strength: 0.5, teams: 3 }, 2000),
+            describeTrendSlot({ strength: 0.5, teams: 3, year: 2000 }, 2000),
         ).toBe('2000: strength 0.500 from 3 teams.');
     });
 });

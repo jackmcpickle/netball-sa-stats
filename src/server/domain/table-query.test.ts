@@ -4,18 +4,18 @@ import type { PageRequest } from '@/server/domain/table-query';
 import { TableQuery } from '@/server/domain/table-query';
 
 const spec = {
-    sortable: ['year', 'points'],
-    defaultSort: 'year',
     defaultDesc: true,
+    defaultSort: 'year',
+    sortable: ['year', 'points'],
 } as const;
 
 describe('TableQuery.from', () => {
     it('defaults everything when nothing is supplied', () => {
         expect(TableQuery.from({}, spec).state).toStrictEqual({
-            sort: 'year',
             desc: true,
             page: 1,
             pageSize: DEFAULT_PAGE_SIZE,
+            sort: 'year',
         });
     });
 
@@ -28,12 +28,12 @@ describe('TableQuery.from', () => {
 
     it('accepts an allowed sort column and direction', () => {
         expect(
-            TableQuery.from({ sort: 'points', dir: 'asc' }, spec).state,
+            TableQuery.from({ dir: 'asc', sort: 'points' }, spec).state,
         ).toStrictEqual({
-            sort: 'points',
             desc: false,
             page: 1,
             pageSize: DEFAULT_PAGE_SIZE,
+            sort: 'points',
         });
     });
 
@@ -105,7 +105,7 @@ describe('TableQuery end-to-end: consecutive pages are disjoint and cover every 
         const seen = new Set<number>();
         for (let page = 1; page <= pages; page += 1) {
             const { rows } = TableQuery.from(
-                { page, pageSize, dir: 'asc' },
+                { dir: 'asc', page, pageSize },
                 spec,
             ).apply(all, identitySort);
             for (const row of rows) {
@@ -210,7 +210,7 @@ describe('TableQuery#page', () => {
         for (let page = 1; page <= Math.ceil(totalRows / pageSize); page += 1) {
             // eslint-disable-next-line no-await-in-loop -- pages are fetched in order on purpose
             const { rows } = await TableQuery.from(
-                { page, pageSize, dir: 'asc' },
+                { dir: 'asc', page, pageSize },
                 spec,
             ).page(async () => totalRows, fetchPage);
             for (const row of rows) {

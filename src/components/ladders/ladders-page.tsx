@@ -86,7 +86,7 @@ export function LaddersPage(): JSX.Element {
             // and the loader falls back to that season's first grade. A full
             // replace also drops sort/page, since page 3 of the old season is
             // not a meaningful destination.
-            void navigate({ search: { year }, resetScroll: false });
+            void navigate({ resetScroll: false, search: { year } });
         },
         [navigate],
     );
@@ -94,8 +94,8 @@ export function LaddersPage(): JSX.Element {
     const onGradeChange = useCallback(
         (grade: string) => {
             void navigate({
-                search: (previous) => ({ ...previous, grade, page: 1 }),
                 resetScroll: false,
+                search: (previous) => ({ ...previous, grade, page: 1 }),
             });
         },
         [navigate],
@@ -104,30 +104,30 @@ export function LaddersPage(): JSX.Element {
     const onTableChange = useCallback(
         (next: TableState) => {
             void navigate({
+                resetScroll: false,
                 search: (previous) => ({
                     ...previous,
-                    sort: next.sort,
                     dir: next.desc ? 'desc' : 'asc',
                     page: next.page,
                     pageSize: next.pageSize,
+                    sort: next.sort,
                 }),
-                resetScroll: false,
             });
         },
         [navigate],
     );
 
     const yearOptions = useMemo(
-        () => data.years.map((year) => ({ value: year, label: String(year) })),
+        () => data.years.map((year) => ({ label: String(year), value: year })),
         [data.years],
     );
 
     const gradeOptions = useMemo(
         () =>
             data.grades.map((grade) => ({
-                value: grade.key,
-                label: grade.name,
                 hint: grade.competition.name,
+                label: grade.name,
+                value: grade.key,
             })),
         [data.grades],
     );
@@ -135,75 +135,75 @@ export function LaddersPage(): JSX.Element {
     const columns = useMemo<readonly DataTableColumn<LadderRow>[]>(
         () => [
             {
-                id: 'position',
-                header: 'POS',
-                emphasis: 'strong',
-                sortable: true,
                 cell: renderPositionCell,
+                emphasis: 'strong',
+                header: 'POS',
+                id: 'position',
+                sortable: true,
             },
             {
-                id: 'team',
-                header: 'TEAM',
-                emphasis: 'strong',
-                sortable: true,
                 cell: renderTeamCell,
-            },
-            {
-                id: 'played',
-                header: 'P',
-                align: 'right',
-                sortable: true,
-                cell: renderPlayedCell,
-            },
-            {
-                id: 'won',
-                header: 'W',
-                align: 'right',
-                sortable: true,
-                cell: renderWonCell,
-            },
-            {
-                id: 'lost',
-                header: 'L',
-                align: 'right',
-                sortable: true,
-                cell: renderLostCell,
-            },
-            {
-                id: 'drawn',
-                header: 'D',
-                align: 'right',
-                sortable: true,
-                cell: renderDrawnCell,
-            },
-            {
-                id: 'goalsFor',
-                header: 'FOR',
-                align: 'right',
-                sortable: true,
-                cell: renderGoalsForCell,
-            },
-            {
-                id: 'goalsAgainst',
-                header: 'AGST',
-                align: 'right',
-                sortable: true,
-                cell: renderGoalsAgainstCell,
-            },
-            {
-                id: 'percentage',
-                header: 'GOAL %',
-                align: 'right',
-                sortable: true,
-                cell: renderPercentageCell,
-            },
-            {
-                id: 'points',
-                header: 'PTS',
-                align: 'right',
                 emphasis: 'strong',
+                header: 'TEAM',
+                id: 'team',
                 sortable: true,
+            },
+            {
+                align: 'right',
+                cell: renderPlayedCell,
+                header: 'P',
+                id: 'played',
+                sortable: true,
+            },
+            {
+                align: 'right',
+                cell: renderWonCell,
+                header: 'W',
+                id: 'won',
+                sortable: true,
+            },
+            {
+                align: 'right',
+                cell: renderLostCell,
+                header: 'L',
+                id: 'lost',
+                sortable: true,
+            },
+            {
+                align: 'right',
+                cell: renderDrawnCell,
+                header: 'D',
+                id: 'drawn',
+                sortable: true,
+            },
+            {
+                align: 'right',
+                cell: renderGoalsForCell,
+                header: 'FOR',
+                id: 'goalsFor',
+                sortable: true,
+            },
+            {
+                align: 'right',
+                cell: renderGoalsAgainstCell,
+                header: 'AGST',
+                id: 'goalsAgainst',
+                sortable: true,
+            },
+            {
+                align: 'right',
+                cell: renderPercentageCell,
+                header: 'GOAL %',
+                id: 'percentage',
+                sortable: true,
+            },
+            {
+                align: 'right',
                 cell: renderPointsCell,
+                emphasis: 'strong',
+                header: 'PTS',
+                id: 'points',
+                sortable: true,
             },
         ],
         [],

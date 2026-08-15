@@ -26,37 +26,37 @@ const forfeit = capture('gradeAllRounds_amnd_junior8_2024_forfeit_3723a749');
 
 function game(overrides: Partial<FixtureGame>): FixtureGame {
     return {
-        id: 'g1',
         alias: null,
-        pool: null,
-        home: { id: 't1', name: 'Home', organisation: null },
+        allocation: null,
         away: { id: 't2', name: 'Away', organisation: null },
-        result: null,
-        status: { name: 'Upcoming', value: 'UPCOMING' },
         date: '2026-04-10',
         dates: ['2026-04-10'],
-        allocation: null,
+        home: { id: 't1', name: 'Home', organisation: null },
+        id: 'g1',
+        pool: null,
+        result: null,
+        status: { name: 'Upcoming', value: 'UPCOMING' },
         ...overrides,
     };
 }
 
 function result(outcome: string, home: number, away: number): FixtureGame {
     return game({
-        status: { name: 'Final', value: 'FINAL' },
         result: {
-            winner: null,
-            outcome: { name: outcome, value: outcome },
-            home: {
-                outcome: null,
-                statistics: [{ count: home, type: { value: 'TOTAL_SCORE' } }],
-                gameOutcomeDescription: '',
-            },
             away: {
+                gameOutcomeDescription: '',
                 outcome: null,
                 statistics: [{ count: away, type: { value: 'TOTAL_SCORE' } }],
-                gameOutcomeDescription: '',
             },
+            home: {
+                gameOutcomeDescription: '',
+                outcome: null,
+                statistics: [{ count: home, type: { value: 'TOTAL_SCORE' } }],
+            },
+            outcome: { name: outcome, value: outcome },
+            winner: null,
         },
+        status: { name: 'Final', value: 'FINAL' },
     });
 }
 
@@ -64,9 +64,9 @@ describe(scoreOf, () => {
     it('reads the TOTAL_SCORE statistic rather than a scalar field', () => {
         expect(
             scoreOf({
+                gameOutcomeDescription: '',
                 outcome: null,
                 statistics: [{ count: 49, type: { value: 'TOTAL_SCORE' } }],
-                gameOutcomeDescription: '',
             }),
         ).toBe(49);
     });
@@ -74,9 +74,9 @@ describe(scoreOf, () => {
     it('is null when no TOTAL_SCORE statistic is present', () => {
         expect(
             scoreOf({
+                gameOutcomeDescription: '',
                 outcome: null,
                 statistics: [{ count: 3, type: { value: 'SOMETHING_ELSE' } }],
-                gameOutcomeDescription: '',
             }),
         ).toBeNull();
     });
@@ -91,74 +91,74 @@ describe(classifyGame, () => {
         expect(
             classifyGame(result('HOME_TEAM_WON_BY_SCORE', 45, 32)),
         ).toStrictEqual({
-            status: 'final',
             forfeitingSide: null,
+            status: 'final',
         });
     });
 
     it('is final for a draw', () => {
         expect(classifyGame(result('DRAW_BY_SCORE', 48, 48))).toStrictEqual({
-            status: 'final',
             forfeitingSide: null,
+            status: 'final',
         });
     });
 
     it('records the home side as forfeiting when the away team won by forfeit', () => {
         expect(
             classifyGame(result('AWAY_TEAM_WON_BY_FORFEIT', 0, 20)),
-        ).toStrictEqual({ status: 'forfeit', forfeitingSide: 'home' });
+        ).toStrictEqual({ forfeitingSide: 'home', status: 'forfeit' });
     });
 
     it('records the away side as forfeiting when the home team won by forfeit', () => {
         expect(
             classifyGame(result('HOME_TEAM_WON_BY_FORFEIT', 20, 0)),
-        ).toStrictEqual({ status: 'forfeit', forfeitingSide: 'away' });
+        ).toStrictEqual({ forfeitingSide: 'away', status: 'forfeit' });
     });
 
     it('records both sides for a double forfeit', () => {
         expect(classifyGame(result('DOUBLE_FORFEIT', 0, 0))).toStrictEqual({
-            status: 'forfeit',
             forfeitingSide: 'both',
+            status: 'forfeit',
         });
     });
 
     it('is scheduled when the game is upcoming with no result', () => {
         expect(classifyGame(game({}))).toStrictEqual({
-            status: 'scheduled',
             forfeitingSide: null,
+            status: 'scheduled',
         });
     });
 
     it('is no_result when a finished game carries no result', () => {
         expect(
             classifyGame(game({ status: { name: 'Final', value: 'FINAL' } })),
-        ).toStrictEqual({ status: 'no_result', forfeitingSide: null });
+        ).toStrictEqual({ forfeitingSide: null, status: 'no_result' });
     });
 
     it('is no_result when a finished game is missing a score', () => {
         const missing = game({
-            status: { name: 'Final', value: 'FINAL' },
             result: {
-                winner: null,
+                away: {
+                    gameOutcomeDescription: '',
+                    outcome: null,
+                    statistics: [],
+                },
+                home: {
+                    gameOutcomeDescription: '',
+                    outcome: null,
+                    statistics: [{ count: 40, type: { value: 'TOTAL_SCORE' } }],
+                },
                 outcome: {
                     name: 'HOME_TEAM_WON_BY_SCORE',
                     value: 'HOME_TEAM_WON_BY_SCORE',
                 },
-                home: {
-                    outcome: null,
-                    statistics: [{ count: 40, type: { value: 'TOTAL_SCORE' } }],
-                    gameOutcomeDescription: '',
-                },
-                away: {
-                    outcome: null,
-                    statistics: [],
-                    gameOutcomeDescription: '',
-                },
+                winner: null,
             },
+            status: { name: 'Final', value: 'FINAL' },
         });
         expect(classifyGame(missing)).toStrictEqual({
-            status: 'no_result',
             forfeitingSide: null,
+            status: 'no_result',
         });
     });
 
@@ -167,8 +167,8 @@ describe(classifyGame, () => {
         // TOTAL_SCORE on both sides. Scored as a draw it would invent a 0-0
         // in two clubs' records.
         expect(classifyGame(result('CANCELLED', 0, 0))).toStrictEqual({
-            status: 'no_result',
             forfeitingSide: null,
+            status: 'no_result',
         });
     });
 
@@ -178,7 +178,7 @@ describe(classifyGame, () => {
             classifyGame(
                 game({ status: { name: 'Pending', value: 'PENDING' } }),
             ),
-        ).toStrictEqual({ status: 'no_result', forfeitingSide: null });
+        ).toStrictEqual({ forfeitingSide: null, status: 'no_result' });
     });
 
     it('throws on an unrecognised status rather than guessing', () => {
@@ -346,18 +346,18 @@ describe(toGameRows, () => {
         const rows = toGameRows(
             [
                 {
-                    id: 'r1',
-                    name: 'Finals',
-                    number: 18,
                     abbreviatedName: 'F',
-                    isFinalsRound: true,
                     byes: [],
                     games: [
                         game({
-                            id: 'gf',
                             away: { name: 'Winner SF1' },
+                            id: 'gf',
                         }),
                     ],
+                    id: 'r1',
+                    isFinalsRound: true,
+                    name: 'Finals',
+                    number: 18,
                 },
             ],
             'premier-2026',

@@ -25,75 +25,75 @@ function bool(raw: string): boolean {
 export function parseSeasonRow(raw: RawRow): SeasonImportRow {
     return {
         competitionKey: raw.competition_key ?? '',
-        seasonKey: raw.season_key ?? '',
         competitionPeriod: raw.competition_period ?? '',
-        label: raw.label ?? '',
-        startYear: Number(raw.start_year),
         endYear: Number(raw.end_year),
         isFinal: bool(raw.is_final ?? ''),
+        label: raw.label ?? '',
         playhqId: str(raw.playhq_id ?? ''),
+        seasonKey: raw.season_key ?? '',
         source: raw.source ?? '',
+        startYear: Number(raw.start_year),
     };
 }
 
 export function parseClubRow(raw: RawRow): ClubImportRow {
     return {
         clubKey: raw.club_key ?? '',
-        name: raw.name ?? '',
         establishedYear: num(raw.established_year ?? ''),
         homeVenue: str(raw.home_venue ?? ''),
+        name: raw.name ?? '',
         playhqId: str(raw.playhq_id ?? ''),
     };
 }
 
 export function parseClubAliasRow(raw: RawRow): ClubAliasImportRow {
     return {
-        clubKey: raw.club_key ?? '',
         aliasText: raw.alias_text ?? '',
+        clubKey: raw.club_key ?? '',
         source: raw.source ?? '',
     };
 }
 
 export function parseGradeRow(raw: RawRow): GradeImportRow {
     return {
-        seasonKey: raw.season_key ?? '',
+        ageBand: str(raw.age_band ?? ''),
+        division: num(raw.division ?? ''),
         gradeKey: raw.grade_key ?? '',
         name: raw.name ?? '',
-        tier: Number(raw.tier),
-        division: num(raw.division ?? ''),
-        teamCount: Number(raw.team_count),
-        ageBand: str(raw.age_band ?? ''),
         playhqId: str(raw.playhq_id ?? ''),
+        seasonKey: raw.season_key ?? '',
+        teamCount: Number(raw.team_count),
+        tier: Number(raw.tier),
     };
 }
 
 export function parseTeamRow(raw: RawRow): TeamImportRow {
     return {
         clubKey: raw.club_key ?? '',
-        gradeKey: raw.grade_key ?? '',
         displayName: raw.display_name ?? '',
-        squadNumber: num(raw.squad_number ?? ''),
+        gradeKey: raw.grade_key ?? '',
         playhqId: str(raw.playhq_id ?? ''),
+        squadNumber: num(raw.squad_number ?? ''),
     };
 }
 
 export function parseGameRow(raw: RawRow, file: string): GameImportRow {
     return {
+        awayPlayhqId: str(raw.away_playhq_id ?? ''),
+        awayScore: num(raw.away_score ?? ''),
+        file,
+        forfeitingSide: str(raw.forfeiting_side ?? ''),
         gradeKey: raw.grade_key ?? '',
+        homePlayhqId: str(raw.home_playhq_id ?? ''),
+        homeScore: num(raw.home_score ?? ''),
+        isFinals: bool(raw.is_finals ?? ''),
+        playedAt: num(raw.played_at ?? ''),
         playhqId: raw.playhq_id ?? '',
         round: num(raw.round ?? ''),
         roundName: str(raw.round_name ?? ''),
-        isFinals: bool(raw.is_finals ?? ''),
-        playedAt: num(raw.played_at ?? ''),
-        homePlayhqId: str(raw.home_playhq_id ?? ''),
-        awayPlayhqId: str(raw.away_playhq_id ?? ''),
-        homeScore: num(raw.home_score ?? ''),
-        awayScore: num(raw.away_score ?? ''),
-        status: raw.status ?? '',
-        forfeitingSide: str(raw.forfeiting_side ?? ''),
-        source: raw.source ?? '',
         scrapedAt: num(raw.scraped_at ?? ''),
-        file,
+        source: raw.source ?? '',
+        status: raw.status ?? '',
     };
 }
 
@@ -104,11 +104,11 @@ type ResultTally = Pick<
 
 function parseResultTally(raw: RawRow): ResultTally {
     return {
-        played: num(raw.played ?? ''),
-        won: num(raw.won ?? ''),
+        byes: num(raw.byes ?? ''),
         drawn: num(raw.drawn ?? ''),
         lost: num(raw.lost ?? ''),
-        byes: num(raw.byes ?? ''),
+        played: num(raw.played ?? ''),
+        won: num(raw.won ?? ''),
     };
 }
 
@@ -125,11 +125,11 @@ type ResultScoring = Pick<
 
 function parseResultScoring(raw: RawRow): ResultScoring {
     return {
-        goalsFor: num(raw.goals_for ?? ''),
-        goalsAgainst: num(raw.goals_against ?? ''),
         goalDifference: num(raw.goal_difference ?? ''),
-        points: num(raw.points ?? ''),
+        goalsAgainst: num(raw.goals_against ?? ''),
+        goalsFor: num(raw.goals_for ?? ''),
         percentage: num(raw.percentage ?? ''),
+        points: num(raw.points ?? ''),
         shotsAttempted: num(raw.shots_attempted ?? ''),
         shotsScored: num(raw.shots_scored ?? ''),
     };
@@ -139,18 +139,18 @@ export function parseTeamSeasonResultRow(
     raw: RawRow,
 ): TeamSeasonResultImportRow {
     return {
-        gradeKey: raw.grade_key ?? '',
         clubKey: raw.club_key ?? '',
-        squadNumber: num(raw.squad_number ?? ''),
-        playhqId: str(raw.playhq_id ?? ''),
         displayName: raw.display_name ?? '',
+        gradeKey: raw.grade_key ?? '',
         ladderPosition: Number(raw.ladder_position),
+        playhqId: str(raw.playhq_id ?? ''),
         positionUncertain: bool(raw.position_uncertain ?? ''),
+        squadNumber: num(raw.squad_number ?? ''),
         ...parseResultTally(raw),
         ...parseResultScoring(raw),
-        source: raw.source ?? '',
-        placementBasis: raw.placement_basis ?? '',
         notes: str(raw.notes ?? ''),
+        placementBasis: raw.placement_basis ?? '',
         scrapedAt: num(raw.scraped_at ?? ''),
+        source: raw.source ?? '',
     };
 }

@@ -12,48 +12,43 @@ function baseSpec(): SeedSpec {
                 name: 'AMND',
                 seasons: [
                     {
-                        seasonKey: 'amnd-2024',
-                        startYear: 2024,
-                        isFinal: true,
                         grades: [
                             {
                                 gradeKey: 'amnd-2024-a1',
                                 name: 'A1',
-                                tier: 1,
-                                teamCount: 2,
                                 results: [
                                     {
                                         clubKey: 'contax',
                                         clubName: 'Contax',
                                         displayName: 'Contax',
-                                        ladderPosition: 1,
-                                        won: 10,
-                                        lost: 0,
                                         drawn: 0,
+                                        ladderPosition: 1,
+                                        lost: 0,
+                                        won: 10,
                                     },
                                     {
                                         clubKey: 'garville',
                                         clubName: 'Garville',
                                         displayName: 'Garville',
-                                        ladderPosition: 2,
-                                        won: 0,
-                                        lost: 10,
                                         drawn: 0,
+                                        ladderPosition: 2,
+                                        lost: 10,
+                                        won: 0,
                                     },
                                 ],
+                                teamCount: 2,
+                                tier: 1,
                             },
                         ],
+                        isFinal: true,
+                        seasonKey: 'amnd-2024',
+                        startYear: 2024,
                     },
                     {
-                        seasonKey: 'amnd-2025',
-                        startYear: 2025,
-                        isFinal: false,
                         grades: [
                             {
                                 gradeKey: 'amnd-2025-a1',
                                 name: 'A1',
-                                tier: 1,
-                                teamCount: 2,
                                 results: [
                                     {
                                         clubKey: 'contax',
@@ -68,8 +63,13 @@ function baseSpec(): SeedSpec {
                                         ladderPosition: 2,
                                     },
                                 ],
+                                teamCount: 2,
+                                tier: 1,
                             },
                         ],
+                        isFinal: false,
+                        seasonKey: 'amnd-2025',
+                        startYear: 2025,
                     },
                 ],
             },

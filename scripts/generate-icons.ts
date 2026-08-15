@@ -26,8 +26,8 @@ async function main(): Promise<void> {
         await Promise.all(
             targets.map(async ({ name, size, square }) => {
                 const page = await browser.newPage({
-                    viewport: { width: size, height: size },
                     deviceScaleFactor: 1,
+                    viewport: { height: size, width: size },
                 });
                 const markup = (
                     square ? svg.replace(' rx="7"', '') : svg

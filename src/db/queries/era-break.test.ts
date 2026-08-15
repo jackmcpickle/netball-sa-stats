@@ -7,14 +7,14 @@ import {
 
 describe(movementBoundaryChanged, () => {
     const base = {
-        year: 2023,
-        previousYear: 2022,
         competitionKeys: new Set(['amnd']),
-        previousCompetitionKeys: new Set(['amnd']),
-        sources: new Set(['playhq']),
-        previousSources: new Set(['playhq']),
         placementBases: new Set(['regular_season_ladder']),
+        previousCompetitionKeys: new Set(['amnd']),
         previousPlacementBases: new Set(['regular_season_ladder']),
+        previousSources: new Set(['playhq']),
+        previousYear: 2022,
+        sources: new Set(['playhq']),
+        year: 2023,
     };
 
     it('is false for adjacent comparable seasons', () => {
@@ -25,8 +25,8 @@ describe(movementBoundaryChanged, () => {
         expect(
             movementBoundaryChanged({
                 ...base,
-                year: 2022,
                 previousYear: 2016,
+                year: 2022,
             }),
         ).toBeTruthy();
     });
@@ -35,12 +35,12 @@ describe(movementBoundaryChanged, () => {
         expect(
             movementBoundaryChanged({
                 ...base,
-                year: 2022,
-                previousYear: 2016,
-                sources: new Set(['playhq']),
-                previousSources: new Set(['archive_pdf']),
                 placementBases: new Set(['regular_season_ladder']),
                 previousPlacementBases: new Set(['final_premiership_placings']),
+                previousSources: new Set(['archive_pdf']),
+                previousYear: 2016,
+                sources: new Set(['playhq']),
+                year: 2022,
             }),
         ).toBeTruthy();
     });

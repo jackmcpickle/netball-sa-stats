@@ -38,8 +38,8 @@ export function AdminLoginPage(): JSX.Element {
             const submittedNext = formField(form, 'next');
             void loginFn({
                 data: {
-                    password: formField(form, 'password'),
                     next: submittedNext === '' ? undefined : submittedNext,
+                    password: formField(form, 'password'),
                 },
             });
         },

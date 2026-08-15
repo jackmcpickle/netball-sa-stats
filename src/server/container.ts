@@ -60,13 +60,13 @@ export interface Services {
 
 function createRepos(db: Db): Repos {
     return {
-        seasons: createSeasonsRepo(db),
         championship: createChampionshipRepo(db),
         clubs: createClubsRepo(db),
-        grades: createGradesRepo(db),
-        weights: createWeightsRepo(db),
         games: createGamesRepo(db),
+        grades: createGradesRepo(db),
         importRuns: createImportRunsRepo(db),
+        seasons: createSeasonsRepo(db),
+        weights: createWeightsRepo(db),
     };
 }
 
@@ -80,15 +80,15 @@ export function createServices(
 ): Services {
     const repos = createRepos(db);
     return {
-        rankings: createRankingsService(repos),
-        ladders: createLaddersService(repos),
-        clubs: createClubsService(repos),
-        method: createMethodService(repos),
-        headToHead: createHeadToHeadService(repos),
-        results: createResultsService(repos),
         admin: createAdminService(createImportRunsRepo(db), {
             startImport: extras?.startImport ?? defaultStartImport,
         }),
+        clubs: createClubsService(repos),
+        headToHead: createHeadToHeadService(repos),
+        ladders: createLaddersService(repos),
+        method: createMethodService(repos),
+        rankings: createRankingsService(repos),
+        results: createResultsService(repos),
     };
 }
 

@@ -1,4 +1,3 @@
-import { isNull } from 'es-toolkit';
 /**
  * The domain object for "every meeting between two clubs". Pure: the repo
  * hands it already-joined `GameFact`s and it folds them into a record, two
@@ -14,6 +13,7 @@ import { isNull } from 'es-toolkit';
  *    side, and a scheduled final can carry an undecided `ProvisionalTeam`;
  *    neither is a meeting between these two clubs.
  */
+import { isNull } from 'es-toolkit';
 import type { TableSpec } from '@/db/queries/pagination';
 import { bandLabel } from '@/pipeline/scoring/bands';
 import type { TableQuery } from '@/server/domain/table-query';
@@ -54,10 +54,10 @@ function toSided(fact: GameFact, a: ClubKey): Sided {
     const homeIsA = fact.homeClubKey === a;
     return {
         fact,
-        teamA: homeIsA ? fact.homeTeamName : fact.awayTeamName,
-        teamB: homeIsA ? fact.awayTeamName : fact.homeTeamName,
         scoreA: homeIsA ? fact.homeScore : fact.awayScore,
         scoreB: homeIsA ? fact.awayScore : fact.homeScore,
+        teamA: homeIsA ? fact.homeTeamName : fact.awayTeamName,
+        teamB: homeIsA ? fact.awayTeamName : fact.homeTeamName,
     };
 }
 
@@ -81,18 +81,18 @@ function resultOf(sided: Sided): 'W' | 'L' | 'D' | null {
 function toMeeting(sided: Sided): Meeting {
     const { fact } = sided;
     return {
-        year: fact.year,
-        round: fact.round,
-        roundName: fact.roundName,
+        gradeName: fact.gradeName,
         isFinals: fact.isFinals,
         playedAt: fact.playedAt,
-        gradeName: fact.gradeName,
-        teamA: sided.teamA,
-        teamB: sided.teamB,
+        result: resultOf(sided),
+        round: fact.round,
+        roundName: fact.roundName,
         scoreA: sided.scoreA,
         scoreB: sided.scoreB,
         status: fact.status,
-        result: resultOf(sided),
+        teamA: sided.teamA,
+        teamB: sided.teamB,
+        year: fact.year,
     };
 }
 
@@ -115,12 +115,12 @@ interface Tally {
 
 function emptyTally(): Tally {
     return {
+        drawn: 0,
+        goalsAgainst: 0,
+        goalsFor: 0,
+        lost: 0,
         played: 0,
         won: 0,
-        drawn: 0,
-        lost: 0,
-        goalsFor: 0,
-        goalsAgainst: 0,
     };
 }
 
@@ -169,12 +169,12 @@ function bySeasonFrom(sides: readonly Sided[]): readonly SeasonRecord[] {
     return [...tallyBy(sides, (sided) => sided.fact.year)]
         .toSorted(([left], [right]) => left - right)
         .map(([year, tally]) => ({
-            year,
+            drawn: tally.drawn,
+            goalDiff: tally.goalsFor - tally.goalsAgainst,
+            lost: tally.lost,
             played: tally.played,
             won: tally.won,
-            drawn: tally.drawn,
-            lost: tally.lost,
-            goalDiff: tally.goalsFor - tally.goalsAgainst,
+            year,
         }));
 }
 
@@ -182,12 +182,12 @@ function byBandFrom(sides: readonly Sided[]): readonly BandRecord[] {
     return [...tallyBy(sides, (sided) => sided.fact.tier)]
         .toSorted(([left], [right]) => left - right)
         .map(([tier, tally]) => ({
-            tier,
-            label: bandLabel(tier),
-            played: tally.played,
-            won: tally.won,
             drawn: tally.drawn,
+            label: bandLabel(tier),
             lost: tally.lost,
+            played: tally.played,
+            tier,
+            won: tally.won,
         }));
 }
 
@@ -213,10 +213,10 @@ export function buildHeadToHead(
     }
 
     return {
-        record: toRecord(overall),
-        bySeason: bySeasonFrom(sides),
         byBand: byBandFrom(sides),
+        bySeason: bySeasonFrom(sides),
         meetings: sides.map(toMeeting).toSorted(byRecency),
+        record: toRecord(overall),
     };
 }
 
@@ -247,9 +247,9 @@ export function topOpponents(
  * "biggest win" sort would put phantom results at the top.
  */
 export const MEETINGS_TABLE_SPEC: TableSpec = {
-    sortable: ['year', 'round', 'gradeName'],
-    defaultSort: 'year',
     defaultDesc: true,
+    defaultSort: 'year',
+    sortable: ['year', 'round', 'gradeName'],
 };
 
 type MeetingComparator = (left: Meeting, right: Meeting) => number;

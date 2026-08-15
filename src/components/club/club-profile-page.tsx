@@ -21,10 +21,10 @@ function nextTableSearch(
 ): (previous: TableSearch) => TableSearch {
     return (previous) => ({
         ...previous,
-        sort: next.sort,
         dir: next.desc ? 'desc' : 'asc',
         page: next.page,
         pageSize: next.pageSize,
+        sort: next.sort,
     });
 }
 
@@ -38,7 +38,7 @@ export function ClubProfilePage(): JSX.Element {
             // Full replace with no search: switching clubs resets sort and
             // page, since page 3 of the previous club's results is not a
             // meaningful destination.
-            void navigate({ to: '/clubs/$clubKey', params: { clubKey } });
+            void navigate({ params: { clubKey }, to: '/clubs/$clubKey' });
         },
         [navigate],
     );
@@ -46,15 +46,15 @@ export function ClubProfilePage(): JSX.Element {
     const onTableChange = useCallback(
         (next: TableState) => {
             void tableNavigate({
-                search: nextTableSearch(next),
                 resetScroll: false,
+                search: nextTableSearch(next),
             });
         },
         [tableNavigate],
     );
 
     const clubOptions = useMemo(
-        () => clubs.map((club) => ({ value: club.key, label: club.name })),
+        () => clubs.map((club) => ({ label: club.name, value: club.key })),
         [clubs],
     );
 

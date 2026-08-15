@@ -27,5 +27,5 @@ export function partitionClubs(
             past.push(club);
         }
     }
-    return { present, past };
+    return { past, present };
 }

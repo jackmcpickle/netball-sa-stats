@@ -66,45 +66,45 @@ export function pageHead({
     const full = pageTitle(title);
     if (noIndex) {
         return {
+            links: [{ href: url, rel: 'canonical' }],
             meta: [
                 { title: full },
-                { name: 'description', content: description },
-                { name: 'robots', content: 'noindex, nofollow' },
+                { content: description, name: 'description' },
+                { content: 'noindex, nofollow', name: 'robots' },
             ],
-            links: [{ rel: 'canonical', href: url }],
         };
     }
     return {
-        meta: [
-            { title: full },
-            { name: 'description', content: description },
-            { property: 'og:type', content: 'website' },
-            { property: 'og:site_name', content: SITE.name },
-            { property: 'og:locale', content: SITE.locale },
-            { property: 'og:title', content: full },
-            { property: 'og:description', content: description },
-            { property: 'og:url', content: url },
-            { property: 'og:image', content: absoluteUrl('/icon-512.png') },
-            { name: 'twitter:card', content: 'summary' },
-            { name: 'twitter:title', content: full },
-            { name: 'twitter:description', content: description },
-            { name: 'twitter:image', content: absoluteUrl('/icon-512.png') },
-            jsonLdMeta([
-                organizationSchema(),
-                webSiteSchema(),
-                webPageSchema({ name: full, description, path, dateModified }),
-                ...schema,
-            ]),
-        ],
         links: [
-            { rel: 'canonical', href: url },
+            { href: url, rel: 'canonical' },
             // The markdown twin, so an agent that parses HTML can find the
             // cheap-to-read version without guessing.
             {
+                href: absoluteUrl(markdownPath(path)),
                 rel: 'alternate',
                 type: 'text/markdown',
-                href: absoluteUrl(markdownPath(path)),
             },
+        ],
+        meta: [
+            { title: full },
+            { content: description, name: 'description' },
+            { content: 'website', property: 'og:type' },
+            { content: SITE.name, property: 'og:site_name' },
+            { content: SITE.locale, property: 'og:locale' },
+            { content: full, property: 'og:title' },
+            { content: description, property: 'og:description' },
+            { content: url, property: 'og:url' },
+            { content: absoluteUrl('/icon-512.png'), property: 'og:image' },
+            { content: 'summary', name: 'twitter:card' },
+            { content: full, name: 'twitter:title' },
+            { content: description, name: 'twitter:description' },
+            { content: absoluteUrl('/icon-512.png'), name: 'twitter:image' },
+            jsonLdMeta([
+                organizationSchema(),
+                webSiteSchema(),
+                webPageSchema({ dateModified, description, name: full, path }),
+                ...schema,
+            ]),
         ],
     };
 }

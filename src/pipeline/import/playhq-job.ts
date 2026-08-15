@@ -1,8 +1,8 @@
-import { isUndefined } from 'es-toolkit';
 /**
  * Worker/CLI-agnostic PlayHQ import job: lock → collect → subset upsert →
  * record. No Workflow class, R2, or live PlayHQ client lives here.
  */
+import { isUndefined } from 'es-toolkit';
 import type { CsvValue } from '@/pipeline/csv';
 import type { CaptureStore } from '@/pipeline/fetch/capture-store';
 import type { ClubRegistry } from '@/pipeline/fetch/club-registry';
@@ -111,7 +111,7 @@ function subsetCollected(
     const games = [...collected.gamesByYear.values()]
         .flat()
         .filter((game) => gradeKeys.has(game.grade_key));
-    return { seasons, grades, teams, results, games };
+    return { games, grades, results, seasons, teams };
 }
 
 /**
@@ -203,11 +203,11 @@ async function acquireLock(input: {
     // alongside the one that is genuinely still going.
     if (await input.runs.hasRunningSince(cutoff)) {
         await input.runs.insertSkipped({
+            finishedAt: finishedNow(),
+            games: input.games,
             instanceId: input.instanceId,
             startedAt: input.nowEpochSeconds,
             yearsJson: input.yearsJson,
-            games: input.games,
-            finishedAt: finishedNow(),
         });
         return { skipped: true };
     }
@@ -216,10 +216,10 @@ async function acquireLock(input: {
         await input.runs.markError(row.id, finishedNow(), 'stale running row');
     }
     return await input.runs.insertRunning({
+        games: input.games,
         instanceId: input.instanceId,
         startedAt: input.nowEpochSeconds,
         yearsJson: input.yearsJson,
-        games: input.games,
     });
 }
 
@@ -238,29 +238,32 @@ async function collectAndImport(input: PlayHqJobInput): Promise<JobOutcome> {
         clubRegistry.getClubs().map((club) => club.club_key),
     );
     const collected = await collect({
-        store: input.store,
         cacheFirst: input.cacheFirst,
         clubRegistry,
-        isFinalBySeasonKey: input.isFinalBySeasonKey,
         games: input.params.games,
+        isFinalBySeasonKey: input.isFinalBySeasonKey,
+        store: input.store,
         years: input.params.years,
     });
     const subset = subsetCollected(collected, input.params.years);
     const data = toImportData({
-        seasons: subset.seasons,
-        clubs: clubRegistry.getClubs(),
         aliases: clubRegistry.getAliases(),
-        grades: subset.grades,
-        teams: subset.teams,
-        results: subset.results,
+        clubs: clubRegistry.getClubs(),
         games: subset.games,
+        grades: subset.grades,
+        results: subset.results,
+        seasons: subset.seasons,
+        teams: subset.teams,
     });
+    // Awaited before the literal: the warnings below read state that
+    // `runImportData` touches, so evaluation order here is load-bearing.
+    const report = await runImportData(data, input.executor, 'subset');
     return {
-        report: await runImportData(data, input.executor, 'subset'),
         collectWarnings: [
             ...skippedGradeWarnings(collected.report.skippedGrades),
             ...newClubWarnings(clubRegistry, knownClubKeys),
         ],
+        report,
     };
 }
 
@@ -269,11 +272,11 @@ export async function runPlayHqJob(
 ): Promise<ImportReport | { skipped: true }> {
     const yearsJson = yearsJsonOf(input.params.years);
     const lock = await acquireLock({
-        runs: input.runs,
-        nowEpochSeconds: input.nowEpochSeconds,
-        instanceId: input.instanceId,
-        yearsJson,
         games: input.params.games,
+        instanceId: input.instanceId,
+        nowEpochSeconds: input.nowEpochSeconds,
+        runs: input.runs,
+        yearsJson,
     });
     if (typeof lock !== 'number') {
         return lock;
@@ -282,11 +285,11 @@ export async function runPlayHqJob(
     try {
         const { report, collectWarnings } = await collectAndImport(input);
         await input.runs.markOk(lock, finishedNow(), {
-            seasons: report.seasons,
-            grades: report.grades,
-            teams: report.teams,
-            results: report.results,
             gamesCount: report.games,
+            grades: report.grades,
+            results: report.results,
+            seasons: report.seasons,
+            teams: report.teams,
             warningsJson: JSON.stringify([
                 ...warningMessages(report),
                 ...collectWarnings,

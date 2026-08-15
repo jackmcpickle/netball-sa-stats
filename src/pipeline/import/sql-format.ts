@@ -1,5 +1,5 @@
-import { isNull } from 'es-toolkit';
 /** Inline SQL literal formatting. `wrangler d1 execute --file` has no bind-parameter support. */
+import { isNull } from 'es-toolkit';
 
 export function sqlText(value: string | null): string {
     return isNull(value) ? 'NULL' : `'${value.replaceAll("'", "''")}'`;

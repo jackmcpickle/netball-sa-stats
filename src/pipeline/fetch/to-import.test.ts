@@ -6,248 +6,248 @@ import { toImportData } from '@/pipeline/fetch/to-import';
 
 const season: SeasonRow = {
     competition_key: 'amnd',
-    season_key: 'amnd-winter-2025',
     competition_period: 'winter',
-    label: 'Winter 2025',
-    start_year: 2025,
     end_year: 2025,
     is_final: 0,
+    label: 'Winter 2025',
     playhq_id: 'season-playhq-id',
+    season_key: 'amnd-winter-2025',
     source: 'playhq',
+    start_year: 2025,
     status: 'active',
 };
 
 const club: ClubRow = {
     club_key: 'matrics',
-    name: 'Matrics',
     established_year: '1952',
     home_venue: 'Matrics Courts',
+    name: 'Matrics',
     playhq_id: 'club-playhq-id',
 };
 
 const alias: ClubAliasRow = {
-    club_key: 'matrics',
     alias_text: 'MATRICS',
+    club_key: 'matrics',
     source: 'playhq',
 };
 
 const grade: GradeRow = {
-    season_key: 'amnd-winter-2025',
+    age_band: 'Senior',
+    division: null,
     grade_key: 'amnd-winter-2025-a-grade',
     name: 'A GRADE',
-    tier: 4,
-    division: null,
-    team_count: 2,
-    age_band: 'Senior',
     playhq_id: 'grade-playhq-id',
+    season_key: 'amnd-winter-2025',
+    team_count: 2,
+    tier: 4,
 };
 
 const team: TeamRow = {
     club_key: 'matrics',
-    grade_key: 'amnd-winter-2025-a-grade',
     display_name: 'Matrics',
-    squad_number: 1,
+    grade_key: 'amnd-winter-2025-a-grade',
     playhq_id: 'team-playhq-id',
+    squad_number: 1,
 };
 
 const result = {
-    grade_key: 'amnd-winter-2025-a-grade',
-    club_key: 'matrics',
-    squad_number: 1,
-    playhq_id: 'team-playhq-id',
-    display_name: 'Matrics',
-    ladder_position: 1,
-    position_uncertain: 0,
-    played: 10,
-    won: 8,
-    drawn: 0,
-    lost: 2,
     byes: 0,
-    goals_for: 500,
-    goals_against: 400,
+    club_key: 'matrics',
+    display_name: 'Matrics',
+    drawn: 0,
     goal_difference: 100,
-    points: 16,
+    goals_against: 400,
+    goals_for: 500,
+    grade_key: 'amnd-winter-2025-a-grade',
+    ladder_position: 1,
+    lost: 2,
+    notes: null,
     percentage: 125,
+    placement_basis: 'regular_season_ladder',
+    played: 10,
+    playhq_id: 'team-playhq-id',
+    points: 16,
+    position_uncertain: 0,
+    scraped_at: 1_700_000_000_000,
     shots_attempted: null,
     shots_scored: null,
     source: 'playhq',
-    placement_basis: 'regular_season_ladder',
-    notes: null,
-    scraped_at: 1_700_000_000_000,
+    squad_number: 1,
+    won: 8,
 };
 
 const game: GameRow = {
+    away_playhq_id: 'team-away',
+    away_score: 48,
+    forfeiting_side: null,
     grade_key: 'amnd-winter-2025-a-grade',
+    home_playhq_id: 'team-home',
+    home_score: 49,
+    is_finals: 0,
+    played_at: 1_743_830_100,
     playhq_id: 'game-playhq-id',
     round: 1,
     round_name: 'Round 1',
-    is_finals: 0,
-    played_at: 1_743_830_100,
-    home_playhq_id: 'team-home',
-    away_playhq_id: 'team-away',
-    home_score: 49,
-    away_score: 48,
-    status: 'final',
-    forfeiting_side: null,
-    source: 'playhq',
     scraped_at: 1_700_000_000_000,
+    source: 'playhq',
+    status: 'final',
 };
 
 describe(toImportData, () => {
     it('maps a SeasonRow is_final: 0 to isFinal false, keeping source and playhqId', () => {
         const data = toImportData({
-            seasons: [season],
-            clubs: [],
             aliases: [],
-            grades: [],
-            teams: [],
-            results: [],
+            clubs: [],
             games: [],
+            grades: [],
+            results: [],
+            seasons: [season],
+            teams: [],
         });
         expect(data.seasons).toStrictEqual([
             {
                 competitionKey: 'amnd',
-                seasonKey: 'amnd-winter-2025',
                 competitionPeriod: 'winter',
-                label: 'Winter 2025',
-                startYear: 2025,
                 endYear: 2025,
                 isFinal: false,
+                label: 'Winter 2025',
                 playhqId: 'season-playhq-id',
+                seasonKey: 'amnd-winter-2025',
                 source: 'playhq',
+                startYear: 2025,
             },
         ]);
     });
 
     it('maps is_final: 1 to isFinal true', () => {
         const data = toImportData({
-            seasons: [{ ...season, is_final: 1 }],
-            clubs: [],
             aliases: [],
-            grades: [],
-            teams: [],
-            results: [],
+            clubs: [],
             games: [],
+            grades: [],
+            results: [],
+            seasons: [{ ...season, is_final: 1 }],
+            teams: [],
         });
         expect(data.seasons[0]?.isFinal).toBeTruthy();
     });
 
     it('maps a GameRow to GameImportRow with games-<year>.csv from the season year', () => {
         const data = toImportData({
-            seasons: [],
-            clubs: [],
             aliases: [],
-            grades: [],
-            teams: [],
-            results: [],
+            clubs: [],
             games: [game],
+            grades: [],
+            results: [],
+            seasons: [],
+            teams: [],
         });
         expect(data.games).toStrictEqual([
             {
+                awayPlayhqId: 'team-away',
+                awayScore: 48,
+                file: 'games-2025.csv',
+                forfeitingSide: null,
                 gradeKey: 'amnd-winter-2025-a-grade',
+                homePlayhqId: 'team-home',
+                homeScore: 49,
+                isFinals: false,
+                playedAt: 1_743_830_100,
                 playhqId: 'game-playhq-id',
                 round: 1,
                 roundName: 'Round 1',
-                isFinals: false,
-                playedAt: 1_743_830_100,
-                homePlayhqId: 'team-home',
-                awayPlayhqId: 'team-away',
-                homeScore: 49,
-                awayScore: 48,
-                status: 'final',
-                forfeitingSide: null,
-                source: 'playhq',
                 scrapedAt: 1_700_000_000_000,
-                file: 'games-2025.csv',
+                source: 'playhq',
+                status: 'final',
             },
         ]);
     });
 
     it('derives games-<year>.csv from played_at when grade_key has no season year', () => {
         const data = toImportData({
-            seasons: [],
-            clubs: [],
             aliases: [],
-            grades: [],
-            teams: [],
-            results: [],
+            clubs: [],
             games: [{ ...game, grade_key: 'unkeyed-grade' }],
+            grades: [],
+            results: [],
+            seasons: [],
+            teams: [],
         });
         expect(data.games[0]?.file).toBe('games-2025.csv');
     });
 
     it('maps clubs, aliases, grades, teams and results using parse.ts field names', () => {
         const data = toImportData({
-            seasons: [season],
-            clubs: [club],
             aliases: [alias],
-            grades: [grade],
-            teams: [team],
-            results: [result],
+            clubs: [club],
             games: [game],
+            grades: [grade],
+            results: [result],
+            seasons: [season],
+            teams: [team],
         });
         expect(data.clubs).toStrictEqual([
             {
                 clubKey: 'matrics',
-                name: 'Matrics',
                 establishedYear: 1952,
                 homeVenue: 'Matrics Courts',
+                name: 'Matrics',
                 playhqId: 'club-playhq-id',
             },
         ]);
         expect(data.clubAliases).toStrictEqual([
             {
-                clubKey: 'matrics',
                 aliasText: 'MATRICS',
+                clubKey: 'matrics',
                 source: 'playhq',
             },
         ]);
         expect(data.grades).toStrictEqual([
             {
-                seasonKey: 'amnd-winter-2025',
+                ageBand: 'Senior',
+                division: null,
                 gradeKey: 'amnd-winter-2025-a-grade',
                 name: 'A GRADE',
-                tier: 4,
-                division: null,
-                teamCount: 2,
-                ageBand: 'Senior',
                 playhqId: 'grade-playhq-id',
+                seasonKey: 'amnd-winter-2025',
+                teamCount: 2,
+                tier: 4,
             },
         ]);
         expect(data.teams).toStrictEqual([
             {
                 clubKey: 'matrics',
-                gradeKey: 'amnd-winter-2025-a-grade',
                 displayName: 'Matrics',
-                squadNumber: 1,
+                gradeKey: 'amnd-winter-2025-a-grade',
                 playhqId: 'team-playhq-id',
+                squadNumber: 1,
             },
         ]);
         expect(data.results).toStrictEqual([
             {
-                gradeKey: 'amnd-winter-2025-a-grade',
-                clubKey: 'matrics',
-                squadNumber: 1,
-                playhqId: 'team-playhq-id',
-                displayName: 'Matrics',
-                ladderPosition: 1,
-                positionUncertain: false,
-                played: 10,
-                won: 8,
-                drawn: 0,
-                lost: 2,
                 byes: 0,
-                goalsFor: 500,
-                goalsAgainst: 400,
+                clubKey: 'matrics',
+                displayName: 'Matrics',
+                drawn: 0,
                 goalDifference: 100,
-                points: 16,
+                goalsAgainst: 400,
+                goalsFor: 500,
+                gradeKey: 'amnd-winter-2025-a-grade',
+                ladderPosition: 1,
+                lost: 2,
+                notes: null,
                 percentage: 125,
+                placementBasis: 'regular_season_ladder',
+                played: 10,
+                playhqId: 'team-playhq-id',
+                points: 16,
+                positionUncertain: false,
+                scrapedAt: 1_700_000_000_000,
                 shotsAttempted: null,
                 shotsScored: null,
                 source: 'playhq',
-                placementBasis: 'regular_season_ladder',
-                notes: null,
-                scrapedAt: 1_700_000_000_000,
+                squadNumber: 1,
+                won: 8,
             },
         ]);
     });

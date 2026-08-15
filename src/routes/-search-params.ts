@@ -1,10 +1,10 @@
-import { isUndefined } from 'es-toolkit';
 /**
  * Coerces an optional search-param value to an integer, treating anything
  * unparseable (NaN, empty string, out-of-range hints) as absent rather than
  * throwing. Route loaders fall back to a sensible default when this returns
  * `undefined`, so a garbage query string never produces a 500.
  */
+import { isUndefined } from 'es-toolkit';
 // oxlint-disable-next-line anti-slop/no-unknown-parameters -- this IS the query-string parse boundary; TanStack hands validateSearch genuinely unknown values
 export function parseOptionalIntParam(value: unknown): number | undefined {
     if (isUndefined(value) || value === '') {

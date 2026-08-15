@@ -4,11 +4,11 @@ import type { Club } from '@/server/dto/shared.dto';
 
 function club(key: string): Club {
     return {
-        key,
-        name: key,
+        accent: 'pink',
         establishedYear: null,
         homeVenue: null,
-        accent: 'pink',
+        key,
+        name: key,
     };
 }
 

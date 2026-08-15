@@ -28,15 +28,10 @@ function baseSpec(): SeedSpec {
                 name: 'AMND',
                 seasons: [
                     {
-                        seasonKey: 'amnd-2024',
-                        startYear: 2024,
-                        isFinal: true,
                         grades: [
                             {
                                 gradeKey: 'amnd-2024-a1',
                                 name: 'A1',
-                                tier: 2,
-                                teamCount: 2,
                                 results: [
                                     {
                                         clubKey: 'contax',
@@ -51,19 +46,19 @@ function baseSpec(): SeedSpec {
                                         ladderPosition: 2,
                                     },
                                 ],
+                                teamCount: 2,
+                                tier: 2,
                             },
                         ],
+                        isFinal: true,
+                        seasonKey: 'amnd-2024',
+                        startYear: 2024,
                     },
                     {
-                        seasonKey: 'amnd-2025',
-                        startYear: 2025,
-                        isFinal: true,
                         grades: [
                             {
                                 gradeKey: 'amnd-2025-premier',
                                 name: 'Premier',
-                                tier: 1,
-                                teamCount: 2,
                                 results: [
                                     {
                                         clubKey: 'contax',
@@ -78,8 +73,13 @@ function baseSpec(): SeedSpec {
                                         ladderPosition: 2,
                                     },
                                 ],
+                                teamCount: 2,
+                                tier: 1,
                             },
                         ],
+                        isFinal: true,
+                        seasonKey: 'amnd-2025',
+                        startYear: 2025,
                     },
                 ],
             },
@@ -104,16 +104,16 @@ describe('method service', () => {
         expect(result.weights).toHaveLength(2);
         // Ordered by tier ascending: tier 1 (Premier) before tier 2 (A1).
         expect(result.weights[0]).toMatchObject({
-            tier: 1,
-            label: 'Premier',
-            weight: 1,
             competitionName: 'AMND',
+            label: 'Premier',
+            tier: 1,
+            weight: 1,
         });
         expect(result.weights[1]).toMatchObject({
-            tier: 2,
-            label: 'A1',
-            weight: 1,
             competitionName: 'AMND',
+            label: 'A1',
+            tier: 2,
+            weight: 1,
         });
     });
 });

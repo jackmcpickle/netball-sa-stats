@@ -98,9 +98,9 @@ export function scoreOf(side: SideResult | null): number | null {
 // arbitrary outcome string, not one of these three known keys.
 const FORFEIT_OUTCOMES = new Map<string, ForfeitSide>(
     Object.entries({
-        HOME_TEAM_WON_BY_FORFEIT: 'away',
         AWAY_TEAM_WON_BY_FORFEIT: 'home',
         DOUBLE_FORFEIT: 'both',
+        HOME_TEAM_WON_BY_FORFEIT: 'away',
     } satisfies Record<string, ForfeitSide>),
 );
 
@@ -125,11 +125,11 @@ const NO_RESULT_OUTCOMES = new Set(['CANCELLED', 'ABANDONED']);
 // See `FORFEIT_OUTCOMES` on why this is a `Map`.
 const UNPLAYED_STATUSES = new Map<string, GameStatus>(
     Object.entries({
-        UPCOMING: 'scheduled',
-        PENDING: 'no_result',
         CANCELLED: 'no_result',
         FINAL: 'no_result',
         IN_PROGRESS: 'scheduled',
+        PENDING: 'no_result',
+        UPCOMING: 'scheduled',
     } satisfies Record<string, GameStatus>),
 );
 
@@ -155,17 +155,17 @@ export function classifyGame(game: FixtureGame): GameClassification {
                     'Add it to games.ts and document it in docs/playhq-api.md §6.',
             );
         }
-        return { status, forfeitingSide: null };
+        return { forfeitingSide: null, status };
     }
 
     const outcome = game.result.outcome?.value ?? null;
     if (isNull(outcome) || NO_RESULT_OUTCOMES.has(outcome)) {
-        return { status: 'no_result', forfeitingSide: null };
+        return { forfeitingSide: null, status: 'no_result' };
     }
 
     const forfeitingSide = FORFEIT_OUTCOMES.get(outcome);
     if (!isUndefined(forfeitingSide)) {
-        return { status: 'forfeit', forfeitingSide };
+        return { forfeitingSide, status: 'forfeit' };
     }
 
     if (!SCORE_OUTCOMES.has(outcome)) {
@@ -180,22 +180,22 @@ export function classifyGame(game: FixtureGame): GameClassification {
     const home = scoreOf(game.result.home);
     const away = scoreOf(game.result.away);
     if (isNull(home) || isNull(away)) {
-        return { status: 'no_result', forfeitingSide: null };
+        return { forfeitingSide: null, status: 'no_result' };
     }
-    return { status: 'final', forfeitingSide: null };
+    return { forfeitingSide: null, status: 'final' };
 }
 
 const TIME_ZONE = 'Australia/Adelaide';
 
 const ZONE_FORMAT = new Intl.DateTimeFormat('en-US', {
-    timeZone: TIME_ZONE,
-    hour12: false,
-    year: 'numeric',
-    month: '2-digit',
     day: '2-digit',
     hour: '2-digit',
+    hour12: false,
     minute: '2-digit',
+    month: '2-digit',
     second: '2-digit',
+    timeZone: TIME_ZONE,
+    year: 'numeric',
 });
 
 function partValue(
@@ -297,42 +297,42 @@ export function toGameRows(
             const { status, forfeitingSide } = classifyGame(game);
             const scored = status === 'final' || status === 'forfeit';
             rows.push({
+                away_playhq_id: teamId(game.away),
+                away_score: scored ? scoreOf(game.result?.away ?? null) : null,
+                forfeiting_side: forfeitingSide,
                 grade_key: gradeKey,
-                playhq_id: game.id,
-                round: roundNumber,
-                round_name: game.alias ?? round.name,
+                home_playhq_id: teamId(game.home),
+                home_score: scored ? scoreOf(game.result?.home ?? null) : null,
                 is_finals: round.isFinalsRound ? 1 : 0,
                 played_at: playedAtEpoch(
                     game.date,
                     game.allocation?.time ?? null,
                 ),
-                home_playhq_id: teamId(game.home),
-                away_playhq_id: teamId(game.away),
-                home_score: scored ? scoreOf(game.result?.home ?? null) : null,
-                away_score: scored ? scoreOf(game.result?.away ?? null) : null,
-                status,
-                forfeiting_side: forfeitingSide,
-                source: 'playhq',
+                playhq_id: game.id,
+                round: roundNumber,
+                round_name: game.alias ?? round.name,
                 scraped_at: scrapedAt,
+                source: 'playhq',
+                status,
             });
         }
 
         for (const team of round.byes) {
             rows.push({
+                away_playhq_id: null,
+                away_score: null,
+                forfeiting_side: null,
                 grade_key: gradeKey,
+                home_playhq_id: teamId(team),
+                home_score: null,
+                is_finals: round.isFinalsRound ? 1 : 0,
+                played_at: null,
                 playhq_id: `bye:${round.id}:${team.id ?? team.name}`,
                 round: roundNumber,
                 round_name: round.name,
-                is_finals: round.isFinalsRound ? 1 : 0,
-                played_at: null,
-                home_playhq_id: teamId(team),
-                away_playhq_id: null,
-                home_score: null,
-                away_score: null,
-                status: 'bye',
-                forfeiting_side: null,
-                source: 'playhq',
                 scraped_at: scrapedAt,
+                source: 'playhq',
+                status: 'bye',
             });
         }
     }

@@ -15,10 +15,10 @@ import type { TableState } from '@/db/queries/pagination';
 import type { ChampionshipRow } from '@/server/dto/rankings.dto';
 
 const MOVEMENT_TONE = {
-    up: 'text-rise',
     down: 'text-fall',
     level: 'text-ink-faint',
     new: 'text-ink-faint',
+    up: 'text-rise',
 } as const;
 
 function renderRankCell(row: ChampionshipRow): ReactNode {
@@ -132,52 +132,52 @@ export function ChampionshipTable({
     const columns = useMemo<readonly DataTableColumn<ChampionshipRow>[]>(
         () => [
             {
-                id: 'rank',
-                header: 'RANK',
-                emphasis: 'strong',
-                sortable: true,
                 cell: renderRankCell,
+                emphasis: 'strong',
+                header: 'RANK',
+                id: 'rank',
+                sortable: true,
             },
             {
-                id: 'club',
-                header: 'CLUB',
-                emphasis: 'strong',
-                sortable: true,
                 cell: renderClubCell,
-            },
-            {
-                id: 'points',
-                header: 'CH. POINTS',
-                align: 'right',
                 emphasis: 'strong',
+                header: 'CLUB',
+                id: 'club',
                 sortable: true,
-                cell: renderPointsCell,
             },
             {
-                id: 'teams',
-                header: 'TEAMS',
                 align: 'right',
+                cell: renderPointsCell,
+                emphasis: 'strong',
+                header: 'CH. POINTS',
+                id: 'points',
                 sortable: true,
-                cell: renderTeamsCell,
             },
             {
-                id: 'winPercentage',
-                header: 'WIN %',
+                align: 'right',
+                cell: renderTeamsCell,
+                header: 'TEAMS',
+                id: 'teams',
+                sortable: true,
+            },
+            {
                 align: 'right',
                 cell: renderWinPercentageCell,
+                header: 'WIN %',
+                id: 'winPercentage',
             },
             {
-                id: 'minorPremierships',
-                header: 'LADDERS WON',
                 align: 'right',
                 cell: renderMinorPremiershipsCell,
+                header: 'LADDERS WON',
+                id: 'minorPremierships',
             },
             {
-                id: 'movement',
-                header: movementHeader,
                 align: 'right',
                 cell: (row): JSX.Element =>
                     renderMovementCell(row, coverageChanged, leaderPoints),
+                header: movementHeader,
+                id: 'movement',
             },
         ],
         [coverageChanged, leaderPoints, movementHeader],

@@ -7,23 +7,23 @@ import {
 
 const aliases = [
     {
-        club_key: 'adelaide-university',
         alias_text: 'Adelaide University',
+        club_key: 'adelaide-university',
         source: 'playhq',
     },
     {
-        club_key: 'adelaide-university',
         alias_text: 'Adeaide Uni.',
+        club_key: 'adelaide-university',
         source: 'archive_pdf',
     },
     {
-        club_key: 'metro-jets',
         alias_text: 'Western Jets',
+        club_key: 'metro-jets',
         source: 'archive_pdf',
     },
     {
-        club_key: 'oakdale-netball-club-sa',
         alias_text: 'Phoenix',
+        club_key: 'oakdale-netball-club-sa',
         source: 'archive_pdf',
     },
 ] as const;
@@ -62,9 +62,9 @@ describe(createArchiveClubResolver, () => {
 
         expect(() =>
             resolver.resolve('Mystery Club', {
-                year: 2016,
                 gradeName: 'A. GRADE',
                 ladderPosition: 4,
+                year: 2016,
             }),
         ).toThrow(
             'Unknown archive club name "Mystery Club" in 2016 A. GRADE position 4',
@@ -76,17 +76,17 @@ describe(syntheticArchivePlayhqId, () => {
     it('uses the locked archive id format and a stable null-squad token', () => {
         expect(
             syntheticArchivePlayhqId({
-                seasonKey: 'amnd-winter-2016',
-                gradeSlug: 'a-grade',
                 clubKey: 'contax',
+                gradeSlug: 'a-grade',
+                seasonKey: 'amnd-winter-2016',
                 squadNumber: null,
             }),
         ).toBe('archive:amnd-winter-2016:a-grade:contax:none');
         expect(
             syntheticArchivePlayhqId({
-                seasonKey: 'amnd-winter-2016',
-                gradeSlug: 'junior-4',
                 clubKey: 'walkerville',
+                gradeSlug: 'junior-4',
+                seasonKey: 'amnd-winter-2016',
                 squadNumber: 2,
             }),
         ).toBe('archive:amnd-winter-2016:junior-4:walkerville:2');

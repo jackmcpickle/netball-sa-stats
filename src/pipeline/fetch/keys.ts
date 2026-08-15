@@ -1,5 +1,5 @@
-import { isUndefined } from 'es-toolkit';
 /** Slug and stable-key helpers shared across the fetch pipeline. */
+import { isUndefined } from 'es-toolkit';
 
 export function slugify(name: string): string {
     return name

@@ -25,20 +25,20 @@ const homeClubs = alias(clubs, 'home_clubs');
 const awayClubs = alias(clubs, 'away_clubs');
 
 const FACT_COLUMNS = {
-    year: seasons.startYear,
-    tier: grades.tier,
+    awayClubKey: awayClubs.clubKey,
+    awayScore: games.awayScore,
+    awayTeamName: awayTeams.displayName,
     gradeName: grades.name,
-    round: games.round,
-    roundName: games.roundName,
+    homeClubKey: homeClubs.clubKey,
+    homeScore: games.homeScore,
+    homeTeamName: homeTeams.displayName,
     isFinals: games.isFinals,
     playedAt: games.playedAt,
-    homeClubKey: homeClubs.clubKey,
-    awayClubKey: awayClubs.clubKey,
-    homeTeamName: homeTeams.displayName,
-    awayTeamName: awayTeams.displayName,
-    homeScore: games.homeScore,
-    awayScore: games.awayScore,
+    round: games.round,
+    roundName: games.roundName,
     status: games.status,
+    tier: grades.tier,
+    year: seasons.startYear,
 };
 
 /**
@@ -121,20 +121,20 @@ async function fetchFacts(
 
     return rows.map(
         (row): GameFact => ({
-            year: row.year,
-            tier: row.tier,
+            awayClubKey: row.awayClubKey,
+            awayScore: row.awayScore,
+            awayTeamName: row.awayTeamName,
             gradeName: row.gradeName,
-            round: row.round,
-            roundName: row.roundName,
+            homeClubKey: row.homeClubKey,
+            homeScore: row.homeScore,
+            homeTeamName: row.homeTeamName,
             isFinals: row.isFinals,
             playedAt: row.playedAt,
-            homeClubKey: row.homeClubKey,
-            awayClubKey: row.awayClubKey,
-            homeTeamName: row.homeTeamName,
-            awayTeamName: row.awayTeamName,
-            homeScore: row.homeScore,
-            awayScore: row.awayScore,
+            round: row.round,
+            roundName: row.roundName,
             status: row.status,
+            tier: row.tier,
+            year: row.year,
         }),
     );
 }
@@ -246,25 +246,25 @@ export interface GamesRepo {
 
 export function createGamesRepo(db: Db): GamesRepo {
     return {
+        async countForGrade(gradeKey: string): Promise<number> {
+            return await countGamesForGrade(db, gradeKey);
+        },
         async factsForPair(
             clubA: string,
             clubB: string,
         ): Promise<readonly GameFact[]> {
             return await fetchGameFactsForPair(db, clubA, clubB);
         },
-        async countForGrade(gradeKey: string): Promise<number> {
-            return await countGamesForGrade(db, gradeKey);
+        async opponentCounts(
+            clubKey: string,
+        ): Promise<readonly OpponentCount[]> {
+            return await fetchOpponentCounts(db, clubKey);
         },
         async pageForGrade(
             gradeKey: string,
             request: PageRequest,
         ): Promise<readonly GameFact[]> {
             return await fetchGamePageForGrade(db, gradeKey, request);
-        },
-        async opponentCounts(
-            clubKey: string,
-        ): Promise<readonly OpponentCount[]> {
-            return await fetchOpponentCounts(db, clubKey);
         },
     };
 }

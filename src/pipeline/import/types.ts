@@ -1,5 +1,5 @@
-import { isNull } from 'es-toolkit';
 /** Shared types for stage 2 of the pipeline: CSV -> D1. */
+import { isNull } from 'es-toolkit';
 
 export type RawRow = Record<string, string>;
 

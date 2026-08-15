@@ -42,13 +42,13 @@ function baseCtx(
     isFinalBySeasonKey: ReadonlyMap<string, string>,
 ): GradeContext {
     return {
+        isFinalBySeasonKey,
         orgId: NETBALL_SA_ORG_ID,
         period: 'annual',
-        startYear: 2023,
         seasonName: 'Premier League 2023',
         seasonPlayhqId: 'season-2023-id',
         seasonStatus: 'in_progress',
-        isFinalBySeasonKey,
+        startYear: 2023,
     };
 }
 
@@ -114,7 +114,7 @@ describe(seasonWanted, () => {
 
 describe('processGrade curation safety: seasons.is_final', () => {
     const standings = loadStandings();
-    const grade = { id: 'grade-id', name: 'Premier Division', age: null };
+    const grade = { age: null, id: 'grade-id', name: 'Premier Division' };
 
     it('preserves an existing curated is_final=1 on re-merge', () => {
         const registry = new ClubRegistry([], []);
@@ -177,6 +177,16 @@ function makeStanding(overrides: {
     orgName: string;
 }): Standing {
     return {
+        byes: 0,
+        competitionPoints: 10,
+        drawn: 0,
+        forfeits: 0,
+        lost: 5,
+        percentage: 100,
+        played: 10,
+        pointsAgainst: 100,
+        pointsDifference: 0,
+        pointsFor: 100,
         team: {
             id: overrides.teamId,
             name: overrides.teamName,
@@ -186,22 +196,12 @@ function makeStanding(overrides: {
                 type: 'club',
             },
         },
-        played: 10,
         won: 5,
-        lost: 5,
-        drawn: 0,
-        byes: 0,
-        pointsFor: 100,
-        pointsAgainst: 100,
-        pointsDifference: 0,
-        forfeits: 0,
-        percentage: 100,
-        competitionPoints: 10,
     };
 }
 
 describe('team identity: playhq_id, not synthetic squad_number index', () => {
-    const grade = { id: 'grade-id', name: 'A GRADE', age: null };
+    const grade = { age: null, id: 'grade-id', name: 'A GRADE' };
     const ctx: GradeContext = {
         ...baseCtx(new Map()),
         orgId: AMND_ORG_ID,
@@ -212,16 +212,16 @@ describe('team identity: playhq_id, not synthetic squad_number index', () => {
         const registry = new ClubRegistry([], []);
         const standings = [
             makeStanding({
+                orgId: 'org-1',
+                orgName: 'City Coasters',
                 teamId: 'team-purple',
                 teamName: 'City Coasters Purple',
-                orgId: 'org-1',
-                orgName: 'City Coasters',
             }),
             makeStanding({
-                teamId: 'team-orange',
-                teamName: 'City Coasters Orange',
                 orgId: 'org-1',
                 orgName: 'City Coasters',
+                teamId: 'team-orange',
+                teamName: 'City Coasters Orange',
             }),
         ];
         const result = processGrade(grade, standings, ctx, registry, 1000);
@@ -245,16 +245,16 @@ describe('team identity: playhq_id, not synthetic squad_number index', () => {
         const registryRun1 = new ClubRegistry([], []);
         const standingsRun1 = [
             makeStanding({
+                orgId: 'org-1',
+                orgName: 'City Coasters',
                 teamId: 'team-purple',
                 teamName: 'City Coasters Purple',
-                orgId: 'org-1',
-                orgName: 'City Coasters',
             }),
             makeStanding({
-                teamId: 'team-orange',
-                teamName: 'City Coasters Orange',
                 orgId: 'org-1',
                 orgName: 'City Coasters',
+                teamId: 'team-orange',
+                teamName: 'City Coasters Orange',
             }),
         ];
         const run1 = processGrade(
@@ -274,16 +274,16 @@ describe('team identity: playhq_id, not synthetic squad_number index', () => {
         const registryRun2 = new ClubRegistry([], []);
         const standingsRun2 = [
             makeStanding({
+                orgId: 'org-1',
+                orgName: 'City Coasters',
                 teamId: 'team-purple',
                 teamName: 'City Coasters Purple',
-                orgId: 'org-1',
-                orgName: 'City Coasters',
             }),
             makeStanding({
-                teamId: 'team-green',
-                teamName: 'City Coasters Green',
                 orgId: 'org-1',
                 orgName: 'City Coasters',
+                teamId: 'team-green',
+                teamName: 'City Coasters Green',
             }),
         ];
         const run2 = processGrade(
@@ -308,16 +308,16 @@ describe('team identity: playhq_id, not synthetic squad_number index', () => {
         const registry = new ClubRegistry([], []);
         const standings = [
             makeStanding({
+                orgId: 'org-2',
+                orgName: 'Walkerville',
                 teamId: 'team-walkerville-1',
                 teamName: 'Walkerville 1',
-                orgId: 'org-2',
-                orgName: 'Walkerville',
             }),
             makeStanding({
-                teamId: 'team-walkerville-2',
-                teamName: 'Walkerville 2',
                 orgId: 'org-2',
                 orgName: 'Walkerville',
+                teamId: 'team-walkerville-2',
+                teamName: 'Walkerville 2',
             }),
         ];
         const result = processGrade(grade, standings, ctx, registry, 1000);
@@ -340,6 +340,14 @@ describe(archiveRowsToKeep, () => {
     // CSVs the archive-PDF pipeline writes into. Without this, one `--games`
     // run silently deletes 16 seasons of 2000-2016 history.
     const existing = {
+        grades: [
+            { grade_key: 'a-2005', season_key: 'amnd-winter-2005' },
+            { grade_key: 'a-2025', season_key: 'amnd-winter-2025' },
+        ],
+        results: [
+            { grade_key: 'a-2005', source: 'archive_pdf' },
+            { grade_key: 'a-2025', source: 'playhq' },
+        ],
         seasons: [
             {
                 season_key: 'amnd-winter-2005',
@@ -350,17 +358,9 @@ describe(archiveRowsToKeep, () => {
                 source: 'playhq',
             },
         ],
-        grades: [
-            { season_key: 'amnd-winter-2005', grade_key: 'a-2005' },
-            { season_key: 'amnd-winter-2025', grade_key: 'a-2025' },
-        ],
         teams: [
             { grade_key: 'a-2005', playhq_id: '' },
             { grade_key: 'a-2025', playhq_id: 'p1' },
-        ],
-        results: [
-            { grade_key: 'a-2005', source: 'archive_pdf' },
-            { grade_key: 'a-2025', source: 'playhq' },
         ],
     };
 
@@ -394,10 +394,10 @@ describe(archiveRowsToKeep, () => {
 
     it('keeps nothing when there is no archive data at all', () => {
         const kept = archiveRowsToKeep({
-            seasons: [{ season_key: 'a', source: 'playhq' }],
-            grades: [{ season_key: 'a', grade_key: 'g' }],
-            teams: [{ grade_key: 'g', playhq_id: 'p' }],
+            grades: [{ grade_key: 'g', season_key: 'a' }],
             results: [{ grade_key: 'g', source: 'playhq' }],
+            seasons: [{ season_key: 'a', source: 'playhq' }],
+            teams: [{ grade_key: 'g', playhq_id: 'p' }],
         });
         expect(kept.seasons).toStrictEqual([]);
         expect(kept.grades).toStrictEqual([]);
@@ -421,21 +421,21 @@ describe(archiveRowsToKeep, () => {
     it('keeps playhq seasons this run did not fetch, plus archive rows', () => {
         // `--year=2026` only accumulates 2026; writeCsvs must not wipe 2025.
         const yearFiltered = {
-            seasons: [
-                ...existing.seasons,
-                { season_key: 'amnd-winter-2026', source: 'playhq' },
-            ],
             grades: [
                 ...existing.grades,
-                { season_key: 'amnd-winter-2026', grade_key: 'a-2026' },
-            ],
-            teams: [
-                ...existing.teams,
-                { grade_key: 'a-2026', playhq_id: 'p2' },
+                { grade_key: 'a-2026', season_key: 'amnd-winter-2026' },
             ],
             results: [
                 ...existing.results,
                 { grade_key: 'a-2026', source: 'playhq' },
+            ],
+            seasons: [
+                ...existing.seasons,
+                { season_key: 'amnd-winter-2026', source: 'playhq' },
+            ],
+            teams: [
+                ...existing.teams,
+                { grade_key: 'a-2026', playhq_id: 'p2' },
             ],
         };
         const kept = archiveRowsToKeep(
@@ -478,7 +478,7 @@ interface CaptureEnvelope {
 }
 
 function seedEntry(data: unknown): CaptureSeedEntry {
-    return { data, capturedAtMs: CAPTURED_AT_MS };
+    return { capturedAtMs: CAPTURED_AT_MS, data };
 }
 
 function discoverEnvelope(
@@ -497,17 +497,17 @@ function discoverEnvelope(
                 {
                     id: 'comp',
                     name: orgName,
+                    organisation: { id: orgId, name: orgName },
                     seasons: seasons.map((season) => ({
+                        endDate: season.startDate,
                         id: season.id,
                         name: season.name,
                         startDate: season.startDate,
-                        endDate: season.startDate,
                         status: {
                             name: season.status ?? 'Completed',
                             value: (season.status ?? 'COMPLETED').toUpperCase(),
                         },
                     })),
-                    organisation: { id: orgId, name: orgName },
                 },
             ],
         },
@@ -522,22 +522,22 @@ function seasonEnvelope(
     return {
         data: {
             discoverSeason: {
-                id: seasonId,
-                name: seasonName,
                 competition: {
                     id: 'c',
                     name: 'AMND',
-                    type: 'COMPETITION',
                     organisation: { id: AMND_ORG_ID, name: 'AMND' },
+                    type: 'COMPETITION',
                 },
-                status: { name: 'Completed', value: 'COMPLETED' },
                 grades: grades.map((grade) => ({
-                    id: grade.id,
-                    name: grade.name,
+                    age: null,
                     day: null,
                     gender: null,
-                    age: null,
+                    id: grade.id,
+                    name: grade.name,
                 })),
+                id: seasonId,
+                name: seasonName,
+                status: { name: 'Completed', value: 'COMPLETED' },
             },
         },
     };
@@ -552,9 +552,9 @@ function ladderEnvelope(
         data: {
             discoverGrade: {
                 id: gradeId,
-                name: gradeName,
-                ladderType: 'STANDARD',
                 ladder: [{ pool: null, standings }],
+                ladderType: 'STANDARD',
+                name: gradeName,
             },
         },
     };
@@ -563,16 +563,16 @@ function ladderEnvelope(
 function twoTeamStandings(): readonly Standing[] {
     return [
         makeStanding({
-            teamId: 'team-a',
-            teamName: 'Club A',
             orgId: 'org-a',
             orgName: 'Club A',
+            teamId: 'team-a',
+            teamName: 'Club A',
         }),
         makeStanding({
-            teamId: 'team-b',
-            teamName: 'Club B',
             orgId: 'org-b',
             orgName: 'Club B',
+            teamId: 'team-b',
+            teamName: 'Club B',
         }),
     ];
 }
@@ -582,39 +582,21 @@ function gamesEnvelope(): CaptureEnvelope {
         data: {
             discoverGradeFixture: [
                 {
-                    id: 'round-1',
-                    name: 'Round 1',
-                    number: 1,
                     abbreviatedName: 'R1',
-                    isFinalsRound: false,
                     byes: [],
                     games: [
                         {
-                            id: 'game-1',
                             alias: null,
-                            pool: null,
-                            home: { id: 'team-a', name: 'Club A' },
+                            allocation: { time: '18:00:00' },
                             away: { id: 'team-b', name: 'Club B' },
+                            date: '2024-05-01',
+                            dates: ['2024-05-01'],
+                            home: { id: 'team-a', name: 'Club A' },
+                            id: 'game-1',
+                            pool: null,
                             result: {
-                                winner: { name: 'Home', value: 'HOME' },
-                                outcome: {
-                                    name: 'Home won',
-                                    value: 'HOME_TEAM_WON_BY_SCORE',
-                                },
-                                home: {
-                                    outcome: {
-                                        name: 'Win',
-                                        value: 'WIN',
-                                    },
-                                    statistics: [
-                                        {
-                                            count: 40,
-                                            type: { value: 'TOTAL_SCORE' },
-                                        },
-                                    ],
-                                    gameOutcomeDescription: '',
-                                },
                                 away: {
+                                    gameOutcomeDescription: '',
                                     outcome: {
                                         name: 'Loss',
                                         value: 'LOSS',
@@ -625,15 +607,33 @@ function gamesEnvelope(): CaptureEnvelope {
                                             type: { value: 'TOTAL_SCORE' },
                                         },
                                     ],
-                                    gameOutcomeDescription: '',
                                 },
+                                home: {
+                                    gameOutcomeDescription: '',
+                                    outcome: {
+                                        name: 'Win',
+                                        value: 'WIN',
+                                    },
+                                    statistics: [
+                                        {
+                                            count: 40,
+                                            type: { value: 'TOTAL_SCORE' },
+                                        },
+                                    ],
+                                },
+                                outcome: {
+                                    name: 'Home won',
+                                    value: 'HOME_TEAM_WON_BY_SCORE',
+                                },
+                                winner: { name: 'Home', value: 'HOME' },
                             },
                             status: { name: 'Final', value: 'FINAL' },
-                            date: '2024-05-01',
-                            dates: ['2024-05-01'],
-                            allocation: { time: '18:00:00' },
                         },
                     ],
+                    id: 'round-1',
+                    isFinalsRound: false,
+                    name: 'Round 1',
+                    number: 1,
                 },
             ],
         },
@@ -692,30 +692,30 @@ describe(collectPlayHqData, () => {
         );
 
         const collected = await collectPlayHqData({
-            store,
             cacheFirst: true,
             clubRegistry: new ClubRegistry([], []),
             isFinalBySeasonKey: new Map(),
+            store,
         });
 
         expect(fetchSpy).not.toHaveBeenCalled();
         expect(collected.importData.seasons).toHaveLength(1);
         expect(collected.importData.seasons[0]).toMatchObject({
-            seasonKey: 'amnd-winter-2024',
             isFinal: false,
-            source: 'playhq',
             playhqId: 'season-2024',
+            seasonKey: 'amnd-winter-2024',
+            source: 'playhq',
         });
         expect(collected.importData.grades).toHaveLength(1);
         expect(collected.importData.teams).toHaveLength(2);
         expect(collected.importData.results).toHaveLength(2);
         expect(collected.importData.games).toStrictEqual([]);
         expect(collected.report).toMatchObject({
-            seasons: 1,
-            grades: 1,
-            teams: 2,
-            results: 2,
             games: 0,
+            grades: 1,
+            results: 2,
+            seasons: 1,
+            teams: 2,
         });
         expect(collected.seasons[0]?.status).toBe('active');
     });
@@ -749,10 +749,10 @@ describe(collectPlayHqData, () => {
         );
 
         const collected = await collectPlayHqData({
-            store,
             cacheFirst: true,
             clubRegistry: new ClubRegistry([], []),
             isFinalBySeasonKey: new Map(),
+            store,
         });
 
         expect(collected.seasons).toStrictEqual([]);
@@ -810,10 +810,10 @@ describe(collectPlayHqData, () => {
         );
 
         const collected = await collectPlayHqData({
-            store,
             cacheFirst: true,
             clubRegistry: new ClubRegistry([], []),
             isFinalBySeasonKey: new Map(),
+            store,
             years: [2024],
         });
 
@@ -886,20 +886,20 @@ describe(collectPlayHqData, () => {
         );
 
         const collected = await collectPlayHqData({
-            store,
             cacheFirst: true,
             clubRegistry: new ClubRegistry([], []),
-            isFinalBySeasonKey: new Map(),
             games: true,
             gradeId: 'grade-a',
+            isFinalBySeasonKey: new Map(),
+            store,
         });
 
         expect(collected.importData.grades).toHaveLength(2);
         expect(collected.importData.games).toHaveLength(1);
         expect(collected.importData.games[0]).toMatchObject({
-            playhqId: 'game-1',
             file: 'games-2024.csv',
             isFinals: false,
+            playhqId: 'game-1',
         });
         expect(collected.report.games).toBe(1);
     });

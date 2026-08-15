@@ -45,9 +45,9 @@ function buildHits(
                 continue;
             }
             hits.push({
+                detail: `${String(point.year)} · #${String(point.rank)}`,
                 id: `${entry.club.key}-${String(point.year)}`,
                 label: entry.club.name,
-                detail: `${String(point.year)} · #${String(point.rank)}`,
                 x: bandX(index, years.length, PLOT),
                 y: rankY(point.rank, axisMax, PLOT),
             });
@@ -323,15 +323,15 @@ export function RankMovementChart({
                 tooltipRef={interaction.tooltipRef}
             >
                 {renderRankSvg({
-                    series,
-                    years,
-                    ticks,
+                    activeId: interaction.hit?.id ?? null,
                     axisMax,
                     focusKey,
-                    activeId: interaction.hit?.id ?? null,
-                    svgRef: interaction.svgRef,
-                    onPointerMove: interaction.handlePointerMove,
                     onPointerLeave: interaction.handlePointerLeave,
+                    onPointerMove: interaction.handlePointerMove,
+                    series,
+                    svgRef: interaction.svgRef,
+                    ticks,
+                    years,
                 })}
             </ChartFrame>
 

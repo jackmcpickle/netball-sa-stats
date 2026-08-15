@@ -45,16 +45,16 @@ const markdownTwin = createMiddleware({ type: 'request' }).server(
                 return await next();
             }
             return new Response('Not found\n', {
-                status: 404,
                 headers: { 'content-type': 'text/markdown; charset=utf-8' },
+                status: 404,
             });
         }
         const path = normalisePath(url.pathname);
         return new Response(request.method === 'HEAD' ? null : body, {
             headers: {
+                'cache-control': 'public, max-age=300',
                 'content-type': 'text/markdown; charset=utf-8',
                 link: `<${absoluteUrl(path)}>; rel="canonical"`,
-                'cache-control': 'public, max-age=300',
             },
         });
     },

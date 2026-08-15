@@ -1,8 +1,8 @@
-import { isUndefined } from 'es-toolkit';
 /**
  * Head tags are a response type too: a missing canonical or a malformed
  * JSON-LD graph is invisible in the browser and fatal to a crawler.
  */
+import { isUndefined } from 'es-toolkit';
 import { describe, expect, it } from 'vitest';
 import type { MetaTag } from '@/seo/head';
 import { pageHead, pageTitle } from '@/seo/head';
@@ -40,9 +40,9 @@ const PATHS = [
 describe(pageHead, () => {
     it.each(PATHS)('gives %s a complete, absolute head', (path) => {
         const head = pageHead({
-            title: 'Page',
             description: 'A description of the page.',
             path,
+            title: 'Page',
         });
         const canonical = head.links.find((link) => link.rel === 'canonical');
         expect(canonical?.href).toBe(`https://netballsa.com${path}`);
@@ -59,9 +59,9 @@ describe(pageHead, () => {
 
     it.each(PATHS)('gives %s complete Open Graph and Twitter cards', (path) => {
         const head = pageHead({
-            title: 'Page',
             description: 'A description of the page.',
             path,
+            title: 'Page',
         });
         expect(contentOf(head.meta, 'property', 'og:url')).toBe(
             `https://netballsa.com${path}`,
@@ -70,18 +70,18 @@ describe(pageHead, () => {
     });
 
     it('advertises the markdown twin, with /index.md for the root', () => {
-        const root = pageHead({ title: 'Home', description: 'x', path: '/' });
+        const root = pageHead({ description: 'x', path: '/', title: 'Home' });
         expect(
             root.links.find((link) => link.rel === 'alternate'),
         ).toStrictEqual({
+            href: 'https://netballsa.com/index.md',
             rel: 'alternate',
             type: 'text/markdown',
-            href: 'https://netballsa.com/index.md',
         });
         const method = pageHead({
-            title: 'Method',
             description: 'x',
             path: '/method',
+            title: 'Method',
         });
         expect(
             method.links.find((link) => link.rel === 'alternate')?.href,
@@ -90,7 +90,7 @@ describe(pageHead, () => {
 
     it('always emits Organization, WebSite and WebPage nodes', () => {
         const graph = graphOf(
-            pageHead({ title: 'Page', description: 'x', path: '/ladders' })
+            pageHead({ description: 'x', path: '/ladders', title: 'Page' })
                 .meta,
         );
         expect(graph.map((node) => node['@type'])).toStrictEqual([
@@ -103,10 +103,10 @@ describe(pageHead, () => {
     it('appends page-specific schema after the sitewide nodes', () => {
         const graph = graphOf(
             pageHead({
-                title: 'Method',
                 description: 'x',
                 path: '/method',
-                schema: [faqSchema([{ question: 'Why?', answer: 'Because.' }])],
+                schema: [faqSchema([{ answer: 'Because.', question: 'Why?' }])],
+                title: 'Method',
             }).meta,
         );
         const faq = graph.at(-1);
@@ -117,10 +117,10 @@ describe(pageHead, () => {
     it('carries dateModified onto the WebPage node when given', () => {
         const graph = graphOf(
             pageHead({
-                title: 'Method',
+                dateModified: '2026-08-01T00:00:00.000Z',
                 description: 'x',
                 path: '/method',
-                dateModified: '2026-08-01T00:00:00.000Z',
+                title: 'Method',
             }).meta,
         );
         expect(graph[2]?.dateModified).toBe('2026-08-01T00:00:00.000Z');
@@ -128,9 +128,9 @@ describe(pageHead, () => {
 
     it('produces JSON-LD that round-trips through JSON', () => {
         const node = pageHead({
-            title: 'Page',
             description: 'x',
             path: '/',
+            title: 'Page',
         }).meta.find((tag) => !isUndefined(tag['script:ld+json']));
         const parsed = structuredClone(node?.['script:ld+json']);
         expect(parsed?.['@context']).toBe('https://schema.org');
@@ -138,10 +138,10 @@ describe(pageHead, () => {
 
     it('marks admin pages noindex and emits no structured data', () => {
         const head = pageHead({
-            title: 'Admin',
             description: 'x',
-            path: '/admin',
             noIndex: true,
+            path: '/admin',
+            title: 'Admin',
         });
         expect(contentOf(head.meta, 'name', 'robots')).toBe(
             'noindex, nofollow',

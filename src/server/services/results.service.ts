@@ -1,10 +1,10 @@
-import { isUndefined } from 'es-toolkit';
 /**
  * Serves `/results`. Season and grade resolution mirrors `ladders.service`
  * deliberately — the two pages share a mental model, and a `/ladders` URL
  * with the year and grade swapped onto `/results` should land on the same
  * competition.
  */
+import { isUndefined } from 'es-toolkit';
 import type { Repos } from '@/server/container';
 import { FIXTURES_TABLE_SPEC, toResultRows } from '@/server/domain/fixtures';
 import type { DomainError, Result } from '@/server/domain/result';
@@ -27,10 +27,10 @@ export function createResultsService(repos: Repos): ResultsService {
             const year = coverage.resolveYear(params.year);
             if (isUndefined(year)) {
                 return ok({
-                    years: coverage.years(),
-                    year: null,
-                    grades: [],
                     fixtures: null,
+                    grades: [],
+                    year: null,
+                    years: coverage.years(),
                 });
             }
 
@@ -39,10 +39,10 @@ export function createResultsService(repos: Repos): ResultsService {
                 grades.find((entry) => entry.key === params.grade) ?? grades[0];
             if (isUndefined(grade)) {
                 return ok({
-                    years: coverage.years(),
-                    year,
-                    grades,
                     fixtures: null,
+                    grades,
+                    year,
+                    years: coverage.years(),
                 });
             }
 
@@ -50,10 +50,10 @@ export function createResultsService(repos: Repos): ResultsService {
             // fetched — the grade's other 250 fixtures never leave SQLite.
             const paged = await TableQuery.from(
                 {
-                    sort: params.sort,
                     dir: params.dir,
                     page: params.page,
                     pageSize: params.pageSize,
+                    sort: params.sort,
                 },
                 FIXTURES_TABLE_SPEC,
             ).page(
@@ -68,23 +68,23 @@ export function createResultsService(repos: Repos): ResultsService {
                 // A grade with no fixtures is a real state: ladders go back to
                 // the archive, but fixtures only exist from 2025.
                 return ok({
-                    years: coverage.years(),
-                    year,
-                    grades,
                     fixtures: null,
+                    grades,
+                    year,
+                    years: coverage.years(),
                 });
             }
 
             return ok({
-                years: coverage.years(),
-                year,
-                grades,
                 fixtures: {
                     grade,
                     rows: paged.rows,
-                    totalRows: paged.totalRows,
                     tableState: paged.state,
+                    totalRows: paged.totalRows,
                 },
+                grades,
+                year,
+                years: coverage.years(),
             });
         },
     };

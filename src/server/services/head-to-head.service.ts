@@ -1,4 +1,3 @@
-import { isNull, isUndefined } from 'es-toolkit';
 /**
  * Serves `/head-to-head`. Everything the page shows is derived from one pair
  * fetch: the record, the roll-ups, the meetings, and the band picker's
@@ -19,6 +18,7 @@ import { isNull, isUndefined } from 'es-toolkit';
  * are ever backfilled past 2025 — a full-history pair could reach a few
  * thousand rows, at which point SQL aggregates start to earn their keep.
  */
+import { isNull, isUndefined } from 'es-toolkit';
 import { bandLabel } from '@/pipeline/scoring/bands';
 import type { Repos } from '@/server/container';
 import { partitionClubs } from '@/server/domain/club-directory';
@@ -42,7 +42,7 @@ import type { Club } from '@/server/dto/shared.dto';
 function bandsFrom(facts: readonly GameFact[]): readonly BandOption[] {
     return [...new Set(facts.map((fact) => fact.tier))]
         .toSorted((left, right) => left - right)
-        .map((tier) => ({ tier, label: bandLabel(tier) }));
+        .map((tier) => ({ label: bandLabel(tier), tier }));
 }
 
 function findClub(
@@ -117,13 +117,13 @@ export function createHeadToHeadService(repos: Repos): HeadToHeadService {
 
             if (isNull(a) || isNull(b) || a.key === b.key) {
                 return ok({
-                    clubs,
-                    includePast,
                     a,
                     b,
                     band: 'all',
                     bands: [],
+                    clubs,
                     h2h: null,
+                    includePast,
                     meetings: null,
                 });
             }
@@ -139,26 +139,26 @@ export function createHeadToHeadService(repos: Repos): HeadToHeadService {
             const h2h = buildHeadToHead(facts, a.key, b.key, band);
             const paged = TableQuery.from(
                 {
-                    sort: params.sort,
                     dir: params.dir,
                     page: params.page,
                     pageSize: params.pageSize,
+                    sort: params.sort,
                 },
                 MEETINGS_TABLE_SPEC,
             ).apply(h2h.meetings, sortMeetings);
 
             return ok({
-                clubs,
-                includePast,
                 a,
                 b,
                 band,
                 bands,
+                clubs,
                 h2h,
+                includePast,
                 meetings: {
                     rows: paged.rows,
-                    totalRows: paged.totalRows,
                     tableState: paged.state,
+                    totalRows: paged.totalRows,
                 },
             });
         },

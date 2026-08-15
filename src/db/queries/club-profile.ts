@@ -18,9 +18,9 @@ import { accentFor } from '@/server/repos/club-accent';
 // 'lost', and 'points' have comparators but no column of their own (the W-L-D
 // record is one combined column, sortable via 'won').
 export const CLUB_RESULTS_TABLE_SPEC: TableSpec = {
-    sortable: ['year', 'grade', 'position', 'won'],
-    defaultSort: 'year',
     defaultDesc: true,
+    defaultSort: 'year',
+    sortable: ['year', 'grade', 'position', 'won'],
 } as const;
 
 interface CareerRecord {
@@ -41,7 +41,7 @@ function careerRecord(rows: readonly ResultRow[]): CareerRecord {
         won += row.won ?? 0;
         games += (row.won ?? 0) + (row.lost ?? 0) + (row.drawn ?? 0);
     }
-    return { won, games, hasRecord };
+    return { games, hasRecord, won };
 }
 
 function seasonPoints(
@@ -54,20 +54,20 @@ function seasonPoints(
     return years.map((year): ClubSeasonPoints => {
         if (!rankedSet.has(year)) {
             return {
-                year,
                 points: 0,
                 rank: null,
                 status: 'in-progress',
+                year,
             };
         }
         const row = history
             .find((season) => season.year === year)
             ?.rows.find((entry) => entry.club.key === clubKey);
         return {
-            year,
             points: row?.points ?? 0,
             rank: row?.rank ?? null,
             status: 'ranked',
+            year,
         };
     });
 }
@@ -126,17 +126,15 @@ export async function fetchClubProfile(
         .at(-1)
         ?.rows.find((entry) => entry.club.key === clubKey);
     const club = {
-        key: first.clubKey,
-        name: first.clubName,
+        accent: accentFor(first.clubKey),
         establishedYear: first.establishedYear,
         homeVenue: first.homeVenue,
-        accent: accentFor(first.clubKey),
+        key: first.clubKey,
+        name: first.clubName,
     };
     const clubHistory = ClubHistory.from(rows, coverage.rankedYears);
 
     return {
-        club,
-        currentRank: current?.rank ?? null,
         bestRank: best?.rank ?? null,
         bestRankYear: best?.year ?? null,
         careerPoints:
@@ -146,13 +144,15 @@ export async function fetchClubProfile(
                     0,
                 ) * 10,
             ) / 10,
+        club,
+        currentRank: current?.rank ?? null,
+        gamesPlayed: record.games,
         // Ladder wins only. An uncertain archive placing cannot evidence one.
         minorPremierships: rows.filter(
             (row) => row.ladderPosition === 1 && !row.positionUncertain,
         ).length,
-        winPercentage: winRate(record.won, record.games, record.hasRecord),
-        gamesPlayed: record.games,
         seasons,
         trend: clubHistory.trend(),
+        winPercentage: winRate(record.won, record.games, record.hasRecord),
     };
 }

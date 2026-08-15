@@ -1,4 +1,3 @@
-import { isNull } from 'es-toolkit';
 /**
  * Markdown twins of the HTML pages. An agent that sends
  * `Accept: text/markdown`, or asks for `/ladders.md`, gets these instead of a
@@ -7,6 +6,7 @@ import { isNull } from 'es-toolkit';
  * Each renderer takes the page's own DTO, so it is pure and directly testable
  * against the fixtures the service tests already use.
  */
+import { isNull } from 'es-toolkit';
 import { describeClub, ordinal } from '@/seo/descriptions';
 import { HOME_FAQ, METHOD_FAQ } from '@/seo/faq';
 import { frontMatter, section, table } from '@/seo/markdown/table';
@@ -35,10 +35,10 @@ function header(input: {
 }): string {
     return [
         frontMatter({
-            title: input.title,
             description: input.description,
-            url: absoluteUrl(input.path),
             site: SITE.name,
+            title: input.title,
+            url: absoluteUrl(input.path),
         }),
         '',
         `# ${input.title}`,
@@ -99,9 +99,9 @@ export function renderRankings(data: RankingsPageDto): string {
     ]);
     return [
         header({
-            title: `Club championship ${data.season.year}`,
             description: `South Australian netball club championship standings for ${data.season.year}: ${data.clubCount} clubs across ${data.gradeCount} grades, scored from weighted ladder finishes.`,
             path: '/',
+            title: `Club championship ${data.season.year}`,
         }),
         '',
         section(
@@ -159,10 +159,10 @@ export function renderLadders(data: LaddersPageDto): string {
           );
     return [
         header({
-            title: 'Ladders',
             description:
                 'Grade ladders for South Australian netball — position, played, won, lost, goals and percentage for every team.',
             path: '/ladders',
+            title: 'Ladders',
         }),
         '',
         body,
@@ -200,10 +200,10 @@ export function renderResults(data: ResultsPageDto): string {
           );
     return [
         header({
-            title: 'Results',
             description:
                 'Fixture-by-fixture South Australian netball results. Fixture-level data covers 2025 onwards only.',
             path: '/results',
+            title: 'Results',
         }),
         '',
         body,
@@ -222,9 +222,9 @@ export function renderResults(data: ResultsPageDto): string {
 export function renderClubIndex(data: ClubIndexPageDto): string {
     return [
         header({
-            title: 'Clubs',
             description: `Every South Australian netball club in the dataset — ${data.presentCount} currently fielding teams, ${data.totalCount} in total.`,
             path: '/clubs',
+            title: 'Clubs',
         }),
         '',
         section(
@@ -273,9 +273,9 @@ export function renderClubProfile(data: ClubProfilePageDto): string {
     );
     return [
         header({
-            title: profile.club.name,
             description: describeClub(profile),
             path: `/clubs/${profile.club.key}`,
+            title: profile.club.name,
         }),
         '',
         section(
@@ -366,10 +366,10 @@ export function renderHeadToHead(data: HeadToHeadPageDto): string {
               );
     return [
         header({
-            title: 'Head to head',
             description:
                 'Head-to-head records between South Australian netball clubs. Fixture-level data covers meetings from 2025 onwards.',
             path: '/head-to-head',
+            title: 'Head to head',
         }),
         '',
         body,
@@ -386,10 +386,10 @@ export function renderHeadToHead(data: HeadToHeadPageDto): string {
 export function renderMethod(data: MethodPageDto): string {
     return [
         header({
-            title: 'Method',
             description:
                 'How the South Australian netball club championship is calculated: grade weightings, ranked seasons, and documented data gaps.',
             path: '/method',
+            title: 'Method',
         }),
         '',
         section(
@@ -431,10 +431,10 @@ export function renderMethod(data: MethodPageDto): string {
 export function renderAbout(): string {
     return [
         header({
-            title: 'About',
             description:
                 'Netball Open Data is an independent, non-commercial project turning published South Australian netball ladders into one comparable club championship score per season.',
             path: '/about',
+            title: 'About',
         }),
         '',
         section(

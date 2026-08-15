@@ -1,9 +1,9 @@
-import { isUndefined } from 'es-toolkit';
 /**
  * When consecutive ranked seasons are not comparable for movement arrows:
  * different competition sets, a calendar gap, or a methodology/source change
  * (archive Final Premiership Placings → PlayHQ regular-season ladders).
  */
+import { isUndefined } from 'es-toolkit';
 
 export function sourcesForYear(
     rows: readonly { readonly year: number; readonly source: string }[],

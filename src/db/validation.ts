@@ -14,7 +14,7 @@ import {
     teams,
 } from '@/db/schema';
 
-const omitGenerated = { id: true, createdAt: true } as const;
+const omitGenerated = { createdAt: true, id: true } as const;
 
 const key = z
     .string()
@@ -32,12 +32,12 @@ export const competitionInsertSchema = createInsertSchema(competitions, {
 
 export const seasonSelectSchema = createSelectSchema(seasons);
 export const seasonInsertSchema = createInsertSchema(seasons, {
-    seasonKey: key,
-    label: name,
     competitionPeriod: z.enum(COMPETITION_PERIODS),
+    endYear: z.int().min(1900).max(2100),
+    label: name,
+    seasonKey: key,
     source: z.enum(SOURCES),
     startYear: z.int().min(1900).max(2100),
-    endYear: z.int().min(1900).max(2100),
 })
     .omit(omitGenerated)
     // Summer spans two years, everything else sits within one.
@@ -65,11 +65,11 @@ export const clubAliasInsertSchema = createInsertSchema(clubAliases, {
 
 export const gradeSelectSchema = createSelectSchema(grades);
 export const gradeInsertSchema = createInsertSchema(grades, {
+    division: z.int().min(1).max(20).nullable().optional(),
     gradeKey: key,
     name,
-    tier: z.int().min(1).max(20),
-    division: z.int().min(1).max(20).nullable().optional(),
     teamCount: z.int().min(1).max(64),
+    tier: z.int().min(1).max(20),
 }).omit(omitGenerated);
 
 export const teamSelectSchema = createSelectSchema(teams);
@@ -85,17 +85,17 @@ export const teamSeasonResultSelectSchema =
 export const teamSeasonResultInsertSchema = createInsertSchema(
     teamSeasonResults,
     {
-        ladderPosition: z.int().min(1).max(64),
-        played: count.nullable().optional(),
-        won: count.nullable().optional(),
-        drawn: count.nullable().optional(),
-        lost: count.nullable().optional(),
         byes: count.nullable().optional(),
-        goalsFor: z.int().min(0).nullable().optional(),
+        drawn: count.nullable().optional(),
         goalsAgainst: z.int().min(0).nullable().optional(),
+        goalsFor: z.int().min(0).nullable().optional(),
+        ladderPosition: z.int().min(1).max(64),
+        lost: count.nullable().optional(),
         percentage: z.number().min(0).nullable().optional(),
-        source: z.enum(SOURCES),
         placementBasis: z.enum(PLACEMENT_BASES),
+        played: count.nullable().optional(),
+        source: z.enum(SOURCES),
+        won: count.nullable().optional(),
     },
 ).omit(omitGenerated);
 // `played = won + drawn + lost` is intentionally NOT a schema-level refine:
@@ -107,9 +107,9 @@ export const teamSeasonResultInsertSchema = createInsertSchema(
 
 export const gradeWeightSelectSchema = createSelectSchema(gradeWeights);
 export const gradeWeightInsertSchema = createInsertSchema(gradeWeights, {
+    division: z.int().min(1).max(20).nullable().optional(),
     label: name,
     tier: z.int().min(1).max(20),
-    division: z.int().min(1).max(20).nullable().optional(),
     weight: z.number().min(0).max(1),
 }).omit(omitGenerated);
 

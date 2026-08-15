@@ -1,4 +1,3 @@
-import { isNull, isUndefined } from 'es-toolkit';
 /**
  * Validates parsed CSV rows before anything is written. Reuses the Zod insert
  * schemas from `src/db/validation.ts` for per-row field rules (via a placeholder
@@ -6,6 +5,7 @@ import { isNull, isUndefined } from 'es-toolkit';
  * and checked separately below, against the sibling CSVs / DB catalogue), then
  * layers the cross-file invariants from the task brief on top.
  */
+import { isNull, isUndefined } from 'es-toolkit';
 import type { z } from 'zod';
 import { FORFEIT_SIDES, GAME_STATUSES } from '@/db/schema';
 import {
@@ -195,7 +195,7 @@ function checkTeamNaturalKeyCollisions(rows: readonly TeamImportRow[]): void {
                 line(index),
                 `duplicate natural key (grade_key=${row.gradeKey}, playhq_id=${row.playhqId ?? 'null'}) — ` +
                     `also present at line ${firstLine} (display_name="${row.displayName}")`,
-                { key, firstLine, line: line(index) },
+                { firstLine, key, line: line(index) },
             );
         }
         seen.set(key, line(index));
@@ -311,13 +311,13 @@ function checkPlayedReconciliation(
     const note = playedMismatchNote(played, won, drawn, lost);
     row.notes = isNull(row.notes) ? note : `${row.notes} ${note}`;
     return {
-        gradeKey: row.gradeKey,
         clubKey: row.clubKey,
         displayName: row.displayName,
+        drawn,
+        gradeKey: row.gradeKey,
+        lost,
         played,
         won,
-        drawn,
-        lost,
     };
 }
 
@@ -329,8 +329,8 @@ function checkResultRowFields(
     for (const [index, row] of rows.entries()) {
         const result = teamSeasonResultInsertSchema.safeParse({
             ...row,
-            teamId: 0,
             gradeId: 0,
+            teamId: 0,
         });
         if (!result.success) {
             throw new ImportValidationError(
@@ -418,7 +418,7 @@ function checkGradeLadders(
                     line(rowIndex),
                     `duplicate natural key (grade_key=${gradeKey}, playhq_id=${row.playhqId ?? 'null'}) — ` +
                         `also present at line ${firstLine} (display_name="${row.displayName}")`,
-                    { key, firstLine, line: line(rowIndex) },
+                    { firstLine, key, line: line(rowIndex) },
                 );
             }
             seenTeamKeys.set(key, line(rowIndex));
@@ -605,10 +605,10 @@ export function validateGames(
             // failing the whole import over one abandoned fixture.
             unresolved.push({
                 file: row.file,
-                line: line(index),
                 gradeKey: row.gradeKey,
-                playhqId: row.playhqId,
+                line: line(index),
                 missingTeamIds: missing,
+                playhqId: row.playhqId,
             });
         }
     }
@@ -630,9 +630,9 @@ export function findTeamCountWarnings(data: ImportData): TeamCountWarning[] {
         const key = `${season.competitionKey}|${grade.tier}|${grade.division ?? ''}`;
         const list = gradeByCompTierDivSeason.get(key) ?? [];
         list.push({
+            grade,
             seasonKey: grade.seasonKey,
             startYear: season.startYear,
-            grade,
         });
         gradeByCompTierDivSeason.set(key, list);
     }
@@ -654,8 +654,8 @@ export function findTeamCountWarnings(data: ImportData): TeamCountWarning[] {
                 warnings.push({
                     gradeKey: curr.grade.gradeKey,
                     previousGradeKey: prev.grade.gradeKey,
-                    teamCount,
                     previousTeamCount,
+                    teamCount,
                 });
             }
         }
@@ -699,8 +699,8 @@ export function validateImportData(
         gradeKeys,
     );
     return {
-        teamCountWarnings: findTeamCountWarnings(data),
         playedMismatchWarnings,
+        teamCountWarnings: findTeamCountWarnings(data),
         unresolvedTeamWarnings,
     };
 }

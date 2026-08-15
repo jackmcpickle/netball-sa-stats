@@ -14,13 +14,13 @@ interface NavItem {
  * being hidden from the nav for the seasons it cannot answer.
  */
 const NAV: readonly NavItem[] = [
-    { to: '/', label: 'Rankings' },
-    { to: '/clubs', label: 'Clubs' },
-    { to: '/ladders', label: 'Ladders' },
-    { to: '/head-to-head', label: 'Head to head' },
-    { to: '/results', label: 'Results' },
-    { to: '/method', label: 'Method' },
-    { to: '/about', label: 'About' },
+    { label: 'Rankings', to: '/' },
+    { label: 'Clubs', to: '/clubs' },
+    { label: 'Ladders', to: '/ladders' },
+    { label: 'Head to head', to: '/head-to-head' },
+    { label: 'Results', to: '/results' },
+    { label: 'Method', to: '/method' },
+    { label: 'About', to: '/about' },
 ];
 
 function isActive(pathname: string, to: string): boolean {

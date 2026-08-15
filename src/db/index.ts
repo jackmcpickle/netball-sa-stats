@@ -8,5 +8,5 @@ import * as schema from '@/db/schema';
 export type Db = BaseSQLiteDatabase<'async', unknown, typeof schema>;
 
 export function getDb(): Db {
-    return drizzle(env.DB, { schema, casing: 'snake_case' });
+    return drizzle(env.DB, { casing: 'snake_case', schema });
 }

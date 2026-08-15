@@ -11,9 +11,9 @@ import { createTestDb } from '@/server/testing/harness';
 
 function startedLabel(epochSeconds: number): string {
     return new Intl.DateTimeFormat('en-AU', {
-        timeZone: 'Australia/Adelaide',
         dateStyle: 'medium',
         timeStyle: 'short',
+        timeZone: 'Australia/Adelaide',
     }).format(new Date(epochSeconds * 1000));
 }
 
@@ -32,9 +32,9 @@ describe('createAdminService.getPage', () => {
         const page = await admin.getPage();
 
         expect(page).toStrictEqual({
+            lastStatus: null,
             running: false,
             runningElapsedLabel: null,
-            lastStatus: null,
             runs: [],
         });
         expect(startImport).not.toHaveBeenCalled();
@@ -47,24 +47,24 @@ describe('createAdminService.getPage', () => {
         const db = createTestDb();
         const repo = createImportRunsRepo(db);
         const okId = await repo.insertRunning({
+            games: true,
             instanceId: 'ok-run',
             startedAt: 1_700_000_000 - 3900,
             yearsJson: '[2025]',
-            games: true,
         });
         await repo.markOk(okId, 1_700_000_000 - 3600, {
-            seasons: 3,
-            grades: 12,
-            teams: 40,
-            results: 40,
             gamesCount: 80,
+            grades: 12,
+            results: 40,
+            seasons: 3,
+            teams: 40,
             warningsJson: '["new club: example"]',
         });
         const runningId = await repo.insertRunning({
+            games: true,
             instanceId: 'running-run',
             startedAt: 1_700_000_000 - 12 * 60,
             yearsJson: null,
-            games: true,
         });
 
         const admin = createAdminService(repo, {
@@ -77,27 +77,27 @@ describe('createAdminService.getPage', () => {
         expect(page.lastStatus).toBe('running');
         expect(page.runs).toHaveLength(2);
         expect(page.runs[0]).toMatchObject({
-            id: runningId,
-            startedLabel: startedLabel(1_700_000_000 - 12 * 60),
-            status: 'running',
-            seasons: null,
-            grades: null,
-            gamesCount: null,
-            warningCount: 0,
             durationLabel: '12m',
             errorText: null,
+            gamesCount: null,
+            grades: null,
+            id: runningId,
+            seasons: null,
+            startedLabel: startedLabel(1_700_000_000 - 12 * 60),
+            status: 'running',
+            warningCount: 0,
             warnings: [],
         });
         expect(page.runs[1]).toMatchObject({
-            id: okId,
-            startedLabel: startedLabel(1_700_000_000 - 3900),
-            status: 'ok',
-            seasons: 3,
-            grades: 12,
-            gamesCount: 80,
-            warningCount: 1,
             durationLabel: '5m',
             errorText: null,
+            gamesCount: 80,
+            grades: 12,
+            id: okId,
+            seasons: 3,
+            startedLabel: startedLabel(1_700_000_000 - 3900),
+            status: 'ok',
+            warningCount: 1,
             warnings: ['new club: example'],
         });
     });
@@ -106,10 +106,10 @@ describe('createAdminService.getPage', () => {
         const db = createTestDb();
         const repo = createImportRunsRepo(db);
         const id = await repo.insertRunning({
+            games: false,
             instanceId: 'errored-without-finish',
             startedAt: 100,
             yearsJson: null,
-            games: false,
         });
         await repo.markError(id, 200, 'boom');
         // Simulate a crashed row that lost its finished timestamp. Written
@@ -125,9 +125,9 @@ describe('createAdminService.getPage', () => {
         const page = await admin.getPage();
 
         expect(page.runs[0]).toMatchObject({
-            status: 'error',
             durationLabel: '—',
             errorText: 'boom',
+            status: 'error',
         });
     });
 
@@ -135,17 +135,17 @@ describe('createAdminService.getPage', () => {
         const db = createTestDb();
         const repo = createImportRunsRepo(db);
         const id = await repo.insertRunning({
+            games: true,
             instanceId: 'long-ok',
             startedAt: 1000,
             yearsJson: null,
-            games: true,
         });
         await repo.markOk(id, 1000 + 3600 + 5 * 60, {
-            seasons: 1,
-            grades: 1,
-            teams: 1,
-            results: 1,
             gamesCount: 1,
+            grades: 1,
+            results: 1,
+            seasons: 1,
+            teams: 1,
             warningsJson: '{not json',
         });
 
@@ -167,10 +167,10 @@ describe('createAdminService.runImport', () => {
         const db = createTestDb();
         const repo = createImportRunsRepo(db);
         await repo.insertRunning({
+            games: true,
             instanceId: 'lock',
             startedAt: 50,
             yearsJson: null,
-            games: true,
         });
         const startImport = vi.fn<StartImport>(async () => {});
         const admin = createAdminService(repo, { startImport });
@@ -178,8 +178,8 @@ describe('createAdminService.runImport', () => {
         const result = await admin.runImport(' ');
 
         expect(result).toStrictEqual({
-            ok: false,
             error: { kind: 'already-running' },
+            ok: false,
         });
         expect(startImport).not.toHaveBeenCalled();
     });
@@ -194,8 +194,8 @@ describe('createAdminService.runImport', () => {
         const result = await admin.runImport('2026, potato');
 
         expect(result).toStrictEqual({
-            ok: false,
             error: { kind: 'bad-years' },
+            ok: false,
         });
         expect(startImport).not.toHaveBeenCalled();
     });
@@ -224,8 +224,8 @@ describe('createAdminService.runImport', () => {
 
         expect(result).toStrictEqual({ ok: true, value: true });
         expect(startImport).toHaveBeenCalledWith({
-            years: [2026],
             games: true,
+            years: [2026],
         });
     });
 
@@ -248,8 +248,8 @@ describe('createAdminService.runImport', () => {
             value: true,
         });
         expect(startImport).toHaveBeenCalledWith({
-            years: [2026, 2025],
             games: true,
+            years: [2026, 2025],
         });
     });
 });

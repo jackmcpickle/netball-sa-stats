@@ -4,9 +4,9 @@ import { routeTree } from '@/routeTree.gen';
 
 export function getRouter(): AnyRouter {
     return createRouter({
+        defaultPreload: 'intent',
         routeTree,
         scrollRestoration: true,
-        defaultPreload: 'intent',
     });
 }
 

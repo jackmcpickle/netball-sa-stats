@@ -63,10 +63,10 @@ describe(sitemapXml, () => {
 
 describe(llmsTxt, () => {
     const body = llmsTxt({
-        rankedYears: [2000, 2024, 2025],
-        competitions: ['AMND', 'Netball SA Premier League'],
         clubs: [{ key: 'contax', name: 'Contax' }],
+        competitions: ['AMND', 'Netball SA Premier League'],
         isSampleData: false,
+        rankedYears: [2000, 2024, 2025],
     });
 
     it('follows the llmstxt.org shape', () => {
@@ -88,10 +88,10 @@ describe(llmsTxt, () => {
 
     it('flags sample data when the dataset is synthetic', () => {
         const sample = llmsTxt({
-            rankedYears: [2025],
-            competitions: ['AMND'],
             clubs: [],
+            competitions: ['AMND'],
             isSampleData: true,
+            rankedYears: [2025],
         });
         expect(sample).toContain('sample figures');
     });

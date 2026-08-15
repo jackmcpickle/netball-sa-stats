@@ -27,36 +27,37 @@ export class PlayHqImportWorkflow extends WorkflowEntrypoint<
             'lock-and-import',
             {
                 retries: {
-                    limit: 0,
-                    delay: '10 seconds',
                     backoff: 'constant',
+                    delay: '10 seconds',
+                    limit: 0,
                 },
             },
             async () => {
                 const executor = createD1Executor(this.env.DB);
                 const db = drizzle(this.env.DB, {
-                    schema,
                     casing: 'snake_case',
+                    schema,
                 });
+                const isFinalBySeasonKey = await loadIsFinalMap(executor);
                 const result = await runPlayHqJob({
-                    params,
-                    store: createR2Store(this.env.PLAYHQ_RAW),
-                    executor,
                     cacheFirst: false,
-                    nowEpochSeconds: Math.floor(Date.now() / 1000),
+                    executor,
                     instanceId,
+                    isFinalBySeasonKey,
+                    nowEpochSeconds: Math.floor(Date.now() / 1000),
+                    params,
                     runs: createImportRunsRepo(db),
-                    isFinalBySeasonKey: await loadIsFinalMap(executor),
+                    store: createR2Store(this.env.PLAYHQ_RAW),
                 });
                 if ('skipped' in result) {
                     return { skipped: true };
                 }
                 return {
-                    seasons: result.seasons,
-                    grades: result.grades,
-                    teams: result.teams,
-                    results: result.results,
                     games: result.games,
+                    grades: result.grades,
+                    results: result.results,
+                    seasons: result.seasons,
+                    teams: result.teams,
                 };
             },
         );

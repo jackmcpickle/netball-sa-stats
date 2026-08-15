@@ -12,15 +12,10 @@ function baseSpec(): SeedSpec {
                 name: 'AMND',
                 seasons: [
                     {
-                        seasonKey: 'amnd-2024',
-                        startYear: 2024,
-                        isFinal: true,
                         grades: [
                             {
                                 gradeKey: 'amnd-2024-a1',
                                 name: 'A1',
-                                tier: 2,
-                                teamCount: 1,
                                 results: [
                                     {
                                         clubKey: 'contax',
@@ -29,19 +24,19 @@ function baseSpec(): SeedSpec {
                                         ladderPosition: 1,
                                     },
                                 ],
+                                teamCount: 1,
+                                tier: 2,
                             },
                         ],
+                        isFinal: true,
+                        seasonKey: 'amnd-2024',
+                        startYear: 2024,
                     },
                     {
-                        seasonKey: 'amnd-2025',
-                        startYear: 2025,
-                        isFinal: false,
                         grades: [
                             {
                                 gradeKey: 'amnd-2025-a1',
                                 name: 'A1',
-                                tier: 2,
-                                teamCount: 1,
                                 results: [
                                     {
                                         clubKey: 'contax',
@@ -50,8 +45,13 @@ function baseSpec(): SeedSpec {
                                         ladderPosition: 1,
                                     },
                                 ],
+                                teamCount: 1,
+                                tier: 2,
                             },
                         ],
+                        isFinal: false,
+                        seasonKey: 'amnd-2025',
+                        startYear: 2025,
                     },
                 ],
             },
@@ -79,8 +79,8 @@ describe(createSeasonsRepo, () => {
         expect(coverage.years()).toStrictEqual([]);
         expect(coverage.rankedYears()).toStrictEqual([]);
         expect(coverage.latestRankedYear()).toStrictEqual({
-            ok: false,
             error: { kind: 'no-ranked-seasons' },
+            ok: false,
         });
     });
 
@@ -96,11 +96,11 @@ describe(createSeasonsRepo, () => {
         expect(coverage.competitions).toHaveLength(1);
         expect(coverage.competitions[0]?.competition.key).toBe('amnd');
         expect(coverage.competitions[0]?.seasons).toStrictEqual([
-            { year: 2024, status: 'ranked', note: null },
+            { note: null, status: 'ranked', year: 2024 },
             {
-                year: 2025,
-                status: 'in-progress',
                 note: 'Season still being played, so it is not ranked yet.',
+                status: 'in-progress',
+                year: 2025,
             },
         ]);
     });

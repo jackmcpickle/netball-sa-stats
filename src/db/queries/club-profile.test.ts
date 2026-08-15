@@ -14,15 +14,10 @@ describe(fetchClubProfile, () => {
                     name: 'AMND',
                     seasons: [
                         {
-                            seasonKey: 'amnd-2024',
-                            startYear: 2024,
-                            isFinal: true,
                             grades: [
                                 {
                                     gradeKey: 'amnd-2024-a1',
                                     name: 'A1',
-                                    tier: 2,
-                                    teamCount: 2,
                                     results: [
                                         {
                                             clubKey: 'contax',
@@ -40,8 +35,13 @@ describe(fetchClubProfile, () => {
                                             ladderPosition: 2,
                                         },
                                     ],
+                                    teamCount: 2,
+                                    tier: 2,
                                 },
                             ],
+                            isFinal: true,
+                            seasonKey: 'amnd-2024',
+                            startYear: 2024,
                         },
                     ],
                 },
@@ -65,15 +65,10 @@ describe(fetchClubProfile, () => {
                     name: 'AMND',
                     seasons: [
                         {
-                            seasonKey: 'amnd-2024',
-                            startYear: 2024,
-                            isFinal: true,
                             grades: [
                                 {
                                     gradeKey: 'amnd-2024-a1',
                                     name: 'A1',
-                                    tier: 2,
-                                    teamCount: 2,
                                     results: [
                                         {
                                             clubKey: 'contax',
@@ -88,19 +83,19 @@ describe(fetchClubProfile, () => {
                                             ladderPosition: 2,
                                         },
                                     ],
+                                    teamCount: 2,
+                                    tier: 2,
                                 },
                             ],
+                            isFinal: true,
+                            seasonKey: 'amnd-2024',
+                            startYear: 2024,
                         },
                         {
-                            seasonKey: 'amnd-2025',
-                            startYear: 2025,
-                            isFinal: false,
                             grades: [
                                 {
                                     gradeKey: 'amnd-2025-a1',
                                     name: 'A1',
-                                    tier: 2,
-                                    teamCount: 2,
                                     results: [
                                         {
                                             clubKey: 'contax',
@@ -115,8 +110,13 @@ describe(fetchClubProfile, () => {
                                             ladderPosition: 2,
                                         },
                                     ],
+                                    teamCount: 2,
+                                    tier: 2,
                                 },
                             ],
+                            isFinal: false,
+                            seasonKey: 'amnd-2025',
+                            startYear: 2025,
                         },
                     ],
                 },
@@ -131,10 +131,10 @@ describe(fetchClubProfile, () => {
             (season) => season.year === 2025,
         );
         expect(season2025).toStrictEqual({
-            year: 2025,
             points: 0,
             rank: null,
             status: 'in-progress',
+            year: 2025,
         });
         const season2024 = profile?.seasons.find(
             (season) => season.year === 2024,

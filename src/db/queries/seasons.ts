@@ -14,13 +14,13 @@ export type { SeasonRow } from '@/server/domain/coverage';
 export async function fetchSeasons(db: Db): Promise<readonly SeasonRow[]> {
     return await db
         .select({
-            seasonId: seasons.id,
-            seasonKey: seasons.seasonKey,
-            startYear: seasons.startYear,
-            isFinal: seasons.isFinal,
-            source: seasons.source,
             competitionKey: competitions.key,
             competitionName: competitions.name,
+            isFinal: seasons.isFinal,
+            seasonId: seasons.id,
+            seasonKey: seasons.seasonKey,
+            source: seasons.source,
+            startYear: seasons.startYear,
         })
         .from(seasons)
         .innerJoin(competitions, eq(competitions.id, seasons.competitionId))

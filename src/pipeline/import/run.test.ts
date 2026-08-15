@@ -44,12 +44,12 @@ describe(runImport, () => {
         });
 
         expect(report).toMatchObject({
-            seasons: 2,
-            clubs: 2,
             clubAliases: 2,
+            clubs: 2,
             grades: 4,
-            teams: 8,
             results: 8,
+            seasons: 2,
+            teams: 8,
         });
         expect(tableRows(db, 'seasons')).toHaveLength(2);
         expect(tableRows(db, 'clubs')).toHaveLength(2);
@@ -100,12 +100,12 @@ describe(runImport, () => {
             executor: createSqliteExecutor(db),
         });
         const first = {
-            seasons: tableRows(db, 'seasons'),
-            clubs: tableRows(db, 'clubs'),
             clubAliases: tableRows(db, 'club_aliases'),
+            clubs: tableRows(db, 'clubs'),
             grades: tableRows(db, 'grades'),
-            teams: tableRows(db, 'teams'),
             results: tableRows(db, 'team_season_results'),
+            seasons: tableRows(db, 'seasons'),
+            teams: tableRows(db, 'teams'),
         };
 
         await runImport({
@@ -113,12 +113,12 @@ describe(runImport, () => {
             executor: createSqliteExecutor(db),
         });
         const second = {
-            seasons: tableRows(db, 'seasons'),
-            clubs: tableRows(db, 'clubs'),
             clubAliases: tableRows(db, 'club_aliases'),
+            clubs: tableRows(db, 'clubs'),
             grades: tableRows(db, 'grades'),
-            teams: tableRows(db, 'teams'),
             results: tableRows(db, 'team_season_results'),
+            seasons: tableRows(db, 'seasons'),
+            teams: tableRows(db, 'teams'),
         };
 
         expect(second).toStrictEqual(first);
@@ -144,7 +144,7 @@ describe(runImport, () => {
             executor: createSqliteExecutor(db),
         });
 
-        expect(report).toMatchObject({ teams: 2, results: 2 });
+        expect(report).toMatchObject({ results: 2, teams: 2 });
         expect(tableRows(db, 'teams')).toHaveLength(2);
         expect(tableRows(db, 'team_season_results')).toHaveLength(2);
         // SAFETY: `teams.display_name` is `TEXT NOT NULL` in the schema, and
@@ -163,13 +163,13 @@ describe(runImport, () => {
         // individual statement "succeeded".
         const real = createSqliteExecutor(db);
         const lossy: ImportExecutor = {
-            queryAll: real.queryAll,
             batch: async (statements) => {
                 const filtered = statements.filter(
                     (sql) => !sql.includes('team_season_results'),
                 );
                 await real.batch(filtered);
             },
+            queryAll: real.queryAll,
         };
 
         await expect(
@@ -194,6 +194,15 @@ describe(runImport, () => {
                 .map((grade) => grade.gradeKey),
         );
         const subset: ImportData = {
+            clubAliases: full.clubAliases,
+            clubs: full.clubs,
+            games: full.games.filter((game) => gradeKeys.has(game.gradeKey)),
+            grades: full.grades.filter(
+                (grade) => grade.seasonKey === seasonKey,
+            ),
+            results: full.results.filter((result) =>
+                gradeKeys.has(result.gradeKey),
+            ),
             seasons: full.seasons
                 .filter((season) => season.seasonKey === seasonKey)
                 .map((season) => ({
@@ -201,16 +210,7 @@ describe(runImport, () => {
                     label: 'Updated Winter 2024',
                     playhqId: 'updated-playhq-id',
                 })),
-            clubs: full.clubs,
-            clubAliases: full.clubAliases,
-            grades: full.grades.filter(
-                (grade) => grade.seasonKey === seasonKey,
-            ),
             teams: full.teams.filter((team) => gradeKeys.has(team.gradeKey)),
-            results: full.results.filter((result) =>
-                gradeKeys.has(result.gradeKey),
-            ),
-            games: full.games.filter((game) => gradeKeys.has(game.gradeKey)),
         };
 
         await expect(

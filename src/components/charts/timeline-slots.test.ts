@@ -5,11 +5,11 @@ describe(timelineSlots, () => {
     it('inserts gap markers between non-adjacent ranked years', () => {
         expect(timelineSlots([2014, 2016, 2022])).toStrictEqual([
             { kind: 'year', year: 2014 },
-            { kind: 'gap', afterYear: 2014, missingYears: [2015] },
+            { afterYear: 2014, kind: 'gap', missingYears: [2015] },
             { kind: 'year', year: 2016 },
             {
-                kind: 'gap',
                 afterYear: 2016,
+                kind: 'gap',
                 missingYears: [2017, 2018, 2019, 2020, 2021],
             },
             { kind: 'year', year: 2022 },

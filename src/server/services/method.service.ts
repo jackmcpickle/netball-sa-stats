@@ -21,9 +21,9 @@ export function createMethodService(repos: Repos): MethodService {
             ]);
             return ok({
                 coverage,
-                weights,
-                updatedAt,
                 isSampleData: IS_SAMPLE_DATA,
+                updatedAt,
+                weights,
             });
         },
     };

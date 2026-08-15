@@ -33,15 +33,15 @@ describe(loadIsFinalMap, () => {
 
     it('stringifies D1 boolean and integer is_final to CSV 0/1', async () => {
         const executor: ImportExecutor = {
-            queryAll: async () => [
-                { season_key: 'final-true', is_final: true },
-                { season_key: 'final-one', is_final: 1 },
-                { season_key: 'open-false', is_final: false },
-                { season_key: 'open-zero', is_final: 0 },
-            ],
             batch: async () => {
                 await Promise.resolve();
             },
+            queryAll: async () => [
+                { is_final: true, season_key: 'final-true' },
+                { is_final: 1, season_key: 'final-one' },
+                { is_final: false, season_key: 'open-false' },
+                { is_final: 0, season_key: 'open-zero' },
+            ],
         };
         const map = await loadIsFinalMap(executor);
         expect(map.get('final-true')).toBe('1');

@@ -29,15 +29,10 @@ function baseSpec(): SeedSpec {
                 name: 'AMND',
                 seasons: [
                     {
-                        seasonKey: 'amnd-2024',
-                        startYear: 2024,
-                        isFinal: true,
                         grades: [
                             {
                                 gradeKey: 'amnd-2024-a1',
                                 name: 'A1',
-                                tier: 2,
-                                teamCount: 3,
                                 results: [
                                     {
                                         clubKey: 'contax',
@@ -58,19 +53,19 @@ function baseSpec(): SeedSpec {
                                         ladderPosition: 3,
                                     },
                                 ],
+                                teamCount: 3,
+                                tier: 2,
                             },
                         ],
+                        isFinal: true,
+                        seasonKey: 'amnd-2024',
+                        startYear: 2024,
                     },
                     {
-                        seasonKey: 'amnd-2025',
-                        startYear: 2025,
-                        isFinal: true,
                         grades: [
                             {
                                 gradeKey: 'amnd-2025-a1',
                                 name: 'A1',
-                                tier: 2,
-                                teamCount: 2,
                                 results: [
                                     {
                                         clubKey: 'contax',
@@ -85,8 +80,13 @@ function baseSpec(): SeedSpec {
                                         ladderPosition: 2,
                                     },
                                 ],
+                                teamCount: 2,
+                                tier: 2,
                             },
                         ],
+                        isFinal: true,
+                        seasonKey: 'amnd-2025',
+                        startYear: 2025,
                     },
                 ],
             },
@@ -105,9 +105,9 @@ describe('club profile service', () => {
 
         expect(result.ok).toBeFalsy();
         expect(!result.ok && result.error).toStrictEqual({
-            kind: 'not-found',
             entity: 'club',
             key: 'nobody',
+            kind: 'not-found',
         });
     });
 
@@ -165,15 +165,10 @@ describe('club profile service', () => {
                 const seasonKey = `amnd-${String(year)}`;
                 const gradeKey = `${seasonKey}-a1`;
                 return {
-                    seasonKey,
-                    startYear: year,
-                    isFinal: true,
                     grades: [
                         {
                             gradeKey,
                             name: 'A1',
-                            tier: 2,
-                            teamCount: 2,
                             results: [
                                 {
                                     clubKey: 'contax',
@@ -188,8 +183,13 @@ describe('club profile service', () => {
                                     ladderPosition: 2,
                                 },
                             ],
+                            teamCount: 2,
+                            tier: 2,
                         },
                     ],
+                    isFinal: true,
+                    seasonKey,
+                    startYear: year,
                 };
             },
         );
@@ -234,9 +234,9 @@ describe('clubs.getProfilePage top opponents', () => {
         const db = createTestDb();
         const seeded = await seed(db, baseSpec());
         await seedGames(db, seeded, [
-            { gradeKey: 'amnd-2024-a1', home: 'contax', away: 'garville' },
-            { gradeKey: 'amnd-2024-a1', home: 'garville', away: 'contax' },
-            { gradeKey: 'amnd-2024-a1', home: 'contax', away: 'ajax' },
+            { away: 'garville', gradeKey: 'amnd-2024-a1', home: 'contax' },
+            { away: 'contax', gradeKey: 'amnd-2024-a1', home: 'garville' },
+            { away: 'ajax', gradeKey: 'amnd-2024-a1', home: 'contax' },
         ]);
 
         const result = unwrap(
@@ -256,7 +256,7 @@ describe('clubs.getProfilePage top opponents', () => {
         const db = createTestDb();
         const seeded = await seed(db, baseSpec());
         await seedGames(db, seeded, [
-            { gradeKey: 'amnd-2024-a1', home: 'contax', away: 'contax' },
+            { away: 'contax', gradeKey: 'amnd-2024-a1', home: 'contax' },
         ]);
 
         const result = unwrap(

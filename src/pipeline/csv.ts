@@ -1,9 +1,9 @@
-import { isNull, isUndefined } from 'es-toolkit';
 /**
  * Shared CSV helpers. Lifted out of `scripts/generate-seed.ts` so the fetch
  * pipeline (and anything else) can reuse the exact same escaping rules
  * instead of drifting.
  */
+import { isNull, isUndefined } from 'es-toolkit';
 
 export type CsvValue = string | number | null;
 
@@ -79,10 +79,10 @@ export function parseCsv(text: string): Record<string, string>[] {
     }
 
     const state: ScanState = {
-        rows: [],
-        row: [],
         field: '',
         inQuotes: false,
+        row: [],
+        rows: [],
     };
     let i = 0;
     while (i < trimmed.length) {

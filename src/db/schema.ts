@@ -26,30 +26,30 @@ export const COMPETITION_PERIODS = ['winter', 'summer', 'annual'] as const;
 export type CompetitionPeriod = (typeof COMPETITION_PERIODS)[number];
 
 export const competitions = sqliteTable('competitions', {
+    createdAt: text('created_at')
+        .notNull()
+        .default(sql`(current_timestamp)`),
     id: integer('id').primaryKey({ autoIncrement: true }),
     key: text('key').notNull().unique(),
     name: text('name').notNull(),
     playhqOrgId: text('playhq_org_id'),
-    createdAt: text('created_at')
-        .notNull()
-        .default(sql`(current_timestamp)`),
 });
 
 export const seasons = sqliteTable(
     'seasons',
     {
-        id: integer('id').primaryKey({ autoIncrement: true }),
         competitionId: integer('competition_id')
             .notNull()
             .references(() => competitions.id, { onDelete: 'cascade' }),
-        seasonKey: text('season_key').notNull().unique(),
         competitionPeriod: text('competition_period')
             .notNull()
             .$type<CompetitionPeriod>(),
-        label: text('label').notNull(),
-        startYear: integer('start_year').notNull(),
+        createdAt: text('created_at')
+            .notNull()
+            .default(sql`(current_timestamp)`),
         /** Same as startYear for winter/annual; +1 for summer. */
         endYear: integer('end_year').notNull(),
+        id: integer('id').primaryKey({ autoIncrement: true }),
         /**
          * Curated by hand in the season CSV, never inferred — a scraper cannot tell
          * a round-18 ladder from a round-22 one. In-progress seasons are excluded
@@ -58,11 +58,11 @@ export const seasons = sqliteTable(
         isFinal: integer('is_final', { mode: 'boolean' })
             .notNull()
             .default(false),
+        label: text('label').notNull(),
         playhqId: text('playhq_id'),
+        seasonKey: text('season_key').notNull().unique(),
         source: text('source').notNull().$type<Source>(),
-        createdAt: text('created_at')
-            .notNull()
-            .default(sql`(current_timestamp)`),
+        startYear: integer('start_year').notNull(),
     },
     (t) => [
         uniqueIndex('seasons_competition_period_year_idx').on(
@@ -74,15 +74,15 @@ export const seasons = sqliteTable(
 );
 
 export const clubs = sqliteTable('clubs', {
-    id: integer('id').primaryKey({ autoIncrement: true }),
     clubKey: text('club_key').notNull().unique(),
-    name: text('name').notNull(),
-    establishedYear: integer('established_year'),
-    homeVenue: text('home_venue'),
-    playhqId: text('playhq_id'),
     createdAt: text('created_at')
         .notNull()
         .default(sql`(current_timestamp)`),
+    establishedYear: integer('established_year'),
+    homeVenue: text('home_venue'),
+    id: integer('id').primaryKey({ autoIncrement: true }),
+    name: text('name').notNull(),
+    playhqId: text('playhq_id'),
 });
 
 /**
@@ -91,40 +91,40 @@ export const clubs = sqliteTable('clubs', {
  * once a bad run has written rows against a phantom club, untangling it is manual.
  */
 export const clubAliases = sqliteTable('club_aliases', {
-    id: integer('id').primaryKey({ autoIncrement: true }),
+    aliasText: text('alias_text').notNull().unique(),
     clubId: integer('club_id')
         .notNull()
         .references(() => clubs.id, { onDelete: 'cascade' }),
-    aliasText: text('alias_text').notNull().unique(),
-    source: text('source').notNull(),
     createdAt: text('created_at')
         .notNull()
         .default(sql`(current_timestamp)`),
+    id: integer('id').primaryKey({ autoIncrement: true }),
+    source: text('source').notNull(),
 });
 
 export const grades = sqliteTable(
     'grades',
     {
+        ageBand: text('age_band'),
+        createdAt: text('created_at')
+            .notNull()
+            .default(sql`(current_timestamp)`),
+        /** Rank within the band, parsed from the name (B.3 → 3). */
+        division: integer('division'),
+        gradeKey: text('grade_key').notNull().unique(),
         id: integer('id').primaryKey({ autoIncrement: true }),
+        name: text('name').notNull(),
+        playhqId: text('playhq_id'),
         seasonId: integer('season_id')
             .notNull()
             .references(() => seasons.id, { onDelete: 'cascade' }),
-        gradeKey: text('grade_key').notNull().unique(),
-        name: text('name').notNull(),
-        /** Seniority band, ordered. 1 = Premier Division. */
-        tier: integer('tier').notNull(),
-        /** Rank within the band, parsed from the name (B.3 → 3). */
-        division: integer('division'),
         /**
          * Ladder row count. Free at scrape time and unrecoverable later without
          * re-scraping — position 4 of 6 is not position 4 of 14.
          */
         teamCount: integer('team_count').notNull(),
-        ageBand: text('age_band'),
-        playhqId: text('playhq_id'),
-        createdAt: text('created_at')
-            .notNull()
-            .default(sql`(current_timestamp)`),
+        /** Seniority band, ordered. 1 = Premier Division. */
+        tier: integer('tier').notNull(),
     },
     (t) => [index('grades_season_idx').on(t.seasonId)],
 );
@@ -136,19 +136,19 @@ export const grades = sqliteTable(
 export const teams = sqliteTable(
     'teams',
     {
-        id: integer('id').primaryKey({ autoIncrement: true }),
         clubId: integer('club_id')
             .notNull()
             .references(() => clubs.id, { onDelete: 'cascade' }),
-        gradeId: integer('grade_id')
-            .notNull()
-            .references(() => grades.id, { onDelete: 'cascade' }),
-        displayName: text('display_name').notNull(),
-        squadNumber: integer('squad_number'),
-        playhqId: text('playhq_id'),
         createdAt: text('created_at')
             .notNull()
             .default(sql`(current_timestamp)`),
+        displayName: text('display_name').notNull(),
+        gradeId: integer('grade_id')
+            .notNull()
+            .references(() => grades.id, { onDelete: 'cascade' }),
+        id: integer('id').primaryKey({ autoIncrement: true }),
+        playhqId: text('playhq_id'),
+        squadNumber: integer('squad_number'),
     },
     (t) => [
         /**
@@ -168,40 +168,40 @@ export const teams = sqliteTable(
 export const teamSeasonResults = sqliteTable(
     'team_season_results',
     {
-        id: integer('id').primaryKey({ autoIncrement: true }),
-        teamId: integer('team_id')
+        byes: integer('byes'),
+        createdAt: text('created_at')
             .notNull()
-            .references(() => teams.id, { onDelete: 'cascade' }),
+            .default(sql`(current_timestamp)`),
+        drawn: integer('drawn'),
+        goalDifference: integer('goal_difference'),
+        goalsAgainst: integer('goals_against'),
+        goalsFor: integer('goals_for'),
         gradeId: integer('grade_id')
             .notNull()
             .references(() => grades.id, { onDelete: 'cascade' }),
+        id: integer('id').primaryKey({ autoIncrement: true }),
         ladderPosition: integer('ladder_position').notNull(),
+        lost: integer('lost'),
+        notes: text('notes'),
+        /** Goals for ÷ against × 100. */
+        percentage: real('percentage'),
+        placementBasis: text('placement_basis')
+            .notNull()
+            .$type<PlacementBasis>(),
+        played: integer('played'),
+        points: integer('points'),
         /** Archive-PDF top-4 only; always false for PlayHQ rows. */
         positionUncertain: integer('position_uncertain', { mode: 'boolean' })
             .notNull()
             .default(false),
-        played: integer('played'),
-        won: integer('won'),
-        drawn: integer('drawn'),
-        lost: integer('lost'),
-        byes: integer('byes'),
-        goalsFor: integer('goals_for'),
-        goalsAgainst: integer('goals_against'),
-        goalDifference: integer('goal_difference'),
-        points: integer('points'),
-        /** Goals for ÷ against × 100. */
-        percentage: real('percentage'),
+        scrapedAt: integer('scraped_at'),
         shotsAttempted: integer('shots_attempted'),
         shotsScored: integer('shots_scored'),
         source: text('source').notNull().$type<Source>(),
-        placementBasis: text('placement_basis')
+        teamId: integer('team_id')
             .notNull()
-            .$type<PlacementBasis>(),
-        notes: text('notes'),
-        scrapedAt: integer('scraped_at'),
-        createdAt: text('created_at')
-            .notNull()
-            .default(sql`(current_timestamp)`),
+            .references(() => teams.id, { onDelete: 'cascade' }),
+        won: integer('won'),
     },
     (t) => [
         uniqueIndex('team_season_results_team_grade_idx').on(
@@ -247,13 +247,22 @@ export type ForfeitSide = (typeof FORFEIT_SIDES)[number];
 export const games = sqliteTable(
     'games',
     {
-        id: integer('id').primaryKey({ autoIncrement: true }),
+        awayScore: integer('away_score'),
+        awayTeamId: integer('away_team_id').references(() => teams.id, {
+            onDelete: 'cascade',
+        }),
+        createdAt: text('created_at')
+            .notNull()
+            .default(sql`(current_timestamp)`),
+        forfeitingSide: text('forfeiting_side').$type<ForfeitSide>(),
         gradeId: integer('grade_id')
             .notNull()
             .references(() => grades.id, { onDelete: 'cascade' }),
-        playhqId: text('playhq_id').notNull(),
-        round: integer('round'),
-        roundName: text('round_name'),
+        homeScore: integer('home_score'),
+        homeTeamId: integer('home_team_id').references(() => teams.id, {
+            onDelete: 'cascade',
+        }),
+        id: integer('id').primaryKey({ autoIncrement: true }),
         /**
          * Ladders cover the regular season only, so finals must be separable
          * to reconcile games against them — and a final is worth labelling as
@@ -264,21 +273,12 @@ export const games = sqliteTable(
             .default(false),
         /** Epoch seconds, null when PlayHQ has no scheduled time. */
         playedAt: integer('played_at'),
-        homeTeamId: integer('home_team_id').references(() => teams.id, {
-            onDelete: 'cascade',
-        }),
-        awayTeamId: integer('away_team_id').references(() => teams.id, {
-            onDelete: 'cascade',
-        }),
-        homeScore: integer('home_score'),
-        awayScore: integer('away_score'),
-        status: text('status').notNull().$type<GameStatus>(),
-        forfeitingSide: text('forfeiting_side').$type<ForfeitSide>(),
-        source: text('source').notNull().$type<Source>(),
+        playhqId: text('playhq_id').notNull(),
+        round: integer('round'),
+        roundName: text('round_name'),
         scrapedAt: integer('scraped_at'),
-        createdAt: text('created_at')
-            .notNull()
-            .default(sql`(current_timestamp)`),
+        source: text('source').notNull().$type<Source>(),
+        status: text('status').notNull().$type<GameStatus>(),
     },
     (t) => [
         /** Identity is (grade, playhq id) — the same rule `teams` uses. */
@@ -302,36 +302,36 @@ export const IMPORT_RUN_STATUSES = [
 export type ImportRunStatus = (typeof IMPORT_RUN_STATUSES)[number];
 
 export const importRuns = sqliteTable('import_runs', {
+    errorText: text('error_text'),
+    finishedAt: integer('finished_at'),
+    games: integer('games', { mode: 'boolean' }).notNull(),
+    gamesCount: integer('games_count'),
+    grades: integer('grades'),
     id: integer('id').primaryKey({ autoIncrement: true }),
     instanceId: text('instance_id').notNull().unique(),
-    startedAt: integer('started_at').notNull(),
-    finishedAt: integer('finished_at'),
-    status: text('status').notNull().$type<ImportRunStatus>(),
-    yearsJson: text('years_json'),
-    games: integer('games', { mode: 'boolean' }).notNull(),
-    seasons: integer('seasons'),
-    grades: integer('grades'),
-    teams: integer('teams'),
     results: integer('results'),
-    gamesCount: integer('games_count'),
+    seasons: integer('seasons'),
+    startedAt: integer('started_at').notNull(),
+    status: text('status').notNull().$type<ImportRunStatus>(),
+    teams: integer('teams'),
     warningsJson: text('warnings_json'),
-    errorText: text('error_text'),
+    yearsJson: text('years_json'),
 });
 
 export const gradeWeights = sqliteTable(
     'grade_weights',
     {
-        id: integer('id').primaryKey({ autoIncrement: true }),
         competitionId: integer('competition_id')
             .notNull()
             .references(() => competitions.id, { onDelete: 'cascade' }),
-        tier: integer('tier').notNull(),
-        division: integer('division'),
-        label: text('label').notNull(),
-        weight: real('weight').notNull(),
         createdAt: text('created_at')
             .notNull()
             .default(sql`(current_timestamp)`),
+        division: integer('division'),
+        id: integer('id').primaryKey({ autoIncrement: true }),
+        label: text('label').notNull(),
+        tier: integer('tier').notNull(),
+        weight: real('weight').notNull(),
     },
     (t) => [
         uniqueIndex('grade_weights_competition_tier_division_idx').on(
@@ -343,8 +343,8 @@ export const gradeWeights = sqliteTable(
 );
 
 export const competitionsRelations = relations(competitions, ({ many }) => ({
-    seasons: many(seasons),
     gradeWeights: many(gradeWeights),
+    seasons: many(seasons),
 }));
 
 export const seasonsRelations = relations(seasons, ({ one, many }) => ({
@@ -368,13 +368,13 @@ export const clubAliasesRelations = relations(clubAliases, ({ one }) => ({
 }));
 
 export const gradesRelations = relations(grades, ({ one, many }) => ({
+    games: many(games),
+    results: many(teamSeasonResults),
     season: one(seasons, {
         fields: [grades.seasonId],
         references: [seasons.id],
     }),
     teams: many(teams),
-    results: many(teamSeasonResults),
-    games: many(games),
 }));
 
 export const teamsRelations = relations(teams, ({ one, many }) => ({
@@ -386,28 +386,28 @@ export const teamsRelations = relations(teams, ({ one, many }) => ({
 export const teamSeasonResultsRelations = relations(
     teamSeasonResults,
     ({ one }) => ({
-        team: one(teams, {
-            fields: [teamSeasonResults.teamId],
-            references: [teams.id],
-        }),
         grade: one(grades, {
             fields: [teamSeasonResults.gradeId],
             references: [grades.id],
+        }),
+        team: one(teams, {
+            fields: [teamSeasonResults.teamId],
+            references: [teams.id],
         }),
     }),
 );
 
 export const gamesRelations = relations(games, ({ one }) => ({
+    awayTeam: one(teams, {
+        fields: [games.awayTeamId],
+        references: [teams.id],
+        relationName: 'awayTeam',
+    }),
     grade: one(grades, { fields: [games.gradeId], references: [grades.id] }),
     homeTeam: one(teams, {
         fields: [games.homeTeamId],
         references: [teams.id],
         relationName: 'homeTeam',
-    }),
-    awayTeam: one(teams, {
-        fields: [games.awayTeamId],
-        references: [teams.id],
-        relationName: 'awayTeam',
     }),
 }));
 

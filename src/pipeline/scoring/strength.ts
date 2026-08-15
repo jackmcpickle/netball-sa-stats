@@ -1,4 +1,3 @@
-import { isNull } from 'es-toolkit';
 /**
  * The strength formula, and nothing else.
  *
@@ -7,6 +6,7 @@ import { isNull } from 'es-toolkit';
  * mean of size-independent finishes, so it answers a different question:
  * are this club's teams actually performing better, not just more numerous.
  */
+import { isNull } from 'es-toolkit';
 
 export interface StrengthRow {
     /** 1 is best. */

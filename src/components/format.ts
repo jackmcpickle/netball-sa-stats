@@ -1,8 +1,8 @@
-import { isNil, isNull } from 'es-toolkit';
 /**
  * Display formatting. Every "we do not have this" case resolves to an em dash
  * rather than a zero, so a missing figure is never mistaken for a real one.
  */
+import { isNil, isNull } from 'es-toolkit';
 
 export const NO_VALUE = '—';
 
@@ -54,26 +54,26 @@ export function describeMovement(
 ): Movement {
     if (isNull(previousRank)) {
         return {
-            label: 'new',
             description: 'First ranked season',
             direction: 'new',
+            label: 'new',
         };
     }
     const delta = previousRank - rank;
     if (delta > 0) {
         return {
-            label: `▲ ${String(delta)}`,
             description: `Up ${String(delta)} ${delta === 1 ? 'place' : 'places'}`,
             direction: 'up',
+            label: `▲ ${String(delta)}`,
         };
     }
     if (delta < 0) {
         const absDelta = Math.abs(delta);
         return {
-            label: `▼ ${String(absDelta)}`,
             description: `Down ${String(absDelta)} ${absDelta === 1 ? 'place' : 'places'}`,
             direction: 'down',
+            label: `▼ ${String(absDelta)}`,
         };
     }
-    return { label: NO_VALUE, description: 'No change', direction: 'level' };
+    return { description: 'No change', direction: 'level', label: NO_VALUE };
 }

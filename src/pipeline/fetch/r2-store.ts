@@ -7,18 +7,6 @@ function rawKey(key: string): string {
 
 export function createR2Store(bucket: R2Bucket): CaptureStore {
     return {
-        async get(key) {
-            const object = await bucket.get(rawKey(key));
-            if (isNull(object)) {
-                return undefined;
-            }
-            return await object.json();
-        },
-        async put(key, data, capturedAtMs) {
-            await bucket.put(rawKey(key), JSON.stringify(data), {
-                customMetadata: { capturedAtMs: String(capturedAtMs) },
-            });
-        },
         async capturedAtMs(key) {
             // `head` so a timestamp check never streams the capture body.
             const object = await bucket.head(rawKey(key));
@@ -30,6 +18,18 @@ export function createR2Store(bucket: R2Bucket): CaptureStore {
                 return undefined;
             }
             return Number(raw);
+        },
+        async get(key) {
+            const object = await bucket.get(rawKey(key));
+            if (isNull(object)) {
+                return undefined;
+            }
+            return await object.json();
+        },
+        async put(key, data, capturedAtMs) {
+            await bucket.put(rawKey(key), JSON.stringify(data), {
+                customMetadata: { capturedAtMs: String(capturedAtMs) },
+            });
         },
     };
 }

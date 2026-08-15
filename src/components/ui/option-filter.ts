@@ -1,8 +1,8 @@
-import { isUndefined } from 'es-toolkit';
 /**
  * Filtering for the searchable select. Kept as plain functions so the matching
  * rules can be unit tested without a DOM.
  */
+import { isUndefined } from 'es-toolkit';
 
 interface FilterableOption {
     readonly label: string;

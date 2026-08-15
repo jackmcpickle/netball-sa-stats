@@ -25,8 +25,8 @@ export interface ArchiveBackfillReport {
 async function loadClubAliases(dataDir: string): Promise<ClubAliasRow[]> {
     const text = await readFile(join(dataDir, 'club_aliases.csv'), 'utf-8');
     return parseCsv(text).map((row) => ({
-        club_key: row.club_key ?? '',
         alias_text: row.alias_text ?? '',
+        club_key: row.club_key ?? '',
         source: row.source ?? '',
     }));
 }
@@ -56,15 +56,15 @@ export async function runArchiveBackfill(
         loadArchivePlacements(placementsDir, years),
         loadClubAliases(dataDir),
     ]);
-    const entities = buildArchiveEntities({ placements, clubAliases });
+    const entities = buildArchiveEntities({ clubAliases, placements });
 
     await writeStagingCsvs(archiveDir, entities);
     await mergeArchiveEntitiesIntoData(dataDir, entities);
 
     return {
-        seasons: entities.seasons.length,
         grades: entities.grades.length,
-        teams: entities.teams.length,
         results: entities.results.length,
+        seasons: entities.seasons.length,
+        teams: entities.teams.length,
     };
 }

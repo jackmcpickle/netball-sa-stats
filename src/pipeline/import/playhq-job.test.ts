@@ -68,29 +68,29 @@ function resultRow(
     const won = position === 1 ? 8 : 2;
     const lost = position === 1 ? 2 : 8;
     return {
-        grade_key: gradeKey,
-        club_key: clubKey,
-        squad_number: null,
-        playhq_id: playhqId,
-        display_name: displayName,
-        ladder_position: position,
-        position_uncertain: 0,
-        played: 10,
-        won,
-        drawn: 0,
-        lost,
         byes: 0,
-        goals_for: position === 1 ? 500 : 400,
-        goals_against: position === 1 ? 400 : 500,
+        club_key: clubKey,
+        display_name: displayName,
+        drawn: 0,
         goal_difference: position === 1 ? 100 : -100,
-        points: position === 1 ? 16 : 4,
+        goals_against: position === 1 ? 400 : 500,
+        goals_for: position === 1 ? 500 : 400,
+        grade_key: gradeKey,
+        ladder_position: position,
+        lost,
+        notes: null,
         percentage: position === 1 ? 125 : 80,
+        placement_basis: 'regular_season_ladder',
+        played: 10,
+        playhq_id: playhqId,
+        points: position === 1 ? 16 : 4,
+        position_uncertain: 0,
+        scraped_at: 1_700_000_000_000,
         shots_attempted: null,
         shots_scored: null,
         source: 'playhq',
-        placement_basis: 'regular_season_ladder',
-        notes: null,
-        scraped_at: 1_700_000_000_000,
+        squad_number: null,
+        won,
     };
 }
 
@@ -105,47 +105,47 @@ function seasonBundle(
     const teamA = `team-a-${String(startYear)}-agrade`;
     const teamB = `team-b-${String(startYear)}-agrade`;
     return {
-        season: {
-            competition_key: 'amnd',
-            season_key: seasonKey,
-            competition_period: 'winter',
-            label: `Winter ${String(startYear)}`,
-            start_year: startYear,
-            end_year: startYear,
-            is_final: 0,
-            playhq_id: `season-${String(startYear)}`,
-            source: 'playhq',
-            status,
-        },
         grade: {
-            season_key: seasonKey,
+            age_band: 'Senior',
+            division: null,
             grade_key: gradeKey,
             name: 'A Grade',
-            tier: 4,
-            division: null,
-            team_count: 2,
-            age_band: 'Senior',
             playhq_id: `grade-${String(startYear)}`,
+            season_key: seasonKey,
+            team_count: 2,
+            tier: 4,
+        },
+        results: [
+            resultRow(gradeKey, clubA, teamA, 'Fixture Club A', 1),
+            resultRow(gradeKey, clubB, teamB, 'Fixture Club B', 2),
+        ],
+        season: {
+            competition_key: 'amnd',
+            competition_period: 'winter',
+            end_year: startYear,
+            is_final: 0,
+            label: `Winter ${String(startYear)}`,
+            playhq_id: `season-${String(startYear)}`,
+            season_key: seasonKey,
+            source: 'playhq',
+            start_year: startYear,
+            status,
         },
         teams: [
             {
                 club_key: clubA,
-                grade_key: gradeKey,
                 display_name: 'Fixture Club A',
-                squad_number: null,
+                grade_key: gradeKey,
                 playhq_id: teamA,
+                squad_number: null,
             },
             {
                 club_key: clubB,
-                grade_key: gradeKey,
                 display_name: 'Fixture Club B',
-                squad_number: null,
+                grade_key: gradeKey,
                 playhq_id: teamB,
+                squad_number: null,
             },
-        ],
-        results: [
-            resultRow(gradeKey, clubA, teamA, 'Fixture Club A', 1),
-            resultRow(gradeKey, clubB, teamB, 'Fixture Club B', 2),
         ],
     };
 }
@@ -160,28 +160,28 @@ function stubCollected(clubRegistry: ClubRegistry): CollectedPlayHq {
     const teams = [...completed.teams, ...active.teams];
     const results = [...completed.results, ...active.results];
     return {
+        gamesByYear: new Map(),
+        grades,
         importData: toImportData({
-            seasons,
-            clubs: clubRegistry.getClubs(),
             aliases: clubRegistry.getAliases(),
-            grades,
-            teams,
-            results,
+            clubs: clubRegistry.getClubs(),
             games: [],
+            grades,
+            results,
+            seasons,
+            teams,
         }),
         report: {
-            seasons: seasons.length,
-            grades: grades.length,
-            teams: teams.length,
-            results: results.length,
             games: 0,
+            grades: grades.length,
+            results: results.length,
+            seasons: seasons.length,
             skippedGrades: [],
+            teams: teams.length,
         },
-        seasons,
-        grades,
-        teams,
         results,
-        gamesByYear: new Map(),
+        seasons,
+        teams,
     };
 }
 
@@ -219,42 +219,42 @@ describe(runPlayHqJob, () => {
         const runs = createImportRunsRepo(createTestDb());
         const collect = stubCollect();
         const result = await runPlayHqJob({
-            params: { games: true },
-            store,
-            executor: createSqliteExecutor(db),
             cacheFirst: true,
-            nowEpochSeconds: NOW,
-            instanceId: 'job-ok',
-            runs,
-            isFinalBySeasonKey,
             collect,
+            executor: createSqliteExecutor(db),
+            instanceId: 'job-ok',
+            isFinalBySeasonKey,
+            nowEpochSeconds: NOW,
+            params: { games: true },
+            runs,
+            store,
         });
 
-        expect(result).toMatchObject({ seasons: 1, grades: 1, games: 0 });
+        expect(result).toMatchObject({ games: 0, grades: 1, seasons: 1 });
         expect(collect).toHaveBeenCalledWith(
             expect.objectContaining({
-                store,
                 cacheFirst: true,
                 games: true,
-                years: undefined,
                 isFinalBySeasonKey,
+                store,
+                years: undefined,
             }),
         );
 
         const listed = await runs.list();
         expect(listed).toHaveLength(1);
         expect(listed[0]).toMatchObject({
-            instanceId: 'job-ok',
-            status: 'ok',
-            yearsJson: null,
-            games: true,
-            seasons: 1,
-            grades: 1,
-            teams: 2,
-            results: 2,
-            gamesCount: 0,
-            warningsJson: JSON.stringify(NEW_CLUB_WARNINGS),
             errorText: null,
+            games: true,
+            gamesCount: 0,
+            grades: 1,
+            instanceId: 'job-ok',
+            results: 2,
+            seasons: 1,
+            status: 'ok',
+            teams: 2,
+            warningsJson: JSON.stringify(NEW_CLUB_WARNINGS),
+            yearsJson: null,
         });
     });
 
@@ -270,16 +270,16 @@ describe(runPlayHqJob, () => {
                     ...collected.report,
                     skippedGrades: [
                         {
-                            seasonKey: 'amnd-winter-2026',
                             gradeName: 'C Grade',
-                            teamCount: 1,
                             reason: 'too_few_teams',
+                            seasonKey: 'amnd-winter-2026',
+                            teamCount: 1,
                         },
                         {
-                            seasonKey: 'season-id',
                             gradeName: 'Walking Netball 50+',
-                            teamCount: -1,
                             reason: 'out_of_scope',
+                            seasonKey: 'season-id',
+                            teamCount: -1,
                         },
                     ],
                 },
@@ -287,15 +287,15 @@ describe(runPlayHqJob, () => {
         });
 
         await runPlayHqJob({
-            params: { games: false },
-            store,
-            executor: createSqliteExecutor(db),
             cacheFirst: true,
-            nowEpochSeconds: NOW,
-            instanceId: 'job-warnings',
-            runs,
-            isFinalBySeasonKey,
             collect,
+            executor: createSqliteExecutor(db),
+            instanceId: 'job-warnings',
+            isFinalBySeasonKey,
+            nowEpochSeconds: NOW,
+            params: { games: false },
+            runs,
+            store,
         });
 
         const listed = await runs.list();
@@ -309,23 +309,23 @@ describe(runPlayHqJob, () => {
     it('skips when a fresh running row exists', async () => {
         const runs = createImportRunsRepo(createTestDb());
         await runs.insertRunning({
+            games: true,
             instanceId: 'already-running',
             startedAt: NOW,
             yearsJson: null,
-            games: true,
         });
         const collect = stubCollect();
 
         const result = await runPlayHqJob({
-            params: { years: [2026], games: false },
-            store,
-            executor: createSqliteExecutor(db),
             cacheFirst: true,
-            nowEpochSeconds: NOW,
-            instanceId: 'job-skip',
-            runs,
-            isFinalBySeasonKey,
             collect,
+            executor: createSqliteExecutor(db),
+            instanceId: 'job-skip',
+            isFinalBySeasonKey,
+            nowEpochSeconds: NOW,
+            params: { games: false, years: [2026] },
+            runs,
+            store,
         });
 
         expect(result).toStrictEqual({ skipped: true });
@@ -338,33 +338,33 @@ describe(runPlayHqJob, () => {
         expect(
             listed.find((row) => row.instanceId === 'job-skip'),
         ).toMatchObject({
+            finishedAt: FINISHED,
+            games: false,
             status: 'skipped',
             yearsJson: '[2026]',
-            games: false,
-            finishedAt: FINISHED,
         });
     });
 
     it('marks a stale running row as error then proceeds', async () => {
         const runs = createImportRunsRepo(createTestDb());
         await runs.insertRunning({
+            games: true,
             instanceId: 'stale-run',
             startedAt: NOW - STALE_AFTER_SECONDS - 1,
             yearsJson: null,
-            games: true,
         });
         const collect = stubCollect();
 
         const result = await runPlayHqJob({
-            params: { games: true },
-            store,
-            executor: createSqliteExecutor(db),
             cacheFirst: true,
-            nowEpochSeconds: NOW,
-            instanceId: 'job-after-stale',
-            runs,
-            isFinalBySeasonKey,
             collect,
+            executor: createSqliteExecutor(db),
+            instanceId: 'job-after-stale',
+            isFinalBySeasonKey,
+            nowEpochSeconds: NOW,
+            params: { games: true },
+            runs,
+            store,
         });
 
         expect(result).toMatchObject({ seasons: 1 });
@@ -373,9 +373,9 @@ describe(runPlayHqJob, () => {
         expect(
             listed.find((row) => row.instanceId === 'stale-run'),
         ).toMatchObject({
-            status: 'error',
             errorText: 'stale running row',
             finishedAt: FINISHED,
+            status: 'error',
         });
         expect(
             listed.find((row) => row.instanceId === 'job-after-stale'),
@@ -385,29 +385,29 @@ describe(runPlayHqJob, () => {
     it('skips when a stale running row sits beside a fresh one', async () => {
         const runs = createImportRunsRepo(createTestDb());
         await runs.insertRunning({
+            games: true,
             instanceId: 'stale-run',
             startedAt: NOW - STALE_AFTER_SECONDS - 1,
             yearsJson: null,
-            games: true,
         });
         await runs.insertRunning({
+            games: true,
             instanceId: 'fresh-run',
             startedAt: NOW - 60,
             yearsJson: null,
-            games: true,
         });
         const collect = stubCollect();
 
         const result = await runPlayHqJob({
-            params: { games: true },
-            store,
-            executor: createSqliteExecutor(db),
             cacheFirst: true,
-            nowEpochSeconds: NOW,
-            instanceId: 'job-stale-plus-fresh',
-            runs,
-            isFinalBySeasonKey,
             collect,
+            executor: createSqliteExecutor(db),
+            instanceId: 'job-stale-plus-fresh',
+            isFinalBySeasonKey,
+            nowEpochSeconds: NOW,
+            params: { games: true },
+            runs,
+            store,
         });
 
         expect(result).toStrictEqual({ skipped: true });
@@ -415,7 +415,7 @@ describe(runPlayHqJob, () => {
         const listed = await runs.list();
         expect(
             listed.find((row) => row.instanceId === 'job-stale-plus-fresh'),
-        ).toMatchObject({ status: 'skipped', finishedAt: FINISHED });
+        ).toMatchObject({ finishedAt: FINISHED, status: 'skipped' });
         // The fresh row still owns the lock, so the stale one is left alone
         // rather than reaped as cover for a second concurrent import.
         expect(
@@ -433,24 +433,24 @@ describe(runPlayHqJob, () => {
 
         await expect(
             runPlayHqJob({
-                params: { games: false },
-                store,
-                executor: createSqliteExecutor(db),
                 cacheFirst: true,
-                nowEpochSeconds: NOW,
-                instanceId: 'job-error',
-                runs,
-                isFinalBySeasonKey,
                 collect,
+                executor: createSqliteExecutor(db),
+                instanceId: 'job-error',
+                isFinalBySeasonKey,
+                nowEpochSeconds: NOW,
+                params: { games: false },
+                runs,
+                store,
             }),
         ).rejects.toThrow('probe failed');
 
         const listed = await runs.list();
         expect(listed[0]).toMatchObject({
-            instanceId: 'job-error',
-            status: 'error',
             errorText: 'probe failed',
             finishedAt: FINISHED,
+            instanceId: 'job-error',
+            status: 'error',
         });
     });
 
@@ -458,26 +458,26 @@ describe(runPlayHqJob, () => {
         const runs = createImportRunsRepo(createTestDb());
         const collect = stubCollect();
         const result = await runPlayHqJob({
-            params: { years: [2024], games: false },
-            store,
-            executor: createSqliteExecutor(db),
             cacheFirst: true,
-            nowEpochSeconds: NOW,
-            instanceId: 'job-years',
-            runs,
-            isFinalBySeasonKey,
             collect,
+            executor: createSqliteExecutor(db),
+            instanceId: 'job-years',
+            isFinalBySeasonKey,
+            nowEpochSeconds: NOW,
+            params: { games: false, years: [2024] },
+            runs,
+            store,
         });
 
         expect(collect).toHaveBeenCalledWith(
-            expect.objectContaining({ years: [2024], games: false }),
+            expect.objectContaining({ games: false, years: [2024] }),
         );
         expect(result).toMatchObject({ seasons: 1 });
         const listed = await runs.list();
         expect(listed[0]).toMatchObject({
+            seasons: 1,
             status: 'ok',
             yearsJson: '[2024]',
-            seasons: 1,
         });
     });
 });

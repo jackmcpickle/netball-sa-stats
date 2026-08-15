@@ -67,7 +67,7 @@ export async function fetchArchivePdfs(
         const path = join(options.rawDir, source.rawFilename);
         // eslint-disable-next-line no-await-in-loop -- serial checks/downloads enforce the 1 req/s Wayback limit
         if (await fileExistsWithContent(path)) {
-            fetched.push({ year: source.year, path, status: 'skipped' });
+            fetched.push({ path, status: 'skipped', year: source.year });
             continue;
         }
 
@@ -92,7 +92,7 @@ export async function fetchArchivePdfs(
         assertPdf(bytes, source);
         // eslint-disable-next-line no-await-in-loop -- writes stay paired with the serial download they persist
         await writeFile(path, bytes);
-        fetched.push({ year: source.year, path, status: 'downloaded' });
+        fetched.push({ path, status: 'downloaded', year: source.year });
     }
 
     return fetched;

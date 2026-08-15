@@ -11,50 +11,50 @@ import type { ScoringRow } from '@/pipeline/scoring/championship';
 function row(overrides: Partial<ScoringRow> = {}): ScoringRow {
     return {
         clubKey: 'contax',
-        year: 2025,
+        drawn: 0,
         ladderPosition: 1,
+        lost: 0,
+        positionUncertain: false,
         teamCount: 10,
         weight: 1,
-        positionUncertain: false,
         won: 9,
-        lost: 0,
-        drawn: 0,
+        year: 2025,
         ...overrides,
     };
 }
 
 describe(teamPoints, () => {
     it('rewards a deeper grade at the same finish', () => {
-        const wide = teamPoints(row({ teamCount: 12, ladderPosition: 1 }));
-        const narrow = teamPoints(row({ teamCount: 6, ladderPosition: 1 }));
+        const wide = teamPoints(row({ ladderPosition: 1, teamCount: 12 }));
+        const narrow = teamPoints(row({ ladderPosition: 1, teamCount: 6 }));
         expect(wide).toBeGreaterThan(narrow);
         expect(wide).toBe(12);
         expect(narrow).toBe(6);
     });
 
     it('still credits last place with one unit of the grade weight', () => {
-        expect(teamPoints(row({ teamCount: 8, ladderPosition: 8 }))).toBe(1);
+        expect(teamPoints(row({ ladderPosition: 8, teamCount: 8 }))).toBe(1);
     });
 
     it('applies the grade weight', () => {
         expect(
-            teamPoints(row({ teamCount: 10, ladderPosition: 1, weight: 0.36 })),
+            teamPoints(row({ ladderPosition: 1, teamCount: 10, weight: 0.36 })),
         ).toBeCloseTo(3.6, 10);
     });
 
     it('never returns negative points for an out-of-range position', () => {
-        expect(teamPoints(row({ teamCount: 6, ladderPosition: 9 }))).toBe(0);
+        expect(teamPoints(row({ ladderPosition: 9, teamCount: 6 }))).toBe(0);
     });
 });
 
 describe(rankClubs, () => {
     it('ranks on weighted points, best first', () => {
         const totals = rankClubs([
-            row({ clubKey: 'a', teamCount: 10, ladderPosition: 1, weight: 1 }),
+            row({ clubKey: 'a', ladderPosition: 1, teamCount: 10, weight: 1 }),
             row({
                 clubKey: 'b',
-                teamCount: 10,
                 ladderPosition: 5,
+                teamCount: 10,
                 weight: 0.5,
             }),
         ]);
@@ -67,12 +67,12 @@ describe(rankClubs, () => {
         const deep = Array.from({ length: 6 }, () =>
             row({
                 clubKey: 'deep',
-                teamCount: 10,
+                drawn: null,
                 ladderPosition: 5,
+                lost: null,
+                teamCount: 10,
                 weight: 0.5,
                 won: null,
-                lost: null,
-                drawn: null,
                 // Six mid-table sides in weak grades, all in the one season.
                 year: 2025,
             }),
@@ -81,8 +81,8 @@ describe(rankClubs, () => {
             ...deep,
             row({
                 clubKey: 'narrow',
-                teamCount: 10,
                 ladderPosition: 1,
+                teamCount: 10,
                 weight: 1,
             }),
         ]);
@@ -93,8 +93,8 @@ describe(rankClubs, () => {
 
     it('counts both of a club two teams in one grade', () => {
         const totals = rankClubs([
-            row({ clubKey: 'walkerville', teamCount: 8, ladderPosition: 2 }),
-            row({ clubKey: 'walkerville', teamCount: 8, ladderPosition: 7 }),
+            row({ clubKey: 'walkerville', ladderPosition: 2, teamCount: 8 }),
+            row({ clubKey: 'walkerville', ladderPosition: 7, teamCount: 8 }),
         ]);
         expect(totals[0].teams).toBe(2);
         expect(totals[0].points).toBe(9);
@@ -102,7 +102,7 @@ describe(rankClubs, () => {
 
     it('does not turn absent win counts into a zero win rate', () => {
         const totals = rankClubs([
-            row({ clubKey: 'unknown', won: null, lost: null, drawn: null }),
+            row({ clubKey: 'unknown', drawn: null, lost: null, won: null }),
         ]);
         expect(totals[0].winPercentage).toBeNull();
         expect(totals[0].gamesPlayed).toBe(0);
@@ -110,8 +110,8 @@ describe(rankClubs, () => {
 
     it('averages win rate only over rows that reported one', () => {
         const totals = rankClubs([
-            row({ clubKey: 'a', won: 6, lost: 2, drawn: 0 }),
-            row({ clubKey: 'a', won: null, lost: null, drawn: null }),
+            row({ clubKey: 'a', drawn: 0, lost: 2, won: 6 }),
+            row({ clubKey: 'a', drawn: null, lost: null, won: null }),
         ]);
         expect(totals[0].winPercentage).toBe(75);
         expect(totals[0].gamesPlayed).toBe(8);
@@ -128,9 +128,9 @@ describe(rankClubs, () => {
 
     it('shares a rank between clubs level on points', () => {
         const totals = rankClubs([
-            row({ clubKey: 'a', teamCount: 10, ladderPosition: 1 }),
-            row({ clubKey: 'b', teamCount: 10, ladderPosition: 1 }),
-            row({ clubKey: 'c', teamCount: 10, ladderPosition: 4 }),
+            row({ clubKey: 'a', ladderPosition: 1, teamCount: 10 }),
+            row({ clubKey: 'b', ladderPosition: 1, teamCount: 10 }),
+            row({ clubKey: 'c', ladderPosition: 4, teamCount: 10 }),
         ]);
         expect(totals.map((entry) => entry.rank)).toStrictEqual([1, 1, 3]);
     });
@@ -138,10 +138,10 @@ describe(rankClubs, () => {
 
 describe(rankSeasons, () => {
     const rows: readonly ScoringRow[] = [
-        row({ clubKey: 'a', year: 2024, ladderPosition: 1 }),
-        row({ clubKey: 'b', year: 2024, ladderPosition: 6 }),
-        row({ clubKey: 'b', year: 2025, ladderPosition: 1 }),
-        row({ clubKey: 'c', year: 2025, ladderPosition: 4 }),
+        row({ clubKey: 'a', ladderPosition: 1, year: 2024 }),
+        row({ clubKey: 'b', ladderPosition: 6, year: 2024 }),
+        row({ clubKey: 'b', ladderPosition: 1, year: 2025 }),
+        row({ clubKey: 'c', ladderPosition: 4, year: 2025 }),
     ];
 
     it('groups by year, oldest first', () => {

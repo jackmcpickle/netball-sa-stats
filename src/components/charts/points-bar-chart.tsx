@@ -60,21 +60,21 @@ function barDraw(
     const height = barHeight(season.points, max, TRACK);
     const isRanked = season.status === 'ranked';
     const hit: ChartHit = {
-        id: `season-${String(season.year)}`,
-        label: String(season.year),
         detail: isRanked
             ? `${season.points.toFixed(1)} pts · #${String(season.rank ?? 0)}`
             : 'Not ranked yet',
+        id: `season-${String(season.year)}`,
+        label: String(season.year),
         x: slotX + BAR_WIDTH / 2,
         y: isRanked ? BASELINE - height / 2 : TOP + TRACK / 2,
     };
     return {
-        kind: 'bar',
-        key: String(season.year),
-        season,
-        x: slotX,
         height,
         hit,
+        key: String(season.year),
+        kind: 'bar',
+        season,
+        x: slotX,
     };
 }
 
@@ -95,10 +95,10 @@ function layoutBars(seasons: readonly ClubSeasonPoints[]): BarLayout {
     for (const slot of slots) {
         if (slot.kind === 'gap') {
             draws.push({
-                kind: 'gap',
                 key: `gap-${String(slot.afterYear)}`,
-                x,
+                kind: 'gap',
                 label: gapLabel(slot.missingYears),
+                x,
             });
             x += BREAK_WIDTH + GAP;
         } else {
@@ -113,7 +113,7 @@ function layoutBars(seasons: readonly ClubSeasonPoints[]): BarLayout {
         }
     }
 
-    return { width, draws, slots, byYear, hits };
+    return { byYear, draws, hits, slots, width };
 }
 
 /**

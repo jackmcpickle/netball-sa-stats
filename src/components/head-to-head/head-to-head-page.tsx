@@ -23,8 +23,8 @@ const ALL_BANDS: BandFilter = 'all';
 
 /** Hoisted: an inline array prop would be a new value on every render. */
 const CLUBS_SHOWN_OPTIONS = [
-    { value: false, label: 'Current clubs' },
-    { value: true, label: 'All (incl. past)' },
+    { label: 'Current clubs', value: false },
+    { label: 'All (incl. past)', value: true },
 ];
 
 /** Finals keep PlayHQ's own label; a shifted round number would mislead. */
@@ -76,34 +76,34 @@ function renderResultCell(meeting: Meeting): ReactNode {
 function clubOptions(
     clubs: readonly Club[],
 ): readonly { value: string; label: string }[] {
-    return clubs.map((club) => ({ value: club.key, label: club.name }));
+    return clubs.map((club) => ({ label: club.name, value: club.key }));
 }
 
 const MEETING_COLUMNS: readonly DataTableColumn<Meeting>[] = [
     {
-        id: 'year',
-        header: 'YEAR',
-        emphasis: 'strong',
-        sortable: true,
         cell: renderYearCell,
-    },
-    { id: 'round', header: 'RND', sortable: true, cell: renderRoundCell },
-    {
-        id: 'gradeName',
-        header: 'GRADE',
-        sortable: true,
-        cell: renderGradeCell,
-    },
-    { id: 'teamA', header: 'TEAM', cell: renderTeamACell },
-    {
-        id: 'score',
-        header: 'SCORE',
-        align: 'right',
         emphasis: 'strong',
-        cell: renderScoreCell,
+        header: 'YEAR',
+        id: 'year',
+        sortable: true,
     },
-    { id: 'teamB', header: 'OPPONENT', cell: renderTeamBCell },
-    { id: 'result', header: 'RES', align: 'right', cell: renderResultCell },
+    { cell: renderRoundCell, header: 'RND', id: 'round', sortable: true },
+    {
+        cell: renderGradeCell,
+        header: 'GRADE',
+        id: 'gradeName',
+        sortable: true,
+    },
+    { cell: renderTeamACell, header: 'TEAM', id: 'teamA' },
+    {
+        align: 'right',
+        cell: renderScoreCell,
+        emphasis: 'strong',
+        header: 'SCORE',
+        id: 'score',
+    },
+    { cell: renderTeamBCell, header: 'OPPONENT', id: 'teamB' },
+    { align: 'right', cell: renderResultCell, header: 'RES', id: 'result' },
 ];
 
 function meetingKey(meeting: Meeting): string {
@@ -119,8 +119,8 @@ export function HeadToHeadPage(): JSX.Element {
     const onAChange = useCallback(
         (a: string) => {
             void navigate({
-                search: (previous) => ({ ...previous, a, page: 1 }),
                 resetScroll: false,
+                search: (previous) => ({ ...previous, a, page: 1 }),
             });
         },
         [navigate],
@@ -129,8 +129,8 @@ export function HeadToHeadPage(): JSX.Element {
     const onBChange = useCallback(
         (b: string) => {
             void navigate({
-                search: (previous) => ({ ...previous, b, page: 1 }),
                 resetScroll: false,
+                search: (previous) => ({ ...previous, b, page: 1 }),
             });
         },
         [navigate],
@@ -139,8 +139,8 @@ export function HeadToHeadPage(): JSX.Element {
     const onBandChange = useCallback(
         (band: BandFilter) => {
             void navigate({
-                search: (previous) => ({ ...previous, band, page: 1 }),
                 resetScroll: false,
+                search: (previous) => ({ ...previous, band, page: 1 }),
             });
         },
         [navigate],
@@ -149,8 +149,8 @@ export function HeadToHeadPage(): JSX.Element {
     const onIncludePastChange = useCallback(
         (includePast: boolean) => {
             void navigate({
-                search: (previous) => ({ ...previous, includePast }),
                 resetScroll: false,
+                search: (previous) => ({ ...previous, includePast }),
             });
         },
         [navigate],
@@ -159,14 +159,14 @@ export function HeadToHeadPage(): JSX.Element {
     const onTableChange = useCallback(
         (next: TableState) => {
             void navigate({
+                resetScroll: false,
                 search: (previous) => ({
                     ...previous,
-                    sort: next.sort,
                     dir: next.desc ? 'desc' : 'asc',
                     page: next.page,
                     pageSize: next.pageSize,
+                    sort: next.sort,
                 }),
-                resetScroll: false,
             });
         },
         [navigate],
@@ -176,12 +176,12 @@ export function HeadToHeadPage(): JSX.Element {
 
     const bandOptions = useMemo(
         () => [
-            { value: ALL_BANDS, label: 'All grades' },
+            { label: 'All grades', value: ALL_BANDS },
             ...data.bands.map((band) => ({
+                label: band.label,
                 // SAFETY: `BandFilter` is `number | typeof ALL_BANDS`, and a
                 // band tier is always a number.
                 value: band.tier as BandFilter,
-                label: band.label,
             })),
         ],
         [data.bands],

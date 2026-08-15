@@ -12,15 +12,10 @@ function baseSpec(): SeedSpec {
                 name: 'AMND',
                 seasons: [
                     {
-                        seasonKey: 'amnd-2024',
-                        startYear: 2024,
-                        isFinal: true,
                         grades: [
                             {
                                 gradeKey: 'amnd-2024-a1',
                                 name: 'A1',
-                                tier: 1,
-                                teamCount: 1,
                                 results: [
                                     {
                                         clubKey: 'contax',
@@ -29,12 +24,12 @@ function baseSpec(): SeedSpec {
                                         ladderPosition: 1,
                                     },
                                 ],
+                                teamCount: 1,
+                                tier: 1,
                             },
                             {
                                 gradeKey: 'amnd-2024-b1',
                                 name: 'B1',
-                                tier: 2,
-                                teamCount: 1,
                                 results: [
                                     {
                                         clubKey: 'ajax',
@@ -43,8 +38,13 @@ function baseSpec(): SeedSpec {
                                         ladderPosition: 1,
                                     },
                                 ],
+                                teamCount: 1,
+                                tier: 2,
                             },
                         ],
+                        isFinal: true,
+                        seasonKey: 'amnd-2024',
+                        startYear: 2024,
                     },
                 ],
             },
@@ -62,9 +62,9 @@ describe(createWeightsRepo, () => {
         expect(weights.map((row) => row.tier)).toStrictEqual([1, 2]);
         expect(weights[0]).toMatchObject({
             competitionName: 'AMND',
+            division: null,
             label: 'A1',
             tier: 1,
-            division: null,
             weight: 1,
         });
     });

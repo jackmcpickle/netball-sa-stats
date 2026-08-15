@@ -107,30 +107,30 @@ function renderCompareCell(row: ResultRow): ReactNode {
 
 const RESULT_COLUMNS: readonly DataTableColumn<ResultRow>[] = [
     {
-        id: 'round',
-        header: 'RND',
-        emphasis: 'strong',
-        sortable: true,
         cell: renderRoundCell,
-    },
-    { id: 'playedAt', header: 'DATE', sortable: true, cell: renderDateCell },
-    { id: 'home', header: 'HOME', sortable: true, cell: renderHomeCell },
-    {
-        id: 'score',
-        header: 'SCORE',
-        align: 'right',
         emphasis: 'strong',
-        cell: renderScoreCell,
-    },
-    { id: 'away', header: 'AWAY', sortable: true, cell: renderAwayCell },
-    {
-        id: 'margin',
-        header: 'MARGIN',
-        align: 'right',
+        header: 'RND',
+        id: 'round',
         sortable: true,
-        cell: renderMarginCell,
     },
-    { id: 'compare', header: '', align: 'right', cell: renderCompareCell },
+    { cell: renderDateCell, header: 'DATE', id: 'playedAt', sortable: true },
+    { cell: renderHomeCell, header: 'HOME', id: 'home', sortable: true },
+    {
+        align: 'right',
+        cell: renderScoreCell,
+        emphasis: 'strong',
+        header: 'SCORE',
+        id: 'score',
+    },
+    { cell: renderAwayCell, header: 'AWAY', id: 'away', sortable: true },
+    {
+        align: 'right',
+        cell: renderMarginCell,
+        header: 'MARGIN',
+        id: 'margin',
+        sortable: true,
+    },
+    { align: 'right', cell: renderCompareCell, header: '', id: 'compare' },
 ];
 
 function fixtureKey(row: ResultRow): string {
@@ -155,7 +155,7 @@ export function ResultsPage(): JSX.Element {
         (year: number) => {
             // Grade keys are season-scoped, so changing year clears the grade
             // and the loader falls back to that season's first grade.
-            void navigate({ search: { year }, resetScroll: false });
+            void navigate({ resetScroll: false, search: { year } });
         },
         [navigate],
     );
@@ -163,8 +163,8 @@ export function ResultsPage(): JSX.Element {
     const onGradeChange = useCallback(
         (grade: string) => {
             void navigate({
-                search: (previous) => ({ ...previous, grade, page: 1 }),
                 resetScroll: false,
+                search: (previous) => ({ ...previous, grade, page: 1 }),
             });
         },
         [navigate],
@@ -173,30 +173,30 @@ export function ResultsPage(): JSX.Element {
     const onTableChange = useCallback(
         (next: TableState) => {
             void navigate({
+                resetScroll: false,
                 search: (previous) => ({
                     ...previous,
-                    sort: next.sort,
                     dir: next.desc ? 'desc' : 'asc',
                     page: next.page,
                     pageSize: next.pageSize,
+                    sort: next.sort,
                 }),
-                resetScroll: false,
             });
         },
         [navigate],
     );
 
     const yearOptions = useMemo(
-        () => data.years.map((year) => ({ value: year, label: String(year) })),
+        () => data.years.map((year) => ({ label: String(year), value: year })),
         [data.years],
     );
 
     const gradeOptions = useMemo(
         () =>
             data.grades.map((grade) => ({
-                value: grade.key,
-                label: grade.name,
                 hint: grade.competition.name,
+                label: grade.name,
+                value: grade.key,
             })),
         [data.grades],
     );

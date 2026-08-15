@@ -115,15 +115,15 @@ const executor = createWranglerExecutor('netball-stats', target);
  */
 function toRow(raw: QueryRow): Row {
     return {
-        gradeKey: String(raw.gradeKey),
-        year: Number(raw.year),
-        team: String(raw.team),
-        ladderWon: Number(raw.ladderWon),
-        ladderLost: Number(raw.ladderLost),
-        ladderDrawn: Number(raw.ladderDrawn),
-        gamesWon: Number(raw.gamesWon),
-        gamesLost: Number(raw.gamesLost),
         gamesDrawn: Number(raw.gamesDrawn),
+        gamesLost: Number(raw.gamesLost),
+        gamesWon: Number(raw.gamesWon),
+        gradeKey: String(raw.gradeKey),
+        ladderDrawn: Number(raw.ladderDrawn),
+        ladderLost: Number(raw.ladderLost),
+        ladderWon: Number(raw.ladderWon),
+        team: String(raw.team),
+        year: Number(raw.year),
     };
 }
 

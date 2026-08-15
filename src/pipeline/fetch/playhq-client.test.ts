@@ -9,7 +9,7 @@ describe(cachedGraphQL, () => {
             new Map([
                 [
                     'discoverCompetitions_abc.json',
-                    { data: { cached: true }, capturedAtMs: 1 },
+                    { capturedAtMs: 1, data: { cached: true } },
                 ],
             ]),
         );
@@ -31,7 +31,7 @@ describe(cachedGraphQL, () => {
             new Map([
                 [
                     'discoverCompetitions_abc.json',
-                    { data: { cached: true }, capturedAtMs: 1 },
+                    { capturedAtMs: 1, data: { cached: true } },
                 ],
             ]),
         );

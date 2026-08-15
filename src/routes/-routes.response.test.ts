@@ -1,4 +1,3 @@
-import { isUndefined } from 'es-toolkit';
 /**
  * Response-type coverage for every route: the discovery files must come back
  * as the content type crawlers expect, and every page route must declare a
@@ -8,6 +7,7 @@ import { isUndefined } from 'es-toolkit';
  * transitively, so the db module is stubbed and the handlers are driven with
  * the in-memory test harness instead.
  */
+import { isUndefined } from 'es-toolkit';
 import { beforeAll, describe, expect, it, vi } from 'vitest';
 import type { Db } from '@/db';
 import type { LinkTag, MetaTag } from '@/seo/head';

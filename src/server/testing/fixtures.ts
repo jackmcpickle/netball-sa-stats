@@ -1,10 +1,10 @@
-import { isNull, isUndefined } from 'es-toolkit';
 /**
  * Seeds a nested competition → season → grade → result graph into a test db
  * created by `createTestDb()`, defaulting the fields real imports always set
  * but that are noise in a test spec. Returns the row ids keyed by the spec's
  * natural keys so tests can assert against them without re-querying.
  */
+import { isNull, isUndefined } from 'es-toolkit';
 import type { Db } from '@/db';
 import {
     clubs,
@@ -112,8 +112,8 @@ async function seedTeamResult(
         .insert(teams)
         .values({
             clubId,
-            gradeId,
             displayName: resultSpec.displayName,
+            gradeId,
         })
         .returning();
     const teamKey = `${gradeSpec.gradeKey}:${resultSpec.clubKey}`;
@@ -122,21 +122,21 @@ async function seedTeamResult(
     const [resultRow] = await db
         .insert(teamSeasonResults)
         .values({
-            teamId: teamRow.id,
+            byes: resultSpec.byes,
+            drawn: resultSpec.drawn,
+            goalDifference: resultSpec.goalDifference,
+            goalsAgainst: resultSpec.goalsAgainst,
+            goalsFor: resultSpec.goalsFor,
             gradeId,
             ladderPosition: resultSpec.ladderPosition,
-            played: resultSpec.played,
-            won: resultSpec.won,
-            drawn: resultSpec.drawn,
             lost: resultSpec.lost,
-            byes: resultSpec.byes,
-            goalsFor: resultSpec.goalsFor,
-            goalsAgainst: resultSpec.goalsAgainst,
-            goalDifference: resultSpec.goalDifference,
-            points: resultSpec.points,
             percentage: resultSpec.percentage,
-            source: 'playhq',
             placementBasis: 'regular_season_ladder',
+            played: resultSpec.played,
+            points: resultSpec.points,
+            source: 'playhq',
+            teamId: teamRow.id,
+            won: resultSpec.won,
         })
         .returning();
     result.results.set(teamKey, resultRow.id);
@@ -154,13 +154,13 @@ async function seedGrade(
     const [gradeRow] = await db
         .insert(grades)
         .values({
-            seasonId,
+            ageBand: gradeSpec.ageBand,
+            division: gradeSpec.division ?? null,
             gradeKey: gradeSpec.gradeKey,
             name: gradeSpec.name,
-            tier: gradeSpec.tier,
-            division: gradeSpec.division ?? null,
+            seasonId,
             teamCount: gradeSpec.teamCount,
-            ageBand: gradeSpec.ageBand,
+            tier: gradeSpec.tier,
         })
         .returning();
     result.grades.set(gradeSpec.gradeKey, gradeRow.id);
@@ -170,9 +170,9 @@ async function seedGrade(
         weightedTiers.add(weightKey);
         await db.insert(gradeWeights).values({
             competitionId,
-            tier: gradeSpec.tier,
             division: gradeSpec.division ?? null,
             label: gradeSpec.name,
+            tier: gradeSpec.tier,
             weight: 1,
         });
     }
@@ -195,13 +195,13 @@ async function seedSeason(
         .insert(seasons)
         .values({
             competitionId,
-            seasonKey: seasonSpec.seasonKey,
             competitionPeriod: seasonSpec.competitionPeriod ?? 'winter',
-            label: seasonSpec.label ?? String(seasonSpec.startYear),
-            startYear: seasonSpec.startYear,
             endYear: seasonSpec.endYear ?? seasonSpec.startYear,
             isFinal: seasonSpec.isFinal,
+            label: seasonSpec.label ?? String(seasonSpec.startYear),
+            seasonKey: seasonSpec.seasonKey,
             source: 'playhq',
+            startYear: seasonSpec.startYear,
         })
         .returning();
     result.seasons.set(seasonSpec.seasonKey, seasonRow.id);
@@ -246,12 +246,12 @@ async function seedCompetition(
 
 export async function seed(db: Db, spec: SeedSpec): Promise<SeedResult> {
     const result: SeedResult = {
-        competitions: new Map(),
-        seasons: new Map(),
-        grades: new Map(),
         clubs: new Map(),
-        teams: new Map(),
+        competitions: new Map(),
+        grades: new Map(),
         results: new Map(),
+        seasons: new Map(),
+        teams: new Map(),
     };
 
     // Tracks (competitionId, tier, division) combos that already have a
@@ -314,18 +314,18 @@ export async function seedGames(
                 throw new Error(`seedGames: unknown grade ${spec.gradeKey}`);
             }
             return {
+                awayScore: spec.awayScore ?? null,
+                awayTeamId: teamIdFor(result, spec.gradeKey, spec.away),
                 gradeId,
+                homeScore: spec.homeScore ?? null,
+                homeTeamId: teamIdFor(result, spec.gradeKey, spec.home),
+                isFinals: spec.isFinals ?? false,
+                playedAt: spec.playedAt ?? null,
                 playhqId: `game-${spec.gradeKey}-${String(index)}`,
                 round: spec.round ?? 1,
                 roundName: spec.roundName ?? `Round ${String(spec.round ?? 1)}`,
-                isFinals: spec.isFinals ?? false,
-                playedAt: spec.playedAt ?? null,
-                homeTeamId: teamIdFor(result, spec.gradeKey, spec.home),
-                awayTeamId: teamIdFor(result, spec.gradeKey, spec.away),
-                homeScore: spec.homeScore ?? null,
-                awayScore: spec.awayScore ?? null,
-                status: spec.status ?? 'final',
                 source: 'playhq' as const,
+                status: spec.status ?? 'final',
             };
         }),
     );

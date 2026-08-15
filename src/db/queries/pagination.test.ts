@@ -4,13 +4,13 @@ import { offsetFor, pageCount } from '@/db/queries/pagination';
 describe(offsetFor, () => {
     it('is zero on the first page', () => {
         expect(
-            offsetFor({ sort: 'year', desc: true, page: 1, pageSize: 50 }),
+            offsetFor({ desc: true, page: 1, pageSize: 50, sort: 'year' }),
         ).toBe(0);
     });
 
     it('steps by page size', () => {
         expect(
-            offsetFor({ sort: 'year', desc: true, page: 3, pageSize: 50 }),
+            offsetFor({ desc: true, page: 3, pageSize: 50, sort: 'year' }),
         ).toBe(100);
     });
 });

@@ -90,14 +90,14 @@ export function mapArchiveGradeName(name: string, _year: number): ArchiveGrade {
     const displayName = canonicalGradeName(name);
     const parsed =
         displayName === 'H Grade'
-            ? { tier: 6, division: 6 }
+            ? { division: 6, tier: 6 }
             : parseGradeName(displayName);
     return {
-        originalName: name,
-        displayName,
-        tier: parsed.tier,
-        division: parsed.division,
         ageBand: ageBandFor(parsed.tier),
+        displayName,
+        division: parsed.division,
+        originalName: name,
         slug: slugify(displayName),
+        tier: parsed.tier,
     };
 }

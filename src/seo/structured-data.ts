@@ -40,34 +40,34 @@ const WEBSITE_ID = `${SITE.origin}/#website`;
 
 export function organizationSchema() {
     return {
-        '@type': 'Organization',
         '@id': ORGANIZATION_ID,
-        name: SITE.name,
-        url: SITE.origin,
-        description: SITE.description,
-        logo: absoluteUrl('/icon-512.png'),
+        '@type': 'Organization',
         areaServed: {
             '@type': 'AdministrativeArea',
             name: 'South Australia',
         },
+        description: SITE.description,
         knowsAbout: [
             'Netball',
             'Adelaide Metropolitan Netball Division',
             'Netball SA Premier League',
             'Club championship rankings',
         ],
+        logo: absoluteUrl('/icon-512.png'),
+        name: SITE.name,
+        url: SITE.origin,
     } satisfies JsonLdNode;
 }
 
 export function webSiteSchema() {
     return {
-        '@type': 'WebSite',
         '@id': WEBSITE_ID,
-        name: SITE.name,
-        url: SITE.origin,
+        '@type': 'WebSite',
         description: SITE.description,
         inLanguage: 'en-AU',
+        name: SITE.name,
         publisher: { '@id': ORGANIZATION_ID },
+        url: SITE.origin,
     } satisfies JsonLdNode;
 }
 
@@ -79,15 +79,15 @@ export function webPageSchema(input: {
     readonly dateModified?: string;
 }) {
     return {
-        '@type': 'WebPage',
         '@id': `${absoluteUrl(input.path)}#webpage`,
-        url: absoluteUrl(input.path),
-        name: input.name,
-        description: input.description,
-        isPartOf: { '@id': WEBSITE_ID },
+        '@type': 'WebPage',
         about: { '@id': ORGANIZATION_ID },
-        inLanguage: 'en-AU',
         dateModified: input.dateModified,
+        description: input.description,
+        inLanguage: 'en-AU',
+        isPartOf: { '@id': WEBSITE_ID },
+        name: input.name,
+        url: absoluteUrl(input.path),
     } satisfies JsonLdNode;
 }
 
@@ -101,11 +101,11 @@ export function faqSchema(entries: readonly FaqEntry[]) {
         '@type': 'FAQPage',
         mainEntity: entries.map((entry) => ({
             '@type': 'Question',
-            name: entry.question,
             acceptedAnswer: {
                 '@type': 'Answer',
                 text: entry.answer,
             },
+            name: entry.question,
         })),
     } satisfies JsonLdNode;
 }
@@ -120,9 +120,9 @@ export function breadcrumbSchema(crumbs: readonly Crumb[]) {
         '@type': 'BreadcrumbList',
         itemListElement: crumbs.map((crumb, index) => ({
             '@type': 'ListItem',
-            position: index + 1,
-            name: crumb.name,
             item: absoluteUrl(crumb.path),
+            name: crumb.name,
+            position: index + 1,
         })),
     } satisfies JsonLdNode;
 }
@@ -135,25 +135,25 @@ export function datasetSchema(input: {
     readonly dateModified?: string;
 }) {
     return {
-        '@type': 'Dataset',
         '@id': `${absoluteUrl(input.path)}#dataset`,
-        name: input.name,
-        description: input.description,
-        url: absoluteUrl(input.path),
-        license: 'https://creativecommons.org/licenses/by/4.0/',
+        '@type': 'Dataset',
         creator: { '@id': ORGANIZATION_ID },
-        isAccessibleForFree: true,
-        temporalCoverage: input.temporalCoverage,
-        spatialCoverage: 'South Australia, Australia',
-        keywords: ['netball', 'club rankings', 'ladders', 'South Australia'],
         dateModified: input.dateModified,
+        description: input.description,
         distribution: [
             {
                 '@type': 'DataDownload',
-                encodingFormat: 'text/markdown',
                 contentUrl: absoluteUrl('/llms-full.txt'),
+                encodingFormat: 'text/markdown',
             },
         ],
+        isAccessibleForFree: true,
+        keywords: ['netball', 'club rankings', 'ladders', 'South Australia'],
+        license: 'https://creativecommons.org/licenses/by/4.0/',
+        name: input.name,
+        spatialCoverage: 'South Australia, Australia',
+        temporalCoverage: input.temporalCoverage,
+        url: absoluteUrl(input.path),
     } satisfies JsonLdNode;
 }
 

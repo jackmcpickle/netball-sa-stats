@@ -1,10 +1,10 @@
-import { isUndefined } from 'es-toolkit';
 /**
  * The domain object for "what years/seasons does the site hold data for".
  * `coveredYears`/`rankedYears` used to live as free functions in
  * `src/db/queries/coverage.ts`; that logic now lives here, and the query
  * module delegates to it so `buildCoverage`'s DTO shape is unaffected.
  */
+import { isUndefined } from 'es-toolkit';
 import type { DomainError, Result } from '@/server/domain/result';
 import { err, ok } from '@/server/domain/result';
 

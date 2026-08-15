@@ -18,7 +18,7 @@ const years = process.argv
 const gradeArg = process.argv.find((arg) => arg.startsWith('--grade='));
 const gradeId = gradeArg?.slice('--grade='.length);
 
-const report = await runFetch({ refresh, games, years, gradeId });
+const report = await runFetch({ games, gradeId, refresh, years });
 
 console.warn(
     `fetched ${report.seasons} seasons, ${report.grades} grades, ${report.teams} teams, ${report.results} results, ${report.games} games`,

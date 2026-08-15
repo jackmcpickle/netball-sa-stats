@@ -18,9 +18,9 @@ export async function fetchGradeWeights(
         .select({
             competitionKey: competitions.key,
             competitionName: competitions.name,
+            division: gradeWeights.division,
             label: gradeWeights.label,
             tier: gradeWeights.tier,
-            division: gradeWeights.division,
             weight: gradeWeights.weight,
         })
         .from(gradeWeights)
@@ -33,9 +33,9 @@ export async function fetchGradeWeights(
     return rows.map((row) => ({
         competitionName: toCompetition(row.competitionKey, row.competitionName)
             .shortName,
+        division: row.division,
         label: row.label,
         tier: row.tier,
-        division: row.division,
         weight: row.weight,
     }));
 }

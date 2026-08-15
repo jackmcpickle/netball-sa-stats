@@ -1,8 +1,8 @@
-import { isNull } from 'es-toolkit';
 /**
  * Per-band trend figures for the club sparkline grid. Kept out of the
  * component module so that file exports components only.
  */
+import { isNull } from 'es-toolkit';
 import { round } from '@/components/charts/scale';
 import type {
     ClubBandTrend,
@@ -68,12 +68,6 @@ export function bandSummaries(
         const endWindow = measured.slice(measured.length - windowSize);
         return [
             {
-                tier: band.tier,
-                label: band.label,
-                points: band.points,
-                measured,
-                latest,
-                first,
                 change:
                     measured.length > 1
                         ? round(
@@ -81,6 +75,12 @@ export function bandSummaries(
                               3,
                           )
                         : null,
+                first,
+                label: band.label,
+                latest,
+                measured,
+                points: band.points,
+                tier: band.tier,
                 windowSize,
             },
         ];

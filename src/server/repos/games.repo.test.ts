@@ -24,21 +24,21 @@ function baseSpec(): SeedSpec {
                 key: 'amnd',
                 name: 'AMND',
                 seasons: [2025, 2026].map((year) => ({
-                    seasonKey: `amnd-${String(year)}`,
-                    startYear: year,
-                    isFinal: year === 2025,
                     grades: [
                         {
                             gradeKey: `amnd-${String(year)}-a1`,
                             name: 'A1',
-                            tier: 1,
-                            teamCount: 3,
                             results: clubsInGrade.map((club, index) => ({
                                 ...club,
                                 ladderPosition: index + 1,
                             })),
+                            teamCount: 3,
+                            tier: 1,
                         },
                     ],
+                    isFinal: year === 2025,
+                    seasonKey: `amnd-${String(year)}`,
+                    startYear: year,
                 })),
             },
         ],
@@ -56,20 +56,20 @@ describe('fetchGameFactsForPair', () => {
         const { db, seeded } = await setup();
         await seedGames(db, seeded, [
             {
+                away: 'garville',
+                awayScore: 40,
                 gradeKey: 'amnd-2025-a1',
                 home: 'contax',
-                away: 'garville',
-                round: 1,
                 homeScore: 50,
-                awayScore: 40,
+                round: 1,
             },
             {
+                away: 'contax',
+                awayScore: 44,
                 gradeKey: 'amnd-2025-a1',
                 home: 'garville',
-                away: 'contax',
-                round: 8,
                 homeScore: 45,
-                awayScore: 44,
+                round: 8,
             },
         ]);
 
@@ -87,7 +87,7 @@ describe('fetchGameFactsForPair', () => {
     it('excludes a fixture against a third club', async () => {
         const { db, seeded } = await setup();
         await seedGames(db, seeded, [
-            { gradeKey: 'amnd-2025-a1', home: 'contax', away: 'matrics' },
+            { away: 'matrics', gradeKey: 'amnd-2025-a1', home: 'contax' },
         ]);
 
         await expect(
@@ -98,8 +98,8 @@ describe('fetchGameFactsForPair', () => {
     it('spans seasons, carrying each game year and tier', async () => {
         const { db, seeded } = await setup();
         await seedGames(db, seeded, [
-            { gradeKey: 'amnd-2025-a1', home: 'contax', away: 'garville' },
-            { gradeKey: 'amnd-2026-a1', home: 'contax', away: 'garville' },
+            { away: 'garville', gradeKey: 'amnd-2025-a1', home: 'contax' },
+            { away: 'garville', gradeKey: 'amnd-2026-a1', home: 'contax' },
         ]);
 
         const facts = await createGamesRepo(db).factsForPair(
@@ -117,7 +117,7 @@ describe('fetchGameFactsForPair', () => {
     it('is empty for a club paired with itself', async () => {
         const { db, seeded } = await setup();
         await seedGames(db, seeded, [
-            { gradeKey: 'amnd-2025-a1', home: 'contax', away: 'garville' },
+            { away: 'garville', gradeKey: 'amnd-2025-a1', home: 'contax' },
         ]);
 
         await expect(
@@ -127,9 +127,9 @@ describe('fetchGameFactsForPair', () => {
 });
 
 const GRADE_SPEC = {
-    sortable: ['round', 'playedAt', 'home', 'away', 'margin'],
-    defaultSort: 'round',
     defaultDesc: false,
+    defaultSort: 'round',
+    sortable: ['round', 'playedAt', 'home', 'away', 'margin'],
 } as const;
 
 /** A page big enough to hold any fixture set these tests seed. */
@@ -144,9 +144,9 @@ describe('fetchGamePageForGrade', () => {
         const { db, seeded } = await setup();
         await seedGames(db, seeded, [
             {
+                away: null,
                 gradeKey: 'amnd-2025-a1',
                 home: 'matrics',
-                away: null,
                 status: 'bye',
             },
         ]);
@@ -164,12 +164,12 @@ describe('fetchGamePageForGrade', () => {
         const { db, seeded } = await setup();
         await seedGames(db, seeded, [
             {
+                away: null,
                 gradeKey: 'amnd-2025-a1',
                 home: null,
-                away: null,
+                isFinals: true,
                 round: 99,
                 roundName: 'Grand Final',
-                isFinals: true,
                 status: 'scheduled',
             },
         ]);
@@ -188,16 +188,16 @@ describe('fetchGamePageForGrade', () => {
         const { db, seeded } = await setup();
         await seedGames(db, seeded, [
             {
+                away: 'garville',
                 gradeKey: 'amnd-2025-a1',
                 home: 'contax',
-                away: 'garville',
-                round: 99,
                 isFinals: true,
+                round: 99,
             },
             {
+                away: 'matrics',
                 gradeKey: 'amnd-2025-a1',
                 home: 'contax',
-                away: 'matrics',
                 round: 2,
             },
         ]);
@@ -212,7 +212,7 @@ describe('fetchGamePageForGrade', () => {
     it('excludes another grade, even in the same season', async () => {
         const { db, seeded } = await setup();
         await seedGames(db, seeded, [
-            { gradeKey: 'amnd-2026-a1', home: 'contax', away: 'garville' },
+            { away: 'garville', gradeKey: 'amnd-2026-a1', home: 'contax' },
         ]);
 
         await expect(
@@ -225,9 +225,9 @@ describe('fetchOpponentCounts', () => {
     it('counts games from either side of the fixture', async () => {
         const { db, seeded } = await setup();
         await seedGames(db, seeded, [
-            { gradeKey: 'amnd-2025-a1', home: 'contax', away: 'garville' },
-            { gradeKey: 'amnd-2025-a1', home: 'garville', away: 'contax' },
-            { gradeKey: 'amnd-2025-a1', home: 'matrics', away: 'contax' },
+            { away: 'garville', gradeKey: 'amnd-2025-a1', home: 'contax' },
+            { away: 'contax', gradeKey: 'amnd-2025-a1', home: 'garville' },
+            { away: 'contax', gradeKey: 'amnd-2025-a1', home: 'matrics' },
         ]);
 
         const counts = await createGamesRepo(db).opponentCounts('contax');
@@ -241,15 +241,15 @@ describe('fetchOpponentCounts', () => {
         const { db, seeded } = await setup();
         await seedGames(db, seeded, [
             {
+                away: null,
                 gradeKey: 'amnd-2025-a1',
                 home: 'contax',
-                away: null,
                 status: 'bye',
             },
             {
+                away: 'garville',
                 gradeKey: 'amnd-2025-a1',
                 home: 'contax',
-                away: 'garville',
                 status: 'scheduled',
             },
         ]);
@@ -269,44 +269,44 @@ describe('fetchOpponentCounts', () => {
 
 describe('fetchGamePageForGrade paging and sorting', () => {
     function request(sort: string, dir: 'asc' | 'desc'): PageRequest {
-        return TableQuery.from({ sort, dir }, GRADE_SPEC).request();
+        return TableQuery.from({ dir, sort }, GRADE_SPEC).request();
     }
 
     async function withFixtures(): Promise<Db> {
         const { db, seeded } = await setup();
         await seedGames(db, seeded, [
             {
+                away: 'garville',
+                awayScore: 32,
                 gradeKey: 'amnd-2025-a1',
                 home: 'contax',
-                away: 'garville',
-                round: 2,
-                playedAt: 200,
                 homeScore: 50,
-                awayScore: 32,
+                playedAt: 200,
+                round: 2,
             },
             {
+                away: 'matrics',
+                awayScore: 39,
                 gradeKey: 'amnd-2025-a1',
                 home: 'garville',
-                away: 'matrics',
-                round: 1,
-                playedAt: 100,
                 homeScore: 40,
-                awayScore: 39,
+                playedAt: 100,
+                round: 1,
             },
             {
+                away: null,
                 gradeKey: 'amnd-2025-a1',
                 home: 'matrics',
-                away: null,
                 round: 3,
                 status: 'bye',
             },
             {
+                away: 'matrics',
+                awayScore: 0,
                 gradeKey: 'amnd-2025-a1',
                 home: 'contax',
-                away: 'matrics',
-                round: 4,
                 homeScore: 20,
-                awayScore: 0,
+                round: 4,
                 status: 'forfeit',
             },
         ]);

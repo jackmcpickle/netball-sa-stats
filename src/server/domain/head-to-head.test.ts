@@ -4,20 +4,20 @@ import type { GameFact } from '@/server/dto/head-to-head.dto';
 
 function fact(overrides: Partial<GameFact>): GameFact {
     return {
-        year: 2025,
-        tier: 1,
+        awayClubKey: 'b',
+        awayScore: 40,
+        awayTeamName: 'B',
         gradeName: 'Premier Division',
-        round: 1,
-        roundName: 'Round 1',
+        homeClubKey: 'a',
+        homeScore: 50,
+        homeTeamName: 'A',
         isFinals: false,
         playedAt: null,
-        homeClubKey: 'a',
-        awayClubKey: 'b',
-        homeTeamName: 'A',
-        awayTeamName: 'B',
-        homeScore: 50,
-        awayScore: 40,
+        round: 1,
+        roundName: 'Round 1',
         status: 'final',
+        tier: 1,
+        year: 2025,
         ...overrides,
     };
 }
@@ -26,19 +26,19 @@ describe(buildHeadToHead, () => {
     it('counts a home win for club A', () => {
         const h2h = buildHeadToHead([fact({})], 'a', 'b', 'all');
         expect(h2h.record).toStrictEqual({
+            drawn: 0,
+            goalsAgainst: 40,
+            goalsFor: 50,
+            lost: 0,
             played: 1,
             won: 1,
-            drawn: 0,
-            lost: 0,
-            goalsFor: 50,
-            goalsAgainst: 40,
         });
     });
 
     it('normalises an away game to club A perspective', () => {
         // Same scoreline, sides swapped: A must still be the loser here.
         const h2h = buildHeadToHead(
-            [fact({ homeClubKey: 'b', awayClubKey: 'a' })],
+            [fact({ awayClubKey: 'a', homeClubKey: 'b' })],
             'a',
             'b',
             'all',
@@ -51,10 +51,10 @@ describe(buildHeadToHead, () => {
         const h2h = buildHeadToHead(
             [
                 fact({
-                    homeClubKey: 'b',
                     awayClubKey: 'a',
-                    homeTeamName: 'B 1',
                     awayTeamName: 'A 2',
+                    homeClubKey: 'b',
+                    homeTeamName: 'B 1',
                 }),
             ],
             'a',
@@ -67,7 +67,7 @@ describe(buildHeadToHead, () => {
 
     it('counts a forfeit as a result', () => {
         const h2h = buildHeadToHead(
-            [fact({ status: 'forfeit', homeScore: 20, awayScore: 0 })],
+            [fact({ awayScore: 0, homeScore: 20, status: 'forfeit' })],
             'a',
             'b',
             'all',
@@ -79,7 +79,7 @@ describe(buildHeadToHead, () => {
     it('never counts forfeit goals, which PlayHQ fabricates as 0-20', () => {
         // A phantom 20-goal margin in every differential otherwise.
         const h2h = buildHeadToHead(
-            [fact({ status: 'forfeit', homeScore: 20, awayScore: 0 })],
+            [fact({ awayScore: 0, homeScore: 20, status: 'forfeit' })],
             'a',
             'b',
             'all',
@@ -90,7 +90,7 @@ describe(buildHeadToHead, () => {
 
     it('excludes a no-result from the record but keeps it in meetings', () => {
         const h2h = buildHeadToHead(
-            [fact({ status: 'no_result', homeScore: null, awayScore: null })],
+            [fact({ awayScore: null, homeScore: null, status: 'no_result' })],
             'a',
             'b',
             'all',
@@ -102,7 +102,7 @@ describe(buildHeadToHead, () => {
 
     it('excludes scheduled games from the record but keeps them in meetings', () => {
         const h2h = buildHeadToHead(
-            [fact({ status: 'scheduled', homeScore: null, awayScore: null })],
+            [fact({ awayScore: null, homeScore: null, status: 'scheduled' })],
             'a',
             'b',
             'all',
@@ -113,7 +113,7 @@ describe(buildHeadToHead, () => {
 
     it('counts a draw', () => {
         const h2h = buildHeadToHead(
-            [fact({ homeScore: 44, awayScore: 44 })],
+            [fact({ awayScore: 44, homeScore: 44 })],
             'a',
             'b',
             'all',
@@ -132,7 +132,7 @@ describe(buildHeadToHead, () => {
 
     it('ignores games involving neither club', () => {
         const h2h = buildHeadToHead(
-            [fact({ homeClubKey: 'c', awayClubKey: 'd' })],
+            [fact({ awayClubKey: 'd', homeClubKey: 'c' })],
             'a',
             'b',
             'all',
@@ -153,7 +153,7 @@ describe(buildHeadToHead, () => {
     it('never counts an intra-club game', () => {
         // A cannot play A; a same-club fixture must not become a phantom meeting.
         const h2h = buildHeadToHead(
-            [fact({ homeClubKey: 'a', awayClubKey: 'a' })],
+            [fact({ awayClubKey: 'a', homeClubKey: 'a' })],
             'a',
             'a',
             'all',
@@ -166,10 +166,10 @@ describe(buildHeadToHead, () => {
         const facts = [
             fact({ tier: 1 }),
             fact({
-                tier: 4,
+                awayScore: 30,
                 gradeName: 'Junior 2',
                 homeScore: 10,
-                awayScore: 30,
+                tier: 4,
             }),
         ];
         expect(buildHeadToHead(facts, 'a', 'b', 1).record.played).toBe(1);
@@ -212,7 +212,7 @@ describe(buildHeadToHead, () => {
 
     it('carries the season goal differential from A perspective', () => {
         const h2h = buildHeadToHead(
-            [fact({ homeScore: 50, awayScore: 40 })],
+            [fact({ awayScore: 40, homeScore: 50 })],
             'a',
             'b',
             'all',
@@ -222,7 +222,7 @@ describe(buildHeadToHead, () => {
 
     it('excludes byes, which have only one side', () => {
         const h2h = buildHeadToHead(
-            [fact({ status: 'bye', awayClubKey: null, awayScore: null })],
+            [fact({ awayClubKey: null, awayScore: null, status: 'bye' })],
             'a',
             'b',
             'all',
@@ -233,7 +233,7 @@ describe(buildHeadToHead, () => {
 
     it('omits goals for a game with no recorded score', () => {
         const h2h = buildHeadToHead(
-            [fact({ status: 'forfeit', homeScore: null, awayScore: null })],
+            [fact({ awayScore: null, homeScore: null, status: 'forfeit' })],
             'a',
             'b',
             'all',

@@ -29,15 +29,10 @@ function baseSpec(): SeedSpec {
                 name: 'AMND',
                 seasons: [
                     {
-                        seasonKey: 'amnd-2024',
-                        startYear: 2024,
-                        isFinal: true,
                         grades: [
                             {
                                 gradeKey: 'amnd-2024-a1',
                                 name: 'A1',
-                                tier: 1,
-                                teamCount: 2,
                                 results: [
                                     {
                                         clubKey: 'contax',
@@ -52,19 +47,19 @@ function baseSpec(): SeedSpec {
                                         ladderPosition: 2,
                                     },
                                 ],
+                                teamCount: 2,
+                                tier: 1,
                             },
                         ],
+                        isFinal: true,
+                        seasonKey: 'amnd-2024',
+                        startYear: 2024,
                     },
                     {
-                        seasonKey: 'amnd-2025',
-                        startYear: 2025,
-                        isFinal: true,
                         grades: [
                             {
                                 gradeKey: 'amnd-2025-a1',
                                 name: 'A1',
-                                tier: 1,
-                                teamCount: 2,
                                 results: [
                                     {
                                         clubKey: 'contax',
@@ -79,12 +74,12 @@ function baseSpec(): SeedSpec {
                                         ladderPosition: 2,
                                     },
                                 ],
+                                teamCount: 2,
+                                tier: 1,
                             },
                             {
                                 gradeKey: 'amnd-2025-j1',
                                 name: 'Junior 1',
-                                tier: 4,
-                                teamCount: 2,
                                 results: [
                                     {
                                         clubKey: 'contax',
@@ -99,8 +94,13 @@ function baseSpec(): SeedSpec {
                                         ladderPosition: 2,
                                     },
                                 ],
+                                teamCount: 2,
+                                tier: 4,
                             },
                         ],
+                        isFinal: true,
+                        seasonKey: 'amnd-2025',
+                        startYear: 2025,
                     },
                 ],
             },
@@ -113,28 +113,28 @@ async function setup(): Promise<{ db: Db; seeded: SeedResult }> {
     const seeded = await seed(db, baseSpec());
     await seedGames(db, seeded, [
         {
+            away: 'garville',
+            awayScore: 40,
             gradeKey: 'amnd-2025-a1',
             home: 'contax',
-            away: 'garville',
-            round: 1,
             homeScore: 50,
-            awayScore: 40,
+            round: 1,
         },
         {
+            away: 'contax',
+            awayScore: 20,
             gradeKey: 'amnd-2025-j1',
             home: 'garville',
-            away: 'contax',
-            round: 1,
             homeScore: 30,
-            awayScore: 20,
+            round: 1,
         },
         {
+            away: 'dunes',
+            awayScore: 10,
             gradeKey: 'amnd-2024-a1',
             home: 'contax',
-            away: 'dunes',
-            round: 1,
             homeScore: 60,
-            awayScore: 10,
+            round: 1,
         },
     ]);
     return { db, seeded };
@@ -183,11 +183,11 @@ describe('headToHead.getPage', () => {
             }),
         );
         expect(page.h2h?.record).toMatchObject({
+            goalsAgainst: 70,
+            goalsFor: 70,
+            lost: 1,
             played: 2,
             won: 1,
-            lost: 1,
-            goalsFor: 70,
-            goalsAgainst: 70,
         });
     });
 

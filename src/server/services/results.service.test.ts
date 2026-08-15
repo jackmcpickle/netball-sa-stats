@@ -38,39 +38,39 @@ function baseSpec(): SeedSpec {
                 name: 'AMND',
                 seasons: [
                     {
-                        seasonKey: 'amnd-2025',
-                        startYear: 2025,
-                        isFinal: true,
                         grades: [
                             {
                                 gradeKey: 'amnd-2025-a1',
                                 name: 'A1',
-                                tier: 1,
-                                teamCount: 2,
                                 results,
+                                teamCount: 2,
+                                tier: 1,
                             },
                             {
                                 gradeKey: 'amnd-2025-b1',
                                 name: 'B1',
-                                tier: 2,
-                                teamCount: 2,
                                 results,
+                                teamCount: 2,
+                                tier: 2,
                             },
                         ],
+                        isFinal: true,
+                        seasonKey: 'amnd-2025',
+                        startYear: 2025,
                     },
                     {
-                        seasonKey: 'amnd-2026',
-                        startYear: 2026,
-                        isFinal: false,
                         grades: [
                             {
                                 gradeKey: 'amnd-2026-a1',
                                 name: 'A1',
-                                tier: 1,
-                                teamCount: 2,
                                 results,
+                                teamCount: 2,
+                                tier: 1,
                             },
                         ],
+                        isFinal: false,
+                        seasonKey: 'amnd-2026',
+                        startYear: 2026,
                     },
                 ],
             },
@@ -83,36 +83,36 @@ async function setup(): Promise<{ db: Db; seeded: SeedResult }> {
     const seeded = await seed(db, baseSpec());
     await seedGames(db, seeded, [
         {
+            away: 'garville',
+            awayScore: 32,
             gradeKey: 'amnd-2025-a1',
             home: 'contax',
-            away: 'garville',
-            round: 1,
             homeScore: 50,
-            awayScore: 32,
+            round: 1,
         },
         {
+            away: 'contax',
+            awayScore: 0,
             gradeKey: 'amnd-2025-a1',
             home: 'garville',
-            away: 'contax',
-            round: 2,
             homeScore: 20,
-            awayScore: 0,
+            round: 2,
             status: 'forfeit',
         },
         {
+            away: null,
             gradeKey: 'amnd-2025-a1',
             home: 'contax',
-            away: null,
             round: 3,
             status: 'bye',
         },
         {
+            away: null,
             gradeKey: 'amnd-2025-a1',
             home: null,
-            away: null,
+            isFinals: true,
             round: 99,
             roundName: 'Grand Final',
-            isFinals: true,
             status: 'scheduled',
         },
     ]);
@@ -141,8 +141,8 @@ describe('results.getPage', () => {
         const { db } = await setup();
         const page = unwrap(
             await createServices(db).results.getPage({
-                year: 2025,
                 grade: 'amnd-2025-a1',
+                year: 2025,
             }),
         );
         expect(page.fixtures?.totalRows).toBe(4);
@@ -152,8 +152,8 @@ describe('results.getPage', () => {
         const { db } = await setup();
         const page = unwrap(
             await createServices(db).results.getPage({
-                year: 2025,
                 grade: 'amnd-2025-a1',
+                year: 2025,
             }),
         );
         const rows = page.fixtures?.rows ?? [];
@@ -171,8 +171,8 @@ describe('results.getPage', () => {
         const { db } = await setup();
         const page = unwrap(
             await createServices(db).results.getPage({
-                year: 2025,
                 grade: 'amnd-2025-a1',
+                year: 2025,
             }),
         );
         const rows = page.fixtures?.rows ?? [];
@@ -184,8 +184,8 @@ describe('results.getPage', () => {
         const { db } = await setup();
         const page = unwrap(
             await createServices(db).results.getPage({
-                year: 2025,
                 grade: 'amnd-2025-a1',
+                year: 2025,
             }),
         );
         expect(page.fixtures?.rows.map((row) => row.canCompare)).toStrictEqual([
@@ -200,8 +200,8 @@ describe('results.getPage', () => {
         const { db } = await setup();
         const page = unwrap(
             await createServices(db).results.getPage({
-                year: 2025,
                 grade: 'nonesuch',
+                year: 2025,
             }),
         );
         expect(page.fixtures?.grade.key).toBe('amnd-2025-a1');
@@ -211,9 +211,9 @@ describe('results.getPage', () => {
         const { db } = await setup();
         const page = unwrap(
             await createServices(db).results.getPage({
-                year: 2025,
                 grade: 'amnd-2025-a1',
                 page: 999,
+                year: 2025,
             }),
         );
         expect(page.fixtures?.rows.length).toBe(4);

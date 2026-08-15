@@ -4,23 +4,23 @@ import type { ChartHit } from '@/components/charts/nearest-hit';
 
 const HITS: readonly ChartHit[] = [
     {
+        detail: '2023 · #2',
         id: 'a-2023',
         label: 'Contax',
-        detail: '2023 · #2',
         x: 100,
         y: 40,
     },
     {
+        detail: '2023 · #1',
         id: 'b-2023',
         label: 'Matrics',
-        detail: '2023 · #1',
         x: 100,
         y: 20,
     },
     {
+        detail: '2024 · #3',
         id: 'a-2024',
         label: 'Contax',
-        detail: '2024 · #3',
         x: 200,
         y: 60,
     },

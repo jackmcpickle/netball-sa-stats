@@ -69,9 +69,9 @@ export class Championship {
         const season = history.find((entry) => entry.year === year);
         if (!season) {
             return err({
-                kind: 'not-found',
                 entity: 'season',
                 key: String(year),
+                kind: 'not-found',
             });
         }
         return ok(new Championship(season.year, season.rows));

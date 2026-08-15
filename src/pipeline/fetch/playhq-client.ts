@@ -1,10 +1,10 @@
-import { isUndefined } from 'es-toolkit';
 /**
  * PlayHQ GraphQL client: fixed headers, ~1req/sec rate limit, and a
  * cache-first fetch keyed by operation+id so re-runs never re-hit the
  * network unless `--refresh` is passed. Query strings are copied verbatim
  * from `docs/playhq-api.md` §2 — do not hand-edit them here.
  */
+import { isUndefined } from 'es-toolkit';
 import type { CaptureStore } from '@/pipeline/fetch/capture-store';
 
 const ENDPOINT = 'https://api.playhq.com/graphql';
@@ -15,12 +15,12 @@ const RATE_LIMIT_MS = 1200;
 export const QUERIES = {
     discoverCompetitions:
         'query discoverCompetitions($organisationID: ID!) { discoverCompetitions(organisationID: $organisationID) { id name seasons(organisationID: $organisationID) { id name startDate endDate status { name value } } organisation { id name } } }',
-    gradeListDiscoverSeason:
-        'query gradeListDiscoverSeason($id: String!) { discoverSeason(seasonID: $id) { id name competition { id name type organisation { id name } } status { name value } grades { id name day { name value } gender { name value } age { name value } } } }',
-    gradeLadder:
-        'query gradeLadder($gradeID: ID!) { discoverGrade(gradeID: $gradeID) { id name ladderType ladder { pool { id name } standings { team { id name organisation { id name type } } played won lost drawn byes pointsFor pointsAgainst pointsDifference forfeits percentage competitionPoints } } } }',
     gradeAllRounds:
         'query gradeAllRounds($gradeID: ID!) { discoverGradeFixture(gradeID: $gradeID) { id name number abbreviatedName provisionalDates isFinalsRound grade { type hideScores } byes { id name organisation { id name type } } games { id alias pool { id name } home { ... on ProvisionalTeam { name } ... on DiscoverTeam { id name organisation { id name type } } } away { ... on ProvisionalTeam { name } ... on DiscoverTeam { id name organisation { id name type } } } result { winner { name value } outcome { name value } home { outcome { name value } statistics { count type { value } } gameOutcomeDescription } away { outcome { name value } statistics { count type { value } } gameOutcomeDescription } } status { name value } date dates allocation { time court { id name venue { id name } } } } } }',
+    gradeLadder:
+        'query gradeLadder($gradeID: ID!) { discoverGrade(gradeID: $gradeID) { id name ladderType ladder { pool { id name } standings { team { id name organisation { id name type } } played won lost drawn byes pointsFor pointsAgainst pointsDifference forfeits percentage competitionPoints } } } }',
+    gradeListDiscoverSeason:
+        'query gradeListDiscoverSeason($id: String!) { discoverSeason(seasonID: $id) { id name competition { id name type organisation { id name } } status { name value } grades { id name day { name value } gender { name value } age { name value } } } }',
 } as const;
 
 type QueryName = keyof typeof QUERIES;
@@ -53,18 +53,18 @@ async function requestGraphQLOnce(
 ): Promise<Response> {
     await rateLimit();
     return await fetch(ENDPOINT, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            tenant: 'netball-australia',
-            Origin: 'https://www.playhq.com',
-            'User-Agent': USER_AGENT,
-        },
         body: JSON.stringify({
             operationName,
-            variables,
             query: QUERIES[operationName],
+            variables,
         }),
+        headers: {
+            'Content-Type': 'application/json',
+            Origin: 'https://www.playhq.com',
+            'User-Agent': USER_AGENT,
+            tenant: 'netball-australia',
+        },
+        method: 'POST',
     });
 }
 

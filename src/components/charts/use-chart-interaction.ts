@@ -130,11 +130,11 @@ export function useChartInteraction({
 
     return {
         frameRef,
-        svgRef,
-        tooltipRef,
-        hit,
-        handlePointerMove,
         handlePointerLeave,
+        handlePointerMove,
+        hit,
+        svgRef,
         tooltipId,
+        tooltipRef,
     };
 }

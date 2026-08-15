@@ -8,25 +8,25 @@ describe(createImportRunsRepo, () => {
         const repo = createImportRunsRepo(db);
 
         const olderId = await repo.insertRunning({
+            games: true,
             instanceId: 'older',
             startedAt: 100,
             yearsJson: '[2024]',
-            games: true,
         });
         await repo.markOk(olderId, 200, {
-            seasons: 1,
-            grades: 2,
-            teams: 3,
-            results: 4,
             gamesCount: 5,
+            grades: 2,
+            results: 4,
+            seasons: 1,
+            teams: 3,
             warningsJson: '[]',
         });
 
         const runningId = await repo.insertRunning({
+            games: false,
             instanceId: 'current',
             startedAt: 300,
             yearsJson: '[2025]',
-            games: false,
         });
 
         await expect(repo.hasRunning()).resolves.toBeTruthy();
@@ -34,34 +34,34 @@ describe(createImportRunsRepo, () => {
         const listed = await repo.list();
         expect(listed.map((run) => run.id)).toStrictEqual([runningId, olderId]);
         expect(listed[0]).toMatchObject({
+            games: false,
             instanceId: 'current',
             status: 'running',
-            games: false,
         });
         expect(listed[1]).toMatchObject({
-            instanceId: 'older',
-            status: 'ok',
             finishedAt: 200,
-            seasons: 1,
             gamesCount: 5,
+            instanceId: 'older',
+            seasons: 1,
+            status: 'ok',
         });
 
         await repo.markOk(runningId, 400, {
-            seasons: 10,
-            grades: 11,
-            teams: 12,
-            results: 13,
             gamesCount: 14,
+            grades: 11,
+            results: 13,
+            seasons: 10,
+            teams: 12,
             warningsJson: '["warn"]',
         });
 
         await expect(repo.hasRunning()).resolves.toBeFalsy();
         await expect(repo.list()).resolves.toStrictEqual([
             expect.objectContaining({
-                id: runningId,
-                status: 'ok',
                 finishedAt: 400,
                 gamesCount: 14,
+                id: runningId,
+                status: 'ok',
                 warningsJson: '["warn"]',
             }),
             expect.objectContaining({ id: olderId, status: 'ok' }),
@@ -73,26 +73,26 @@ describe(createImportRunsRepo, () => {
         const repo = createImportRunsRepo(db);
 
         const skippedId = await repo.insertSkipped({
+            finishedAt: 101,
+            games: true,
             instanceId: 'skipped-on-insert',
             startedAt: 100,
-            finishedAt: 101,
             yearsJson: null,
-            games: true,
         });
 
         await expect(repo.hasRunning()).resolves.toBeFalsy();
         const [afterSkipped] = await repo.list();
         expect(afterSkipped).toMatchObject({
+            finishedAt: 101,
             id: skippedId,
             status: 'skipped',
-            finishedAt: 101,
         });
 
         const runningId = await repo.insertRunning({
+            games: false,
             instanceId: 'was-running',
             startedAt: 200,
             yearsJson: null,
-            games: false,
         });
         await repo.markSkipped(runningId, 201);
 
@@ -101,8 +101,8 @@ describe(createImportRunsRepo, () => {
         expect(
             afterMarkSkipped.find((run) => run.id === runningId),
         ).toMatchObject({
-            status: 'skipped',
             finishedAt: 201,
+            status: 'skipped',
         });
     });
 
@@ -111,16 +111,16 @@ describe(createImportRunsRepo, () => {
         const repo = createImportRunsRepo(db);
 
         const staleId = await repo.insertRunning({
+            games: true,
             instanceId: 'stale',
             startedAt: 100,
             yearsJson: null,
-            games: true,
         });
         await repo.insertRunning({
+            games: true,
             instanceId: 'fresh',
             startedAt: 5000,
             yearsJson: null,
-            games: true,
         });
 
         const stale = await repo.runningOlderThan(1000);
@@ -132,9 +132,9 @@ describe(createImportRunsRepo, () => {
         await expect(repo.hasRunning()).resolves.toBeTruthy();
         const afterMarkError = await repo.list();
         expect(afterMarkError.find((run) => run.id === staleId)).toMatchObject({
-            status: 'error',
-            finishedAt: 2000,
             errorText: 'boom',
+            finishedAt: 2000,
+            status: 'error',
         });
     });
 });

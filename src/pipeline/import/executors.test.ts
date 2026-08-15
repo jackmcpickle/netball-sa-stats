@@ -13,14 +13,14 @@ describe(createD1Executor, () => {
         // interface is far wider than this test double needs.
         // oxlint-disable-next-line anti-slop/no-chained-type-assertions -- a hand-rolled double for a Cloudflare runtime interface: there is no narrower type to keep.
         const fake = {
+            async batch(stmts: FakeStmt[]) {
+                await Promise.all(stmts.map(async (s) => await s.all()));
+            },
             prepare(sql: string) {
                 statements.push(sql);
                 return {
                     all: async () => ({ results: [{ n: 1 }] }),
                 };
-            },
-            async batch(stmts: FakeStmt[]) {
-                await Promise.all(stmts.map(async (s) => await s.all()));
             },
         } as unknown as D1Database;
 

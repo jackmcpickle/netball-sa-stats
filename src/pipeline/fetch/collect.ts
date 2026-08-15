@@ -1,4 +1,3 @@
-import { isNull, isUndefined } from 'es-toolkit';
 /**
  * Stage 1 collect: PlayHQ -> normalised rows, with no filesystem access.
  *
@@ -7,6 +6,7 @@ import { isNull, isUndefined } from 'es-toolkit';
  * from the Node CLI. The CSV reading/writing half lives in `run.ts`, which is
  * Node-only and must never be pulled into the Worker module graph.
  */
+import { isNull, isUndefined } from 'es-toolkit';
 import type { CsvValue } from '@/pipeline/csv';
 import type { CaptureStore } from '@/pipeline/fetch/capture-store';
 import type { ClubRegistry } from '@/pipeline/fetch/club-registry';
@@ -189,10 +189,10 @@ function recordOutOfScopeGrade(
         `out-of-scope grade skipped: "${gradeName}" (season ${seasonName}, org ${orgId})`,
     );
     skippedGrades.push({
-        seasonKey: seasonId,
         gradeName,
-        teamCount: -1,
         reason: 'out_of_scope',
+        seasonKey: seasonId,
+        teamCount: -1,
     });
 }
 
@@ -238,10 +238,10 @@ function registerTeam(
     }
     teams.set(teamKey, {
         club_key: clubKey,
-        grade_key: gradeKey,
         display_name: standing.team.name,
-        squad_number: squadNumber,
+        grade_key: gradeKey,
         playhq_id: standing.team.id,
+        squad_number: squadNumber,
     });
 }
 
@@ -285,26 +285,26 @@ export function processGrade(
 
     const { tier, division } = parseGradeName(grade.name);
     const gradeRow: GradeRow = {
-        season_key: seasonKey,
+        age_band: grade.age?.name ?? null,
+        division,
         grade_key: gradeKey,
         name: grade.name,
-        tier,
-        division,
-        team_count: standings.length,
-        age_band: grade.age?.name ?? null,
         playhq_id: grade.id,
+        season_key: seasonKey,
+        team_count: standings.length,
+        tier,
     };
 
     const seasonRow: SeasonRow = {
         competition_key: competitionKey,
-        season_key: seasonKey,
         competition_period: ctx.period,
-        label: ctx.seasonName,
-        start_year: ctx.startYear,
         end_year: ctx.startYear,
         is_final: Number(ctx.isFinalBySeasonKey.get(seasonKey) ?? 0),
+        label: ctx.seasonName,
         playhq_id: ctx.seasonPlayhqId,
+        season_key: seasonKey,
         source: 'playhq',
+        start_year: ctx.startYear,
         status: ctx.seasonStatus,
     };
 
@@ -356,10 +356,10 @@ export function processGrade(
     }
 
     return {
-        seasonKey,
-        seasonRow,
         gradeRow,
         results,
+        seasonKey,
+        seasonRow,
         teams: [...teams.entries()].map(([key, row]) => ({ key, row })),
     };
 }
@@ -484,8 +484,8 @@ interface CollectJob {
 }
 
 const COLLECT_JOBS: readonly CollectJob[] = [
-    { orgId: AMND_ORG_ID, period: 'winter', minYear: 2022 },
-    { orgId: NETBALL_SA_ORG_ID, period: 'annual', minYear: 2023 },
+    { minYear: 2022, orgId: AMND_ORG_ID, period: 'winter' },
+    { minYear: 2023, orgId: NETBALL_SA_ORG_ID, period: 'annual' },
 ];
 
 interface CollectAccumulator {
@@ -556,10 +556,10 @@ async function ingestGrade(
     );
     if (standings.length < 2) {
         acc.skippedGrades.push({
-            seasonKey: seasonKeyPreview,
             gradeName: grade.name,
-            teamCount: standings.length,
             reason: 'too_few_teams',
+            seasonKey: seasonKeyPreview,
+            teamCount: standings.length,
         });
         return;
     }
@@ -568,13 +568,13 @@ async function ingestGrade(
         grade,
         standings,
         {
+            isFinalBySeasonKey: options.isFinalBySeasonKey,
             orgId: job.orgId,
             period: job.period,
-            startYear,
             seasonName: season.name,
             seasonPlayhqId: season.id,
             seasonStatus: season.status.value.toLowerCase(),
-            isFinalBySeasonKey: options.isFinalBySeasonKey,
+            startYear,
         },
         options.clubRegistry,
         scrapedAt,
@@ -591,9 +591,9 @@ async function ingestGrade(
     mergeTeams(acc.teamRows, processed.teams);
 
     await collectGames(options.store, acc.gamesByYear, options, {
-        startYear,
-        gradePlayhqId: grade.id,
         gradeKey: processed.gradeRow.grade_key,
+        gradePlayhqId: grade.id,
+        startYear,
     });
 }
 
@@ -643,12 +643,12 @@ export async function collectPlayHqData(
     options: CollectOptions,
 ): Promise<CollectedPlayHq> {
     const acc: CollectAccumulator = {
-        seasonRows: new Map(),
-        gradeRows: [],
-        teamRows: new Map(),
-        resultRows: [],
         gamesByYear: new Map(),
+        gradeRows: [],
+        resultRows: [],
+        seasonRows: new Map(),
         skippedGrades: [],
+        teamRows: new Map(),
     };
 
     for (const job of COLLECT_JOBS) {
@@ -668,27 +668,27 @@ export async function collectPlayHqData(
     const teams = [...acc.teamRows.values()];
     const games = [...acc.gamesByYear.values()].flat();
     return {
+        gamesByYear: acc.gamesByYear,
+        grades: acc.gradeRows,
         importData: toImportData({
-            seasons,
-            clubs: options.clubRegistry.getClubs(),
             aliases: options.clubRegistry.getAliases(),
-            grades: acc.gradeRows,
-            teams,
-            results: acc.resultRows,
+            clubs: options.clubRegistry.getClubs(),
             games,
+            grades: acc.gradeRows,
+            results: acc.resultRows,
+            seasons,
+            teams,
         }),
         report: {
-            seasons: seasons.length,
-            grades: acc.gradeRows.length,
-            teams: teams.length,
-            results: acc.resultRows.length,
             games: games.length,
+            grades: acc.gradeRows.length,
+            results: acc.resultRows.length,
+            seasons: seasons.length,
             skippedGrades: acc.skippedGrades,
+            teams: teams.length,
         },
-        seasons,
-        grades: acc.gradeRows,
-        teams,
         results: acc.resultRows,
-        gamesByYear: acc.gamesByYear,
+        seasons,
+        teams,
     };
 }

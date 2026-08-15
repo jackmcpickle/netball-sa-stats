@@ -84,6 +84,6 @@ export function createTestDb(): Db {
             }
             return { rows: toProxyRows(stmt.all(...toInputValues(params))) };
         },
-        { schema, casing: 'snake_case' },
+        { casing: 'snake_case', schema },
     );
 }

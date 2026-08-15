@@ -4,12 +4,12 @@ import { Coverage } from '@/server/domain/coverage';
 
 function row(overrides: Partial<SeasonRow> & { startYear: number }): SeasonRow {
     return {
-        seasonId: overrides.startYear,
-        seasonKey: `season-${String(overrides.startYear)}`,
-        isFinal: true,
-        source: 'playhq',
         competitionKey: 'amnd',
         competitionName: 'AMND',
+        isFinal: true,
+        seasonId: overrides.startYear,
+        seasonKey: `season-${String(overrides.startYear)}`,
+        source: 'playhq',
         ...overrides,
     };
 }
@@ -26,8 +26,8 @@ describe(Coverage, () => {
 
     it('rankedYears excludes years with any non-final season', () => {
         const coverage = Coverage.from([
-            row({ startYear: 2024, isFinal: true }),
-            row({ startYear: 2025, isFinal: false }),
+            row({ isFinal: true, startYear: 2024 }),
+            row({ isFinal: false, startYear: 2025 }),
         ]);
         expect(coverage.rankedYears()).toStrictEqual([2024]);
     });
@@ -50,19 +50,19 @@ describe(Coverage, () => {
 
     it('latestRankedYear errs with no-ranked-seasons instead of throwing', () => {
         const coverage = Coverage.from([
-            row({ startYear: 2025, isFinal: false }),
+            row({ isFinal: false, startYear: 2025 }),
         ]);
         const result = coverage.latestRankedYear();
         expect(result).toStrictEqual({
-            ok: false,
             error: { kind: 'no-ranked-seasons' },
+            ok: false,
         });
     });
 
     it('latestRankedYear returns the latest ranked year on success', () => {
         const coverage = Coverage.from([
-            row({ startYear: 2024, isFinal: true }),
-            row({ startYear: 2025, isFinal: true }),
+            row({ isFinal: true, startYear: 2024 }),
+            row({ isFinal: true, startYear: 2025 }),
         ]);
         const result = coverage.latestRankedYear();
         expect(result).toStrictEqual({ ok: true, value: 2025 });

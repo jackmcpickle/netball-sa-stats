@@ -10,12 +10,12 @@ describe(bandSummaries, () => {
         expect(
             bandSummaries([
                 {
-                    tier: 5,
                     label: 'B',
                     points: [
-                        { year: 2000, strength: null, teams: 0 },
-                        { year: 2001, strength: null, teams: 0 },
+                        { strength: null, teams: 0, year: 2000 },
+                        { strength: null, teams: 0, year: 2001 },
                     ],
+                    tier: 5,
                 },
             ]),
         ).toHaveLength(0);
@@ -24,12 +24,12 @@ describe(bandSummaries, () => {
     it('keeps a band with one measured season and reports no change', () => {
         const [band] = bandSummaries([
             {
-                tier: 1,
                 label: 'Premier Division',
                 points: [
-                    { year: 2000, strength: null, teams: 0 },
-                    { year: 2001, strength: 0.75, teams: 1 },
+                    { strength: null, teams: 0, year: 2000 },
+                    { strength: 0.75, teams: 1, year: 2001 },
                 ],
+                tier: 1,
             },
         ]);
         expect(band?.measured).toHaveLength(1);
@@ -40,13 +40,13 @@ describe(bandSummaries, () => {
     it('measures change from the first to the latest measured season when only two seasons are measured', () => {
         const [band] = bandSummaries([
             {
-                tier: 10,
                 label: 'Primary',
                 points: [
-                    { year: 2000, strength: 0.4, teams: 2 },
-                    { year: 2001, strength: null, teams: 0 },
-                    { year: 2002, strength: 0.65, teams: 3 },
+                    { strength: 0.4, teams: 2, year: 2000 },
+                    { strength: null, teams: 0, year: 2001 },
+                    { strength: 0.65, teams: 3, year: 2002 },
                 ],
+                tier: 10,
             },
         ]);
         expect(band?.change).toBe(0.25);
@@ -60,17 +60,17 @@ describe(bandSummaries, () => {
         // clearly different, smaller rise.
         const [band] = bandSummaries([
             {
-                tier: 1,
                 label: 'A Grade',
                 points: [
-                    { year: 2000, strength: 0, teams: 1 },
-                    { year: 2001, strength: 0.5, teams: 1 },
-                    { year: 2002, strength: 0.5, teams: 1 },
-                    { year: 2003, strength: 0.5, teams: 1 },
-                    { year: 2004, strength: 0.5, teams: 1 },
-                    { year: 2005, strength: 0.5, teams: 1 },
-                    { year: 2006, strength: 0.1, teams: 1 },
+                    { strength: 0, teams: 1, year: 2000 },
+                    { strength: 0.5, teams: 1, year: 2001 },
+                    { strength: 0.5, teams: 1, year: 2002 },
+                    { strength: 0.5, teams: 1, year: 2003 },
+                    { strength: 0.5, teams: 1, year: 2004 },
+                    { strength: 0.5, teams: 1, year: 2005 },
+                    { strength: 0.1, teams: 1, year: 2006 },
                 ],
+                tier: 1,
             },
         ]);
         expect(band?.measured).toHaveLength(7);
@@ -83,14 +83,14 @@ describe(bandSummaries, () => {
     it('uses fewer than three seasons per window when fewer than six seasons are measured', () => {
         const [band] = bandSummaries([
             {
-                tier: 2,
                 label: 'B Grade',
                 points: [
-                    { year: 2000, strength: 0, teams: 1 },
-                    { year: 2001, strength: 0.2, teams: 1 },
-                    { year: 2002, strength: 0.4, teams: 1 },
-                    { year: 2003, strength: 0.9, teams: 1 },
+                    { strength: 0, teams: 1, year: 2000 },
+                    { strength: 0.2, teams: 1, year: 2001 },
+                    { strength: 0.4, teams: 1, year: 2002 },
+                    { strength: 0.9, teams: 1, year: 2003 },
                 ],
+                tier: 2,
             },
         ]);
         // 4 measured seasons -> window of 3, overlapping at 2002.
@@ -102,12 +102,12 @@ describe(bandSummaries, () => {
     it('reports the window size used, for the central-district two-season case', () => {
         const [band] = bandSummaries([
             {
-                tier: 1,
                 label: 'Premier Division',
                 points: [
-                    { year: 2000, strength: 0.2, teams: 3 },
-                    { year: 2001, strength: 1, teams: 3 },
+                    { strength: 0.2, teams: 3, year: 2000 },
+                    { strength: 1, teams: 3, year: 2001 },
                 ],
+                tier: 1,
             },
         ]);
         expect(band?.measured).toHaveLength(2);
@@ -118,14 +118,14 @@ describe(bandSummaries, () => {
     it('preserves the upstream tier order', () => {
         const summaries = bandSummaries([
             {
-                tier: 1,
                 label: 'Premier Division',
-                points: [{ year: 2000, strength: 0.9, teams: 1 }],
+                points: [{ strength: 0.9, teams: 1, year: 2000 }],
+                tier: 1,
             },
             {
-                tier: 5,
                 label: 'B',
-                points: [{ year: 2000, strength: 0.2, teams: 1 }],
+                points: [{ strength: 0.2, teams: 1, year: 2000 }],
+                tier: 5,
             },
         ]);
         expect(summaries.map((band) => band.tier)).toStrictEqual([1, 5]);

@@ -124,12 +124,12 @@ export function archiveRowsToKeep(
     );
     const gradeKeys = new Set(grades.map((row) => row.grade_key));
     return {
-        seasons,
         grades,
-        teams: existing.teams.filter((row) => gradeKeys.has(row.grade_key)),
         results: existing.results.filter(
             (row) => row.source !== 'playhq' || gradeKeys.has(row.grade_key),
         ),
+        seasons,
+        teams: existing.teams.filter((row) => gradeKeys.has(row.grade_key)),
     };
 }
 
@@ -187,10 +187,10 @@ async function writeCsvs(
     ]);
     const archived = archiveRowsToKeep(
         {
-            seasons: existingSeasons,
             grades: existingGrades,
-            teams: existingTeams,
             results: existingResults,
+            seasons: existingSeasons,
+            teams: existingTeams,
         },
         new Set(fetched.seasons.map((row) => row.season_key)),
     );
@@ -228,10 +228,10 @@ async function writeCsvs(
     );
 
     return {
-        seasons: seasons.length,
         grades: grades.length,
-        teams: teams.length,
         results: results.length,
+        seasons: seasons.length,
+        teams: teams.length,
     };
 }
 
@@ -244,17 +244,17 @@ async function loadClubRegistry(): Promise<ClubRegistry> {
     const existingClubs = clubRows.map(
         (row): ClubRow => ({
             club_key: row.club_key,
-            name: row.name,
             established_year:
                 row.established_year === '' ? null : row.established_year,
             home_venue: row.home_venue === '' ? null : row.home_venue,
+            name: row.name,
             playhq_id: row.playhq_id === '' ? null : row.playhq_id,
         }),
     );
     const existingAliases = aliasRows.map(
         (row): ClubAliasRow => ({
-            club_key: row.club_key,
             alias_text: row.alias_text,
+            club_key: row.club_key,
             source: row.source,
         }),
     );
@@ -273,13 +273,13 @@ export async function runFetch(options: FetchOptions): Promise<FetchReport> {
 
     const clubRegistry = await loadClubRegistry();
     const collected = await collectPlayHqData({
-        store,
         cacheFirst: !options.refresh,
         clubRegistry,
-        isFinalBySeasonKey,
         games: options.games,
-        years: options.years,
         gradeId: options.gradeId,
+        isFinalBySeasonKey,
+        store,
+        years: options.years,
     });
 
     // Disjoint output files (`games-<year>.csv` vs the shared CSVs), so the
@@ -287,10 +287,10 @@ export async function runFetch(options: FetchOptions): Promise<FetchReport> {
     const [written, games] = await Promise.all([
         writeCsvs(
             {
-                seasons: collected.seasons,
                 grades: collected.grades,
-                teams: collected.teams,
                 results: collected.results,
+                seasons: collected.seasons,
+                teams: collected.teams,
             },
             existingSeasons,
             clubRegistry,

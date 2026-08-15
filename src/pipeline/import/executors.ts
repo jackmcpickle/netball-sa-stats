@@ -38,6 +38,29 @@ export function createWranglerExecutor(
     const targetFlag = target === 'local' ? '--local' : '--remote';
 
     return {
+        batch: async (statements) => {
+            const dir = await mkdtemp(join(tmpdir(), 'netball-import-'));
+            const file = join(dir, 'batch.sql');
+            try {
+                await writeFile(file, `${statements.join('\n')}\n`, 'utf-8');
+                execFileSync(
+                    'pnpm',
+                    [
+                        'exec',
+                        'wrangler',
+                        'd1',
+                        'execute',
+                        databaseName,
+                        targetFlag,
+                        '--file',
+                        file,
+                    ],
+                    { encoding: 'utf-8', stdio: 'inherit' },
+                );
+            } finally {
+                await rm(dir, { force: true, recursive: true });
+            }
+        },
         queryAll: async (sql) => {
             const output = execFileSync(
                 'pnpm',
@@ -63,44 +86,21 @@ export function createWranglerExecutor(
             }[];
             return parsed[0]?.results ?? [];
         },
-        batch: async (statements) => {
-            const dir = await mkdtemp(join(tmpdir(), 'netball-import-'));
-            const file = join(dir, 'batch.sql');
-            try {
-                await writeFile(file, `${statements.join('\n')}\n`, 'utf-8');
-                execFileSync(
-                    'pnpm',
-                    [
-                        'exec',
-                        'wrangler',
-                        'd1',
-                        'execute',
-                        databaseName,
-                        targetFlag,
-                        '--file',
-                        file,
-                    ],
-                    { encoding: 'utf-8', stdio: 'inherit' },
-                );
-            } finally {
-                await rm(dir, { recursive: true, force: true });
-            }
-        },
     };
 }
 
 /** In-memory sqlite, for tests. Caller must apply schema/seed SQL first. */
 export function createSqliteExecutor(db: DatabaseSync): ImportExecutor {
     return {
+        batch: async (statements) => {
+            db.exec(statements.join('\n'));
+        },
         queryAll: async (sql) => {
             // SAFETY: `node:sqlite`'s `all()` is typed `unknown[]`, but every
             // row it yields is a plain object keyed by the SELECT's column
             // names — which is exactly `ImportExecutor['queryAll']`'s row type.
             const rows = db.prepare(sql).all() as Record<string, unknown>[];
             return rows;
-        },
-        batch: async (statements) => {
-            db.exec(statements.join('\n'));
         },
     };
 }

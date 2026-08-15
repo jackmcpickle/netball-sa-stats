@@ -18,11 +18,11 @@ class MemoryR2 {
             return null;
         }
         return {
+            customMetadata: { capturedAtMs: hit.capturedAtMs },
             // SAFETY: `hit.body` was produced by `JSON.stringify` in this
             // class's own `put`; widening `JSON.parse`'s `any` back to
             // `unknown` matches `R2ObjectBody.json`'s contract.
             json: async () => JSON.parse(hit.body) as unknown,
-            customMetadata: { capturedAtMs: hit.capturedAtMs },
         };
     }
     public async head(

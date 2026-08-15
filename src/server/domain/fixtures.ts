@@ -1,8 +1,8 @@
-import { isNull } from 'es-toolkit';
 /**
  * The domain object for "one grade's fixture list". Pure: turns `GameFact`s
  * into display rows, and sorts them for the table.
  */
+import { isNull } from 'es-toolkit';
 import type { TableSpec } from '@/db/queries/pagination';
 import type { GameStatus } from '@/db/schema';
 import type { GameFact } from '@/server/dto/head-to-head.dto';
@@ -32,19 +32,19 @@ export function toResultRows(facts: readonly GameFact[]): readonly ResultRow[] {
     return facts.map((fact): ResultRow => {
         const { homeClubKey: home, awayClubKey: away } = fact;
         return {
+            awayClubKey: away,
+            awayScore: fact.awayScore,
+            awayTeamName: fact.awayTeamName,
+            canCompare: !isNull(home) && !isNull(away) && home !== away,
+            homeClubKey: home,
+            homeScore: fact.homeScore,
+            homeTeamName: fact.homeTeamName,
+            isFinals: fact.isFinals,
+            margin: marginFor(fact),
+            playedAt: fact.playedAt,
             round: fact.round,
             roundName: fact.roundName,
-            isFinals: fact.isFinals,
-            playedAt: fact.playedAt,
-            homeTeamName: fact.homeTeamName,
-            awayTeamName: fact.awayTeamName,
-            homeClubKey: home,
-            awayClubKey: away,
-            homeScore: fact.homeScore,
-            awayScore: fact.awayScore,
-            margin: marginFor(fact),
             status: fact.status,
-            canCompare: !isNull(home) && !isNull(away) && home !== away,
         };
     });
 }
@@ -56,7 +56,7 @@ export function toResultRows(facts: readonly GameFact[]): readonly ResultRow[] {
  * holds hundreds of fixtures and only one page of them is ever shown.
  */
 export const FIXTURES_TABLE_SPEC: TableSpec = {
-    sortable: ['round', 'playedAt', 'home', 'away', 'margin'],
-    defaultSort: 'round',
     defaultDesc: false,
+    defaultSort: 'round',
+    sortable: ['round', 'playedAt', 'home', 'away', 'margin'],
 };

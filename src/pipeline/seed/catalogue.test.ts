@@ -57,13 +57,13 @@ describe('grade weights', () => {
     it('covers archive Junior and Sub-Junior division 9 grades', () => {
         expect(find('Junior 9')).toMatchObject({
             competitionKey: 'amnd',
-            tier: 8,
             division: 9,
+            tier: 8,
         });
         expect(find('Sub-Junior 9')).toMatchObject({
             competitionKey: 'amnd',
-            tier: 9,
             division: 9,
+            tier: 9,
         });
     });
 

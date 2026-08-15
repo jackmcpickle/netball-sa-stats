@@ -22,41 +22,41 @@ function spec(): SeedSpec {
                 name: 'AMND',
                 seasons: [
                     {
-                        seasonKey: 'amnd-2024',
-                        startYear: 2024,
-                        isFinal: true,
                         grades: [
                             {
                                 gradeKey: 'amnd-2024-a1',
                                 name: 'A1',
-                                tier: 1,
-                                teamCount: 2,
                                 results: [
                                     {
                                         clubKey: 'contax',
                                         clubName: 'Contax',
                                         displayName: 'Contax',
+                                        goalsAgainst: 60,
+                                        goalsFor: 80,
                                         ladderPosition: 1,
+                                        lost: 0,
                                         played: 2,
                                         won: 2,
-                                        lost: 0,
-                                        goalsFor: 80,
-                                        goalsAgainst: 60,
                                     },
                                     {
                                         clubKey: 'garville',
                                         clubName: 'Garville',
                                         displayName: 'Garville',
+                                        goalsAgainst: 80,
+                                        goalsFor: 60,
                                         ladderPosition: 2,
+                                        lost: 2,
                                         played: 2,
                                         won: 0,
-                                        lost: 2,
-                                        goalsFor: 60,
-                                        goalsAgainst: 80,
                                     },
                                 ],
+                                teamCount: 2,
+                                tier: 1,
                             },
                         ],
+                        isFinal: true,
+                        seasonKey: 'amnd-2024',
+                        startYear: 2024,
                     },
                 ],
             },
@@ -69,12 +69,12 @@ async function seededDb(): Promise<Db> {
     const seeded = await seed(db, spec());
     await seedGames(db, seeded, [
         {
+            away: 'garville',
+            awayScore: 30,
             gradeKey: 'amnd-2024-a1',
             home: 'contax',
-            away: 'garville',
-            round: 1,
             homeScore: 40,
-            awayScore: 30,
+            round: 1,
         },
     ]);
     return db;
@@ -102,8 +102,8 @@ describe(renderMarkdown, () => {
         const db = await seededDb();
         const bodies = await Promise.all(
             MARKDOWN_PATHS.map(async (path) => ({
-                path,
                 body: await renderMarkdown(db, url(path)),
+                path,
             })),
         );
         for (const { path, body } of bodies) {

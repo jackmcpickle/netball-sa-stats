@@ -1,9 +1,9 @@
-import { isUndefined } from 'es-toolkit';
 /**
  * Replaces `src/server/loaders/rankings.ts`. Assembles the rankings page DTO
  * from repos + the `Championship` domain object, returning a `Result` instead
  * of throwing.
  */
+import { isUndefined } from 'es-toolkit';
 import { CHAMPIONSHIP_TABLE_SPEC } from '@/db/queries/championship';
 import type { Repos } from '@/server/container';
 import { Championship } from '@/server/domain/championship';
@@ -26,7 +26,7 @@ function seriesPoints(
     return history.flatMap((season) => {
         const row = season.rows.find((entry) => entry.club.key === key);
         return row
-            ? [{ year: season.year, rank: row.rank, points: row.points }]
+            ? [{ points: row.points, rank: row.rank, year: season.year }]
             : [];
     });
 }
@@ -98,10 +98,10 @@ export function createRankingsService(repos: Repos): RankingsService {
             const paged = championship.value.sorted(
                 TableQuery.from(
                     {
-                        sort: params.sort,
                         dir: params.dir,
                         page: params.page,
                         pageSize: params.pageSize,
+                        sort: params.sort,
                     },
                     CHAMPIONSHIP_TABLE_SPEC,
                 ),
@@ -122,24 +122,24 @@ export function createRankingsService(repos: Repos): RankingsService {
             );
 
             return ok({
-                coverage,
-                season: {
-                    year: resolvedYear,
-                    rows: paged.rows,
-                    coverageChanged:
-                        history.find((entry) => entry.year === resolvedYear)
-                            ?.coverageChanged ?? false,
-                },
-                totalRows: paged.totalRows,
-                tableState: paged.state,
-                previousYear,
-                series: rankSeries(history, 7),
-                worstRank,
                 clubCount: clubs.length,
+                coverage,
                 gradeCount: gradesByYear.reduce(
                     (total, grades) => total + grades.length,
                     0,
                 ),
+                previousYear,
+                season: {
+                    coverageChanged:
+                        history.find((entry) => entry.year === resolvedYear)
+                            ?.coverageChanged ?? false,
+                    rows: paged.rows,
+                    year: resolvedYear,
+                },
+                series: rankSeries(history, 7),
+                tableState: paged.state,
+                totalRows: paged.totalRows,
+                worstRank,
             });
         },
     };

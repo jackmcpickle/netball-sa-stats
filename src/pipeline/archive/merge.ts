@@ -39,18 +39,18 @@ export interface BuildArchiveEntitiesOptions {
 }
 
 const ARCHIVE_RESULT_NULL_STATS = {
-    played: null,
-    won: null,
-    drawn: null,
-    lost: null,
     byes: null,
-    goals_for: null,
-    goals_against: null,
+    drawn: null,
     goal_difference: null,
-    points: null,
+    goals_against: null,
+    goals_for: null,
+    lost: null,
     percentage: null,
+    played: null,
+    points: null,
     shots_attempted: null,
     shots_scored: null,
+    won: null,
 } as const;
 
 function seasonKey(year: number): string {
@@ -90,14 +90,14 @@ export function buildArchiveEntities(
         const currentSeasonKey = seasonKey(season.year);
         seasons.push({
             competition_key: 'amnd',
-            season_key: currentSeasonKey,
             competition_period: 'winter',
-            label: `Winter ${String(season.year)}`,
-            start_year: season.year,
             end_year: season.year,
             is_final: 1,
+            label: `Winter ${String(season.year)}`,
             playhq_id: `archive:${currentSeasonKey}`,
+            season_key: currentSeasonKey,
             source: 'archive_pdf',
+            start_year: season.year,
             status: 'completed',
         });
 
@@ -109,54 +109,54 @@ export function buildArchiveEntities(
             );
             const gradeKey = `${currentSeasonKey}-${mappedGrade.slug}`;
             grades.push({
-                season_key: currentSeasonKey,
+                age_band: mappedGrade.ageBand,
+                division: mappedGrade.division,
                 grade_key: gradeKey,
                 name: mappedGrade.displayName,
-                tier: mappedGrade.tier,
-                division: mappedGrade.division,
-                team_count: grade.teams.length,
-                age_band: mappedGrade.ageBand,
                 playhq_id: `archive:${currentSeasonKey}:${mappedGrade.slug}`,
+                season_key: currentSeasonKey,
+                team_count: grade.teams.length,
+                tier: mappedGrade.tier,
             });
 
             for (const team of grade.teams) {
                 const clubKey = resolver.resolve(team.teamName, {
-                    year: season.year,
                     gradeName: grade.gradeName,
                     ladderPosition: team.ladderPosition,
+                    year: season.year,
                 });
                 const playhqId = syntheticArchivePlayhqId({
-                    seasonKey: currentSeasonKey,
-                    gradeSlug: mappedGrade.slug,
                     clubKey,
+                    gradeSlug: mappedGrade.slug,
+                    seasonKey: currentSeasonKey,
                     squadNumber: team.squadNumber,
                 });
                 teams.push({
                     club_key: clubKey,
-                    grade_key: gradeKey,
                     display_name: team.teamName,
-                    squad_number: team.squadNumber,
+                    grade_key: gradeKey,
                     playhq_id: playhqId,
+                    squad_number: team.squadNumber,
                 });
                 results.push({
-                    grade_key: gradeKey,
                     club_key: clubKey,
-                    squad_number: team.squadNumber,
-                    playhq_id: playhqId,
                     display_name: team.teamName,
+                    grade_key: gradeKey,
                     ladder_position: team.ladderPosition,
+                    playhq_id: playhqId,
                     position_uncertain: team.ladderPosition <= 4 ? 1 : 0,
+                    squad_number: team.squadNumber,
                     ...ARCHIVE_RESULT_NULL_STATS,
-                    source: 'archive_pdf',
-                    placement_basis: 'final_premiership_placings',
                     notes: finalPlacingsNote(season.year),
+                    placement_basis: 'final_premiership_placings',
                     scraped_at: null,
+                    source: 'archive_pdf',
                 });
             }
         }
     }
 
-    return { seasons, grades, teams, results };
+    return { grades, results, seasons, teams };
 }
 
 async function readCsvRows(

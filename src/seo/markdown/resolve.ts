@@ -1,4 +1,3 @@
-import { isNull } from 'es-toolkit';
 /**
  * Maps a request URL to the markdown twin of the page it names. Returns null
  * when the path has no markdown form, which is the signal to fall through to
@@ -7,6 +6,7 @@ import { isNull } from 'es-toolkit';
  * The `.md` suffix is stripped before matching, so `/ladders` (with an
  * `Accept: text/markdown` header) and `/ladders.md` resolve identically.
  */
+import { isNull } from 'es-toolkit';
 import type { Db } from '@/db';
 import {
     renderAbout,
@@ -59,10 +59,10 @@ interface TableParams {
 
 function tableParams(params: URLSearchParams): TableParams {
     return {
-        sort: stringParam(params, 'sort'),
         dir: dirParam(params),
         page: intParam(params, 'page'),
         pageSize: intParam(params, 'pageSize'),
+        sort: stringParam(params, 'sort'),
     };
 }
 
@@ -96,8 +96,8 @@ export async function renderMarkdown(db: Db, url: URL): Promise<string | null> {
     if (path === '/ladders') {
         return render(
             await services.ladders.getPage({
-                year: intParam(query, 'year'),
                 grade: stringParam(query, 'grade'),
+                year: intParam(query, 'year'),
                 ...tableParams(query),
             }),
             renderLadders,
@@ -106,8 +106,8 @@ export async function renderMarkdown(db: Db, url: URL): Promise<string | null> {
     if (path === '/results') {
         return render(
             await services.results.getPage({
-                year: intParam(query, 'year'),
                 grade: stringParam(query, 'grade'),
+                year: intParam(query, 'year'),
                 ...tableParams(query),
             }),
             renderResults,

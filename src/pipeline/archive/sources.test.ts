@@ -24,10 +24,10 @@ describe('archive PDF source catalogue', () => {
         const source = getArchivePdfSource(2016);
 
         expect(source).toMatchObject({
-            year: 2016,
-            sourceFilename: '2016 AMND Final Premiership Placings.pdf',
             rawFilename: '2016-final-placings.pdf',
+            sourceFilename: '2016 AMND Final Premiership Placings.pdf',
             waybackTimestamp: '20161020050124',
+            year: 2016,
         });
         expect(source?.originalUrl).toBe(
             // oxlint-disable-next-line sonarjs/no-clear-text-protocols -- asserts the exact literal URL `sources.ts` builds; the AMND file host serves no TLS.

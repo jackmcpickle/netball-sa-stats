@@ -81,13 +81,13 @@ export async function loadImportData(dataDir: string): Promise<ImportData> {
             readGameCsvs(dataDir),
         ]);
     return {
-        seasons: seasons.map(parseSeasonRow),
-        clubs: clubs.map(parseClubRow),
         clubAliases: clubAliases.map(parseClubAliasRow),
-        grades: grades.map(parseGradeRow),
-        teams: teams.map(parseTeamRow),
-        results: results.map(parseTeamSeasonResultRow),
+        clubs: clubs.map(parseClubRow),
         games,
+        grades: grades.map(parseGradeRow),
+        results: results.map(parseTeamSeasonResultRow),
+        seasons: seasons.map(parseSeasonRow),
+        teams: teams.map(parseTeamRow),
     };
 }
 
@@ -126,13 +126,13 @@ async function assertRowCountsMatch(
     data: ImportData,
 ): Promise<void> {
     const tables: { table: string; expected: number }[] = [
-        { table: 'seasons', expected: data.seasons.length },
-        { table: 'clubs', expected: data.clubs.length },
-        { table: 'club_aliases', expected: data.clubAliases.length },
-        { table: 'grades', expected: data.grades.length },
-        { table: 'teams', expected: data.teams.length },
-        { table: 'team_season_results', expected: data.results.length },
-        { table: 'games', expected: data.games.length },
+        { expected: data.seasons.length, table: 'seasons' },
+        { expected: data.clubs.length, table: 'clubs' },
+        { expected: data.clubAliases.length, table: 'club_aliases' },
+        { expected: data.grades.length, table: 'grades' },
+        { expected: data.teams.length, table: 'teams' },
+        { expected: data.results.length, table: 'team_season_results' },
+        { expected: data.games.length, table: 'games' },
     ];
     for (const { table, expected } of tables) {
         // oxlint-disable-next-line eslint/no-await-in-loop, react-doctor/async-await-in-loop -- small fixed list, sequential is fine and keeps errors ordered
@@ -143,7 +143,7 @@ async function assertRowCountsMatch(
                 'database',
                 null,
                 `row count mismatch after import: ${table} has ${String(actual)} row(s) in D1 but ${String(expected)} were read from CSV`,
-                { table, actual, expected },
+                { actual, expected, table },
             );
         }
     }
@@ -225,16 +225,16 @@ export async function runImportData(
     await assertGradeWeightCoverage(executor.queryAll);
 
     return {
-        games: data.games.length,
-        seasons: data.seasons.length,
-        clubs: data.clubs.length,
         clubAliases: data.clubAliases.length,
+        clubs: data.clubs.length,
+        games: data.games.length,
         grades: data.grades.length,
-        teams: data.teams.length,
-        results: data.results.length,
-        warnings: teamCountWarnings,
         playedMismatchWarnings,
+        results: data.results.length,
+        seasons: data.seasons.length,
+        teams: data.teams.length,
         unresolvedTeamWarnings,
+        warnings: teamCountWarnings,
     };
 }
 

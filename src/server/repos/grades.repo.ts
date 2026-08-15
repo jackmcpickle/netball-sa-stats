@@ -34,12 +34,12 @@ export async function fetchGrades(
 ): Promise<readonly GradeSummary[]> {
     const rows = await db
         .select({
-            key: grades.gradeKey,
-            name: grades.name,
-            year: seasons.startYear,
-            teamCount: grades.teamCount,
             competitionKey: competitions.key,
             competitionName: competitions.name,
+            key: grades.gradeKey,
+            name: grades.name,
+            teamCount: grades.teamCount,
+            year: seasons.startYear,
         })
         .from(grades)
         .innerJoin(seasons, eq(seasons.id, grades.seasonId))
@@ -48,11 +48,11 @@ export async function fetchGrades(
         .orderBy(asc(grades.tier), asc(grades.division), asc(grades.name));
 
     return rows.map((row) => ({
+        competition: toCompetition(row.competitionKey, row.competitionName),
         key: row.key,
         name: row.name,
-        year: row.year,
-        competition: toCompetition(row.competitionKey, row.competitionName),
         teamCount: row.teamCount,
+        year: row.year,
     }));
 }
 
@@ -84,35 +84,35 @@ function ladderPageFor(request: PageRequest): ResultPage {
     const column =
         LADDER_ORDER.get(request.sort) ?? teamSeasonResults.ladderPosition;
     return {
+        limit: request.limit,
+        offset: request.offset,
         order: [
             request.desc ? desc(column) : asc(column),
             asc(teamSeasonResults.ladderPosition),
         ],
-        limit: request.limit,
-        offset: request.offset,
     };
 }
 
 function toLadderRow(row: ResultRow): LadderRow {
     return {
-        position: row.ladderPosition,
         club: {
-            key: row.clubKey,
-            name: row.clubName,
+            accent: accentFor(row.clubKey),
             establishedYear: row.establishedYear,
             homeVenue: row.homeVenue,
-            accent: accentFor(row.clubKey),
+            key: row.clubKey,
+            name: row.clubName,
         },
         displayName: row.displayName,
-        played: row.played,
-        won: row.won,
-        lost: row.lost,
         drawn: row.drawn,
-        goalsFor: row.goalsFor,
         goalsAgainst: row.goalsAgainst,
-        percentage: row.percentage,
-        points: row.points,
+        goalsFor: row.goalsFor,
+        lost: row.lost,
         notes: row.notes,
+        percentage: row.percentage,
+        played: row.played,
+        points: row.points,
+        position: row.ladderPosition,
+        won: row.won,
     };
 }
 
@@ -132,11 +132,11 @@ export interface GradesRepo {
 
 export function createGradesRepo(db: Db): GradesRepo {
     return {
-        async forYear(year: number): Promise<readonly GradeSummary[]> {
-            return await fetchGrades(db, year);
-        },
         async countLadder(gradeKey: string): Promise<number> {
             return await countResults(db, { gradeKey });
+        },
+        async forYear(year: number): Promise<readonly GradeSummary[]> {
+            return await fetchGrades(db, year);
         },
         async ladderPage(
             gradeKey: string,
@@ -150,22 +150,22 @@ export function createGradesRepo(db: Db): GradesRepo {
             const [first] = rows;
             if (!first) {
                 return err({
-                    kind: 'not-found',
                     entity: 'grade',
                     key: gradeKey,
+                    kind: 'not-found',
                 });
             }
 
             return ok({
                 grade: {
-                    key: first.gradeKey,
-                    name: first.gradeName,
-                    year: first.year,
                     competition: toCompetition(
                         first.competitionKey,
                         first.competitionName,
                     ),
+                    key: first.gradeKey,
+                    name: first.gradeName,
                     teamCount: first.teamCount,
+                    year: first.year,
                 },
                 rows: rows.map(toLadderRow),
             });

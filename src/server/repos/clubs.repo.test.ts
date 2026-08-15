@@ -20,15 +20,10 @@ function careerSpec(): SeedSpec {
                 name: 'AMND',
                 seasons: [
                     {
-                        seasonKey: 'amnd-2024',
-                        startYear: 2024,
-                        isFinal: true,
                         grades: [
                             {
                                 gradeKey: 'amnd-2024-a1',
                                 name: 'A1',
-                                tier: 2,
-                                teamCount: 3,
                                 results: [
                                     {
                                         clubKey: 'contax',
@@ -49,19 +44,19 @@ function careerSpec(): SeedSpec {
                                         ladderPosition: 3,
                                     },
                                 ],
+                                teamCount: 3,
+                                tier: 2,
                             },
                         ],
+                        isFinal: true,
+                        seasonKey: 'amnd-2024',
+                        startYear: 2024,
                     },
                     {
-                        seasonKey: 'amnd-2025',
-                        startYear: 2025,
-                        isFinal: true,
                         grades: [
                             {
                                 gradeKey: 'amnd-2025-a1',
                                 name: 'A1',
-                                tier: 2,
-                                teamCount: 2,
                                 results: [
                                     {
                                         clubKey: 'contax',
@@ -76,8 +71,13 @@ function careerSpec(): SeedSpec {
                                         ladderPosition: 2,
                                     },
                                 ],
+                                teamCount: 2,
+                                tier: 2,
                             },
                         ],
+                        isFinal: true,
+                        seasonKey: 'amnd-2025',
+                        startYear: 2025,
                     },
                 ],
             },
@@ -88,7 +88,7 @@ function careerSpec(): SeedSpec {
 /** A page large enough to hold any club history these tests seed. */
 function wholeHistory(sort: string, dir: 'asc' | 'desc'): PageRequest {
     return TableQuery.from(
-        { sort, dir, pageSize: 100 },
+        { dir, pageSize: 100, sort },
         CLUB_RESULTS_TABLE_SPEC,
     ).request();
 }
@@ -101,15 +101,10 @@ function baseSpec(): SeedSpec {
                 name: 'AMND',
                 seasons: [
                     {
-                        seasonKey: 'amnd-2024',
-                        startYear: 2024,
-                        isFinal: true,
                         grades: [
                             {
                                 gradeKey: 'amnd-2024-a1',
                                 name: 'A1',
-                                tier: 1,
-                                teamCount: 2,
                                 results: [
                                     {
                                         clubKey: 'contax',
@@ -124,8 +119,13 @@ function baseSpec(): SeedSpec {
                                         ladderPosition: 2,
                                     },
                                 ],
+                                teamCount: 2,
+                                tier: 1,
                             },
                         ],
+                        isFinal: true,
+                        seasonKey: 'amnd-2024',
+                        startYear: 2024,
                     },
                 ],
             },

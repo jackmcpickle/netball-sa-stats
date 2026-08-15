@@ -9,7 +9,7 @@ async function hmacBytes(secret: string, message: string): Promise<Uint8Array> {
     const key = await crypto.subtle.importKey(
         'raw',
         new TextEncoder().encode(secret),
-        { name: 'HMAC', hash: 'SHA-256' },
+        { hash: 'SHA-256', name: 'HMAC' },
         false,
         ['sign'],
     );

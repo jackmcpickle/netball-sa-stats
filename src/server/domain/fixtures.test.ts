@@ -4,20 +4,20 @@ import type { GameFact } from '@/server/dto/head-to-head.dto';
 
 function fact(overrides: Partial<GameFact>): GameFact {
     return {
-        year: 2025,
-        tier: 1,
+        awayClubKey: 'b',
+        awayScore: 32,
+        awayTeamName: 'B',
         gradeName: 'Premier Division',
-        round: 1,
-        roundName: 'Round 1',
+        homeClubKey: 'a',
+        homeScore: 50,
+        homeTeamName: 'A',
         isFinals: false,
         playedAt: null,
-        homeClubKey: 'a',
-        awayClubKey: 'b',
-        homeTeamName: 'A',
-        awayTeamName: 'B',
-        homeScore: 50,
-        awayScore: 32,
+        round: 1,
+        roundName: 'Round 1',
         status: 'final',
+        tier: 1,
+        year: 2025,
         ...overrides,
     };
 }
@@ -25,32 +25,32 @@ function fact(overrides: Partial<GameFact>): GameFact {
 describe(marginFor, () => {
     it('is the absolute score difference for a played game', () => {
         expect(
-            marginFor({ homeScore: 50, awayScore: 32, status: 'final' }),
+            marginFor({ awayScore: 32, homeScore: 50, status: 'final' }),
         ).toBe(18);
     });
 
     it('is zero for a draw', () => {
         expect(
-            marginFor({ homeScore: 40, awayScore: 40, status: 'final' }),
+            marginFor({ awayScore: 40, homeScore: 40, status: 'final' }),
         ).toBe(0);
     });
 
     it('is null when a score is missing', () => {
         expect(
-            marginFor({ homeScore: null, awayScore: 30, status: 'no_result' }),
+            marginFor({ awayScore: 30, homeScore: null, status: 'no_result' }),
         ).toBeNull();
     });
 
     it('is null for a bye, which has no opponent', () => {
         expect(
-            marginFor({ homeScore: null, awayScore: null, status: 'bye' }),
+            marginFor({ awayScore: null, homeScore: null, status: 'bye' }),
         ).toBeNull();
     });
 
     it('is null for a forfeit, whose 0-20 scoreline is fabricated', () => {
         // A 20-goal "margin" nobody played would top any margin sort.
         expect(
-            marginFor({ homeScore: 20, awayScore: 0, status: 'forfeit' }),
+            marginFor({ awayScore: 0, homeScore: 20, status: 'forfeit' }),
         ).toBeNull();
     });
 });
@@ -68,7 +68,7 @@ describe(toResultRows, () => {
         // itself — an intra-club fixture would link to an empty page.
         const rows = toResultRows([
             fact({}),
-            fact({ status: 'bye', awayClubKey: null, awayTeamName: null }),
+            fact({ awayClubKey: null, awayTeamName: null, status: 'bye' }),
             fact({ awayClubKey: 'a', awayTeamName: 'A 2' }),
         ]);
         expect(rows.map((entry) => entry.canCompare)).toStrictEqual([

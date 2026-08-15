@@ -1,5 +1,5 @@
-import { isNil } from 'es-toolkit';
 /** Minimal GitHub-flavoured markdown helpers for the agent-facing pages. */
+import { isNil } from 'es-toolkit';
 
 /** Escapes the only character that can break a markdown table cell. */
 function cell(value: string): string {

@@ -4,13 +4,13 @@
  * a one-line edit.
  */
 export const SITE = {
-    /** Canonical origin. `www` redirects here — see the request middleware. */
-    origin: 'https://netballsa.com',
-    name: 'Netball Open Data',
-    tagline: 'South Australian netball club rankings',
     description:
         'Ladder finishes across every grade and season, weighted by grade and added up into a single club championship score for South Australian netball.',
     locale: 'en_AU',
+    name: 'Netball Open Data',
+    /** Canonical origin. `www` redirects here — see the request middleware. */
+    origin: 'https://netballsa.com',
+    tagline: 'South Australian netball club rankings',
 } as const;
 
 /** Absolute URL for a site-relative path. */

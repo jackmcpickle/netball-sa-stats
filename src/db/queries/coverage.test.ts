@@ -4,12 +4,12 @@ import type { SeasonRow } from '@/db/queries/seasons';
 
 function row(overrides: Partial<SeasonRow> & { startYear: number }): SeasonRow {
     return {
-        seasonId: 1,
-        seasonKey: `s-${String(overrides.startYear)}`,
-        isFinal: true,
-        source: 'playhq',
         competitionKey: 'amnd',
         competitionName: 'AMND',
+        isFinal: true,
+        seasonId: 1,
+        seasonKey: `s-${String(overrides.startYear)}`,
+        source: 'playhq',
         ...overrides,
     };
 }
@@ -17,8 +17,8 @@ function row(overrides: Partial<SeasonRow> & { startYear: number }): SeasonRow {
 describe(coverageChangeNote, () => {
     it('is null when every competition is present from the first year', () => {
         const rows = [
-            row({ startYear: 2020, competitionKey: 'amnd' }),
-            row({ startYear: 2021, competitionKey: 'amnd' }),
+            row({ competitionKey: 'amnd', startYear: 2020 }),
+            row({ competitionKey: 'amnd', startYear: 2021 }),
         ];
         expect(coverageChangeNote(rows)).toBeNull();
     });
@@ -29,32 +29,32 @@ describe(coverageChangeNote, () => {
 
     it('reports the earliest year a new competition joined, and which one', () => {
         const rows = [
-            row({ startYear: 2018, competitionKey: 'amnd' }),
-            row({ startYear: 2019, competitionKey: 'amnd' }),
+            row({ competitionKey: 'amnd', startYear: 2018 }),
+            row({ competitionKey: 'amnd', startYear: 2019 }),
             row({
-                startYear: 2020,
                 competitionKey: 'premier_league',
                 competitionName: 'Premier League',
+                startYear: 2020,
             }),
         ];
         expect(coverageChangeNote(rows)).toStrictEqual({
-            year: 2020,
             addedCompetitions: ['Premier League'],
+            year: 2020,
         });
     });
 
     it('groups multiple competitions that joined in the same change year', () => {
         const rows = [
-            row({ startYear: 2018, competitionKey: 'amnd' }),
+            row({ competitionKey: 'amnd', startYear: 2018 }),
             row({
-                startYear: 2020,
                 competitionKey: 'premier_league',
                 competitionName: 'Premier League',
+                startYear: 2020,
             }),
             row({
-                startYear: 2020,
                 competitionKey: 'premier_league_reserves',
                 competitionName: 'PL Reserves (raw)',
+                startYear: 2020,
             }),
         ];
         const note = coverageChangeNote(rows);
@@ -67,16 +67,16 @@ describe(coverageChangeNote, () => {
 
     it('picks the earliest change year and ignores a competition that joins even later', () => {
         const rows = [
-            row({ startYear: 2016, competitionKey: 'amnd' }),
+            row({ competitionKey: 'amnd', startYear: 2016 }),
             row({
-                startYear: 2018,
                 competitionKey: 'premier_league',
                 competitionName: 'Premier League',
+                startYear: 2018,
             }),
             row({
-                startYear: 2022,
                 competitionKey: 'premier_league_reserves',
                 competitionName: 'PL Reserves (raw)',
+                startYear: 2022,
             }),
         ];
         const note = coverageChangeNote(rows);

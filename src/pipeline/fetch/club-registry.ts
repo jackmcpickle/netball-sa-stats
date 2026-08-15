@@ -1,10 +1,10 @@
-import { isNull, isUndefined } from 'es-toolkit';
 /**
  * Club identity + curated club_aliases. `club_key` is assigned once, on
  * first sight of a `playhq_id`, and never changed on re-run. Existing
  * curated rows (loaded from the committed CSVs) are preserved verbatim;
  * only genuinely new clubs/aliases are appended.
  */
+import { isNull, isUndefined } from 'es-toolkit';
 import { uniqueSlug } from '@/pipeline/fetch/keys';
 
 // oxlint-disable-next-line typescript/consistent-type-definitions -- CSV row: interface has no implicit index signature, so it stops assigning to Record<string, CsvValue>
@@ -106,9 +106,9 @@ export class ClubRegistry {
         this.byPlayhqId.set(organisationId, clubKey);
         this.clubs.set(clubKey, {
             club_key: clubKey,
-            name: organisationName,
             established_year: null,
             home_venue: null,
+            name: organisationName,
             playhq_id: organisationId,
         });
 
@@ -121,8 +121,8 @@ export class ClubRegistry {
             return;
         }
         this.aliases.set(aliasText, {
-            club_key: clubKey,
             alias_text: aliasText,
+            club_key: clubKey,
             source,
         });
     }

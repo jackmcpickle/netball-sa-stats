@@ -10,7 +10,7 @@ import { createTestDb } from '@/server/testing/harness';
 /** A page large enough to hold any ladder these tests seed. */
 function wholeLadder(sort: string, dir: 'asc' | 'desc'): PageRequest {
     return TableQuery.from(
-        { sort, dir, pageSize: 100 },
+        { dir, pageSize: 100, sort },
         LADDER_TABLE_SPEC,
     ).request();
 }
@@ -23,15 +23,10 @@ function baseSpec(): SeedSpec {
                 name: 'AMND',
                 seasons: [
                     {
-                        seasonKey: 'amnd-2024',
-                        startYear: 2024,
-                        isFinal: true,
                         grades: [
                             {
                                 gradeKey: 'amnd-2024-a1',
                                 name: 'A1',
-                                tier: 1,
-                                teamCount: 2,
                                 results: [
                                     {
                                         clubKey: 'contax',
@@ -46,12 +41,12 @@ function baseSpec(): SeedSpec {
                                         ladderPosition: 2,
                                     },
                                 ],
+                                teamCount: 2,
+                                tier: 1,
                             },
                             {
                                 gradeKey: 'amnd-2024-b1',
                                 name: 'B1',
-                                tier: 2,
-                                teamCount: 1,
                                 results: [
                                     {
                                         clubKey: 'ajax',
@@ -60,8 +55,13 @@ function baseSpec(): SeedSpec {
                                         ladderPosition: 1,
                                     },
                                 ],
+                                teamCount: 1,
+                                tier: 2,
                             },
                         ],
+                        isFinal: true,
+                        seasonKey: 'amnd-2024',
+                        startYear: 2024,
                     },
                 ],
             },
@@ -94,15 +94,10 @@ describe(createGradesRepo, () => {
                     name: 'AMND',
                     seasons: [
                         {
-                            seasonKey: 'amnd-2024',
-                            startYear: 2024,
-                            isFinal: true,
                             grades: [
                                 {
                                     gradeKey: 'amnd-2024-c1',
                                     name: 'C1',
-                                    tier: 3,
-                                    teamCount: 1,
                                     results: [
                                         {
                                             clubKey: 'zeta',
@@ -111,12 +106,12 @@ describe(createGradesRepo, () => {
                                             ladderPosition: 1,
                                         },
                                     ],
+                                    teamCount: 1,
+                                    tier: 3,
                                 },
                                 {
                                     gradeKey: 'amnd-2024-a1',
                                     name: 'A1',
-                                    tier: 1,
-                                    teamCount: 1,
                                     results: [
                                         {
                                             clubKey: 'contax',
@@ -125,12 +120,12 @@ describe(createGradesRepo, () => {
                                             ladderPosition: 1,
                                         },
                                     ],
+                                    teamCount: 1,
+                                    tier: 1,
                                 },
                                 {
                                     gradeKey: 'amnd-2024-b1',
                                     name: 'B1',
-                                    tier: 2,
-                                    teamCount: 1,
                                     results: [
                                         {
                                             clubKey: 'ajax',
@@ -139,8 +134,13 @@ describe(createGradesRepo, () => {
                                             ladderPosition: 1,
                                         },
                                     ],
+                                    teamCount: 1,
+                                    tier: 2,
                                 },
                             ],
+                            isFinal: true,
+                            seasonKey: 'amnd-2024',
+                            startYear: 2024,
                         },
                     ],
                 },
@@ -243,12 +243,12 @@ describe(createGradesRepo, () => {
         );
 
         expect(result).toStrictEqual({
-            ok: false,
             error: {
-                kind: 'not-found',
                 entity: 'grade',
                 key: 'does-not-exist',
+                kind: 'not-found',
             },
+            ok: false,
         });
     });
 });

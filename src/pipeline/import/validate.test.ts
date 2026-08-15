@@ -22,70 +22,70 @@ const competitionKeys = new Set(['amnd']);
 
 const goodSeason: SeasonImportRow = {
     competitionKey: 'amnd',
-    seasonKey: 'amnd-winter-2023',
     competitionPeriod: 'winter',
-    label: 'Winter 2023',
-    startYear: 2023,
     endYear: 2023,
     isFinal: true,
+    label: 'Winter 2023',
     playhqId: 'abc123',
+    seasonKey: 'amnd-winter-2023',
     source: 'playhq',
+    startYear: 2023,
 };
 
 const goodClub: ClubImportRow = {
     clubKey: 'fixture-club-a',
-    name: 'Fixture Club A',
     establishedYear: null,
     homeVenue: null,
+    name: 'Fixture Club A',
     playhqId: null,
 };
 
 const goodGrade: GradeImportRow = {
-    seasonKey: 'amnd-winter-2023',
+    ageBand: 'Senior',
+    division: null,
     gradeKey: 'amnd-winter-2023-a-grade',
     name: 'A Grade',
-    tier: 4,
-    division: null,
-    teamCount: 2,
-    ageBand: 'Senior',
     playhqId: null,
+    seasonKey: 'amnd-winter-2023',
+    teamCount: 2,
+    tier: 4,
 };
 
 const goodTeam: TeamImportRow = {
     clubKey: 'fixture-club-a',
-    gradeKey: 'amnd-winter-2023-a-grade',
     displayName: 'Fixture Club A',
-    squadNumber: null,
+    gradeKey: 'amnd-winter-2023-a-grade',
     playhqId: 'team-fixture-club-a',
+    squadNumber: null,
 };
 
 function resultRow(
     overrides: Partial<TeamSeasonResultImportRow>,
 ): TeamSeasonResultImportRow {
     return {
-        gradeKey: 'amnd-winter-2023-a-grade',
-        clubKey: 'fixture-club-a',
-        squadNumber: null,
-        playhqId: 'team-fixture-club-a',
-        displayName: 'Fixture Club A',
-        ladderPosition: 1,
-        positionUncertain: false,
-        played: 10,
-        won: 8,
-        drawn: 0,
-        lost: 2,
         byes: 0,
-        goalsFor: 500,
-        goalsAgainst: 400,
+        clubKey: 'fixture-club-a',
+        displayName: 'Fixture Club A',
+        drawn: 0,
         goalDifference: 100,
-        points: 16,
+        goalsAgainst: 400,
+        goalsFor: 500,
+        gradeKey: 'amnd-winter-2023-a-grade',
+        ladderPosition: 1,
+        lost: 2,
+        notes: null,
         percentage: 125,
+        placementBasis: 'regular_season_ladder',
+        played: 10,
+        playhqId: 'team-fixture-club-a',
+        points: 16,
+        positionUncertain: false,
+        scrapedAt: 1_700_000_000_000,
         shotsAttempted: null,
         shotsScored: null,
         source: 'playhq',
-        placementBasis: 'regular_season_ladder',
-        notes: null,
-        scrapedAt: 1_700_000_000_000,
+        squadNumber: null,
+        won: 8,
         ...overrides,
     };
 }
@@ -134,8 +134,8 @@ describe(validateClubAliases, () => {
             validateClubAliases(
                 [
                     {
-                        clubKey: 'ghost-club',
                         aliasText: 'Ghost Club',
+                        clubKey: 'ghost-club',
                         source: 'playhq',
                     },
                 ],
@@ -149,8 +149,8 @@ describe(validateClubAliases, () => {
             validateClubAliases(
                 [
                     {
-                        clubKey: 'fixture-club-a',
                         aliasText: 'Fixture Club A',
+                        clubKey: 'fixture-club-a',
                         source: 'playhq',
                     },
                 ],
@@ -173,15 +173,15 @@ describe(validateGrades, () => {
     it('allows two grades to share (tier, division) — A/B pools', () => {
         const pairA: GradeImportRow = {
             ...goodGrade,
+            division: 4,
             gradeKey: 'amnd-winter-2023-junior-4a',
             tier: 7,
-            division: 4,
         };
         const pairB: GradeImportRow = {
             ...goodGrade,
+            division: 4,
             gradeKey: 'amnd-winter-2023-junior-4b',
             tier: 7,
-            division: 4,
         };
         expect(() => {
             validateGrades([pairA, pairB], new Set([goodSeason.seasonKey]));
@@ -240,14 +240,14 @@ describe(validateTeams, () => {
         const purple: TeamImportRow = {
             ...goodTeam,
             displayName: 'City Coasters Purple',
-            squadNumber: null,
             playhqId: 'team-city-coasters-purple',
+            squadNumber: null,
         };
         const orange: TeamImportRow = {
             ...goodTeam,
             displayName: 'City Coasters Orange',
-            squadNumber: null,
             playhqId: 'team-city-coasters-orange',
+            squadNumber: null,
         };
         expect(() => {
             validateTeams(
@@ -262,14 +262,14 @@ describe(validateTeams, () => {
         const walkerville1: TeamImportRow = {
             ...goodTeam,
             displayName: 'Walkerville 1',
-            squadNumber: 1,
             playhqId: 'team-walkerville-1',
+            squadNumber: 1,
         };
         const walkerville2: TeamImportRow = {
             ...goodTeam,
             displayName: 'Walkerville 2',
-            squadNumber: 2,
             playhqId: 'team-walkerville-2',
+            squadNumber: 2,
         };
         expect(() => {
             validateTeams(
@@ -287,12 +287,12 @@ describe(validateResults, () => {
 
     it('passes ladder positions that are exactly 1..n', () => {
         const rows = [
-            resultRow({ ladderPosition: 1, squadNumber: 1, playhqId: 'a' }),
+            resultRow({ ladderPosition: 1, playhqId: 'a', squadNumber: 1 }),
             resultRow({
-                ladderPosition: 2,
                 clubKey: 'fixture-club-a',
-                squadNumber: 2,
+                ladderPosition: 2,
                 playhqId: 'b',
+                squadNumber: 2,
             }),
         ];
         expect(() => {
@@ -330,30 +330,30 @@ describe(validateResults, () => {
 
     it('warns (does not fail) when played does not equal won + drawn + lost, annotates notes, and leaves values unchanged', () => {
         const mismatched = resultRow({
-            ladderPosition: 1,
-            played: 10,
-            won: 1,
             drawn: 0,
+            ladderPosition: 1,
             lost: 1,
-            squadNumber: 1,
+            played: 10,
             playhqId: 'a',
+            squadNumber: 1,
+            won: 1,
         });
         const rows = [
             mismatched,
-            resultRow({ ladderPosition: 2, squadNumber: 2, playhqId: 'b' }),
+            resultRow({ ladderPosition: 2, playhqId: 'b', squadNumber: 2 }),
         ];
 
         const warnings = validateResults(rows, clubKeys, gradesByKey);
 
         expect(warnings).toHaveLength(1);
         expect(warnings[0]).toMatchObject({
-            gradeKey: goodGrade.gradeKey,
             clubKey: mismatched.clubKey,
             displayName: mismatched.displayName,
+            drawn: 0,
+            gradeKey: goodGrade.gradeKey,
+            lost: 1,
             played: 10,
             won: 1,
-            drawn: 0,
-            lost: 1,
         });
         // Values themselves are untouched — only `notes` is annotated.
         expect(mismatched.played).toBe(10);
@@ -366,7 +366,7 @@ describe(validateResults, () => {
 
     it('fails on negative goals', () => {
         const rows = [
-            resultRow({ ladderPosition: 1, goalsFor: -5 }),
+            resultRow({ goalsFor: -5, ladderPosition: 1 }),
             resultRow({ ladderPosition: 2 }),
         ];
         expect(() => {
@@ -376,7 +376,7 @@ describe(validateResults, () => {
 
     it('fails when club_key does not resolve', () => {
         const rows = [
-            resultRow({ ladderPosition: 1, clubKey: 'unregistered-club' }),
+            resultRow({ clubKey: 'unregistered-club', ladderPosition: 1 }),
             resultRow({ ladderPosition: 2 }),
         ];
         expect(() => {
@@ -389,14 +389,14 @@ describe(validateImportData, () => {
     it('warns (not fails) on a sharp team-count change between seasons', () => {
         const prevSeason: SeasonImportRow = {
             ...goodSeason,
+            endYear: 2022,
             seasonKey: 'amnd-winter-2022',
             startYear: 2022,
-            endYear: 2022,
         };
         const prevGrade: GradeImportRow = {
             ...goodGrade,
-            seasonKey: prevSeason.seasonKey,
             gradeKey: 'amnd-winter-2022-a-grade',
+            seasonKey: prevSeason.seasonKey,
             teamCount: 10,
         };
         const currGrade: GradeImportRow = { ...goodGrade, teamCount: 2 };
@@ -406,25 +406,25 @@ describe(validateImportData, () => {
             resultRow({
                 gradeKey: prevGrade.gradeKey,
                 ladderPosition: i + 1,
-                squadNumber: i + 1,
                 playhqId: `prev-${String(i + 1)}`,
+                squadNumber: i + 1,
             }),
         );
         const currResults = [
-            resultRow({ ladderPosition: 1, squadNumber: 1, playhqId: 'a' }),
-            resultRow({ ladderPosition: 2, squadNumber: 2, playhqId: 'b' }),
+            resultRow({ ladderPosition: 1, playhqId: 'a', squadNumber: 1 }),
+            resultRow({ ladderPosition: 2, playhqId: 'b', squadNumber: 2 }),
         ];
 
         const { teamCountWarnings, playedMismatchWarnings } =
             validateImportData(
                 {
-                    seasons: [prevSeason, goodSeason],
-                    clubs,
                     clubAliases: [],
-                    grades: [prevGrade, currGrade],
-                    teams: [goodTeam],
-                    results: [...prevResults, ...currResults],
+                    clubs,
                     games: [],
+                    grades: [prevGrade, currGrade],
+                    results: [...prevResults, ...currResults],
+                    seasons: [prevSeason, goodSeason],
+                    teams: [goodTeam],
                 },
                 competitionKeys,
             );
@@ -432,8 +432,8 @@ describe(validateImportData, () => {
         expect(teamCountWarnings).toHaveLength(1);
         expect(teamCountWarnings[0]).toMatchObject({
             gradeKey: currGrade.gradeKey,
-            teamCount: 2,
             previousTeamCount: 10,
+            teamCount: 2,
         });
         expect(playedMismatchWarnings).toHaveLength(0);
     });
@@ -441,21 +441,21 @@ describe(validateImportData, () => {
 
 function gameRow(overrides: Partial<GameImportRow> = {}): GameImportRow {
     return {
+        awayPlayhqId: 't2',
+        awayScore: 30,
+        file: 'games-2026.csv',
+        forfeitingSide: null,
         gradeKey: 'premier-2026',
+        homePlayhqId: 't1',
+        homeScore: 40,
+        isFinals: false,
+        playedAt: null,
         playhqId: 'g1',
         round: 1,
         roundName: 'Round 1',
-        isFinals: false,
-        playedAt: null,
-        homePlayhqId: 't1',
-        awayPlayhqId: 't2',
-        homeScore: 40,
-        awayScore: 30,
-        status: 'final',
-        forfeitingSide: null,
-        source: 'playhq',
         scrapedAt: 1,
-        file: 'games-2026.csv',
+        source: 'playhq',
+        status: 'final',
         ...overrides,
     };
 }
@@ -525,10 +525,10 @@ describe(validateGames, () => {
             validateGames(
                 [
                     gameRow({
-                        status: 'bye',
                         awayPlayhqId: null,
-                        homeScore: 20,
                         awayScore: null,
+                        homeScore: 20,
+                        status: 'bye',
                     }),
                 ],
                 teamIds,
@@ -542,10 +542,10 @@ describe(validateGames, () => {
             validateGames(
                 [
                     gameRow({
-                        status: 'bye',
                         awayPlayhqId: null,
-                        homeScore: null,
                         awayScore: null,
+                        homeScore: null,
+                        status: 'bye',
                     }),
                 ],
                 teamIds,
@@ -559,9 +559,9 @@ describe(validateGames, () => {
             validateGames(
                 [
                     gameRow({
-                        status: 'scheduled',
-                        homeScore: null,
                         awayScore: null,
+                        homeScore: null,
+                        status: 'scheduled',
                     }),
                 ],
                 teamIds,
@@ -576,10 +576,10 @@ describe(validateGames, () => {
             validateGames(
                 [
                     gameRow({
-                        status: 'scheduled',
                         awayPlayhqId: null,
-                        homeScore: null,
                         awayScore: null,
+                        homeScore: null,
+                        status: 'scheduled',
                     }),
                 ],
                 teamIds,
@@ -603,10 +603,10 @@ describe(validateGames, () => {
             validateGames(
                 [
                     gameRow({
-                        status: 'forfeit',
+                        awayScore: 20,
                         forfeitingSide: null,
                         homeScore: 0,
-                        awayScore: 20,
+                        status: 'forfeit',
                     }),
                 ],
                 teamIds,

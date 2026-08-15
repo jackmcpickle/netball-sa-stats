@@ -56,9 +56,9 @@ function buildHits(
             continue;
         }
         hits.push({
+            detail: `${String(point.year)} · ${formatStrength(point.strength)} · ${String(point.teams)} ${point.teams === 1 ? 'team' : 'teams'}`,
             id: `trend-${String(point.year)}`,
             label: title,
-            detail: `${String(point.year)} · ${formatStrength(point.strength)} · ${String(point.teams)} ${point.teams === 1 ? 'team' : 'teams'}`,
             x: bandX(index, years.length, PLOT),
             y: strengthY(point.strength, PLOT),
         });
@@ -348,17 +348,17 @@ export function TrendChart({
                 tooltipRef={interaction.tooltipRef}
             >
                 {renderTrendSvg({
-                    points,
-                    years,
-                    title,
                     accent,
-                    maxTeams,
-                    segments,
-                    measured,
                     activeId: interaction.hit?.id ?? null,
-                    svgRef: interaction.svgRef,
-                    onPointerMove: interaction.handlePointerMove,
+                    maxTeams,
+                    measured,
                     onPointerLeave: interaction.handlePointerLeave,
+                    onPointerMove: interaction.handlePointerMove,
+                    points,
+                    segments,
+                    svgRef: interaction.svgRef,
+                    title,
+                    years,
                 })}
             </ChartFrame>
         </figure>

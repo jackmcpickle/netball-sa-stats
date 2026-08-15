@@ -1,9 +1,9 @@
-import { isUndefined } from 'es-toolkit';
 /**
  * Every finished season's results, ranked. `fetchChampionshipHistory` used to
  * live in `src/db/queries/championship.ts`; that fetch + assembly logic now
  * lives here, and the old module keeps only `CHAMPIONSHIP_TABLE_SPEC`.
  */
+import { isUndefined } from 'es-toolkit';
 import type { Db } from '@/db';
 import {
     movementBoundaryChanged,
@@ -38,11 +38,11 @@ function clubIndexFrom(rows: readonly ResultRow[]): ReadonlyMap<string, Club> {
     for (const row of rows) {
         if (!index.has(row.clubKey)) {
             index.set(row.clubKey, {
-                key: row.clubKey,
-                name: row.clubName,
+                accent: accentFor(row.clubKey),
                 establishedYear: row.establishedYear,
                 homeVenue: row.homeVenue,
-                accent: accentFor(row.clubKey),
+                key: row.clubKey,
+                name: row.clubName,
             });
         }
     }
@@ -73,20 +73,20 @@ export async function fetchChampionshipHistory(
         const coverageChanged =
             !isUndefined(previousSeason) &&
             movementBoundaryChanged({
-                year: season.year,
-                previousYear: previousSeason.year,
                 competitionKeys: competitionKeysFor(rows, season.year),
+                placementBases: placementBasesForYear(rows, season.year),
                 previousCompetitionKeys: competitionKeysFor(
                     rows,
                     previousSeason.year,
                 ),
-                sources: sourcesForYear(rows, season.year),
-                previousSources: sourcesForYear(rows, previousSeason.year),
-                placementBases: placementBasesForYear(rows, season.year),
                 previousPlacementBases: placementBasesForYear(
                     rows,
                     previousSeason.year,
                 ),
+                previousSources: sourcesForYear(rows, previousSeason.year),
+                previousYear: previousSeason.year,
+                sources: sourcesForYear(rows, season.year),
+                year: season.year,
             });
         const championshipRows = season.totals.flatMap(
             (total): ChampionshipRow[] => {
@@ -96,23 +96,23 @@ export async function fetchChampionshipHistory(
                 }
                 return [
                     {
-                        rank: total.rank,
                         club,
-                        points: total.points,
-                        teams: total.teams,
-                        winPercentage: total.winPercentage,
                         minorPremierships: total.minorPremierships,
+                        points: total.points,
                         // Null in the first ranked season by construction
                         // (`previousRanks(undefined)` is empty), and also
                         // whenever coverage changed since the prior season.
                         previousRank: coverageChanged
                             ? null
                             : (previous.get(total.clubKey) ?? null),
+                        rank: total.rank,
+                        teams: total.teams,
+                        winPercentage: total.winPercentage,
                     },
                 ];
             },
         );
-        return { year: season.year, rows: championshipRows, coverageChanged };
+        return { coverageChanged, rows: championshipRows, year: season.year };
     });
 }
 

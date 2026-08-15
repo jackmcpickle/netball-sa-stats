@@ -89,8 +89,8 @@ function chunkStatements(
     const batches: SqlBatch[] = [];
     for (let i = 0; i < statements.length; i += chunkSize) {
         batches.push({
-            table,
             statements: statements.slice(i, i + chunkSize),
+            table,
         });
     }
     return batches;

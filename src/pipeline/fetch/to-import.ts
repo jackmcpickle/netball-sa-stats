@@ -1,9 +1,9 @@
-import { isNil, isNull, isUndefined } from 'es-toolkit';
 /**
  * Maps snake_case fetch rows to the camelCase `ImportData` the importer
  * already consumes. Field names match `parse.ts`; values are taken from the
  * typed rows directly rather than round-tripped through CSV strings.
  */
+import { isNil, isNull, isUndefined } from 'es-toolkit';
 import type { CsvValue } from '@/pipeline/csv';
 import type { ClubAliasRow, ClubRow } from '@/pipeline/fetch/club-registry';
 import type { GradeRow, SeasonRow, TeamRow } from '@/pipeline/fetch/collect';
@@ -40,83 +40,83 @@ function toBool(value: CsvValue | undefined): boolean {
 function toSeasonRow(row: SeasonRow): SeasonImportRow {
     return {
         competitionKey: row.competition_key,
-        seasonKey: row.season_key,
         competitionPeriod: row.competition_period,
-        label: row.label,
-        startYear: row.start_year,
         endYear: row.end_year,
         isFinal: toBool(row.is_final),
+        label: row.label,
         playhqId: toStr(row.playhq_id),
+        seasonKey: row.season_key,
         source: row.source,
+        startYear: row.start_year,
     };
 }
 
 function toClubRow(row: ClubRow): ClubImportRow {
     return {
         clubKey: row.club_key,
-        name: row.name,
         establishedYear: toNum(row.established_year),
         homeVenue: toStr(row.home_venue),
+        name: row.name,
         playhqId: toStr(row.playhq_id),
     };
 }
 
 function toClubAliasRow(row: ClubAliasRow): ClubAliasImportRow {
     return {
-        clubKey: row.club_key,
         aliasText: row.alias_text,
+        clubKey: row.club_key,
         source: row.source,
     };
 }
 
 function toGradeRow(row: GradeRow): GradeImportRow {
     return {
-        seasonKey: row.season_key,
+        ageBand: row.age_band,
+        division: row.division,
         gradeKey: row.grade_key,
         name: row.name,
-        tier: row.tier,
-        division: row.division,
-        teamCount: row.team_count,
-        ageBand: row.age_band,
         playhqId: toStr(row.playhq_id),
+        seasonKey: row.season_key,
+        teamCount: row.team_count,
+        tier: row.tier,
     };
 }
 
 function toTeamRow(row: TeamRow): TeamImportRow {
     return {
         clubKey: row.club_key,
-        gradeKey: row.grade_key,
         displayName: row.display_name,
-        squadNumber: row.squad_number,
+        gradeKey: row.grade_key,
         playhqId: toStr(row.playhq_id),
+        squadNumber: row.squad_number,
     };
 }
 
 function toResultRow(raw: Record<string, CsvValue>): TeamSeasonResultImportRow {
     return {
-        gradeKey: String(raw.grade_key ?? ''),
-        clubKey: String(raw.club_key ?? ''),
-        squadNumber: toNum(raw.squad_number),
-        playhqId: toStr(raw.playhq_id),
-        displayName: String(raw.display_name ?? ''),
-        ladderPosition: Number(raw.ladder_position),
-        positionUncertain: toBool(raw.position_uncertain),
-        played: toNum(raw.played),
-        won: toNum(raw.won),
-        drawn: toNum(raw.drawn),
-        lost: toNum(raw.lost),
         byes: toNum(raw.byes),
-        goalsFor: toNum(raw.goals_for),
-        goalsAgainst: toNum(raw.goals_against),
+        clubKey: String(raw.club_key ?? ''),
+        displayName: String(raw.display_name ?? ''),
+        drawn: toNum(raw.drawn),
         goalDifference: toNum(raw.goal_difference),
-        points: toNum(raw.points),
+        goalsAgainst: toNum(raw.goals_against),
+        goalsFor: toNum(raw.goals_for),
+        gradeKey: String(raw.grade_key ?? ''),
+        ladderPosition: Number(raw.ladder_position),
+        lost: toNum(raw.lost),
+        notes: toStr(raw.notes),
         percentage: toNum(raw.percentage),
+        placementBasis: String(raw.placement_basis ?? ''),
+        played: toNum(raw.played),
+        playhqId: toStr(raw.playhq_id),
+        points: toNum(raw.points),
+        positionUncertain: toBool(raw.position_uncertain),
+        scrapedAt: toNum(raw.scraped_at),
         shotsAttempted: toNum(raw.shots_attempted),
         shotsScored: toNum(raw.shots_scored),
         source: String(raw.source ?? ''),
-        placementBasis: String(raw.placement_basis ?? ''),
-        notes: toStr(raw.notes),
-        scrapedAt: toNum(raw.scraped_at),
+        squadNumber: toNum(raw.squad_number),
+        won: toNum(raw.won),
     };
 }
 
@@ -141,21 +141,21 @@ function gamesFileOf(row: GameRow): string {
 
 function toGameImportRow(row: GameRow): GameImportRow {
     return {
+        awayPlayhqId: row.away_playhq_id,
+        awayScore: row.away_score,
+        file: gamesFileOf(row),
+        forfeitingSide: row.forfeiting_side,
         gradeKey: row.grade_key,
+        homePlayhqId: row.home_playhq_id,
+        homeScore: row.home_score,
+        isFinals: toBool(row.is_finals),
+        playedAt: row.played_at,
         playhqId: row.playhq_id,
         round: row.round,
         roundName: row.round_name,
-        isFinals: toBool(row.is_finals),
-        playedAt: row.played_at,
-        homePlayhqId: row.home_playhq_id,
-        awayPlayhqId: row.away_playhq_id,
-        homeScore: row.home_score,
-        awayScore: row.away_score,
-        status: row.status,
-        forfeitingSide: row.forfeiting_side,
-        source: row.source,
         scrapedAt: row.scraped_at,
-        file: gamesFileOf(row),
+        source: row.source,
+        status: row.status,
     };
 }
 
@@ -169,12 +169,12 @@ export function toImportData(input: {
     games: readonly GameRow[];
 }): ImportData {
     return {
-        seasons: input.seasons.map(toSeasonRow),
-        clubs: input.clubs.map(toClubRow),
         clubAliases: input.aliases.map(toClubAliasRow),
-        grades: input.grades.map(toGradeRow),
-        teams: input.teams.map(toTeamRow),
-        results: input.results.map(toResultRow),
+        clubs: input.clubs.map(toClubRow),
         games: input.games.map(toGameImportRow),
+        grades: input.grades.map(toGradeRow),
+        results: input.results.map(toResultRow),
+        seasons: input.seasons.map(toSeasonRow),
+        teams: input.teams.map(toTeamRow),
     };
 }

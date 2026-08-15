@@ -24,15 +24,10 @@ describe('test harness', () => {
                     name: 'AMND',
                     seasons: [
                         {
-                            seasonKey: 'amnd-2025',
-                            startYear: 2025,
-                            isFinal: true,
                             grades: [
                                 {
                                     gradeKey: 'a1-2025',
                                     name: 'A1',
-                                    tier: 2,
-                                    teamCount: 2,
                                     results: [
                                         {
                                             clubKey: 'contax',
@@ -47,8 +42,13 @@ describe('test harness', () => {
                                             ladderPosition: 2,
                                         },
                                     ],
+                                    teamCount: 2,
+                                    tier: 2,
                                 },
                             ],
+                            isFinal: true,
+                            seasonKey: 'amnd-2025',
+                            startYear: 2025,
                         },
                     ],
                 },
@@ -99,15 +99,10 @@ describe('test harness', () => {
                     name: 'AMND',
                     seasons: [
                         {
-                            seasonKey: 'amnd-2024',
-                            startYear: 2024,
-                            isFinal: true,
                             grades: [
                                 {
                                     gradeKey: 'amnd-2024-a1',
                                     name: 'A1',
-                                    tier: 2,
-                                    teamCount: 2,
                                     results: [
                                         {
                                             clubKey: 'contax',
@@ -122,19 +117,19 @@ describe('test harness', () => {
                                             ladderPosition: 2,
                                         },
                                     ],
+                                    teamCount: 2,
+                                    tier: 2,
                                 },
                             ],
+                            isFinal: true,
+                            seasonKey: 'amnd-2024',
+                            startYear: 2024,
                         },
                         {
-                            seasonKey: 'amnd-2025',
-                            startYear: 2025,
-                            isFinal: true,
                             grades: [
                                 {
                                     gradeKey: 'amnd-2025-a1',
                                     name: 'A1',
-                                    tier: 2,
-                                    teamCount: 2,
                                     results: [
                                         {
                                             clubKey: 'contax',
@@ -149,8 +144,13 @@ describe('test harness', () => {
                                             ladderPosition: 1,
                                         },
                                     ],
+                                    teamCount: 2,
+                                    tier: 2,
                                 },
                             ],
+                            isFinal: true,
+                            seasonKey: 'amnd-2025',
+                            startYear: 2025,
                         },
                     ],
                 },

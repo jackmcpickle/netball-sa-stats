@@ -18,7 +18,7 @@ export function RankingsPage(): JSX.Element {
 
     const onSeasonChange = useCallback(
         (season: number) => {
-            void navigate({ search: { season }, resetScroll: false });
+            void navigate({ resetScroll: false, search: { season } });
         },
         [navigate],
     );
@@ -26,14 +26,14 @@ export function RankingsPage(): JSX.Element {
     const onTableChange = useCallback(
         (next: TableState) => {
             void navigate({
+                resetScroll: false,
                 search: (previous) => ({
                     ...previous,
-                    sort: next.sort,
                     dir: next.desc ? 'desc' : 'asc',
                     page: next.page,
                     pageSize: next.pageSize,
+                    sort: next.sort,
                 }),
-                resetScroll: false,
             });
         },
         [navigate],
@@ -42,8 +42,8 @@ export function RankingsPage(): JSX.Element {
     const seasonOptions = useMemo(
         () =>
             data.coverage.rankedYears.map((year) => ({
-                value: year,
                 label: String(year),
+                value: year,
             })),
         [data.coverage.rankedYears],
     );

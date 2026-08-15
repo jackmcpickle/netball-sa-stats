@@ -35,19 +35,19 @@ function seasonCoverage(
 ): SeasonCoverage {
     if (!row) {
         return {
-            year,
-            status: 'absent',
             note: `No season — the competition did not run in ${String(year)}.`,
+            status: 'absent',
+            year,
         };
     }
     if (!row.isFinal) {
         return {
-            year,
-            status: 'in-progress',
             note: 'Season still being played, so it is not ranked yet.',
+            status: 'in-progress',
+            year,
         };
     }
-    return { year, status: 'ranked', note: null };
+    return { note: null, status: 'ranked', year };
 }
 
 /**
@@ -93,7 +93,7 @@ export function coverageChangeNote(
             );
         }
     }
-    return { year: changeYear, addedCompetitions };
+    return { addedCompetitions, year: changeYear };
 }
 
 export function buildCoverage(
@@ -115,15 +115,7 @@ export function buildCoverage(
         sourceByYear.set(row.startYear, set);
     }
     return {
-        years,
-        rankedYears: ranked,
-        isSampleData,
         changeNote: coverageChangeNote(rows),
-        methodologyBreak: methodologyBreak({
-            rankedYears: ranked,
-            sourceByYear,
-        }),
-        timelineGaps: timelineGaps(ranked),
         competitions: keys.map((key) => {
             const forKey = rows.filter((row) => row.competitionKey === key);
             return {
@@ -139,5 +131,13 @@ export function buildCoverage(
                 ),
             };
         }),
+        isSampleData,
+        methodologyBreak: methodologyBreak({
+            rankedYears: ranked,
+            sourceByYear,
+        }),
+        rankedYears: ranked,
+        timelineGaps: timelineGaps(ranked),
+        years,
     };
 }

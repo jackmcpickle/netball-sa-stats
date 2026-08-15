@@ -15,14 +15,14 @@ export function createMemoryStore(
 ): CaptureStore {
     const entries = new Map(seed);
     return {
+        async capturedAtMs(key) {
+            return entries.get(key)?.capturedAtMs;
+        },
         async get(key) {
             return entries.get(key)?.data;
         },
         async put(key, data, capturedAtMs) {
-            entries.set(key, { data, capturedAtMs });
-        },
-        async capturedAtMs(key) {
-            return entries.get(key)?.capturedAtMs;
+            entries.set(key, { capturedAtMs, data });
         },
     };
 }
@@ -33,6 +33,10 @@ export function createFsStore(rawDir: string): CaptureStore {
     }
 
     return {
+        async capturedAtMs(key) {
+            const recorded = await capturedAt(filePath(key));
+            return recorded;
+        },
         async get(key) {
             try {
                 const text = await readFile(filePath(key), 'utf-8');
@@ -53,10 +57,6 @@ export function createFsStore(rawDir: string): CaptureStore {
                 'utf-8',
             );
             await recordCapture(path, capturedAtMs);
-        },
-        async capturedAtMs(key) {
-            const recorded = await capturedAt(filePath(key));
-            return recorded;
         },
     };
 }

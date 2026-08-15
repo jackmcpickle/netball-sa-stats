@@ -1,9 +1,9 @@
-import { isUndefined } from 'es-toolkit';
 /**
  * Replaces `src/server/loaders/clubs-index.ts` and
  * `src/server/loaders/club-profile.ts` — both pages are about clubs, so one
  * service serves both.
  */
+import { isUndefined } from 'es-toolkit';
 import { CLUB_RESULTS_TABLE_SPEC } from '@/db/queries/club-profile';
 import type { Repos } from '@/server/container';
 import { partitionClubs } from '@/server/domain/club-directory';
@@ -69,22 +69,22 @@ export function createClubsService(repos: Repos): ClubsService {
             const visible = includePast ? [...present, ...past] : present;
 
             return ok({
-                year,
-                includePast,
-                presentCount: present.length,
-                totalCount: clubs.length,
                 entries: visible.map((club) => {
                     const row = seasonRows.find(
                         (entry) => entry.club.key === club.key,
                     );
                     return {
                         club,
-                        rank: row?.rank ?? null,
-                        points: row?.points ?? null,
-                        teams: row?.teams ?? null,
                         lastRankedYear: lastRanked.get(club.key) ?? null,
+                        points: row?.points ?? null,
+                        rank: row?.rank ?? null,
+                        teams: row?.teams ?? null,
                     };
                 }),
+                includePast,
+                presentCount: present.length,
+                totalCount: clubs.length,
+                year,
             });
         },
 
@@ -94,9 +94,9 @@ export function createClubsService(repos: Repos): ClubsService {
             const profile = await repos.clubs.profile(params.clubKey);
             if (!profile) {
                 return err({
-                    kind: 'not-found',
                     entity: 'club',
                     key: params.clubKey,
+                    kind: 'not-found',
                 });
             }
             // The aggregates above span the club's whole history; the table
@@ -105,10 +105,10 @@ export function createClubsService(repos: Repos): ClubsService {
             const [paged, clubs, counts] = await Promise.all([
                 TableQuery.from(
                     {
-                        sort: params.sort,
                         dir: params.dir,
                         page: params.page,
                         pageSize: params.pageSize,
+                        sort: params.sort,
                     },
                     CLUB_RESULTS_TABLE_SPEC,
                 ).page(
@@ -122,13 +122,13 @@ export function createClubsService(repos: Repos): ClubsService {
             const byKey = new Map(clubs.map((club) => [club.key, club]));
 
             return ok({
+                clubs,
                 profile: {
                     ...profile,
                     results: paged.rows,
-                    totalRows: paged.totalRows,
                     tableState: paged.state,
+                    totalRows: paged.totalRows,
                 },
-                clubs,
                 topOpponents: topOpponents(counts)
                     .slice(0, TOP_OPPONENT_LIMIT)
                     .flatMap((count) => {

@@ -1,8 +1,8 @@
-import { isUndefined } from 'es-toolkit';
 /**
  * Expand ranked years into chart slots, inserting gap markers where the
  * calendar is missing seasons so a continuous bar/line cannot imply coverage.
  */
+import { isUndefined } from 'es-toolkit';
 
 export type TimelineSlot =
     | { readonly kind: 'year'; readonly year: number }
@@ -33,8 +33,8 @@ export function timelineSlots(
                     missing.push(missingYear);
                 }
                 slots.push({
-                    kind: 'gap',
                     afterYear: prev,
+                    kind: 'gap',
                     missingYears: missing,
                 });
             }

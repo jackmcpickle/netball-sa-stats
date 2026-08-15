@@ -40,13 +40,13 @@ const CLUB_RESULT_ORDER = new Map<string, SQL | SQLiteColumn>([
 function clubResultPageFor(request: PageRequest): ResultPage {
     const column = CLUB_RESULT_ORDER.get(request.sort) ?? seasons.startYear;
     return {
+        limit: request.limit,
+        offset: request.offset,
         order: [
             request.desc ? desc(column) : asc(column),
             desc(seasons.startYear),
             asc(grades.gradeKey),
         ],
-        limit: request.limit,
-        offset: request.offset,
     };
 }
 
@@ -60,22 +60,22 @@ export interface ClubRow {
 
 export function toClub(row: ClubRow): Club {
     return {
-        key: row.clubKey,
-        name: row.name,
+        accent: accentFor(row.clubKey),
         establishedYear: row.establishedYear,
         homeVenue: row.homeVenue,
-        accent: accentFor(row.clubKey),
+        key: row.clubKey,
+        name: row.name,
     };
 }
 
 export async function fetchClubs(db: Db): Promise<readonly Club[]> {
     const rows = await db
         .select({
-            id: clubs.id,
             clubKey: clubs.clubKey,
-            name: clubs.name,
             establishedYear: clubs.establishedYear,
             homeVenue: clubs.homeVenue,
+            id: clubs.id,
+            name: clubs.name,
         })
         .from(clubs)
         .orderBy(asc(clubs.name));
@@ -97,11 +97,11 @@ export function createClubsRepo(db: Db): ClubsRepo {
         async all(): Promise<readonly Club[]> {
             return await fetchClubs(db);
         },
-        async profile(clubKey: string): Promise<ClubProfile | null> {
-            return await fetchClubProfile(db, clubKey);
-        },
         async countResults(clubKey: string): Promise<number> {
             return await countResults(db, { clubKey });
+        },
+        async profile(clubKey: string): Promise<ClubProfile | null> {
+            return await fetchClubProfile(db, clubKey);
         },
         async resultsPage(
             clubKey: string,

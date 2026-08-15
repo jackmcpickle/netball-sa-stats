@@ -23,20 +23,20 @@ export interface ImportRun {
 
 function toImportRun(row: typeof importRuns.$inferSelect): ImportRun {
     return {
+        errorText: row.errorText,
+        finishedAt: row.finishedAt,
+        games: row.games,
+        gamesCount: row.gamesCount,
+        grades: row.grades,
         id: row.id,
         instanceId: row.instanceId,
-        startedAt: row.startedAt,
-        finishedAt: row.finishedAt,
-        status: row.status,
-        yearsJson: row.yearsJson,
-        games: row.games,
-        seasons: row.seasons,
-        grades: row.grades,
-        teams: row.teams,
         results: row.results,
-        gamesCount: row.gamesCount,
+        seasons: row.seasons,
+        startedAt: row.startedAt,
+        status: row.status,
+        teams: row.teams,
         warningsJson: row.warningsJson,
-        errorText: row.errorText,
+        yearsJson: row.yearsJson,
     };
 }
 
@@ -81,28 +81,6 @@ export interface ImportRunsRepo {
 
 export function createImportRunsRepo(db: Db): ImportRunsRepo {
     return {
-        async list(): Promise<ImportRun[]> {
-            const rows = await db
-                .select()
-                .from(importRuns)
-                .orderBy(desc(importRuns.startedAt), desc(importRuns.id));
-            return rows.map(toImportRun);
-        },
-
-        /**
-         * When the dataset was last refreshed, for the public "last updated"
-         * line. Only `ok` runs count — a failed import changed nothing.
-         */
-        async lastSuccessAt(): Promise<number | null> {
-            const row = await db
-                .select({ finishedAt: importRuns.finishedAt })
-                .from(importRuns)
-                .where(eq(importRuns.status, 'ok'))
-                .orderBy(desc(importRuns.finishedAt))
-                .get();
-            return row?.finishedAt ?? null;
-        },
-
         async hasRunning(): Promise<boolean> {
             const row = await db
                 .select({ id: importRuns.id })
@@ -127,6 +105,87 @@ export function createImportRunsRepo(db: Db): ImportRunsRepo {
             return !isUndefined(row);
         },
 
+        async insertRunning(input): Promise<number> {
+            const [row] = await db
+                .insert(importRuns)
+                .values({
+                    games: input.games,
+                    instanceId: input.instanceId,
+                    startedAt: input.startedAt,
+                    status: 'running',
+                    yearsJson: input.yearsJson,
+                })
+                .returning({ id: importRuns.id });
+            return row.id;
+        },
+
+        async insertSkipped(input): Promise<number> {
+            const [row] = await db
+                .insert(importRuns)
+                .values({
+                    finishedAt: input.finishedAt,
+                    games: input.games,
+                    instanceId: input.instanceId,
+                    startedAt: input.startedAt,
+                    status: 'skipped',
+                    yearsJson: input.yearsJson,
+                })
+                .returning({ id: importRuns.id });
+            return row.id;
+        },
+
+        /**
+         * When the dataset was last refreshed, for the public "last updated"
+         * line. Only `ok` runs count — a failed import changed nothing.
+         */
+        async lastSuccessAt(): Promise<number | null> {
+            const row = await db
+                .select({ finishedAt: importRuns.finishedAt })
+                .from(importRuns)
+                .where(eq(importRuns.status, 'ok'))
+                .orderBy(desc(importRuns.finishedAt))
+                .get();
+            return row?.finishedAt ?? null;
+        },
+
+        async list(): Promise<ImportRun[]> {
+            const rows = await db
+                .select()
+                .from(importRuns)
+                .orderBy(desc(importRuns.startedAt), desc(importRuns.id));
+            return rows.map(toImportRun);
+        },
+
+        async markError(id, finishedAt, errorText): Promise<void> {
+            await db
+                .update(importRuns)
+                .set({ errorText, finishedAt, status: 'error' })
+                .where(eq(importRuns.id, id));
+        },
+
+        async markOk(id, finishedAt, counts): Promise<void> {
+            await db
+                .update(importRuns)
+                .set({
+                    finishedAt,
+                    gamesCount: counts.gamesCount,
+                    grades: counts.grades,
+                    results: counts.results,
+                    seasons: counts.seasons,
+                    status: 'ok',
+                    teams: counts.teams,
+                    warningsJson: counts.warningsJson,
+                })
+                .where(eq(importRuns.id, id));
+        },
+
+        async markSkipped(id: number, finishedAt: number): Promise<void> {
+            await db
+                .update(importRuns)
+                .set({ finishedAt, status: 'skipped' })
+                .where(eq(importRuns.id, id));
+        },
+
         async runningOlderThan(epochSeconds: number): Promise<ImportRun[]> {
             const rows = await db
                 .select()
@@ -138,65 +197,6 @@ export function createImportRunsRepo(db: Db): ImportRunsRepo {
                     ),
                 );
             return rows.map(toImportRun);
-        },
-
-        async insertRunning(input): Promise<number> {
-            const [row] = await db
-                .insert(importRuns)
-                .values({
-                    instanceId: input.instanceId,
-                    startedAt: input.startedAt,
-                    status: 'running',
-                    yearsJson: input.yearsJson,
-                    games: input.games,
-                })
-                .returning({ id: importRuns.id });
-            return row.id;
-        },
-
-        async insertSkipped(input): Promise<number> {
-            const [row] = await db
-                .insert(importRuns)
-                .values({
-                    instanceId: input.instanceId,
-                    startedAt: input.startedAt,
-                    finishedAt: input.finishedAt,
-                    status: 'skipped',
-                    yearsJson: input.yearsJson,
-                    games: input.games,
-                })
-                .returning({ id: importRuns.id });
-            return row.id;
-        },
-
-        async markSkipped(id: number, finishedAt: number): Promise<void> {
-            await db
-                .update(importRuns)
-                .set({ status: 'skipped', finishedAt })
-                .where(eq(importRuns.id, id));
-        },
-
-        async markOk(id, finishedAt, counts): Promise<void> {
-            await db
-                .update(importRuns)
-                .set({
-                    status: 'ok',
-                    finishedAt,
-                    seasons: counts.seasons,
-                    grades: counts.grades,
-                    teams: counts.teams,
-                    results: counts.results,
-                    gamesCount: counts.gamesCount,
-                    warningsJson: counts.warningsJson,
-                })
-                .where(eq(importRuns.id, id));
-        },
-
-        async markError(id, finishedAt, errorText): Promise<void> {
-            await db
-                .update(importRuns)
-                .set({ status: 'error', finishedAt, errorText })
-                .where(eq(importRuns.id, id));
         },
     };
 }

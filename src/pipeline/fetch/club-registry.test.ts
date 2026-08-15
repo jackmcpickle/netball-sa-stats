@@ -11,17 +11,17 @@ import {
 const existingClubs: ClubRow[] = [
     {
         club_key: 'walkerville',
-        name: 'Walkerville Netball Club',
         established_year: '1975',
         home_venue: 'Walkerville Oval',
+        name: 'Walkerville Netball Club',
         playhq_id: 'club-walkerville-id',
     },
 ];
 
 const existingAliases: ClubAliasRow[] = [
     {
-        club_key: 'walkerville',
         alias_text: 'Walkerville Netball Club',
+        club_key: 'walkerville',
         source: 'playhq',
     },
 ];
@@ -49,8 +49,8 @@ describe('ClubRegistry curation safety', () => {
         expect(aliases).toHaveLength(2);
         const newAlias = aliases.find((a) => a.alias_text === 'Walkerville NC');
         expect(newAlias).toStrictEqual({
-            club_key: 'walkerville',
             alias_text: 'Walkerville NC',
+            club_key: 'walkerville',
             source: 'playhq',
         });
     });
@@ -70,9 +70,9 @@ describe('ClubRegistry curation safety', () => {
             .find((c) => c.club_key === 'newtown-netball-club');
         expect(newClub).toStrictEqual({
             club_key: 'newtown-netball-club',
-            name: 'Newtown Netball Club',
             established_year: null,
             home_venue: null,
+            name: 'Newtown Netball Club',
             playhq_id: 'club-newtown-id',
         });
     });
@@ -81,9 +81,9 @@ describe('ClubRegistry curation safety', () => {
         const clash: ClubRow[] = [
             {
                 club_key: 'newtown-netball-club',
-                name: 'Newtown Netball Club (original)',
                 established_year: null,
                 home_venue: null,
+                name: 'Newtown Netball Club (original)',
                 playhq_id: 'other-playhq-id',
             },
         ];
@@ -100,10 +100,10 @@ describe('ClubRegistry curation safety', () => {
 
     it('never emits two aliases with the same alias_text, even when curated input has a duplicate (the writer must dedupe, not just the schema)', () => {
         const duplicated: ClubAliasRow[] = [
-            { club_key: 'matrics', alias_text: 'Matrics', source: 'playhq' },
+            { alias_text: 'Matrics', club_key: 'matrics', source: 'playhq' },
             {
-                club_key: 'matrics',
                 alias_text: 'Matrics',
+                club_key: 'matrics',
                 source: 'archive_pdf',
             },
         ];
@@ -111,9 +111,9 @@ describe('ClubRegistry curation safety', () => {
             [
                 {
                     club_key: 'matrics',
-                    name: 'Matrics Netball Club',
                     established_year: null,
                     home_venue: null,
+                    name: 'Matrics Netball Club',
                     playhq_id: null,
                 },
             ],
@@ -133,16 +133,16 @@ describe('ClubRegistry curation safety', () => {
             [
                 {
                     club_key: 'matrics',
-                    name: 'Matrics Netball Club',
                     established_year: null,
                     home_venue: null,
+                    name: 'Matrics Netball Club',
                     playhq_id: 'club-matrics-id',
                 },
             ],
             [
                 {
-                    club_key: 'matrics',
                     alias_text: 'Matrics',
+                    club_key: 'matrics',
                     source: 'archive_pdf',
                 },
             ],
@@ -153,8 +153,8 @@ describe('ClubRegistry curation safety', () => {
         const aliases = registry.getAliases();
         expect(aliases).toHaveLength(1);
         expect(aliases[0]).toStrictEqual({
-            club_key: 'matrics',
             alias_text: 'Matrics',
+            club_key: 'matrics',
             source: 'archive_pdf',
         });
     });
@@ -163,10 +163,10 @@ describe('ClubRegistry curation safety', () => {
 describe(dedupeAliasesByText, () => {
     it('is a pure function of the rows, independent of input order', () => {
         const rows: ClubAliasRow[] = [
-            { club_key: 'matrics', alias_text: 'Matrics', source: 'playhq' },
+            { alias_text: 'Matrics', club_key: 'matrics', source: 'playhq' },
             {
-                club_key: 'matrics',
                 alias_text: 'Matrics',
+                club_key: 'matrics',
                 source: 'archive_pdf',
             },
         ];
@@ -177,8 +177,8 @@ describe(dedupeAliasesByText, () => {
         );
         expect(dedupeAliasesByText(rows)).toStrictEqual([
             {
-                club_key: 'matrics',
                 alias_text: 'Matrics',
+                club_key: 'matrics',
                 source: 'archive_pdf',
             },
         ]);
@@ -186,8 +186,8 @@ describe(dedupeAliasesByText, () => {
 
     it('leaves distinct alias_text rows untouched', () => {
         const rows: ClubAliasRow[] = [
-            { club_key: 'a', alias_text: 'Alpha', source: 'playhq' },
-            { club_key: 'b', alias_text: 'Beta', source: 'archive_pdf' },
+            { alias_text: 'Alpha', club_key: 'a', source: 'playhq' },
+            { alias_text: 'Beta', club_key: 'b', source: 'archive_pdf' },
         ];
         expect(dedupeAliasesByText(rows)).toStrictEqual(rows);
     });

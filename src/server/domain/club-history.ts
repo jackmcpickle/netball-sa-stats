@@ -25,17 +25,17 @@ export function toGradeResults(
 ): readonly ClubGradeResult[] {
     return rows.map(
         (row): ClubGradeResult => ({
-            year: row.year,
+            competitionName: row.competitionName,
+            drawn: row.drawn,
             gradeKey: row.gradeKey,
             gradeName: row.gradeName,
-            competitionName: row.competitionName,
             ladderPosition: row.ladderPosition,
+            lost: row.lost,
+            notes: row.notes,
+            percentage: row.percentage,
             teamCount: row.teamCount,
             won: row.won,
-            lost: row.lost,
-            drawn: row.drawn,
-            percentage: row.percentage,
-            notes: row.notes,
+            year: row.year,
         }),
     );
 }
@@ -47,9 +47,9 @@ function pointsForYears(
     return years.map((year): ClubTrendPoint => {
         const yearRows = rows.filter((row) => row.year === year);
         return {
-            year,
             strength: meanStrength(yearRows),
             teams: yearRows.length,
+            year,
         };
     });
 }
@@ -67,17 +67,17 @@ function buildClubTrend(
         (a, b) => a - b,
     );
     return {
-        overall: pointsForYears(ranked, rankedYears),
         bands: tiers.map(
             (tier): ClubBandTrend => ({
-                tier,
                 label: bandLabel(tier),
                 points: pointsForYears(
                     ranked.filter((row) => row.tier === tier),
                     rankedYears,
                 ),
+                tier,
             }),
         ),
+        overall: pointsForYears(ranked, rankedYears),
     };
 }
 

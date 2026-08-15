@@ -45,9 +45,9 @@ describe(clubRegistryFromExecutor, () => {
                 .find((club) => club.club_key === 'fixture-club-a'),
         ).toMatchObject({
             club_key: 'fixture-club-a',
-            name: 'Fixture Club A',
             established_year: '1975',
             home_venue: null,
+            name: 'Fixture Club A',
             playhq_id: KNOWN_PLAYHQ_ID,
         });
         expect(
@@ -55,8 +55,8 @@ describe(clubRegistryFromExecutor, () => {
                 .getAliases()
                 .find((alias) => alias.alias_text === 'Fixture Club A'),
         ).toMatchObject({
-            club_key: 'fixture-club-a',
             alias_text: 'Fixture Club A',
+            club_key: 'fixture-club-a',
             source: 'playhq',
         });
     });

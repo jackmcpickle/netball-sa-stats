@@ -27,9 +27,9 @@ export type RunImportError =
 const YEAR_TOKEN = /^\d{4}$/u;
 
 const startedFormatter = new Intl.DateTimeFormat('en-AU', {
-    timeZone: 'Australia/Adelaide',
     dateStyle: 'medium',
     timeStyle: 'short',
+    timeZone: 'Australia/Adelaide',
 });
 
 function formatStartedLabel(startedAt: number): string {
@@ -82,15 +82,15 @@ function parseWarnings(json: string | null): readonly string[] {
 function toRunDto(run: ImportRun, nowEpochSeconds: number): AdminRunDto {
     const warnings = parseWarnings(run.warningsJson);
     return {
-        id: run.id,
-        startedLabel: formatStartedLabel(run.startedAt),
-        status: run.status,
-        seasons: run.seasons,
-        grades: run.grades,
-        gamesCount: run.gamesCount,
-        warningCount: warnings.length,
         durationLabel: durationLabel(run, nowEpochSeconds),
         errorText: run.errorText,
+        gamesCount: run.gamesCount,
+        grades: run.grades,
+        id: run.id,
+        seasons: run.seasons,
+        startedLabel: formatStartedLabel(run.startedAt),
+        status: run.status,
+        warningCount: warnings.length,
         warnings,
     };
 }
@@ -124,9 +124,9 @@ export function createAdminService(
             const dtos = runs.map((run) => toRunDto(run, nowEpochSeconds));
             const runningRun = dtos.find((run) => run.status === 'running');
             return {
+                lastStatus: dtos[0]?.status ?? null,
                 running: !isUndefined(runningRun),
                 runningElapsedLabel: runningRun?.durationLabel ?? null,
-                lastStatus: dtos[0]?.status ?? null,
                 runs: dtos,
             };
         },
@@ -144,7 +144,7 @@ export function createAdminService(
             await deps.startImport(
                 isUndefined(years.value)
                     ? { games: true }
-                    : { years: years.value, games: true },
+                    : { games: true, years: years.value },
             );
             return ok(true);
         },

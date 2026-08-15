@@ -1,4 +1,3 @@
-import { isUndefined } from 'es-toolkit';
 /**
  * The domain object for "sort, page, and slice a table". `resolveTableState`,
  * `applyTableState`, `offsetFor`, and `pageCount` used to live as free
@@ -7,6 +6,7 @@ import { isUndefined } from 'es-toolkit';
  * `PAGE_SIZES`/`DEFAULT_PAGE_SIZE` constants stay in `pagination.ts` — they
  * are shape, not behaviour, and loaders still reference `TableState`.
  */
+import { isUndefined } from 'es-toolkit';
 import {
     DEFAULT_PAGE_SIZE,
     offsetFor,
@@ -69,7 +69,7 @@ function resolveTableState(raw: RawTableState, spec: TableSpec): TableState {
             : 1;
     const pageSize =
         PAGE_SIZES.find((size) => size === raw.pageSize) ?? DEFAULT_PAGE_SIZE;
-    return { sort, desc, page, pageSize };
+    return { desc, page, pageSize, sort };
 }
 
 export class TableQuery {
@@ -100,8 +100,8 @@ export class TableQuery {
         const offset = offsetFor(clamped.state);
         return {
             rows: sorted.slice(offset, offset + clamped.state.pageSize),
-            totalRows,
             state: clamped.state,
+            totalRows,
         };
     }
 
@@ -120,18 +120,18 @@ export class TableQuery {
         const clamped = this.clampedTo(totalRows);
         return {
             rows: await fetchRows(clamped.request()),
-            totalRows,
             state: clamped.state,
+            totalRows,
         };
     }
 
     /** The slice this query asks for, ready to hand to a repo. */
     public request(): PageRequest {
         return {
-            sort: this.state.sort,
             desc: this.state.desc,
             limit: this.state.pageSize,
             offset: offsetFor(this.state),
+            sort: this.state.sort,
         };
     }
 

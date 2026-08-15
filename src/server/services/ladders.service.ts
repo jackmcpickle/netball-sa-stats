@@ -1,7 +1,7 @@
-import { isNull, isUndefined } from 'es-toolkit';
 /**
  * Replaces `src/server/loaders/ladders.ts`.
  */
+import { isNull, isUndefined } from 'es-toolkit';
 import { LADDER_TABLE_SPEC } from '@/db/queries/grades';
 import type { Repos } from '@/server/container';
 import type { DomainError, Result } from '@/server/domain/result';
@@ -28,10 +28,10 @@ export function createLaddersService(repos: Repos): LaddersService {
             const year = coverage.resolveYear(params.year);
             if (isUndefined(year)) {
                 return ok({
-                    years: coverage.years(),
-                    year: null,
                     grades: [],
                     ladder: null,
+                    year: null,
+                    years: coverage.years(),
                 });
             }
             const grades = await repos.grades.forYear(year);
@@ -43,10 +43,10 @@ export function createLaddersService(repos: Repos): LaddersService {
 
             if (isUndefined(gradeKey)) {
                 return ok({
-                    years: coverage.years(),
-                    year,
                     grades,
                     ladder: null,
+                    year,
+                    years: coverage.years(),
                 });
             }
 
@@ -57,10 +57,10 @@ export function createLaddersService(repos: Repos): LaddersService {
             let grade: LadderDto['grade'] | null = null;
             const paged = await TableQuery.from(
                 {
-                    sort: params.sort,
                     dir: params.dir,
                     page: params.page,
                     pageSize: params.pageSize,
+                    sort: params.sort,
                 },
                 LADDER_TABLE_SPEC,
             ).page(
@@ -81,23 +81,23 @@ export function createLaddersService(repos: Repos): LaddersService {
 
             if (isNull(grade)) {
                 return ok({
-                    years: coverage.years(),
-                    year,
                     grades,
                     ladder: null,
+                    year,
+                    years: coverage.years(),
                 });
             }
 
             return ok({
-                years: coverage.years(),
-                year,
                 grades,
                 ladder: {
                     grade,
                     rows: paged.rows,
-                    totalRows: paged.totalRows,
                     tableState: paged.state,
+                    totalRows: paged.totalRows,
                 },
+                year,
+                years: coverage.years(),
             });
         },
     };

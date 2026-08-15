@@ -24,17 +24,17 @@ function emptyToNull(value: unknown): string | null {
 function toClubRow(row: Record<string, unknown>): ClubRow {
     return {
         club_key: cellText(row.club_key),
-        name: cellText(row.name),
         established_year: emptyToNull(row.established_year),
         home_venue: emptyToNull(row.home_venue),
+        name: cellText(row.name),
         playhq_id: emptyToNull(row.playhq_id),
     };
 }
 
 function toAliasRow(row: Record<string, unknown>): ClubAliasRow {
     return {
-        club_key: cellText(row.club_key),
         alias_text: cellText(row.alias_text),
+        club_key: cellText(row.club_key),
         source: cellText(row.source),
     };
 }

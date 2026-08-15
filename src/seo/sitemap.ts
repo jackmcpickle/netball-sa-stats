@@ -5,13 +5,13 @@
 import type { SitemapEntry } from '@/seo/agent-files';
 
 const STATIC_ENTRIES: readonly SitemapEntry[] = [
-    { path: '/', changefreq: 'daily', priority: '1.0' },
-    { path: '/ladders', changefreq: 'daily', priority: '0.9' },
-    { path: '/results', changefreq: 'daily', priority: '0.9' },
-    { path: '/clubs', changefreq: 'weekly', priority: '0.8' },
-    { path: '/head-to-head', changefreq: 'weekly', priority: '0.7' },
-    { path: '/method', changefreq: 'monthly', priority: '0.7' },
-    { path: '/about', changefreq: 'monthly', priority: '0.6' },
+    { changefreq: 'daily', path: '/', priority: '1.0' },
+    { changefreq: 'daily', path: '/ladders', priority: '0.9' },
+    { changefreq: 'daily', path: '/results', priority: '0.9' },
+    { changefreq: 'weekly', path: '/clubs', priority: '0.8' },
+    { changefreq: 'weekly', path: '/head-to-head', priority: '0.7' },
+    { changefreq: 'monthly', path: '/method', priority: '0.7' },
+    { changefreq: 'monthly', path: '/about', priority: '0.6' },
 ];
 
 export function buildSitemapEntries(
@@ -20,8 +20,8 @@ export function buildSitemapEntries(
     return [
         ...STATIC_ENTRIES,
         ...clubKeys.map((key) => ({
-            path: `/clubs/${key}`,
             changefreq: 'weekly' as const,
+            path: `/clubs/${key}`,
             priority: '0.6',
         })),
     ];

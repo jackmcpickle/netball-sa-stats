@@ -7,9 +7,9 @@ describe(describeDomainError, () => {
     it('describes not-found with the entity and key', () => {
         expect(
             describeDomainError({
-                kind: 'not-found',
                 entity: 'club',
                 key: 'nobody',
+                kind: 'not-found',
             }),
         ).toBe('No club found for "nobody"');
     });
@@ -17,9 +17,9 @@ describe(describeDomainError, () => {
     it('describes not-found for a season', () => {
         expect(
             describeDomainError({
-                kind: 'not-found',
                 entity: 'season',
                 key: '1999',
+                kind: 'not-found',
             }),
         ).toBe('No season found for "1999"');
     });
@@ -27,9 +27,9 @@ describe(describeDomainError, () => {
     it('describes not-found for a grade', () => {
         expect(
             describeDomainError({
-                kind: 'not-found',
                 entity: 'grade',
                 key: 'a1',
+                kind: 'not-found',
             }),
         ).toBe('No grade found for "a1"');
     });
@@ -48,9 +48,9 @@ describe(resolvePageResult, () => {
 
     it('throws a notFound() error for a not-found DomainError', () => {
         const notFoundError: DomainError = {
-            kind: 'not-found',
             entity: 'club',
             key: 'nobody',
+            kind: 'not-found',
         };
         // TanStack's `notFound()` returns a special object rather than an
         // `Error` instance, so assert on the thrown value's shape instead of

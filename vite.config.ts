@@ -122,10 +122,7 @@ export default defineConfig({
             'react-doctor/react-compiler-no-manual-memoization': 'off',
             // The repo imports named bindings from node builtins everywhere.
             'unicorn/import-style': 'off',
-            // Key order is load-bearing here: TanStack's `navigate`/route option
-            // objects infer from the order they are written, and object literals
-            // containing `await` change evaluation order when sorted.
-            'sort-keys': 'off',
+            'sort-keys': 'error',
             'typescript/consistent-type-definitions': 'error',
             // Measured: 17 findings, 12 files, and every one needs suppressing,
             // so per-file scoping would buy nothing. Eight are explicit

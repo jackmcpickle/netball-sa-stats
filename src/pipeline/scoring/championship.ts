@@ -1,4 +1,3 @@
-import { isNull } from 'es-toolkit';
 /**
  * The championship formula, and nothing else.
  *
@@ -8,6 +7,7 @@ import { isNull } from 'es-toolkit';
  * with no re-import. There is exactly one implementation of the formula and it
  * lives in this file — never in SQL.
  */
+import { isNull } from 'es-toolkit';
 
 /** One team's finish in one grade, with the weight resolved at query time. */
 export interface ScoringRow {
@@ -68,12 +68,12 @@ interface Accumulator {
 
 function emptyAccumulator(): Accumulator {
     return {
-        points: 0,
-        teams: 0,
-        won: 0,
         games: 0,
         hasRecord: false,
         minorPremierships: 0,
+        points: 0,
+        teams: 0,
+        won: 0,
     };
 }
 
@@ -126,6 +126,8 @@ export function rankClubs(
     const ordered = [...totals.entries()]
         .map(([clubKey, accumulator]) => ({
             clubKey,
+            gamesPlayed: accumulator.games,
+            minorPremierships: accumulator.minorPremierships,
             points: roundPoints(accumulator.points),
             teams: accumulator.teams,
             winPercentage: winRate(
@@ -133,8 +135,6 @@ export function rankClubs(
                 accumulator.games,
                 accumulator.hasRecord,
             ),
-            gamesPlayed: accumulator.games,
-            minorPremierships: accumulator.minorPremierships,
         }))
         .toSorted(
             (a, b) =>
@@ -179,8 +179,8 @@ export function rankSeasons(
     return [...byYear.keys()]
         .toSorted((a, b) => a - b)
         .map((year) => ({
-            year,
             totals: rankClubs(byYear.get(year) ?? []),
+            year,
         }));
 }
 
