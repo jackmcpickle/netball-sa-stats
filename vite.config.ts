@@ -130,9 +130,15 @@ export default defineConfig({
             // types breaks assignment to `Record<string, CsvValue>` all through
             // the CSV pipeline. The repo's `type` style stays.
             'typescript/consistent-type-definitions': ['error', 'type'],
-            // Both autofixes drop explicit `undefined` arguments even where the
-            // parameter is required; passing `undefined` deliberately is how
-            // "absent" is tested here.
+            // Measured: 17 findings, 12 files, and every one needs suppressing,
+            // so per-file scoping would buy nothing. Eight are explicit
+            // `undefined` arguments to *required* parameters (`ok(undefined)`,
+            // `seasonWanted(s, undefined)`, `formatNumber(undefined)`) — the
+            // autofix drops them and `tsc` fails with TS2554. Five are
+            // `return undefined;`, where the autofix's `return;` violates
+            // `consistent-return`, which this same preset enables. The last is
+            // not autofixable. es-toolkit's `isNil`/`isUndefined` do not help:
+            // they replace checks, and none of these are checks.
             'sonarjs/no-undefined-assignment': 'off',
             'unicorn/no-useless-undefined': 'off',
             // `ClubKey`/`GradeKey`/`CompetitionKey` are documented domain
