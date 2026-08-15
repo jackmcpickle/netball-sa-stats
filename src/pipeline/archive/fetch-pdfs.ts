@@ -37,8 +37,9 @@ async function fileExistsWithContent(path: string): Promise<boolean> {
 }
 
 async function sleep(ms: number): Promise<void> {
-    await new Promise((resolveSleep) => {
-        setTimeout(resolveSleep, ms);
+    // oxlint-disable-next-line promise/avoid-new, promise/param-names -- promisifying `setTimeout`, a callback timer API with no promise form.
+    await new Promise<void>((resolve) => {
+        setTimeout(resolve, ms);
     });
 }
 

@@ -30,6 +30,7 @@ describe('archive PDF source catalogue', () => {
             waybackTimestamp: '20161020050124',
         });
         expect(source?.originalUrl).toBe(
+            // oxlint-disable-next-line sonarjs/no-clear-text-protocols -- asserts the exact literal URL `sources.ts` builds; the AMND file host serves no TLS.
             'http://amnd.sa.netball.com.au/files/40002/files/2016%20AMND%20Final%20Premiership%20Placings.pdf',
         );
         expect(source?.waybackUrl).toBe(

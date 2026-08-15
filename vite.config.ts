@@ -135,6 +135,14 @@ export default defineConfig({
             // "absent" is tested here.
             'sonarjs/no-undefined-assignment': 'off',
             'unicorn/no-useless-undefined': 'off',
+            // `ClubKey`/`GradeKey`/`CompetitionKey` are documented domain
+            // aliases; collapsing them to `string` loses the intent.
+            'sonarjs/redundant-type-aliases': 'off',
+            // A three-member cap is wrong for enum-shaped domain unions
+            // (`'up' | 'down' | 'level' | 'new'`) and DTO cell types.
+            'sonarjs/max-union-size': 'off',
+            // The dev-only scripts shell out to `wrangler` from PATH on purpose.
+            'sonarjs/no-os-command-from-path': 'off',
             // Its autofix rewrites `toHaveBeenCalled()` as
             // `toHaveBeenCalledWith()`, which asserts "called with no arguments"
             // — a different, wrong assertion.
@@ -267,9 +275,17 @@ export default defineConfig({
         ],
         overrides: [
             {
-                files: ['**/*.test.ts', '**/*.test.tsx', '**/*.spec.ts'],
+                files: ['**/*.{test,spec}.{ts,tsx,js,jsx}'],
+                // Ultracite's vitest preset scopes its rules to an override that
+                // declares this plugin, so switching one off has to happen in an
+                // override of the same shape — a top-level rule never wins.
+                plugins: ['vitest'],
                 rules: {
                     'max-lines-per-function': 'off',
+                    // Ultracite's vitest preset scopes its rules to test globs,
+                    // so switching these off has to happen in an override too.
+                    // Table-driven contract tests are the point here.
+                    'vitest/max-expects': 'off',
                 },
             },
             {
@@ -290,6 +306,29 @@ export default defineConfig({
                 files: ['src/worker.ts'],
                 rules: {
                     'import/no-default-export': 'off',
+                },
+            },
+            {
+                // TanStack Start dictates these names: file routes export
+                // `Route`, and server handlers key off the HTTP verb.
+                files: ['src/routes/**'],
+                rules: {
+                    'sonarjs/function-name': 'off',
+                    'react-doctor/only-export-components': 'off',
+                },
+            },
+            {
+                // The PlayHQ ingestion boundary exists to carry unparsed JSON:
+                // `cachedGraphQL` returns the raw envelope so callers can tell
+                // "returned null" from "not fetched yet", `Record<string,
+                // unknown>` is the D1 driver's own row type, and the `typeof`
+                // checks here *are* the boundary parse these rules ask for.
+                files: ['src/pipeline/fetch/**', 'src/pipeline/import/**'],
+                rules: {
+                    'anti-slop/no-unknown-returns': 'off',
+                    'anti-slop/no-unknown-parameters': 'off',
+                    'anti-slop/no-unsafe-dictionary-type': 'off',
+                    'anti-slop/no-runtime-typeof': 'off',
                 },
             },
         ],

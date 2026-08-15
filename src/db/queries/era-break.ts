@@ -8,9 +8,13 @@ export function sourcesForYear(
     rows: readonly { readonly year: number; readonly source: string }[],
     year: number,
 ): ReadonlySet<string> {
-    return new Set(
-        rows.filter((row) => row.year === year).map((row) => row.source),
-    );
+    const sources = new Set<string>();
+    for (const row of rows) {
+        if (row.year === year) {
+            sources.add(row.source);
+        }
+    }
+    return sources;
 }
 
 export function placementBasesForYear(
@@ -20,11 +24,13 @@ export function placementBasesForYear(
     }[],
     year: number,
 ): ReadonlySet<string> {
-    return new Set(
-        rows
-            .filter((row) => row.year === year)
-            .map((row) => row.placementBasis),
-    );
+    const bases = new Set<string>();
+    for (const row of rows) {
+        if (row.year === year) {
+            bases.add(row.placementBasis);
+        }
+    }
+    return bases;
 }
 
 export function sameStringSet(
@@ -72,10 +78,7 @@ export function timelineGaps(rankedYears: readonly number[]): readonly {
     for (let i = 1; i < rankedYears.length; i += 1) {
         const prev = rankedYears[i - 1];
         const next = rankedYears[i];
-        if (prev === undefined || next === undefined) {
-            continue;
-        }
-        if (next - prev <= 1) {
+        if (prev === undefined || next === undefined || next - prev <= 1) {
             continue;
         }
         const missing: number[] = [];

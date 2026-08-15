@@ -18,12 +18,15 @@ export type SyntheticArchivePlayhqIdInput = {
 };
 
 export function normaliseArchiveClubName(name: string): string {
-    return name
-        .replaceAll(/([a-z])([A-Z])/gu, '$1 $2')
-        .toLowerCase()
-        .replaceAll(/[^a-z0-9]+/gu, ' ')
-        .replaceAll(/\s+/gu, ' ')
-        .trim();
+    return (
+        name
+            // Splits runs like "PortDistrict" into "Port District".
+            .replaceAll(/(?<lower>[a-z])(?<upper>[A-Z])/gu, '$<lower> $<upper>')
+            .toLowerCase()
+            .replaceAll(/[^a-z0-9]+/gu, ' ')
+            .replaceAll(/\s+/gu, ' ')
+            .trim()
+    );
 }
 
 function contextText(context: ResolveContext): string {
@@ -36,9 +39,13 @@ function contextText(context: ResolveContext): string {
     return `${String(context.year)}${grade}${position}`;
 }
 
-export function createArchiveClubResolver(aliases: readonly ClubAliasRow[]): {
+export type ArchiveClubResolver = {
     resolve: (name: string, context: ResolveContext) => string;
-} {
+};
+
+export function createArchiveClubResolver(
+    aliases: readonly ClubAliasRow[],
+): ArchiveClubResolver {
     const byAlias = new Map<string, string>();
     for (const alias of aliases) {
         const normalised = normaliseArchiveClubName(alias.alias_text);

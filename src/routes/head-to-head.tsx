@@ -53,22 +53,12 @@ const loadHeadToHead = createServerFn({ method: 'GET' })
         ),
     );
 
+const PATH = '/head-to-head';
+
 const DESCRIPTION =
     'Head-to-head records between South Australian netball clubs: every meeting since 2025, by grade band, with wins, losses and margins for both sides.';
 
 export const Route = createFileRoute('/head-to-head')({
-    head: () =>
-        pageHead({
-            title: 'Head to head',
-            description: DESCRIPTION,
-            path: '/head-to-head',
-            schema: [
-                breadcrumbSchema([
-                    { name: 'Home', path: '/' },
-                    { name: 'Head to head', path: '/head-to-head' },
-                ]),
-            ],
-        }),
     validateSearch: searchSchema,
     loaderDeps: ({ search }) => ({
         a: search.a,
@@ -78,5 +68,17 @@ export const Route = createFileRoute('/head-to-head')({
         ...tableSearchDeps(search),
     }),
     loader: async ({ deps }) => await loadHeadToHead({ data: deps }),
+    head: () =>
+        pageHead({
+            title: 'Head to head',
+            description: DESCRIPTION,
+            path: PATH,
+            schema: [
+                breadcrumbSchema([
+                    { name: 'Home', path: '/' },
+                    { name: 'Head to head', path: PATH },
+                ]),
+            ],
+        }),
     component: HeadToHeadPage,
 });

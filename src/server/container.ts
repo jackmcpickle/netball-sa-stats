@@ -7,29 +7,55 @@ import { notFound } from '@tanstack/react-router';
 import type { Db } from '@/db';
 import type { DomainError, Result } from '@/server/domain/result';
 import { createChampionshipRepo } from '@/server/repos/championship.repo';
+import type { ChampionshipRepo } from '@/server/repos/championship.repo';
 import { createClubsRepo } from '@/server/repos/clubs.repo';
+import type { ClubsRepo } from '@/server/repos/clubs.repo';
 import { createGamesRepo } from '@/server/repos/games.repo';
+import type { GamesRepo } from '@/server/repos/games.repo';
 import { createGradesRepo } from '@/server/repos/grades.repo';
+import type { GradesRepo } from '@/server/repos/grades.repo';
 import { createImportRunsRepo } from '@/server/repos/import-runs.repo';
+import type { ImportRunsRepo } from '@/server/repos/import-runs.repo';
 import { createSeasonsRepo } from '@/server/repos/seasons.repo';
+import type { SeasonsRepo } from '@/server/repos/seasons.repo';
 import { createWeightsRepo } from '@/server/repos/weights.repo';
+import type { WeightsRepo } from '@/server/repos/weights.repo';
 import { createAdminService } from '@/server/services/admin.service';
-import type { StartImport } from '@/server/services/admin.service';
+import type {
+    AdminService,
+    StartImport,
+} from '@/server/services/admin.service';
 import { createClubsService } from '@/server/services/clubs.service';
+import type { ClubsService } from '@/server/services/clubs.service';
 import { createHeadToHeadService } from '@/server/services/head-to-head.service';
+import type { HeadToHeadService } from '@/server/services/head-to-head.service';
 import { createLaddersService } from '@/server/services/ladders.service';
+import type { LaddersService } from '@/server/services/ladders.service';
 import { createMethodService } from '@/server/services/method.service';
+import type { MethodService } from '@/server/services/method.service';
 import { createRankingsService } from '@/server/services/rankings.service';
+import type { RankingsService } from '@/server/services/rankings.service';
 import { createResultsService } from '@/server/services/results.service';
+import type { ResultsService } from '@/server/services/results.service';
 
 export type Repos = {
-    readonly seasons: ReturnType<typeof createSeasonsRepo>;
-    readonly championship: ReturnType<typeof createChampionshipRepo>;
-    readonly clubs: ReturnType<typeof createClubsRepo>;
-    readonly grades: ReturnType<typeof createGradesRepo>;
-    readonly weights: ReturnType<typeof createWeightsRepo>;
-    readonly games: ReturnType<typeof createGamesRepo>;
-    readonly importRuns: ReturnType<typeof createImportRunsRepo>;
+    readonly seasons: SeasonsRepo;
+    readonly championship: ChampionshipRepo;
+    readonly clubs: ClubsRepo;
+    readonly grades: GradesRepo;
+    readonly weights: WeightsRepo;
+    readonly games: GamesRepo;
+    readonly importRuns: ImportRunsRepo;
+};
+
+export type Services = {
+    readonly rankings: RankingsService;
+    readonly ladders: LaddersService;
+    readonly clubs: ClubsService;
+    readonly method: MethodService;
+    readonly headToHead: HeadToHeadService;
+    readonly results: ResultsService;
+    readonly admin: AdminService;
 };
 
 function createRepos(db: Db): Repos {
@@ -51,15 +77,7 @@ async function defaultStartImport(): Promise<void> {
 export function createServices(
     db: Db,
     extras?: { startImport?: StartImport },
-): {
-    readonly rankings: ReturnType<typeof createRankingsService>;
-    readonly ladders: ReturnType<typeof createLaddersService>;
-    readonly clubs: ReturnType<typeof createClubsService>;
-    readonly method: ReturnType<typeof createMethodService>;
-    readonly headToHead: ReturnType<typeof createHeadToHeadService>;
-    readonly results: ReturnType<typeof createResultsService>;
-    readonly admin: ReturnType<typeof createAdminService>;
-} {
+): Services {
     const repos = createRepos(db);
     return {
         rankings: createRankingsService(repos),

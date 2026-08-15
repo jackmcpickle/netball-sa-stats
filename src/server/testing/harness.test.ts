@@ -3,6 +3,7 @@ import { describe, expect, it } from 'vitest';
 import { fetchResults } from '@/db/queries/results';
 import { clubs, competitions, gradeWeights } from '@/db/schema';
 import { seed } from '@/server/testing/fixtures';
+import type { SeedSpec } from '@/server/testing/fixtures';
 import { createTestDb } from '@/server/testing/harness';
 
 describe('test harness', () => {
@@ -66,17 +67,19 @@ describe('test harness', () => {
 
     it('rejects a duplicate competition key instead of silently merging', async () => {
         const db = createTestDb();
-        const spec = {
+        const spec: SeedSpec = {
             competitions: [
                 {
                     key: 'amnd',
                     name: 'AMND',
-                    seasons: [] as never[],
+                    seasons: [],
                 },
             ],
         };
         await seed(db, spec);
-        await expect(seed(db, spec)).rejects.toThrow();
+        await expect(seed(db, spec)).rejects.toThrow(
+            /Failed query: insert into "competitions"/u,
+        );
     });
 
     it('applies the latest migration (0003 unique team playhq index)', async () => {

@@ -18,6 +18,7 @@ const DESCRIPTION =
     'How the South Australian netball club championship is calculated: grade weightings, what counts as a ranked season, and the documented gaps in the data.';
 
 export const Route = createFileRoute('/method')({
+    loader: async () => await loadMethod(),
     // Annotated, not inferred — see the note on the club profile route.
     head: ({ loaderData }: { loaderData?: MethodPageDto }) =>
         pageHead({
@@ -36,6 +37,5 @@ export const Route = createFileRoute('/method')({
                 faqSchema(METHOD_FAQ),
             ],
         }),
-    loader: async () => await loadMethod(),
     component: MethodPage,
 });

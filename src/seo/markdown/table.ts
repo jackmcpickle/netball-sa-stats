@@ -9,7 +9,7 @@ export function formatCell(value: string | number | null | undefined): string {
     if (value === null || value === undefined) {
         return '—';
     }
-    return cell(typeof value === 'number' ? String(value) : value);
+    return cell(String(value));
 }
 
 export function table(

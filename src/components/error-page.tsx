@@ -22,8 +22,9 @@ export function ErrorPage(): JSX.Element {
                         This page could not be loaded
                     </h1>
                     <p className="mx-auto mt-4 max-w-[52ch] leading-relaxed text-ink-body">
-                        That's on us, not you — the data behind this page didn't
-                        come back as expected. Try again in a moment.
+                        That&rsquo;s on us, not you — the data behind this page
+                        didn&rsquo;t come back as expected. Try again in a
+                        moment.
                     </p>
                     <Link
                         to="/"

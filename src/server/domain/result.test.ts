@@ -5,16 +5,18 @@ describe('Result', () => {
     it('ok narrows to the value branch', () => {
         const result = ok(42);
         expect(result.ok).toBeTruthy();
-        if (result.ok) {
-            expect(result.value).toBe(42);
+        if (!result.ok) {
+            throw new Error('expected ok');
         }
+        expect(result.value).toBe(42);
     });
 
     it('err narrows to the error branch', () => {
         const result = err('bad');
         expect(result.ok).toBeFalsy();
-        if (!result.ok) {
-            expect(result.error).toBe('bad');
+        if (result.ok) {
+            throw new Error('expected err');
         }
+        expect(result.error).toBe('bad');
     });
 });

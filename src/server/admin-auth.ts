@@ -24,6 +24,8 @@ function timingSafeEqual(left: Uint8Array, right: Uint8Array): boolean {
     if (left.byteLength !== right.byteLength) {
         return false;
     }
+    // SAFETY: the widening only adds an optional member, and the guard on the
+    // next line checks `subtle.timingSafeEqual` before it is ever invoked.
     const subtle = crypto.subtle as SubtleCrypto & {
         timingSafeEqual?: (a: ArrayBufferView, b: ArrayBufferView) => boolean;
     };
@@ -67,6 +69,7 @@ export async function passwordsMatch(
         return false;
     }
     const submittedDigest = await hmacBytes(sessionSecret, submitted);
+    // oxlint-disable-next-line react-doctor/server-sequential-independent-await -- sequential, unconditional HMACs keep the comparison's timing independent of the input
     const storedDigest = await hmacBytes(sessionSecret, stored);
     return timingSafeEqual(submittedDigest, storedDigest);
 }

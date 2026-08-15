@@ -1,6 +1,7 @@
 import { WorkflowEntrypoint } from 'cloudflare:workers';
 import type { WorkflowEvent, WorkflowStep } from 'cloudflare:workers';
 import { drizzle } from 'drizzle-orm/d1';
+// oxlint-disable-next-line sonarjs/no-wildcard-import -- drizzle's `{ schema }` option takes the whole table namespace; naming each table here would drift silently.
 import * as schema from '@/db/schema';
 import { createR2Store } from '@/pipeline/fetch/r2-store';
 import { createD1Executor } from '@/pipeline/import/d1-executor';

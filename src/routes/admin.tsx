@@ -18,6 +18,9 @@ import {
 import { readAdminSecrets } from '@/server/admin-env';
 import { createServices } from '@/server/container';
 
+const ADMIN_PATH = '/admin';
+const ADMIN_LOGIN_PATH = '/admin/login';
+
 export const ensureAdminSession = createServerFn({ method: 'GET' })
     .validator(z.object({ next: z.string().optional() }))
     .handler(async ({ data }) => {
@@ -29,21 +32,21 @@ export const ensureAdminSession = createServerFn({ method: 'GET' })
             !(await verifySession(cookie, sessionSecret, nowEpochSeconds))
         ) {
             throw redirect({
-                to: '/admin/login',
-                search: { next: data.next ?? '/admin' },
+                to: ADMIN_LOGIN_PATH,
+                search: { next: data.next ?? ADMIN_PATH },
             });
         }
     });
 
 export const loadAdmin = createServerFn({ method: 'GET' }).handler(async () => {
-    await ensureAdminSession({ data: { next: '/admin' } });
+    await ensureAdminSession({ data: { next: ADMIN_PATH } });
     return await createServices(getDb()).admin.getPage();
 });
 
 export const runImport = createServerFn({ method: 'POST' })
     .validator(z.object({ yearsText: z.string() }))
     .handler(async ({ data }) => {
-        await ensureAdminSession({ data: { next: '/admin' } });
+        await ensureAdminSession({ data: { next: ADMIN_PATH } });
         return await createServices(getDb(), {
             startImport: startPlayHqImport,
         }).admin.runImport(data.yearsText);
@@ -51,7 +54,7 @@ export const runImport = createServerFn({ method: 'POST' })
 
 export const logout = createServerFn({ method: 'POST' }).handler(async () => {
     setResponseHeader('Set-Cookie', clearSessionCookieHeader());
-    throw redirect({ to: '/admin/login' });
+    throw redirect({ to: ADMIN_LOGIN_PATH });
 });
 
 export const loginAdmin = createServerFn({ method: 'POST' })
@@ -66,7 +69,7 @@ export const loginAdmin = createServerFn({ method: 'POST' })
         const { next } = data;
         if (password.length === 0 || sessionSecret.length === 0) {
             throw redirect({
-                to: '/admin/login',
+                to: ADMIN_LOGIN_PATH,
                 search: { error: '1', next },
             });
         }
@@ -77,7 +80,7 @@ export const loginAdmin = createServerFn({ method: 'POST' })
         );
         if (!matched) {
             throw redirect({
-                to: '/admin/login',
+                to: ADMIN_LOGIN_PATH,
                 search: { error: '1', next },
             });
         }
@@ -87,7 +90,7 @@ export const loginAdmin = createServerFn({ method: 'POST' })
         if (next !== undefined && next.startsWith('/admin')) {
             throw redirect({ href: next });
         }
-        throw redirect({ to: '/admin' });
+        throw redirect({ to: ADMIN_PATH });
     });
 
 function AdminLayout(): JSX.Element {
@@ -95,18 +98,18 @@ function AdminLayout(): JSX.Element {
 }
 
 export const Route = createFileRoute('/admin')({
-    head: () =>
-        pageHead({
-            title: 'Admin',
-            description: 'Import controls for the netball dataset.',
-            path: '/admin',
-            noIndex: true,
-        }),
     beforeLoad: async ({ location }) => {
-        if (location.pathname === '/admin/login') {
+        if (location.pathname === ADMIN_LOGIN_PATH) {
             return;
         }
         await ensureAdminSession({ data: { next: location.pathname } });
     },
+    head: () =>
+        pageHead({
+            title: 'Admin',
+            description: 'Import controls for the netball dataset.',
+            path: ADMIN_PATH,
+            noIndex: true,
+        }),
     component: AdminLayout,
 });

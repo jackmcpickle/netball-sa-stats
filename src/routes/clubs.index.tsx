@@ -29,6 +29,10 @@ const DESCRIPTION =
     'Every South Australian netball club in the dataset, with the seasons it competed in and its championship record — including clubs no longer fielding teams.';
 
 export const Route = createFileRoute('/clubs/')({
+    validateSearch: searchSchema,
+    loaderDeps: ({ search }) => ({ includePast: search.includePast }),
+    loader: async ({ deps }) =>
+        await loadClubs({ data: { includePast: deps.includePast } }),
     head: () =>
         pageHead({
             title: 'Clubs',
@@ -41,9 +45,5 @@ export const Route = createFileRoute('/clubs/')({
                 ]),
             ],
         }),
-    validateSearch: searchSchema,
-    loaderDeps: ({ search }) => ({ includePast: search.includePast }),
-    loader: async ({ deps }) =>
-        await loadClubs({ data: { includePast: deps.includePast } }),
     component: ClubIndexPage,
 });

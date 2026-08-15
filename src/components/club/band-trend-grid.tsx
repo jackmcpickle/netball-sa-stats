@@ -2,12 +2,14 @@ import type { JSX } from 'react';
 import { accentText } from '@/components/accent';
 import { bandX, linePath, round } from '@/components/charts/scale';
 import type { LinePoint, Plot } from '@/components/charts/scale';
-import { strengthPath } from '@/components/charts/trend-chart';
+import { strengthPath } from '@/components/charts/trend-path';
+import type { BandSummary } from '@/components/club/band-summaries';
+import {
+    bandSummaries,
+    windowSizeLabel,
+} from '@/components/club/band-summaries';
 import { NO_VALUE } from '@/components/format';
-import type {
-    ClubBandTrend,
-    ClubTrendPoint,
-} from '@/server/dto/club-profile.dto';
+import type { ClubBandTrend } from '@/server/dto/club-profile.dto';
 import type { AccentName } from '@/server/dto/shared.dto';
 
 const PLOT: Plot = { x0: 3, x1: 237, y0: 5, y1: 51 };
@@ -29,82 +31,27 @@ function formatStrength(strength: number | null): string {
     return strength === null ? NO_VALUE : strength.toFixed(3);
 }
 
-/**
- * Mean of a window of measured seasons. Comparing single endpoints lets one
- * fluke season (a debut last place, say) read as a dramatic swing, so both
- * ends of the trend are averaged over up to three seasons instead. Bands
- * with fewer than six measured seasons let the windows overlap — still more
- * robust than a two-point comparison.
- */
-function windowMean(points: readonly ClubTrendPoint[]): number {
-    const total = points.reduce((sum, point) => sum + (point.strength ?? 0), 0);
-    return total / points.length;
+/** Direction word for a change figure; exact zero reads as "Level". */
+function changeDirection(change: number): string {
+    if (change > 0) {
+        return 'Up';
+    }
+    if (change < 0) {
+        return 'Down';
+    }
+    return 'Level';
 }
 
-export type BandSummary = {
-    readonly tier: number;
-    readonly label: string;
-    readonly points: readonly ClubTrendPoint[];
-    readonly measured: readonly ClubTrendPoint[];
-    readonly latest: ClubTrendPoint;
-    readonly first: ClubTrendPoint;
-    readonly change: number | null;
-    readonly windowSize: number;
-};
-
-/**
- * Words the number of seasons averaged into each end of the change figure
- * ("its first season" / "its first two measured seasons" / "its first three
- * measured seasons") so the caption never claims a window wider than what
- * was actually available.
- */
-export function windowSizeLabel(windowSize: number): string {
-    if (windowSize === 1) {
-        return 'its first season';
+/** The trailing sentence of a band caption: how the band has moved. */
+function changeSentence(band: BandSummary): string {
+    if (band.change === null) {
+        return 'One measured season.';
     }
-    if (windowSize === 2) {
-        return 'its first two measured seasons';
-    }
-    return 'its first three measured seasons';
-}
-
-/**
- * Drop the bands the club never got a measurable result in, and precompute the
- * figures each cell prints. Tier order is set upstream (strongest first) and is
- * preserved here.
- */
-export function bandSummaries(
-    bands: readonly ClubBandTrend[],
-): readonly BandSummary[] {
-    return bands.flatMap((band): BandSummary[] => {
-        const measured = band.points.filter((point) => point.strength !== null);
-        const latest = measured.at(-1);
-        const first = measured[0];
-        if (!latest || !first) {
-            return [];
-        }
-        const windowSize = Math.min(3, measured.length - 1);
-        const startWindow = measured.slice(0, windowSize);
-        const endWindow = measured.slice(measured.length - windowSize);
-        return [
-            {
-                tier: band.tier,
-                label: band.label,
-                points: band.points,
-                measured,
-                latest,
-                first,
-                change:
-                    measured.length > 1
-                        ? round(
-                              windowMean(endWindow) - windowMean(startWindow),
-                              3,
-                          )
-                        : null,
-                windowSize,
-            },
-        ];
-    });
+    const direction = changeDirection(band.change);
+    const magnitude = Math.abs(band.change).toFixed(3);
+    const window = windowSizeLabel(band.windowSize);
+    const seasons = String(band.measured.length);
+    return `${direction} ${magnitude} on ${window}, across ${seasons} measured seasons.`;
 }
 
 type BandTrendGridProps = {
@@ -166,7 +113,7 @@ export function BandTrendGrid({
                             />
                             <g className={stroke}>
                                 {strengthPath(band.points).map((segment) => {
-                                    const head = segment[0];
+                                    const [head] = segment;
                                     if (!head) {
                                         return null;
                                     }
@@ -214,11 +161,7 @@ export function BandTrendGrid({
                         </svg>
 
                         <p className="mt-2 text-[13px] text-ink-muted">
-                            {`${clubName} in ${band.label}: strength ${formatStrength(band.latest.strength)} in ${String(band.latest.year)} from ${String(band.latest.teams)} ${band.latest.teams === 1 ? 'team' : 'teams'}. ${
-                                band.change === null
-                                    ? 'One measured season.'
-                                    : `${band.change > 0 ? 'Up' : band.change < 0 ? 'Down' : 'Level'} ${Math.abs(band.change).toFixed(3)} on ${windowSizeLabel(band.windowSize)}, across ${String(band.measured.length)} measured seasons.`
-                            }`}
+                            {`${clubName} in ${band.label}: strength ${formatStrength(band.latest.strength)} in ${String(band.latest.year)} from ${String(band.latest.teams)} ${band.latest.teams === 1 ? 'team' : 'teams'}. ${changeSentence(band)}`}
                         </p>
                     </li>
                 );

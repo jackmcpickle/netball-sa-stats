@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import {
     describeTrendSlot,
     strengthPath,
-} from '@/components/charts/trend-chart';
+} from '@/components/charts/trend-path';
 
 describe(strengthPath, () => {
     it('breaks the line where strength is null', () => {

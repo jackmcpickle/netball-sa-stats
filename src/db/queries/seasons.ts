@@ -9,7 +9,7 @@ import type { Db } from '@/db';
 import { competitions, seasons } from '@/db/schema';
 import type { SeasonRow } from '@/server/domain/coverage';
 
-export type { SeasonRow };
+export type { SeasonRow } from '@/server/domain/coverage';
 
 export async function fetchSeasons(db: Db): Promise<readonly SeasonRow[]> {
     return await db

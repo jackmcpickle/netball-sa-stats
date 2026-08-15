@@ -18,6 +18,9 @@ class MemoryR2 {
             return null;
         }
         return {
+            // SAFETY: `hit.body` was produced by `JSON.stringify` in this
+            // class's own `put`; widening `JSON.parse`'s `any` back to
+            // `unknown` matches `R2ObjectBody.json`'s contract.
             json: async () => JSON.parse(hit.body) as unknown,
             customMetadata: { capturedAtMs: hit.capturedAtMs },
         };
@@ -48,7 +51,16 @@ class MemoryR2 {
     }
 }
 
+/**
+ * `MemoryR2` implements only the three members `createR2Store` calls
+ * (`get`/`head`/`put`), so it cannot structurally satisfy the full `R2Bucket`
+ * interface. This is the one place that gap is bridged.
+ */
 function storeOf(bucket: MemoryR2): CaptureStore {
+    // SAFETY: `createR2Store` reads exactly `get`, `head` and `put`, and
+    // `MemoryR2` declares all three with matching signatures — checked by the
+    // class's own type annotations directly above.
+    // oxlint-disable-next-line anti-slop/no-chained-type-assertions -- a hand-rolled double for a Cloudflare runtime interface: there is no narrower type to keep.
     return createR2Store(bucket as unknown as R2Bucket);
 }
 

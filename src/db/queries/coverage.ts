@@ -18,14 +18,14 @@ export const IS_SAMPLE_DATA = false;
  * Short forms for tight table cells. Not in the database: it is presentation,
  * and inventing an abbreviation by truncating the name reads badly.
  */
-const SHORT_NAMES: Readonly<Record<string, string>> = {
-    amnd: 'AMND',
-    premier_league: 'Premier League',
-    premier_league_reserves: 'PL Reserves',
-};
+const SHORT_NAMES = new Map<string, string>([
+    ['amnd', 'AMND'],
+    ['premier_league', 'Premier League'],
+    ['premier_league_reserves', 'PL Reserves'],
+]);
 
 export function toCompetition(key: string, name: string): Competition {
-    return { key, name, shortName: SHORT_NAMES[key] ?? name };
+    return { key, name, shortName: SHORT_NAMES.get(key) ?? name };
 }
 
 function seasonCoverage(
@@ -60,15 +60,21 @@ export function coverageChangeNote(
     rows: readonly SeasonRow[],
 ): CoverageChange | null {
     const years = CoverageDomain.from(rows).years();
-    const firstYear = years[0];
+    const [firstYear] = years;
     if (firstYear === undefined) {
         return null;
     }
     const firstAppearance = new Map<string, number>();
+    // First-wins, matching the `rows.find` this replaced: the name is the one
+    // carried by the earliest row for that key.
+    const nameByKey = new Map<string, string>();
     for (const row of rows) {
         const known = firstAppearance.get(row.competitionKey);
         if (known === undefined || row.startYear < known) {
             firstAppearance.set(row.competitionKey, row.startYear);
+        }
+        if (!nameByKey.has(row.competitionKey)) {
+            nameByKey.set(row.competitionKey, row.competitionName);
         }
     }
     const laterYears = [...firstAppearance.values()].filter(
@@ -78,12 +84,14 @@ export function coverageChangeNote(
         return null;
     }
     const changeYear = Math.min(...laterYears);
-    const addedCompetitions = [...firstAppearance.entries()]
-        .filter(([, year]) => year === changeYear)
-        .map(([key]) => {
-            const named = rows.find((row) => row.competitionKey === key);
-            return SHORT_NAMES[key] ?? named?.competitionName ?? key;
-        });
+    const addedCompetitions: string[] = [];
+    for (const [key, year] of firstAppearance) {
+        if (year === changeYear) {
+            addedCompetitions.push(
+                SHORT_NAMES.get(key) ?? nameByKey.get(key) ?? key,
+            );
+        }
+    }
     return { year: changeYear, addedCompetitions };
 }
 
@@ -94,10 +102,11 @@ export function buildCoverage(
     const coverage = CoverageDomain.from(rows);
     const years = coverage.years();
     const ranked = coverage.rankedYears();
+    const rankedSet = new Set(ranked);
     const keys = [...new Set(rows.map((row) => row.competitionKey))];
     const sourceByYear = new Map<number, Set<string>>();
     for (const row of rows) {
-        if (!ranked.includes(row.startYear)) {
+        if (!rankedSet.has(row.startYear)) {
             continue;
         }
         const set = sourceByYear.get(row.startYear) ?? new Set<string>();

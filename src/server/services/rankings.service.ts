@@ -42,14 +42,15 @@ function rankSeries(
     const clubs = new Map<string, Club>();
     for (const season of history) {
         for (const row of season.rows) {
+            const clubKey = row.club.key;
             careerPoints.set(
-                row.club.key,
-                (careerPoints.get(row.club.key) ?? 0) + row.points,
+                clubKey,
+                (careerPoints.get(clubKey) ?? 0) + row.points,
             );
-            clubs.set(row.club.key, row.club);
+            clubs.set(clubKey, row.club);
         }
     }
-    const ordered = [...careerPoints.entries()].sort((a, b) => b[1] - a[1]);
+    const ordered = [...careerPoints.entries()].toSorted((a, b) => b[1] - a[1]);
     const keys = ordered.slice(0, limit).map(([key]) => key);
     return keys.flatMap((key) => {
         const club = clubs.get(key);
@@ -57,11 +58,13 @@ function rankSeries(
     });
 }
 
-export function createRankingsService(repos: Repos): {
-    getPage(
+export type RankingsService = {
+    readonly getPage: (
         params: RankingsParams,
-    ): Promise<Result<RankingsPageDto, DomainError>>;
-} {
+    ) => Promise<Result<RankingsPageDto, DomainError>>;
+};
+
+export function createRankingsService(repos: Repos): RankingsService {
     return {
         async getPage(
             params: RankingsParams,
@@ -75,9 +78,8 @@ export function createRankingsService(repos: Repos): {
             ) {
                 resolvedYear = params.season;
             } else {
-                const latest = (
-                    await repos.seasons.coverage()
-                ).latestRankedYear();
+                const seasonCoverage = await repos.seasons.coverage();
+                const latest = seasonCoverage.latestRankedYear();
                 if (!latest.ok) {
                     return latest;
                 }
@@ -104,12 +106,15 @@ export function createRankingsService(repos: Repos): {
                 ),
             );
             const previousYear = championship.value.previousYear(rankedYears);
-            const clubs = await repos.clubs.all();
-            const gradesByYear = await Promise.all(
-                coverage.years.map(
-                    async (gradeYear) => await repos.grades.forYear(gradeYear),
+            const [clubs, gradesByYear] = await Promise.all([
+                repos.clubs.all(),
+                Promise.all(
+                    coverage.years.map(
+                        async (gradeYear) =>
+                            await repos.grades.forYear(gradeYear),
+                    ),
                 ),
-            );
+            ]);
             const worstRank = Math.max(
                 1,
                 ...history.map((season) => season.rows.length),

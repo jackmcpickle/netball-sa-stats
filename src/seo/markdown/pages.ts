@@ -20,6 +20,13 @@ import type { RankingsPageDto } from '@/server/dto/rankings.dto';
 import type { ResultsPageDto } from '@/server/dto/results.dto';
 import type { Coverage } from '@/server/dto/shared.dto';
 
+/** `Name (\`key\`)` for each grade, for the "Available" footer sections. */
+function gradeListing(
+    grades: readonly { readonly name: string; readonly key: string }[],
+): string {
+    return grades.map((grade) => `${grade.name} (\`${grade.key}\`)`).join(', ');
+}
+
 function header(input: {
     readonly title: string;
     readonly description: string;
@@ -177,7 +184,7 @@ export function renderLadders(data: LaddersPageDto): string {
             '## Available',
             `Seasons: ${data.years.join(', ')}.`,
             '',
-            `Grades in ${data.year ?? '—'}: ${data.grades.map((grade) => `${grade.name} (\`${grade.key}\`)`).join(', ')}.`,
+            `Grades in ${data.year ?? '—'}: ${gradeListing(data.grades)}.`,
             '',
             'Add `?year=YYYY&grade=GRADE_KEY` to this URL for another ladder.',
         ),
@@ -219,7 +226,7 @@ export function renderResults(data: ResultsPageDto): string {
             '## Available',
             `Seasons: ${data.years.join(', ')}.`,
             '',
-            `Grades in ${data.year ?? '—'}: ${data.grades.map((grade) => `${grade.name} (\`${grade.key}\`)`).join(', ')}.`,
+            `Grades in ${data.year ?? '—'}: ${gradeListing(data.grades)}.`,
             '',
             'Add `?year=YYYY&grade=GRADE_KEY` to this URL for another grade.',
         ),

@@ -81,7 +81,8 @@ describe(createImportRunsRepo, () => {
         });
 
         await expect(repo.hasRunning()).resolves.toBeFalsy();
-        expect((await repo.list())[0]).toMatchObject({
+        const [afterSkipped] = await repo.list();
+        expect(afterSkipped).toMatchObject({
             id: skippedId,
             status: 'skipped',
             finishedAt: 101,
@@ -96,8 +97,9 @@ describe(createImportRunsRepo, () => {
         await repo.markSkipped(runningId, 201);
 
         await expect(repo.hasRunning()).resolves.toBeFalsy();
+        const afterMarkSkipped = await repo.list();
         expect(
-            (await repo.list()).find((run) => run.id === runningId),
+            afterMarkSkipped.find((run) => run.id === runningId),
         ).toMatchObject({
             status: 'skipped',
             finishedAt: 201,
@@ -128,9 +130,8 @@ describe(createImportRunsRepo, () => {
 
         await repo.markError(staleId, 2000, 'boom');
         await expect(repo.hasRunning()).resolves.toBeTruthy();
-        expect(
-            (await repo.list()).find((run) => run.id === staleId),
-        ).toMatchObject({
+        const afterMarkError = await repo.list();
+        expect(afterMarkError.find((run) => run.id === staleId)).toMatchObject({
             status: 'error',
             finishedAt: 2000,
             errorText: 'boom',

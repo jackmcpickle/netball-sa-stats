@@ -125,11 +125,12 @@ function toResultRow(raw: Record<string, CsvValue>): TeamSeasonResultImportRow {
  * `writeGamesCsvs`); fall back to `played_at`'s UTC year.
  */
 function gamesFileOf(row: GameRow): string {
-    const fromKey = /-(?:winter|summer|annual)-(\d{4})(?:-|$)/u.exec(
-        row.grade_key,
-    );
-    if (fromKey?.[1] !== undefined) {
-        return `games-${fromKey[1]}.csv`;
+    const startYear =
+        /-(?:winter|summer|annual)-(?<startYear>\d{4})(?:-|$)/u.exec(
+            row.grade_key,
+        )?.groups?.startYear;
+    if (startYear !== undefined) {
+        return `games-${startYear}.csv`;
     }
     if (row.played_at !== null) {
         return `games-${new Date(row.played_at * 1000).getUTCFullYear()}.csv`;

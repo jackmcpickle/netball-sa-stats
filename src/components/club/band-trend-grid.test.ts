@@ -3,7 +3,7 @@ import { round } from '@/components/charts/scale';
 import {
     bandSummaries,
     windowSizeLabel,
-} from '@/components/club/band-trend-grid';
+} from '@/components/club/band-summaries';
 
 describe(bandSummaries, () => {
     it('drops a band with no measured season', () => {

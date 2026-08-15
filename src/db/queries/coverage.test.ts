@@ -59,7 +59,7 @@ describe(coverageChangeNote, () => {
         ];
         const note = coverageChangeNote(rows);
         expect(note?.year).toBe(2020);
-        expect([...(note?.addedCompetitions ?? [])].sort()).toStrictEqual([
+        expect((note?.addedCompetitions ?? []).toSorted()).toStrictEqual([
             'PL Reserves',
             'Premier League',
         ]);

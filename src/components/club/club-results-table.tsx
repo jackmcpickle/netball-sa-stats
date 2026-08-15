@@ -28,16 +28,18 @@ function renderCompetitionCell(result: ClubGradeResult): ReactNode {
     return result.competitionName;
 }
 
+/** Premiership wins read as a rise, other podium finishes as plain ink. */
+function positionTone(ladderPosition: number): string {
+    if (ladderPosition === 1) {
+        return 'text-rise';
+    }
+    return ladderPosition <= 3 ? 'text-ink' : 'text-ink-muted';
+}
+
 function renderPositionCell(result: ClubGradeResult): ReactNode {
     return (
         <span
-            className={`numeric font-semibold ${
-                result.ladderPosition === 1
-                    ? 'text-rise'
-                    : result.ladderPosition <= 3
-                      ? 'text-ink'
-                      : 'text-ink-muted'
-            }`}
+            className={`numeric font-semibold ${positionTone(result.ladderPosition)}`}
         >
             {formatPosition(result.ladderPosition, result.teamCount)}
         </span>

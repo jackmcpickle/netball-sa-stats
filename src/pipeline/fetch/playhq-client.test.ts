@@ -36,9 +36,7 @@ describe(cachedGraphQL, () => {
             ]),
         );
         vi.spyOn(globalThis, 'fetch').mockResolvedValue(
-            new Response(JSON.stringify({ data: { fresh: true } }), {
-                status: 200,
-            }),
+            Response.json({ data: { fresh: true } }, { status: 200 }),
         );
         const result = await cachedGraphQL(
             store,

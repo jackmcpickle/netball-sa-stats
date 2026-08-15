@@ -135,7 +135,7 @@ export function rankClubs(
             gamesPlayed: accumulator.games,
             minorPremierships: accumulator.minorPremierships,
         }))
-        .sort(
+        .toSorted(
             (a, b) =>
                 b.points - a.points ||
                 b.minorPremierships - a.minorPremierships ||
@@ -176,7 +176,7 @@ export function rankSeasons(
         }
     }
     return [...byYear.keys()]
-        .sort((a, b) => a - b)
+        .toSorted((a, b) => a - b)
         .map((year) => ({
             year,
             totals: rankClubs(byYear.get(year) ?? []),

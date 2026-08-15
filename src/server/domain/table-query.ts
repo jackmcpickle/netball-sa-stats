@@ -45,17 +45,23 @@ export type PagedResult<T> = {
  * in-memory comparators. Everything unrecognised silently falls back: a
  * hostile URL gets the default view, not a 500.
  */
+/** `asc`/`desc` win; anything else (including absent) takes the default. */
+function resolveDesc(dir: string | undefined, fallback: boolean): boolean {
+    if (dir === 'asc') {
+        return false;
+    }
+    if (dir === 'desc') {
+        return true;
+    }
+    return fallback;
+}
+
 function resolveTableState(raw: RawTableState, spec: TableSpec): TableState {
     const sort =
         raw.sort !== undefined && spec.sortable.includes(raw.sort)
             ? raw.sort
             : spec.defaultSort;
-    const desc =
-        raw.dir === 'asc'
-            ? false
-            : raw.dir === 'desc'
-              ? true
-              : spec.defaultDesc;
+    const desc = resolveDesc(raw.dir, spec.defaultDesc);
     const page =
         raw.page !== undefined && Number.isInteger(raw.page) && raw.page > 0
             ? raw.page

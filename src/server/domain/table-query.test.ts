@@ -58,7 +58,7 @@ type Row = {
 
 function identitySort(rows: readonly Row[], q: TableQuery): readonly Row[] {
     const direction = q.state.desc ? -1 : 1;
-    return [...rows].sort((a, b) => (a.id - b.id) * direction);
+    return rows.toSorted((a, b) => (a.id - b.id) * direction);
 }
 
 function rowsOf(count: number): Row[] {
@@ -114,7 +114,7 @@ describe('TableQuery end-to-end: consecutive pages are disjoint and cover every 
             }
         }
         expect(seen.size).toBe(totalRows);
-        expect([...seen].sort((a, b) => a - b)).toStrictEqual(
+        expect([...seen].toSorted((a, b) => a - b)).toStrictEqual(
             all.map((row) => row.id),
         );
     });
@@ -124,7 +124,7 @@ describe('TableQuery#page', () => {
     function pagedRowsOf(count: number) {
         return async (request: PageRequest): Promise<readonly Row[]> => {
             const all = rowsOf(count);
-            const sorted = request.desc ? [...all].reverse() : all;
+            const sorted = request.desc ? all.toReversed() : all;
             return sorted.slice(request.offset, request.offset + request.limit);
         };
     }

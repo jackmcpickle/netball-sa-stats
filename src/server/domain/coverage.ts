@@ -30,7 +30,7 @@ export class Coverage {
 
     /** Every year the site holds any data for, ascending. */
     public years(): readonly number[] {
-        return [...new Set(this.rows.map((row) => row.startYear))].sort(
+        return [...new Set(this.rows.map((row) => row.startYear))].toSorted(
             (a, b) => a - b,
         );
     }

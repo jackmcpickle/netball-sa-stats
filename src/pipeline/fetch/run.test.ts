@@ -24,6 +24,9 @@ const ladderFixturePath = resolve(
 );
 
 function loadStandings(): readonly Standing[] {
+    // SAFETY: this repo's own committed PlayHQ probe capture, the recorded
+    // `gradeLadder` response; the asserted shape is the same one `collect.ts`
+    // reads that capture back as, and `discoverGrade` is null-checked below.
     const response = JSON.parse(
         readFileSync(ladderFixturePath, 'utf-8'),
     ) as GradeLadderResponse;
@@ -72,38 +75,38 @@ describe(resolveCompetitionKey, () => {
     });
 });
 
-describe(seasonWanted, () => {
-    function season(
-        startDate: string,
-        status: string,
-    ): {
-        startDate: string;
-        status: { value: string };
-    } {
-        return { startDate, status: { value: status } };
-    }
+/** The slice of a PlayHQ season entry `seasonWanted` actually reads. */
+type SeasonProbe = {
+    startDate: string;
+    status: { value: string };
+};
 
+function seasonProbe(startDate: string, status: string): SeasonProbe {
+    return { startDate, status: { value: status } };
+}
+
+describe(seasonWanted, () => {
     it('keeps only active seasons when no years are requested', () => {
         expect(
-            seasonWanted(season('2026-04-01', 'ACTIVE'), undefined),
+            seasonWanted(seasonProbe('2026-04-01', 'ACTIVE'), undefined),
         ).toBeTruthy();
         expect(
-            seasonWanted(season('2024-04-01', 'COMPLETED'), undefined),
+            seasonWanted(seasonProbe('2024-04-01', 'COMPLETED'), undefined),
         ).toBeFalsy();
     });
 
     it('keeps a requested year regardless of status', () => {
         expect(
-            seasonWanted(season('2024-04-01', 'COMPLETED'), [2024]),
+            seasonWanted(seasonProbe('2024-04-01', 'COMPLETED'), [2024]),
         ).toBeTruthy();
         expect(
-            seasonWanted(season('2025-04-01', 'ACTIVE'), [2024]),
+            seasonWanted(seasonProbe('2025-04-01', 'ACTIVE'), [2024]),
         ).toBeFalsy();
     });
 
     it('treats an empty year list as the CLI full walk, status ignored', () => {
         expect(
-            seasonWanted(season('2024-04-01', 'COMPLETED'), []),
+            seasonWanted(seasonProbe('2024-04-01', 'COMPLETED'), []),
         ).toBeTruthy();
     });
 });
@@ -459,7 +462,16 @@ describe(archiveRowsToKeep, () => {
 
 const CAPTURED_AT_MS = 1_700_000_000_000;
 
-function seedEntry(data: unknown): { data: unknown; capturedAtMs: number } {
+/** One `createMemoryStore` seed entry: a raw capture plus its fetch time. */
+type CaptureSeedEntry = { data: unknown; capturedAtMs: number };
+
+/**
+ * A PlayHQ GraphQL response envelope. `data` stays `unknown` for the same
+ * reason `CaptureStore.get` does — each collect step parses its own slice.
+ */
+type CaptureEnvelope = { data: unknown };
+
+function seedEntry(data: unknown): CaptureSeedEntry {
     return { data, capturedAtMs: CAPTURED_AT_MS };
 }
 
@@ -472,7 +484,7 @@ function discoverEnvelope(
         startDate: string;
         status?: string;
     }[],
-): unknown {
+): CaptureEnvelope {
     return {
         data: {
             discoverCompetitions: [
@@ -500,7 +512,7 @@ function seasonEnvelope(
     seasonId: string,
     seasonName: string,
     grades: readonly { id: string; name: string }[],
-): unknown {
+): CaptureEnvelope {
     return {
         data: {
             discoverSeason: {
@@ -529,7 +541,7 @@ function ladderEnvelope(
     gradeId: string,
     gradeName: string,
     standings: readonly Standing[],
-): unknown {
+): CaptureEnvelope {
     return {
         data: {
             discoverGrade: {
@@ -559,7 +571,7 @@ function twoTeamStandings(): readonly Standing[] {
     ];
 }
 
-function gamesEnvelope(): unknown {
+function gamesEnvelope(): CaptureEnvelope {
     return {
         data: {
             discoverGradeFixture: [

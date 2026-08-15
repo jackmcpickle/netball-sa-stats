@@ -38,6 +38,13 @@ const DESCRIPTION =
     'Fixture-by-fixture South Australian netball results from 2025 — round, date, both clubs, the score and the margin, filterable by season and grade.';
 
 export const Route = createFileRoute('/results')({
+    validateSearch: searchSchema,
+    loaderDeps: ({ search }) => ({
+        year: search.year,
+        grade: search.grade,
+        ...tableSearchDeps(search),
+    }),
+    loader: async ({ deps }) => await loadResults({ data: deps }),
     head: () =>
         pageHead({
             title: 'Results',
@@ -50,12 +57,5 @@ export const Route = createFileRoute('/results')({
                 ]),
             ],
         }),
-    validateSearch: searchSchema,
-    loaderDeps: ({ search }) => ({
-        year: search.year,
-        grade: search.grade,
-        ...tableSearchDeps(search),
-    }),
-    loader: async ({ deps }) => await loadResults({ data: deps }),
     component: ResultsPage,
 });

@@ -1,5 +1,4 @@
 import { describe, expect, it } from 'vitest';
-import type { CsvValue } from '@/pipeline/csv';
 import type { ClubAliasRow, ClubRow } from '@/pipeline/fetch/club-registry';
 import type { GameRow } from '@/pipeline/fetch/games';
 import type { GradeRow, SeasonRow, TeamRow } from '@/pipeline/fetch/run';
@@ -51,7 +50,7 @@ const team: TeamRow = {
     playhq_id: 'team-playhq-id',
 };
 
-const result: Record<string, CsvValue> = {
+const result = {
     grade_key: 'amnd-winter-2025-a-grade',
     club_key: 'matrics',
     squad_number: 1,

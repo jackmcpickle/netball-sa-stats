@@ -371,7 +371,7 @@ describe(validateResults, () => {
         ];
         expect(() => {
             validateResults(rows, clubKeys, gradesByKey);
-        }).toThrow();
+        }).toThrow('goalsFor: Too small: expected number to be >=0');
     });
 
     it('fails when club_key does not resolve', () => {
@@ -381,7 +381,7 @@ describe(validateResults, () => {
         ];
         expect(() => {
             validateResults(rows, clubKeys, gradesByKey);
-        }).toThrow();
+        }).toThrow('club_key unregistered-club not found in clubs.csv');
     });
 });
 
@@ -439,32 +439,32 @@ describe(validateImportData, () => {
     });
 });
 
+function gameRow(overrides: Partial<GameImportRow> = {}): GameImportRow {
+    return {
+        gradeKey: 'premier-2026',
+        playhqId: 'g1',
+        round: 1,
+        roundName: 'Round 1',
+        isFinals: false,
+        playedAt: null,
+        homePlayhqId: 't1',
+        awayPlayhqId: 't2',
+        homeScore: 40,
+        awayScore: 30,
+        status: 'final',
+        forfeitingSide: null,
+        source: 'playhq',
+        scrapedAt: 1,
+        file: 'games-2026.csv',
+        ...overrides,
+    };
+}
+
 describe(validateGames, () => {
     // Resolved season-wide, not grade-scoped: a team regraded after junior
     // grading rounds plays games in a grade whose ladder it never reaches.
     const teamIds = new Set(['t1', 't2']);
     const gradeKeys = new Set(['premier-2026']);
-
-    function gameRow(overrides: Partial<GameImportRow> = {}): GameImportRow {
-        return {
-            gradeKey: 'premier-2026',
-            playhqId: 'g1',
-            round: 1,
-            roundName: 'Round 1',
-            isFinals: false,
-            playedAt: null,
-            homePlayhqId: 't1',
-            awayPlayhqId: 't2',
-            homeScore: 40,
-            awayScore: 30,
-            status: 'final',
-            forfeitingSide: null,
-            source: 'playhq',
-            scrapedAt: 1,
-            file: 'games-2026.csv',
-            ...overrides,
-        };
-    }
 
     it('accepts a well-formed final', () => {
         expect(() => {

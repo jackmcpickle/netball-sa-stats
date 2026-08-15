@@ -97,7 +97,6 @@ export function SiteFooter(): JSX.Element {
                     href={NETBALL_ICON_ATTRIBUTION.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    title={NETBALL_ICON_ATTRIBUTION.title}
                     className="text-ink-faint underline decoration-rule underline-offset-2 hover:text-ink-muted"
                 >
                     Noun Project

@@ -1,9 +1,13 @@
 import { env } from 'cloudflare:workers';
 
-export function readAdminSecrets(): {
-    password: string;
-    sessionSecret: string;
-} {
+export type AdminSecrets = {
+    readonly password: string;
+    readonly sessionSecret: string;
+};
+
+export function readAdminSecrets(): AdminSecrets {
+    // SAFETY: the widening only adds two optional members, so it cannot claim
+    // a value that is absent; both reads below apply `?? ''`.
     const secrets = env as typeof env & {
         ADMIN_PASSWORD?: string;
         ADMIN_SESSION_SECRET?: string;

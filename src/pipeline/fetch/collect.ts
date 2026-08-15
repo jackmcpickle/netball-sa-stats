@@ -124,6 +124,10 @@ async function discoverSeasons(
     cacheFirst: boolean,
 ): Promise<{ competitionName: string; season: SeasonEntry }[]> {
     const key = `discoverCompetitions_${orgId}.json`;
+    // SAFETY: `cachedGraphQL` returns PlayHQ's response envelope unparsed by
+    // design (see the ingestion-boundary note in `playhq-client.ts`). Only
+    // `data.discoverCompetitions` is read, and every field taken off it is
+    // either passed straight through or re-validated downstream.
     const response = (await cachedGraphQL(
         store,
         key,
@@ -416,6 +420,9 @@ async function fetchGamesForGrade(
     cacheFirst: boolean,
 ): Promise<readonly GameRow[]> {
     const key = `gradeAllRounds_${gradePlayhqId}.json`;
+    // SAFETY: PlayHQ's own response envelope, returned unparsed by
+    // `cachedGraphQL`. The single field read, `data.discoverGradeFixture`, is
+    // null-checked on the next line before any use.
     const response = (await cachedGraphQL(
         store,
         key,
@@ -514,6 +521,9 @@ async function ingestGrade(
     }
 
     const gradeCaptureKey = `gradeLadder_${grade.id}.json`;
+    // SAFETY: PlayHQ's own response envelope, returned unparsed by
+    // `cachedGraphQL`. `data.discoverGrade` is null-checked below before the
+    // ladder is flattened, and an absent capture timestamp throws.
     const gradeResponse = (await cachedGraphQL(
         options.store,
         gradeCaptureKey,
@@ -582,6 +592,48 @@ async function ingestGrade(
     });
 }
 
+/**
+ * Walks one season's grades. Split out of `collectPlayHqData` so the season
+ * skip conditions read as early returns rather than a pile of `continue`s.
+ */
+async function ingestSeason(
+    options: CollectOptions,
+    job: CollectJob,
+    season: SeasonEntry,
+    acc: CollectAccumulator,
+): Promise<void> {
+    const startYear = parseStartYear(season.startDate);
+    if (startYear < job.minYear || !seasonWanted(season, options.years)) {
+        return;
+    }
+
+    const seasonCaptureKey = `gradeListDiscoverSeason_${season.id}.json`;
+    // SAFETY: the `gradeListDiscoverSeason` operation's response envelope is
+    // PlayHQ's, not ours — `cachedGraphQL` returns it unparsed by design (see
+    // the ingestion-boundary note in `playhq-client.ts`). The one field read
+    // below, `data.discoverSeason`, is null-checked immediately.
+    const seasonResponse = (await cachedGraphQL(
+        options.store,
+        seasonCaptureKey,
+        'gradeListDiscoverSeason',
+        { id: season.id },
+        options.cacheFirst,
+    )) as GradeListDiscoverSeasonResponse;
+
+    const { discoverSeason } = seasonResponse.data;
+    if (discoverSeason === null) {
+        console.warn(
+            `discoverSeason returned null for season ${season.id} (${season.name}), skipping`,
+        );
+        return;
+    }
+
+    for (const grade of discoverSeason.grades) {
+        // oxlint-disable-next-line eslint/no-await-in-loop, react-doctor/async-await-in-loop -- sequential by design: PlayHQ etiquette caps us at ~1 req/sec.
+        await ingestGrade(options, job, season, startYear, grade, acc);
+    }
+}
+
 export async function collectPlayHqData(
     options: CollectOptions,
 ): Promise<CollectedPlayHq> {
@@ -595,43 +647,15 @@ export async function collectPlayHqData(
     };
 
     for (const job of COLLECT_JOBS) {
-        // eslint-disable-next-line no-await-in-loop -- sequential by design: PlayHQ etiquette caps us at ~1 req/sec.
+        // oxlint-disable-next-line eslint/no-await-in-loop, react-doctor/async-await-in-loop -- sequential by design: PlayHQ etiquette caps us at ~1 req/sec.
         const entries = await discoverSeasons(
             options.store,
             job.orgId,
             options.cacheFirst,
         );
         for (const { season } of entries) {
-            const startYear = parseStartYear(season.startDate);
-            if (startYear < job.minYear) {
-                continue;
-            }
-            if (!seasonWanted(season, options.years)) {
-                continue;
-            }
-
-            const seasonCaptureKey = `gradeListDiscoverSeason_${season.id}.json`;
-            // eslint-disable-next-line no-await-in-loop -- sequential by design: PlayHQ etiquette caps us at ~1 req/sec.
-            const seasonResponse = (await cachedGraphQL(
-                options.store,
-                seasonCaptureKey,
-                'gradeListDiscoverSeason',
-                { id: season.id },
-                options.cacheFirst,
-            )) as GradeListDiscoverSeasonResponse;
-
-            const { discoverSeason } = seasonResponse.data;
-            if (discoverSeason === null) {
-                console.warn(
-                    `discoverSeason returned null for season ${season.id} (${season.name}), skipping`,
-                );
-                continue;
-            }
-
-            for (const grade of discoverSeason.grades) {
-                // eslint-disable-next-line no-await-in-loop -- sequential by design: PlayHQ etiquette caps us at ~1 req/sec.
-                await ingestGrade(options, job, season, startYear, grade, acc);
-            }
+            // oxlint-disable-next-line eslint/no-await-in-loop, react-doctor/async-await-in-loop -- sequential by design: PlayHQ etiquette caps us at ~1 req/sec.
+            await ingestSeason(options, job, season, acc);
         }
     }
 

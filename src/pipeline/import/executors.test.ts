@@ -6,6 +6,10 @@ type FakeStmt = { all: () => Promise<{ results: Record<string, unknown>[] }> };
 describe(createD1Executor, () => {
     it('prepares SQL for queryAll and batch', async () => {
         const statements: string[] = [];
+        // SAFETY: `createD1Executor` calls only `prepare` and `batch`, both
+        // declared below with matching signatures. The full `D1Database`
+        // interface is far wider than this test double needs.
+        // oxlint-disable-next-line anti-slop/no-chained-type-assertions -- a hand-rolled double for a Cloudflare runtime interface: there is no narrower type to keep.
         const fake = {
             prepare(sql: string) {
                 statements.push(sql);

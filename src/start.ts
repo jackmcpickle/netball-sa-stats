@@ -61,6 +61,7 @@ const markdownTwin = createMiddleware({ type: 'request' }).server(
 
 const discoveryLinks = createMiddleware({ type: 'request' }).server(
     async ({ request, next }) => {
+        // oxlint-disable-next-line node/callback-return -- TanStack middleware: next() is awaited and its result returned on every path, not a Node errback
         const result = await next();
         const url = new URL(request.url);
         if (url.pathname.startsWith('/admin')) {

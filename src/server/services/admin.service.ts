@@ -3,8 +3,8 @@ import { err, ok } from '@/server/domain/result';
 import type { Result } from '@/server/domain/result';
 import type { AdminPageDto, AdminRunDto } from '@/server/dto/admin.dto';
 import type {
-    createImportRunsRepo,
     ImportRun,
+    ImportRunsRepo,
 } from '@/server/repos/import-runs.repo';
 
 export type StartImport = (params: {
@@ -12,7 +12,12 @@ export type StartImport = (params: {
     games: boolean;
 }) => Promise<void>;
 
-export type AdminService = ReturnType<typeof createAdminService>;
+export type AdminService = {
+    readonly getPage: () => Promise<AdminPageDto>;
+    readonly runImport: (
+        yearsText: string,
+    ) => Promise<Result<true, RunImportError>>;
+};
 
 export type RunImportError =
     | { kind: 'already-running' }
@@ -61,6 +66,7 @@ function parseWarnings(json: string | null): readonly string[] {
         }
         const warnings: string[] = [];
         for (const item of parsed) {
+            // oxlint-disable-next-line anti-slop/no-runtime-typeof -- this IS the I/O boundary parse: `warningsJson` is untrusted JSON text and each element must be checked before it can be treated as a domain string
             if (typeof item !== 'string') {
                 return [];
             }
@@ -107,12 +113,9 @@ function parseYears(
 }
 
 export function createAdminService(
-    repo: ReturnType<typeof createImportRunsRepo>,
+    repo: ImportRunsRepo,
     deps: { startImport: StartImport },
-): {
-    getPage(): Promise<AdminPageDto>;
-    runImport(yearsText: string): Promise<Result<true, RunImportError>>;
-} {
+): AdminService {
     return {
         async getPage(): Promise<AdminPageDto> {
             const nowEpochSeconds = Math.floor(Date.now() / 1000);
@@ -137,11 +140,11 @@ export function createAdminService(
             if (!years.ok) {
                 return years;
             }
-            if (years.value === undefined) {
-                await deps.startImport({ games: true });
-            } else {
-                await deps.startImport({ years: years.value, games: true });
-            }
+            await deps.startImport(
+                years.value === undefined
+                    ? { games: true }
+                    : { years: years.value, games: true },
+            );
             return ok(true);
         },
     };

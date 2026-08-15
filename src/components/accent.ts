@@ -10,7 +10,7 @@ import type { AccentName } from '@/server/dto/shared.dto';
  * SVG paths take their colour from `currentColor`, so the text class is enough
  * for the charts too.
  */
-const TEXT: Record<AccentName, string> = {
+const TEXT = {
     pink: 'text-accent-pink',
     deep: 'text-accent-deep',
     lilac: 'text-accent-lilac',
@@ -25,9 +25,9 @@ const TEXT: Record<AccentName, string> = {
     ochre: 'text-accent-ochre',
     steel: 'text-accent-steel',
     olive: 'text-accent-olive',
-};
+} satisfies Record<AccentName, string>;
 
-const BG: Record<AccentName, string> = {
+const BG = {
     pink: 'bg-accent-pink',
     deep: 'bg-accent-deep',
     lilac: 'bg-accent-lilac',
@@ -42,7 +42,7 @@ const BG: Record<AccentName, string> = {
     ochre: 'bg-accent-ochre',
     steel: 'bg-accent-steel',
     olive: 'bg-accent-olive',
-};
+} satisfies Record<AccentName, string>;
 
 /** Accents dark enough that a club card needs light text over them. */
 const DARK: ReadonlySet<AccentName> = new Set<AccentName>([

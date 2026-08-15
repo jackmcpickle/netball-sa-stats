@@ -40,9 +40,11 @@ export async function fetchGradeWeights(
     }));
 }
 
-export function createWeightsRepo(db: Db): {
-    all(): Promise<readonly GradeWeightRow[]>;
-} {
+export type WeightsRepo = {
+    readonly all: () => Promise<readonly GradeWeightRow[]>;
+};
+
+export function createWeightsRepo(db: Db): WeightsRepo {
     return {
         async all(): Promise<readonly GradeWeightRow[]> {
             return await fetchGradeWeights(db);

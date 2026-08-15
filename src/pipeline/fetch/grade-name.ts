@@ -39,13 +39,13 @@ const RULES: readonly Rule[] = [
     // Trailing letter (e.g. "Junior 4A") marks a split A/B pool within the same
     // division — grade_key still disambiguates via the full name, division stays
     // the numeric part.
-    { pattern: /^B ?(\d+) ?[A-Z]?$/u, tier: 5 },
-    { pattern: /^INTER ?(\d+) ?[A-Z]?$/u, tier: 6 },
-    { pattern: /^C ?(\d+) ?[A-Z]?$/u, tier: 7 },
-    { pattern: /^JUNIOR ?(\d+) ?[A-Z]?$/u, tier: 8 },
-    { pattern: /^SUB JUNIOR ?(\d+) ?[A-Z]?$/u, tier: 9 },
-    { pattern: /^PRIMARY ?(\d+) ?[A-Z]?$/u, tier: 10 },
-    { pattern: /^SUB PRIMARY ?(\d+) ?[A-Z]?$/u, tier: 11 },
+    { pattern: /^B ?(?<division>\d+) ?[A-Z]?$/u, tier: 5 },
+    { pattern: /^INTER ?(?<division>\d+) ?[A-Z]?$/u, tier: 6 },
+    { pattern: /^C ?(?<division>\d+) ?[A-Z]?$/u, tier: 7 },
+    { pattern: /^JUNIOR ?(?<division>\d+) ?[A-Z]?$/u, tier: 8 },
+    { pattern: /^SUB JUNIOR ?(?<division>\d+) ?[A-Z]?$/u, tier: 9 },
+    { pattern: /^PRIMARY ?(?<division>\d+) ?[A-Z]?$/u, tier: 10 },
+    { pattern: /^SUB PRIMARY ?(?<division>\d+) ?[A-Z]?$/u, tier: 11 },
 ];
 
 export function parseGradeName(name: string): ParsedGrade {
@@ -53,7 +53,7 @@ export function parseGradeName(name: string): ParsedGrade {
     for (const rule of RULES) {
         const match = normalised.match(rule.pattern);
         if (match !== null) {
-            const [, digits] = match;
+            const digits = match.groups?.division;
             return {
                 tier: rule.tier,
                 division: digits === undefined ? null : Number(digits),

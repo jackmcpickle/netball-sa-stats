@@ -45,6 +45,15 @@ function ClubNotFound(): JSX.Element {
 }
 
 export const Route = createFileRoute('/clubs/$clubKey')({
+    validateSearch: tableSearchSchema,
+    loaderDeps: ({ search }) => ({
+        sort: search.sort,
+        dir: search.dir,
+        page: search.page,
+        pageSize: search.pageSize,
+    }),
+    loader: async ({ params, deps }) =>
+        await loadClub({ data: { clubKey: params.clubKey, ...deps } }),
     // `loaderData` is annotated rather than inferred: reading it inside
     // `head()` otherwise feeds the route's own loader type back into itself,
     // and the whole route collapses to `undefined`.
@@ -57,6 +66,7 @@ export const Route = createFileRoute('/clubs/$clubKey')({
     }) => {
         const path = `/clubs/${params.clubKey}`;
         const profile = loaderData?.profile;
+        const establishedYear = profile?.club.establishedYear;
         const name = profile?.club.name ?? 'Club';
         const description =
             profile === undefined
@@ -72,18 +82,14 @@ export const Route = createFileRoute('/clubs/$clubKey')({
                     name,
                     sport: 'Netball',
                     url: absoluteUrl(path),
-                    ...(profile?.club.homeVenue === null ||
-                    profile?.club.homeVenue === undefined
-                        ? {}
-                        : { location: profile.club.homeVenue }),
-                    ...(profile?.club.establishedYear === null ||
-                    profile?.club.establishedYear === undefined
-                        ? {}
-                        : {
-                              foundingDate: String(
-                                  profile.club.establishedYear,
-                              ),
-                          }),
+                    // `undefined` members are dropped by `JSON.stringify`, so
+                    // an unknown venue or founding year simply omits the key.
+                    location: profile?.club.homeVenue ?? undefined,
+                    foundingDate:
+                        establishedYear === null ||
+                        establishedYear === undefined
+                            ? undefined
+                            : String(establishedYear),
                     memberOf: {
                         '@type': 'SportsOrganization',
                         name: 'Netball SA',
@@ -97,15 +103,6 @@ export const Route = createFileRoute('/clubs/$clubKey')({
             ],
         });
     },
-    validateSearch: tableSearchSchema,
-    loaderDeps: ({ search }) => ({
-        sort: search.sort,
-        dir: search.dir,
-        page: search.page,
-        pageSize: search.pageSize,
-    }),
-    loader: async ({ params, deps }) =>
-        await loadClub({ data: { clubKey: params.clubKey, ...deps } }),
     component: ClubProfilePage,
     notFoundComponent: ClubNotFound,
 });

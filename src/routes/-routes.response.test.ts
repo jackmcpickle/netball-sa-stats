@@ -9,15 +9,18 @@
  */
 import { beforeAll, describe, expect, it, vi } from 'vitest';
 import type { Db } from '@/db';
+import type { LinkTag, MetaTag } from '@/seo/head';
 import { seed } from '@/server/testing/fixtures';
 import { createTestDb } from '@/server/testing/harness';
 
 let db: Db;
 
+// oxlint-disable-next-line anti-slop/no-module-mocking -- route modules import `cloudflare:workers` transitively; there is no seam to inject a Db without reshaping every route loader
 vi.mock(import('@/db'), () => ({
     getDb: (): Db => db,
 }));
 
+// oxlint-disable-next-line vitest/require-top-level-describe -- one seeded database shared by both describe blocks in this file
 beforeAll(async () => {
     db = createTestDb();
     await seed(db, {
@@ -69,11 +72,25 @@ type ServerRouteLike = {
     readonly options: {
         readonly server?: { readonly handlers?: { readonly GET?: Handler } };
         readonly head?: (ctx: { loaderData?: unknown; params?: unknown }) => {
-            meta?: readonly Record<string, unknown>[];
-            links?: readonly Record<string, unknown>[];
+            meta?: readonly MetaTag[];
+            links?: readonly LinkTag[];
         };
     };
 };
+
+/** A route module's `Route` export before this file has checked its shape. */
+type UncheckedRoute = { readonly options?: unknown };
+
+/** Narrows a route module's `Route` export to the surface these tests drive. */
+function asRoute(route: UncheckedRoute): ServerRouteLike {
+    if (route.options === undefined) {
+        throw new Error('module exports no Route with options');
+    }
+    // SAFETY: `options` is present, and every route in this repo builds it
+    // through createFileRoute/createServerFileRoute, so it carries the GET
+    // handler and `head` members that `ServerRouteLike` names.
+    return route as ServerRouteLike;
+}
 
 async function get(route: ServerRouteLike, path: string): Promise<Response> {
     const handler = route.options.server?.handlers?.GET;
@@ -88,7 +105,7 @@ async function get(route: ServerRouteLike, path: string): Promise<Response> {
 describe('discovery routes', () => {
     it('serves robots.txt as plain text that allows AI crawlers', async () => {
         const { Route } = await import('@/routes/robots[.]txt');
-        const response = await get(Route as ServerRouteLike, '/robots.txt');
+        const response = await get(asRoute(Route), '/robots.txt');
         expect(response.status).toBe(200);
         expect(response.headers.get('content-type')).toBe(
             'text/plain; charset=utf-8',
@@ -100,7 +117,7 @@ describe('discovery routes', () => {
 
     it('serves sitemap.xml as XML listing club pages', async () => {
         const { Route } = await import('@/routes/sitemap[.]xml');
-        const response = await get(Route as ServerRouteLike, '/sitemap.xml');
+        const response = await get(asRoute(Route), '/sitemap.xml');
         expect(response.headers.get('content-type')).toBe(
             'application/xml; charset=utf-8',
         );
@@ -111,7 +128,7 @@ describe('discovery routes', () => {
 
     it('serves llms.txt as plain text in the llmstxt.org shape', async () => {
         const { Route } = await import('@/routes/llms[.]txt');
-        const response = await get(Route as ServerRouteLike, '/llms.txt');
+        const response = await get(asRoute(Route), '/llms.txt');
         expect(response.headers.get('content-type')).toBe(
             'text/plain; charset=utf-8',
         );
@@ -123,7 +140,7 @@ describe('discovery routes', () => {
 
     it('serves llms-full.txt as the concatenated markdown pages', async () => {
         const { Route } = await import('@/routes/llms-full[.]txt');
-        const response = await get(Route as ServerRouteLike, '/llms-full.txt');
+        const response = await get(asRoute(Route), '/llms-full.txt');
         expect(response.headers.get('content-type')).toBe(
             'text/plain; charset=utf-8',
         );
@@ -135,23 +152,49 @@ describe('discovery routes', () => {
 });
 
 const PAGE_ROUTES = [
-    ['@/routes/index', '/'],
-    ['@/routes/ladders', '/ladders'],
-    ['@/routes/results', '/results'],
-    ['@/routes/clubs.index', '/clubs'],
-    ['@/routes/head-to-head', '/head-to-head'],
-    ['@/routes/method', '/method'],
-    ['@/routes/about', '/about'],
+    [
+        '/',
+        async (): Promise<{ Route: UncheckedRoute }> =>
+            await import('@/routes/index'),
+    ],
+    [
+        '/ladders',
+        async (): Promise<{ Route: UncheckedRoute }> =>
+            await import('@/routes/ladders'),
+    ],
+    [
+        '/results',
+        async (): Promise<{ Route: UncheckedRoute }> =>
+            await import('@/routes/results'),
+    ],
+    [
+        '/clubs',
+        async (): Promise<{ Route: UncheckedRoute }> =>
+            await import('@/routes/clubs.index'),
+    ],
+    [
+        '/head-to-head',
+        async (): Promise<{ Route: UncheckedRoute }> =>
+            await import('@/routes/head-to-head'),
+    ],
+    [
+        '/method',
+        async (): Promise<{ Route: UncheckedRoute }> =>
+            await import('@/routes/method'),
+    ],
+    [
+        '/about',
+        async (): Promise<{ Route: UncheckedRoute }> =>
+            await import('@/routes/about'),
+    ],
 ] as const;
 
 describe('page routes', () => {
     it.each(PAGE_ROUTES)(
-        '%s declares a canonical head for %s',
-        async (module, path) => {
-            const { Route } = (await import(module)) as {
-                Route: ServerRouteLike;
-            };
-            const head = Route.options.head?.({});
+        'declares a canonical head for %s',
+        async (path, load) => {
+            const { Route } = await load();
+            const head = asRoute(Route).options.head?.({});
             expect(head?.links).toContainEqual({
                 rel: 'canonical',
                 href: `https://netballsa.com${path}`,
@@ -166,10 +209,8 @@ describe('page routes', () => {
     );
 
     it('builds the club profile head from the loaded club', async () => {
-        const { Route } = (await import('@/routes/clubs.$clubKey')) as {
-            Route: ServerRouteLike;
-        };
-        const head = Route.options.head?.({
+        const { Route } = await import('@/routes/clubs.$clubKey');
+        const head = asRoute(Route).options.head?.({
             params: { clubKey: 'contax' },
             loaderData: {
                 profile: {
@@ -197,10 +238,8 @@ describe('page routes', () => {
     });
 
     it('keeps admin out of search indexes', async () => {
-        const { Route } = (await import('@/routes/admin')) as {
-            Route: ServerRouteLike;
-        };
-        const head = Route.options.head?.({});
+        const { Route } = await import('@/routes/admin');
+        const head = asRoute(Route).options.head?.({});
         expect(head?.meta).toContainEqual({
             name: 'robots',
             content: 'noindex, nofollow',

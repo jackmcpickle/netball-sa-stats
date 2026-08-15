@@ -48,10 +48,14 @@ export function RankingsPage(): JSX.Element {
         [data.coverage.rankedYears],
     );
 
-    const firstRanked = data.coverage.rankedYears[0];
+    const [firstRanked] = data.coverage.rankedYears;
     const lastRanked = data.coverage.rankedYears.at(-1);
+    const rankedYearSet = useMemo(
+        () => new Set(data.coverage.rankedYears),
+        [data.coverage.rankedYears],
+    );
     const unrankedYears = data.coverage.years.filter(
-        (year) => !data.coverage.rankedYears.includes(year),
+        (year) => !rankedYearSet.has(year),
     );
 
     return (
@@ -62,7 +66,7 @@ export function RankingsPage(): JSX.Element {
                         {`CLUB CHAMPIONSHIP · ${String(firstRanked)}—${String(lastRanked)}`}
                     </Eyebrow>
                     <h1 className="mt-5 text-[2.25rem] leading-[1.05] font-medium tracking-[-0.07rem] text-pretty text-ink sm:text-[3.5rem] sm:tracking-[-0.12rem] lg:text-display lg:tracking-[-0.156rem]">
-                        Which club is really South Australia's strongest?
+                        Which club is really South Australia&rsquo;s strongest?
                     </h1>
                     <p className="mt-5 max-w-[52ch] text-base leading-[1.55] text-ink-body sm:mt-6 sm:text-lg">
                         Every grade, every season, one number. Ladder finishes

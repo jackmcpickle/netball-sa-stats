@@ -39,27 +39,27 @@ function toImportRun(row: typeof importRuns.$inferSelect): ImportRun {
     };
 }
 
-export function createImportRunsRepo(db: Db): {
-    list(): Promise<ImportRun[]>;
-    lastSuccessAt(): Promise<number | null>;
-    hasRunning(): Promise<boolean>;
-    hasRunningSince(epochSeconds: number): Promise<boolean>;
-    runningOlderThan(epochSeconds: number): Promise<ImportRun[]>;
-    insertRunning(input: {
+export type ImportRunsRepo = {
+    readonly list: () => Promise<ImportRun[]>;
+    readonly lastSuccessAt: () => Promise<number | null>;
+    readonly hasRunning: () => Promise<boolean>;
+    readonly hasRunningSince: (epochSeconds: number) => Promise<boolean>;
+    readonly runningOlderThan: (epochSeconds: number) => Promise<ImportRun[]>;
+    readonly insertRunning: (input: {
         instanceId: string;
         startedAt: number;
         yearsJson: string | null;
         games: boolean;
-    }): Promise<number>;
-    insertSkipped(input: {
+    }) => Promise<number>;
+    readonly insertSkipped: (input: {
         instanceId: string;
         startedAt: number;
         yearsJson: string | null;
         games: boolean;
         finishedAt: number;
-    }): Promise<number>;
-    markSkipped(id: number, finishedAt: number): Promise<void>;
-    markOk(
+    }) => Promise<number>;
+    readonly markSkipped: (id: number, finishedAt: number) => Promise<void>;
+    readonly markOk: (
         id: number,
         finishedAt: number,
         counts: {
@@ -70,9 +70,15 @@ export function createImportRunsRepo(db: Db): {
             gamesCount: number;
             warningsJson: string;
         },
-    ): Promise<void>;
-    markError(id: number, finishedAt: number, errorText: string): Promise<void>;
-} {
+    ) => Promise<void>;
+    readonly markError: (
+        id: number,
+        finishedAt: number,
+        errorText: string,
+    ) => Promise<void>;
+};
+
+export function createImportRunsRepo(db: Db): ImportRunsRepo {
     return {
         async list(): Promise<ImportRun[]> {
             const rows = await db

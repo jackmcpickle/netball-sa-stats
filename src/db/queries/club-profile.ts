@@ -49,8 +49,9 @@ function seasonPoints(
     history: readonly ChampionshipSeason[],
     clubKey: string,
 ): readonly ClubSeasonPoints[] {
+    const rankedSet = new Set(ranked);
     return years.map((year): ClubSeasonPoints => {
-        if (!ranked.includes(year)) {
+        if (!rankedSet.has(year)) {
             return {
                 year,
                 points: 0,
@@ -77,6 +78,17 @@ function seasonPoints(
  * results table: that is a separate, SQL-paged query (`resultsPage` on the
  * clubs repo), so only the 50 rows actually shown get mapped to DTOs.
  */
+/** True when `season` outranks `bestSoFar` (a null best is always beaten). */
+function betterRank(
+    season: ClubSeasonPoints,
+    bestSoFar: ClubSeasonPoints | null,
+): boolean {
+    if (bestSoFar === null) {
+        return true;
+    }
+    return (season.rank ?? Infinity) < (bestSoFar.rank ?? Infinity);
+}
+
 export async function fetchClubProfile(
     db: Db,
     clubKey: string,
@@ -84,7 +96,7 @@ export async function fetchClubProfile(
     // Every finish the club has, in-progress seasons included: the results
     // table is a record, not a ranking.
     const rows = await fetchResults(db, { clubKey });
-    const first = rows[0];
+    const [first] = rows;
     if (!first) {
         return null;
     }
@@ -102,14 +114,12 @@ export async function fetchClubProfile(
     );
 
     const rankedSeasons = seasons.filter((season) => season.rank !== null);
-    const best = rankedSeasons.reduce<ClubSeasonPoints | null>(
-        (bestSoFar, season) =>
-            bestSoFar === null ||
-            (season.rank ?? Infinity) < (bestSoFar.rank ?? Infinity)
-                ? season
-                : bestSoFar,
-        null,
-    );
+    let best: ClubSeasonPoints | null = null;
+    for (const season of rankedSeasons) {
+        if (betterRank(season, best)) {
+            best = season;
+        }
+    }
     const record = careerRecord(rows);
     const current = history
         .at(-1)

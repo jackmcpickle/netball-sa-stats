@@ -2,6 +2,7 @@
 // Routes call `pageHead()` so every page carries the same complete set and no
 // page can quietly ship without a canonical URL.
 import { absoluteUrl, markdownPath, SITE } from '@/seo/site';
+import type { JsonLdDocument, JsonLdNode } from '@/seo/structured-data';
 import {
     jsonLdMeta,
     organizationSchema,
@@ -19,22 +20,29 @@ type PageHeadInput = {
      * Schema.org nodes for this page. Always emitted alongside the sitewide
      * Organization and WebSite nodes, so no page ships without structured data.
      */
-    readonly schema?: readonly Record<string, unknown>[];
+    readonly schema?: readonly JsonLdNode[];
     /** Admin surfaces: keep them out of indexes and out of training data. */
     readonly noIndex?: boolean;
     /** ISO timestamp for the WebPage node, when the page knows one. */
     readonly dateModified?: string;
 };
 
-type MetaTag = {
+export type MetaTag = {
     readonly title?: string;
     readonly name?: string;
     readonly property?: string;
     readonly content?: string;
-    readonly 'script:ld+json'?: Record<string, unknown>;
+    readonly 'script:ld+json'?: JsonLdDocument;
 };
 
-type LinkTag = {
+/** The subset of TanStack's `head()` return this module produces. */
+type PageHead = {
+    // Mutable arrays: TanStack's `head()` return type is invariant in these.
+    readonly meta: MetaTag[];
+    readonly links: LinkTag[];
+};
+
+export type LinkTag = {
     readonly rel: string;
     readonly href: string;
     readonly type?: string;
@@ -53,11 +61,7 @@ export function pageHead({
     schema = [],
     noIndex = false,
     dateModified,
-}: PageHeadInput): {
-    // Mutable arrays: TanStack's `head()` return type is invariant in these.
-    readonly meta: MetaTag[];
-    readonly links: LinkTag[];
-} {
+}: PageHeadInput): PageHead {
     const url = absoluteUrl(path);
     const full = pageTitle(title);
     if (noIndex) {

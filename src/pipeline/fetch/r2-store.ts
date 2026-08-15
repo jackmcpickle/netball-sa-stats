@@ -9,7 +9,7 @@ export function createR2Store(bucket: R2Bucket): CaptureStore {
         async get(key) {
             const object = await bucket.get(rawKey(key));
             if (object === null) {
-                return;
+                return undefined;
             }
             return await object.json();
         },
@@ -22,11 +22,11 @@ export function createR2Store(bucket: R2Bucket): CaptureStore {
             // `head` so a timestamp check never streams the capture body.
             const object = await bucket.head(rawKey(key));
             if (object === null) {
-                return;
+                return undefined;
             }
             const raw = object.customMetadata?.capturedAtMs;
             if (raw === undefined) {
-                return;
+                return undefined;
             }
             return Number(raw);
         },

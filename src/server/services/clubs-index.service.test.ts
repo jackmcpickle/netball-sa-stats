@@ -135,7 +135,7 @@ describe('clubs index service', () => {
         expect(defaultResult.presentCount).toBe(2);
         expect(defaultResult.totalCount).toBe(4);
         expect(
-            defaultResult.entries.map((entry) => entry.club.key).sort(),
+            defaultResult.entries.map((entry) => entry.club.key).toSorted(),
         ).toStrictEqual(['contax', 'garville']);
 
         const withPast = unwrap(
@@ -147,13 +147,13 @@ describe('clubs index service', () => {
             withPast.entries
                 .slice(0, 2)
                 .map((entry) => entry.club.key)
-                .sort(),
+                .toSorted(),
         ).toStrictEqual(['contax', 'garville']);
         expect(
             withPast.entries
                 .slice(2)
                 .map((entry) => entry.club.key)
-                .sort(),
+                .toSorted(),
         ).toStrictEqual(['ajax', 'phantom']);
     });
 

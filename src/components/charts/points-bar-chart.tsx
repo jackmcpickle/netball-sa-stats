@@ -43,13 +43,42 @@ type BarDraw = {
 
 type DrawSlot = GapDraw | BarDraw;
 
-function layoutBars(seasons: readonly ClubSeasonPoints[]): {
+type BarLayout = {
     readonly width: number;
     readonly draws: readonly DrawSlot[];
     readonly slots: readonly TimelineSlot[];
     readonly byYear: Map<number, ClubSeasonPoints>;
     readonly hits: readonly ChartHit[];
-} {
+};
+
+/** The bar and its tooltip hit for one ranked-or-not season slot. */
+function barDraw(
+    season: ClubSeasonPoints,
+    slotX: number,
+    max: number,
+): BarDraw {
+    const height = barHeight(season.points, max, TRACK);
+    const isRanked = season.status === 'ranked';
+    const hit: ChartHit = {
+        id: `season-${String(season.year)}`,
+        label: String(season.year),
+        detail: isRanked
+            ? `${season.points.toFixed(1)} pts · #${String(season.rank ?? 0)}`
+            : 'Not ranked yet',
+        x: slotX + BAR_WIDTH / 2,
+        y: isRanked ? BASELINE - height / 2 : TOP + TRACK / 2,
+    };
+    return {
+        kind: 'bar',
+        key: String(season.year),
+        season,
+        x: slotX,
+        height,
+        hit,
+    };
+}
+
+function layoutBars(seasons: readonly ClubSeasonPoints[]): BarLayout {
     const byYear = new Map(seasons.map((season) => [season.year, season]));
     const years = seasons.map((season) => season.year);
     const slots = timelineSlots(years);
@@ -72,35 +101,16 @@ function layoutBars(seasons: readonly ClubSeasonPoints[]): {
                 label: gapLabel(slot.missingYears),
             });
             x += BREAK_WIDTH + GAP;
-            continue;
+        } else {
+            const season = byYear.get(slot.year);
+            const slotX = x;
+            x += BAR_WIDTH + GAP;
+            if (season) {
+                const draw = barDraw(season, slotX, max);
+                hits.push(draw.hit);
+                draws.push(draw);
+            }
         }
-
-        const season = byYear.get(slot.year);
-        const slotX = x;
-        x += BAR_WIDTH + GAP;
-        if (!season) {
-            continue;
-        }
-        const height = barHeight(season.points, max, TRACK);
-        const isRanked = season.status === 'ranked';
-        const hit: ChartHit = {
-            id: `season-${String(season.year)}`,
-            label: String(season.year),
-            detail: isRanked
-                ? `${season.points.toFixed(1)} pts · #${String(season.rank ?? 0)}`
-                : 'Not ranked yet',
-            x: slotX + BAR_WIDTH / 2,
-            y: isRanked ? BASELINE - height / 2 : TOP + TRACK / 2,
-        };
-        hits.push(hit);
-        draws.push({
-            kind: 'bar',
-            key: String(season.year),
-            season,
-            x: slotX,
-            height,
-            hit,
-        });
     }
 
     return { width, draws, slots, byYear, hits };
@@ -124,12 +134,16 @@ export function PointsBarChart({
         hits: layout.hits,
         maxDistance: HIT_DISTANCE,
     });
+    const { handlePointerMove, handlePointerLeave, svgRef } = interaction;
     const activeId = interaction.hit?.id ?? null;
 
     return (
         <ChartFrame
             testId="points-bar-chart"
-            interaction={interaction}
+            frameRef={interaction.frameRef}
+            hit={interaction.hit}
+            tooltipId={interaction.tooltipId}
+            tooltipRef={interaction.tooltipRef}
         >
             <ul className="sr-only">
                 {layout.slots.map((slot) =>
@@ -153,12 +167,12 @@ export function PointsBarChart({
                 )}
             </ul>
             <svg
-                ref={interaction.svgRef}
+                ref={svgRef}
                 viewBox={`0 0 ${String(layout.width)} ${String(HEIGHT)}`}
                 aria-hidden="true"
                 className="block h-[200px] w-full"
-                onPointerMove={interaction.onPointerMove}
-                onPointerLeave={interaction.onPointerLeave}
+                onPointerMove={handlePointerMove}
+                onPointerLeave={handlePointerLeave}
             >
                 {layout.draws.map((draw) => {
                     if (draw.kind === 'gap') {

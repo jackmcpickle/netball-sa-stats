@@ -106,9 +106,9 @@ describe('fetchGameFactsForPair', () => {
             'garville',
         );
         expect(
-            [...facts]
+            facts
                 .map((fact) => fact.year)
-                .sort((left, right) => left - right),
+                .toSorted((left, right) => left - right),
         ).toStrictEqual([2025, 2026]);
         expect(facts.every((fact) => fact.tier === 1)).toBeTruthy();
     });
@@ -230,7 +230,7 @@ describe('fetchOpponentCounts', () => {
         ]);
 
         const counts = await createGamesRepo(db).opponentCounts('contax');
-        expect([...counts].sort((a, b) => b.played - a.played)).toStrictEqual([
+        expect(counts.toSorted((a, b) => b.played - a.played)).toStrictEqual([
             { clubKey: 'garville', name: 'Garville', played: 2 },
             { clubKey: 'matrics', name: 'Matrics', played: 1 },
         ]);
@@ -360,7 +360,7 @@ describe('fetchGamePageForGrade paging and sorting', () => {
             facts
                 .slice(-2)
                 .map((fact) => fact.status)
-                .sort(),
+                .toSorted(),
         ).toStrictEqual(['bye', 'forfeit']);
     });
 

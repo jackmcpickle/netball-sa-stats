@@ -35,6 +35,13 @@ const DESCRIPTION =
     'Full grade ladders for South Australian netball — position, played, won, lost, goals and percentage for every team in every covered grade and season.';
 
 export const Route = createFileRoute('/ladders')({
+    validateSearch: searchSchema,
+    loaderDeps: ({ search }) => ({
+        year: search.year,
+        grade: search.grade,
+        ...tableSearchDeps(search),
+    }),
+    loader: async ({ deps }) => await loadLadders({ data: deps }),
     head: () =>
         pageHead({
             title: 'Ladders',
@@ -47,12 +54,5 @@ export const Route = createFileRoute('/ladders')({
                 ]),
             ],
         }),
-    validateSearch: searchSchema,
-    loaderDeps: ({ search }) => ({
-        year: search.year,
-        grade: search.grade,
-        ...tableSearchDeps(search),
-    }),
-    loader: async ({ deps }) => await loadLadders({ data: deps }),
     component: LaddersPage,
 });

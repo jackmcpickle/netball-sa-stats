@@ -27,6 +27,10 @@ async function readManifest(cachePath: string): Promise<Manifest> {
     try {
         const text = await readFile(manifestPath(cachePath), 'utf-8');
         const parsed: unknown = JSON.parse(text);
+        // SAFETY: narrowed to a non-null object on the line above; `Manifest`
+        // is an open `Record<string, number>` and every read of it re-checks
+        // `typeof recorded === 'number'` (see `capturedAt`), so a manifest
+        // with unexpected values degrades to "no recorded timestamp".
         return typeof parsed === 'object' && parsed !== null
             ? (parsed as Manifest)
             : {};
@@ -44,7 +48,7 @@ async function writeManifest(
     manifest: Manifest,
 ): Promise<void> {
     const sorted = Object.fromEntries(
-        Object.entries(manifest).sort(([left], [right]) =>
+        Object.entries(manifest).toSorted(([left], [right]) =>
             left.localeCompare(right),
         ),
     );
@@ -72,11 +76,13 @@ export async function recordCapture(
  * value no longer moves, whatever happens to the file.
  */
 export async function capturedAt(cachePath: string): Promise<number> {
-    const recorded = (await readManifest(cachePath))[basename(cachePath)];
+    const manifest = await readManifest(cachePath);
+    const recorded = manifest[basename(cachePath)];
     if (typeof recorded === 'number') {
         return recorded;
     }
-    const adopted = Math.floor((await stat(cachePath)).mtimeMs);
+    const stats = await stat(cachePath);
+    const adopted = Math.floor(stats.mtimeMs);
     await recordCapture(cachePath, adopted);
     return adopted;
 }

@@ -170,7 +170,7 @@ describe(dedupeAliasesByText, () => {
                 source: 'archive_pdf',
             },
         ];
-        const reversed = [...rows].reverse();
+        const reversed = rows.toReversed();
 
         expect(dedupeAliasesByText(rows)).toStrictEqual(
             dedupeAliasesByText(reversed),

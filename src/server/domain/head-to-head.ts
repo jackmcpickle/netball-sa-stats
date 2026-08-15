@@ -166,7 +166,7 @@ function toRecord(tally: Tally): HeadToHeadRecord {
 
 function bySeasonFrom(sides: readonly Sided[]): readonly SeasonRecord[] {
     return [...tallyBy(sides, (sided) => sided.fact.year)]
-        .sort(([left], [right]) => left - right)
+        .toSorted(([left], [right]) => left - right)
         .map(([year, tally]) => ({
             year,
             played: tally.played,
@@ -179,7 +179,7 @@ function bySeasonFrom(sides: readonly Sided[]): readonly SeasonRecord[] {
 
 function byBandFrom(sides: readonly Sided[]): readonly BandRecord[] {
     return [...tallyBy(sides, (sided) => sided.fact.tier)]
-        .sort(([left], [right]) => left - right)
+        .toSorted(([left], [right]) => left - right)
         .map(([tier, tally]) => ({
             tier,
             label: bandLabel(tier),
@@ -196,13 +196,15 @@ export function buildHeadToHead(
     clubB: ClubKey,
     band: BandFilter,
 ): HeadToHead {
-    const sides = facts
-        .filter(
-            (fact) =>
-                isMeeting(fact, clubA, clubB) &&
-                (band === 'all' || fact.tier === band),
-        )
-        .map((fact) => toSided(fact, clubA));
+    const sides: Sided[] = [];
+    for (const fact of facts) {
+        if (
+            isMeeting(fact, clubA, clubB) &&
+            (band === 'all' || fact.tier === band)
+        ) {
+            sides.push(toSided(fact, clubA));
+        }
+    }
 
     const overall = emptyTally();
     for (const sided of sides) {
@@ -213,7 +215,7 @@ export function buildHeadToHead(
         record: toRecord(overall),
         bySeason: bySeasonFrom(sides),
         byBand: byBandFrom(sides),
-        meetings: sides.map(toMeeting).sort(byRecency),
+        meetings: sides.map(toMeeting).toSorted(byRecency),
     };
 }
 
@@ -231,7 +233,7 @@ export type OpponentCount = {
 export function topOpponents(
     counts: readonly OpponentCount[],
 ): readonly OpponentCount[] {
-    return [...counts].sort((left, right) =>
+    return counts.toSorted((left, right) =>
         left.played === right.played
             ? left.name.localeCompare(right.name)
             : right.played - left.played,
@@ -251,11 +253,18 @@ export const MEETINGS_TABLE_SPEC: TableSpec = {
 
 type MeetingComparator = (left: Meeting, right: Meeting) => number;
 
-const MEETING_COMPARATORS: Record<string, MeetingComparator> = {
-    year: (left, right) => left.year - right.year,
-    round: (left, right) => (left.round ?? 0) - (right.round ?? 0),
-    gradeName: (left, right) => left.gradeName.localeCompare(right.gradeName),
-};
+function byYear(left: Meeting, right: Meeting): number {
+    return left.year - right.year;
+}
+
+const MEETING_COMPARATORS = new Map<string, MeetingComparator>([
+    ['year', byYear],
+    ['round', (left, right) => (left.round ?? 0) - (right.round ?? 0)],
+    [
+        'gradeName',
+        (left, right) => left.gradeName.localeCompare(right.gradeName),
+    ],
+]);
 
 /**
  * Every sort ties back to (year desc, round desc). Without that tiebreaker,
@@ -268,8 +277,8 @@ export function sortMeetings(
 ): readonly Meeting[] {
     const { sort, desc } = q.state;
     const direction = desc ? -1 : 1;
-    const compare = MEETING_COMPARATORS[sort] ?? MEETING_COMPARATORS.year;
-    return [...meetings].sort((left, right) => {
+    const compare = MEETING_COMPARATORS.get(sort) ?? byYear;
+    return meetings.toSorted((left, right) => {
         const primary = compare(left, right);
         return primary === 0 ? byRecency(left, right) : primary * direction;
     });

@@ -47,7 +47,7 @@ describe(resolvePageResult, () => {
     });
 
     it('throws a notFound() error for a not-found DomainError', () => {
-        const error: DomainError = {
+        const notFoundError: DomainError = {
             kind: 'not-found',
             entity: 'club',
             key: 'nobody',
@@ -57,7 +57,7 @@ describe(resolvePageResult, () => {
         // `toThrow`.
         let thrown: unknown;
         try {
-            resolvePageResult(err(error));
+            resolvePageResult(err(notFoundError));
         } catch (error) {
             thrown = error;
         }

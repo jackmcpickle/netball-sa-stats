@@ -25,12 +25,12 @@ import { accentFor } from '@/server/repos/club-accent';
  * `CLUB_RESULTS_TABLE_SPEC`. `coalesce(won, 0)` keeps archive rows, which
  * carry no W-L-D at all, sorting as zero rather than clustering at one end.
  */
-const CLUB_RESULT_ORDER: Record<string, SQL | SQLiteColumn> = {
-    year: seasons.startYear,
-    grade: grades.name,
-    position: teamSeasonResults.ladderPosition,
-    won: sql`coalesce(${teamSeasonResults.won}, 0)`,
-};
+const CLUB_RESULT_ORDER = new Map<string, SQL | SQLiteColumn>([
+    ['year', seasons.startYear],
+    ['grade', grades.name],
+    ['position', teamSeasonResults.ladderPosition],
+    ['won', sql`coalesce(${teamSeasonResults.won}, 0)`],
+]);
 
 /**
  * Every sort ties back to (year desc, grade key asc). Without that, seasons
@@ -38,7 +38,7 @@ const CLUB_RESULT_ORDER: Record<string, SQL | SQLiteColumn> = {
  * finish appears on two pages — or on none.
  */
 function clubResultPageFor(request: PageRequest): ResultPage {
-    const column = CLUB_RESULT_ORDER[request.sort] ?? CLUB_RESULT_ORDER.year;
+    const column = CLUB_RESULT_ORDER.get(request.sort) ?? seasons.startYear;
     return {
         order: [
             request.desc ? desc(column) : asc(column),
@@ -82,15 +82,17 @@ export async function fetchClubs(db: Db): Promise<readonly Club[]> {
     return rows.map(toClub);
 }
 
-export function createClubsRepo(db: Db): {
-    all(): Promise<readonly Club[]>;
-    profile(clubKey: string): Promise<ClubProfile | null>;
-    countResults(clubKey: string): Promise<number>;
-    resultsPage(
+export type ClubsRepo = {
+    readonly all: () => Promise<readonly Club[]>;
+    readonly profile: (clubKey: string) => Promise<ClubProfile | null>;
+    readonly countResults: (clubKey: string) => Promise<number>;
+    readonly resultsPage: (
         clubKey: string,
         request: PageRequest,
-    ): Promise<readonly ClubGradeResult[]>;
-} {
+    ) => Promise<readonly ClubGradeResult[]>;
+};
+
+export function createClubsRepo(db: Db): ClubsRepo {
     return {
         async all(): Promise<readonly Club[]> {
             return await fetchClubs(db);

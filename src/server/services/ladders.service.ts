@@ -12,11 +12,13 @@ import type {
     LaddersParams,
 } from '@/server/dto/ladders.dto';
 
-export function createLaddersService(repos: Repos): {
-    getPage(
+export type LaddersService = {
+    readonly getPage: (
         params: LaddersParams,
-    ): Promise<Result<LaddersPageDto, DomainError>>;
-} {
+    ) => Promise<Result<LaddersPageDto, DomainError>>;
+};
+
+export function createLaddersService(repos: Repos): LaddersService {
     return {
         async getPage(
             params: LaddersParams,
@@ -70,8 +72,9 @@ export function createLaddersService(repos: Repos): {
                     if (!result.ok) {
                         return [];
                     }
-                    grade = result.value.grade;
-                    return result.value.rows;
+                    const { grade: ladderGrade, rows } = result.value;
+                    grade = ladderGrade;
+                    return rows;
                 },
             );
 

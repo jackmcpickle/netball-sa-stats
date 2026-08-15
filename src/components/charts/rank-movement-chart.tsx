@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import type { JSX, PointerEvent as ReactPointerEvent, RefObject } from 'react';
+import type { JSX, PointerEvent as ReactPointerEvent } from 'react';
 import { accentText } from '@/components/accent';
 import { ChartFrame } from '@/components/charts/chart-frame';
 import type { ChartHit } from '@/components/charts/nearest-hit';
@@ -15,6 +15,13 @@ const VIEW_BOX = '0 0 1240 344';
 const LABEL_BASELINE = 326;
 /** ViewBox units — roughly one season's spacing on the rankings chart. */
 const HIT_DISTANCE = 36;
+
+// oxlint-disable-next-line react-doctor/no-tiny-text -- deliberate dense chart annotation: axis tick figures sit beside the plot, not in body copy
+// oxlint-disable-next-line react-doctor/no-tiny-text -- deliberate dense chart annotation: the x-axis year ticks must fit one per plotted band
+const YEAR_LABEL_CLASS = 'fill-ink-muted font-mono text-[11px]';
+const AXIS_LABEL_CLASS = 'fill-ink-faint font-mono text-[11px]';
+// oxlint-disable-next-line react-doctor/no-tiny-text -- deliberate dense chart annotation: the gap marker label must fit between two plotted years
+const GAP_LABEL_CLASS = 'fill-ink-faint font-mono text-[9px]';
 
 type RankMovementChartProps = {
     readonly series: readonly ClubRankSeries[];
@@ -53,14 +60,15 @@ function seriesPolyline(
     years: readonly number[],
     axisMax: number,
 ): (LinePoint | null)[] {
+    const byYear = new Map(entry.points.map((point) => [point.year, point]));
     const points: (LinePoint | null)[] = [];
-    years.forEach((year, index) => {
+    for (const [index, year] of years.entries()) {
         if (index > 0 && year - (years[index - 1] ?? year) > 1) {
             // Break the polyline across dataset holes so the archive→PlayHQ
             // gap never reads as continuous form.
             points.push(null);
         }
-        const point = entry.points.find((candidate) => candidate.year === year);
+        const point = byYear.get(year);
         points.push(
             point
                 ? {
@@ -69,8 +77,16 @@ function seriesPolyline(
                   }
                 : null,
         );
-    });
+    }
     return points;
+}
+
+/** Dot radius: focused series draw larger, and the hovered point larger again. */
+function dotRadius(active: boolean, isFocus: boolean): number {
+    if (active) {
+        return isFocus ? 7 : 5.5;
+    }
+    return isFocus ? 5 : 3.5;
 }
 
 function rankGrid(ticks: readonly number[], axisMax: number): JSX.Element[] {
@@ -89,7 +105,7 @@ function rankGrid(ticks: readonly number[], axisMax: number): JSX.Element[] {
                 <text
                     x="0"
                     y={y + 4}
-                    className="fill-ink-faint font-mono text-[11px]"
+                    className={AXIS_LABEL_CLASS}
                 >
                     {`#${String(rank)}`}
                 </text>
@@ -105,7 +121,7 @@ function yearLabels(years: readonly number[]): JSX.Element[] {
             x={bandX(index, years.length, PLOT)}
             y={LABEL_BASELINE}
             textAnchor="middle"
-            className="fill-ink-muted font-mono text-[11px]"
+            className={YEAR_LABEL_CLASS}
         >
             {year}
         </text>
@@ -141,7 +157,7 @@ function gapMarkers(years: readonly number[]): JSX.Element[] {
                     x={x}
                     y={LABEL_BASELINE}
                     textAnchor="middle"
-                    className="fill-ink-faint font-mono text-[9px]"
+                    className={GAP_LABEL_CLASS}
                 >
                     {gapLabel(slot.missingYears)}
                 </text>
@@ -159,7 +175,7 @@ function seriesMarks(
 ): JSX.Element[] {
     return series.map((entry) => {
         const points = seriesPolyline(entry, years, axisMax);
-        const last = points.filter((point) => point !== null).at(-1);
+        const last = points.findLast((point) => point !== null);
         const isFocus = entry.club.key === focusKey;
         return (
             <g
@@ -191,7 +207,7 @@ function seriesMarks(
                             key={year}
                             cx={bandX(index, years.length, PLOT)}
                             cy={rankY(point.rank, axisMax, PLOT)}
-                            r={active ? (isFocus ? 7 : 5.5) : isFocus ? 5 : 3.5}
+                            r={dotRadius(active, isFocus)}
                             fill="currentColor"
                             className="chart-dot"
                             data-active={active ? 'true' : 'false'}
@@ -222,7 +238,7 @@ type RankSvgProps = {
     readonly axisMax: number;
     readonly focusKey?: string;
     readonly activeId: string | null;
-    readonly svgRef: RefObject<SVGSVGElement | null>;
+    readonly svgRef: (node: SVGSVGElement | null) => void;
     readonly onPointerMove: (event: ReactPointerEvent<SVGSVGElement>) => void;
     readonly onPointerLeave: () => void;
 };
@@ -300,7 +316,10 @@ export function RankMovementChart({
             </p>
             <ChartFrame
                 testId="rank-movement-chart"
-                interaction={interaction}
+                frameRef={interaction.frameRef}
+                hit={interaction.hit}
+                tooltipId={interaction.tooltipId}
+                tooltipRef={interaction.tooltipRef}
             >
                 {renderRankSvg({
                     series,
@@ -310,8 +329,8 @@ export function RankMovementChart({
                     focusKey,
                     activeId: interaction.hit?.id ?? null,
                     svgRef: interaction.svgRef,
-                    onPointerMove: interaction.onPointerMove,
-                    onPointerLeave: interaction.onPointerLeave,
+                    onPointerMove: interaction.handlePointerMove,
+                    onPointerLeave: interaction.handlePointerLeave,
                 })}
             </ChartFrame>
 

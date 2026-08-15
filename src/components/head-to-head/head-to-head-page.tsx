@@ -177,6 +177,8 @@ export function HeadToHeadPage(): JSX.Element {
         () => [
             { value: ALL_BANDS, label: 'All grades' },
             ...data.bands.map((band) => ({
+                // SAFETY: `BandFilter` is `number | typeof ALL_BANDS`, and a
+                // band tier is always a number.
                 value: band.tier as BandFilter,
                 label: band.label,
             })),
@@ -186,6 +188,10 @@ export function HeadToHeadPage(): JSX.Element {
 
     const { a, b, h2h, meetings } = data;
     const neverMet = h2h !== null && h2h.meetings.length === 0;
+    /** The loaded record, or `null` when the pair has never met. */
+    const record = neverMet ? null : h2h;
+    /** Both clubs, or `null` until the user has picked a pair. */
+    const pair = a === null || b === null ? null : { a, b };
 
     return (
         <PageShell className="py-12 pb-24 sm:py-16">
@@ -243,17 +249,17 @@ export function HeadToHeadPage(): JSX.Element {
                 </Panel>
             )}
 
-            {h2h !== null && !neverMet && a !== null && b !== null && (
+            {record !== null && pair !== null && (
                 <>
                     <RecordSummary
-                        a={a}
-                        b={b}
-                        record={h2h.record}
+                        a={pair.a}
+                        b={pair.b}
+                        record={record.record}
                     />
-                    <SeasonStrip seasons={h2h.bySeason} />
+                    <SeasonStrip seasons={record.bySeason} />
                     {meetings !== null && (
                         <DataTable
-                            caption={`Meetings between ${a.name} and ${b.name}`}
+                            caption={`Meetings between ${pair.a.name} and ${pair.b.name}`}
                             columns={MEETING_COLUMNS}
                             rows={meetings.rows}
                             rowKey={meetingKey}

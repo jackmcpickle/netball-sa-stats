@@ -28,6 +28,7 @@ export function ChartTooltip({
                     <div className="text-[13px] font-medium tracking-tight">
                         {hit.label}
                     </div>
+                    {/* oxlint-disable-next-line react-doctor/no-tiny-text -- dense chart annotation: the tooltip detail line is a deliberate 11px mono figure, not body copy */}
                     <div className="mt-0.5 font-mono text-[11px] text-paper/75">
                         {hit.detail}
                     </div>

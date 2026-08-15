@@ -6,9 +6,10 @@
 import { readdirSync, readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { DatabaseSync } from 'node:sqlite';
-import type { SQLInputValue } from 'node:sqlite';
+import type { SQLInputValue, SQLOutputValue } from 'node:sqlite';
 import { drizzle } from 'drizzle-orm/sqlite-proxy';
 import type { Db } from '@/db';
+// oxlint-disable-next-line sonarjs/no-wildcard-import -- drizzle's typed relational API needs the whole schema namespace object, which is what `drizzle(..., { schema })` expects
 import * as schema from '@/db/schema';
 
 const ROOT = resolve(import.meta.dirname, '..', '..', '..');
@@ -18,7 +19,7 @@ function createMigratedSqlite(): DatabaseSync {
     const dir = resolve(ROOT, 'drizzle');
     const files = readdirSync(dir)
         .filter((name) => name.endsWith('.sql'))
-        .sort();
+        .toSorted();
     for (const file of files) {
         const sql = readFileSync(resolve(dir, file), 'utf-8');
         sqlite.exec(sql.replaceAll('--> statement-breakpoint', ''));
@@ -35,6 +36,33 @@ function createMigratedSqlite(): DatabaseSync {
     return sqlite;
 }
 
+function toInputValues(params: unknown[]): SQLInputValue[] {
+    // SAFETY: drizzle's sqlite-proxy only ever passes bound query primitives
+    // (null / number / bigint / string / Uint8Array) in `params`, which is
+    // exactly `SQLInputValue`. There is no other producer of this argument.
+    return params as SQLInputValue[];
+}
+
+/**
+ * What node:sqlite statically claims a row is, widened with the positional
+ * form `setReturnArrays(true)` actually produces.
+ */
+type SqliteRow = Record<string, SQLOutputValue> | unknown[];
+
+function toProxyRow(value: SqliteRow | undefined): unknown[] {
+    // SAFETY: `setReturnArrays(true)` makes node:sqlite return one positional
+    // array per row, which is the row shape sqlite-proxy declares. For the
+    // `get`-miss case the value is `undefined`, and drizzle's `get` mapper
+    // reads `rows` only when truthy, so it never reaches an array operation.
+    return value as unknown[];
+}
+
+function toProxyRows(value: SqliteRow[]): unknown[][] {
+    // SAFETY: as `toProxyRow` — `setReturnArrays(true)` guarantees `all`
+    // yields an array of positional row arrays.
+    return value as unknown[][];
+}
+
 export function createTestDb(): Db {
     const sqlite = createMigratedSqlite();
 
@@ -42,7 +70,7 @@ export function createTestDb(): Db {
         async (sql, params, method) => {
             const stmt = sqlite.prepare(sql);
             if (method === 'run') {
-                stmt.run(...(params as SQLInputValue[]));
+                stmt.run(...toInputValues(params));
                 return { rows: [] };
             }
             // Arrays, not objects: drizzle maps sqlite-proxy rows by
@@ -51,17 +79,10 @@ export function createTestDb(): Db {
             // every column after it.
             stmt.setReturnArrays(true);
             if (method === 'get') {
-                const row = stmt.get(...(params as SQLInputValue[]));
-                if (!row) {
-                    return { rows: undefined as unknown as unknown[] };
-                }
-                return { rows: row as unknown as unknown[] };
+                const row = stmt.get(...toInputValues(params));
+                return { rows: toProxyRow(row) };
             }
-            return {
-                rows: stmt.all(
-                    ...(params as SQLInputValue[]),
-                ) as unknown as unknown[][],
-            };
+            return { rows: toProxyRows(stmt.all(...toInputValues(params))) };
         },
         { schema, casing: 'snake_case' },
     );

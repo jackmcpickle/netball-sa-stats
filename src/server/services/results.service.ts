@@ -11,11 +11,13 @@ import { ok } from '@/server/domain/result';
 import { TableQuery } from '@/server/domain/table-query';
 import type { ResultsPageDto, ResultsParams } from '@/server/dto/results.dto';
 
-export function createResultsService(repos: Repos): {
-    getPage(
+export type ResultsService = {
+    readonly getPage: (
         params: ResultsParams,
-    ): Promise<Result<ResultsPageDto, DomainError>>;
-} {
+    ) => Promise<Result<ResultsPageDto, DomainError>>;
+};
+
+export function createResultsService(repos: Repos): ResultsService {
     return {
         async getPage(
             params: ResultsParams,

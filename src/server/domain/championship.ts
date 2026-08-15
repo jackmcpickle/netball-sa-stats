@@ -14,6 +14,28 @@ import type {
     ChampionshipSeason,
 } from '@/server/dto/rankings.dto';
 
+/** The per-column comparison, before the tiebreaker and direction apply. */
+function primaryFor(
+    sort: string,
+    a: ChampionshipRow,
+    b: ChampionshipRow,
+): number {
+    switch (sort) {
+        case 'club': {
+            return a.club.name.localeCompare(b.club.name);
+        }
+        case 'points': {
+            return a.points - b.points;
+        }
+        case 'teams': {
+            return a.teams - b.teams;
+        }
+        default: {
+            return a.rank - b.rank;
+        }
+    }
+}
+
 /**
  * Every sort gets `rank` as a tiebreaker. Without one, rows with equal points
  * can swap between requests and the same club appears on two pages — or on
@@ -25,15 +47,8 @@ function sortChampionshipRows(
 ): readonly ChampionshipRow[] {
     const { sort, desc } = q.state;
     const direction = desc ? -1 : 1;
-    return [...rows].sort((a, b) => {
-        const primary =
-            sort === 'club'
-                ? a.club.name.localeCompare(b.club.name)
-                : sort === 'points'
-                  ? a.points - b.points
-                  : sort === 'teams'
-                    ? a.teams - b.teams
-                    : a.rank - b.rank;
+    return rows.toSorted((a, b) => {
+        const primary = primaryFor(sort, a, b);
         return primary === 0 ? a.rank - b.rank : primary * direction;
     });
 }

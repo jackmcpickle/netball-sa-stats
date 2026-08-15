@@ -44,6 +44,13 @@ describe(sitemapXml, () => {
         expect(xml).toContain('<loc>https://netballsa.com/method</loc>');
         expect(xml).toContain('<loc>https://netballsa.com/about</loc>');
         expect(xml).toContain('<loc>https://netballsa.com/clubs/contax</loc>');
+    });
+
+    it('wraps the entries in a well-formed urlset with a lastmod', () => {
+        const xml = sitemapXml(
+            buildSitemapEntries(['contax', 'garville']),
+            '2026-08-15',
+        );
         expect(xml).toContain('<lastmod>2026-08-15</lastmod>');
         expect(xml.trimEnd().endsWith('</urlset>')).toBeTruthy();
     });

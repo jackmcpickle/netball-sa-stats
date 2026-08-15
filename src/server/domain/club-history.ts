@@ -63,7 +63,7 @@ function buildClubTrend(
     rankedYears: readonly number[],
 ): ClubTrend {
     const ranked = rows.filter((row) => row.isFinal);
-    const tiers = [...new Set(ranked.map((row) => row.tier))].sort(
+    const tiers = [...new Set(ranked.map((row) => row.tier))].toSorted(
         (a, b) => a - b,
     );
     return {

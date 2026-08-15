@@ -3,14 +3,40 @@
  * script tags, so it is in the server-rendered HTML rather than injected by
  * client JavaScript an agent may never run.
  */
+/* oxlint-disable typescript/explicit-function-return-type -- the node builders keep inference and validate with `satisfies JsonLdNode`; an explicit dictionary return type instead trips anti-slop/no-known-value-widening */
+/* oxlint-disable typescript/explicit-module-boundary-types -- same reason: the inferred literal shape is the contract these builders publish */
 import { absoluteUrl, SITE } from '@/seo/site';
 
-type Json = Record<string, unknown>;
+/**
+ * A JSON-LD value. `undefined` is permitted so optional members can be written
+ * inline: `JSON.stringify` drops those keys, matching the JSON-LD contract.
+ */
+type JsonLdValue =
+    | string
+    | number
+    | boolean
+    | undefined
+    | readonly JsonLdValue[]
+    | JsonLdNode;
+
+/** A JSON-LD node object. */
+export type JsonLdNode = { readonly [key: string]: JsonLdValue };
+
+/** A whole JSON-LD document: one `@graph` of cross-referencable nodes. */
+export type JsonLdDocument = {
+    readonly '@context': string;
+    readonly '@graph': readonly JsonLdNode[];
+};
+
+/** A route `head().meta` entry carrying a JSON-LD document. */
+export type JsonLdMetaTag = {
+    readonly 'script:ld+json': JsonLdDocument;
+};
 
 const ORGANIZATION_ID = `${SITE.origin}/#organization`;
 const WEBSITE_ID = `${SITE.origin}/#website`;
 
-export function organizationSchema(): Json {
+export function organizationSchema() {
     return {
         '@type': 'Organization',
         '@id': ORGANIZATION_ID,
@@ -28,10 +54,10 @@ export function organizationSchema(): Json {
             'Netball SA Premier League',
             'Club championship rankings',
         ],
-    };
+    } satisfies JsonLdNode;
 }
 
-export function webSiteSchema(): Json {
+export function webSiteSchema() {
     return {
         '@type': 'WebSite',
         '@id': WEBSITE_ID,
@@ -40,7 +66,7 @@ export function webSiteSchema(): Json {
         description: SITE.description,
         inLanguage: 'en-AU',
         publisher: { '@id': ORGANIZATION_ID },
-    };
+    } satisfies JsonLdNode;
 }
 
 export function webPageSchema(input: {
@@ -49,7 +75,7 @@ export function webPageSchema(input: {
     readonly path: string;
     /** ISO date the underlying data was last refreshed, when known. */
     readonly dateModified?: string;
-}): Json {
+}) {
     return {
         '@type': 'WebPage',
         '@id': `${absoluteUrl(input.path)}#webpage`,
@@ -59,10 +85,8 @@ export function webPageSchema(input: {
         isPartOf: { '@id': WEBSITE_ID },
         about: { '@id': ORGANIZATION_ID },
         inLanguage: 'en-AU',
-        ...(input.dateModified === undefined
-            ? {}
-            : { dateModified: input.dateModified }),
-    };
+        dateModified: input.dateModified,
+    } satisfies JsonLdNode;
 }
 
 export type FaqEntry = {
@@ -70,7 +94,7 @@ export type FaqEntry = {
     readonly answer: string;
 };
 
-export function faqSchema(entries: readonly FaqEntry[]): Json {
+export function faqSchema(entries: readonly FaqEntry[]) {
     return {
         '@type': 'FAQPage',
         mainEntity: entries.map((entry) => ({
@@ -81,7 +105,7 @@ export function faqSchema(entries: readonly FaqEntry[]): Json {
                 text: entry.answer,
             },
         })),
-    };
+    } satisfies JsonLdNode;
 }
 
 export type Crumb = {
@@ -89,7 +113,7 @@ export type Crumb = {
     readonly path: string;
 };
 
-export function breadcrumbSchema(crumbs: readonly Crumb[]): Json {
+export function breadcrumbSchema(crumbs: readonly Crumb[]) {
     return {
         '@type': 'BreadcrumbList',
         itemListElement: crumbs.map((crumb, index) => ({
@@ -98,7 +122,7 @@ export function breadcrumbSchema(crumbs: readonly Crumb[]): Json {
             name: crumb.name,
             item: absoluteUrl(crumb.path),
         })),
-    };
+    } satisfies JsonLdNode;
 }
 
 export function datasetSchema(input: {
@@ -107,7 +131,7 @@ export function datasetSchema(input: {
     readonly path: string;
     readonly temporalCoverage: string;
     readonly dateModified?: string;
-}): Json {
+}) {
     return {
         '@type': 'Dataset',
         '@id': `${absoluteUrl(input.path)}#dataset`,
@@ -120,9 +144,7 @@ export function datasetSchema(input: {
         temporalCoverage: input.temporalCoverage,
         spatialCoverage: 'South Australia, Australia',
         keywords: ['netball', 'club rankings', 'ladders', 'South Australia'],
-        ...(input.dateModified === undefined
-            ? {}
-            : { dateModified: input.dateModified }),
+        dateModified: input.dateModified,
         distribution: [
             {
                 '@type': 'DataDownload',
@@ -130,14 +152,14 @@ export function datasetSchema(input: {
                 contentUrl: absoluteUrl('/llms-full.txt'),
             },
         ],
-    };
+    } satisfies JsonLdNode;
 }
 
 /**
  * Wraps graph nodes in a single `@graph` document — one script tag per page
  * keeps the nodes cross-referencable by `@id`.
  */
-export function jsonLdGraph(nodes: readonly Json[]): string {
+export function jsonLdGraph(nodes: readonly JsonLdNode[]): string {
     return JSON.stringify({
         '@context': 'https://schema.org',
         '@graph': nodes,
@@ -149,9 +171,7 @@ export function jsonLdGraph(nodes: readonly Json[]): string {
  * special-cases the `script:ld+json` key and does the HTML escaping, which
  * hand-rolled `headScripts` children would not.
  */
-export function jsonLdMeta(nodes: readonly Json[]): {
-    readonly 'script:ld+json': Json;
-} {
+export function jsonLdMeta(nodes: readonly JsonLdNode[]): JsonLdMetaTag {
     return {
         'script:ld+json': {
             '@context': 'https://schema.org',

@@ -14,6 +14,9 @@ const fixturePath = resolve(
 );
 
 function loadFixture(): GradeLadderResponse {
+    // SAFETY: this repo's own committed PlayHQ probe capture, the recorded
+    // `gradeLadder` response; the asserted shape is the same one `collect.ts`
+    // reads that capture back as.
     return JSON.parse(
         readFileSync(fixturePath, 'utf-8'),
     ) as GradeLadderResponse;
@@ -53,7 +56,7 @@ describe(mapStandingsToResults, () => {
             1000,
             (standing) => extractSquadNumber(standing.team.name),
         );
-        const contax = rows[0];
+        const [contax] = rows;
         if (contax === undefined) {
             throw new Error('missing row');
         }

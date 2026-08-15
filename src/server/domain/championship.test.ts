@@ -21,6 +21,9 @@ function historyOf(
 
 describe('Championship.sorted', () => {
     it('breaks ties on rank so paging is stable', () => {
+        // SAFETY: sorting reads only `rank`, `points`, `teams` and
+        // `club.name`, all of which these literals supply; the omitted
+        // display-only fields are never touched by the comparator.
         const rows = [
             { rank: 3, points: 10, teams: 5, club: { name: 'C', key: 'c' } },
             { rank: 1, points: 10, teams: 5, club: { name: 'A', key: 'a' } },
@@ -37,6 +40,9 @@ describe('Championship.sorted', () => {
     });
 
     it('sorts by club name ascending', () => {
+        // SAFETY: sorting reads only `rank`, `points`, `teams` and
+        // `club.name`, all of which these literals supply; the omitted
+        // display-only fields are never touched by the comparator.
         const rows = [
             { rank: 1, points: 10, teams: 5, club: { name: 'Zed', key: 'z' } },
             { rank: 2, points: 9, teams: 4, club: { name: 'Ace', key: 'a' } },

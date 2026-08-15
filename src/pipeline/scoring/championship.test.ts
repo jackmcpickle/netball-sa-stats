@@ -64,7 +64,7 @@ describe(rankClubs, () => {
     });
 
     it('lets depth beat a single strong team', () => {
-        const deep = Array.from({ length: 6 }, (_, i) =>
+        const deep = Array.from({ length: 6 }, () =>
             row({
                 clubKey: 'deep',
                 teamCount: 10,
@@ -73,8 +73,8 @@ describe(rankClubs, () => {
                 won: null,
                 lost: null,
                 drawn: null,
-                // Six mid-table sides in weak grades.
-                year: 2025 + i * 0,
+                // Six mid-table sides in weak grades, all in the one season.
+                year: 2025,
             }),
         );
         const totals = rankClubs([

@@ -2,11 +2,16 @@ import type { JSX } from 'react';
 import { gapLabel } from '@/components/charts/timeline-slots';
 import type { Coverage } from '@/server/dto/shared.dto';
 
-const STATUS_LABEL: Record<string, string> = {
-    ranked: 'ranked',
-    'in-progress': 'in progress',
-    absent: 'no season',
-};
+const STATUS_LABEL = new Map([
+    ['ranked', 'ranked'],
+    ['in-progress', 'in progress'],
+    ['absent', 'no season'],
+]);
+
+/** Human wording for a season status, falling back to the raw key. */
+function statusLabel(status: string): string {
+    return STATUS_LABEL.get(status) ?? status;
+}
 
 /**
  * What the site actually covers, stated plainly rather than implied by an
@@ -18,7 +23,7 @@ export function CoverageNote({
 }: {
     readonly coverage: Coverage;
 }): JSX.Element {
-    const first = coverage.rankedYears[0];
+    const [first] = coverage.rankedYears;
     const last = coverage.rankedYears.at(-1);
     const gapText =
         coverage.timelineGaps.length === 0
@@ -68,14 +73,19 @@ export function CoverageNote({
                             {entry.seasons.map((season) => (
                                 <span
                                     key={season.year}
-                                    title={season.note ?? undefined}
                                     className={`numeric rounded-full px-2.5 py-1 text-xs ${
                                         season.status === 'ranked'
                                             ? 'bg-paper-sunken text-ink'
                                             : 'bg-paper text-ink-muted ring-1 ring-rule'
                                     }`}
                                 >
-                                    {`${String(season.year)} · ${STATUS_LABEL[season.status] ?? season.status}`}
+                                    {`${String(season.year)} · ${statusLabel(season.status)}`}
+                                    {season.note === null ||
+                                    season.note === undefined ? null : (
+                                        <span className="sr-only">
+                                            {` — ${season.note}`}
+                                        </span>
+                                    )}
                                 </span>
                             ))}
                         </dd>

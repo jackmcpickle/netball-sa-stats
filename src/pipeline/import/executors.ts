@@ -54,6 +54,10 @@ export function createWranglerExecutor(
                 ],
                 { encoding: 'utf-8' },
             );
+            // SAFETY: `wrangler d1 execute --json` is documented to print an
+            // array of per-statement result objects; `results` is read
+            // optionally and defaulted to `[]` on the next line, so a shape
+            // change degrades to "no rows" rather than a bad cast.
             const parsed = JSON.parse(output) as {
                 results?: Record<string, unknown>[];
             }[];
@@ -89,12 +93,14 @@ export function createWranglerExecutor(
 export function createSqliteExecutor(db: DatabaseSync): ImportExecutor {
     return {
         queryAll: async (sql) => {
+            // SAFETY: `node:sqlite`'s `all()` is typed `unknown[]`, but every
+            // row it yields is a plain object keyed by the SELECT's column
+            // names — which is exactly `ImportExecutor['queryAll']`'s row type.
             const rows = db.prepare(sql).all() as Record<string, unknown>[];
             return rows;
         },
         batch: async (statements) => {
             db.exec(statements.join('\n'));
-            return;
         },
     };
 }

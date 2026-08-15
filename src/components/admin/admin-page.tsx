@@ -18,23 +18,27 @@ const FIELD_CLASS =
 
 type FormSubmitEvent = {
     readonly currentTarget: HTMLFormElement;
-    preventDefault(): void;
+    readonly preventDefault: () => void;
 };
 
 type RunButtonEvent = {
     readonly currentTarget: HTMLButtonElement;
 };
 
+/**
+ * `FormData.get` returns `File | string | null`; only a text field is ever
+ * meaningful here, so a file or a missing field reads as the empty string.
+ */
 function formField(form: FormData, name: string): string {
     const value = form.get(name);
-    return typeof value === 'string' ? value : '';
+    return value instanceof File || value === null ? '' : value;
 }
 
 function statusStrip(page: AdminPageDto): string {
     if (page.running && page.runningElapsedLabel !== null) {
         return `Import in progress · ${page.runningElapsedLabel}`;
     }
-    const latest = page.runs[0];
+    const [latest] = page.runs;
     if (page.lastStatus !== null && latest !== undefined) {
         return `Last run: ${latest.startedLabel} · ${page.lastStatus}`;
     }
@@ -160,14 +164,15 @@ export function AdminPage(): JSX.Element {
                 new FormData(event.currentTarget),
                 'years',
             );
-            void runImportFn({ data: { yearsText } }).then(async (result) => {
+            void (async (): Promise<void> => {
+                const result = await runImportFn({ data: { yearsText } });
                 if (!result.ok) {
                     setRunError(runErrorMessage(result.error.kind));
                     return;
                 }
                 setRunError(null);
                 await router.invalidate();
-            });
+            })();
         },
         [runImportFn, router],
     );

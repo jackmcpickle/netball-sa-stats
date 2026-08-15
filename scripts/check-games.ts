@@ -13,6 +13,7 @@
  *   pnpm exec tsx scripts/check-games.ts [--year=2026] [--grade=<grade_key>]
  */
 import { createWranglerExecutor } from '../src/pipeline/import/executors.ts';
+import type { ImportExecutor } from '../src/pipeline/import/types.ts';
 
 const target = process.argv.includes('--remote') ? 'remote' : 'local';
 const yearArg = process.argv.find((arg) => arg.startsWith('--year='));
@@ -90,6 +91,8 @@ WHERE EXISTS (SELECT 1 FROM games g WHERE g.grade_id = r.grade_id)
 ORDER BY gr.grade_key, r.ladder_position;
 `;
 
+type QueryRow = Awaited<ReturnType<ImportExecutor['queryAll']>>[number];
+
 type Row = {
     gradeKey: string;
     year: number;
@@ -105,7 +108,27 @@ type Row = {
 // Same route to D1 the importer uses, so there is one way to reach it.
 const executor = createWranglerExecutor('netball-stats', target);
 
-const rows = (await executor.queryAll(SQL)) as unknown as Row[];
+/**
+ * D1 hands back untyped column bags. Coerce at the boundary rather than
+ * asserting, so a renamed column shows up as `NaN`/`undefined` here and not as
+ * a silent lie about the row shape.
+ */
+function toRow(raw: QueryRow): Row {
+    return {
+        gradeKey: String(raw.gradeKey),
+        year: Number(raw.year),
+        team: String(raw.team),
+        ladderWon: Number(raw.ladderWon),
+        ladderLost: Number(raw.ladderLost),
+        ladderDrawn: Number(raw.ladderDrawn),
+        gamesWon: Number(raw.gamesWon),
+        gamesLost: Number(raw.gamesLost),
+        gamesDrawn: Number(raw.gamesDrawn),
+    };
+}
+
+const rawRows = await executor.queryAll(SQL);
+const rows = rawRows.map(toRow);
 const scoped = rows.filter(
     (row) =>
         (year === null || row.year === year) &&

@@ -59,7 +59,7 @@ async function readGameCsvs(dataDir: string): Promise<GameImportRow[]> {
     const entries = await readdir(dataDir);
     const files = entries
         .filter((name) => /^games-\d{4}\.csv$/u.test(name))
-        .sort((a, b) => a.localeCompare(b));
+        .toSorted((a, b) => a.localeCompare(b));
     const perFile = await Promise.all(
         files.map(async (file) => {
             const rows = await readCsv(dataDir, file);
@@ -100,8 +100,10 @@ export async function loadImportData(dataDir: string): Promise<ImportData> {
 async function loadCompetitionKeys(
     queryAll: (sql: string) => Promise<Record<string, unknown>[]>,
 ): Promise<ReadonlySet<string>> {
-    const competitions = await queryAll('SELECT key FROM competitions;');
-    const weights = await queryAll('SELECT id FROM grade_weights LIMIT 1;');
+    const [competitions, weights] = await Promise.all([
+        queryAll('SELECT key FROM competitions;'),
+        queryAll('SELECT id FROM grade_weights LIMIT 1;'),
+    ]);
     if (competitions.length === 0 || weights.length === 0) {
         throw new ImportValidationError(
             'database',
@@ -133,7 +135,7 @@ async function assertRowCountsMatch(
         { table: 'games', expected: data.games.length },
     ];
     for (const { table, expected } of tables) {
-        // eslint-disable-next-line no-await-in-loop -- small fixed list, sequential is fine and keeps errors ordered
+        // oxlint-disable-next-line eslint/no-await-in-loop, react-doctor/async-await-in-loop -- small fixed list, sequential is fine and keeps errors ordered
         const rows = await queryAll(`SELECT COUNT(*) AS n FROM ${table};`);
         const actual = Number(rows[0]?.n ?? Number.NaN);
         if (actual !== expected) {
@@ -213,7 +215,7 @@ export async function runImportData(
 
     const batches = generateImportSql(data);
     for (const batch of batches) {
-        // eslint-disable-next-line no-await-in-loop -- sequential by requirement
+        // oxlint-disable-next-line eslint/no-await-in-loop, react-doctor/async-await-in-loop -- sequential by requirement: later batches depend on rows earlier ones insert
         await executor.batch(batch.statements);
     }
 

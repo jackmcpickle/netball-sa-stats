@@ -11,12 +11,13 @@ import { TopOpponentsPanel } from '@/components/club/top-opponents-panel';
 import { PageShell, Panel } from '@/components/ui/layout';
 import { FieldSelect } from '@/components/ui/select';
 import type { TableState } from '@/db/queries/pagination';
+import type { TableSearch } from '@/routes/-table-params';
 
 const routeApi = getRouteApi('/clubs/$clubKey');
 
 function nextTableSearch(
     next: TableState,
-): (previous: Record<string, unknown>) => Record<string, unknown> {
+): (previous: TableSearch) => TableSearch {
     return (previous) => ({
         ...previous,
         sort: next.sort,

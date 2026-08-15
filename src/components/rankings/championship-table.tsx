@@ -57,6 +57,17 @@ function renderMinorPremiershipsCell(row: ChampionshipRow): ReactNode {
     return <span className="numeric">{row.minorPremierships}</span>;
 }
 
+/** Column heading for the movement column, given what it can compare to. */
+function movementHeaderLabel(
+    coverageChanged: boolean,
+    previousYear: number | null,
+): string {
+    if (coverageChanged) {
+        return 'COVERAGE CHANGED';
+    }
+    return previousYear === null ? 'VS PREVIOUS' : `VS ${String(previousYear)}`;
+}
+
 function renderMovementCell(
     row: ChampionshipRow,
     coverageChanged: boolean,
@@ -72,10 +83,7 @@ function renderMovementCell(
                 />
             </span>
             {coverageChanged ? (
-                <span
-                    className="numeric w-12 text-right text-[13px] text-ink-faint sm:w-14"
-                    title="Competition coverage, methodology, or a gap in seasons changed since the previous ranked season, so this season is not directly comparable — no movement is shown."
-                >
+                <span className="numeric w-12 text-right text-[13px] text-ink-faint sm:w-14">
                     <span className="sr-only">
                         Not comparable to the previous ranked season —
                         competition coverage changed
@@ -118,11 +126,7 @@ export function ChampionshipTable({
 }): JSX.Element {
     const leaderPoints = rows[0]?.points ?? 1;
 
-    const movementHeader = coverageChanged
-        ? 'COVERAGE CHANGED'
-        : previousYear === null
-          ? 'VS PREVIOUS'
-          : `VS ${String(previousYear)}`;
+    const movementHeader = movementHeaderLabel(coverageChanged, previousYear);
 
     const columns = useMemo<readonly DataTableColumn<ChampionshipRow>[]>(
         () => [

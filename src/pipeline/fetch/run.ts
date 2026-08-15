@@ -11,17 +11,9 @@ import type { CsvValue } from '@/pipeline/csv';
 import { createFsStore } from '@/pipeline/fetch/capture-store';
 import { ClubRegistry } from '@/pipeline/fetch/club-registry';
 import type { ClubAliasRow, ClubRow } from '@/pipeline/fetch/club-registry';
-import {
-    collectPlayHqData,
-    processGrade,
-    resolveCompetitionKey,
-    seasonWanted,
-} from '@/pipeline/fetch/collect';
+import { collectPlayHqData } from '@/pipeline/fetch/collect';
 import type {
-    CollectOptions,
-    CollectedPlayHq,
     FetchReport,
-    GradeContext,
     GradeRow,
     SeasonRow,
     TeamRow,
@@ -30,7 +22,12 @@ import type { GameRow } from '@/pipeline/fetch/games';
 
 // Re-exported so `scripts/`, tests and `to-import.ts` can keep treating this
 // module as the fetch entrypoint while the Worker imports `collect.ts` alone.
-export { collectPlayHqData, processGrade, resolveCompetitionKey, seasonWanted };
+export {
+    collectPlayHqData,
+    processGrade,
+    resolveCompetitionKey,
+    seasonWanted,
+} from '@/pipeline/fetch/collect';
 export type {
     CollectOptions,
     CollectedPlayHq,
@@ -39,7 +36,7 @@ export type {
     GradeRow,
     SeasonRow,
     TeamRow,
-};
+} from '@/pipeline/fetch/collect';
 
 const ROOT = resolve(import.meta.dirname, '..', '..', '..');
 const DATA_DIR = resolve(ROOT, 'data');
@@ -60,6 +57,10 @@ async function readExistingCsv<T extends Record<string, string>>(
 ): Promise<T[]> {
     try {
         const text = await readFile(resolve(DATA_DIR, fileName), 'utf-8');
+        // SAFETY: `parseCsv` returns `Record<string, string>[]` keyed by the
+        // file's own header row; `T` is constrained to that same shape and
+        // only ever narrows which header names the caller reads. Every caller
+        // here reads columns this repo writes in `writeCsvs` below.
         return parseCsv(text) as T[];
     } catch {
         return [];
@@ -140,8 +141,10 @@ async function writeGamesCsvs(
     gamesByYear: ReadonlyMap<number, readonly GameRow[]>,
 ): Promise<number> {
     let total = 0;
-    for (const [year, rows] of [...gamesByYear].sort((a, b) => a[0] - b[0])) {
-        const sorted = [...rows].sort((a, b) =>
+    for (const [year, rows] of [...gamesByYear].toSorted(
+        (a, b) => a[0] - b[0],
+    )) {
+        const sorted = rows.toSorted((a, b) =>
             gameKeyOf(a).localeCompare(gameKeyOf(b)),
         );
         // eslint-disable-next-line no-await-in-loop -- a handful of files, written in order for a stable log.
@@ -176,26 +179,31 @@ async function writeCsvs(
     teams: number;
     results: number;
 }> {
+    const [existingGrades, existingTeams, existingResults] = await Promise.all([
+        readExistingCsv('grades.csv'),
+        readExistingCsv('teams.csv'),
+        readExistingCsv('team_season_results.csv'),
+    ]);
     const archived = archiveRowsToKeep(
         {
             seasons: existingSeasons,
-            grades: await readExistingCsv('grades.csv'),
-            teams: await readExistingCsv('teams.csv'),
-            results: await readExistingCsv('team_season_results.csv'),
+            grades: existingGrades,
+            teams: existingTeams,
+            results: existingResults,
         },
         new Set(fetched.seasons.map((row) => row.season_key)),
     );
 
-    const seasons = [...fetched.seasons, ...archived.seasons].sort((a, b) =>
+    const seasons = [...fetched.seasons, ...archived.seasons].toSorted((a, b) =>
         a.season_key.localeCompare(b.season_key),
     );
-    const grades = [...fetched.grades, ...archived.grades].sort((a, b) =>
+    const grades = [...fetched.grades, ...archived.grades].toSorted((a, b) =>
         a.grade_key.localeCompare(b.grade_key),
     );
-    const teams = [...fetched.teams, ...archived.teams].sort((a, b) =>
+    const teams = [...fetched.teams, ...archived.teams].toSorted((a, b) =>
         teamKeyOf(a).localeCompare(teamKeyOf(b)),
     );
-    const results = [...fetched.results, ...archived.results].sort((a, b) =>
+    const results = [...fetched.results, ...archived.results].toSorted((a, b) =>
         resultKeyOf(a).localeCompare(resultKeyOf(b)),
     );
 
@@ -228,9 +236,11 @@ async function writeCsvs(
 
 /** Loads the curated `clubs.csv`/`club_aliases.csv` state into a fresh registry. */
 async function loadClubRegistry(): Promise<ClubRegistry> {
-    const existingClubs = (
-        await readExistingCsv<Record<string, string>>('clubs.csv')
-    ).map(
+    const [clubRows, aliasRows] = await Promise.all([
+        readExistingCsv<Record<string, string>>('clubs.csv'),
+        readExistingCsv<Record<string, string>>('club_aliases.csv'),
+    ]);
+    const existingClubs = clubRows.map(
         (row): ClubRow => ({
             club_key: row.club_key,
             name: row.name,
@@ -240,9 +250,7 @@ async function loadClubRegistry(): Promise<ClubRegistry> {
             playhq_id: row.playhq_id === '' ? null : row.playhq_id,
         }),
     );
-    const existingAliases = (
-        await readExistingCsv<Record<string, string>>('club_aliases.csv')
-    ).map(
+    const existingAliases = aliasRows.map(
         (row): ClubAliasRow => ({
             club_key: row.club_key,
             alias_text: row.alias_text,
@@ -273,18 +281,21 @@ export async function runFetch(options: FetchOptions): Promise<FetchReport> {
         gradeId: options.gradeId,
     });
 
-    const written = await writeCsvs(
-        {
-            seasons: collected.seasons,
-            grades: collected.grades,
-            teams: collected.teams,
-            results: collected.results,
-        },
-        existingSeasons,
-        clubRegistry,
-    );
-
-    const games = await writeGamesCsvs(collected.gamesByYear);
+    // Disjoint output files (`games-<year>.csv` vs the shared CSVs), so the
+    // two writers can run together.
+    const [written, games] = await Promise.all([
+        writeCsvs(
+            {
+                seasons: collected.seasons,
+                grades: collected.grades,
+                teams: collected.teams,
+                results: collected.results,
+            },
+            existingSeasons,
+            clubRegistry,
+        ),
+        writeGamesCsvs(collected.gamesByYear),
+    ]);
 
     return { ...written, games, skippedGrades: collected.report.skippedGrades };
 }

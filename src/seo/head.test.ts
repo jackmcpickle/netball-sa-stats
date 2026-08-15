@@ -3,29 +3,26 @@
  * JSON-LD graph is invisible in the browser and fatal to a crawler.
  */
 import { describe, expect, it } from 'vitest';
+import type { MetaTag } from '@/seo/head';
 import { pageHead, pageTitle } from '@/seo/head';
+import type { JsonLdNode } from '@/seo/structured-data';
 import { faqSchema } from '@/seo/structured-data';
 
-type MetaLike = {
-    readonly title?: string;
-    readonly name?: string;
-    readonly property?: string;
-    readonly content?: string;
-    readonly 'script:ld+json'?: Record<string, unknown>;
-};
-
 function contentOf(
-    meta: readonly MetaLike[],
+    meta: readonly MetaTag[],
     key: 'name' | 'property',
     value: string,
 ): string | undefined {
     return meta.find((tag) => tag[key] === value)?.content;
 }
 
-function graphOf(meta: readonly MetaLike[]): Record<string, unknown>[] {
+function graphOf(meta: readonly MetaTag[]): readonly JsonLdNode[] {
     const node = meta.find((tag) => tag['script:ld+json'] !== undefined);
     const graph = node?.['script:ld+json']?.['@graph'];
-    return graph as Record<string, unknown>[];
+    if (graph === undefined) {
+        throw new Error('head() emitted no JSON-LD @graph');
+    }
+    return graph;
 }
 
 const PATHS = [
@@ -57,6 +54,14 @@ describe(pageHead, () => {
         expect(contentOf(head.meta, 'property', 'og:description')).toBe(
             'A description of the page.',
         );
+    });
+
+    it.each(PATHS)('gives %s complete Open Graph and Twitter cards', (path) => {
+        const head = pageHead({
+            title: 'Page',
+            description: 'A description of the page.',
+            path,
+        });
         expect(contentOf(head.meta, 'property', 'og:url')).toBe(
             `https://netballsa.com${path}`,
         );
@@ -126,10 +131,8 @@ describe(pageHead, () => {
             description: 'x',
             path: '/',
         }).meta.find((tag) => tag['script:ld+json'] !== undefined);
-        const parsed = JSON.parse(JSON.stringify(node?.['script:ld+json'])) as {
-            '@context': string;
-        };
-        expect(parsed['@context']).toBe('https://schema.org');
+        const parsed = structuredClone(node?.['script:ld+json']);
+        expect(parsed?.['@context']).toBe('https://schema.org');
     });
 
     it('marks admin pages noindex and emits no structured data', () => {

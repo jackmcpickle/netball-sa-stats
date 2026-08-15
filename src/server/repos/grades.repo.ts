@@ -62,18 +62,18 @@ export async function fetchGrades(
  * and were compared as zero, so they keep sorting as zero rather than
  * clustering at one end the way raw SQL NULLs would.
  */
-const LADDER_ORDER: Record<string, SQL | SQLiteColumn> = {
-    position: teamSeasonResults.ladderPosition,
-    team: teams.displayName,
-    played: sql`coalesce(${teamSeasonResults.played}, 0)`,
-    won: sql`coalesce(${teamSeasonResults.won}, 0)`,
-    lost: sql`coalesce(${teamSeasonResults.lost}, 0)`,
-    drawn: sql`coalesce(${teamSeasonResults.drawn}, 0)`,
-    goalsFor: sql`coalesce(${teamSeasonResults.goalsFor}, 0)`,
-    goalsAgainst: sql`coalesce(${teamSeasonResults.goalsAgainst}, 0)`,
-    percentage: sql`coalesce(${teamSeasonResults.percentage}, 0)`,
-    points: sql`coalesce(${teamSeasonResults.points}, 0)`,
-};
+const LADDER_ORDER = new Map<string, SQL | SQLiteColumn>([
+    ['position', teamSeasonResults.ladderPosition],
+    ['team', teams.displayName],
+    ['played', sql`coalesce(${teamSeasonResults.played}, 0)`],
+    ['won', sql`coalesce(${teamSeasonResults.won}, 0)`],
+    ['lost', sql`coalesce(${teamSeasonResults.lost}, 0)`],
+    ['drawn', sql`coalesce(${teamSeasonResults.drawn}, 0)`],
+    ['goalsFor', sql`coalesce(${teamSeasonResults.goalsFor}, 0)`],
+    ['goalsAgainst', sql`coalesce(${teamSeasonResults.goalsAgainst}, 0)`],
+    ['percentage', sql`coalesce(${teamSeasonResults.percentage}, 0)`],
+    ['points', sql`coalesce(${teamSeasonResults.points}, 0)`],
+]);
 
 /**
  * Ladder position is the tiebreaker on every sort. Without one, teams level
@@ -81,7 +81,8 @@ const LADDER_ORDER: Record<string, SQL | SQLiteColumn> = {
  * on two pages — or on none.
  */
 function ladderPageFor(request: PageRequest): ResultPage {
-    const column = LADDER_ORDER[request.sort] ?? LADDER_ORDER.position;
+    const column =
+        LADDER_ORDER.get(request.sort) ?? teamSeasonResults.ladderPosition;
     return {
         order: [
             request.desc ? desc(column) : asc(column),
@@ -120,14 +121,16 @@ export type LadderPage = {
     readonly rows: readonly LadderRow[];
 };
 
-export function createGradesRepo(db: Db): {
-    forYear(year: number): Promise<readonly GradeSummary[]>;
-    countLadder(gradeKey: string): Promise<number>;
-    ladderPage(
+export type GradesRepo = {
+    readonly forYear: (year: number) => Promise<readonly GradeSummary[]>;
+    readonly countLadder: (gradeKey: string) => Promise<number>;
+    readonly ladderPage: (
         gradeKey: string,
         request: PageRequest,
-    ): Promise<Result<LadderPage, DomainError>>;
-} {
+    ) => Promise<Result<LadderPage, DomainError>>;
+};
+
+export function createGradesRepo(db: Db): GradesRepo {
     return {
         async forYear(year: number): Promise<readonly GradeSummary[]> {
             return await fetchGrades(db, year);
@@ -144,7 +147,7 @@ export function createGradesRepo(db: Db): {
                 { gradeKey },
                 ladderPageFor(request),
             );
-            const first = rows[0];
+            const [first] = rows;
             if (!first) {
                 return err({
                     kind: 'not-found',

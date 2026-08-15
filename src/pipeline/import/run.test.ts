@@ -64,11 +64,14 @@ describe(runImport, () => {
             executor: createSqliteExecutor(db),
         });
 
+        // SAFETY: the asserted shape is the SELECT list of the statement on
+        // the same expression; `id`/`season_id` are NOT NULL integer columns.
         const grade = db
             .prepare(
                 "SELECT id, season_id FROM grades WHERE grade_key = 'amnd-winter-2023-a-grade'",
             )
             .get() as { id: number; season_id: number };
+        // SAFETY: as above — `id` is the table's INTEGER PRIMARY KEY.
         const season = db
             .prepare(
                 "SELECT id FROM seasons WHERE season_key = 'amnd-winter-2023'",
@@ -76,11 +79,14 @@ describe(runImport, () => {
             .get() as { id: number };
         expect(grade.season_id).toBe(season.id);
 
+        // SAFETY: the asserted shape is the SELECT list on the same
+        // expression; both are NOT NULL foreign-key columns.
         const team = db
             .prepare(
                 "SELECT club_id, grade_id FROM teams WHERE display_name = 'Fixture Club A' AND grade_id = ?",
             )
             .get(grade.id) as { club_id: number; grade_id: number };
+        // SAFETY: as above — `id` is the table's INTEGER PRIMARY KEY.
         const club = db
             .prepare("SELECT id FROM clubs WHERE club_key = 'fixture-club-a'")
             .get() as { id: number };
@@ -141,6 +147,8 @@ describe(runImport, () => {
         expect(report).toMatchObject({ teams: 2, results: 2 });
         expect(tableRows(db, 'teams')).toHaveLength(2);
         expect(tableRows(db, 'team_season_results')).toHaveLength(2);
+        // SAFETY: `teams.display_name` is `TEXT NOT NULL` in the schema, and
+        // `tableRows` selects every column of the row just imported.
         const teams = tableRows(db, 'teams') as { display_name: string }[];
         expect(teams.map((t) => t.display_name).toSorted()).toStrictEqual([
             'Walkerville 1',
@@ -210,6 +218,8 @@ describe(runImport, () => {
         ).resolves.toBeDefined();
 
         expect(tableRows(db, 'seasons')).toHaveLength(2);
+        // SAFETY: the asserted shape is the SELECT list on the same
+        // expression, aliased to match; the row was just imported above.
         const updated = db
             .prepare(
                 'SELECT label, playhq_id AS playhqId FROM seasons WHERE season_key = ?',
@@ -261,6 +271,8 @@ describe('games import', () => {
         });
         expect(report.games).toBe(4);
 
+        // SAFETY: the asserted shape is the aliased SELECT list on the same
+        // expression, over rows this test just imported from the fixture.
         const rows = db
             .prepare(
                 `SELECT g.playhq_id AS playhqId, g.status, g.round,
@@ -297,6 +309,7 @@ describe('games import', () => {
         };
         await runImport(options);
         await runImport(options);
+        // SAFETY: `COUNT(*)` always yields exactly one row with a numeric `n`.
         const count = db.prepare('SELECT COUNT(*) AS n FROM games;').get() as {
             n: number;
         };
@@ -315,6 +328,7 @@ describe('games import', () => {
         expect(report.unresolvedTeamWarnings[0].missingTeamIds).toStrictEqual([
             'ghost-team',
         ]);
+        // SAFETY: `COUNT(*)` always yields exactly one row with a numeric `n`.
         const count = db.prepare('SELECT COUNT(*) AS n FROM games;').get() as {
             n: number;
         };

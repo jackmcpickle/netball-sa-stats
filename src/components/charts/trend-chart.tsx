@@ -1,13 +1,17 @@
 import { useMemo } from 'react';
-import type { JSX, PointerEvent as ReactPointerEvent, RefObject } from 'react';
+import type { JSX, PointerEvent as ReactPointerEvent } from 'react';
 import { accentText } from '@/components/accent';
 import { ChartFrame } from '@/components/charts/chart-frame';
 import type { ChartHit } from '@/components/charts/nearest-hit';
 import { bandX, barHeight, linePath, round } from '@/components/charts/scale';
 import type { LinePoint, Plot } from '@/components/charts/scale';
 import { gapLabel, timelineSlots } from '@/components/charts/timeline-slots';
+import {
+    describeTrendSlot,
+    formatStrength,
+    strengthPath,
+} from '@/components/charts/trend-path';
 import { useChartInteraction } from '@/components/charts/use-chart-interaction';
-import { NO_VALUE } from '@/components/format';
 import type { ClubTrendPoint } from '@/server/dto/club-profile.dto';
 import type { AccentName } from '@/server/dto/shared.dto';
 
@@ -19,66 +23,17 @@ const VIEW_BOX = '0 0 1200 336';
 const TICKS: readonly number[] = [0, 0.25, 0.5, 0.75, 1];
 const HIT_DISTANCE = 36;
 
-/**
- * Split a club's trend into unbroken runs of measured seasons. A season with no
- * measurable strength — or a hole in the calendar — ends the run, so the line
- * never interpolates across a season the club did not play.
- */
-export function strengthPath(
-    points: readonly ClubTrendPoint[],
-): readonly (readonly ClubTrendPoint[])[] {
-    const segments: ClubTrendPoint[][] = [];
-    let current: ClubTrendPoint[] = [];
-    for (const point of points) {
-        const previous = current.at(-1);
-        const brokenCalendar =
-            previous !== undefined && point.year - previous.year > 1;
-        if (point.strength === null || brokenCalendar) {
-            if (current.length > 0) {
-                segments.push(current);
-            }
-            current = [];
-            if (point.strength === null) {
-                continue;
-            }
-        }
-        current.push(point);
-    }
-    if (current.length > 0) {
-        segments.push(current);
-    }
-    return segments;
-}
+// oxlint-disable-next-line react-doctor/no-tiny-text -- deliberate dense chart annotation: axis tick figures sit beside the plot, not in body copy
+// oxlint-disable-next-line react-doctor/no-tiny-text -- deliberate dense chart annotation: the x-axis year ticks must fit one per plotted band
+const YEAR_LABEL_CLASS = 'fill-ink-muted font-mono text-[11px]';
+const AXIS_LABEL_CLASS = 'fill-ink-faint font-mono text-[11px]';
+// oxlint-disable-next-line react-doctor/no-tiny-text -- deliberate dense chart annotation: the gap marker label must fit between two plotted years
+const GAP_LABEL_CLASS = 'fill-ink-faint font-mono text-[9px]';
 
 /** Strength runs bottom (0.00) to top (1.00) on a fixed axis — see below. */
 function strengthY(strength: number, plot: Plot): number {
     const clamped = Math.min(Math.max(strength, 0), 1);
     return round(plot.y1 - clamped * (plot.y1 - plot.y0), 2);
-}
-
-function formatStrength(strength: number | null): string {
-    return strength === null ? NO_VALUE : strength.toFixed(3);
-}
-
-/**
- * Screen-reader line for a single season slot. A null strength has two
- * distinct causes the copy must not conflate: the club fielded no teams that
- * year, or it fielded teams but none produced a measurable finish (a
- * one-team grade, or a position outside the grade's field size).
- */
-export function describeTrendSlot(
-    point: ClubTrendPoint | undefined,
-    year: number,
-): string {
-    if (!point) {
-        return `${String(year)}: ${NO_VALUE}`;
-    }
-    if (point.strength === null) {
-        const cause =
-            point.teams === 0 ? 'no teams fielded' : 'no measurable finish';
-        return `${String(point.year)}: ${cause}, strength ${NO_VALUE}`;
-    }
-    return `${String(point.year)}: strength ${formatStrength(point.strength)} from ${String(point.teams)} ${point.teams === 1 ? 'team' : 'teams'}.`;
 }
 
 type TrendChartProps = {
@@ -95,11 +50,8 @@ function buildHits(
 ): ChartHit[] {
     const hits: ChartHit[] = [];
     for (const point of points) {
-        if (point.strength === null) {
-            continue;
-        }
         const index = years.indexOf(point.year);
-        if (index === -1) {
+        if (point.strength === null || index === -1) {
             continue;
         }
         hits.push({
@@ -129,7 +81,7 @@ function strengthGrid(): JSX.Element[] {
                 <text
                     x="0"
                     y={y + 4}
-                    className="fill-ink-faint font-mono text-[11px]"
+                    className={AXIS_LABEL_CLASS}
                 >
                     {tick.toFixed(2)}
                 </text>
@@ -167,7 +119,7 @@ function trendGaps(years: readonly number[]): JSX.Element[] {
                     x={x}
                     y={LABEL_BASELINE}
                     textAnchor="middle"
-                    className="fill-ink-faint font-mono text-[9px]"
+                    className={GAP_LABEL_CLASS}
                 >
                     {gapLabel(slot.missingYears)}
                 </text>
@@ -210,7 +162,7 @@ function trendYearLabels(
                 x={bandX(index, years.length, PLOT)}
                 y={LABEL_BASELINE}
                 textAnchor="middle"
-                className="fill-ink-muted font-mono text-[11px]"
+                className={YEAR_LABEL_CLASS}
             >
                 {point.year}
             </text>
@@ -229,7 +181,7 @@ function strengthSeries(
     return (
         <g className={accentText(accent)}>
             {segments.map((segment) => {
-                const first = segment[0];
+                const [first] = segment;
                 if (!first) {
                     return null;
                 }
@@ -293,7 +245,7 @@ type TrendSvgProps = {
     readonly segments: readonly (readonly ClubTrendPoint[])[];
     readonly measured: readonly ClubTrendPoint[];
     readonly activeId: string | null;
-    readonly svgRef: RefObject<SVGSVGElement | null>;
+    readonly svgRef: (node: SVGSVGElement | null) => void;
     readonly onPointerMove: (event: ReactPointerEvent<SVGSVGElement>) => void;
     readonly onPointerLeave: () => void;
 };
@@ -389,7 +341,10 @@ export function TrendChart({
 
             <ChartFrame
                 testId="trend-chart"
-                interaction={interaction}
+                frameRef={interaction.frameRef}
+                hit={interaction.hit}
+                tooltipId={interaction.tooltipId}
+                tooltipRef={interaction.tooltipRef}
             >
                 {renderTrendSvg({
                     points,
@@ -401,8 +356,8 @@ export function TrendChart({
                     measured,
                     activeId: interaction.hit?.id ?? null,
                     svgRef: interaction.svgRef,
-                    onPointerMove: interaction.onPointerMove,
-                    onPointerLeave: interaction.onPointerLeave,
+                    onPointerMove: interaction.handlePointerMove,
+                    onPointerLeave: interaction.handlePointerLeave,
                 })}
             </ChartFrame>
         </figure>

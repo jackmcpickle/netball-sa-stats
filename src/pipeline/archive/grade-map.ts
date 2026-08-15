@@ -19,11 +19,11 @@ function normaliseGradeHeader(name: string): string {
 }
 
 function letterGradeName(normalised: string): string | null {
-    const grade = /^([A-H]) ?(\d+)?$/u.exec(normalised);
+    const grade = /^(?<letter>[A-H]) ?(?<division>\d+)?$/u.exec(normalised);
     if (grade === null) {
         return null;
     }
-    const [, letter, division] = grade;
+    const { letter, division } = grade.groups ?? {};
     if (letter === 'A' && division === '1') {
         return 'AMND League';
     }
@@ -51,15 +51,15 @@ function namedSeniorGrade(normalised: string): string | null {
 
 function numberedGradeName(normalised: string): string | null {
     const rules: readonly [RegExp, string][] = [
-        [/^(?:INT|INTER|INTERMEDIATE) ?(\d+)$/u, 'Inter.'],
-        [/^(?:JNR|JUNIOR) ?(\d+)$/u, 'Junior'],
-        [/^(?:S J|SUB JUNIOR) ?(\d+)$/u, 'Sub-Junior'],
-        [/^(?:PRIM|PRIMARY) ?(\d+)$/u, 'Primary'],
+        [/^(?:INT|INTER|INTERMEDIATE) ?(?<division>\d+)$/u, 'Inter.'],
+        [/^(?:JNR|JUNIOR) ?(?<division>\d+)$/u, 'Junior'],
+        [/^(?:S J|SUB JUNIOR) ?(?<division>\d+)$/u, 'Sub-Junior'],
+        [/^(?:PRIM|PRIMARY) ?(?<division>\d+)$/u, 'Primary'],
     ];
     for (const [pattern, prefix] of rules) {
-        const match = normalised.match(pattern);
-        if (match?.[1] !== undefined) {
-            return `${prefix} ${match[1]}`;
+        const division = pattern.exec(normalised)?.groups?.division;
+        if (division !== undefined) {
+            return `${prefix} ${division}`;
         }
     }
     return null;

@@ -82,7 +82,9 @@ export function linePath(points: readonly (LinePoint | null)[]): string {
             penDown = false;
             continue;
         }
-        path += `${penDown ? ' L' : `${path ? ' ' : ''}M`}${String(round(point.x, 2))} ${String(round(point.y, 2))}`;
+        const separator = path === '' ? '' : ' ';
+        const command = penDown ? ' L' : `${separator}M`;
+        path += `${command}${String(round(point.x, 2))} ${String(round(point.y, 2))}`;
         penDown = true;
     }
     return path;

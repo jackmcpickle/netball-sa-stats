@@ -40,6 +40,7 @@ export function buildGradeKey(seasonKey: string, gradeName: string): string {
  * is not a squad number and is left alone.
  */
 export function extractSquadNumber(teamName: string): number | null {
-    const match = /\s(\d+)$/u.exec(teamName.trimEnd());
-    return match?.[1] === undefined ? null : Number(match[1]);
+    const squadNumber = /\s(?<squadNumber>\d+)$/u.exec(teamName.trimEnd())
+        ?.groups?.squadNumber;
+    return squadNumber === undefined ? null : Number(squadNumber);
 }

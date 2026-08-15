@@ -1,14 +1,13 @@
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
+import { eq } from 'drizzle-orm';
 import { afterEach, describe, expect, it, vi } from 'vitest';
+import { importRuns } from '@/db/schema';
 import { createServices } from '@/server/container';
 import { createImportRunsRepo } from '@/server/repos/import-runs.repo';
 import { createAdminService } from '@/server/services/admin.service';
+import type { StartImport } from '@/server/services/admin.service';
 import { createTestDb } from '@/server/testing/harness';
-
-afterEach(() => {
-    vi.useRealTimers();
-});
 
 function startedLabel(epochSeconds: number): string {
     return new Intl.DateTimeFormat('en-AU', {
@@ -19,9 +18,13 @@ function startedLabel(epochSeconds: number): string {
 }
 
 describe('createAdminService.getPage', () => {
+    afterEach(() => {
+        vi.useRealTimers();
+    });
+
     it('returns an empty dashboard when there are no runs', async () => {
         const db = createTestDb();
-        const startImport = vi.fn(async () => {});
+        const startImport = vi.fn<StartImport>(async () => {});
         const admin = createAdminService(createImportRunsRepo(db), {
             startImport,
         });
@@ -65,7 +68,7 @@ describe('createAdminService.getPage', () => {
         });
 
         const admin = createAdminService(repo, {
-            startImport: vi.fn(async () => {}),
+            startImport: vi.fn<StartImport>(async () => {}),
         });
         const page = await admin.getPage();
 
@@ -109,11 +112,15 @@ describe('createAdminService.getPage', () => {
             games: false,
         });
         await repo.markError(id, 200, 'boom');
-        // Simulate a crashed row that lost its finished timestamp.
-        await repo.markError(id, null as unknown as number, 'boom');
+        // Simulate a crashed row that lost its finished timestamp. Written
+        // straight to the table: the repo contract has no way to express it.
+        await db
+            .update(importRuns)
+            .set({ finishedAt: null })
+            .where(eq(importRuns.id, id));
 
         const admin = createAdminService(repo, {
-            startImport: vi.fn(async () => {}),
+            startImport: vi.fn<StartImport>(async () => {}),
         });
         const page = await admin.getPage();
 
@@ -143,7 +150,7 @@ describe('createAdminService.getPage', () => {
         });
 
         const admin = createAdminService(repo, {
-            startImport: vi.fn(async () => {}),
+            startImport: vi.fn<StartImport>(async () => {}),
         });
         const page = await admin.getPage();
 
@@ -165,7 +172,7 @@ describe('createAdminService.runImport', () => {
             yearsJson: null,
             games: true,
         });
-        const startImport = vi.fn(async () => {});
+        const startImport = vi.fn<StartImport>(async () => {});
         const admin = createAdminService(repo, { startImport });
 
         const result = await admin.runImport(' ');
@@ -179,7 +186,7 @@ describe('createAdminService.runImport', () => {
 
     it('rejects non-year tokens as bad-years', async () => {
         const db = createTestDb();
-        const startImport = vi.fn(async () => {});
+        const startImport = vi.fn<StartImport>(async () => {});
         const admin = createAdminService(createImportRunsRepo(db), {
             startImport,
         });
@@ -195,7 +202,7 @@ describe('createAdminService.runImport', () => {
 
     it('starts a games-only import when years text is empty', async () => {
         const db = createTestDb();
-        const startImport = vi.fn(async () => {});
+        const startImport = vi.fn<StartImport>(async () => {});
         const admin = createAdminService(createImportRunsRepo(db), {
             startImport,
         });
@@ -203,13 +210,12 @@ describe('createAdminService.runImport', () => {
         const result = await admin.runImport('');
 
         expect(result).toStrictEqual({ ok: true, value: true });
-        expect(startImport).toHaveBeenCalledOnce();
-        expect(startImport).toHaveBeenCalledWith({ games: true });
+        expect(startImport).toHaveBeenCalledExactlyOnceWith({ games: true });
     });
 
     it('parses a single year into the startImport params', async () => {
         const db = createTestDb();
-        const startImport = vi.fn(async () => {});
+        const startImport = vi.fn<StartImport>(async () => {});
         const admin = createAdminService(createImportRunsRepo(db), {
             startImport,
         });
@@ -225,7 +231,7 @@ describe('createAdminService.runImport', () => {
 
     it('trims tokens and treats whitespace-only years as games-only', async () => {
         const db = createTestDb();
-        const startImport = vi.fn(async () => {});
+        const startImport = vi.fn<StartImport>(async () => {});
         const admin = createAdminService(createImportRunsRepo(db), {
             startImport,
         });

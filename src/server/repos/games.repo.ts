@@ -53,13 +53,13 @@ const MARGIN = sql<number | null>`
     then abs(${games.homeScore} - ${games.awayScore}) end
 `;
 
-const ORDER_COLUMNS: Record<string, SQL | SQLiteColumn> = {
-    round: games.round,
-    playedAt: games.playedAt,
-    home: homeTeams.displayName,
-    away: awayTeams.displayName,
-    margin: MARGIN,
-};
+const ORDER_COLUMNS = new Map<string, SQL | SQLiteColumn>([
+    ['round', games.round],
+    ['playedAt', games.playedAt],
+    ['home', homeTeams.displayName],
+    ['away', awayTeams.displayName],
+    ['margin', MARGIN],
+]);
 
 /**
  * SQLite sorts nulls FIRST, in both directions. Left alone, an ascending
@@ -71,7 +71,7 @@ const ORDER_COLUMNS: Record<string, SQL | SQLiteColumn> = {
  * differently per query, so a row appears on two pages or on none.
  */
 function orderFor(request: PageRequest): (SQL | SQLiteColumn)[] {
-    const column = ORDER_COLUMNS[request.sort] ?? games.round;
+    const column = ORDER_COLUMNS.get(request.sort) ?? games.round;
     return [
         sql`${column} is null`,
         request.desc ? desc(column) : asc(column),
@@ -229,15 +229,22 @@ export async function fetchOpponentCounts(
     }));
 }
 
-export function createGamesRepo(db: Db): {
-    factsForPair(clubA: string, clubB: string): Promise<readonly GameFact[]>;
-    countForGrade(gradeKey: string): Promise<number>;
-    pageForGrade(
+export type GamesRepo = {
+    readonly factsForPair: (
+        clubA: string,
+        clubB: string,
+    ) => Promise<readonly GameFact[]>;
+    readonly countForGrade: (gradeKey: string) => Promise<number>;
+    readonly pageForGrade: (
         gradeKey: string,
         request: PageRequest,
-    ): Promise<readonly GameFact[]>;
-    opponentCounts(clubKey: string): Promise<readonly OpponentCount[]>;
-} {
+    ) => Promise<readonly GameFact[]>;
+    readonly opponentCounts: (
+        clubKey: string,
+    ) => Promise<readonly OpponentCount[]>;
+};
+
+export function createGamesRepo(db: Db): GamesRepo {
     return {
         async factsForPair(
             clubA: string,

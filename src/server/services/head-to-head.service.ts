@@ -40,7 +40,7 @@ import type { Club } from '@/server/dto/shared.dto';
 
 function bandsFrom(facts: readonly GameFact[]): readonly BandOption[] {
     return [...new Set(facts.map((fact) => fact.tier))]
-        .sort((left, right) => left - right)
+        .toSorted((left, right) => left - right)
         .map((tier) => ({ tier, label: bandLabel(tier) }));
 }
 
@@ -74,16 +74,18 @@ function visibleClubs(
     );
     return extra.length === 0
         ? present
-        : [...present, ...extra].sort((left, right) =>
+        : [...present, ...extra].toSorted((left, right) =>
               left.name.localeCompare(right.name),
           );
 }
 
-export function createHeadToHeadService(repos: Repos): {
-    getPage(
+export type HeadToHeadService = {
+    readonly getPage: (
         params: HeadToHeadParams,
-    ): Promise<Result<HeadToHeadPageDto, DomainError>>;
-} {
+    ) => Promise<Result<HeadToHeadPageDto, DomainError>>;
+};
+
+export function createHeadToHeadService(repos: Repos): HeadToHeadService {
     return {
         async getPage(
             params: HeadToHeadParams,
@@ -129,11 +131,9 @@ export function createHeadToHeadService(repos: Repos): {
             const bands = bandsFrom(facts);
             // An unknown or now-empty band silently falls back rather than
             // rendering a record the picker cannot represent.
-            const band: BandFilter = bands.some(
-                (option) => option.tier === params.band,
-            )
-                ? (params.band as number)
-                : 'all';
+            const band: BandFilter =
+                bands.find((option) => option.tier === params.band)?.tier ??
+                'all';
 
             const h2h = buildHeadToHead(facts, a.key, b.key, band);
             const paged = TableQuery.from(

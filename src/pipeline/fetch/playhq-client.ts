@@ -29,6 +29,7 @@ let lastRequestAt = 0;
 async function rateLimit(): Promise<void> {
     const wait = lastRequestAt + RATE_LIMIT_MS - Date.now();
     if (wait > 0) {
+        // oxlint-disable-next-line promise/avoid-new -- promisifying `setTimeout`, a callback timer API with no promise form.
         await new Promise<void>((resolve) => {
             setTimeout(resolve, wait);
         });
@@ -39,6 +40,7 @@ async function rateLimit(): Promise<void> {
 const MAX_ATTEMPTS = 6;
 
 async function sleep(ms: number): Promise<void> {
+    // oxlint-disable-next-line promise/avoid-new -- promisifying `setTimeout`, a callback timer API with no promise form.
     await new Promise<void>((resolve) => {
         setTimeout(resolve, ms);
     });
@@ -76,9 +78,10 @@ async function requestGraphQL(
 ): Promise<unknown> {
     let lastStatus = 0;
     for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt += 1) {
-        // eslint-disable-next-line no-await-in-loop -- retry-with-backoff is inherently sequential.
+        // oxlint-disable-next-line eslint/no-await-in-loop, react-doctor/async-await-in-loop -- retry-with-backoff is inherently sequential.
         const response = await requestGraphQLOnce(operationName, variables);
         if (response.ok) {
+            // oxlint-disable-next-line eslint/no-await-in-loop -- reads the body of the response this iteration just awaited; nothing to parallelise.
             return await response.json();
         }
         lastStatus = response.status;
@@ -86,7 +89,7 @@ async function requestGraphQL(
             // Edge-level 403 bursts (CloudFront WAF) seem to need tens of
             // seconds to clear, not the sub-second backoff that suits a
             // genuine transient 502.
-            // eslint-disable-next-line no-await-in-loop -- retry-with-backoff is inherently sequential.
+            // oxlint-disable-next-line eslint/no-await-in-loop, react-doctor/async-await-in-loop -- retry-with-backoff is inherently sequential.
             await sleep(10_000 * attempt);
         }
     }

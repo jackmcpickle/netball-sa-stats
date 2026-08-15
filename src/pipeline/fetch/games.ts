@@ -90,11 +90,15 @@ export function scoreOf(side: SideResult | null): number | null {
     return stat?.count ?? null;
 }
 
-const FORFEIT_OUTCOMES: Record<string, ForfeitSide> = {
-    HOME_TEAM_WON_BY_FORFEIT: 'away',
-    AWAY_TEAM_WON_BY_FORFEIT: 'home',
-    DOUBLE_FORFEIT: 'both',
-};
+// A `Map` rather than an object literal because the lookup key is PlayHQ's
+// arbitrary outcome string, not one of these three known keys.
+const FORFEIT_OUTCOMES = new Map<string, ForfeitSide>(
+    Object.entries({
+        HOME_TEAM_WON_BY_FORFEIT: 'away',
+        AWAY_TEAM_WON_BY_FORFEIT: 'home',
+        DOUBLE_FORFEIT: 'both',
+    } satisfies Record<string, ForfeitSide>),
+);
 
 const SCORE_OUTCOMES = new Set([
     'HOME_TEAM_WON_BY_SCORE',
@@ -114,13 +118,16 @@ const NO_RESULT_OUTCOMES = new Set(['CANCELLED', 'ABANDONED']);
  * date has passed but whose score was never entered — calling that
  * "scheduled" would put finished games in the upcoming list forever.
  */
-const UNPLAYED_STATUSES: Record<string, GameStatus> = {
-    UPCOMING: 'scheduled',
-    PENDING: 'no_result',
-    CANCELLED: 'no_result',
-    FINAL: 'no_result',
-    IN_PROGRESS: 'scheduled',
-};
+// See `FORFEIT_OUTCOMES` on why this is a `Map`.
+const UNPLAYED_STATUSES = new Map<string, GameStatus>(
+    Object.entries({
+        UPCOMING: 'scheduled',
+        PENDING: 'no_result',
+        CANCELLED: 'no_result',
+        FINAL: 'no_result',
+        IN_PROGRESS: 'scheduled',
+    } satisfies Record<string, GameStatus>),
+);
 
 export type GameClassification = {
     readonly status: GameStatus;
@@ -137,7 +144,7 @@ export type GameClassification = {
  */
 export function classifyGame(game: FixtureGame): GameClassification {
     if (game.result === null) {
-        const status = UNPLAYED_STATUSES[game.status.value];
+        const status = UNPLAYED_STATUSES.get(game.status.value);
         if (status === undefined) {
             throw new Error(
                 `Unrecognised PlayHQ game status "${game.status.value}" on game ${game.id}. ` +
@@ -152,7 +159,7 @@ export function classifyGame(game: FixtureGame): GameClassification {
         return { status: 'no_result', forfeitingSide: null };
     }
 
-    const forfeitingSide = FORFEIT_OUTCOMES[outcome];
+    const forfeitingSide = FORFEIT_OUTCOMES.get(outcome);
     if (forfeitingSide !== undefined) {
         return { status: 'forfeit', forfeitingSide };
     }
@@ -244,11 +251,12 @@ function teamId(team: FixtureTeam | null): string | null {
  * nothing user-facing shows the shifted number.
  */
 function roundNumbers(rounds: readonly FixtureRound[]): Map<string, number> {
-    const regular = rounds.filter((round) => !round.isFinalsRound);
-    const lastRegular = regular.reduce(
-        (max, round) => Math.max(max, round.number ?? 0),
-        0,
-    );
+    let lastRegular = 0;
+    for (const round of rounds) {
+        if (!round.isFinalsRound) {
+            lastRegular = Math.max(lastRegular, round.number ?? 0);
+        }
+    }
     const numbers = new Map<string, number>();
     for (const round of rounds) {
         if (round.number === null) {

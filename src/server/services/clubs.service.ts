@@ -35,20 +35,23 @@ function lastRankedYears(
     return latest;
 }
 
-export function createClubsService(repos: Repos): {
-    getIndexPage(
+export type ClubsService = {
+    readonly getIndexPage: (
         params: ClubIndexParams,
-    ): Promise<Result<ClubIndexPageDto, DomainError>>;
-    getProfilePage(
+    ) => Promise<Result<ClubIndexPageDto, DomainError>>;
+    readonly getProfilePage: (
         params: ClubProfileParams,
-    ): Promise<Result<ClubProfilePageDto, DomainError>>;
-} {
+    ) => Promise<Result<ClubProfilePageDto, DomainError>>;
+};
+
+export function createClubsService(repos: Repos): ClubsService {
     return {
         async getIndexPage(
             params: ClubIndexParams,
         ): Promise<Result<ClubIndexPageDto, DomainError>> {
             const includePast = params.includePast ?? false;
-            const latest = (await repos.seasons.coverage()).latestRankedYear();
+            const seasonCoverage = await repos.seasons.coverage();
+            const latest = seasonCoverage.latestRankedYear();
             if (!latest.ok) {
                 return latest;
             }
@@ -98,20 +101,20 @@ export function createClubsService(repos: Repos): {
             // The aggregates above span the club's whole history; the table
             // below is one page, counted and sliced in SQL like every other
             // table on the site.
-            const paged = await TableQuery.from(
-                {
-                    sort: params.sort,
-                    dir: params.dir,
-                    page: params.page,
-                    pageSize: params.pageSize,
-                },
-                CLUB_RESULTS_TABLE_SPEC,
-            ).page(
-                async () => await repos.clubs.countResults(params.clubKey),
-                async (request) =>
-                    await repos.clubs.resultsPage(params.clubKey, request),
-            );
-            const [clubs, counts] = await Promise.all([
+            const [paged, clubs, counts] = await Promise.all([
+                TableQuery.from(
+                    {
+                        sort: params.sort,
+                        dir: params.dir,
+                        page: params.page,
+                        pageSize: params.pageSize,
+                    },
+                    CLUB_RESULTS_TABLE_SPEC,
+                ).page(
+                    async () => await repos.clubs.countResults(params.clubKey),
+                    async (request) =>
+                        await repos.clubs.resultsPage(params.clubKey, request),
+                ),
                 repos.clubs.all(),
                 repos.games.opponentCounts(params.clubKey),
             ]);

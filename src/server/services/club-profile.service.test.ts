@@ -136,7 +136,7 @@ describe('club profile service', () => {
         expect(result.profile.totalRows).toBe(2);
         expect(result.profile.tableState.page).toBe(1);
         // clubs is every club in the db, not just the profiled one.
-        expect(result.clubs.map((club) => club.key).sort()).toStrictEqual([
+        expect(result.clubs.map((club) => club.key).toSorted()).toStrictEqual([
             'ajax',
             'contax',
             'garville',
@@ -148,7 +148,7 @@ describe('club profile service', () => {
         const spec: SeedSpec = {
             competitions: [{ key: 'amnd', name: 'AMND', seasons: [] }],
         };
-        const competition = spec.competitions[0];
+        const [competition] = spec.competitions;
         if (competition === undefined) {
             throw new Error('expected amnd competition in spec');
         }

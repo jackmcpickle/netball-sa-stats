@@ -14,12 +14,16 @@ const BUTTON_CLASS =
 
 type FormSubmitEvent = {
     readonly currentTarget: HTMLFormElement;
-    preventDefault(): void;
+    readonly preventDefault: () => void;
 };
 
+/**
+ * `FormData.get` returns `File | string | null`; only a text field is ever
+ * meaningful here, so a file or a missing field reads as the empty string.
+ */
 function formField(form: FormData, name: string): string {
     const value = form.get(name);
-    return typeof value === 'string' ? value : '';
+    return value instanceof File || value === null ? '' : value;
 }
 
 export function AdminLoginPage(): JSX.Element {

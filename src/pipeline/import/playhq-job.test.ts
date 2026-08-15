@@ -1,7 +1,6 @@
 import type { DatabaseSync } from 'node:sqlite';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import type { Mock } from 'vitest';
-import type { CsvValue } from '@/pipeline/csv';
 import { createMemoryStore } from '@/pipeline/fetch/capture-store';
 import type { ClubRegistry } from '@/pipeline/fetch/club-registry';
 import type {
@@ -23,13 +22,48 @@ const NOW = 1_700_000_000;
 const FINISHED = NOW + 42;
 const STALE_AFTER_SECONDS = 7200;
 
+/** A `team_season_results` CSV row, the shape `CollectedPlayHq.results` holds. */
+type ResultCsvRow = {
+    grade_key: string;
+    club_key: string;
+    squad_number: number | null;
+    playhq_id: string;
+    display_name: string;
+    ladder_position: number;
+    position_uncertain: number;
+    played: number;
+    won: number;
+    drawn: number;
+    lost: number;
+    byes: number;
+    goals_for: number;
+    goals_against: number;
+    goal_difference: number;
+    points: number;
+    percentage: number;
+    shots_attempted: number | null;
+    shots_scored: number | null;
+    source: string;
+    placement_basis: string;
+    notes: string | null;
+    scraped_at: number;
+};
+
+/** One season's worth of collected rows, as `stubCollected` assembles them. */
+type SeasonBundle = {
+    season: SeasonRow;
+    grade: GradeRow;
+    teams: TeamRow[];
+    results: ResultCsvRow[];
+};
+
 function resultRow(
     gradeKey: string,
     clubKey: string,
     playhqId: string,
     displayName: string,
     position: number,
-): Record<string, CsvValue> {
+): ResultCsvRow {
     const won = position === 1 ? 8 : 2;
     const lost = position === 1 ? 2 : 8;
     return {
@@ -64,12 +98,7 @@ function seasonBundle(
     clubB: string,
     startYear: number,
     status: string,
-): {
-    season: SeasonRow;
-    grade: GradeRow;
-    teams: TeamRow[];
-    results: Record<string, CsvValue>[];
-} {
+): SeasonBundle {
     const seasonKey = `amnd-winter-${String(startYear)}`;
     const gradeKey = `${seasonKey}-a-grade`;
     const teamA = `team-a-${String(startYear)}-agrade`;
@@ -164,7 +193,7 @@ const NEW_CLUB_WARNINGS = [
 function stubCollect(): Mock<
     (options: CollectOptions) => Promise<CollectedPlayHq>
 > {
-    return vi.fn(
+    return vi.fn<(options: CollectOptions) => Promise<CollectedPlayHq>>(
         async (options: CollectOptions): Promise<CollectedPlayHq> =>
             stubCollected(options.clubRegistry),
     );
@@ -230,31 +259,31 @@ describe(runPlayHqJob, () => {
 
     it('warns about skipped grades alongside newly minted clubs', async () => {
         const runs = createImportRunsRepo(createTestDb());
-        const collect = vi.fn(
-            async (options: CollectOptions): Promise<CollectedPlayHq> => {
-                const collected = stubCollected(options.clubRegistry);
-                return {
-                    ...collected,
-                    report: {
-                        ...collected.report,
-                        skippedGrades: [
-                            {
-                                seasonKey: 'amnd-winter-2026',
-                                gradeName: 'C Grade',
-                                teamCount: 1,
-                                reason: 'too_few_teams',
-                            },
-                            {
-                                seasonKey: 'season-id',
-                                gradeName: 'Walking Netball 50+',
-                                teamCount: -1,
-                                reason: 'out_of_scope',
-                            },
-                        ],
-                    },
-                };
-            },
-        );
+        const collect = vi.fn<
+            (options: CollectOptions) => Promise<CollectedPlayHq>
+        >(async (options: CollectOptions): Promise<CollectedPlayHq> => {
+            const collected = stubCollected(options.clubRegistry);
+            return {
+                ...collected,
+                report: {
+                    ...collected.report,
+                    skippedGrades: [
+                        {
+                            seasonKey: 'amnd-winter-2026',
+                            gradeName: 'C Grade',
+                            teamCount: 1,
+                            reason: 'too_few_teams',
+                        },
+                        {
+                            seasonKey: 'season-id',
+                            gradeName: 'Walking Netball 50+',
+                            teamCount: -1,
+                            reason: 'out_of_scope',
+                        },
+                    ],
+                },
+            };
+        });
 
         await runPlayHqJob({
             params: { games: false },
@@ -338,7 +367,7 @@ describe(runPlayHqJob, () => {
         });
 
         expect(result).toMatchObject({ seasons: 1 });
-        expect(collect).toHaveBeenCalled();
+        expect(collect).toHaveBeenCalledOnce();
         const listed = await runs.list();
         expect(
             listed.find((row) => row.instanceId === 'stale-run'),
@@ -397,7 +426,7 @@ describe(runPlayHqJob, () => {
 
     it('marks error and rethrows when collect throws', async () => {
         const runs = createImportRunsRepo(createTestDb());
-        const collect = vi.fn(async (): Promise<CollectedPlayHq> => {
+        const collect = vi.fn<() => Promise<CollectedPlayHq>>(async () => {
             throw new Error('probe failed');
         });
 

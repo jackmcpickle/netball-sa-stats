@@ -87,9 +87,10 @@ export function llmsTxt(input: LlmsTxtInput): string {
         input.rankedYears.length === 0
             ? 'no ranked seasons yet'
             : `${Math.min(...input.rankedYears)}–${Math.max(...input.rankedYears)}`;
-    const clubLinks = input.clubs.map(
-        (club) => `- [${club.name}](${absoluteUrl(`/clubs/${club.key}.md`)})`,
-    );
+    const clubLinks = input.clubs.map((club) => {
+        const href = absoluteUrl(`/clubs/${club.key}.md`);
+        return `- [${club.name}](${href})`;
+    });
     return [
         `# ${SITE.name}`,
         '',

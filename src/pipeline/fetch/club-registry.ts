@@ -125,13 +125,13 @@ export class ClubRegistry {
     }
 
     public getClubs(): ClubRow[] {
-        return [...this.clubs.values()].sort((a, b) =>
+        return [...this.clubs.values()].toSorted((a, b) =>
             a.club_key.localeCompare(b.club_key),
         );
     }
 
     public getAliases(): ClubAliasRow[] {
-        return [...this.aliases.values()].sort((a, b) =>
+        return [...this.aliases.values()].toSorted((a, b) =>
             a.alias_text.localeCompare(b.alias_text),
         );
     }

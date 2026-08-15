@@ -1,5 +1,5 @@
 import { useCallback, useId, useLayoutEffect, useRef, useState } from 'react';
-import type { PointerEvent as ReactPointerEvent, RefObject } from 'react';
+import type { PointerEvent as ReactPointerEvent } from 'react';
 import { nearestHit, pointerToSvgPoint } from '@/components/charts/nearest-hit';
 import type { ChartHit } from '@/components/charts/nearest-hit';
 import { useChartReveal } from '@/components/charts/use-chart-reveal';
@@ -40,11 +40,13 @@ type UseChartInteractionOptions = {
 
 export type ChartInteraction = {
     readonly frameRef: (node: HTMLElement | null) => (() => void) | undefined;
-    readonly svgRef: RefObject<SVGSVGElement | null>;
+    readonly svgRef: (node: SVGSVGElement | null) => void;
     readonly tooltipRef: (node: HTMLDivElement | null) => void;
     readonly hit: ChartHit | null;
-    readonly onPointerMove: (event: ReactPointerEvent<SVGSVGElement>) => void;
-    readonly onPointerLeave: () => void;
+    readonly handlePointerMove: (
+        event: ReactPointerEvent<SVGSVGElement>,
+    ) => void;
+    readonly handlePointerLeave: () => void;
     readonly tooltipId: string;
 };
 
@@ -58,7 +60,7 @@ export function useChartInteraction({
 }: UseChartInteractionOptions): ChartInteraction {
     const revealRef = useChartReveal();
     const frameNodeRef = useRef<HTMLElement | null>(null);
-    const svgRef = useRef<SVGSVGElement | null>(null);
+    const svgNodeRef = useRef<SVGSVGElement | null>(null);
     const tooltipNodeRef = useRef<HTMLDivElement | null>(null);
     const pointerRef = useRef<{ x: number; y: number } | null>(null);
     const [hit, setHit] = useState<ChartHit | null>(null);
@@ -71,6 +73,10 @@ export function useChartInteraction({
         },
         [revealRef],
     );
+
+    const svgRef = useCallback((node: SVGSVGElement | null) => {
+        svgNodeRef.current = node;
+    }, []);
 
     const tooltipRef = useCallback((node: HTMLDivElement | null) => {
         tooltipNodeRef.current = node;
@@ -86,9 +92,9 @@ export function useChartInteraction({
         placeTooltip(frame, tip, pointer.x, pointer.y);
     }, [hit]);
 
-    const onPointerMove = useCallback(
+    const handlePointerMove = useCallback(
         (event: ReactPointerEvent<SVGSVGElement>) => {
-            const svg = svgRef.current ?? event.currentTarget;
+            const svg = svgNodeRef.current ?? event.currentTarget;
             const frame = frameNodeRef.current;
             if (!frame) {
                 return;
@@ -117,7 +123,7 @@ export function useChartInteraction({
         [hits, maxDistance],
     );
 
-    const onPointerLeave = useCallback(() => {
+    const handlePointerLeave = useCallback(() => {
         pointerRef.current = null;
         setHit(null);
     }, []);
@@ -127,8 +133,8 @@ export function useChartInteraction({
         svgRef,
         tooltipRef,
         hit,
-        onPointerMove,
-        onPointerLeave,
+        handlePointerMove,
+        handlePointerLeave,
         tooltipId,
     };
 }

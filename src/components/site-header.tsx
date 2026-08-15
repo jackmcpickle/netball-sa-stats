@@ -72,12 +72,13 @@ export function SiteHeader(): JSX.Element {
     // Route changes should collapse the drawer — otherwise the overlay stays
     // open over the page the user just asked to see.
     useEffect(() => {
+        // oxlint-disable-next-line react/react-compiler -- closing the drawer on navigation is exactly the external-to-React sync this effect is for; the router owns `pathname`
         setMenuOpen(false);
     }, [pathname]);
 
     useEffect(() => {
         if (!menuOpen) {
-            return;
+            return undefined;
         }
         function onKeyDown(event: KeyboardEvent): void {
             if (event.key === 'Escape') {

@@ -67,14 +67,14 @@ function assertContiguousPositions(
     grade: PlacementGrade,
     season: PlacementSeason,
 ): void {
-    grade.teams.forEach((team, index) => {
+    for (const [index, team] of grade.teams.entries()) {
         const expected = index + 1;
         if (team.ladderPosition !== expected) {
             throw new Error(
                 `Archive placements for ${String(season.year)} ${grade.gradeName} are not contiguous at row ${String(expected)}: found ${String(team.ladderPosition)}`,
             );
         }
-    });
+    }
 }
 
 export function buildArchiveEntities(
@@ -262,6 +262,11 @@ export async function loadArchivePlacements(
                 resolve(placementsDir, `${String(year)}.json`),
                 'utf-8',
             );
+            // SAFETY: these files are this repo's own committed archive
+            // placement extracts (`data/archive/placements/<year>.json`),
+            // written by `scripts/` in this same shape; every field read off
+            // them is re-checked by `assertContiguousPositions` and the
+            // archive club resolver before anything is written.
             return JSON.parse(text) as PlacementSeason;
         }),
     );

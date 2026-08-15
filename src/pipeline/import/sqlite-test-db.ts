@@ -17,11 +17,12 @@ const ROOT = resolve(import.meta.dirname, '..', '..', '..');
 export async function createMigratedDb(): Promise<DatabaseSync> {
     const db = new DatabaseSync(':memory:');
     const dir = resolve(ROOT, 'drizzle');
-    const files = (await readdir(dir))
+    const names = await readdir(dir);
+    const files = names
         .filter((name) => name.endsWith('.sql'))
-        .sort((a, b) => a.localeCompare(b));
+        .toSorted((a, b) => a.localeCompare(b));
     for (const file of files) {
-        // eslint-disable-next-line no-await-in-loop -- migrations must apply in order.
+        // oxlint-disable-next-line eslint/no-await-in-loop, react-doctor/async-await-in-loop -- migrations must apply in order.
         const sql = await readFile(resolve(dir, file), 'utf-8');
         db.exec(sql.replaceAll('--> statement-breakpoint', ''));
     }

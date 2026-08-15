@@ -42,17 +42,15 @@ function toAliasRow(row: Record<string, unknown>): ClubAliasRow {
 export async function clubRegistryFromExecutor(
     queryAll: ImportExecutor['queryAll'],
 ): Promise<ClubRegistry> {
-    const clubs = (
-        await queryAll(
-            'SELECT club_key, name, established_year, home_venue, playhq_id FROM clubs;',
-        )
-    ).map(toClubRow);
-    const aliases = (
-        await queryAll(`
+    const clubRows = await queryAll(
+        'SELECT club_key, name, established_year, home_venue, playhq_id FROM clubs;',
+    );
+    const clubs = clubRows.map(toClubRow);
+    const aliasRows = await queryAll(`
             SELECT c.club_key AS club_key, a.alias_text AS alias_text, a.source AS source
             FROM club_aliases a
             JOIN clubs c ON c.id = a.club_id;
-        `)
-    ).map(toAliasRow);
+        `);
+    const aliases = aliasRows.map(toAliasRow);
     return new ClubRegistry(clubs, aliases);
 }

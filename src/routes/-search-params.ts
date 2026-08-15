@@ -4,6 +4,7 @@
  * throwing. Route loaders fall back to a sensible default when this returns
  * `undefined`, so a garbage query string never produces a 500.
  */
+// oxlint-disable-next-line anti-slop/no-unknown-parameters -- this IS the query-string parse boundary; TanStack hands validateSearch genuinely unknown values
 export function parseOptionalIntParam(value: unknown): number | undefined {
     if (value === undefined || value === '') {
         return undefined;
@@ -19,6 +20,7 @@ export function parseOptionalIntParam(value: unknown): number | undefined {
  * query string like `?dir=x` never produces a 500.
  */
 export function parseOptionalDirParam(
+    // oxlint-disable-next-line anti-slop/no-unknown-parameters -- this IS the query-string parse boundary; TanStack hands validateSearch genuinely unknown values
     value: unknown,
 ): 'asc' | 'desc' | undefined {
     return value === 'asc' || value === 'desc' ? value : undefined;
@@ -31,6 +33,7 @@ export function parseOptionalDirParam(
  * returns `undefined`, so a query string like `?includePast=yes` never
  * flips the filter on.
  */
+// oxlint-disable-next-line anti-slop/no-unknown-parameters -- this IS the query-string parse boundary; TanStack hands validateSearch genuinely unknown values
 export function parseOptionalBoolParam(value: unknown): boolean | undefined {
     if (value === true || value === 'true' || value === '1') {
         return true;

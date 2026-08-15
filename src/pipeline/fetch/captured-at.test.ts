@@ -60,6 +60,8 @@ describe(capturedAt, () => {
         await writeFile(path, '{}', 'utf-8');
         await recordCapture(path, 1_700_000_000_000);
 
+        // SAFETY: the manifest was written by `recordCapture` three lines
+        // above, in exactly this shape; `toStrictEqual` below re-checks it.
         const manifest = JSON.parse(
             await readFile(join(dir, MANIFEST_NAME), 'utf-8'),
         ) as Record<string, number>;

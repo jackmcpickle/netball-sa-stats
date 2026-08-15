@@ -6,8 +6,20 @@ import { formatNumber, NO_VALUE } from '@/components/format';
 import { ClubLink } from '@/components/links';
 import { Eyebrow, PageShell, PageTitle } from '@/components/ui/layout';
 import { SegmentedToggle } from '@/components/ui/toggle';
+import type { ClubIndexEntry } from '@/server/dto/clubs.dto';
 
 const routeApi = getRouteApi('/clubs/');
+
+/** The line under a club's rank: its points, or why it has no rank. */
+function clubSummaryLine(entry: ClubIndexEntry, year: number): string {
+    if (entry.rank !== null) {
+        return `${formatNumber(entry.points, 1)} pts · ${String(entry.teams)} teams`;
+    }
+    if (entry.lastRankedYear === null) {
+        return `not ranked in ${String(year)}`;
+    }
+    return `last ranked ${String(entry.lastRankedYear)}`;
+}
 
 const TOGGLE_OPTIONS = [
     { value: false, label: 'Present clubs' },
@@ -82,11 +94,7 @@ export function ClubIndexPage(): JSX.Element {
                                         : `#${String(entry.rank)}`}
                                 </span>
                                 <span className="text-[13px] text-ink-muted">
-                                    {entry.rank === null
-                                        ? entry.lastRankedYear === null
-                                            ? `not ranked in ${String(year)}`
-                                            : `last ranked ${String(entry.lastRankedYear)}`
-                                        : `${formatNumber(entry.points, 1)} pts · ${String(entry.teams)} teams`}
+                                    {clubSummaryLine(entry, year)}
                                 </span>
                             </span>
                         </ClubLink>

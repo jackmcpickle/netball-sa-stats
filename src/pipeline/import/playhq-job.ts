@@ -77,16 +77,19 @@ function seasonKept(season: SeasonRow, years: number[] | undefined): boolean {
     return season.status === 'active';
 }
 
-function subsetCollected(
-    collected: CollectedPlayHq,
-    years: number[] | undefined,
-): {
+/** The slice of a collect a year-restricted run actually imports. */
+type CollectedSubset = {
     seasons: SeasonRow[];
     grades: GradeRow[];
     teams: TeamRow[];
     results: Record<string, CsvValue>[];
     games: GameRow[];
-} {
+};
+
+function subsetCollected(
+    collected: CollectedPlayHq,
+    years: number[] | undefined,
+): CollectedSubset {
     const seasons = collected.seasons.filter((season) =>
         seasonKept(season, years),
     );
@@ -142,13 +145,15 @@ function newClubWarnings(
     clubRegistry: ClubRegistry,
     knownClubKeys: ReadonlySet<string>,
 ): string[] {
-    return clubRegistry
-        .getClubs()
-        .filter((club) => !knownClubKeys.has(club.club_key))
-        .map(
-            (club) =>
+    const warnings: string[] = [];
+    for (const club of clubRegistry.getClubs()) {
+        if (!knownClubKeys.has(club.club_key)) {
+            warnings.push(
                 `warning: new club ${club.club_key} (${club.name}, playhq_id=${club.playhq_id ?? 'null'}) — curate later`,
-        );
+            );
+        }
+    }
+    return warnings;
 }
 
 function warningMessages(report: ImportReport): string[] {
@@ -203,7 +208,7 @@ async function acquireLock(input: {
         return { skipped: true };
     }
     for (const row of await input.runs.runningOlderThan(cutoff)) {
-        // eslint-disable-next-line no-await-in-loop -- serial by design; do not Promise.all PlayHQ-adjacent work
+        // oxlint-disable-next-line eslint/no-await-in-loop, react-doctor/async-await-in-loop -- serial by design; do not Promise.all PlayHQ-adjacent work
         await input.runs.markError(row.id, finishedNow(), 'stale running row');
     }
     return await input.runs.insertRunning({

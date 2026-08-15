@@ -23,11 +23,13 @@ function competitionKeysFor(
     rows: readonly ResultRow[],
     year: number,
 ): ReadonlySet<string> {
-    return new Set(
-        rows
-            .filter((row) => row.year === year)
-            .map((row) => row.competitionKey),
-    );
+    const keys = new Set<string>();
+    for (const row of rows) {
+        if (row.year === year) {
+            keys.add(row.competitionKey);
+        }
+    }
+    return keys;
 }
 
 function clubIndexFrom(rows: readonly ResultRow[]): ReadonlyMap<string, Club> {
@@ -113,9 +115,11 @@ export async function fetchChampionshipHistory(
     });
 }
 
-export function createChampionshipRepo(db: Db): {
-    history(): Promise<readonly ChampionshipSeason[]>;
-} {
+export type ChampionshipRepo = {
+    readonly history: () => Promise<readonly ChampionshipSeason[]>;
+};
+
+export function createChampionshipRepo(db: Db): ChampionshipRepo {
     return {
         async history(): Promise<readonly ChampionshipSeason[]> {
             return await fetchChampionshipHistory(db);
