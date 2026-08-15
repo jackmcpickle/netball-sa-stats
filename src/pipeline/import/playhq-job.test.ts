@@ -1,13 +1,6 @@
 import type { DatabaseSync } from 'node:sqlite';
-import {
-    afterEach,
-    beforeEach,
-    describe,
-    expect,
-    it,
-    vi,
-    type Mock,
-} from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import type { Mock } from 'vitest';
 import type { CsvValue } from '@/pipeline/csv';
 import { createMemoryStore } from '@/pipeline/fetch/capture-store';
 import type { ClubRegistry } from '@/pipeline/fetch/club-registry';
@@ -171,12 +164,13 @@ const NEW_CLUB_WARNINGS = [
 function stubCollect(): Mock<
     (options: CollectOptions) => Promise<CollectedPlayHq>
 > {
-    return vi.fn(async (options: CollectOptions): Promise<CollectedPlayHq> => {
-        return stubCollected(options.clubRegistry);
-    });
+    return vi.fn(
+        async (options: CollectOptions): Promise<CollectedPlayHq> =>
+            stubCollected(options.clubRegistry),
+    );
 }
 
-describe('runPlayHqJob', () => {
+describe(runPlayHqJob, () => {
     let db: DatabaseSync;
     const store = createMemoryStore();
     const isFinalBySeasonKey = new Map<string, string>();
@@ -275,7 +269,7 @@ describe('runPlayHqJob', () => {
         });
 
         const listed = await runs.list();
-        expect(JSON.parse(listed[0].warningsJson ?? '[]')).toEqual([
+        expect(JSON.parse(listed[0].warningsJson ?? '[]')).toStrictEqual([
             'warning: skipped grade amnd-winter-2026 / C Grade — too_few_teams (1 team(s))',
             'warning: skipped grade season-id / Walking Netball 50+ — out_of_scope (not a catalogued competition)',
             ...NEW_CLUB_WARNINGS,
@@ -304,10 +298,10 @@ describe('runPlayHqJob', () => {
             collect,
         });
 
-        expect(result).toEqual({ skipped: true });
+        expect(result).toStrictEqual({ skipped: true });
         expect(collect).not.toHaveBeenCalled();
         const listed = await runs.list();
-        expect(listed.map((row) => row.status).toSorted()).toEqual([
+        expect(listed.map((row) => row.status).toSorted()).toStrictEqual([
             'running',
             'skipped',
         ]);
@@ -386,7 +380,7 @@ describe('runPlayHqJob', () => {
             collect,
         });
 
-        expect(result).toEqual({ skipped: true });
+        expect(result).toStrictEqual({ skipped: true });
         expect(collect).not.toHaveBeenCalled();
         const listed = await runs.list();
         expect(
@@ -397,10 +391,8 @@ describe('runPlayHqJob', () => {
         expect(
             listed
                 .filter((row) => row.status === 'running')
-                .map((row) => {
-                    return row.instanceId;
-                }),
-        ).toEqual(['fresh-run', 'stale-run']);
+                .map((row) => row.instanceId),
+        ).toStrictEqual(['fresh-run', 'stale-run']);
     });
 
     it('marks error and rethrows when collect throws', async () => {

@@ -5,7 +5,7 @@ import {
     windowSizeLabel,
 } from '@/components/club/band-trend-grid';
 
-describe('bandSummaries', () => {
+describe(bandSummaries, () => {
     it('drops a band with no measured season', () => {
         expect(
             bandSummaries([
@@ -128,11 +128,11 @@ describe('bandSummaries', () => {
                 points: [{ year: 2000, strength: 0.2, teams: 1 }],
             },
         ]);
-        expect(summaries.map((band) => band.tier)).toEqual([1, 5]);
+        expect(summaries.map((band) => band.tier)).toStrictEqual([1, 5]);
     });
 });
 
-describe('windowSizeLabel', () => {
+describe(windowSizeLabel, () => {
     it('reads singular for a one-season window', () => {
         expect(windowSizeLabel(1)).toBe('its first season');
     });

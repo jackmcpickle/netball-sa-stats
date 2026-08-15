@@ -118,7 +118,7 @@ export function createChampionshipRepo(db: Db): {
 } {
     return {
         async history(): Promise<readonly ChampionshipSeason[]> {
-            return fetchChampionshipHistory(db);
+            return await fetchChampionshipHistory(db);
         },
     };
 }

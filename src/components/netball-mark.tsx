@@ -1,8 +1,8 @@
 import type { JSX } from 'react';
 
-interface NetballMarkProps {
+type NetballMarkProps = {
     readonly className?: string;
-}
+};
 
 /**
  * Netball icon by Made by Made from the Noun Project (#711313),

@@ -10,9 +10,9 @@ import type { MethodPageDto } from '@/server/dto/method.dto';
 
 export type { MethodPageDto as MethodData } from '@/server/dto/method.dto';
 
-const loadMethod = createServerFn({ method: 'GET' }).handler(async () => {
-    return resolvePageResult(await createServices(getDb()).method.getPage());
-});
+const loadMethod = createServerFn({ method: 'GET' }).handler(async () =>
+    resolvePageResult(await createServices(getDb()).method.getPage()),
+);
 
 const DESCRIPTION =
     'How the South Australian netball club championship is calculated: grade weightings, what counts as a ranked season, and the documented gaps in the data.';
@@ -36,6 +36,6 @@ export const Route = createFileRoute('/method')({
                 faqSchema(METHOD_FAQ),
             ],
         }),
-    loader: async () => loadMethod(),
+    loader: async () => await loadMethod(),
     component: MethodPage,
 });

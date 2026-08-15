@@ -124,7 +124,9 @@ describe('results.getPage', () => {
         const { db } = await setup();
         const page = unwrap(await createServices(db).results.getPage({}));
         expect(page.year).toBe(2026);
-        expect(page.grades.map((grade) => grade.key)).toEqual(['amnd-2026-a1']);
+        expect(page.grades.map((grade) => grade.key)).toStrictEqual([
+            'amnd-2026-a1',
+        ]);
     });
 
     it('reports no fixtures for a grade that has none', async () => {
@@ -155,7 +157,7 @@ describe('results.getPage', () => {
             }),
         );
         const rows = page.fixtures?.rows ?? [];
-        expect(rows.map((row) => row.status)).toEqual([
+        expect(rows.map((row) => row.status)).toStrictEqual([
             'final',
             'forfeit',
             'bye',
@@ -186,7 +188,7 @@ describe('results.getPage', () => {
                 grade: 'amnd-2025-a1',
             }),
         );
-        expect(page.fixtures?.rows.map((row) => row.canCompare)).toEqual([
+        expect(page.fixtures?.rows.map((row) => row.canCompare)).toStrictEqual([
             true,
             true,
             false,

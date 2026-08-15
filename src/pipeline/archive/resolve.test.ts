@@ -28,7 +28,7 @@ const aliases = [
     },
 ] as const;
 
-describe('normaliseArchiveClubName', () => {
+describe(normaliseArchiveClubName, () => {
     it('normalises case, punctuation and whitespace for alias lookup', () => {
         expect(normaliseArchiveClubName(' Adeaide   Uni. ')).toBe(
             normaliseArchiveClubName('adeaide uni'),
@@ -42,7 +42,7 @@ describe('normaliseArchiveClubName', () => {
     });
 });
 
-describe('createArchiveClubResolver', () => {
+describe(createArchiveClubResolver, () => {
     it('resolves curated archive aliases to club keys', () => {
         const resolver = createArchiveClubResolver(aliases);
 
@@ -72,7 +72,7 @@ describe('createArchiveClubResolver', () => {
     });
 });
 
-describe('syntheticArchivePlayhqId', () => {
+describe(syntheticArchivePlayhqId, () => {
     it('uses the locked archive id format and a stable null-squad token', () => {
         expect(
             syntheticArchivePlayhqId({

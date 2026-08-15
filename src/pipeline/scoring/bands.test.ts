@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { bandLabel } from '@/pipeline/scoring/bands';
 
-describe('bandLabel', () => {
+describe(bandLabel, () => {
     it('collapses divisions to one band name', () => {
         expect(bandLabel(10)).toBe('Primary');
         expect(bandLabel(5)).toBe('B');

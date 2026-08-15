@@ -14,7 +14,7 @@ function row(overrides: Partial<SeasonRow> & { startYear: number }): SeasonRow {
     };
 }
 
-describe('coverageChangeNote', () => {
+describe(coverageChangeNote, () => {
     it('is null when every competition is present from the first year', () => {
         const rows = [
             row({ startYear: 2020, competitionKey: 'amnd' }),
@@ -37,7 +37,7 @@ describe('coverageChangeNote', () => {
                 competitionName: 'Premier League',
             }),
         ];
-        expect(coverageChangeNote(rows)).toEqual({
+        expect(coverageChangeNote(rows)).toStrictEqual({
             year: 2020,
             addedCompetitions: ['Premier League'],
         });
@@ -59,7 +59,7 @@ describe('coverageChangeNote', () => {
         ];
         const note = coverageChangeNote(rows);
         expect(note?.year).toBe(2020);
-        expect([...(note?.addedCompetitions ?? [])].sort()).toEqual([
+        expect([...(note?.addedCompetitions ?? [])].sort()).toStrictEqual([
             'PL Reserves',
             'Premier League',
         ]);
@@ -81,6 +81,6 @@ describe('coverageChangeNote', () => {
         ];
         const note = coverageChangeNote(rows);
         expect(note?.year).toBe(2018);
-        expect(note?.addedCompetitions).toEqual(['Premier League']);
+        expect(note?.addedCompetitions).toStrictEqual(['Premier League']);
     });
 });

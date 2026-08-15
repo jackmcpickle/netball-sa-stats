@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { extractSquadNumber } from '@/pipeline/fetch/keys';
 
-describe('extractSquadNumber', () => {
+describe(extractSquadNumber, () => {
     it('parses a trailing squad number off a numbered team name', () => {
         expect(extractSquadNumber('Walkerville 1')).toBe(1);
         expect(extractSquadNumber('Walkerville 2')).toBe(2);

@@ -1,11 +1,11 @@
 import type { JSX } from 'react';
 import type { ChartHit } from '@/components/charts/nearest-hit';
 
-interface ChartTooltipProps {
+type ChartTooltipProps = {
     readonly hit: ChartHit | null;
     readonly id: string;
     readonly tooltipRef: (node: HTMLDivElement | null) => void;
-}
+};
 
 /** Floating tip that tracks the pointer; content is inert for assistive tech. */
 export function ChartTooltip({

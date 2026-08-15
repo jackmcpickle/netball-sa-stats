@@ -1,6 +1,7 @@
 import { getRouteApi } from '@tanstack/react-router';
 import { useServerFn } from '@tanstack/react-start';
-import { useCallback, type JSX } from 'react';
+import { useCallback } from 'react';
+import type { JSX } from 'react';
 import { Eyebrow, PageShell, PageTitle } from '@/components/ui/layout';
 import { loginAdmin } from '@/routes/admin';
 
@@ -42,9 +43,9 @@ export function AdminLoginPage(): JSX.Element {
 
     return (
         <PageShell className="py-12 pb-24 sm:py-16">
-            <Eyebrow>{'ADMIN'}</Eyebrow>
+            <Eyebrow>ADMIN</Eyebrow>
             <div className="mt-4 mb-10">
-                <PageTitle>{'Sign in'}</PageTitle>
+                <PageTitle>Sign in</PageTitle>
             </div>
             <form
                 method="post"
@@ -59,7 +60,7 @@ export function AdminLoginPage(): JSX.Element {
                     />
                 ) : null}
                 <label className="flex flex-col text-sm text-ink">
-                    {'Password'}
+                    Password
                     <input
                         className={FIELD_CLASS}
                         type="password"
@@ -69,13 +70,13 @@ export function AdminLoginPage(): JSX.Element {
                     />
                 </label>
                 {error === '1' ? (
-                    <p className="text-sm text-fall">{'Wrong password.'}</p>
+                    <p className="text-sm text-fall">Wrong password.</p>
                 ) : null}
                 <button
                     type="submit"
                     className={BUTTON_CLASS}
                 >
-                    {'Sign in'}
+                    Sign in
                 </button>
             </form>
         </PageShell>

@@ -19,7 +19,7 @@ import {
 } from '@/db/schema';
 import type { ScoringRow } from '@/pipeline/scoring/championship';
 
-export interface ResultRow {
+export type ResultRow = {
     readonly clubKey: string;
     readonly clubName: string;
     readonly establishedYear: number | null;
@@ -50,15 +50,15 @@ export interface ResultRow {
     readonly points: number | null;
     /** Provenance, e.g. PlayHQ's played count not reconciling with W+D+L. */
     readonly notes: string | null;
-}
+};
 
-export interface ResultFilter {
+export type ResultFilter = {
     /** Championship views pass true; ladders show in-progress seasons too. */
     readonly finalOnly?: boolean;
     readonly year?: number;
     readonly gradeKey?: string;
     readonly clubKey?: string;
-}
+};
 
 /**
  * SQLite's `IS` is null-safe equality, which the weight join needs: single-grade
@@ -90,11 +90,11 @@ function filters(filter: ResultFilter): SQL | undefined {
  * built by the repo that owns the table, from an allow-listed sort id — see
  * `LADDER_ORDER` / `CLUB_RESULT_ORDER`.
  */
-export interface ResultPage {
+export type ResultPage = {
     readonly order: readonly (SQL | SQLiteColumn)[];
     readonly limit: number;
     readonly offset: number;
-}
+};
 
 /** Row count for the same filter, so a page can be clamped before fetching. */
 export async function countResults(
@@ -171,8 +171,8 @@ export async function fetchResults(
         );
 
     return page === undefined
-        ? query
-        : query.limit(page.limit).offset(page.offset);
+        ? await query
+        : await query.limit(page.limit).offset(page.offset);
 }
 
 /** Narrow a joined row down to what the scoring module is allowed to see. */

@@ -2,7 +2,7 @@ import type { TableState } from '@/db/queries/pagination';
 import type { Club, Coverage } from '@/server/dto/shared.dto';
 
 /** One club's line in one season's championship table. */
-export interface ChampionshipRow {
+export type ChampionshipRow = {
     readonly rank: number;
     readonly club: Club;
     readonly points: number;
@@ -18,9 +18,9 @@ export interface ChampionshipRow {
      * different and a rank comparison would misrepresent movement.
      */
     readonly previousRank: number | null;
-}
+};
 
-export interface ChampionshipSeason {
+export type ChampionshipSeason = {
     readonly year: number;
     readonly rows: readonly ChampionshipRow[];
     /**
@@ -29,29 +29,29 @@ export interface ChampionshipSeason {
      * The UI must not draw a movement arrow across that boundary.
      */
     readonly coverageChanged: boolean;
-}
+};
 
 /** One club's championship rank in one year, for the movement chart. */
-export interface RankPoint {
+export type RankPoint = {
     readonly year: number;
     readonly rank: number;
     readonly points: number;
-}
+};
 
-export interface ClubRankSeries {
+export type ClubRankSeries = {
     readonly club: Club;
     readonly points: readonly RankPoint[];
-}
+};
 
-export interface RankingsParams {
+export type RankingsParams = {
     readonly season?: number;
     readonly sort?: string;
     readonly dir?: 'asc' | 'desc';
     readonly page?: number;
     readonly pageSize?: number;
-}
+};
 
-export interface RankingsPageDto {
+export type RankingsPageDto = {
     readonly coverage: Coverage;
     readonly season: ChampionshipSeason;
     readonly totalRows: number;
@@ -61,4 +61,4 @@ export interface RankingsPageDto {
     readonly worstRank: number;
     readonly clubCount: number;
     readonly gradeCount: number;
-}
+};

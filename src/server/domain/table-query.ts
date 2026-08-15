@@ -11,9 +11,11 @@ import {
     offsetFor,
     PAGE_SIZES,
     pageCount,
-    type RawTableState,
-    type TableSpec,
-    type TableState,
+} from '@/db/queries/pagination';
+import type {
+    RawTableState,
+    TableSpec,
+    TableState,
 } from '@/db/queries/pagination';
 
 /**
@@ -22,18 +24,18 @@ import {
  * may map it to a column without re-validating; it is never the raw URL
  * value. `offset` is already clamped to the last page.
  */
-export interface PageRequest {
+export type PageRequest = {
     readonly sort: string;
     readonly desc: boolean;
     readonly limit: number;
     readonly offset: number;
-}
+};
 
-export interface PagedResult<T> {
+export type PagedResult<T> = {
     readonly rows: readonly T[];
     readonly totalRows: number;
     readonly state: TableState;
-}
+};
 
 /**
  * Search params are attacker-controlled, so the sort column is matched

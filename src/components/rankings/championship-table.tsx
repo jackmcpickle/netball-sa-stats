@@ -7,7 +7,8 @@ import {
     formatPercent,
 } from '@/components/format';
 import { ClubLink } from '@/components/links';
-import { DataTable, type DataTableColumn } from '@/components/ui/data-table';
+import { DataTable } from '@/components/ui/data-table';
+import type { DataTableColumn } from '@/components/ui/data-table';
 import { ShareBar } from '@/components/ui/share-bar';
 import type { TableState } from '@/db/queries/pagination';
 import type { ChampionshipRow } from '@/server/dto/rankings.dto';
@@ -76,11 +77,10 @@ function renderMovementCell(
                     title="Competition coverage, methodology, or a gap in seasons changed since the previous ranked season, so this season is not directly comparable — no movement is shown."
                 >
                     <span className="sr-only">
-                        {
-                            'Not comparable to the previous ranked season — competition coverage changed'
-                        }
+                        Not comparable to the previous ranked season —
+                        competition coverage changed
                     </span>
-                    <span aria-hidden="true">{'—'}</span>
+                    <span aria-hidden="true">—</span>
                 </span>
             ) : (
                 <span

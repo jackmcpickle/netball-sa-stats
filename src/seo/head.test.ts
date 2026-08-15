@@ -6,13 +6,13 @@ import { describe, expect, it } from 'vitest';
 import { pageHead, pageTitle } from '@/seo/head';
 import { faqSchema } from '@/seo/structured-data';
 
-interface MetaLike {
+type MetaLike = {
     readonly title?: string;
     readonly name?: string;
     readonly property?: string;
     readonly content?: string;
     readonly 'script:ld+json'?: Record<string, unknown>;
-}
+};
 
 function contentOf(
     meta: readonly MetaLike[],
@@ -39,7 +39,7 @@ const PATHS = [
     '/about',
 ];
 
-describe('pageHead', () => {
+describe(pageHead, () => {
     it.each(PATHS)('gives %s a complete, absolute head', (path) => {
         const head = pageHead({
             title: 'Page',
@@ -117,7 +117,7 @@ describe('pageHead', () => {
                 dateModified: '2026-08-01T00:00:00.000Z',
             }).meta,
         );
-        expect(graph[2]?.['dateModified']).toBe('2026-08-01T00:00:00.000Z');
+        expect(graph[2]?.dateModified).toBe('2026-08-01T00:00:00.000Z');
     });
 
     it('produces JSON-LD that round-trips through JSON', () => {
@@ -144,12 +144,12 @@ describe('pageHead', () => {
         );
         expect(
             head.meta.some((tag) => tag['script:ld+json'] !== undefined),
-        ).toBe(false);
-        expect(head.links.some((link) => link.rel === 'alternate')).toBe(false);
+        ).toBeFalsy();
+        expect(head.links.some((link) => link.rel === 'alternate')).toBeFalsy();
     });
 });
 
-describe('pageTitle', () => {
+describe(pageTitle, () => {
     it('uses the tagline for the site title and suffixes the rest', () => {
         expect(pageTitle('Netball Open Data')).toBe(
             'Netball Open Data — South Australian netball club rankings',

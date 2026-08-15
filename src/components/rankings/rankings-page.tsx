@@ -62,12 +62,13 @@ export function RankingsPage(): JSX.Element {
                         {`CLUB CHAMPIONSHIP · ${String(firstRanked)}—${String(lastRanked)}`}
                     </Eyebrow>
                     <h1 className="mt-5 text-[2.25rem] leading-[1.05] font-medium tracking-[-0.07rem] text-pretty text-ink sm:text-[3.5rem] sm:tracking-[-0.12rem] lg:text-display lg:tracking-[-0.156rem]">
-                        {"Which club is really South Australia's strongest?"}
+                        Which club is really South Australia's strongest?
                     </h1>
                     <p className="mt-5 max-w-[52ch] text-base leading-[1.55] text-ink-body sm:mt-6 sm:text-lg">
-                        {
-                            'Every grade, every season, one number. Ladder finishes across Premier League, its Reserves and the Adelaide Metropolitan Netball Division are weighted by grade and added up into a single club championship score.'
-                        }
+                        Every grade, every season, one number. Ladder finishes
+                        across Premier League, its Reserves and the Adelaide
+                        Metropolitan Netball Division are weighted by grade and
+                        added up into a single club championship score.
                     </p>
                 </div>
 
@@ -114,7 +115,7 @@ export function RankingsPage(): JSX.Element {
                 className="mb-12 p-5 sm:p-8"
             >
                 <h2 className="text-2xl font-medium tracking-tight text-ink sm:text-panel">
-                    {'Rank movement, season by season'}
+                    Rank movement, season by season
                 </h2>
                 <p className="mt-2 text-sm text-ink-muted">
                     {`Club championship position across ${String(data.coverage.rankedYears.length)} ranked seasons. Lower is better. Lines break across years with no recovered data.`}

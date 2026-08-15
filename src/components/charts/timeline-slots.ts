@@ -17,7 +17,9 @@ export function timelineSlots(
     const slots: TimelineSlot[] = [];
     for (let i = 0; i < rankedYears.length; i += 1) {
         const year = rankedYears[i];
-        if (year === undefined) continue;
+        if (year === undefined) {
+            continue;
+        }
         if (i > 0) {
             const prev = rankedYears[i - 1];
             if (prev !== undefined && year - prev > 1) {
@@ -42,7 +44,11 @@ export function timelineSlots(
 }
 
 export function gapLabel(missingYears: readonly number[]): string {
-    if (missingYears.length === 0) return '';
-    if (missingYears.length === 1) return String(missingYears[0]);
+    if (missingYears.length === 0) {
+        return '';
+    }
+    if (missingYears.length === 1) {
+        return String(missingYears[0]);
+    }
     return `${String(missingYears[0])}–${String(missingYears.at(-1))}`;
 }

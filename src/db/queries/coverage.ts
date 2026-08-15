@@ -97,7 +97,9 @@ export function buildCoverage(
     const keys = [...new Set(rows.map((row) => row.competitionKey))];
     const sourceByYear = new Map<number, Set<string>>();
     for (const row of rows) {
-        if (!ranked.includes(row.startYear)) continue;
+        if (!ranked.includes(row.startYear)) {
+            continue;
+        }
         const set = sourceByYear.get(row.startYear) ?? new Set<string>();
         set.add(row.source);
         sourceByYear.set(row.startYear, set);

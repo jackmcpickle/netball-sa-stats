@@ -105,7 +105,7 @@ export type CollectedPlayHq = {
 function parseStartYear(dateIso: string): number {
     const year = Number(dateIso.slice(0, 4));
     if (Number.isNaN(year)) {
-        throw new Error(`parseStartYear: unparsable date "${dateIso}"`);
+        throw new TypeError(`parseStartYear: unparsable date "${dateIso}"`);
     }
     return year;
 }
@@ -151,10 +151,16 @@ export function resolveCompetitionKey(
     orgId: string,
     gradeName: string,
 ): string | null {
-    if (orgId === AMND_ORG_ID) return 'amnd';
+    if (orgId === AMND_ORG_ID) {
+        return 'amnd';
+    }
     const normalised = gradeName.trim().toUpperCase();
-    if (normalised === 'PREMIER DIVISION') return 'premier_league';
-    if (normalised === 'RESERVES DIVISION') return 'premier_league_reserves';
+    if (normalised === 'PREMIER DIVISION') {
+        return 'premier_league';
+    }
+    if (normalised === 'RESERVES DIVISION') {
+        return 'premier_league_reserves';
+    }
     return null;
 }
 
@@ -187,7 +193,9 @@ function mergeTeams(
     teams: readonly { key: string; row: TeamRow }[],
 ): void {
     for (const { key, row } of teams) {
-        if (!teamRows.has(key)) teamRows.set(key, row);
+        if (!teamRows.has(key)) {
+            teamRows.set(key, row);
+        }
     }
 }
 
@@ -217,7 +225,9 @@ function registerTeam(
     squadNumber: number | null,
 ): void {
     const teamKey = `${gradeKey}|${standing.team.id}`;
-    if (teams.has(teamKey)) return;
+    if (teams.has(teamKey)) {
+        return;
+    }
     teams.set(teamKey, {
         club_key: clubKey,
         grade_key: gradeKey,
@@ -259,7 +269,9 @@ export function processGrade(
     scrapedAt: number,
 ): ProcessedGrade | null {
     const competitionKey = resolveCompetitionKey(ctx.orgId, grade.name);
-    if (competitionKey === null) return null;
+    if (competitionKey === null) {
+        return null;
+    }
     const seasonKey = buildSeasonKey(competitionKey, ctx.period, ctx.startYear);
     const gradeKey = buildGradeKey(seasonKey, grade.name);
 
@@ -383,7 +395,9 @@ function wantsGames(
     startYear: number,
     gradePlayhqId: string,
 ): boolean {
-    if (options.games !== true) return false;
+    if (options.games !== true) {
+        return false;
+    }
     if (options.gradeId !== undefined && options.gradeId !== gradePlayhqId) {
         return false;
     }
@@ -410,7 +424,9 @@ async function fetchGamesForGrade(
         cacheFirst,
     )) as GradeAllRoundsResponse;
     const rounds = response.data.discoverGradeFixture;
-    if (rounds === null) return [];
+    if (rounds === null) {
+        return [];
+    }
     // As with ladders, scraped_at is when the capture was fetched, so a
     // cache-only re-run reproduces a byte-identical CSV.
     const scrapedAt = await store.capturedAtMs(key);
@@ -435,7 +451,9 @@ async function collectGames(
         gradeKey: string;
     },
 ): Promise<void> {
-    if (!wantsGames(options, grade.startYear, grade.gradePlayhqId)) return;
+    if (!wantsGames(options, grade.startYear, grade.gradePlayhqId)) {
+        return;
+    }
     const rows = await fetchGamesForGrade(
         store,
         grade.gradePlayhqId,
@@ -512,7 +530,7 @@ async function ingestGrade(
         throw new Error(`missing capturedAtMs for ${gradeCaptureKey}`);
     }
 
-    const discoverGrade = gradeResponse.data.discoverGrade;
+    const { discoverGrade } = gradeResponse.data;
     const standings: readonly Standing[] =
         discoverGrade === null ? [] : flattenStandings(discoverGrade.ladder);
 
@@ -547,7 +565,9 @@ async function ingestGrade(
         scrapedAt,
     );
     // Unreachable: already filtered above. Kept for type safety.
-    if (processed === null) return;
+    if (processed === null) {
+        return;
+    }
     if (!acc.seasonRows.has(processed.seasonKey)) {
         acc.seasonRows.set(processed.seasonKey, processed.seasonRow);
     }
@@ -583,8 +603,12 @@ export async function collectPlayHqData(
         );
         for (const { season } of entries) {
             const startYear = parseStartYear(season.startDate);
-            if (startYear < job.minYear) continue;
-            if (!seasonWanted(season, options.years)) continue;
+            if (startYear < job.minYear) {
+                continue;
+            }
+            if (!seasonWanted(season, options.years)) {
+                continue;
+            }
 
             const seasonCaptureKey = `gradeListDiscoverSeason_${season.id}.json`;
             // eslint-disable-next-line no-await-in-loop -- sequential by design: PlayHQ etiquette caps us at ~1 req/sec.
@@ -596,7 +620,7 @@ export async function collectPlayHqData(
                 options.cacheFirst,
             )) as GradeListDiscoverSeasonResponse;
 
-            const discoverSeason = seasonResponse.data.discoverSeason;
+            const { discoverSeason } = seasonResponse.data;
             if (discoverSeason === null) {
                 console.warn(
                     `discoverSeason returned null for season ${season.id} (${season.name}), skipping`,

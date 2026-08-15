@@ -4,7 +4,7 @@ import type { SeedSpec } from '@/server/testing/fixtures';
 import { seed } from '@/server/testing/fixtures';
 import { createTestDb } from '@/server/testing/harness';
 
-describe('fetchClubProfile', () => {
+describe(fetchClubProfile, () => {
     it('reports a null career record (not a 0% win rate) when no result has a W/L/D count', async () => {
         const db = createTestDb();
         const spec: SeedSpec = {
@@ -130,7 +130,7 @@ describe('fetchClubProfile', () => {
         const season2025 = profile?.seasons.find(
             (season) => season.year === 2025,
         );
-        expect(season2025).toEqual({
+        expect(season2025).toStrictEqual({
             year: 2025,
             points: 0,
             rank: null,

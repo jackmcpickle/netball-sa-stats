@@ -131,12 +131,12 @@ describe('clubs index service', () => {
         // latest (2025) season show up, regardless of the four clubs in the
         // clubs table overall.
         expect(defaultResult.year).toBe(2025);
-        expect(defaultResult.includePast).toBe(false);
+        expect(defaultResult.includePast).toBeFalsy();
         expect(defaultResult.presentCount).toBe(2);
         expect(defaultResult.totalCount).toBe(4);
         expect(
             defaultResult.entries.map((entry) => entry.club.key).sort(),
-        ).toEqual(['contax', 'garville']);
+        ).toStrictEqual(['contax', 'garville']);
 
         const withPast = unwrap(
             await createServices(db).clubs.getIndexPage({ includePast: true }),
@@ -148,13 +148,13 @@ describe('clubs index service', () => {
                 .slice(0, 2)
                 .map((entry) => entry.club.key)
                 .sort(),
-        ).toEqual(['contax', 'garville']);
+        ).toStrictEqual(['contax', 'garville']);
         expect(
             withPast.entries
                 .slice(2)
                 .map((entry) => entry.club.key)
                 .sort(),
-        ).toEqual(['ajax', 'phantom']);
+        ).toStrictEqual(['ajax', 'phantom']);
     });
 
     it('includes past clubs with includePast, with lastRankedYear filled', async () => {
@@ -200,8 +200,8 @@ describe('clubs index service', () => {
 
         const result = await createServices(db).clubs.getIndexPage({});
 
-        expect(result.ok).toBe(false);
-        expect(!result.ok && result.error).toEqual({
+        expect(result.ok).toBeFalsy();
+        expect(!result.ok && result.error).toStrictEqual({
             kind: 'no-ranked-seasons',
         });
     });

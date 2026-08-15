@@ -65,10 +65,10 @@ export function webPageSchema(input: {
     };
 }
 
-export interface FaqEntry {
+export type FaqEntry = {
     readonly question: string;
     readonly answer: string;
-}
+};
 
 export function faqSchema(entries: readonly FaqEntry[]): Json {
     return {
@@ -84,10 +84,10 @@ export function faqSchema(entries: readonly FaqEntry[]): Json {
     };
 }
 
-export interface Crumb {
+export type Crumb = {
     readonly name: string;
     readonly path: string;
-}
+};
 
 export function breadcrumbSchema(crumbs: readonly Crumb[]): Json {
     return {

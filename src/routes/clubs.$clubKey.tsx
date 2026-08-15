@@ -25,20 +25,20 @@ const loadClub = createServerFn({ method: 'GET' })
             pageSize: z.number().int().optional(),
         }),
     )
-    .handler(async ({ data }) => {
-        return resolvePageResult(
+    .handler(async ({ data }) =>
+        resolvePageResult(
             await createServices(getDb()).clubs.getProfilePage(data),
-        );
-    });
+        ),
+    );
 
 function ClubNotFound(): JSX.Element {
     return (
         <PageShell className="py-24">
             <h1 className="text-3xl font-medium tracking-tight text-ink">
-                {'No such club'}
+                No such club
             </h1>
             <p className="mt-4 text-ink-body">
-                {'That club is not in the dataset. Try the club list.'}
+                That club is not in the dataset. Try the club list.
             </p>
         </PageShell>
     );
@@ -105,7 +105,7 @@ export const Route = createFileRoute('/clubs/$clubKey')({
         pageSize: search.pageSize,
     }),
     loader: async ({ params, deps }) =>
-        loadClub({ data: { clubKey: params.clubKey, ...deps } }),
+        await loadClub({ data: { clubKey: params.clubKey, ...deps } }),
     component: ClubProfilePage,
     notFoundComponent: ClubNotFound,
 });

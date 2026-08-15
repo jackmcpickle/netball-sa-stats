@@ -9,7 +9,7 @@ import type { ImportExecutor } from '@/pipeline/import/types';
 
 const FIXTURE_DIR = resolve(import.meta.dirname, '__fixtures__/basic');
 
-describe('loadIsFinalMap', () => {
+describe(loadIsFinalMap, () => {
     let db: DatabaseSync;
 
     beforeEach(async () => {

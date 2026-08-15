@@ -2,10 +2,10 @@ import { readFile, writeFile } from 'node:fs/promises';
 import { join, resolve } from 'node:path';
 import { mapArchiveGradeName } from '@/pipeline/archive/grade-map';
 import {
-    type ClubAliasRow,
     createArchiveClubResolver,
     syntheticArchivePlayhqId,
 } from '@/pipeline/archive/resolve';
+import type { ClubAliasRow } from '@/pipeline/archive/resolve';
 import { parseCsv, toCsv } from '@/pipeline/csv';
 
 type CsvRow = Record<string, string | number | null>;
@@ -163,7 +163,7 @@ async function readCsvRows(
     dataDir: string,
     filename: string,
 ): Promise<CsvRow[]> {
-    const text = await readFile(join(dataDir, filename), 'utf8');
+    const text = await readFile(join(dataDir, filename), 'utf-8');
     return parseCsv(text);
 }
 
@@ -256,11 +256,11 @@ export async function loadArchivePlacements(
     placementsDir: string,
     years: readonly number[],
 ): Promise<PlacementSeason[]> {
-    return Promise.all(
+    return await Promise.all(
         years.map(async (year) => {
             const text = await readFile(
                 resolve(placementsDir, `${String(year)}.json`),
-                'utf8',
+                'utf-8',
             );
             return JSON.parse(text) as PlacementSeason;
         }),

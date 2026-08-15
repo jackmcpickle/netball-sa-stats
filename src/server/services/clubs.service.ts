@@ -107,9 +107,9 @@ export function createClubsService(repos: Repos): {
                 },
                 CLUB_RESULTS_TABLE_SPEC,
             ).page(
-                async () => repos.clubs.countResults(params.clubKey),
+                async () => await repos.clubs.countResults(params.clubKey),
                 async (request) =>
-                    repos.clubs.resultsPage(params.clubKey, request),
+                    await repos.clubs.resultsPage(params.clubKey, request),
             );
             const [clubs, counts] = await Promise.all([
                 repos.clubs.all(),

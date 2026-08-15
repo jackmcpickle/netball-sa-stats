@@ -67,7 +67,7 @@ export function createRankingsService(repos: Repos): {
             params: RankingsParams,
         ): Promise<Result<RankingsPageDto, DomainError>> {
             const coverage = await repos.seasons.fullCoverage();
-            const rankedYears = coverage.rankedYears;
+            const { rankedYears } = coverage;
             let resolvedYear: number;
             if (
                 params.season !== undefined &&
@@ -106,8 +106,8 @@ export function createRankingsService(repos: Repos): {
             const previousYear = championship.value.previousYear(rankedYears);
             const clubs = await repos.clubs.all();
             const gradesByYear = await Promise.all(
-                coverage.years.map(async (gradeYear) =>
-                    repos.grades.forYear(gradeYear),
+                coverage.years.map(
+                    async (gradeYear) => await repos.grades.forYear(gradeYear),
                 ),
             );
             const worstRank = Math.max(

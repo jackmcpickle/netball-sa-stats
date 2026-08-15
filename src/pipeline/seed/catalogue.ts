@@ -72,7 +72,7 @@ export const BANDS: readonly Band[] = [
         competitionKey: 'premier_league',
         tier: 1,
         label: 'Premier Division',
-        base: 1.0,
+        base: 1,
     },
     {
         competitionKey: 'premier_league_reserves',

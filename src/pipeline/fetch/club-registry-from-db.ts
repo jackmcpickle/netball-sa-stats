@@ -2,15 +2,14 @@
  * Loads curated club identity from D1 (or the sqlite test executor) into a
  * `ClubRegistry`. Aliases live on `club_id`, so a JOIN recovers `club_key`.
  */
-import {
-    ClubRegistry,
-    type ClubAliasRow,
-    type ClubRow,
-} from '@/pipeline/fetch/club-registry';
+import { ClubRegistry } from '@/pipeline/fetch/club-registry';
+import type { ClubAliasRow, ClubRow } from '@/pipeline/fetch/club-registry';
 import type { ImportExecutor } from '@/pipeline/import/types';
 
 function cellText(value: unknown): string {
-    if (typeof value === 'string') return value;
+    if (typeof value === 'string') {
+        return value;
+    }
     if (typeof value === 'number' || typeof value === 'bigint') {
         return String(value);
     }

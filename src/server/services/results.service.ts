@@ -54,7 +54,7 @@ export function createResultsService(repos: Repos): {
                 },
                 FIXTURES_TABLE_SPEC,
             ).page(
-                async () => repos.games.countForGrade(grade.key),
+                async () => await repos.games.countForGrade(grade.key),
                 async (request) =>
                     toResultRows(
                         await repos.games.pageForGrade(grade.key, request),

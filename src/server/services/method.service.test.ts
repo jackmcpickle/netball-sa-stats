@@ -94,12 +94,12 @@ describe('method service', () => {
 
         const result = unwrap(await createServices(db).method.getPage());
 
-        expect(result.coverage.years).toEqual([2024, 2025]);
-        expect(result.coverage.rankedYears).toEqual([2024, 2025]);
+        expect(result.coverage.years).toStrictEqual([2024, 2025]);
+        expect(result.coverage.rankedYears).toStrictEqual([2024, 2025]);
         // isSampleData is a module-level constant, not derived from the
         // seeded db — it just reflects IS_SAMPLE_DATA, which is currently
         // `false`.
-        expect(result.isSampleData).toBe(false);
+        expect(result.isSampleData).toBeFalsy();
 
         expect(result.weights).toHaveLength(2);
         // Ordered by tier ascending: tier 1 (Premier) before tier 2 (A1).

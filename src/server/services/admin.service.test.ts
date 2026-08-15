@@ -21,14 +21,14 @@ function startedLabel(epochSeconds: number): string {
 describe('createAdminService.getPage', () => {
     it('returns an empty dashboard when there are no runs', async () => {
         const db = createTestDb();
-        const startImport = vi.fn(async () => undefined);
+        const startImport = vi.fn(async () => {});
         const admin = createAdminService(createImportRunsRepo(db), {
             startImport,
         });
 
         const page = await admin.getPage();
 
-        expect(page).toEqual({
+        expect(page).toStrictEqual({
             running: false,
             runningElapsedLabel: null,
             lastStatus: null,
@@ -45,11 +45,11 @@ describe('createAdminService.getPage', () => {
         const repo = createImportRunsRepo(db);
         const okId = await repo.insertRunning({
             instanceId: 'ok-run',
-            startedAt: 1_700_000_000 - 3_900,
+            startedAt: 1_700_000_000 - 3900,
             yearsJson: '[2025]',
             games: true,
         });
-        await repo.markOk(okId, 1_700_000_000 - 3_600, {
+        await repo.markOk(okId, 1_700_000_000 - 3600, {
             seasons: 3,
             grades: 12,
             teams: 40,
@@ -65,11 +65,11 @@ describe('createAdminService.getPage', () => {
         });
 
         const admin = createAdminService(repo, {
-            startImport: vi.fn(async () => undefined),
+            startImport: vi.fn(async () => {}),
         });
         const page = await admin.getPage();
 
-        expect(page.running).toBe(true);
+        expect(page.running).toBeTruthy();
         expect(page.runningElapsedLabel).toBe('12m');
         expect(page.lastStatus).toBe('running');
         expect(page.runs).toHaveLength(2);
@@ -87,7 +87,7 @@ describe('createAdminService.getPage', () => {
         });
         expect(page.runs[1]).toMatchObject({
             id: okId,
-            startedLabel: startedLabel(1_700_000_000 - 3_900),
+            startedLabel: startedLabel(1_700_000_000 - 3900),
             status: 'ok',
             seasons: 3,
             grades: 12,
@@ -113,7 +113,7 @@ describe('createAdminService.getPage', () => {
         await repo.markError(id, null as unknown as number, 'boom');
 
         const admin = createAdminService(repo, {
-            startImport: vi.fn(async () => undefined),
+            startImport: vi.fn(async () => {}),
         });
         const page = await admin.getPage();
 
@@ -129,11 +129,11 @@ describe('createAdminService.getPage', () => {
         const repo = createImportRunsRepo(db);
         const id = await repo.insertRunning({
             instanceId: 'long-ok',
-            startedAt: 1_000,
+            startedAt: 1000,
             yearsJson: null,
             games: true,
         });
-        await repo.markOk(id, 1_000 + 3600 + 5 * 60, {
+        await repo.markOk(id, 1000 + 3600 + 5 * 60, {
             seasons: 1,
             grades: 1,
             teams: 1,
@@ -143,7 +143,7 @@ describe('createAdminService.getPage', () => {
         });
 
         const admin = createAdminService(repo, {
-            startImport: vi.fn(async () => undefined),
+            startImport: vi.fn(async () => {}),
         });
         const page = await admin.getPage();
 
@@ -165,12 +165,12 @@ describe('createAdminService.runImport', () => {
             yearsJson: null,
             games: true,
         });
-        const startImport = vi.fn(async () => undefined);
+        const startImport = vi.fn(async () => {});
         const admin = createAdminService(repo, { startImport });
 
         const result = await admin.runImport(' ');
 
-        expect(result).toEqual({
+        expect(result).toStrictEqual({
             ok: false,
             error: { kind: 'already-running' },
         });
@@ -179,14 +179,14 @@ describe('createAdminService.runImport', () => {
 
     it('rejects non-year tokens as bad-years', async () => {
         const db = createTestDb();
-        const startImport = vi.fn(async () => undefined);
+        const startImport = vi.fn(async () => {});
         const admin = createAdminService(createImportRunsRepo(db), {
             startImport,
         });
 
         const result = await admin.runImport('2026, potato');
 
-        expect(result).toEqual({
+        expect(result).toStrictEqual({
             ok: false,
             error: { kind: 'bad-years' },
         });
@@ -195,28 +195,28 @@ describe('createAdminService.runImport', () => {
 
     it('starts a games-only import when years text is empty', async () => {
         const db = createTestDb();
-        const startImport = vi.fn(async () => undefined);
+        const startImport = vi.fn(async () => {});
         const admin = createAdminService(createImportRunsRepo(db), {
             startImport,
         });
 
         const result = await admin.runImport('');
 
-        expect(result).toEqual({ ok: true, value: true });
+        expect(result).toStrictEqual({ ok: true, value: true });
         expect(startImport).toHaveBeenCalledOnce();
         expect(startImport).toHaveBeenCalledWith({ games: true });
     });
 
     it('parses a single year into the startImport params', async () => {
         const db = createTestDb();
-        const startImport = vi.fn(async () => undefined);
+        const startImport = vi.fn(async () => {});
         const admin = createAdminService(createImportRunsRepo(db), {
             startImport,
         });
 
         const result = await admin.runImport('2026');
 
-        expect(result).toEqual({ ok: true, value: true });
+        expect(result).toStrictEqual({ ok: true, value: true });
         expect(startImport).toHaveBeenCalledWith({
             years: [2026],
             games: true,
@@ -225,16 +225,19 @@ describe('createAdminService.runImport', () => {
 
     it('trims tokens and treats whitespace-only years as games-only', async () => {
         const db = createTestDb();
-        const startImport = vi.fn(async () => undefined);
+        const startImport = vi.fn(async () => {});
         const admin = createAdminService(createImportRunsRepo(db), {
             startImport,
         });
 
-        expect(await admin.runImport('  ')).toEqual({ ok: true, value: true });
+        await expect(admin.runImport('  ')).resolves.toStrictEqual({
+            ok: true,
+            value: true,
+        });
         expect(startImport).toHaveBeenCalledWith({ games: true });
 
         startImport.mockClear();
-        expect(await admin.runImport(' 2026 , 2025 ')).toEqual({
+        await expect(admin.runImport(' 2026 , 2025 ')).resolves.toStrictEqual({
             ok: true,
             value: true,
         });
@@ -249,7 +252,7 @@ describe('admin auth isolation', () => {
     it('does not call getPage from auth helpers', () => {
         const source = readFileSync(
             resolve(import.meta.dirname, '../admin-auth.ts'),
-            'utf8',
+            'utf-8',
         );
         expect(source).not.toContain('createImportRunsRepo');
         expect(source).not.toContain('getPage');
@@ -259,7 +262,7 @@ describe('admin auth isolation', () => {
     it('does not import cloudflare:workers from the admin service', () => {
         const source = readFileSync(
             resolve(import.meta.dirname, './admin.service.ts'),
-            'utf8',
+            'utf-8',
         );
         expect(source).not.toContain('cloudflare:workers');
     });
@@ -269,7 +272,7 @@ describe('createServices admin wiring', () => {
     it('still works with one argument and defaults startImport', async () => {
         const db = createTestDb();
         const page = await createServices(db).admin.getPage();
-        expect(page.runs).toEqual([]);
+        expect(page.runs).toStrictEqual([]);
 
         await expect(createServices(db).admin.runImport('')).rejects.toThrow(
             'PLAYHQ_IMPORT is not bound',

@@ -12,14 +12,14 @@ function club(key: string): Club {
     };
 }
 
-describe('partitionClubs', () => {
+describe(partitionClubs, () => {
     it('splits clubs by presence in the ranked key set', () => {
         const result = partitionClubs(
             [club('contax'), club('brahma')],
             new Set(['contax']),
         );
-        expect(result.present.map((c) => c.key)).toEqual(['contax']);
-        expect(result.past.map((c) => c.key)).toEqual(['brahma']);
+        expect(result.present.map((c) => c.key)).toStrictEqual(['contax']);
+        expect(result.past.map((c) => c.key)).toStrictEqual(['brahma']);
     });
 
     it('preserves the incoming order within each group', () => {
@@ -27,19 +27,19 @@ describe('partitionClubs', () => {
             [club('a'), club('b'), club('c'), club('d')],
             new Set(['b', 'd']),
         );
-        expect(result.present.map((c) => c.key)).toEqual(['b', 'd']);
-        expect(result.past.map((c) => c.key)).toEqual(['a', 'c']);
+        expect(result.present.map((c) => c.key)).toStrictEqual(['b', 'd']);
+        expect(result.past.map((c) => c.key)).toStrictEqual(['a', 'c']);
     });
 
     it('treats every club as past when nothing is ranked', () => {
         const result = partitionClubs([club('a'), club('b')], new Set());
-        expect(result.present).toEqual([]);
+        expect(result.present).toStrictEqual([]);
         expect(result.past).toHaveLength(2);
     });
 
     it('ignores ranked keys with no matching club', () => {
         const result = partitionClubs([club('a')], new Set(['a', 'ghost']));
-        expect(result.present.map((c) => c.key)).toEqual(['a']);
-        expect(result.past).toEqual([]);
+        expect(result.present.map((c) => c.key)).toStrictEqual(['a']);
+        expect(result.past).toStrictEqual([]);
     });
 });

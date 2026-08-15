@@ -5,7 +5,7 @@ import {
     parseOptionalIntParam,
 } from '@/routes/-search-params';
 
-describe('parseOptionalIntParam', () => {
+describe(parseOptionalIntParam, () => {
     it('passes through a valid integer string', () => {
         expect(parseOptionalIntParam('1999')).toBe(1999);
     });
@@ -31,29 +31,29 @@ describe('parseOptionalIntParam', () => {
     });
 });
 
-describe('parseOptionalBoolParam', () => {
+describe(parseOptionalBoolParam, () => {
     it('passes through boolean true', () => {
-        expect(parseOptionalBoolParam(true)).toBe(true);
+        expect(parseOptionalBoolParam(true)).toBeTruthy();
     });
 
     it('passes through boolean false', () => {
-        expect(parseOptionalBoolParam(false)).toBe(false);
+        expect(parseOptionalBoolParam(false)).toBeFalsy();
     });
 
     it('treats "true" as true', () => {
-        expect(parseOptionalBoolParam('true')).toBe(true);
+        expect(parseOptionalBoolParam('true')).toBeTruthy();
     });
 
     it('treats "1" as true', () => {
-        expect(parseOptionalBoolParam('1')).toBe(true);
+        expect(parseOptionalBoolParam('1')).toBeTruthy();
     });
 
     it('treats "false" as false', () => {
-        expect(parseOptionalBoolParam('false')).toBe(false);
+        expect(parseOptionalBoolParam('false')).toBeFalsy();
     });
 
     it('treats "0" as false', () => {
-        expect(parseOptionalBoolParam('0')).toBe(false);
+        expect(parseOptionalBoolParam('0')).toBeFalsy();
     });
 
     it('treats an unrecognised string as absent instead of coercing to true', () => {
@@ -69,7 +69,7 @@ describe('parseOptionalBoolParam', () => {
     });
 });
 
-describe('parseOptionalDirParam', () => {
+describe(parseOptionalDirParam, () => {
     it('passes through "asc"', () => {
         expect(parseOptionalDirParam('asc')).toBe('asc');
     });

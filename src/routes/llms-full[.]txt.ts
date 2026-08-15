@@ -10,8 +10,12 @@ export const Route = createFileRoute('/llms-full.txt')({
             GET: async () => {
                 const db = getDb();
                 const rendered = await Promise.all(
-                    MARKDOWN_PATHS.map(async (path) =>
-                        renderMarkdown(db, new URL(absoluteUrl(path))),
+                    MARKDOWN_PATHS.map(
+                        async (path) =>
+                            await renderMarkdown(
+                                db,
+                                new URL(absoluteUrl(path)),
+                            ),
                     ),
                 );
                 const documents = rendered.filter(

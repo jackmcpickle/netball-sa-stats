@@ -11,7 +11,7 @@ import type { TableState } from '@/db/queries/pagination';
 import type { GameStatus } from '@/db/schema';
 import type { Club, ClubKey } from '@/server/dto/shared.dto';
 
-export interface GameFact {
+export type GameFact = {
     readonly year: number;
     readonly tier: number;
     readonly gradeName: string;
@@ -29,37 +29,37 @@ export interface GameFact {
     readonly homeScore: number | null;
     readonly awayScore: number | null;
     readonly status: GameStatus;
-}
+};
 
 /** Always from club A's perspective. */
-export interface HeadToHeadRecord {
+export type HeadToHeadRecord = {
     readonly played: number;
     readonly won: number;
     readonly drawn: number;
     readonly lost: number;
     readonly goalsFor: number;
     readonly goalsAgainst: number;
-}
+};
 
-export interface SeasonRecord {
+export type SeasonRecord = {
     readonly year: number;
     readonly played: number;
     readonly won: number;
     readonly drawn: number;
     readonly lost: number;
     readonly goalDiff: number;
-}
+};
 
-export interface BandRecord {
+export type BandRecord = {
     readonly tier: number;
     readonly label: string;
     readonly played: number;
     readonly won: number;
     readonly drawn: number;
     readonly lost: number;
-}
+};
 
-export interface Meeting {
+export type Meeting = {
     readonly year: number;
     readonly round: number | null;
     readonly roundName: string | null;
@@ -73,25 +73,25 @@ export interface Meeting {
     readonly status: GameStatus;
     /** Null when the game produced no result (scheduled, no_result). */
     readonly result: 'W' | 'L' | 'D' | null;
-}
+};
 
-export interface HeadToHead {
+export type HeadToHead = {
     readonly record: HeadToHeadRecord;
     readonly bySeason: readonly SeasonRecord[];
     readonly byBand: readonly BandRecord[];
     readonly meetings: readonly Meeting[];
-}
+};
 
 /** A tier the pair has actually met in, so the picker offers nothing empty. */
-export interface BandOption {
+export type BandOption = {
     readonly tier: number;
     readonly label: string;
-}
+};
 
 /** `'all'` is the no-band-filter sentinel, not a tier. */
 export type BandFilter = number | 'all';
 
-export interface HeadToHeadParams {
+export type HeadToHeadParams = {
     readonly a?: string;
     readonly b?: string;
     readonly band?: BandFilter;
@@ -100,9 +100,9 @@ export interface HeadToHeadParams {
     readonly dir?: 'asc' | 'desc';
     readonly page?: number;
     readonly pageSize?: number;
-}
+};
 
-export interface HeadToHeadPageDto {
+export type HeadToHeadPageDto = {
     /** Options for both pickers, already filtered by `includePast`. */
     readonly clubs: readonly Club[];
     readonly includePast: boolean;
@@ -118,10 +118,10 @@ export interface HeadToHeadPageDto {
      * complete list — a W-L-D of "page 1 of 3" would be a lie.
      */
     readonly meetings: MeetingsTableDto | null;
-}
+};
 
-export interface MeetingsTableDto {
+export type MeetingsTableDto = {
     readonly rows: readonly Meeting[];
     readonly totalRows: number;
     readonly tableState: TableState;
-}
+};

@@ -19,12 +19,16 @@ import type {
 } from '@/pipeline/import/types';
 
 function toNum(value: CsvValue | undefined): number | null {
-    if (value === null || value === undefined || value === '') return null;
+    if (value === null || value === undefined || value === '') {
+        return null;
+    }
     return Number(value);
 }
 
 function toStr(value: CsvValue | undefined): string | null {
-    if (value === null || value === undefined || value === '') return null;
+    if (value === null || value === undefined || value === '') {
+        return null;
+    }
     return String(value);
 }
 
@@ -124,7 +128,9 @@ function gamesFileOf(row: GameRow): string {
     const fromKey = /-(?:winter|summer|annual)-(\d{4})(?:-|$)/u.exec(
         row.grade_key,
     );
-    if (fromKey?.[1] !== undefined) return `games-${fromKey[1]}.csv`;
+    if (fromKey?.[1] !== undefined) {
+        return `games-${fromKey[1]}.csv`;
+    }
     if (row.played_at !== null) {
         return `games-${new Date(row.played_at * 1000).getUTCFullYear()}.csv`;
     }

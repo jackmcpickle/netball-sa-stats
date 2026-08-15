@@ -11,13 +11,12 @@ export function SiteFooter(): JSX.Element {
                     <div className="mb-3 flex items-center gap-2.5">
                         <NetballMark className="size-[22px] shrink-0 text-brand" />
                         <span className="text-[15px] font-semibold text-ink">
-                            {'Netball Open Data'}
+                            Netball Open Data
                         </span>
                     </div>
                     <p className="max-w-[38ch] text-sm leading-relaxed text-ink-body">
-                        {
-                            'Open club rankings for South Australian netball. Free to use, free to check, free to argue with.'
-                        }
+                        Open club rankings for South Australian netball. Free to
+                        use, free to check, free to argue with.
                     </p>
                 </div>
 
@@ -25,24 +24,24 @@ export function SiteFooter(): JSX.Element {
                     aria-label="Explore"
                     className="grid content-start gap-2.5"
                 >
-                    <h2 className="label-mono">{'EXPLORE'}</h2>
+                    <h2 className="label-mono">EXPLORE</h2>
                     <Link
                         to="/"
                         className="text-sm text-ink-body no-underline hover:underline"
                     >
-                        {'Rankings'}
+                        Rankings
                     </Link>
                     <Link
                         to="/clubs"
                         className="text-sm text-ink-body no-underline hover:underline"
                     >
-                        {'Clubs'}
+                        Clubs
                     </Link>
                     <Link
                         to="/ladders"
                         className="text-sm text-ink-body no-underline hover:underline"
                     >
-                        {'Ladders'}
+                        Ladders
                     </Link>
                 </nav>
 
@@ -50,44 +49,42 @@ export function SiteFooter(): JSX.Element {
                     aria-label="Data"
                     className="grid content-start gap-2.5"
                 >
-                    <h2 className="label-mono">{'DATA'}</h2>
+                    <h2 className="label-mono">DATA</h2>
                     <Link
                         to="/method"
                         className="text-sm text-ink-body no-underline hover:underline"
                     >
-                        {'Method'}
+                        Method
                     </Link>
                     <Link
                         to="/about"
                         className="text-sm text-ink-body no-underline hover:underline"
                     >
-                        {'About'}
+                        About
                     </Link>
                     <a
                         href="/llms.txt"
                         className="text-sm text-ink-body no-underline hover:underline"
                     >
-                        {'llms.txt'}
+                        llms.txt
                     </a>
                     {/* Named, not linked: neither exists yet. */}
                     <span className="text-sm text-ink-faint">
-                        {'CSV export — not yet'}
+                        CSV export — not yet
                     </span>
                     <span className="text-sm text-ink-faint">
-                        {'JSON API — not yet'}
+                        JSON API — not yet
                     </span>
                 </nav>
 
                 <div className="grid content-start gap-2.5">
-                    <h2 className="label-mono">{'SOURCES'}</h2>
+                    <h2 className="label-mono">SOURCES</h2>
+                    <span className="text-sm text-ink-faint">Netball SA</span>
                     <span className="text-sm text-ink-faint">
-                        {'Netball SA'}
+                        PlayHQ ladders
                     </span>
                     <span className="text-sm text-ink-faint">
-                        {'PlayHQ ladders'}
-                    </span>
-                    <span className="text-sm text-ink-faint">
-                        {'Adelaide Metropolitan Netball Division'}
+                        Adelaide Metropolitan Netball Division
                     </span>
                 </div>
             </div>
@@ -103,7 +100,7 @@ export function SiteFooter(): JSX.Element {
                     title={NETBALL_ICON_ATTRIBUTION.title}
                     className="text-ink-faint underline decoration-rule underline-offset-2 hover:text-ink-muted"
                 >
-                    {'Noun Project'}
+                    Noun Project
                 </a>
                 {` (${NETBALL_ICON_ATTRIBUTION.license})`}
             </p>

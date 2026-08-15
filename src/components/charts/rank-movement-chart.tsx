@@ -1,20 +1,10 @@
-import {
-    useMemo,
-    type JSX,
-    type PointerEvent as ReactPointerEvent,
-    type RefObject,
-} from 'react';
+import { useMemo } from 'react';
+import type { JSX, PointerEvent as ReactPointerEvent, RefObject } from 'react';
 import { accentText } from '@/components/accent';
 import { ChartFrame } from '@/components/charts/chart-frame';
 import type { ChartHit } from '@/components/charts/nearest-hit';
-import {
-    bandX,
-    linePath,
-    rankTicks,
-    rankY,
-    type LinePoint,
-    type Plot,
-} from '@/components/charts/scale';
+import { bandX, linePath, rankTicks, rankY } from '@/components/charts/scale';
+import type { LinePoint, Plot } from '@/components/charts/scale';
 import { gapLabel, timelineSlots } from '@/components/charts/timeline-slots';
 import { useChartInteraction } from '@/components/charts/use-chart-interaction';
 import { ClubLink } from '@/components/links';
@@ -26,13 +16,13 @@ const LABEL_BASELINE = 326;
 /** ViewBox units — roughly one season's spacing on the rankings chart. */
 const HIT_DISTANCE = 36;
 
-interface RankMovementChartProps {
+type RankMovementChartProps = {
     readonly series: readonly ClubRankSeries[];
     readonly years: readonly number[];
     readonly worstRank: number;
     /** Drawn heavier, with the rest dimmed. */
     readonly focusKey?: string;
-}
+};
 
 function buildHits(
     series: readonly ClubRankSeries[],
@@ -43,7 +33,9 @@ function buildHits(
     for (const entry of series) {
         for (const point of entry.points) {
             const index = years.indexOf(point.year);
-            if (index < 0) continue;
+            if (index === -1) {
+                continue;
+            }
             hits.push({
                 id: `${entry.club.key}-${String(point.year)}`,
                 label: entry.club.name,
@@ -122,10 +114,14 @@ function yearLabels(years: readonly number[]): JSX.Element[] {
 
 function gapMarkers(years: readonly number[]): JSX.Element[] {
     return timelineSlots(years).flatMap((slot, slotIndex, slots) => {
-        if (slot.kind !== 'gap') return [];
+        if (slot.kind !== 'gap') {
+            return [];
+        }
         const prev = slots[slotIndex - 1];
         const next = slots[slotIndex + 1];
-        if (prev?.kind !== 'year' || next?.kind !== 'year') return [];
+        if (prev?.kind !== 'year' || next?.kind !== 'year') {
+            return [];
+        }
         const x =
             (bandX(years.indexOf(prev.year), years.length, PLOT) +
                 bandX(years.indexOf(next.year), years.length, PLOT)) /
@@ -185,7 +181,9 @@ function seriesMarks(
                     const point = entry.points.find(
                         (candidate) => candidate.year === year,
                     );
-                    if (!point) return null;
+                    if (!point) {
+                        return null;
+                    }
                     const id = `${entry.club.key}-${String(year)}`;
                     const active = activeId === id;
                     return (
@@ -217,7 +215,7 @@ function seriesMarks(
     });
 }
 
-interface RankSvgProps {
+type RankSvgProps = {
     readonly series: readonly ClubRankSeries[];
     readonly years: readonly number[];
     readonly ticks: readonly number[];
@@ -227,7 +225,7 @@ interface RankSvgProps {
     readonly svgRef: RefObject<SVGSVGElement | null>;
     readonly onPointerMove: (event: ReactPointerEvent<SVGSVGElement>) => void;
     readonly onPointerLeave: () => void;
-}
+};
 
 function renderRankSvg({
     series,

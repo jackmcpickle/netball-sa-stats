@@ -13,10 +13,8 @@ import { createGradesRepo } from '@/server/repos/grades.repo';
 import { createImportRunsRepo } from '@/server/repos/import-runs.repo';
 import { createSeasonsRepo } from '@/server/repos/seasons.repo';
 import { createWeightsRepo } from '@/server/repos/weights.repo';
-import {
-    createAdminService,
-    type StartImport,
-} from '@/server/services/admin.service';
+import { createAdminService } from '@/server/services/admin.service';
+import type { StartImport } from '@/server/services/admin.service';
 import { createClubsService } from '@/server/services/clubs.service';
 import { createHeadToHeadService } from '@/server/services/head-to-head.service';
 import { createLaddersService } from '@/server/services/ladders.service';
@@ -24,7 +22,7 @@ import { createMethodService } from '@/server/services/method.service';
 import { createRankingsService } from '@/server/services/rankings.service';
 import { createResultsService } from '@/server/services/results.service';
 
-export interface Repos {
+export type Repos = {
     readonly seasons: ReturnType<typeof createSeasonsRepo>;
     readonly championship: ReturnType<typeof createChampionshipRepo>;
     readonly clubs: ReturnType<typeof createClubsRepo>;
@@ -32,7 +30,7 @@ export interface Repos {
     readonly weights: ReturnType<typeof createWeightsRepo>;
     readonly games: ReturnType<typeof createGamesRepo>;
     readonly importRuns: ReturnType<typeof createImportRunsRepo>;
-}
+};
 
 function createRepos(db: Db): Repos {
     return {
@@ -83,14 +81,17 @@ export function createServices(
  */
 export function describeDomainError(error: DomainError): string {
     switch (error.kind) {
-        case 'not-found':
+        case 'not-found': {
             return `No ${error.entity} found for "${error.key}"`;
-        case 'no-ranked-seasons':
+        }
+        case 'no-ranked-seasons': {
             return 'No ranked seasons are available yet.';
-        default:
+        }
+        default: {
             // Exhaustive without this arm; kept only because the lint
             // config's `default-case` rule requires one on every switch.
             return 'Something went wrong loading this page.';
+        }
     }
 }
 

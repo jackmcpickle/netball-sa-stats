@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { meanStrength, normalisedFinish } from '@/pipeline/scoring/strength';
 
-describe('normalisedFinish', () => {
+describe(normalisedFinish, () => {
     it('scores the grade winner 1 and the wooden spoon 0', () => {
         expect(normalisedFinish(1, 10)).toBe(1);
         expect(normalisedFinish(10, 10)).toBe(0);
@@ -38,7 +38,7 @@ describe('normalisedFinish', () => {
     });
 });
 
-describe('meanStrength', () => {
+describe(meanStrength, () => {
     it('averages across a club’s teams', () => {
         expect(
             meanStrength([

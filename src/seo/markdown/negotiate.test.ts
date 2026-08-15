@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { prefersMarkdown } from '@/seo/markdown/negotiate';
 
-describe('prefersMarkdown', () => {
+describe(prefersMarkdown, () => {
     it.each([
         ['text/markdown', true],
         ['text/markdown, text/html;q=0.9', true],
@@ -15,6 +15,6 @@ describe('prefersMarkdown', () => {
     });
 
     it('treats a missing header as a browser request', () => {
-        expect(prefersMarkdown(null)).toBe(false);
+        expect(prefersMarkdown(null)).toBeFalsy();
     });
 });

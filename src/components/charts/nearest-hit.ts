@@ -3,7 +3,7 @@
  * be unit-tested without DOM or React.
  */
 
-export interface ChartHit {
+export type ChartHit = {
     /** Stable key for React lists and active-state matching. */
     readonly id: string;
     /** Series / club / category label shown as the tooltip title. */
@@ -13,7 +13,7 @@ export interface ChartHit {
     /** Position in SVG viewBox units. */
     readonly x: number;
     readonly y: number;
-}
+};
 
 /**
  * Convert a mouse event into SVG viewBox coordinates for an element inside
@@ -26,7 +26,9 @@ export function pointerToSvgPoint(
     clientY: number,
 ): { readonly x: number; readonly y: number } | null {
     const ctm = svg.getScreenCTM();
-    if (!ctm) return null;
+    if (!ctm) {
+        return null;
+    }
     const point = svg.createSVGPoint();
     point.x = clientX;
     point.y = clientY;

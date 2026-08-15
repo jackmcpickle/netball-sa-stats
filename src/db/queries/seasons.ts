@@ -12,7 +12,7 @@ import type { SeasonRow } from '@/server/domain/coverage';
 export type { SeasonRow };
 
 export async function fetchSeasons(db: Db): Promise<readonly SeasonRow[]> {
-    return db
+    return await db
         .select({
             seasonId: seasons.id,
             seasonKey: seasons.seasonKey,

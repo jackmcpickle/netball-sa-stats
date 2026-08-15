@@ -61,7 +61,7 @@ export function createLaddersService(repos: Repos): {
                 },
                 LADDER_TABLE_SPEC,
             ).page(
-                async () => repos.grades.countLadder(gradeKey),
+                async () => await repos.grades.countLadder(gradeKey),
                 async (request) => {
                     const result = await repos.grades.ladderPage(
                         gradeKey,

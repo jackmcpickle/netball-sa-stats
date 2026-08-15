@@ -39,8 +39,8 @@ describe('ClubHistory.trend', () => {
     it('emits a point per ranked year, including years the club missed', () => {
         const history = ClubHistory.from([row({ year: 2024 })], [2023, 2024]);
         const trend = history.trend();
-        expect(trend.overall.map((p) => p.year)).toEqual([2023, 2024]);
-        expect(trend.overall[0]).toEqual({
+        expect(trend.overall.map((p) => p.year)).toStrictEqual([2023, 2024]);
+        expect(trend.overall[0]).toStrictEqual({
             year: 2023,
             strength: null,
             teams: 0,
@@ -69,7 +69,7 @@ describe('ClubHistory.trend', () => {
             [row({ tier: 10 }), row({ tier: 1 })],
             [2024],
         ).trend();
-        expect(trend.bands.map((b) => b.tier)).toEqual([1, 10]);
+        expect(trend.bands.map((b) => b.tier)).toStrictEqual([1, 10]);
     });
 
     it('includes position_uncertain archive rows', () => {

@@ -84,7 +84,7 @@ function url(path: string): URL {
     return new URL(path, 'https://netballsa.com');
 }
 
-describe('normalisePath', () => {
+describe(normalisePath, () => {
     it.each([
         ['/index.md', '/'],
         ['/', '/'],
@@ -97,7 +97,7 @@ describe('normalisePath', () => {
     });
 });
 
-describe('renderMarkdown', () => {
+describe(renderMarkdown, () => {
     it('renders every advertised markdown path', async () => {
         const db = await seededDb();
         const bodies = await Promise.all(
@@ -117,10 +117,10 @@ describe('renderMarkdown', () => {
 
     it('renders the same body for a path and its .md twin', async () => {
         const db = await seededDb();
-        expect(await renderMarkdown(db, url('/ladders.md'))).toBe(
+        await expect(renderMarkdown(db, url('/ladders.md'))).resolves.toBe(
             await renderMarkdown(db, url('/ladders')),
         );
-        expect(await renderMarkdown(db, url('/index.md'))).toBe(
+        await expect(renderMarkdown(db, url('/index.md'))).resolves.toBe(
             await renderMarkdown(db, url('/')),
         );
     });
@@ -135,13 +135,17 @@ describe('renderMarkdown', () => {
 
     it('returns null for a club that does not exist', async () => {
         const db = await seededDb();
-        expect(await renderMarkdown(db, url('/clubs/nope.md'))).toBeNull();
+        await expect(
+            renderMarkdown(db, url('/clubs/nope.md')),
+        ).resolves.toBeNull();
     });
 
     it('returns null for a path with no markdown twin', async () => {
         const db = await seededDb();
-        expect(await renderMarkdown(db, url('/admin.md'))).toBeNull();
-        expect(await renderMarkdown(db, url('/nothing-here.md'))).toBeNull();
+        await expect(renderMarkdown(db, url('/admin.md'))).resolves.toBeNull();
+        await expect(
+            renderMarkdown(db, url('/nothing-here.md')),
+        ).resolves.toBeNull();
     });
 
     it('honours query parameters on the ladders twin', async () => {

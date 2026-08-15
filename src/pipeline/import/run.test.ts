@@ -26,7 +26,7 @@ function tableRows(db: DatabaseSync, table: string): Record<string, unknown>[] {
     return db.prepare(`SELECT * FROM ${table} ORDER BY id`).all();
 }
 
-describe('runImport', () => {
+describe(runImport, () => {
     let db: DatabaseSync;
 
     beforeEach(async () => {
@@ -115,7 +115,7 @@ describe('runImport', () => {
             results: tableRows(db, 'team_season_results'),
         };
 
-        expect(second).toEqual(first);
+        expect(second).toStrictEqual(first);
     });
 
     it('fails loudly if competitions/grade_weights are not seeded', async () => {
@@ -142,7 +142,7 @@ describe('runImport', () => {
         expect(tableRows(db, 'teams')).toHaveLength(2);
         expect(tableRows(db, 'team_season_results')).toHaveLength(2);
         const teams = tableRows(db, 'teams') as { display_name: string }[];
-        expect(teams.map((t) => t.display_name).toSorted()).toEqual([
+        expect(teams.map((t) => t.display_name).toSorted()).toStrictEqual([
             'Walkerville 1',
             'Walkerville 2',
         ]);
@@ -275,7 +275,7 @@ describe('games import', () => {
             )
             .all() as Record<string, unknown>[];
 
-        expect(rows.map((row) => row.status)).toEqual([
+        expect(rows.map((row) => row.status)).toStrictEqual([
             'final',
             'forfeit',
             'bye',
@@ -312,7 +312,7 @@ describe('games import', () => {
         });
         expect(report.games).toBe(0);
         expect(report.unresolvedTeamWarnings).toHaveLength(1);
-        expect(report.unresolvedTeamWarnings[0].missingTeamIds).toEqual([
+        expect(report.unresolvedTeamWarnings[0].missingTeamIds).toStrictEqual([
             'ghost-team',
         ]);
         const count = db.prepare('SELECT COUNT(*) AS n FROM games;').get() as {

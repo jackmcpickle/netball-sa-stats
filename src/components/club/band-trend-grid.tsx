@@ -1,12 +1,7 @@
 import type { JSX } from 'react';
 import { accentText } from '@/components/accent';
-import {
-    bandX,
-    linePath,
-    round,
-    type LinePoint,
-    type Plot,
-} from '@/components/charts/scale';
+import { bandX, linePath, round } from '@/components/charts/scale';
+import type { LinePoint, Plot } from '@/components/charts/scale';
 import { strengthPath } from '@/components/charts/trend-chart';
 import { NO_VALUE } from '@/components/format';
 import type {
@@ -46,7 +41,7 @@ function windowMean(points: readonly ClubTrendPoint[]): number {
     return total / points.length;
 }
 
-export interface BandSummary {
+export type BandSummary = {
     readonly tier: number;
     readonly label: string;
     readonly points: readonly ClubTrendPoint[];
@@ -55,7 +50,7 @@ export interface BandSummary {
     readonly first: ClubTrendPoint;
     readonly change: number | null;
     readonly windowSize: number;
-}
+};
 
 /**
  * Words the number of seasons averaged into each end of the change figure
@@ -64,8 +59,12 @@ export interface BandSummary {
  * was actually available.
  */
 export function windowSizeLabel(windowSize: number): string {
-    if (windowSize === 1) return 'its first season';
-    if (windowSize === 2) return 'its first two measured seasons';
+    if (windowSize === 1) {
+        return 'its first season';
+    }
+    if (windowSize === 2) {
+        return 'its first two measured seasons';
+    }
     return 'its first three measured seasons';
 }
 
@@ -81,7 +80,9 @@ export function bandSummaries(
         const measured = band.points.filter((point) => point.strength !== null);
         const latest = measured.at(-1);
         const first = measured[0];
-        if (!latest || !first) return [];
+        if (!latest || !first) {
+            return [];
+        }
         const windowSize = Math.min(3, measured.length - 1);
         const startWindow = measured.slice(0, windowSize);
         const endWindow = measured.slice(measured.length - windowSize);
@@ -106,11 +107,11 @@ export function bandSummaries(
     });
 }
 
-interface BandTrendGridProps {
+type BandTrendGridProps = {
     readonly bands: readonly ClubBandTrend[];
     readonly clubName: string;
     readonly accent: AccentName;
-}
+};
 
 /**
  * Small multiples: one sparkline per grade band, strongest band first, so the
@@ -126,7 +127,9 @@ export function BandTrendGrid({
     accent,
 }: BandTrendGridProps): JSX.Element | null {
     const summaries = bandSummaries(bands);
-    if (summaries.length === 0) return null;
+    if (summaries.length === 0) {
+        return null;
+    }
     const stroke = accentText(accent);
 
     return (
@@ -164,7 +167,9 @@ export function BandTrendGrid({
                             <g className={stroke}>
                                 {strengthPath(band.points).map((segment) => {
                                     const head = segment[0];
-                                    if (!head) return null;
+                                    if (!head) {
+                                        return null;
+                                    }
                                     const line: LinePoint[] = segment.map(
                                         (point): LinePoint => ({
                                             x: bandX(

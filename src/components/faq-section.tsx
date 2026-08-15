@@ -1,10 +1,10 @@
 import type { JSX } from 'react';
 import type { FaqEntry } from '@/seo/structured-data';
 
-interface FaqSectionProps {
+type FaqSectionProps = {
     readonly entries: readonly FaqEntry[];
     readonly heading?: string;
-}
+};
 
 /**
  * The questions rendered here are the same array that becomes FAQPage

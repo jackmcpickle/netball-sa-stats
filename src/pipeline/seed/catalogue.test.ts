@@ -43,7 +43,7 @@ describe('grade weights', () => {
     });
 
     it('anchors Premier Division at 1.0 and Reserves above AMND League', () => {
-        expect(find('Premier Division')?.weight).toBe(1.0);
+        expect(find('Premier Division')?.weight).toBe(1);
         expect(find('Reserves Division')?.weight).toBe(0.8);
         expect(find('AMND League')?.weight).toBe(0.75);
     });
@@ -95,8 +95,10 @@ describe('migration drift guard', () => {
     const appliedWeights = new Map<string, number>();
 
     for (const file of readdirSync(drizzleDir).sort()) {
-        if (!file.endsWith('.sql')) continue;
-        const sql = readFileSync(resolve(drizzleDir, file), 'utf8');
+        if (!file.endsWith('.sql')) {
+            continue;
+        }
+        const sql = readFileSync(resolve(drizzleDir, file), 'utf-8');
         const inserts = sql.matchAll(
             /INSERT INTO grade_weights[\s\S]*?SELECT id, (\d+), (\d+|NULL), '[^']*', ([\d.]+) FROM/gu,
         );
@@ -125,13 +127,13 @@ describe('migration drift guard', () => {
 
     it('has a migration inserting every catalogue grade weight', () => {
         for (const key of catalogueGradeKeys) {
-            expect(insertedGradeKeys.has(key)).toBe(true);
+            expect(insertedGradeKeys.has(key)).toBeTruthy();
         }
     });
 
     it('has no migration inserting a grade weight absent from the catalogue', () => {
         for (const key of insertedGradeKeys) {
-            expect(catalogueGradeKeys.has(key)).toBe(true);
+            expect(catalogueGradeKeys.has(key)).toBeTruthy();
         }
     });
 

@@ -3,6 +3,13 @@ import { cloudflare } from '@cloudflare/vite-plugin';
 import tailwindcss from '@tailwindcss/vite';
 import { tanstackStart } from '@tanstack/react-start/plugin/vite';
 import react from '@vitejs/plugin-react';
+import ultraciteAntiSlop from 'ultracite/oxlint/anti-slop';
+import ultraciteCore from 'ultracite/oxlint/core';
+import ultraciteJsPlugins from 'ultracite/oxlint/js-plugins';
+import ultraciteReact from 'ultracite/oxlint/react';
+import ultraciteTanstack from 'ultracite/oxlint/tanstack';
+import ultraciteTanstackJsPlugins from 'ultracite/oxlint/tanstack/js-plugins';
+import ultraciteVitest from 'ultracite/oxlint/vitest';
 import { defineConfig } from 'vite-plus';
 
 // The Cloudflare plugin rejects the `resolve.external` Vitest sets on the ssr
@@ -40,12 +47,12 @@ export default defineConfig({
         trailingComma: 'all',
         tabWidth: 4,
         insertFinalNewline: true,
-        experimentalTailwindcss: {
+        sortTailwindcss: {
             stylesheet: './src/style.css',
             functions: ['cn', 'clsx', 'cva', 'cx'],
             attributes: ['class', 'classList', 'className'],
         },
-        experimentalSortImports: {
+        sortImports: {
             groups: [
                 ['builtin'],
                 ['external', 'type-external'],
@@ -65,7 +72,9 @@ export default defineConfig({
                 },
             },
         ],
-        experimentalSortPackageJson: true,
+        sortPackageJson: true,
+        bracketSpacing: true,
+        quoteProps: 'as-needed',
         ignorePatterns: [
             'src/routeTree.gen.ts',
             '.wrangler/',
@@ -82,8 +91,58 @@ export default defineConfig({
         ],
     },
     lint: {
+        // Ultracite presets (https://www.ultracite.ai/docs/provider/oxlint) are
+        // extended as config objects — Vite+ owns the oxlint config, so there is
+        // no oxlint.config.ts / .oxlintrc.json. Repo rules below win: extends are
+        // merged first-to-last, then this block's own keys.
+        extends: [
+            ultraciteCore,
+            ultraciteReact,
+            ultraciteTanstack,
+            ultraciteVitest,
+            // Must follow core: it turns off two core rules it conflicts with.
+            ultraciteAntiSlop,
+            ultraciteJsPlugins,
+            ultraciteTanstackJsPlugins,
+        ],
         options: { typeAware: true, typeCheck: true, denyWarnings: true },
         rules: {
+            // --- Ultracite preset rules that clash with settled repo choices ---
+            // `func-style: declaration` below is the repo's stance; this rule
+            // demands the opposite for components.
+            'react/function-component-definition': 'off',
+            // TanStack file-based routing owns these names (`$clubKey`, `[.]`,
+            // dot-segmented `*.service.ts`); the regex can't accommodate them.
+            'github/filenames-match-regex': 'off',
+            // Same reasoning as `max-lines-per-function` being off for tests:
+            // table-driven assertions are the point.
+            'vitest/max-expects': 'off',
+            // React Compiler is not enabled (no babel-plugin-react-compiler), so
+            // useMemo/useCallback are still doing real work.
+            'react-doctor/react-compiler-no-manual-memoization': 'off',
+            // The repo imports named bindings from node builtins everywhere.
+            'unicorn/import-style': 'off',
+            // Key order is load-bearing here: TanStack's `navigate`/route option
+            // objects infer from the order they are written, and object literals
+            // containing `await` change evaluation order when sorted.
+            'sort-keys': 'off',
+            // Interfaces get no implicit index signature, so converting the row
+            // types breaks assignment to `Record<string, CsvValue>` all through
+            // the CSV pipeline. The repo's `type` style stays.
+            'typescript/consistent-type-definitions': ['error', 'type'],
+            // Both autofixes drop explicit `undefined` arguments even where the
+            // parameter is required; passing `undefined` deliberately is how
+            // "absent" is tested here.
+            'sonarjs/no-undefined-assignment': 'off',
+            'unicorn/no-useless-undefined': 'off',
+            // Its autofix rewrites `toHaveBeenCalled()` as
+            // `toHaveBeenCalledWith()`, which asserts "called with no arguments"
+            // — a different, wrong assertion.
+            'vitest/prefer-called-with': 'off',
+            // `charCodeAt` feeds the club accent hash, whose values must stay
+            // stable; `codePointAt` differs on surrogate pairs and is nullable.
+            'unicorn/prefer-code-point': 'off',
+
             'require-await': 'off',
             'typescript/require-await': 'off',
             'no-warning-comments': 'off',
@@ -171,20 +230,22 @@ export default defineConfig({
                 },
             ],
         },
-        categories: {
-            perf: 'error',
-            restriction: 'error',
-            correctness: 'error',
-            suspicious: 'error',
-            pedantic: 'error',
-        },
+        // No `categories` block: Ultracite lists every rule explicitly because
+        // category defaults leak rules into consumer configs.
+        // `plugins` overwrites rather than merges, so this is the union of what
+        // the core and react presets each declare.
         plugins: [
             'eslint',
             'typescript',
+            'unicorn',
+            'oxc',
             'import',
+            'jsdoc',
+            'node',
+            'promise',
             'react',
-            'jsx-a11y',
             'react-perf',
+            'jsx-a11y',
         ],
         ignorePatterns: [
             'node_modules/',

@@ -11,6 +11,6 @@ const loginSearchSchema = z.object({
 
 export const Route = createFileRoute('/admin/login')({
     validateSearch: loginSearchSchema,
-    loader: () => undefined,
+    loader: () => {},
     component: AdminLoginPage,
 });

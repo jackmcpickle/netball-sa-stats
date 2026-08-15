@@ -14,7 +14,7 @@ import { createTestDb } from '@/server/testing/harness';
 
 let db: Db;
 
-vi.mock('@/db', () => ({
+vi.mock(import('@/db'), () => ({
     getDb: (): Db => db,
 }));
 
@@ -59,13 +59,13 @@ beforeAll(async () => {
     });
 });
 
-interface HandlerCtx {
+type HandlerCtx = {
     readonly request: Request;
-}
+};
 
 type Handler = (ctx: HandlerCtx) => Promise<Response> | Response;
 
-interface ServerRouteLike {
+type ServerRouteLike = {
     readonly options: {
         readonly server?: { readonly handlers?: { readonly GET?: Handler } };
         readonly head?: (ctx: { loaderData?: unknown; params?: unknown }) => {
@@ -73,14 +73,14 @@ interface ServerRouteLike {
             links?: readonly Record<string, unknown>[];
         };
     };
-}
+};
 
 async function get(route: ServerRouteLike, path: string): Promise<Response> {
     const handler = route.options.server?.handlers?.GET;
     if (handler === undefined) {
         throw new Error('route has no GET handler');
     }
-    return handler({
+    return await handler({
         request: new Request(`https://netballsa.com${path}`),
     });
 }
@@ -116,7 +116,7 @@ describe('discovery routes', () => {
             'text/plain; charset=utf-8',
         );
         const body = await response.text();
-        expect(body.startsWith('# Netball Open Data')).toBe(true);
+        expect(body.startsWith('# Netball Open Data')).toBeTruthy();
         expect(body).toContain('## Pages');
         expect(body).toContain('/clubs/contax.md');
     });
@@ -158,10 +158,10 @@ describe('page routes', () => {
             });
             expect(
                 head?.meta?.some((tag) => tag['script:ld+json'] !== undefined),
-            ).toBe(true);
+            ).toBeTruthy();
             expect(
-                head?.meta?.some((tag) => tag['property'] === 'og:title'),
-            ).toBe(true);
+                head?.meta?.some((tag) => tag.property === 'og:title'),
+            ).toBeTruthy();
         },
     );
 

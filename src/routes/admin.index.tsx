@@ -5,6 +5,6 @@ import { loadAdmin } from '@/routes/admin';
 export { loadAdmin, logout, runImport } from '@/routes/admin';
 
 export const Route = createFileRoute('/admin/')({
-    loader: async () => loadAdmin(),
+    loader: async () => await loadAdmin(),
     component: AdminPage,
 });

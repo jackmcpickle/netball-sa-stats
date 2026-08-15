@@ -43,7 +43,7 @@ export function RecordSummary({
                 <span className="numeric">
                     {formatDiff(record.goalsFor - record.goalsAgainst)}
                 </span>
-                {'). Forfeits count as results but contribute no goals.'}
+                ). Forfeits count as results but contribute no goals.
             </p>
         </Panel>
     );

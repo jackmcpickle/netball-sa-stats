@@ -14,7 +14,7 @@ export function SeasonStrip({
     }
     return (
         <Panel className="mb-6 p-6">
-            <p className="label-mono text-ink-muted">{'BY SEASON'}</p>
+            <p className="label-mono text-ink-muted">BY SEASON</p>
             <ul className="mt-3 flex flex-col gap-2">
                 {seasons.map((season) => (
                     <li

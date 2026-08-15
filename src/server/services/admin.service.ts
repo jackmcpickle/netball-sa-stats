@@ -1,9 +1,10 @@
 import { NO_VALUE } from '@/components/format';
-import { err, ok, type Result } from '@/server/domain/result';
+import { err, ok } from '@/server/domain/result';
+import type { Result } from '@/server/domain/result';
 import type { AdminPageDto, AdminRunDto } from '@/server/dto/admin.dto';
-import {
+import type {
     createImportRunsRepo,
-    type ImportRun,
+    ImportRun,
 } from '@/server/repos/import-runs.repo';
 
 export type StartImport = (params: {

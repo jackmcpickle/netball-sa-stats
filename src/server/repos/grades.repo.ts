@@ -8,12 +8,8 @@ import type { SQL } from 'drizzle-orm';
 import type { SQLiteColumn } from 'drizzle-orm/sqlite-core';
 import type { Db } from '@/db';
 import { toCompetition } from '@/db/queries/coverage';
-import {
-    countResults,
-    fetchResults,
-    type ResultPage,
-    type ResultRow,
-} from '@/db/queries/results';
+import { countResults, fetchResults } from '@/db/queries/results';
+import type { ResultPage, ResultRow } from '@/db/queries/results';
 import {
     competitions,
     grades,
@@ -119,10 +115,10 @@ function toLadderRow(row: ResultRow): LadderRow {
     };
 }
 
-export interface LadderPage {
+export type LadderPage = {
     readonly grade: GradeSummary;
     readonly rows: readonly LadderRow[];
-}
+};
 
 export function createGradesRepo(db: Db): {
     forYear(year: number): Promise<readonly GradeSummary[]>;
@@ -134,10 +130,10 @@ export function createGradesRepo(db: Db): {
 } {
     return {
         async forYear(year: number): Promise<readonly GradeSummary[]> {
-            return fetchGrades(db, year);
+            return await fetchGrades(db, year);
         },
         async countLadder(gradeKey: string): Promise<number> {
-            return countResults(db, { gradeKey });
+            return await countResults(db, { gradeKey });
         },
         async ladderPage(
             gradeKey: string,

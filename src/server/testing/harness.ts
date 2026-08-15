@@ -5,7 +5,8 @@
  */
 import { readdirSync, readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
-import { DatabaseSync, type SQLInputValue } from 'node:sqlite';
+import { DatabaseSync } from 'node:sqlite';
+import type { SQLInputValue } from 'node:sqlite';
 import { drizzle } from 'drizzle-orm/sqlite-proxy';
 import type { Db } from '@/db';
 import * as schema from '@/db/schema';
@@ -19,7 +20,7 @@ function createMigratedSqlite(): DatabaseSync {
         .filter((name) => name.endsWith('.sql'))
         .sort();
     for (const file of files) {
-        const sql = readFileSync(resolve(dir, file), 'utf8');
+        const sql = readFileSync(resolve(dir, file), 'utf-8');
         sqlite.exec(sql.replaceAll('--> statement-breakpoint', ''));
     }
     // drizzle/0001_seed.sql pre-loads `competitions` and `grade_weights`

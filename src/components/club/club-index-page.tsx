@@ -31,9 +31,9 @@ export function ClubIndexPage(): JSX.Element {
 
     return (
         <PageShell className="py-12 pb-24 sm:py-16">
-            <Eyebrow>{'CLUB PROFILES'}</Eyebrow>
+            <Eyebrow>CLUB PROFILES</Eyebrow>
             <div className="mt-4">
-                <PageTitle>{'Every club in the dataset'}</PageTitle>
+                <PageTitle>Every club in the dataset</PageTitle>
             </div>
             <p className="mt-4 max-w-[56ch] text-lg leading-[1.55] text-ink-body">
                 {`Ranks are from the ${String(year)} championship, the most recent completed season, and clubs no longer competing are hidden by default. Open a club for its full record across every grade.`}

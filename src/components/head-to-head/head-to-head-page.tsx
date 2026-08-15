@@ -5,7 +5,8 @@ import { NO_VALUE } from '@/components/format';
 import { meetingNote } from '@/components/head-to-head/format';
 import { RecordSummary } from '@/components/head-to-head/record-summary';
 import { SeasonStrip } from '@/components/head-to-head/season-strip';
-import { DataTable, type DataTableColumn } from '@/components/ui/data-table';
+import { DataTable } from '@/components/ui/data-table';
+import type { DataTableColumn } from '@/components/ui/data-table';
 import { Eyebrow, PageShell, PageTitle, Panel } from '@/components/ui/layout';
 import { NoteMarker } from '@/components/ui/note-marker';
 import { SearchableSelect } from '@/components/ui/searchable-select';
@@ -188,9 +189,9 @@ export function HeadToHeadPage(): JSX.Element {
 
     return (
         <PageShell className="py-12 pb-24 sm:py-16">
-            <Eyebrow>{'HEAD TO HEAD'}</Eyebrow>
+            <Eyebrow>HEAD TO HEAD</Eyebrow>
             <div className="mt-4 mb-6">
-                <PageTitle>{'Club versus club'}</PageTitle>
+                <PageTitle>Club versus club</PageTitle>
             </div>
 
             <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-end">
@@ -229,7 +230,7 @@ export function HeadToHeadPage(): JSX.Element {
             {h2h === null && (
                 <Panel className="p-8">
                     <p className="text-ink-body">
-                        {'Pick two different clubs to see their record.'}
+                        Pick two different clubs to see their record.
                     </p>
                 </Panel>
             )}

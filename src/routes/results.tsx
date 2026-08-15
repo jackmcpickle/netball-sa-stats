@@ -30,11 +30,9 @@ const loadResults = createServerFn({ method: 'GET' })
             pageSize: z.number().int().optional(),
         }),
     )
-    .handler(async ({ data }) => {
-        return resolvePageResult(
-            await createServices(getDb()).results.getPage(data),
-        );
-    });
+    .handler(async ({ data }) =>
+        resolvePageResult(await createServices(getDb()).results.getPage(data)),
+    );
 
 const DESCRIPTION =
     'Fixture-by-fixture South Australian netball results from 2025 — round, date, both clubs, the score and the margin, filterable by season and grade.';
@@ -58,6 +56,6 @@ export const Route = createFileRoute('/results')({
         grade: search.grade,
         ...tableSearchDeps(search),
     }),
-    loader: async ({ deps }) => loadResults({ data: deps }),
+    loader: async ({ deps }) => await loadResults({ data: deps }),
     component: ResultsPage,
 });

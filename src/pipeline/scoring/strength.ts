@@ -7,11 +7,11 @@
  * are this club's teams actually performing better, not just more numerous.
  */
 
-export interface StrengthRow {
+export type StrengthRow = {
     /** 1 is best. */
     readonly ladderPosition: number;
     readonly teamCount: number;
-}
+};
 
 /**
  * Finishing position as 0..1, where 1 won the grade. Size-independent, so a
@@ -22,8 +22,12 @@ export function normalisedFinish(
     ladderPosition: number,
     teamCount: number,
 ): number | null {
-    if (teamCount <= 1) return null;
-    if (ladderPosition < 1 || ladderPosition > teamCount) return null;
+    if (teamCount <= 1) {
+        return null;
+    }
+    if (ladderPosition < 1 || ladderPosition > teamCount) {
+        return null;
+    }
     return (teamCount - ladderPosition) / (teamCount - 1);
 }
 
@@ -33,7 +37,9 @@ export function meanStrength(rows: readonly StrengthRow[]): number | null {
     let counted = 0;
     for (const row of rows) {
         const value = normalisedFinish(row.ladderPosition, row.teamCount);
-        if (value === null) continue;
+        if (value === null) {
+            continue;
+        }
         total += value;
         counted += 1;
     }

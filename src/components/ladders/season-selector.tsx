@@ -1,11 +1,11 @@
 import type { ReactNode } from 'react';
 import { FieldSelect } from '@/components/ui/select';
 
-interface SeasonSelectorProps {
+type SeasonSelectorProps = {
     readonly year: number | null;
     readonly options: readonly { value: number; label: string }[];
     readonly onValueChange: (year: number) => void;
-}
+};
 
 /** Hidden once the dataset is empty — there is no year to select. */
 export function SeasonSelector({

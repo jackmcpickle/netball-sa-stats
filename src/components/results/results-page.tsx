@@ -4,7 +4,8 @@ import { useCallback, useMemo } from 'react';
 import { NO_VALUE } from '@/components/format';
 import { HeadToHeadLink } from '@/components/head-to-head-link';
 import { SeasonSelector } from '@/components/ladders/season-selector';
-import { DataTable, type DataTableColumn } from '@/components/ui/data-table';
+import { DataTable } from '@/components/ui/data-table';
+import type { DataTableColumn } from '@/components/ui/data-table';
 import { Eyebrow, PageShell, PageTitle, Panel } from '@/components/ui/layout';
 import { NoteMarker } from '@/components/ui/note-marker';
 import { SearchableSelect } from '@/components/ui/searchable-select';
@@ -21,18 +22,24 @@ const DATE_FORMAT = new Intl.DateTimeFormat('en-AU', {
 /** Why a scoreline on this row is absent or cannot be read as goals shot. */
 function statusNote(row: ResultRow): string | null {
     switch (row.status) {
-        case 'forfeit':
+        case 'forfeit': {
             return 'Forfeit. PlayHQ records a nominal 0–20 scoreline, so the margin is not shown.';
-        case 'no_result':
+        }
+        case 'no_result': {
             return 'No result recorded.';
-        case 'scheduled':
+        }
+        case 'scheduled': {
             return 'Not yet played.';
-        case 'bye':
+        }
+        case 'bye': {
             return 'Bye. This team had no opponent this round.';
-        case 'final':
+        }
+        case 'final': {
             return null;
-        default:
+        }
+        default: {
             return null;
+        }
     }
 }
 
@@ -96,7 +103,7 @@ function renderCompareCell(row: ResultRow): ReactNode {
             b={row.awayClubKey}
             className="text-[13px] text-ink-muted no-underline hover:underline"
         >
-            {'H2H'}
+            H2H
         </HeadToHeadLink>
     );
 }
@@ -201,9 +208,9 @@ export function ResultsPage(): JSX.Element {
 
     return (
         <PageShell className="py-12 pb-24 sm:py-16">
-            <Eyebrow>{'MATCH RESULTS'}</Eyebrow>
+            <Eyebrow>MATCH RESULTS</Eyebrow>
             <div className="mt-4 mb-6">
-                <PageTitle>{'Every fixture, round by round'}</PageTitle>
+                <PageTitle>Every fixture, round by round</PageTitle>
             </div>
 
             <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:flex-wrap">
@@ -239,9 +246,9 @@ export function ResultsPage(): JSX.Element {
                         onChange={onTableChange}
                     />
                     <p className="mt-4 max-w-[64ch] text-[13px] text-ink-muted">
-                        {
-                            'Finals are labelled by name rather than round number. Forfeits carry PlayHQ’s nominal 0–20 scoreline, so no margin is shown for them.'
-                        }
+                        Finals are labelled by name rather than round number.
+                        Forfeits carry PlayHQ’s nominal 0–20 scoreline, so no
+                        margin is shown for them.
                     </p>
                 </>
             ) : (

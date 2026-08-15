@@ -72,8 +72,12 @@ export function timelineGaps(rankedYears: readonly number[]): readonly {
     for (let i = 1; i < rankedYears.length; i += 1) {
         const prev = rankedYears[i - 1];
         const next = rankedYears[i];
-        if (prev === undefined || next === undefined) continue;
-        if (next - prev <= 1) continue;
+        if (prev === undefined || next === undefined) {
+            continue;
+        }
+        if (next - prev <= 1) {
+            continue;
+        }
         const missing: number[] = [];
         for (let year = prev + 1; year < next; year += 1) {
             missing.push(year);
@@ -94,7 +98,9 @@ export function methodologyBreak(args: {
     for (let i = 1; i < args.rankedYears.length; i += 1) {
         const prev = args.rankedYears[i - 1];
         const next = args.rankedYears[i];
-        if (prev === undefined || next === undefined) continue;
+        if (prev === undefined || next === undefined) {
+            continue;
+        }
         const previousSources = args.sourceByYear.get(prev) ?? new Set();
         const sources = args.sourceByYear.get(next) ?? new Set();
         if (!sameStringSet(previousSources, sources)) {

@@ -6,11 +6,10 @@
  * Run after editing the mark: `node --experimental-strip-types scripts/generate-icons.ts`
  */
 import { readFile, writeFile } from 'node:fs/promises';
-import { dirname, join } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { join } from 'node:path';
 import { chromium } from '@playwright/test';
 
-const publicDir = join(dirname(fileURLToPath(import.meta.url)), '..', 'public');
+const publicDir = join(import.meta.dirname, '..', 'public');
 
 /** Apple ignores transparency and dislikes rounding, so it gets a square. */
 const targets = [
@@ -20,7 +19,7 @@ const targets = [
 ] as const;
 
 async function main(): Promise<void> {
-    const svg = await readFile(join(publicDir, 'favicon.svg'), 'utf8');
+    const svg = await readFile(join(publicDir, 'favicon.svg'), 'utf-8');
     const browser = await chromium.launch();
 
     try {

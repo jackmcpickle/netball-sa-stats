@@ -49,7 +49,7 @@ async function requestGraphQLOnce(
     variables: Record<string, string>,
 ): Promise<Response> {
     await rateLimit();
-    return fetch(ENDPOINT, {
+    return await fetch(ENDPOINT, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -78,7 +78,9 @@ async function requestGraphQL(
     for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt += 1) {
         // eslint-disable-next-line no-await-in-loop -- retry-with-backoff is inherently sequential.
         const response = await requestGraphQLOnce(operationName, variables);
-        if (response.ok) return response.json();
+        if (response.ok) {
+            return await response.json();
+        }
         lastStatus = response.status;
         if (attempt < MAX_ATTEMPTS) {
             // Edge-level 403 bursts (CloudFront WAF) seem to need tens of
@@ -106,7 +108,9 @@ export async function cachedGraphQL(
 ): Promise<unknown> {
     if (cacheFirst) {
         const cached = await store.get(key);
-        if (cached !== undefined) return cached;
+        if (cached !== undefined) {
+            return cached;
+        }
     }
     const result = await requestGraphQL(operationName, variables);
     await store.put(key, result, Date.now());

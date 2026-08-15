@@ -1,13 +1,11 @@
-import { useMemo, type JSX } from 'react';
+import { useMemo } from 'react';
+import type { JSX } from 'react';
 import { accentText } from '@/components/accent';
 import { ChartFrame } from '@/components/charts/chart-frame';
 import type { ChartHit } from '@/components/charts/nearest-hit';
 import { barHeight } from '@/components/charts/scale';
-import {
-    gapLabel,
-    timelineSlots,
-    type TimelineSlot,
-} from '@/components/charts/timeline-slots';
+import { gapLabel, timelineSlots } from '@/components/charts/timeline-slots';
+import type { TimelineSlot } from '@/components/charts/timeline-slots';
 import { useChartInteraction } from '@/components/charts/use-chart-interaction';
 import type { ClubSeasonPoints } from '@/server/dto/club-profile.dto';
 import type { AccentName } from '@/server/dto/shared.dto';
@@ -22,26 +20,26 @@ const YEAR_BASELINE = BASELINE + 20;
 const HEIGHT = YEAR_BASELINE + 10;
 const HIT_DISTANCE = 40;
 
-interface PointsBarChartProps {
+type PointsBarChartProps = {
     readonly seasons: readonly ClubSeasonPoints[];
     readonly accent: AccentName;
-}
+};
 
-interface GapDraw {
+type GapDraw = {
     readonly kind: 'gap';
     readonly key: string;
     readonly x: number;
     readonly label: string;
-}
+};
 
-interface BarDraw {
+type BarDraw = {
     readonly kind: 'bar';
     readonly key: string;
     readonly season: ClubSeasonPoints;
     readonly x: number;
     readonly height: number;
     readonly hit: ChartHit;
-}
+};
 
 type DrawSlot = GapDraw | BarDraw;
 
@@ -80,7 +78,9 @@ function layoutBars(seasons: readonly ClubSeasonPoints[]): {
         const season = byYear.get(slot.year);
         const slotX = x;
         x += BAR_WIDTH + GAP;
-        if (!season) continue;
+        if (!season) {
+            continue;
+        }
         const height = barHeight(season.points, max, TRACK);
         const isRanked = season.status === 'ranked';
         const hit: ChartHit = {
@@ -141,8 +141,9 @@ export function PointsBarChart({
                         <li key={slot.year}>
                             {(() => {
                                 const season = layout.byYear.get(slot.year);
-                                if (!season)
+                                if (!season) {
                                     return `${String(slot.year)}: unknown.`;
+                                }
                                 return season.status === 'ranked'
                                     ? `${String(season.year)}: ${season.points.toFixed(1)} championship points, ranked ${String(season.rank ?? 0)}.`
                                     : `${String(season.year)}: not ranked yet.`;

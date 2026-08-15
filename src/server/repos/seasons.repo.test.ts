@@ -59,16 +59,16 @@ function baseSpec(): SeedSpec {
     };
 }
 
-describe('createSeasonsRepo', () => {
+describe(createSeasonsRepo, () => {
     it('coverage() reflects seeded seasons — years and ranked years', async () => {
         const db = createTestDb();
         await seed(db, baseSpec());
 
         const coverage = await createSeasonsRepo(db).coverage();
 
-        expect(coverage.years()).toEqual([2024, 2025]);
+        expect(coverage.years()).toStrictEqual([2024, 2025]);
         // 2025 is not final, so only 2024 is ranked.
-        expect(coverage.rankedYears()).toEqual([2024]);
+        expect(coverage.rankedYears()).toStrictEqual([2024]);
     });
 
     it('coverage() over an empty database has no years and no ranked years', async () => {
@@ -76,9 +76,9 @@ describe('createSeasonsRepo', () => {
 
         const coverage = await createSeasonsRepo(db).coverage();
 
-        expect(coverage.years()).toEqual([]);
-        expect(coverage.rankedYears()).toEqual([]);
-        expect(coverage.latestRankedYear()).toEqual({
+        expect(coverage.years()).toStrictEqual([]);
+        expect(coverage.rankedYears()).toStrictEqual([]);
+        expect(coverage.latestRankedYear()).toStrictEqual({
             ok: false,
             error: { kind: 'no-ranked-seasons' },
         });
@@ -90,12 +90,12 @@ describe('createSeasonsRepo', () => {
 
         const coverage = await createSeasonsRepo(db).fullCoverage();
 
-        expect(coverage.years).toEqual([2024, 2025]);
+        expect(coverage.years).toStrictEqual([2024, 2025]);
         // 2025 is not final, so only 2024 is ranked.
-        expect(coverage.rankedYears).toEqual([2024]);
+        expect(coverage.rankedYears).toStrictEqual([2024]);
         expect(coverage.competitions).toHaveLength(1);
         expect(coverage.competitions[0]?.competition.key).toBe('amnd');
-        expect(coverage.competitions[0]?.seasons).toEqual([
+        expect(coverage.competitions[0]?.seasons).toStrictEqual([
             { year: 2024, status: 'ranked', note: null },
             {
                 year: 2025,
@@ -110,8 +110,8 @@ describe('createSeasonsRepo', () => {
 
         const coverage = await createSeasonsRepo(db).fullCoverage();
 
-        expect(coverage.years).toEqual([]);
-        expect(coverage.rankedYears).toEqual([]);
-        expect(coverage.competitions).toEqual([]);
+        expect(coverage.years).toStrictEqual([]);
+        expect(coverage.rankedYears).toStrictEqual([]);
+        expect(coverage.competitions).toStrictEqual([]);
     });
 });

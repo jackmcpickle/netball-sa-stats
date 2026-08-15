@@ -3,10 +3,10 @@ import { useCallback, useEffect, useState } from 'react';
 import type { JSX } from 'react';
 import { NetballMark } from '@/components/netball-mark';
 
-interface NavItem {
+type NavItem = {
     readonly to: string;
     readonly label: string;
-}
+};
 
 /**
  * `Results` and `Head to head` are fixture-backed, and fixtures only cover
@@ -77,7 +77,7 @@ export function SiteHeader(): JSX.Element {
 
     useEffect(() => {
         if (!menuOpen) {
-            return undefined;
+            return;
         }
         function onKeyDown(event: KeyboardEvent): void {
             if (event.key === 'Escape') {
@@ -99,7 +99,7 @@ export function SiteHeader(): JSX.Element {
                 >
                     <NetballMark className="size-[26px] shrink-0 text-brand" />
                     <span className="truncate text-base font-semibold tracking-[-0.2px] text-ink">
-                        {'Netball Open Data'}
+                        Netball Open Data
                     </span>
                 </Link>
 

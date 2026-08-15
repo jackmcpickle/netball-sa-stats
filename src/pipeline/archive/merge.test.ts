@@ -6,7 +6,7 @@ const aliases = [
     { club_key: 'walkerville', alias_text: 'Walkerville', source: 'playhq' },
 ] as const;
 
-describe('buildArchiveEntities', () => {
+describe(buildArchiveEntities, () => {
     it('builds archive CSV rows with source flags, null stats and synthetic ids', () => {
         const entities = buildArchiveEntities({
             placements: [
@@ -49,7 +49,7 @@ describe('buildArchiveEntities', () => {
             clubAliases: aliases,
         });
 
-        expect(entities.seasons).toEqual([
+        expect(entities.seasons).toStrictEqual([
             {
                 competition_key: 'amnd',
                 season_key: 'amnd-winter-2000',
@@ -63,7 +63,7 @@ describe('buildArchiveEntities', () => {
                 status: 'completed',
             },
         ]);
-        expect(entities.grades).toEqual([
+        expect(entities.grades).toStrictEqual([
             {
                 season_key: 'amnd-winter-2000',
                 grade_key: 'amnd-winter-2000-amnd-league',
@@ -76,14 +76,14 @@ describe('buildArchiveEntities', () => {
             },
         ]);
         expect(entities.teams).toHaveLength(5);
-        expect(entities.teams[0]).toEqual({
+        expect(entities.teams[0]).toStrictEqual({
             club_key: 'contax',
             grade_key: 'amnd-winter-2000-amnd-league',
             display_name: 'Contax',
             squad_number: null,
             playhq_id: 'archive:amnd-winter-2000:amnd-league:contax:none',
         });
-        expect(entities.teams[1]).toEqual({
+        expect(entities.teams[1]).toStrictEqual({
             club_key: 'walkerville',
             grade_key: 'amnd-winter-2000-amnd-league',
             display_name: 'Walkerville',

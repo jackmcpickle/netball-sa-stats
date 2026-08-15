@@ -35,16 +35,20 @@ export function createFsStore(rawDir: string): CaptureStore {
     return {
         async get(key) {
             try {
-                const text = await readFile(filePath(key), 'utf8');
+                const text = await readFile(filePath(key), 'utf-8');
                 return JSON.parse(text) as unknown;
             } catch {
-                return undefined;
+                return;
             }
         },
         async put(key, data, capturedAtMs) {
             const path = filePath(key);
             await mkdir(rawDir, { recursive: true });
-            await writeFile(path, `${JSON.stringify(data, null, 4)}\n`, 'utf8');
+            await writeFile(
+                path,
+                `${JSON.stringify(data, null, 4)}\n`,
+                'utf-8',
+            );
             await recordCapture(path, capturedAtMs);
         },
         async capturedAtMs(key) {

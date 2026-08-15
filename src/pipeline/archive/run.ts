@@ -1,11 +1,11 @@
 import { readFile, writeFile } from 'node:fs/promises';
 import { join, resolve } from 'node:path';
 import {
-    type ArchiveEntities,
     buildArchiveEntities,
     loadArchivePlacements,
     mergeArchiveEntitiesIntoData,
 } from '@/pipeline/archive/merge';
+import type { ArchiveEntities } from '@/pipeline/archive/merge';
 import type { ClubAliasRow } from '@/pipeline/archive/resolve';
 import { ARCHIVE_YEARS } from '@/pipeline/archive/sources';
 import { parseCsv, toCsv } from '@/pipeline/csv';
@@ -23,7 +23,7 @@ export type ArchiveBackfillReport = {
 };
 
 async function loadClubAliases(dataDir: string): Promise<ClubAliasRow[]> {
-    const text = await readFile(join(dataDir, 'club_aliases.csv'), 'utf8');
+    const text = await readFile(join(dataDir, 'club_aliases.csv'), 'utf-8');
     return parseCsv(text).map((row) => ({
         club_key: row.club_key ?? '',
         alias_text: row.alias_text ?? '',

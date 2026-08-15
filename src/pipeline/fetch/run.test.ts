@@ -25,10 +25,12 @@ const ladderFixturePath = resolve(
 
 function loadStandings(): readonly Standing[] {
     const response = JSON.parse(
-        readFileSync(ladderFixturePath, 'utf8'),
+        readFileSync(ladderFixturePath, 'utf-8'),
     ) as GradeLadderResponse;
-    const discoverGrade = response.data.discoverGrade;
-    if (discoverGrade === null) throw new Error('fixture has no discoverGrade');
+    const { discoverGrade } = response.data;
+    if (discoverGrade === null) {
+        throw new Error('fixture has no discoverGrade');
+    }
     return flattenStandings(discoverGrade.ladder);
 }
 
@@ -46,7 +48,7 @@ function baseCtx(
     };
 }
 
-describe('resolveCompetitionKey', () => {
+describe(resolveCompetitionKey, () => {
     it('maps any AMND grade to the amnd competition', () => {
         expect(resolveCompetitionKey(AMND_ORG_ID, 'A GRADE')).toBe('amnd');
         expect(resolveCompetitionKey(AMND_ORG_ID, 'Whatever Name')).toBe(
@@ -70,7 +72,7 @@ describe('resolveCompetitionKey', () => {
     });
 });
 
-describe('seasonWanted', () => {
+describe(seasonWanted, () => {
     function season(
         startDate: string,
         status: string,
@@ -82,25 +84,27 @@ describe('seasonWanted', () => {
     }
 
     it('keeps only active seasons when no years are requested', () => {
-        expect(seasonWanted(season('2026-04-01', 'ACTIVE'), undefined)).toBe(
-            true,
-        );
-        expect(seasonWanted(season('2024-04-01', 'COMPLETED'), undefined)).toBe(
-            false,
-        );
+        expect(
+            seasonWanted(season('2026-04-01', 'ACTIVE'), undefined),
+        ).toBeTruthy();
+        expect(
+            seasonWanted(season('2024-04-01', 'COMPLETED'), undefined),
+        ).toBeFalsy();
     });
 
     it('keeps a requested year regardless of status', () => {
-        expect(seasonWanted(season('2024-04-01', 'COMPLETED'), [2024])).toBe(
-            true,
-        );
-        expect(seasonWanted(season('2025-04-01', 'ACTIVE'), [2024])).toBe(
-            false,
-        );
+        expect(
+            seasonWanted(season('2024-04-01', 'COMPLETED'), [2024]),
+        ).toBeTruthy();
+        expect(
+            seasonWanted(season('2025-04-01', 'ACTIVE'), [2024]),
+        ).toBeFalsy();
     });
 
     it('treats an empty year list as the CLI full walk, status ignored', () => {
-        expect(seasonWanted(season('2024-04-01', 'COMPLETED'), [])).toBe(true);
+        expect(
+            seasonWanted(season('2024-04-01', 'COMPLETED'), []),
+        ).toBeTruthy();
     });
 });
 
@@ -118,7 +122,7 @@ describe('processGrade curation safety: seasons.is_final', () => {
             standings,
             baseCtx(isFinalBySeasonKey),
             registry,
-            1_000,
+            1000,
         );
         expect(result?.seasonRow.is_final).toBe(1);
     });
@@ -133,7 +137,7 @@ describe('processGrade curation safety: seasons.is_final', () => {
             standings,
             baseCtx(isFinalBySeasonKey),
             registry,
-            1_000,
+            1000,
         );
         expect(result?.seasonRow.is_final).toBe(0);
     });
@@ -145,7 +149,7 @@ describe('processGrade curation safety: seasons.is_final', () => {
             standings,
             baseCtx(new Map()),
             registry,
-            1_000,
+            1000,
         );
         expect(result?.seasonRow.is_final).toBe(0);
     });
@@ -156,7 +160,7 @@ describe('processGrade curation safety: seasons.is_final', () => {
             ['premier_league-annual-2023', '1'],
         ]);
         const ctx = baseCtx(isFinalBySeasonKey);
-        const result = processGrade(grade, standings, ctx, registry, 1_000);
+        const result = processGrade(grade, standings, ctx, registry, 1000);
         expect(result?.seasonRow.status).toBe('in_progress');
         expect(result?.seasonRow.is_final).toBe(1);
     });
@@ -216,7 +220,7 @@ describe('team identity: playhq_id, not synthetic squad_number index', () => {
                 orgName: 'City Coasters',
             }),
         ];
-        const result = processGrade(grade, standings, ctx, registry, 1_000);
+        const result = processGrade(grade, standings, ctx, registry, 1000);
         expect(result?.teams).toHaveLength(2);
         expect(result?.results).toHaveLength(2);
         const byName = new Map(
@@ -254,7 +258,7 @@ describe('team identity: playhq_id, not synthetic squad_number index', () => {
             standingsRun1,
             ctx,
             registryRun1,
-            1_000,
+            1000,
         );
         const purpleRun1 = run1?.teams.find(
             (t) => t.row.display_name === 'City Coasters Purple',
@@ -283,7 +287,7 @@ describe('team identity: playhq_id, not synthetic squad_number index', () => {
             standingsRun2,
             ctx,
             registryRun2,
-            1_000,
+            1000,
         );
         const purpleRun2 = run2?.teams.find(
             (t) => t.row.display_name === 'City Coasters Purple',
@@ -312,7 +316,7 @@ describe('team identity: playhq_id, not synthetic squad_number index', () => {
                 orgName: 'Walkerville',
             }),
         ];
-        const result = processGrade(grade, standings, ctx, registry, 1_000);
+        const result = processGrade(grade, standings, ctx, registry, 1000);
         const byName = new Map(
             result?.teams.map((t) => [t.row.display_name, t.row]),
         );
@@ -327,7 +331,7 @@ describe('team identity: playhq_id, not synthetic squad_number index', () => {
     });
 });
 
-describe('archiveRowsToKeep', () => {
+describe(archiveRowsToKeep, () => {
     // The PlayHQ walk only ever sees PlayHQ seasons, but it rewrites the same
     // CSVs the archive-PDF pipeline writes into. Without this, one `--games`
     // run silently deletes 16 seasons of 2000-2016 history.
@@ -358,14 +362,16 @@ describe('archiveRowsToKeep', () => {
 
     it('keeps archive seasons and drops playhq ones', () => {
         const kept = archiveRowsToKeep(existing);
-        expect(kept.seasons.map((row) => row.season_key)).toEqual([
+        expect(kept.seasons.map((row) => row.season_key)).toStrictEqual([
             'amnd-winter-2005',
         ]);
     });
 
     it('keeps grades belonging to an archive season', () => {
         const kept = archiveRowsToKeep(existing);
-        expect(kept.grades.map((row) => row.grade_key)).toEqual(['a-2005']);
+        expect(kept.grades.map((row) => row.grade_key)).toStrictEqual([
+            'a-2005',
+        ]);
     });
 
     it('keeps teams belonging to an archive grade', () => {
@@ -389,19 +395,23 @@ describe('archiveRowsToKeep', () => {
             teams: [{ grade_key: 'g', playhq_id: 'p' }],
             results: [{ grade_key: 'g', source: 'playhq' }],
         });
-        expect(kept.seasons).toEqual([]);
-        expect(kept.grades).toEqual([]);
-        expect(kept.teams).toEqual([]);
-        expect(kept.results).toEqual([]);
+        expect(kept.seasons).toStrictEqual([]);
+        expect(kept.grades).toStrictEqual([]);
+        expect(kept.teams).toStrictEqual([]);
+        expect(kept.results).toStrictEqual([]);
     });
 
     it('still drops playhq seasons that this run fetched', () => {
         const kept = archiveRowsToKeep(existing, new Set(['amnd-winter-2025']));
-        expect(kept.seasons.map((row) => row.season_key)).toEqual([
+        expect(kept.seasons.map((row) => row.season_key)).toStrictEqual([
             'amnd-winter-2005',
         ]);
-        expect(kept.grades.map((row) => row.grade_key)).toEqual(['a-2005']);
-        expect(kept.results.map((row) => row.source)).toEqual(['archive_pdf']);
+        expect(kept.grades.map((row) => row.grade_key)).toStrictEqual([
+            'a-2005',
+        ]);
+        expect(kept.results.map((row) => row.source)).toStrictEqual([
+            'archive_pdf',
+        ]);
     });
 
     it('keeps playhq seasons this run did not fetch, plus archive rows', () => {
@@ -428,19 +438,19 @@ describe('archiveRowsToKeep', () => {
             yearFiltered,
             new Set(['amnd-winter-2026']),
         );
-        expect(kept.seasons.map((row) => row.season_key)).toEqual([
+        expect(kept.seasons.map((row) => row.season_key)).toStrictEqual([
             'amnd-winter-2005',
             'amnd-winter-2025',
         ]);
-        expect(kept.grades.map((row) => row.grade_key)).toEqual([
+        expect(kept.grades.map((row) => row.grade_key)).toStrictEqual([
             'a-2005',
             'a-2025',
         ]);
-        expect(kept.teams.map((row) => row.grade_key)).toEqual([
+        expect(kept.teams.map((row) => row.grade_key)).toStrictEqual([
             'a-2005',
             'a-2025',
         ]);
-        expect(kept.results.map((row) => row.grade_key)).toEqual([
+        expect(kept.results.map((row) => row.grade_key)).toStrictEqual([
             'a-2005',
             'a-2025',
         ]);
@@ -612,7 +622,7 @@ function gamesEnvelope(): unknown {
     };
 }
 
-describe('collectPlayHqData', () => {
+describe(collectPlayHqData, () => {
     afterEach(() => {
         vi.restoreAllMocks();
     });
@@ -681,7 +691,7 @@ describe('collectPlayHqData', () => {
         expect(collected.importData.grades).toHaveLength(1);
         expect(collected.importData.teams).toHaveLength(2);
         expect(collected.importData.results).toHaveLength(2);
-        expect(collected.importData.games).toEqual([]);
+        expect(collected.importData.games).toStrictEqual([]);
         expect(collected.report).toMatchObject({
             seasons: 1,
             grades: 1,
@@ -727,7 +737,7 @@ describe('collectPlayHqData', () => {
             isFinalBySeasonKey: new Map(),
         });
 
-        expect(collected.seasons).toEqual([]);
+        expect(collected.seasons).toStrictEqual([]);
         expect(collected.report.seasons).toBe(0);
     });
 
@@ -792,7 +802,7 @@ describe('collectPlayHqData', () => {
         expect(fetchSpy).not.toHaveBeenCalled();
         expect(
             collected.importData.seasons.map((row) => row.seasonKey),
-        ).toEqual(['amnd-winter-2024']);
+        ).toStrictEqual(['amnd-winter-2024']);
     });
 
     it('restricts games by gradeId while still collecting the grade ladder', async () => {

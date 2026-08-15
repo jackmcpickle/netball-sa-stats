@@ -11,7 +11,7 @@ const spec = {
 
 describe('TableQuery.from', () => {
     it('defaults everything when nothing is supplied', () => {
-        expect(TableQuery.from({}, spec).state).toEqual({
+        expect(TableQuery.from({}, spec).state).toStrictEqual({
             sort: 'year',
             desc: true,
             page: 1,
@@ -29,7 +29,7 @@ describe('TableQuery.from', () => {
     it('accepts an allowed sort column and direction', () => {
         expect(
             TableQuery.from({ sort: 'points', dir: 'asc' }, spec).state,
-        ).toEqual({
+        ).toStrictEqual({
             sort: 'points',
             desc: false,
             page: 1,
@@ -52,9 +52,9 @@ describe('TableQuery.from', () => {
     });
 });
 
-interface Row {
+type Row = {
     readonly id: number;
-}
+};
 
 function identitySort(rows: readonly Row[], q: TableQuery): readonly Row[] {
     const direction = q.state.desc ? -1 : 1;
@@ -109,12 +109,12 @@ describe('TableQuery end-to-end: consecutive pages are disjoint and cover every 
                 spec,
             ).apply(all, identitySort);
             for (const row of rows) {
-                expect(seen.has(row.id)).toBe(false);
+                expect(seen.has(row.id)).toBeFalsy();
                 seen.add(row.id);
             }
         }
         expect(seen.size).toBe(totalRows);
-        expect([...seen].sort((a, b) => a - b)).toEqual(
+        expect([...seen].sort((a, b) => a - b)).toStrictEqual(
             all.map((row) => row.id),
         );
     });
@@ -143,7 +143,7 @@ describe('TableQuery#page', () => {
                 return [];
             },
         );
-        expect(calls).toEqual(['count', 'fetch@100']);
+        expect(calls).toStrictEqual(['count', 'fetch@100']);
     });
 
     it('clamps an out-of-range page to the last page instead of returning empty', async () => {
@@ -214,7 +214,7 @@ describe('TableQuery#page', () => {
                 spec,
             ).page(async () => totalRows, fetchPage);
             for (const row of rows) {
-                expect(seen.has(row.id)).toBe(false);
+                expect(seen.has(row.id)).toBeFalsy();
                 seen.add(row.id);
             }
         }

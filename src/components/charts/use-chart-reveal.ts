@@ -8,14 +8,16 @@ import type { RefCallback } from 'react';
  */
 export function useChartReveal(): RefCallback<HTMLElement> {
     return useCallback<RefCallback<HTMLElement>>((node) => {
-        if (!node) return undefined;
+        if (!node) {
+            return;
+        }
 
         if (
             typeof window !== 'undefined' &&
             window.matchMedia('(prefers-reduced-motion: reduce)').matches
         ) {
             node.dataset.revealed = 'true';
-            return undefined;
+            return;
         }
 
         // Already on screen (e.g. short pages): reveal without waiting for a
@@ -25,13 +27,15 @@ export function useChartReveal(): RefCallback<HTMLElement> {
             window.innerHeight || document.documentElement.clientHeight;
         if (initial.top < viewportHeight * 0.9 && initial.bottom > 0) {
             node.dataset.revealed = 'true';
-            return undefined;
+            return;
         }
 
         const observer = new IntersectionObserver(
             (entries) => {
                 const entry = entries[0];
-                if (!entry?.isIntersecting) return;
+                if (!entry?.isIntersecting) {
+                    return;
+                }
                 node.dataset.revealed = 'true';
                 observer.disconnect();
             },

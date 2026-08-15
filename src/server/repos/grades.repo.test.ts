@@ -69,14 +69,14 @@ function baseSpec(): SeedSpec {
     };
 }
 
-describe('createGradesRepo', () => {
+describe(createGradesRepo, () => {
     it('forYear() lists that year’s grades, strongest tier first', async () => {
         const db = createTestDb();
         await seed(db, baseSpec());
 
         const gradesFor2024 = await createGradesRepo(db).forYear(2024);
 
-        expect(gradesFor2024.map((grade) => grade.key)).toEqual([
+        expect(gradesFor2024.map((grade) => grade.key)).toStrictEqual([
             'amnd-2024-a1',
             'amnd-2024-b1',
         ]);
@@ -150,7 +150,7 @@ describe('createGradesRepo', () => {
 
         const gradesFor2024 = await createGradesRepo(db).forYear(2024);
 
-        expect(gradesFor2024.map((grade) => grade.key)).toEqual([
+        expect(gradesFor2024.map((grade) => grade.key)).toStrictEqual([
             'amnd-2024-a1',
             'amnd-2024-b1',
             'amnd-2024-c1',
@@ -163,7 +163,7 @@ describe('createGradesRepo', () => {
 
         const gradesFor2099 = await createGradesRepo(db).forYear(2099);
 
-        expect(gradesFor2099).toEqual([]);
+        expect(gradesFor2099).toStrictEqual([]);
     });
 
     it('ladderPage() returns the grade and its rows, position ascending', async () => {
@@ -175,18 +175,26 @@ describe('createGradesRepo', () => {
             wholeLadder('position', 'asc'),
         );
 
-        expect(result.ok).toBe(true);
-        if (!result.ok) return;
+        expect(result.ok).toBeTruthy();
+        if (!result.ok) {
+            return;
+        }
         expect(result.value.grade.key).toBe('amnd-2024-a1');
-        expect(result.value.rows.map((row) => row.position)).toEqual([1, 2]);
+        expect(result.value.rows.map((row) => row.position)).toStrictEqual([
+            1, 2,
+        ]);
     });
 
     it('countLadder() counts the grade’s rows', async () => {
         const db = createTestDb();
         await seed(db, baseSpec());
 
-        expect(await createGradesRepo(db).countLadder('amnd-2024-a1')).toBe(2);
-        expect(await createGradesRepo(db).countLadder('nonesuch')).toBe(0);
+        await expect(
+            createGradesRepo(db).countLadder('amnd-2024-a1'),
+        ).resolves.toBe(2);
+        await expect(
+            createGradesRepo(db).countLadder('nonesuch'),
+        ).resolves.toBe(0);
     });
 
     it('ladderPage() sorts on an allow-listed column, ties broken by position', async () => {
@@ -198,9 +206,11 @@ describe('createGradesRepo', () => {
             wholeLadder('team', 'asc'),
         );
 
-        expect(result.ok).toBe(true);
-        if (!result.ok) return;
-        expect(result.value.rows.map((row) => row.displayName)).toEqual([
+        expect(result.ok).toBeTruthy();
+        if (!result.ok) {
+            return;
+        }
+        expect(result.value.rows.map((row) => row.displayName)).toStrictEqual([
             'Contax',
             'Garville',
         ]);
@@ -216,9 +226,11 @@ describe('createGradesRepo', () => {
             offset: 1,
         });
 
-        expect(result.ok).toBe(true);
-        if (!result.ok) return;
-        expect(result.value.rows.map((row) => row.position)).toEqual([2]);
+        expect(result.ok).toBeTruthy();
+        if (!result.ok) {
+            return;
+        }
+        expect(result.value.rows.map((row) => row.position)).toStrictEqual([2]);
     });
 
     it('ladderPage() returns not-found for an unknown grade key', async () => {
@@ -230,7 +242,7 @@ describe('createGradesRepo', () => {
             wholeLadder('position', 'asc'),
         );
 
-        expect(result).toEqual({
+        expect(result).toStrictEqual({
             ok: false,
             error: {
                 kind: 'not-found',

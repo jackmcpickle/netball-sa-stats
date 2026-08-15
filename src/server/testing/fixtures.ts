@@ -8,7 +8,6 @@ import type { Db } from '@/db';
 import {
     clubs,
     competitions,
-    type GameStatus,
     gradeWeights,
     grades,
     games,
@@ -16,8 +15,9 @@ import {
     teams,
     teamSeasonResults,
 } from '@/db/schema';
+import type { GameStatus } from '@/db/schema';
 
-export interface ResultSpec {
+export type ResultSpec = {
     clubKey: string;
     clubName: string;
     displayName: string;
@@ -32,9 +32,9 @@ export interface ResultSpec {
     goalDifference?: number;
     points?: number;
     percentage?: number;
-}
+};
 
-export interface GradeSpec {
+export type GradeSpec = {
     gradeKey: string;
     name: string;
     tier: number;
@@ -42,9 +42,9 @@ export interface GradeSpec {
     teamCount: number;
     ageBand?: string;
     results: ResultSpec[];
-}
+};
 
-export interface SeasonSpec {
+export type SeasonSpec = {
     seasonKey: string;
     startYear: number;
     endYear?: number;
@@ -52,26 +52,26 @@ export interface SeasonSpec {
     label?: string;
     competitionPeriod?: 'winter' | 'summer' | 'annual';
     grades: GradeSpec[];
-}
+};
 
-export interface CompetitionSpec {
+export type CompetitionSpec = {
     key: string;
     name: string;
     seasons: SeasonSpec[];
-}
+};
 
-export interface SeedSpec {
+export type SeedSpec = {
     competitions: CompetitionSpec[];
-}
+};
 
-export interface SeedResult {
+export type SeedResult = {
     competitions: Map<string, number>;
     seasons: Map<string, number>;
     grades: Map<string, number>;
     clubs: Map<string, number>;
     teams: Map<string, number>;
     results: Map<string, number>;
-}
+};
 
 /**
  * Inserts (or reuses, within a single seed() call) a club by key and
@@ -268,7 +268,7 @@ export async function seed(db: Db, spec: SeedSpec): Promise<SeedResult> {
     return result;
 }
 
-export interface GameSpec {
+export type GameSpec = {
     /** `gradeKey` from the seed spec; the game hangs off that grade. */
     gradeKey: string;
     /** Club keys. Null is a real shape — a bye, or an undecided finalist. */
@@ -281,7 +281,7 @@ export interface GameSpec {
     homeScore?: number | null;
     awayScore?: number | null;
     status?: GameStatus;
-}
+};
 
 function teamIdFor(
     result: SeedResult,

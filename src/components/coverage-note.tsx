@@ -36,7 +36,7 @@ export function CoverageNote({
                 id="coverage-heading"
                 className="label-mono"
             >
-                {'WHAT THIS COVERS'}
+                WHAT THIS COVERS
             </h2>
             <p className="mt-4 max-w-[64ch] leading-relaxed text-ink-body">
                 {first === undefined || last === undefined

@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { nearestHit, type ChartHit } from '@/components/charts/nearest-hit';
+import { nearestHit } from '@/components/charts/nearest-hit';
+import type { ChartHit } from '@/components/charts/nearest-hit';
 
 const HITS: readonly ChartHit[] = [
     {
@@ -25,7 +26,7 @@ const HITS: readonly ChartHit[] = [
     },
 ];
 
-describe('nearestHit', () => {
+describe(nearestHit, () => {
     it('returns the closest point within the max distance', () => {
         expect(nearestHit(HITS, 102, 22, 30)?.id).toBe('b-2023');
         expect(nearestHit(HITS, 198, 58, 30)?.id).toBe('a-2024');

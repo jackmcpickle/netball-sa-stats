@@ -8,7 +8,7 @@ import {
     formatRecord,
 } from '@/components/format';
 
-describe('formatNumber', () => {
+describe(formatNumber, () => {
     it('formats to the requested precision', () => {
         expect(formatNumber(12.34, 1)).toBe('12.3');
         expect(formatNumber(12, 0)).toBe('12');
@@ -21,7 +21,7 @@ describe('formatNumber', () => {
     });
 });
 
-describe('formatPercent', () => {
+describe(formatPercent, () => {
     it('renders one decimal with a sign', () => {
         expect(formatPercent(64.25)).toBe('64.3%');
     });
@@ -31,7 +31,7 @@ describe('formatPercent', () => {
     });
 });
 
-describe('formatRecord', () => {
+describe(formatRecord, () => {
     it('omits draws when there were none', () => {
         expect(formatRecord(12, 4, 0)).toBe('12–4');
         expect(formatRecord(12, 4, 1)).toBe('12–4–1');
@@ -42,13 +42,13 @@ describe('formatRecord', () => {
     });
 });
 
-describe('formatPosition', () => {
+describe(formatPosition, () => {
     it('always states the field size', () => {
         expect(formatPosition(4, 10)).toBe('4 of 10');
     });
 });
 
-describe('describeMovement', () => {
+describe(describeMovement, () => {
     it('treats a lower rank number as an improvement', () => {
         expect(describeMovement(3, 7).direction).toBe('up');
         expect(describeMovement(3, 7).label).toBe('▲ 4');

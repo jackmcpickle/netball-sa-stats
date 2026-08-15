@@ -6,19 +6,19 @@ import {
     rankTicks,
     rankY,
     round,
-    type Plot,
 } from '@/components/charts/scale';
+import type { Plot } from '@/components/charts/scale';
 
 const PLOT: Plot = { x0: 40, x1: 1040, y0: 0, y1: 300 };
 
-describe('round', () => {
+describe(round, () => {
     it('rounds to the requested precision', () => {
         expect(round(1.23456, 2)).toBe(1.23);
         expect(round(1.23456, 0)).toBe(1);
     });
 });
 
-describe('bandX', () => {
+describe(bandX, () => {
     it('spans the full inner width across the categories', () => {
         expect(bandX(0, 5, PLOT)).toBe(40);
         expect(bandX(4, 5, PLOT)).toBe(1040);
@@ -31,7 +31,7 @@ describe('bandX', () => {
     });
 });
 
-describe('rankY', () => {
+describe(rankY, () => {
     it('inverts the axis so rank 1 is at the top', () => {
         expect(rankY(1, 25, PLOT)).toBe(0);
         expect(rankY(25, 25, PLOT)).toBe(300);
@@ -48,7 +48,7 @@ describe('rankY', () => {
     });
 });
 
-describe('rankTicks', () => {
+describe(rankTicks, () => {
     it('labels rank 1 and always includes the worst rank', () => {
         expect(rankTicks(9, 2)).toStrictEqual([1, 3, 5, 7, 9]);
         expect(rankTicks(10, 3)).toStrictEqual([1, 4, 7, 10]);
@@ -61,7 +61,7 @@ describe('rankTicks', () => {
     });
 });
 
-describe('linePath', () => {
+describe(linePath, () => {
     it('emits a single move followed by line segments', () => {
         expect(
             linePath([
@@ -84,7 +84,7 @@ describe('linePath', () => {
     });
 });
 
-describe('barHeight', () => {
+describe(barHeight, () => {
     it('scales proportionally to the tallest bar', () => {
         expect(barHeight(50, 100, 130)).toBe(65);
         expect(barHeight(100, 100, 130)).toBe(130);

@@ -14,14 +14,14 @@ function row(overrides: Partial<SeasonRow> & { startYear: number }): SeasonRow {
     };
 }
 
-describe('Coverage', () => {
+describe(Coverage, () => {
     it('years lists every covered year ascending', () => {
         const coverage = Coverage.from([
             row({ startYear: 2025 }),
             row({ startYear: 2023 }),
             row({ startYear: 2024 }),
         ]);
-        expect(coverage.years()).toEqual([2023, 2024, 2025]);
+        expect(coverage.years()).toStrictEqual([2023, 2024, 2025]);
     });
 
     it('rankedYears excludes years with any non-final season', () => {
@@ -29,7 +29,7 @@ describe('Coverage', () => {
             row({ startYear: 2024, isFinal: true }),
             row({ startYear: 2025, isFinal: false }),
         ]);
-        expect(coverage.rankedYears()).toEqual([2024]);
+        expect(coverage.rankedYears()).toStrictEqual([2024]);
     });
 
     it('resolveYear returns undefined only for an empty dataset', () => {
@@ -53,7 +53,7 @@ describe('Coverage', () => {
             row({ startYear: 2025, isFinal: false }),
         ]);
         const result = coverage.latestRankedYear();
-        expect(result).toEqual({
+        expect(result).toStrictEqual({
             ok: false,
             error: { kind: 'no-ranked-seasons' },
         });
@@ -65,6 +65,6 @@ describe('Coverage', () => {
             row({ startYear: 2025, isFinal: true }),
         ]);
         const result = coverage.latestRankedYear();
-        expect(result).toEqual({ ok: true, value: 2025 });
+        expect(result).toStrictEqual({ ok: true, value: 2025 });
     });
 });

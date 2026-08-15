@@ -1,6 +1,7 @@
 import { mkdir, stat, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
-import { type ArchivePdfSource, ARCHIVE_PDF_SOURCES } from './sources.ts';
+import { ARCHIVE_PDF_SOURCES } from './sources.ts';
+import type { ArchivePdfSource } from './sources.ts';
 
 export type FetchArchivePdfsOptions = {
     rawDir: string;
@@ -55,7 +56,7 @@ export async function fetchArchivePdfs(
 ): Promise<FetchedArchivePdf[]> {
     const sources = options.sources ?? ARCHIVE_PDF_SOURCES;
     const fetchImpl = options.fetchImpl ?? fetch;
-    const delayMs = options.delayMs ?? 1_000;
+    const delayMs = options.delayMs ?? 1000;
     const userAgent = options.userAgent ?? DEFAULT_USER_AGENT;
     await mkdir(options.rawDir, { recursive: true });
 

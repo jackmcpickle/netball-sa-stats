@@ -77,7 +77,7 @@ describe('fetchGameFactsForPair', () => {
             'garville',
         );
         expect(facts).toHaveLength(2);
-        expect(facts.map((fact) => fact.homeClubKey)).toEqual([
+        expect(facts.map((fact) => fact.homeClubKey)).toStrictEqual([
             'contax',
             'garville',
         ]);
@@ -89,9 +89,9 @@ describe('fetchGameFactsForPair', () => {
             { gradeKey: 'amnd-2025-a1', home: 'contax', away: 'matrics' },
         ]);
 
-        expect(
-            await createGamesRepo(db).factsForPair('contax', 'garville'),
-        ).toEqual([]);
+        await expect(
+            createGamesRepo(db).factsForPair('contax', 'garville'),
+        ).resolves.toStrictEqual([]);
     });
 
     it('spans seasons, carrying each game year and tier', async () => {
@@ -109,8 +109,8 @@ describe('fetchGameFactsForPair', () => {
             [...facts]
                 .map((fact) => fact.year)
                 .sort((left, right) => left - right),
-        ).toEqual([2025, 2026]);
-        expect(facts.every((fact) => fact.tier === 1)).toBe(true);
+        ).toStrictEqual([2025, 2026]);
+        expect(facts.every((fact) => fact.tier === 1)).toBeTruthy();
     });
 
     it('is empty for a club paired with itself', async () => {
@@ -119,9 +119,9 @@ describe('fetchGameFactsForPair', () => {
             { gradeKey: 'amnd-2025-a1', home: 'contax', away: 'garville' },
         ]);
 
-        expect(
-            await createGamesRepo(db).factsForPair('contax', 'contax'),
-        ).toEqual([]);
+        await expect(
+            createGamesRepo(db).factsForPair('contax', 'contax'),
+        ).resolves.toStrictEqual([]);
     });
 });
 
@@ -178,7 +178,7 @@ describe('fetchGamePageForGrade', () => {
             wholeGrade(),
         );
         expect(facts).toHaveLength(1);
-        expect(facts[0].isFinals).toBe(true);
+        expect(facts[0].isFinals).toBeTruthy();
         expect(facts[0].roundName).toBe('Grand Final');
         expect(facts[0].homeTeamName).toBeNull();
     });
@@ -205,7 +205,7 @@ describe('fetchGamePageForGrade', () => {
             'amnd-2025-a1',
             wholeGrade(),
         );
-        expect(facts.map((fact) => fact.round)).toEqual([2, 99]);
+        expect(facts.map((fact) => fact.round)).toStrictEqual([2, 99]);
     });
 
     it('excludes another grade, even in the same season', async () => {
@@ -214,12 +214,9 @@ describe('fetchGamePageForGrade', () => {
             { gradeKey: 'amnd-2026-a1', home: 'contax', away: 'garville' },
         ]);
 
-        expect(
-            await createGamesRepo(db).pageForGrade(
-                'amnd-2025-a1',
-                wholeGrade(),
-            ),
-        ).toEqual([]);
+        await expect(
+            createGamesRepo(db).pageForGrade('amnd-2025-a1', wholeGrade()),
+        ).resolves.toStrictEqual([]);
     });
 });
 
@@ -233,7 +230,7 @@ describe('fetchOpponentCounts', () => {
         ]);
 
         const counts = await createGamesRepo(db).opponentCounts('contax');
-        expect([...counts].sort((a, b) => b.played - a.played)).toEqual([
+        expect([...counts].sort((a, b) => b.played - a.played)).toStrictEqual([
             { clubKey: 'garville', name: 'Garville', played: 2 },
             { clubKey: 'matrics', name: 'Matrics', played: 1 },
         ]);
@@ -256,12 +253,16 @@ describe('fetchOpponentCounts', () => {
             },
         ]);
 
-        expect(await createGamesRepo(db).opponentCounts('contax')).toEqual([]);
+        await expect(
+            createGamesRepo(db).opponentCounts('contax'),
+        ).resolves.toStrictEqual([]);
     });
 
     it('is empty for a club with no fixtures', async () => {
         const { db } = await setup();
-        expect(await createGamesRepo(db).opponentCounts('contax')).toEqual([]);
+        await expect(
+            createGamesRepo(db).opponentCounts('contax'),
+        ).resolves.toStrictEqual([]);
     });
 });
 
@@ -313,12 +314,16 @@ describe('fetchGamePageForGrade paging and sorting', () => {
 
     it('counts every fixture in the grade, including byes', async () => {
         const db = await withFixtures();
-        expect(await createGamesRepo(db).countForGrade('amnd-2025-a1')).toBe(4);
+        await expect(
+            createGamesRepo(db).countForGrade('amnd-2025-a1'),
+        ).resolves.toBe(4);
     });
 
     it('counts nothing for a grade with no fixtures', async () => {
         const { db } = await setup();
-        expect(await createGamesRepo(db).countForGrade('amnd-2025-a1')).toBe(0);
+        await expect(
+            createGamesRepo(db).countForGrade('amnd-2025-a1'),
+        ).resolves.toBe(0);
     });
 
     it('orders by round ascending by default', async () => {
@@ -327,7 +332,7 @@ describe('fetchGamePageForGrade paging and sorting', () => {
             'amnd-2025-a1',
             request('round', 'asc'),
         );
-        expect(facts.map((fact) => fact.round)).toEqual([1, 2, 3, 4]);
+        expect(facts.map((fact) => fact.round)).toStrictEqual([1, 2, 3, 4]);
     });
 
     it('sorts by a derived margin, computed in SQL', async () => {
@@ -337,7 +342,9 @@ describe('fetchGamePageForGrade paging and sorting', () => {
             request('margin', 'desc'),
         );
         // 18 then 1; the bye and the forfeit have no margin at all.
-        expect(facts.slice(0, 2).map((fact) => fact.round)).toEqual([2, 1]);
+        expect(facts.slice(0, 2).map((fact) => fact.round)).toStrictEqual([
+            2, 1,
+        ]);
     });
 
     it('sorts a fabricated forfeit scoreline last, not as a 20-goal win', async () => {
@@ -354,7 +361,7 @@ describe('fetchGamePageForGrade paging and sorting', () => {
                 .slice(-2)
                 .map((fact) => fact.status)
                 .sort(),
-        ).toEqual(['bye', 'forfeit']);
+        ).toStrictEqual(['bye', 'forfeit']);
     });
 
     it('keeps rows without a value last whichever way the column points', async () => {
@@ -368,7 +375,7 @@ describe('fetchGamePageForGrade paging and sorting', () => {
             );
             expect(
                 facts.slice(-2).every((fact) => fact.playedAt === null),
-            ).toBe(true);
+            ).toBeTruthy();
         }
     });
 
@@ -378,7 +385,7 @@ describe('fetchGamePageForGrade paging and sorting', () => {
             'amnd-2025-a1',
             request('home', 'asc'),
         );
-        expect(facts.map((fact) => fact.homeTeamName)).toEqual([
+        expect(facts.map((fact) => fact.homeTeamName)).toStrictEqual([
             'Contax',
             'Contax',
             'Garville',
@@ -400,12 +407,14 @@ describe('fetchGamePageForGrade paging and sorting', () => {
             limit: 2,
             offset: 2,
         });
-        expect(first.map((fact) => fact.round)).toEqual([1, 2]);
-        expect(second.map((fact) => fact.round)).toEqual([3, 4]);
+        expect(first.map((fact) => fact.round)).toStrictEqual([1, 2]);
+        expect(second.map((fact) => fact.round)).toStrictEqual([3, 4]);
     });
 
     it('excludes another grade', async () => {
         const db = await withFixtures();
-        expect(await createGamesRepo(db).countForGrade('amnd-2026-a1')).toBe(0);
+        await expect(
+            createGamesRepo(db).countForGrade('amnd-2026-a1'),
+        ).resolves.toBe(0);
     });
 });

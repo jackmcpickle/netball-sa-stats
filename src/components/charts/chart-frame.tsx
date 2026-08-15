@@ -2,12 +2,12 @@ import type { JSX, ReactNode } from 'react';
 import { ChartTooltip } from '@/components/charts/chart-tooltip';
 import type { ChartInteraction } from '@/components/charts/use-chart-interaction';
 
-interface ChartFrameProps {
+type ChartFrameProps = {
     readonly testId: string;
     readonly interaction: ChartInteraction;
     readonly children: ReactNode;
     readonly className?: string;
-}
+};
 
 /** Relative frame that owns reveal state and the floating tooltip layer. */
 export function ChartFrame({

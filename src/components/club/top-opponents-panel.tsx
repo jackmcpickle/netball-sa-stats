@@ -23,10 +23,12 @@ export function TopOpponentsPanel({
     return (
         <Panel className="mb-6 p-5 sm:p-8">
             <h2 className="text-lg font-semibold text-ink">
-                {'Most-played opponents'}
+                Most-played opponents
             </h2>
             <p className="mt-1 text-sm text-ink-muted">
-                {`From fixture-level results, which cover 2025 onwards. Earlier seasons are held as ladders, so they contribute no meetings here.`}
+                From fixture-level results, which cover 2025 onwards. Earlier
+                seasons are held as ladders, so they contribute no meetings
+                here.
             </p>
             <ul className="mt-4 flex flex-col gap-2">
                 {opponents.map((opponent) => (

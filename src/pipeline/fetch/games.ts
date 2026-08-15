@@ -122,10 +122,10 @@ const UNPLAYED_STATUSES: Record<string, GameStatus> = {
     IN_PROGRESS: 'scheduled',
 };
 
-export interface GameClassification {
+export type GameClassification = {
     readonly status: GameStatus;
     readonly forfeitingSide: ForfeitSide | null;
-}
+};
 
 /**
  * Derives `status` from the outcome enum, in the order forfeit → played →
@@ -251,7 +251,9 @@ function roundNumbers(rounds: readonly FixtureRound[]): Map<string, number> {
     );
     const numbers = new Map<string, number>();
     for (const round of rounds) {
-        if (round.number === null) continue;
+        if (round.number === null) {
+            continue;
+        }
         numbers.set(
             round.id,
             round.isFinalsRound ? lastRegular + round.number : round.number,

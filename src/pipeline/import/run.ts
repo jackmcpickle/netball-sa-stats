@@ -45,7 +45,7 @@ async function readCsv(
     dataDir: string,
     file: string,
 ): Promise<Record<string, string>[]> {
-    const text = await readFile(resolve(dataDir, file), 'utf8');
+    const text = await readFile(resolve(dataDir, file), 'utf-8');
     return parseCsv(text);
 }
 
@@ -241,5 +241,5 @@ export async function runImport(
 ): Promise<ImportReport> {
     const { dataDir, executor } = options;
     const data = await loadImportData(dataDir);
-    return runImportData(data, executor, 'exact');
+    return await runImportData(data, executor, 'exact');
 }

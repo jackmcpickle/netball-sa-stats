@@ -29,14 +29,14 @@ describe('archive CSV import smoke', () => {
         );
 
         expect(archiveSeasons).toHaveLength(16);
-        expect(archiveResults).toHaveLength(4_965);
-        expect(archiveResults.every((row) => row.played === null)).toBe(true);
+        expect(archiveResults).toHaveLength(4965);
+        expect(archiveResults.every((row) => row.played === null)).toBeTruthy();
         expect(
             archiveResults.every(
                 (row) =>
                     row.placementBasis === 'final_premiership_placings' &&
                     row.positionUncertain === row.ladderPosition <= 4,
             ),
-        ).toBe(true);
+        ).toBeTruthy();
     });
 });

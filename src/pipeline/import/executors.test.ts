@@ -3,7 +3,7 @@ import { createD1Executor } from '@/pipeline/import/executors';
 
 type FakeStmt = { all: () => Promise<{ results: Record<string, unknown>[] }> };
 
-describe('createD1Executor', () => {
+describe(createD1Executor, () => {
     it('prepares SQL for queryAll and batch', async () => {
         const statements: string[] = [];
         const fake = {
@@ -14,7 +14,7 @@ describe('createD1Executor', () => {
                 };
             },
             async batch(stmts: FakeStmt[]) {
-                await Promise.all(stmts.map(async (s) => s.all()));
+                await Promise.all(stmts.map(async (s) => await s.all()));
             },
         } as unknown as D1Database;
 

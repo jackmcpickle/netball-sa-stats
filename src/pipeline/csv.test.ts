@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { parseCsv, toCsv } from '@/pipeline/csv';
 import type { CsvValue } from '@/pipeline/csv';
 
-describe('toCsv', () => {
+describe(toCsv, () => {
     const rows: Record<string, CsvValue>[] = [
         { a: 1, b: 'two, three', c: null },
         { a: 2, b: 'has "quotes"', c: 'plain' },
@@ -24,7 +24,7 @@ describe('toCsv', () => {
     it('round-trips through parseCsv', () => {
         const csv = toCsv(rows);
         const parsed = parseCsv(csv);
-        expect(parsed).toEqual([
+        expect(parsed).toStrictEqual([
             { a: '1', b: 'two, three', c: '' },
             { a: '2', b: 'has "quotes"', c: 'plain' },
             { a: '3', b: 'multi\nline', c: '' },

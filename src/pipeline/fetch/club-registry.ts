@@ -114,7 +114,9 @@ export class ClubRegistry {
     }
 
     public addAlias(clubKey: string, aliasText: string, source: string): void {
-        if (this.aliases.has(aliasText)) return;
+        if (this.aliases.has(aliasText)) {
+            return;
+        }
         this.aliases.set(aliasText, {
             club_key: clubKey,
             alias_text: aliasText,

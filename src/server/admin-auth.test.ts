@@ -11,27 +11,35 @@ import {
 
 const SECRET = 'test-session-secret-at-least-32-bytes-long';
 
-describe('passwordsMatch', () => {
+describe(passwordsMatch, () => {
     it('returns true when passwords are equal', async () => {
-        expect(await passwordsMatch('correct', 'correct', SECRET)).toBe(true);
+        await expect(
+            passwordsMatch('correct', 'correct', SECRET),
+        ).resolves.toBeTruthy();
     });
 
     it('returns false when passwords differ', async () => {
-        expect(await passwordsMatch('wrong', 'correct', SECRET)).toBe(false);
+        await expect(
+            passwordsMatch('wrong', 'correct', SECRET),
+        ).resolves.toBeFalsy();
     });
 
     it('returns false when submitted is empty', async () => {
-        expect(await passwordsMatch('', 'correct', SECRET)).toBe(false);
+        await expect(
+            passwordsMatch('', 'correct', SECRET),
+        ).resolves.toBeFalsy();
     });
 
     it('returns false when stored is empty', async () => {
-        expect(await passwordsMatch('correct', '', SECRET)).toBe(false);
+        await expect(
+            passwordsMatch('correct', '', SECRET),
+        ).resolves.toBeFalsy();
     });
 
     it('returns false when passwords differ in length', async () => {
-        expect(
-            await passwordsMatch('short', 'much-longer-password', SECRET),
-        ).toBe(false);
+        await expect(
+            passwordsMatch('short', 'much-longer-password', SECRET),
+        ).resolves.toBeFalsy();
     });
 });
 
@@ -40,32 +48,36 @@ describe('session cookie', () => {
 
     it('signs and verifies before expiry', async () => {
         const value = await signSession(expiresAt, SECRET);
-        expect(await verifySession(value, SECRET, expiresAt - 1)).toBe(true);
+        await expect(
+            verifySession(value, SECRET, expiresAt - 1),
+        ).resolves.toBeTruthy();
     });
 
     it('rejects at or after expiry', async () => {
         const value = await signSession(expiresAt, SECRET);
-        expect(await verifySession(value, SECRET, expiresAt)).toBe(false);
+        await expect(
+            verifySession(value, SECRET, expiresAt),
+        ).resolves.toBeFalsy();
     });
 
     it('rejects tampered hmac', async () => {
         const value = await signSession(expiresAt, SECRET);
         const tampered = value.replace(/[a-f]$/u, '0');
-        expect(await verifySession(tampered, SECRET, expiresAt - 1)).toBe(
-            false,
-        );
+        await expect(
+            verifySession(tampered, SECRET, expiresAt - 1),
+        ).resolves.toBeFalsy();
     });
 
     it('rejects missing cookie', async () => {
-        expect(await verifySession(undefined, SECRET, expiresAt - 1)).toBe(
-            false,
-        );
+        await expect(
+            verifySession(undefined, SECRET, expiresAt - 1),
+        ).resolves.toBeFalsy();
     });
 
     it('rejects malformed cookie values', async () => {
-        expect(await verifySession('exp.nope.ab', SECRET, expiresAt - 1)).toBe(
-            false,
-        );
+        await expect(
+            verifySession('exp.nope.ab', SECRET, expiresAt - 1),
+        ).resolves.toBeFalsy();
     });
 });
 

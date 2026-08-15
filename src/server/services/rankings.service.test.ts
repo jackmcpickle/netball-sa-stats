@@ -200,14 +200,14 @@ describe('rankings service', () => {
             await createServices(db).rankings.getPage({ page: 999 }),
         );
 
-        const pageSize = result.tableState.pageSize;
+        const { pageSize } = result.tableState;
         const expectedPageCount = Math.ceil(result.totalRows / pageSize);
         const expectedLastPageRows =
             result.totalRows - (expectedPageCount - 1) * pageSize;
 
         expect(result.tableState.page).toBe(expectedPageCount);
         expect(result.tableState.page).not.toBe(999);
-        expect(result.season.rows.length).toBe(expectedLastPageRows);
+        expect(result.season.rows).toHaveLength(expectedLastPageRows);
     });
 
     it('rejects a sort column outside the allow-list', async () => {
@@ -226,8 +226,8 @@ describe('rankings service', () => {
 
         const result = await createServices(db).rankings.getPage({});
 
-        expect(result.ok).toBe(false);
-        expect(!result.ok && result.error).toEqual({
+        expect(result.ok).toBeFalsy();
+        expect(!result.ok && result.error).toStrictEqual({
             kind: 'no-ranked-seasons',
         });
     });
@@ -258,8 +258,8 @@ describe('rankings service', () => {
             season: 2023,
         });
 
-        expect(result.ok).toBe(false);
-        expect(!result.ok && result.error).toEqual({
+        expect(result.ok).toBeFalsy();
+        expect(!result.ok && result.error).toStrictEqual({
             kind: 'not-found',
             entity: 'season',
             key: '2023',

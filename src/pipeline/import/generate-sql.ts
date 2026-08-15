@@ -69,7 +69,9 @@ function resultStatement(row: TeamSeasonResultImportRow): string {
  * is genuinely NULL, so the subquery is omitted entirely.
  */
 function gameTeamSubquery(playhqId: string | null): string {
-    if (playhqId === null) return 'NULL';
+    if (playhqId === null) {
+        return 'NULL';
+    }
     return `(SELECT id FROM teams WHERE playhq_id IS ${sqlText(playhqId)})`;
 }
 

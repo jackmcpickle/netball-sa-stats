@@ -3,7 +3,7 @@ import { describe, expect, it, vi } from 'vitest';
 import { createMemoryStore } from '@/pipeline/fetch/capture-store';
 import { cachedGraphQL } from '@/pipeline/fetch/playhq-client';
 
-describe('cachedGraphQL', () => {
+describe(cachedGraphQL, () => {
     it('returns the store hit when cacheFirst is true and does not fetch', async () => {
         const store = createMemoryStore(
             new Map([
@@ -21,7 +21,7 @@ describe('cachedGraphQL', () => {
             { organisationID: 'abc' },
             true,
         );
-        expect(result).toEqual({ cached: true });
+        expect(result).toStrictEqual({ cached: true });
         expect(fetchSpy).not.toHaveBeenCalled();
         fetchSpy.mockRestore();
     });
@@ -47,8 +47,10 @@ describe('cachedGraphQL', () => {
             { organisationID: 'abc' },
             false,
         );
-        expect(result).toEqual({ data: { fresh: true } });
-        expect(await store.get('discoverCompetitions_abc.json')).toEqual({
+        expect(result).toStrictEqual({ data: { fresh: true } });
+        await expect(
+            store.get('discoverCompetitions_abc.json'),
+        ).resolves.toStrictEqual({
             data: { fresh: true },
         });
         vi.restoreAllMocks();

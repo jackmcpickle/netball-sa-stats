@@ -34,21 +34,21 @@ export type AccentName =
     | 'steel'
     | 'olive';
 
-export interface Club {
+export type Club = {
     readonly key: ClubKey;
     readonly name: string;
     /** Null wherever PlayHQ does not publish it, which is currently always. */
     readonly establishedYear: number | null;
     readonly homeVenue: string | null;
     readonly accent: AccentName;
-}
+};
 
-export interface Competition {
+export type Competition = {
     readonly key: CompetitionKey;
     readonly name: string;
     /** Short form for tight table cells, e.g. `AMND`. */
     readonly shortName: string;
-}
+};
 
 /**
  * A competition's presence in one calendar year. `absent` is a real-world
@@ -57,43 +57,43 @@ export interface Competition {
  */
 export type SeasonStatus = 'ranked' | 'in-progress' | 'absent';
 
-export interface SeasonCoverage {
+export type SeasonCoverage = {
     readonly year: number;
     readonly status: SeasonStatus;
     /** Why, when the status is not `ranked`. Shown verbatim in the UI. */
     readonly note: string | null;
-}
+};
 
-export interface CompetitionCoverage {
+export type CompetitionCoverage = {
     readonly competition: Competition;
     readonly seasons: readonly SeasonCoverage[];
-}
+};
 
 /**
  * The year competition coverage first widened, and what joined. Derived from
  * the data (each competition's earliest covered year), never hardcoded — the
  * next competition to be added should surface here without a code change.
  */
-export interface CoverageChange {
+export type CoverageChange = {
     readonly year: number;
     readonly addedCompetitions: readonly string[];
-}
+};
 
 /**
  * Where consecutive ranked years switch measurement (e.g. archive Final
  * Premiership Placings → PlayHQ regular-season ladders).
  */
-export interface MethodologyBreak {
+export type MethodologyBreak = {
     readonly afterYear: number;
     readonly beforeYear: number;
-}
+};
 
-export interface TimelineGap {
+export type TimelineGap = {
     readonly afterYear: number;
     readonly missingYears: readonly number[];
-}
+};
 
-export interface Coverage {
+export type Coverage = {
     /** Every year the site holds any data for, ascending. */
     readonly years: readonly number[];
     /** Years that carry a complete, rankable championship, ascending. */
@@ -112,12 +112,12 @@ export interface Coverage {
     readonly methodologyBreak: MethodologyBreak | null;
     /** Calendar years with no ranked season between covered years. */
     readonly timelineGaps: readonly TimelineGap[];
-}
+};
 
-export interface GradeSummary {
+export type GradeSummary = {
     readonly key: GradeKey;
     readonly name: string;
     readonly year: number;
     readonly competition: Competition;
     readonly teamCount: number;
-}
+};

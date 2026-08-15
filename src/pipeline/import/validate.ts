@@ -5,7 +5,7 @@
  * and checked separately below, against the sibling CSVs / DB catalogue), then
  * layers the cross-file invariants from the task brief on top.
  */
-import { z } from 'zod';
+import type { z } from 'zod';
 import { FORFEIT_SIDES, GAME_STATUSES } from '@/db/schema';
 import {
     clubAliasInsertSchema,
@@ -204,7 +204,9 @@ function checkTeamNaturalKeyCollisions(rows: readonly TeamImportRow[]): void {
 function checkTeamIdsGloballyUnique(rows: readonly TeamImportRow[]): void {
     const seen = new Map<string, string>();
     rows.forEach((row, index) => {
-        if (row.playhqId === null) return;
+        if (row.playhqId === null) {
+            return;
+        }
         const firstGrade = seen.get(row.playhqId);
         if (firstGrade !== undefined) {
             throw new ImportValidationError(
@@ -362,8 +364,11 @@ export function validateResults(
     const byGrade = new Map<string, TeamSeasonResultImportRow[]>();
     for (const row of rows) {
         const existing = byGrade.get(row.gradeKey);
-        if (existing === undefined) byGrade.set(row.gradeKey, [row]);
-        else existing.push(row);
+        if (existing === undefined) {
+            byGrade.set(row.gradeKey, [row]);
+        } else {
+            existing.push(row);
+        }
     }
     for (const [gradeKey, gradeRows] of byGrade) {
         const positions = gradeRows
@@ -416,7 +421,9 @@ export function validateResults(
 
     return rows.reduce<PlayedMismatchWarning[]>((warnings, row) => {
         const warning = checkPlayedReconciliation(row);
-        if (warning !== null) warnings.push(warning);
+        if (warning !== null) {
+            warnings.push(warning);
+        }
         return warnings;
     }, []);
 }
@@ -448,7 +455,9 @@ function resolveSide(
 ): string | null {
     if (playhqId === null) {
         // Only a bye (one side) or an undecided finals slot may lack a team.
-        if (row.status === 'bye' || row.status === 'scheduled') return null;
+        if (row.status === 'bye' || row.status === 'scheduled') {
+            return null;
+        }
         throw new ImportValidationError(
             row.file,
             line(index),
@@ -590,7 +599,9 @@ export function findTeamCountWarnings(data: ImportData): TeamCountWarning[] {
     >();
     for (const grade of data.grades) {
         const season = seasonByKey.get(grade.seasonKey);
-        if (season === undefined) continue;
+        if (season === undefined) {
+            continue;
+        }
         const key = `${season.competitionKey}|${grade.tier}|${grade.division ?? ''}`;
         const list = gradeByCompTierDivSeason.get(key) ?? [];
         list.push({
@@ -608,7 +619,9 @@ export function findTeamCountWarnings(data: ImportData): TeamCountWarning[] {
         for (let i = 1; i < entries.length; i += 1) {
             const prev = entries[i - 1];
             const curr = entries[i];
-            if (prev === undefined || curr === undefined) continue;
+            if (prev === undefined || curr === undefined) {
+                continue;
+            }
             const diff = Math.abs(curr.grade.teamCount - prev.grade.teamCount);
             if (
                 diff / Math.max(prev.grade.teamCount, 1) >=

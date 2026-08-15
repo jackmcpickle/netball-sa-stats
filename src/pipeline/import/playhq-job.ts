@@ -6,19 +6,20 @@ import type { CsvValue } from '@/pipeline/csv';
 import type { CaptureStore } from '@/pipeline/fetch/capture-store';
 import type { ClubRegistry } from '@/pipeline/fetch/club-registry';
 import { clubRegistryFromExecutor } from '@/pipeline/fetch/club-registry-from-db';
-import {
-    collectPlayHqData,
-    type CollectedPlayHq,
-    type FetchReport,
-    type GradeRow,
-    type SeasonRow,
-    type TeamRow,
+import { collectPlayHqData } from '@/pipeline/fetch/collect';
+import type {
+    CollectedPlayHq,
+    FetchReport,
+    GradeRow,
+    SeasonRow,
+    TeamRow,
 } from '@/pipeline/fetch/collect';
 import type { GameRow } from '@/pipeline/fetch/games';
 import { toImportData } from '@/pipeline/fetch/to-import';
-import { runImportData, type ImportReport } from '@/pipeline/import/run';
+import { runImportData } from '@/pipeline/import/run';
+import type { ImportReport } from '@/pipeline/import/run';
 import type { ImportExecutor } from '@/pipeline/import/types';
-import { createImportRunsRepo } from '@/server/repos/import-runs.repo';
+import type { createImportRunsRepo } from '@/server/repos/import-runs.repo';
 
 /** Job policy: a `running` row older than this is treated as crashed. */
 const STALE_AFTER_SECONDS = 7200;
@@ -26,7 +27,9 @@ const STALE_AFTER_SECONDS = 7200;
 export type PlayHqJobParams = { years?: number[]; games: boolean };
 
 function stringifyIsFinal(value: unknown): string {
-    if (value === true || value === 1 || value === '1') return '1';
+    if (value === true || value === 1 || value === '1') {
+        return '1';
+    }
     return '0';
 }
 
@@ -68,7 +71,9 @@ function errorMessage(error: unknown): string {
 }
 
 function seasonKept(season: SeasonRow, years: number[] | undefined): boolean {
-    if (years !== undefined) return years.includes(season.start_year);
+    if (years !== undefined) {
+        return years.includes(season.start_year);
+    }
     return season.status === 'active';
 }
 
@@ -201,7 +206,7 @@ async function acquireLock(input: {
         // eslint-disable-next-line no-await-in-loop -- serial by design; do not Promise.all PlayHQ-adjacent work
         await input.runs.markError(row.id, finishedNow(), 'stale running row');
     }
-    return input.runs.insertRunning({
+    return await input.runs.insertRunning({
         instanceId: input.instanceId,
         startedAt: input.nowEpochSeconds,
         yearsJson: input.yearsJson,
@@ -261,7 +266,9 @@ export async function runPlayHqJob(
         yearsJson,
         games: input.params.games,
     });
-    if (typeof lock !== 'number') return lock;
+    if (typeof lock !== 'number') {
+        return lock;
+    }
 
     try {
         const { report, collectWarnings } = await collectAndImport(input);

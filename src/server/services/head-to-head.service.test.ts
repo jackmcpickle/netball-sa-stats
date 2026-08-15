@@ -199,7 +199,7 @@ describe('headToHead.getPage', () => {
                 b: 'garville',
             }),
         );
-        expect(page.bands.map((band) => band.tier)).toEqual([1, 4]);
+        expect(page.bands.map((band) => band.tier)).toStrictEqual([1, 4]);
     });
 
     it('filters the record to the chosen band', async () => {

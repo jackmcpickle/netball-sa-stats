@@ -3,7 +3,7 @@ import { describeDomainError, resolvePageResult } from '@/server/container';
 import type { DomainError } from '@/server/domain/result';
 import { err, ok } from '@/server/domain/result';
 
-describe('describeDomainError', () => {
+describe(describeDomainError, () => {
     it('describes not-found with the entity and key', () => {
         expect(
             describeDomainError({
@@ -41,7 +41,7 @@ describe('describeDomainError', () => {
     });
 });
 
-describe('resolvePageResult', () => {
+describe(resolvePageResult, () => {
     it('returns the value for an ok result', () => {
         expect(resolvePageResult(ok(42))).toBe(42);
     });
@@ -58,8 +58,8 @@ describe('resolvePageResult', () => {
         let thrown: unknown;
         try {
             resolvePageResult(err(error));
-        } catch (caught) {
-            thrown = caught;
+        } catch (error) {
+            thrown = error;
         }
         expect(thrown).toBeDefined();
         expect(thrown).toMatchObject({ isNotFound: true });

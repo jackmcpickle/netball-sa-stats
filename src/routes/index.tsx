@@ -31,11 +31,9 @@ const loadRankings = createServerFn({ method: 'GET' })
             pageSize: z.number().int().optional(),
         }),
     )
-    .handler(async ({ data }) => {
-        return resolvePageResult(
-            await createServices(getDb()).rankings.getPage(data),
-        );
-    });
+    .handler(async ({ data }) =>
+        resolvePageResult(await createServices(getDb()).rankings.getPage(data)),
+    );
 
 const DESCRIPTION =
     'Club championship rankings for South Australian netball: every AMND, Premier League and Reserves ladder finish since 2000, weighted by grade and totalled into one score per club per season.';
@@ -64,6 +62,6 @@ export const Route = createFileRoute('/')({
         page: search.page,
         pageSize: search.pageSize,
     }),
-    loader: async ({ deps }) => loadRankings({ data: deps }),
+    loader: async ({ deps }) => await loadRankings({ data: deps }),
     component: RankingsPage,
 });

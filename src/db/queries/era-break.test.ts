@@ -5,7 +5,7 @@ import {
     timelineGaps,
 } from '@/db/queries/era-break';
 
-describe('movementBoundaryChanged', () => {
+describe(movementBoundaryChanged, () => {
     const base = {
         year: 2023,
         previousYear: 2022,
@@ -18,7 +18,7 @@ describe('movementBoundaryChanged', () => {
     };
 
     it('is false for adjacent comparable seasons', () => {
-        expect(movementBoundaryChanged(base)).toBe(false);
+        expect(movementBoundaryChanged(base)).toBeFalsy();
     });
 
     it('is true across a calendar gap', () => {
@@ -28,7 +28,7 @@ describe('movementBoundaryChanged', () => {
                 year: 2022,
                 previousYear: 2016,
             }),
-        ).toBe(true);
+        ).toBeTruthy();
     });
 
     it('is true when source changes archive → playhq', () => {
@@ -42,7 +42,7 @@ describe('movementBoundaryChanged', () => {
                 placementBases: new Set(['regular_season_ladder']),
                 previousPlacementBases: new Set(['final_premiership_placings']),
             }),
-        ).toBe(true);
+        ).toBeTruthy();
     });
 
     it('is true when competitions widen', () => {
@@ -56,20 +56,20 @@ describe('movementBoundaryChanged', () => {
                 ]),
                 previousCompetitionKeys: new Set(['amnd']),
             }),
-        ).toBe(true);
+        ).toBeTruthy();
     });
 });
 
-describe('timelineGaps', () => {
+describe(timelineGaps, () => {
     it('reports missing years between ranked seasons', () => {
-        expect(timelineGaps([2014, 2016, 2022, 2023])).toEqual([
+        expect(timelineGaps([2014, 2016, 2022, 2023])).toStrictEqual([
             { afterYear: 2014, missingYears: [2015] },
             { afterYear: 2016, missingYears: [2017, 2018, 2019, 2020, 2021] },
         ]);
     });
 });
 
-describe('methodologyBreak', () => {
+describe(methodologyBreak, () => {
     it('finds the first source change along ranked years', () => {
         const sourceByYear = new Map<number, ReadonlySet<string>>([
             [2014, new Set(['archive_pdf'])],
@@ -82,6 +82,6 @@ describe('methodologyBreak', () => {
                 rankedYears: [2014, 2016, 2022, 2023],
                 sourceByYear,
             }),
-        ).toEqual({ afterYear: 2016, beforeYear: 2022 });
+        ).toStrictEqual({ afterYear: 2016, beforeYear: 2022 });
     });
 });

@@ -20,7 +20,7 @@ import { execFileSync } from 'node:child_process';
 import { mkdtemp, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { DatabaseSync } from 'node:sqlite';
+import type { DatabaseSync } from 'node:sqlite';
 import type { ImportExecutor } from '@/pipeline/import/types';
 
 // The D1 executor lives in its own module so workerd callers never reach the
@@ -52,18 +52,18 @@ export function createWranglerExecutor(
                     '--command',
                     sql,
                 ],
-                { encoding: 'utf8' },
+                { encoding: 'utf-8' },
             );
             const parsed = JSON.parse(output) as {
                 results?: Record<string, unknown>[];
             }[];
-            return Promise.resolve(parsed[0]?.results ?? []);
+            return parsed[0]?.results ?? [];
         },
         batch: async (statements) => {
             const dir = await mkdtemp(join(tmpdir(), 'netball-import-'));
             const file = join(dir, 'batch.sql');
             try {
-                await writeFile(file, `${statements.join('\n')}\n`, 'utf8');
+                await writeFile(file, `${statements.join('\n')}\n`, 'utf-8');
                 execFileSync(
                     'pnpm',
                     [
@@ -76,7 +76,7 @@ export function createWranglerExecutor(
                         '--file',
                         file,
                     ],
-                    { encoding: 'utf8', stdio: 'inherit' },
+                    { encoding: 'utf-8', stdio: 'inherit' },
                 );
             } finally {
                 await rm(dir, { recursive: true, force: true });
@@ -90,11 +90,11 @@ export function createSqliteExecutor(db: DatabaseSync): ImportExecutor {
     return {
         queryAll: async (sql) => {
             const rows = db.prepare(sql).all() as Record<string, unknown>[];
-            return Promise.resolve(rows);
+            return rows;
         },
         batch: async (statements) => {
             db.exec(statements.join('\n'));
-            return Promise.resolve();
+            return;
         },
     };
 }

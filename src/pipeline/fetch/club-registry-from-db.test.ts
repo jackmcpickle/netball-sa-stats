@@ -13,7 +13,7 @@ const FIXTURE_DIR = resolve(
 
 const KNOWN_PLAYHQ_ID = 'known-playhq-a';
 
-describe('clubRegistryFromExecutor', () => {
+describe(clubRegistryFromExecutor, () => {
     let db: DatabaseSync;
 
     beforeEach(async () => {

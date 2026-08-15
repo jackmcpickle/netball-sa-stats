@@ -133,14 +133,17 @@ function baseSpec(): SeedSpec {
     };
 }
 
-describe('createClubsRepo', () => {
+describe(createClubsRepo, () => {
     it('all() lists every club, alphabetically by name', async () => {
         const db = createTestDb();
         await seed(db, baseSpec());
 
         const clubs = await createClubsRepo(db).all();
 
-        expect(clubs.map((club) => club.key)).toEqual(['contax', 'garville']);
+        expect(clubs.map((club) => club.key)).toStrictEqual([
+            'contax',
+            'garville',
+        ]);
     });
 
     it('all() over an empty database is an empty collection', async () => {
@@ -148,7 +151,7 @@ describe('createClubsRepo', () => {
 
         const clubs = await createClubsRepo(db).all();
 
-        expect(clubs).toEqual([]);
+        expect(clubs).toStrictEqual([]);
     });
 
     it('profile() rolls up career stats across seasons for a known club', async () => {
@@ -180,8 +183,8 @@ describe('createClubsRepo', () => {
         await seed(db, careerSpec());
 
         const repo = createClubsRepo(db);
-        expect(await repo.countResults('contax')).toBe(2);
-        expect(await repo.countResults('nobody')).toBe(0);
+        await expect(repo.countResults('contax')).resolves.toBe(2);
+        await expect(repo.countResults('nobody')).resolves.toBe(0);
     });
 
     it('resultsPage() defaults to newest season first', async () => {
@@ -192,7 +195,7 @@ describe('createClubsRepo', () => {
             'contax',
             wholeHistory('year', 'desc'),
         );
-        expect(rows.map((row) => row.year)).toEqual([2025, 2024]);
+        expect(rows.map((row) => row.year)).toStrictEqual([2025, 2024]);
     });
 
     it('resultsPage() sorts on an allow-listed column', async () => {
@@ -203,7 +206,7 @@ describe('createClubsRepo', () => {
             'contax',
             wholeHistory('year', 'asc'),
         );
-        expect(rows.map((row) => row.year)).toEqual([2024, 2025]);
+        expect(rows.map((row) => row.year)).toStrictEqual([2024, 2025]);
     });
 
     it('resultsPage() slices to the requested page', async () => {
@@ -223,8 +226,8 @@ describe('createClubsRepo', () => {
             limit: 1,
             offset: 1,
         });
-        expect(first.map((row) => row.year)).toEqual([2025]);
-        expect(second.map((row) => row.year)).toEqual([2024]);
+        expect(first.map((row) => row.year)).toStrictEqual([2025]);
+        expect(second.map((row) => row.year)).toStrictEqual([2024]);
     });
 
     it('profile() returns null for an unknown club key', async () => {

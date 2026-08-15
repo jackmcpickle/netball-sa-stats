@@ -71,9 +71,8 @@ export function ClubProfilePage(): JSX.Element {
                     onValueChange={onClubChange}
                 />
                 <span className="text-[13px] text-ink-muted">
-                    {
-                        'Club profile · all grades, all covered seasons (archive and PlayHQ)'
-                    }
+                    Club profile · all grades, all covered seasons (archive and
+                    PlayHQ)
                 </span>
             </div>
 
@@ -115,7 +114,7 @@ export function ClubProfilePage(): JSX.Element {
 
             <Panel className="mb-6 p-5 sm:p-8">
                 <h2 className="text-lg font-semibold text-ink">
-                    {'Club strength by season'}
+                    Club strength by season
                 </h2>
                 <div className="mt-6 overflow-x-auto overscroll-x-contain [-webkit-overflow-scrolling:touch]">
                     {/* Narrow screens scroll rather than shrink the year
@@ -129,9 +128,11 @@ export function ClubProfilePage(): JSX.Element {
                     </div>
                 </div>
                 <p className="mt-4 max-w-[46rem] text-sm text-ink-muted">
-                    {
-                        'Strength is the club’s average finishing position across every grade it fields, where 1.00 is top of the grade. It ignores how many teams a club fields, so it answers “are our teams doing better?” — unlike the championship ranking, which rewards depth as well as performance.'
-                    }
+                    Strength is the club’s average finishing position across
+                    every grade it fields, where 1.00 is top of the grade. It
+                    ignores how many teams a club fields, so it answers “are our
+                    teams doing better?” — unlike the championship ranking,
+                    which rewards depth as well as performance.
                 </p>
             </Panel>
 
@@ -139,12 +140,13 @@ export function ClubProfilePage(): JSX.Element {
             {profile.trend.bands.length > 0 && (
                 <Panel className="mb-6 p-5 sm:p-8">
                     <h2 className="text-lg font-semibold text-ink">
-                        {'Strength by grade band'}
+                        Strength by grade band
                     </h2>
                     <p className="mt-1 max-w-[46rem] text-sm text-ink-muted">
-                        {
-                            'Strongest band first. Every sparkline uses the same 0.00–1.00 axis, so bands can be compared against each other, and the line breaks across seasons the club fielded nothing in that band.'
-                        }
+                        Strongest band first. Every sparkline uses the same
+                        0.00–1.00 axis, so bands can be compared against each
+                        other, and the line breaks across seasons the club
+                        fielded nothing in that band.
                     </p>
                     <div className="mt-6">
                         <BandTrendGrid
@@ -158,12 +160,11 @@ export function ClubProfilePage(): JSX.Element {
 
             <Panel className="mb-6 p-5 sm:p-8">
                 <h2 className="text-lg font-semibold text-ink">
-                    {'Championship points by season'}
+                    Championship points by season
                 </h2>
                 <p className="mt-1 text-sm text-ink-muted">
-                    {
-                        'Bars take the club colour for a top-three finish. A dashed slot means the season is not ranked yet.'
-                    }
+                    Bars take the club colour for a top-three finish. A dashed
+                    slot means the season is not ranked yet.
                 </p>
                 <div className="mt-6 overflow-x-auto overscroll-x-contain [-webkit-overflow-scrolling:touch]">
                     <div className="max-w-[34rem] min-w-[20rem]">
@@ -182,7 +183,7 @@ export function ClubProfilePage(): JSX.Element {
             />
 
             <h2 className="mb-4 text-lg font-semibold text-ink">
-                {'Season by season, grade by grade'}
+                Season by season, grade by grade
             </h2>
             {profile.totalRows > 0 ? (
                 <ClubResultsTable

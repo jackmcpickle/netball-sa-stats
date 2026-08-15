@@ -52,14 +52,14 @@ function baseSpec(): SeedSpec {
     };
 }
 
-describe('createWeightsRepo', () => {
+describe(createWeightsRepo, () => {
     it('all() lists every grade_weights row, tier ascending', async () => {
         const db = createTestDb();
         await seed(db, baseSpec());
 
         const weights = await createWeightsRepo(db).all();
 
-        expect(weights.map((row) => row.tier)).toEqual([1, 2]);
+        expect(weights.map((row) => row.tier)).toStrictEqual([1, 2]);
         expect(weights[0]).toMatchObject({
             competitionName: 'AMND',
             label: 'A1',
@@ -74,6 +74,6 @@ describe('createWeightsRepo', () => {
 
         const weights = await createWeightsRepo(db).all();
 
-        expect(weights).toEqual([]);
+        expect(weights).toStrictEqual([]);
     });
 });

@@ -1,17 +1,11 @@
-import {
-    WorkflowEntrypoint,
-    type WorkflowEvent,
-    type WorkflowStep,
-} from 'cloudflare:workers';
+import { WorkflowEntrypoint } from 'cloudflare:workers';
+import type { WorkflowEvent, WorkflowStep } from 'cloudflare:workers';
 import { drizzle } from 'drizzle-orm/d1';
 import * as schema from '@/db/schema';
 import { createR2Store } from '@/pipeline/fetch/r2-store';
 import { createD1Executor } from '@/pipeline/import/d1-executor';
-import {
-    loadIsFinalMap,
-    runPlayHqJob,
-    type PlayHqJobParams,
-} from '@/pipeline/import/playhq-job';
+import { loadIsFinalMap, runPlayHqJob } from '@/pipeline/import/playhq-job';
+import type { PlayHqJobParams } from '@/pipeline/import/playhq-job';
 import { createImportRunsRepo } from '@/server/repos/import-runs.repo';
 
 export class PlayHqImportWorkflow extends WorkflowEntrypoint<
@@ -27,7 +21,7 @@ export class PlayHqImportWorkflow extends WorkflowEntrypoint<
             games: payload.games ?? true,
             years: payload.years,
         };
-        const instanceId = event.instanceId;
+        const { instanceId } = event;
         await step.do(
             'lock-and-import',
             {

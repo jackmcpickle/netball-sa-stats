@@ -94,7 +94,7 @@ const game: GameRow = {
     scraped_at: 1_700_000_000_000,
 };
 
-describe('toImportData', () => {
+describe(toImportData, () => {
     it('maps a SeasonRow is_final: 0 to isFinal false, keeping source and playhqId', () => {
         const data = toImportData({
             seasons: [season],
@@ -105,7 +105,7 @@ describe('toImportData', () => {
             results: [],
             games: [],
         });
-        expect(data.seasons).toEqual([
+        expect(data.seasons).toStrictEqual([
             {
                 competitionKey: 'amnd',
                 seasonKey: 'amnd-winter-2025',
@@ -130,7 +130,7 @@ describe('toImportData', () => {
             results: [],
             games: [],
         });
-        expect(data.seasons[0]?.isFinal).toBe(true);
+        expect(data.seasons[0]?.isFinal).toBeTruthy();
     });
 
     it('maps a GameRow to GameImportRow with games-<year>.csv from the season year', () => {
@@ -143,7 +143,7 @@ describe('toImportData', () => {
             results: [],
             games: [game],
         });
-        expect(data.games).toEqual([
+        expect(data.games).toStrictEqual([
             {
                 gradeKey: 'amnd-winter-2025-a-grade',
                 playhqId: 'game-playhq-id',
@@ -187,7 +187,7 @@ describe('toImportData', () => {
             results: [result],
             games: [game],
         });
-        expect(data.clubs).toEqual([
+        expect(data.clubs).toStrictEqual([
             {
                 clubKey: 'matrics',
                 name: 'Matrics',
@@ -196,14 +196,14 @@ describe('toImportData', () => {
                 playhqId: 'club-playhq-id',
             },
         ]);
-        expect(data.clubAliases).toEqual([
+        expect(data.clubAliases).toStrictEqual([
             {
                 clubKey: 'matrics',
                 aliasText: 'MATRICS',
                 source: 'playhq',
             },
         ]);
-        expect(data.grades).toEqual([
+        expect(data.grades).toStrictEqual([
             {
                 seasonKey: 'amnd-winter-2025',
                 gradeKey: 'amnd-winter-2025-a-grade',
@@ -215,7 +215,7 @@ describe('toImportData', () => {
                 playhqId: 'grade-playhq-id',
             },
         ]);
-        expect(data.teams).toEqual([
+        expect(data.teams).toStrictEqual([
             {
                 clubKey: 'matrics',
                 gradeKey: 'amnd-winter-2025-a-grade',
@@ -224,7 +224,7 @@ describe('toImportData', () => {
                 playhqId: 'team-playhq-id',
             },
         ]);
-        expect(data.results).toEqual([
+        expect(data.results).toStrictEqual([
             {
                 gradeKey: 'amnd-winter-2025-a-grade',
                 clubKey: 'matrics',

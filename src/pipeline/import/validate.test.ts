@@ -85,12 +85,12 @@ function resultRow(
         source: 'playhq',
         placementBasis: 'regular_season_ladder',
         notes: null,
-        scrapedAt: 1700000000000,
+        scrapedAt: 1_700_000_000_000,
         ...overrides,
     };
 }
 
-describe('validateSeasons', () => {
+describe(validateSeasons, () => {
     it('passes a good row', () => {
         expect(() => {
             validateSeasons([goodSeason], competitionKeys);
@@ -128,7 +128,7 @@ describe('validateSeasons', () => {
     });
 });
 
-describe('validateClubAliases', () => {
+describe(validateClubAliases, () => {
     it('fails when club_key does not resolve via clubs.csv', () => {
         expect(() => {
             validateClubAliases(
@@ -160,7 +160,7 @@ describe('validateClubAliases', () => {
     });
 });
 
-describe('validateGrades', () => {
+describe(validateGrades, () => {
     it('fails when season_key is unknown', () => {
         expect(() => {
             validateGrades(
@@ -189,7 +189,7 @@ describe('validateGrades', () => {
     });
 });
 
-describe('validateTeams', () => {
+describe(validateTeams, () => {
     it('fails when club_key is unknown — never auto-create a club', () => {
         expect(() => {
             validateTeams(
@@ -281,7 +281,7 @@ describe('validateTeams', () => {
     });
 });
 
-describe('validateResults', () => {
+describe(validateResults, () => {
     const clubKeys = new Set([goodClub.clubKey]);
     const gradesByKey = new Map([[goodGrade.gradeKey, goodGrade]]);
 
@@ -385,7 +385,7 @@ describe('validateResults', () => {
     });
 });
 
-describe('validateImportData', () => {
+describe(validateImportData, () => {
     it('warns (not fails) on a sharp team-count change between seasons', () => {
         const prevSeason: SeasonImportRow = {
             ...goodSeason,
@@ -439,7 +439,7 @@ describe('validateImportData', () => {
     });
 });
 
-describe('validateGames', () => {
+describe(validateGames, () => {
     // Resolved season-wide, not grade-scoped: a team regraded after junior
     // grading rounds plays games in a grade whose ladder it never reaches.
     const teamIds = new Set(['t1', 't2']);
@@ -481,7 +481,7 @@ describe('validateGames', () => {
             gradeKeys,
         );
         expect(unresolved).toHaveLength(1);
-        expect(unresolved[0].missingTeamIds).toEqual(['ghost']);
+        expect(unresolved[0].missingTeamIds).toStrictEqual(['ghost']);
     });
 
     it('accepts a team whose ladder row lives in another grade', () => {
@@ -489,7 +489,7 @@ describe('validateGames', () => {
         // not be dropped just because the team was regraded afterwards.
         expect(
             validateGames([gameRow()], new Set(['t1', 't2']), gradeKeys),
-        ).toEqual([]);
+        ).toStrictEqual([]);
     });
 
     it('fails on a grade that is not in grades.csv', () => {

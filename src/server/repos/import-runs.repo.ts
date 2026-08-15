@@ -1,6 +1,7 @@
 import { and, desc, eq, gte, lt } from 'drizzle-orm';
 import type { Db } from '@/db';
-import { importRuns, type ImportRunStatus } from '@/db/schema';
+import { importRuns } from '@/db/schema';
+import type { ImportRunStatus } from '@/db/schema';
 
 export type ImportRun = {
     id: number;

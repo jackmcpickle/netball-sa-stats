@@ -1,6 +1,7 @@
 import { getRouteApi, useRouter } from '@tanstack/react-router';
 import { useServerFn } from '@tanstack/react-start';
-import { useCallback, useState, type JSX } from 'react';
+import { useCallback, useState } from 'react';
+import type { JSX } from 'react';
 import { NO_VALUE } from '@/components/format';
 import { Eyebrow, PageShell, PageTitle } from '@/components/ui/layout';
 import { Table, TableFrame, Td, Th, Tr } from '@/components/ui/table';
@@ -62,9 +63,7 @@ function renderSelectedDetail(
             className="mt-6 max-w-[62ch]"
             aria-live="polite"
         >
-            <h2 className="mb-3 text-lg font-semibold text-ink">
-                {'Run detail'}
-            </h2>
+            <h2 className="mb-3 text-lg font-semibold text-ink">Run detail</h2>
             {run.errorText === null ? null : (
                 <p className="text-sm text-fall">{run.errorText}</p>
             )}
@@ -77,7 +76,7 @@ function renderSelectedDetail(
             ) : null}
             {run.errorText === null && run.warnings.length === 0 ? (
                 <p className="text-sm text-ink-muted">
-                    {'No errors or warnings for this run.'}
+                    No errors or warnings for this run.
                 </p>
             ) : null}
         </section>
@@ -97,13 +96,13 @@ function renderRunsTable(
             >
                 <thead>
                     <tr>
-                        <Th>{'STARTED'}</Th>
-                        <Th>{'STATUS'}</Th>
-                        <Th align="right">{'SEASONS'}</Th>
-                        <Th align="right">{'GRADES'}</Th>
-                        <Th align="right">{'GAMES'}</Th>
-                        <Th align="right">{'WARNINGS'}</Th>
-                        <Th align="right">{'DURATION'}</Th>
+                        <Th>STARTED</Th>
+                        <Th>STATUS</Th>
+                        <Th align="right">SEASONS</Th>
+                        <Th align="right">GRADES</Th>
+                        <Th align="right">GAMES</Th>
+                        <Th align="right">WARNINGS</Th>
+                        <Th align="right">DURATION</Th>
                     </tr>
                 </thead>
                 <tbody>
@@ -183,9 +182,9 @@ export function AdminPage(): JSX.Element {
 
     return (
         <PageShell className="py-12 pb-24 sm:py-16">
-            <Eyebrow>{'ADMIN'}</Eyebrow>
+            <Eyebrow>ADMIN</Eyebrow>
             <div className="mt-4 mb-8 flex flex-wrap items-end justify-between gap-4">
-                <PageTitle>{'Import'}</PageTitle>
+                <PageTitle>Import</PageTitle>
                 <form
                     method="post"
                     onSubmit={handleLogout}
@@ -194,7 +193,7 @@ export function AdminPage(): JSX.Element {
                         type="submit"
                         className={BUTTON_CLASS}
                     >
-                        {'Sign out'}
+                        Sign out
                     </button>
                 </form>
             </div>
@@ -212,15 +211,15 @@ export function AdminPage(): JSX.Element {
                         className={BUTTON_CLASS}
                         disabled={page.running}
                     >
-                        {'Run import'}
+                        Run import
                     </button>
                 </div>
                 <details className="max-w-sm">
                     <summary className="cursor-pointer text-sm text-ink-muted">
-                        {'Years'}
+                        Years
                     </summary>
                     <label className="mt-3 flex flex-col text-sm text-ink">
-                        {'Comma-separated start years'}
+                        Comma-separated start years
                         <input
                             className={FIELD_CLASS}
                             type="text"

@@ -5,7 +5,8 @@ import {
     formatPosition,
     formatRecord,
 } from '@/components/format';
-import { DataTable, type DataTableColumn } from '@/components/ui/data-table';
+import { DataTable } from '@/components/ui/data-table';
+import type { DataTableColumn } from '@/components/ui/data-table';
 import { NoteMarker } from '@/components/ui/note-marker';
 import type { TableState } from '@/db/queries/pagination';
 import type { ClubGradeResult } from '@/server/dto/club-profile.dto';

@@ -10,9 +10,13 @@ export function slugify(name: string): string {
 /** Appends `-2`, `-3`, ... on collision so club_key stays unique and stable. */
 export function uniqueSlug(base: string, taken: ReadonlySet<string>): string {
     const slug = slugify(base);
-    if (!taken.has(slug)) return slug;
+    if (!taken.has(slug)) {
+        return slug;
+    }
     let suffix = 2;
-    while (taken.has(`${slug}-${suffix}`)) suffix += 1;
+    while (taken.has(`${slug}-${suffix}`)) {
+        suffix += 1;
+    }
     return `${slug}-${suffix}`;
 }
 
@@ -36,6 +40,6 @@ export function buildGradeKey(seasonKey: string, gradeName: string): string {
  * is not a squad number and is left alone.
  */
 export function extractSquadNumber(teamName: string): number | null {
-    const match = teamName.trimEnd().match(/\s(\d+)$/u);
+    const match = /\s(\d+)$/u.exec(teamName.trimEnd());
     return match?.[1] === undefined ? null : Number(match[1]);
 }

@@ -128,7 +128,7 @@ export function renderRankings(data: RankingsPageDto): string {
 }
 
 export function renderLadders(data: LaddersPageDto): string {
-    const ladder = data.ladder;
+    const { ladder } = data;
     const body =
         ladder === null
             ? '_No ladder is available for this season and grade._'
@@ -185,7 +185,7 @@ export function renderLadders(data: LaddersPageDto): string {
 }
 
 export function renderResults(data: ResultsPageDto): string {
-    const fixtures = data.fixtures;
+    const { fixtures } = data;
     const body =
         fixtures === null
             ? '_No fixtures are available for this season and grade._'

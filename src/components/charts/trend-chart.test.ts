@@ -4,7 +4,7 @@ import {
     strengthPath,
 } from '@/components/charts/trend-chart';
 
-describe('strengthPath', () => {
+describe(strengthPath, () => {
     it('breaks the line where strength is null', () => {
         const segments = strengthPath([
             { year: 2000, strength: 0.5, teams: 3 },
@@ -38,7 +38,7 @@ describe('strengthPath', () => {
     });
 });
 
-describe('describeTrendSlot', () => {
+describe(describeTrendSlot, () => {
     it('attributes a null strength to no teams fielded when teams is zero', () => {
         expect(
             describeTrendSlot({ year: 2000, strength: null, teams: 0 }, 2000),

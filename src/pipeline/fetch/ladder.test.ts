@@ -14,17 +14,21 @@ const fixturePath = resolve(
 );
 
 function loadFixture(): GradeLadderResponse {
-    return JSON.parse(readFileSync(fixturePath, 'utf8')) as GradeLadderResponse;
+    return JSON.parse(
+        readFileSync(fixturePath, 'utf-8'),
+    ) as GradeLadderResponse;
 }
 
-describe('mapStandingsToResults', () => {
+describe(mapStandingsToResults, () => {
     const response = loadFixture();
-    const discoverGrade = response.data.discoverGrade;
-    if (discoverGrade === null) throw new Error('fixture has no discoverGrade');
+    const { discoverGrade } = response.data;
+    if (discoverGrade === null) {
+        throw new Error('fixture has no discoverGrade');
+    }
     const standings = flattenStandings(discoverGrade.ladder);
 
     it('reads 8 teams from the 2023 Premier Division fixture', () => {
-        expect(standings.length).toBe(8);
+        expect(standings).toHaveLength(8);
     });
 
     it('assigns 1-based ladder_position in array order', () => {
@@ -32,10 +36,10 @@ describe('mapStandingsToResults', () => {
             'premier_league-annual-2023-premier-division',
             standings,
             (id, name) => `${name}-${id}`,
-            1_000,
+            1000,
             (standing) => extractSquadNumber(standing.team.name),
         );
-        expect(rows.map((r) => r.ladder_position)).toEqual([
+        expect(rows.map((r) => r.ladder_position)).toStrictEqual([
             1, 2, 3, 4, 5, 6, 7, 8,
         ]);
         expect(rows[0]?.display_name).toBe('Contax');
@@ -46,11 +50,13 @@ describe('mapStandingsToResults', () => {
             'grade-key',
             standings,
             (id, name) => `${name}-${id}`,
-            1_000,
+            1000,
             (standing) => extractSquadNumber(standing.team.name),
         );
         const contax = rows[0];
-        if (contax === undefined) throw new Error('missing row');
+        if (contax === undefined) {
+            throw new Error('missing row');
+        }
         expect(contax.goals_for).toBe(879);
         expect(contax.goals_against).toBe(538);
         expect(contax.goal_difference).toBe(879 - 538);
@@ -63,7 +69,7 @@ describe('mapStandingsToResults', () => {
             'grade-key',
             standings,
             (id, name) => `${name}-${id}`,
-            1_000,
+            1000,
             (standing) => extractSquadNumber(standing.team.name),
         );
         expect(row?.shots_attempted).toBeNull();

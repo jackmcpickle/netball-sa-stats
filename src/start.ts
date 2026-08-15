@@ -20,7 +20,7 @@ const canonicalHost = createMiddleware({ type: 'request' }).server(
             url.hostname = url.hostname.slice('www.'.length);
             return Response.redirect(url.toString(), 308);
         }
-        return next();
+        return await next();
     },
 );
 
@@ -34,14 +34,14 @@ const markdownTwin = createMiddleware({ type: 'request' }).server(
             !wantsMarkdown ||
             (request.method !== 'GET' && request.method !== 'HEAD')
         ) {
-            return next();
+            return await next();
         }
         const body = await renderMarkdown(getDb(), url);
         if (body === null) {
             // No markdown twin, or the entity does not exist: an explicit
             // `.md` request is a 404, an `Accept` preference just falls back.
             if (!url.pathname.endsWith('.md')) {
-                return next();
+                return await next();
             }
             return new Response('Not found\n', {
                 status: 404,

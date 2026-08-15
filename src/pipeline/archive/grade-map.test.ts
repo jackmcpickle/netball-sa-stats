@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { mapArchiveGradeName } from '@/pipeline/archive/grade-map';
 
-describe('mapArchiveGradeName', () => {
+describe(mapArchiveGradeName, () => {
     it('maps early A1/A2 headers to the locked AMND tiers', () => {
         expect(mapArchiveGradeName('A1.', 2000)).toMatchObject({
             displayName: 'AMND League',

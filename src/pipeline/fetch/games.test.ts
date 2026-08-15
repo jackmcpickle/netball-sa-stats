@@ -5,13 +5,12 @@ import {
     playedAtEpoch,
     scoreOf,
     toGameRows,
-    type FixtureGame,
-    type FixtureRound,
 } from '@/pipeline/fetch/games';
+import type { FixtureGame, FixtureRound } from '@/pipeline/fetch/games';
 
 function capture(name: string): readonly FixtureRound[] {
     const parsed = JSON.parse(
-        readFileSync(`data/raw/probe/${name}.json`, 'utf8'),
+        readFileSync(`data/raw/probe/${name}.json`, 'utf-8'),
     ) as { data: { discoverGradeFixture: readonly FixtureRound[] } };
     return parsed.data.discoverGradeFixture;
 }
@@ -57,7 +56,7 @@ function result(outcome: string, home: number, away: number): FixtureGame {
     });
 }
 
-describe('scoreOf', () => {
+describe(scoreOf, () => {
     it('reads the TOTAL_SCORE statistic rather than a scalar field', () => {
         expect(
             scoreOf({
@@ -83,42 +82,44 @@ describe('scoreOf', () => {
     });
 });
 
-describe('classifyGame', () => {
+describe(classifyGame, () => {
     it('is final when a side won by score', () => {
-        expect(classifyGame(result('HOME_TEAM_WON_BY_SCORE', 45, 32))).toEqual({
+        expect(
+            classifyGame(result('HOME_TEAM_WON_BY_SCORE', 45, 32)),
+        ).toStrictEqual({
             status: 'final',
             forfeitingSide: null,
         });
     });
 
     it('is final for a draw', () => {
-        expect(classifyGame(result('DRAW_BY_SCORE', 48, 48))).toEqual({
+        expect(classifyGame(result('DRAW_BY_SCORE', 48, 48))).toStrictEqual({
             status: 'final',
             forfeitingSide: null,
         });
     });
 
     it('records the home side as forfeiting when the away team won by forfeit', () => {
-        expect(classifyGame(result('AWAY_TEAM_WON_BY_FORFEIT', 0, 20))).toEqual(
-            { status: 'forfeit', forfeitingSide: 'home' },
-        );
+        expect(
+            classifyGame(result('AWAY_TEAM_WON_BY_FORFEIT', 0, 20)),
+        ).toStrictEqual({ status: 'forfeit', forfeitingSide: 'home' });
     });
 
     it('records the away side as forfeiting when the home team won by forfeit', () => {
-        expect(classifyGame(result('HOME_TEAM_WON_BY_FORFEIT', 20, 0))).toEqual(
-            { status: 'forfeit', forfeitingSide: 'away' },
-        );
+        expect(
+            classifyGame(result('HOME_TEAM_WON_BY_FORFEIT', 20, 0)),
+        ).toStrictEqual({ status: 'forfeit', forfeitingSide: 'away' });
     });
 
     it('records both sides for a double forfeit', () => {
-        expect(classifyGame(result('DOUBLE_FORFEIT', 0, 0))).toEqual({
+        expect(classifyGame(result('DOUBLE_FORFEIT', 0, 0))).toStrictEqual({
             status: 'forfeit',
             forfeitingSide: 'both',
         });
     });
 
     it('is scheduled when the game is upcoming with no result', () => {
-        expect(classifyGame(game({}))).toEqual({
+        expect(classifyGame(game({}))).toStrictEqual({
             status: 'scheduled',
             forfeitingSide: null,
         });
@@ -127,7 +128,7 @@ describe('classifyGame', () => {
     it('is no_result when a finished game carries no result', () => {
         expect(
             classifyGame(game({ status: { name: 'Final', value: 'FINAL' } })),
-        ).toEqual({ status: 'no_result', forfeitingSide: null });
+        ).toStrictEqual({ status: 'no_result', forfeitingSide: null });
     });
 
     it('is no_result when a finished game is missing a score', () => {
@@ -151,7 +152,7 @@ describe('classifyGame', () => {
                 },
             },
         });
-        expect(classifyGame(missing)).toEqual({
+        expect(classifyGame(missing)).toStrictEqual({
             status: 'no_result',
             forfeitingSide: null,
         });
@@ -161,7 +162,7 @@ describe('classifyGame', () => {
         // Real capture: game 255b6f94 comes back CANCELLED with a 0-0
         // TOTAL_SCORE on both sides. Scored as a draw it would invent a 0-0
         // in two clubs' records.
-        expect(classifyGame(result('CANCELLED', 0, 0))).toEqual({
+        expect(classifyGame(result('CANCELLED', 0, 0))).toStrictEqual({
             status: 'no_result',
             forfeitingSide: null,
         });
@@ -173,7 +174,7 @@ describe('classifyGame', () => {
             classifyGame(
                 game({ status: { name: 'Pending', value: 'PENDING' } }),
             ),
-        ).toEqual({ status: 'no_result', forfeitingSide: null });
+        ).toStrictEqual({ status: 'no_result', forfeitingSide: null });
     });
 
     it('throws on an unrecognised status rather than guessing', () => {
@@ -194,7 +195,7 @@ describe('classifyGame', () => {
     });
 });
 
-describe('playedAtEpoch', () => {
+describe(playedAtEpoch, () => {
     it('reads a date and time as Adelaide local time', () => {
         // 2026-04-10 19:00 ACST (UTC+9:30) === 09:30 UTC.
         expect(playedAtEpoch('2026-04-10', '19:00:00')).toBe(
@@ -220,7 +221,7 @@ describe('playedAtEpoch', () => {
     });
 });
 
-describe('toGameRows', () => {
+describe(toGameRows, () => {
     it('maps every game in the capture without losing one', () => {
         const games = premier.flatMap((round) => round.games);
         const rows = toGameRows(premier, 'premier-2026', 1_770_000_000);
@@ -236,8 +237,8 @@ describe('toGameRows', () => {
         const rows = toGameRows(premier, 'premier-2026', 1);
         const played = rows.filter((row) => row.status === 'final');
         expect(played.length).toBeGreaterThan(0);
-        expect(played.every((row) => row.home_playhq_id !== null)).toBe(true);
-        expect(played.every((row) => row.away_playhq_id !== null)).toBe(true);
+        expect(played.every((row) => row.home_playhq_id !== null)).toBeTruthy();
+        expect(played.every((row) => row.away_playhq_id !== null)).toBeTruthy();
     });
 
     it('never emits two rows with the same playhq id', () => {
@@ -291,9 +292,9 @@ describe('toGameRows', () => {
 
     it('names a finals game by its alias rather than the round', () => {
         const rows = toGameRows(premier, 'premier-2026', 1);
-        expect(rows.some((row) => row.round_name === 'Preliminary Final')).toBe(
-            true,
-        );
+        expect(
+            rows.some((row) => row.round_name === 'Preliminary Final'),
+        ).toBeTruthy();
     });
 
     it('synthesises a one-sided row for each bye team', () => {
@@ -305,9 +306,9 @@ describe('toGameRows', () => {
         const expected = reserves.flatMap((round) => round.byes);
         expect(byes).toHaveLength(expected.length);
         expect(byes.length).toBeGreaterThan(0);
-        expect(byes.every((row) => row.away_playhq_id === null)).toBe(true);
-        expect(byes.every((row) => row.home_playhq_id !== null)).toBe(true);
-        expect(byes.every((row) => row.home_score === null)).toBe(true);
+        expect(byes.every((row) => row.away_playhq_id === null)).toBeTruthy();
+        expect(byes.every((row) => row.home_playhq_id !== null)).toBeTruthy();
+        expect(byes.every((row) => row.home_score === null)).toBeTruthy();
     });
 
     it('finds the forfeit in the junior 8 capture and attributes the side', () => {
@@ -332,7 +333,7 @@ describe('toGameRows', () => {
         const rows = toGameRows(premier, 'premier-2026', 1);
         const scheduled = rows.filter((row) => row.status === 'scheduled');
         expect(scheduled).toHaveLength(4);
-        expect(scheduled.every((row) => row.home_score === null)).toBe(true);
+        expect(scheduled.every((row) => row.home_score === null)).toBeTruthy();
     });
 
     it('leaves an unqualified finals side null rather than inventing a team', () => {

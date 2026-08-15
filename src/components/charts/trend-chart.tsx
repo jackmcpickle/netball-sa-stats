@@ -1,20 +1,10 @@
-import {
-    useMemo,
-    type JSX,
-    type PointerEvent as ReactPointerEvent,
-    type RefObject,
-} from 'react';
+import { useMemo } from 'react';
+import type { JSX, PointerEvent as ReactPointerEvent, RefObject } from 'react';
 import { accentText } from '@/components/accent';
 import { ChartFrame } from '@/components/charts/chart-frame';
 import type { ChartHit } from '@/components/charts/nearest-hit';
-import {
-    bandX,
-    barHeight,
-    linePath,
-    round,
-    type LinePoint,
-    type Plot,
-} from '@/components/charts/scale';
+import { bandX, barHeight, linePath, round } from '@/components/charts/scale';
+import type { LinePoint, Plot } from '@/components/charts/scale';
 import { gapLabel, timelineSlots } from '@/components/charts/timeline-slots';
 import { useChartInteraction } from '@/components/charts/use-chart-interaction';
 import { NO_VALUE } from '@/components/format';
@@ -44,13 +34,19 @@ export function strengthPath(
         const brokenCalendar =
             previous !== undefined && point.year - previous.year > 1;
         if (point.strength === null || brokenCalendar) {
-            if (current.length > 0) segments.push(current);
+            if (current.length > 0) {
+                segments.push(current);
+            }
             current = [];
-            if (point.strength === null) continue;
+            if (point.strength === null) {
+                continue;
+            }
         }
         current.push(point);
     }
-    if (current.length > 0) segments.push(current);
+    if (current.length > 0) {
+        segments.push(current);
+    }
     return segments;
 }
 
@@ -74,7 +70,9 @@ export function describeTrendSlot(
     point: ClubTrendPoint | undefined,
     year: number,
 ): string {
-    if (!point) return `${String(year)}: ${NO_VALUE}`;
+    if (!point) {
+        return `${String(year)}: ${NO_VALUE}`;
+    }
     if (point.strength === null) {
         const cause =
             point.teams === 0 ? 'no teams fielded' : 'no measurable finish';
@@ -83,12 +81,12 @@ export function describeTrendSlot(
     return `${String(point.year)}: strength ${formatStrength(point.strength)} from ${String(point.teams)} ${point.teams === 1 ? 'team' : 'teams'}.`;
 }
 
-interface TrendChartProps {
+type TrendChartProps = {
     readonly points: readonly ClubTrendPoint[];
     /** Names the series for assistive tech, e.g. "Matrics, all grades". */
     readonly title: string;
     readonly accent: AccentName;
-}
+};
 
 function buildHits(
     points: readonly ClubTrendPoint[],
@@ -97,9 +95,13 @@ function buildHits(
 ): ChartHit[] {
     const hits: ChartHit[] = [];
     for (const point of points) {
-        if (point.strength === null) continue;
+        if (point.strength === null) {
+            continue;
+        }
         const index = years.indexOf(point.year);
-        if (index < 0) continue;
+        if (index === -1) {
+            continue;
+        }
         hits.push({
             id: `trend-${String(point.year)}`,
             label: title,
@@ -138,10 +140,14 @@ function strengthGrid(): JSX.Element[] {
 
 function trendGaps(years: readonly number[]): JSX.Element[] {
     return timelineSlots(years).flatMap((slot, slotIndex, slots) => {
-        if (slot.kind !== 'gap') return [];
+        if (slot.kind !== 'gap') {
+            return [];
+        }
         const prev = slots[slotIndex - 1];
         const next = slots[slotIndex + 1];
-        if (prev?.kind !== 'year' || next?.kind !== 'year') return [];
+        if (prev?.kind !== 'year' || next?.kind !== 'year') {
+            return [];
+        }
         const x =
             (bandX(years.indexOf(prev.year), years.length, PLOT) +
                 bandX(years.indexOf(next.year), years.length, PLOT)) /
@@ -224,7 +230,9 @@ function strengthSeries(
         <g className={accentText(accent)}>
             {segments.map((segment) => {
                 const first = segment[0];
-                if (!first) return null;
+                if (!first) {
+                    return null;
+                }
                 const linePoints: LinePoint[] = segment.map(
                     (point): LinePoint => ({
                         x: bandX(years.indexOf(point.year), years.length, PLOT),
@@ -276,7 +284,7 @@ function strengthSeries(
     );
 }
 
-interface TrendSvgProps {
+type TrendSvgProps = {
     readonly points: readonly ClubTrendPoint[];
     readonly years: readonly number[];
     readonly title: string;
@@ -288,7 +296,7 @@ interface TrendSvgProps {
     readonly svgRef: RefObject<SVGSVGElement | null>;
     readonly onPointerMove: (event: ReactPointerEvent<SVGSVGElement>) => void;
     readonly onPointerLeave: () => void;
-}
+};
 
 function renderTrendSvg({
     points,

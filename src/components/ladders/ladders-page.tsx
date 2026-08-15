@@ -5,7 +5,8 @@ import { accentText } from '@/components/accent';
 import { formatNumber, formatPercent } from '@/components/format';
 import { SeasonSelector } from '@/components/ladders/season-selector';
 import { ClubLink } from '@/components/links';
-import { DataTable, type DataTableColumn } from '@/components/ui/data-table';
+import { DataTable } from '@/components/ui/data-table';
+import type { DataTableColumn } from '@/components/ui/data-table';
 import { Eyebrow, PageShell, PageTitle, Panel } from '@/components/ui/layout';
 import { NoteMarker } from '@/components/ui/note-marker';
 import { SearchableSelect } from '@/components/ui/searchable-select';
@@ -219,9 +220,9 @@ export function LaddersPage(): JSX.Element {
 
     return (
         <PageShell className="py-12 pb-24 sm:py-16">
-            <Eyebrow>{'LADDERS'}</Eyebrow>
+            <Eyebrow>LADDERS</Eyebrow>
             <div className="mt-4 mb-6">
-                <PageTitle>{'Where every team finished'}</PageTitle>
+                <PageTitle>Where every team finished</PageTitle>
             </div>
 
             <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:flex-wrap">
@@ -258,9 +259,9 @@ export function LaddersPage(): JSX.Element {
                         highlightRow={highlightRow}
                     />
                     <p className="mt-4 max-w-[64ch] text-[13px] text-ink-muted">
-                        {
-                            'Positions are regular-season ladder finishes, not finals results. Two points for a win, one for a draw; teams level on points are separated by goal percentage.'
-                        }
+                        Positions are regular-season ladder finishes, not finals
+                        results. Two points for a win, one for a draw; teams
+                        level on points are separated by goal percentage.
                     </p>
                 </>
             ) : (

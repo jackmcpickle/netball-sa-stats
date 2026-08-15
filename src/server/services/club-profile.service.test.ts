@@ -102,8 +102,8 @@ describe('club profile service', () => {
             clubKey: 'nobody',
         });
 
-        expect(result.ok).toBe(false);
-        expect(!result.ok && result.error).toEqual({
+        expect(result.ok).toBeFalsy();
+        expect(!result.ok && result.error).toStrictEqual({
             kind: 'not-found',
             entity: 'club',
             key: 'nobody',
@@ -132,11 +132,11 @@ describe('club profile service', () => {
         // No won/lost/drawn counts were seeded, so there is no record to
         // compute a win percentage from — null, not 0%.
         expect(result.profile.winPercentage).toBeNull();
-        expect(result.profile.results.length).toBe(2);
+        expect(result.profile.results).toHaveLength(2);
         expect(result.profile.totalRows).toBe(2);
         expect(result.profile.tableState.page).toBe(1);
         // clubs is every club in the db, not just the profiled one.
-        expect(result.clubs.map((club) => club.key).sort()).toEqual([
+        expect(result.clubs.map((club) => club.key).sort()).toStrictEqual([
             'ajax',
             'contax',
             'garville',
@@ -201,16 +201,16 @@ describe('club profile service', () => {
             }),
         );
 
-        const totalRows = result.profile.totalRows;
+        const { totalRows } = result.profile;
         expect(totalRows).toBe(extraSeasonCount);
-        const pageSize = result.profile.tableState.pageSize;
+        const { pageSize } = result.profile.tableState;
         const expectedPageCount = Math.ceil(totalRows / pageSize);
         const expectedLastPageRows =
             totalRows - (expectedPageCount - 1) * pageSize;
 
         expect(result.profile.tableState.page).toBe(expectedPageCount);
         expect(result.profile.tableState.page).not.toBe(999);
-        expect(result.profile.results.length).toBe(expectedLastPageRows);
+        expect(result.profile.results).toHaveLength(expectedLastPageRows);
     });
 });
 
@@ -226,7 +226,7 @@ describe('clubs.getProfilePage top opponents', () => {
                 clubKey: 'contax',
             }),
         );
-        expect(result.topOpponents).toEqual([]);
+        expect(result.topOpponents).toStrictEqual([]);
     });
 
     it('ranks opponents by games played, most first', async () => {
@@ -245,7 +245,7 @@ describe('clubs.getProfilePage top opponents', () => {
         );
         expect(
             result.topOpponents.map((entry) => [entry.club.key, entry.played]),
-        ).toEqual([
+        ).toStrictEqual([
             ['garville', 2],
             ['ajax', 1],
         ]);
@@ -263,6 +263,6 @@ describe('clubs.getProfilePage top opponents', () => {
                 clubKey: 'contax',
             }),
         );
-        expect(result.topOpponents).toEqual([]);
+        expect(result.topOpponents).toStrictEqual([]);
     });
 });

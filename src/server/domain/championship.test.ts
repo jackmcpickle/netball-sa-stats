@@ -33,7 +33,7 @@ describe('Championship.sorted', () => {
         const sorted = result.value.sorted(
             TableQuery.from({ sort: 'points', dir: 'desc' }, spec),
         );
-        expect(sorted.rows.map((row) => row.rank)).toEqual([1, 2, 3]);
+        expect(sorted.rows.map((row) => row.rank)).toStrictEqual([1, 2, 3]);
     });
 
     it('sorts by club name ascending', () => {
@@ -81,7 +81,7 @@ describe('Championship.previousYear', () => {
 describe('Championship.fromHistory', () => {
     it('reports not-found for a year with no season', () => {
         const result = Championship.fromHistory(historyOf(2024, []), 1999);
-        expect(result).toEqual({
+        expect(result).toStrictEqual({
             ok: false,
             error: { kind: 'not-found', entity: 'season', key: '1999' },
         });

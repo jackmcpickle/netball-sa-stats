@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { offsetFor, pageCount } from '@/db/queries/pagination';
 
-describe('offsetFor', () => {
+describe(offsetFor, () => {
     it('is zero on the first page', () => {
         expect(
             offsetFor({ sort: 'year', desc: true, page: 1, pageSize: 50 }),
@@ -15,7 +15,7 @@ describe('offsetFor', () => {
     });
 });
 
-describe('pageCount', () => {
+describe(pageCount, () => {
     it('rounds up a partial final page', () => {
         expect(pageCount(101, 50)).toBe(3);
     });

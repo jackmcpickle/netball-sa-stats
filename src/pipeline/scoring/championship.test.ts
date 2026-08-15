@@ -23,7 +23,7 @@ function row(overrides: Partial<ScoringRow> = {}): ScoringRow {
     };
 }
 
-describe('teamPoints', () => {
+describe(teamPoints, () => {
     it('rewards a deeper grade at the same finish', () => {
         const wide = teamPoints(row({ teamCount: 12, ladderPosition: 1 }));
         const narrow = teamPoints(row({ teamCount: 6, ladderPosition: 1 }));
@@ -47,7 +47,7 @@ describe('teamPoints', () => {
     });
 });
 
-describe('rankClubs', () => {
+describe(rankClubs, () => {
     it('ranks on weighted points, best first', () => {
         const totals = rankClubs([
             row({ clubKey: 'a', teamCount: 10, ladderPosition: 1, weight: 1 }),
@@ -136,7 +136,7 @@ describe('rankClubs', () => {
     });
 });
 
-describe('rankSeasons', () => {
+describe(rankSeasons, () => {
     const rows: readonly ScoringRow[] = [
         row({ clubKey: 'a', year: 2024, ladderPosition: 1 }),
         row({ clubKey: 'b', year: 2024, ladderPosition: 6 }),
@@ -168,7 +168,7 @@ describe('rankSeasons', () => {
     });
 });
 
-describe('winRate', () => {
+describe(winRate, () => {
     it('is null without a record, even when games is zero', () => {
         expect(winRate(0, 0, false)).toBeNull();
         expect(winRate(0, 0, true)).toBeNull();

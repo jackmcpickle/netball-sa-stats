@@ -22,7 +22,7 @@ export async function createMigratedDb(): Promise<DatabaseSync> {
         .sort((a, b) => a.localeCompare(b));
     for (const file of files) {
         // eslint-disable-next-line no-await-in-loop -- migrations must apply in order.
-        const sql = await readFile(resolve(dir, file), 'utf8');
+        const sql = await readFile(resolve(dir, file), 'utf-8');
         db.exec(sql.replaceAll('--> statement-breakpoint', ''));
     }
     return db;

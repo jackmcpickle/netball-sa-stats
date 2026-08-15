@@ -16,21 +16,20 @@ export function ErrorPage(): JSX.Element {
             <main className="flex flex-1 items-center">
                 <PageShell className="py-24 text-center">
                     <p className="label-mono text-ink-muted">
-                        {'SOMETHING WENT WRONG'}
+                        SOMETHING WENT WRONG
                     </p>
                     <h1 className="mt-5 text-3xl font-medium tracking-tight text-pretty text-ink sm:text-title">
-                        {'This page could not be loaded'}
+                        This page could not be loaded
                     </h1>
                     <p className="mx-auto mt-4 max-w-[52ch] leading-relaxed text-ink-body">
-                        {
-                            "That's on us, not you — the data behind this page didn't come back as expected. Try again in a moment."
-                        }
+                        That's on us, not you — the data behind this page didn't
+                        come back as expected. Try again in a moment.
                     </p>
                     <Link
                         to="/"
                         className="mt-8 inline-block rounded-full border border-rule px-5 py-2.5 text-sm font-semibold text-ink no-underline hover:bg-paper-raised"
                     >
-                        {'Back to the championship'}
+                        Back to the championship
                     </Link>
                 </PageShell>
             </main>

@@ -20,16 +20,21 @@ export function formatWld(record: {
  */
 export function meetingNote(meeting: Meeting): string | null {
     switch (meeting.status) {
-        case 'forfeit':
+        case 'forfeit': {
             return 'Forfeit. PlayHQ records a nominal 0–20 scoreline, so these goals are excluded from totals.';
-        case 'no_result':
+        }
+        case 'no_result': {
             return 'No result recorded.';
-        case 'scheduled':
+        }
+        case 'scheduled': {
             return 'Not yet played.';
+        }
         case 'bye':
-        case 'final':
+        case 'final': {
             return null;
-        default:
+        }
+        default: {
             return null;
+        }
     }
 }

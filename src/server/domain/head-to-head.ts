@@ -28,13 +28,13 @@ import type {
 import type { ClubKey } from '@/server/dto/shared.dto';
 
 /** One meeting rotated so the "for" side is always club A. */
-interface Sided {
+type Sided = {
     readonly fact: GameFact;
     readonly teamA: string | null;
     readonly teamB: string | null;
     readonly scoreA: number | null;
     readonly scoreB: number | null;
-}
+};
 
 const RESULT_STATUSES = new Set(['final', 'forfeit']);
 
@@ -103,14 +103,14 @@ function byRecency(left: Meeting, right: Meeting): number {
     return (right.round ?? 0) - (left.round ?? 0);
 }
 
-interface Tally {
+type Tally = {
     played: number;
     won: number;
     drawn: number;
     lost: number;
     goalsFor: number;
     goalsAgainst: number;
-}
+};
 
 function emptyTally(): Tally {
     return {
@@ -217,11 +217,11 @@ export function buildHeadToHead(
     };
 }
 
-export interface OpponentCount {
+export type OpponentCount = {
     readonly clubKey: ClubKey;
     readonly name: string;
     readonly played: number;
-}
+};
 
 /**
  * Most-played opponents first. The name tiebreaker is not cosmetic: without

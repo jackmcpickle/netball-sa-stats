@@ -25,7 +25,7 @@ function manifestPath(cachePath: string): string {
 
 async function readManifest(cachePath: string): Promise<Manifest> {
     try {
-        const text = await readFile(manifestPath(cachePath), 'utf8');
+        const text = await readFile(manifestPath(cachePath), 'utf-8');
         const parsed: unknown = JSON.parse(text);
         return typeof parsed === 'object' && parsed !== null
             ? (parsed as Manifest)
@@ -52,7 +52,7 @@ async function writeManifest(
     await writeFile(
         manifestPath(cachePath),
         `${JSON.stringify(sorted, null, 4)}\n`,
-        'utf8',
+        'utf-8',
     );
 }
 

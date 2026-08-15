@@ -22,7 +22,7 @@ function fact(overrides: Partial<GameFact>): GameFact {
     };
 }
 
-describe('marginFor', () => {
+describe(marginFor, () => {
     it('is the absolute score difference for a played game', () => {
         expect(
             marginFor({ homeScore: 50, awayScore: 32, status: 'final' }),
@@ -55,7 +55,7 @@ describe('marginFor', () => {
     });
 });
 
-describe('toResultRows', () => {
+describe(toResultRows, () => {
     it('carries the margin and both club keys onto the row', () => {
         const [result] = toResultRows([fact({})]);
         expect(result.margin).toBe(18);
@@ -71,7 +71,7 @@ describe('toResultRows', () => {
             fact({ status: 'bye', awayClubKey: null, awayTeamName: null }),
             fact({ awayClubKey: 'a', awayTeamName: 'A 2' }),
         ]);
-        expect(rows.map((entry) => entry.canCompare)).toEqual([
+        expect(rows.map((entry) => entry.canCompare)).toStrictEqual([
             true,
             false,
             false,
@@ -82,7 +82,7 @@ describe('toResultRows', () => {
         const [result] = toResultRows([
             fact({ isFinals: true, round: 99, roundName: 'Grand Final' }),
         ]);
-        expect(result.isFinals).toBe(true);
+        expect(result.isFinals).toBeTruthy();
         expect(result.roundName).toBe('Grand Final');
     });
 });

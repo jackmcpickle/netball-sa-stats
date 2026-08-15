@@ -8,19 +8,10 @@
  * grade, and joining team→grade would misattribute roughly 8% of games (see
  * `docs/playhq-api.md` §6).
  */
-import {
-    and,
-    asc,
-    count,
-    desc,
-    eq,
-    inArray,
-    ne,
-    or,
-    type SQL,
-    sql,
-} from 'drizzle-orm';
-import { alias, type SQLiteColumn } from 'drizzle-orm/sqlite-core';
+import { and, asc, count, desc, eq, inArray, ne, or, sql } from 'drizzle-orm';
+import type { SQL } from 'drizzle-orm';
+import { alias } from 'drizzle-orm/sqlite-core';
+import type { SQLiteColumn } from 'drizzle-orm/sqlite-core';
 import type { Db } from '@/db';
 import { clubs, games, grades, seasons, teams } from '@/db/schema';
 import type { OpponentCount } from '@/server/domain/head-to-head';
@@ -160,7 +151,7 @@ export async function fetchGameFactsForPair(
     if (clubA === clubB) {
         return [];
     }
-    return fetchFacts(
+    return await fetchFacts(
         db,
         or(
             and(eq(homeClubs.clubKey, clubA), eq(awayClubs.clubKey, clubB)),
@@ -187,7 +178,7 @@ export async function fetchGamePageForGrade(
     gradeKey: string,
     request: PageRequest,
 ): Promise<readonly GameFact[]> {
-    return fetchFacts(db, eq(grades.gradeKey, gradeKey), request);
+    return await fetchFacts(db, eq(grades.gradeKey, gradeKey), request);
 }
 
 /**
@@ -252,21 +243,21 @@ export function createGamesRepo(db: Db): {
             clubA: string,
             clubB: string,
         ): Promise<readonly GameFact[]> {
-            return fetchGameFactsForPair(db, clubA, clubB);
+            return await fetchGameFactsForPair(db, clubA, clubB);
         },
         async countForGrade(gradeKey: string): Promise<number> {
-            return countGamesForGrade(db, gradeKey);
+            return await countGamesForGrade(db, gradeKey);
         },
         async pageForGrade(
             gradeKey: string,
             request: PageRequest,
         ): Promise<readonly GameFact[]> {
-            return fetchGamePageForGrade(db, gradeKey, request);
+            return await fetchGamePageForGrade(db, gradeKey, request);
         },
         async opponentCounts(
             clubKey: string,
         ): Promise<readonly OpponentCount[]> {
-            return fetchOpponentCounts(db, clubKey);
+            return await fetchOpponentCounts(db, clubKey);
         },
     };
 }

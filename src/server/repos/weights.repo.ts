@@ -45,7 +45,7 @@ export function createWeightsRepo(db: Db): {
 } {
     return {
         async all(): Promise<readonly GradeWeightRow[]> {
-            return fetchGradeWeights(db);
+            return await fetchGradeWeights(db);
         },
     };
 }

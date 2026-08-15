@@ -7,14 +7,18 @@
 export type CsvValue = string | number | null;
 
 export function cell(value: CsvValue): string {
-    if (value === null) return '';
+    if (value === null) {
+        return '';
+    }
     const text = String(value);
     return /["\n,]/u.test(text) ? `"${text.replaceAll('"', '""')}"` : text;
 }
 
 export function toCsv(rows: readonly Record<string, CsvValue>[]): string {
     const [first] = rows;
-    if (first === undefined) return '';
+    if (first === undefined) {
+        return '';
+    }
     const headers = Object.keys(first);
     const lines = rows.map((row) =>
         headers.map((header) => cell(row[header] ?? null)).join(','),
@@ -25,7 +29,9 @@ export function toCsv(rows: readonly Record<string, CsvValue>[]): string {
 /** Minimal RFC4180 parser (quoted fields, embedded commas/newlines/quotes). */
 export function parseCsv(text: string): Record<string, string>[] {
     const trimmed = text.trim();
-    if (trimmed === '') return [];
+    if (trimmed === '') {
+        return [];
+    }
 
     const rows: string[][] = [];
     let row: string[] = [];
@@ -65,7 +71,9 @@ export function parseCsv(text: string): Record<string, string>[] {
             rows.push(row);
             row = [];
             field = '';
-            if (char === '\r' && trimmed[i + 1] === '\n') i += 1;
+            if (char === '\r' && trimmed[i + 1] === '\n') {
+                i += 1;
+            }
             i += 1;
             continue;
         }
@@ -76,7 +84,9 @@ export function parseCsv(text: string): Record<string, string>[] {
     rows.push(row);
 
     const [header, ...body] = rows;
-    if (header === undefined) return [];
+    if (header === undefined) {
+        return [];
+    }
     return body.map((cells) =>
         Object.fromEntries(
             header.map((key, index) => [key, cells[index] ?? '']),

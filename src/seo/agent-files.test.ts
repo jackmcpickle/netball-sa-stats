@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { llmsFullTxt, llmsTxt, robotsTxt, sitemapXml } from '@/seo/agent-files';
 import { buildSitemapEntries } from '@/seo/sitemap';
 
-describe('robotsTxt', () => {
+describe(robotsTxt, () => {
     const body = robotsTxt();
 
     it.each([
@@ -31,21 +31,21 @@ describe('robotsTxt', () => {
     });
 });
 
-describe('sitemapXml', () => {
+describe(sitemapXml, () => {
     it('emits absolute loc entries for pages and clubs', () => {
         const xml = sitemapXml(
             buildSitemapEntries(['contax', 'garville']),
             '2026-08-15',
         );
-        expect(xml.startsWith('<?xml version="1.0" encoding="UTF-8"?>')).toBe(
-            true,
-        );
+        expect(
+            xml.startsWith('<?xml version="1.0" encoding="UTF-8"?>'),
+        ).toBeTruthy();
         expect(xml).toContain('<loc>https://netballsa.com/</loc>');
         expect(xml).toContain('<loc>https://netballsa.com/method</loc>');
         expect(xml).toContain('<loc>https://netballsa.com/about</loc>');
         expect(xml).toContain('<loc>https://netballsa.com/clubs/contax</loc>');
         expect(xml).toContain('<lastmod>2026-08-15</lastmod>');
-        expect(xml.trimEnd().endsWith('</urlset>')).toBe(true);
+        expect(xml.trimEnd().endsWith('</urlset>')).toBeTruthy();
     });
 
     it('never emits a relative loc', () => {
@@ -54,7 +54,7 @@ describe('sitemapXml', () => {
     });
 });
 
-describe('llmsTxt', () => {
+describe(llmsTxt, () => {
     const body = llmsTxt({
         rankedYears: [2000, 2024, 2025],
         competitions: ['AMND', 'Netball SA Premier League'],
@@ -63,7 +63,7 @@ describe('llmsTxt', () => {
     });
 
     it('follows the llmstxt.org shape', () => {
-        expect(body.startsWith('# Netball Open Data')).toBe(true);
+        expect(body.startsWith('# Netball Open Data')).toBeTruthy();
         expect(body).toMatch(/\n> /u);
         expect(body).toContain('## Pages');
         expect(body).toContain('## Optional');
@@ -90,7 +90,7 @@ describe('llmsTxt', () => {
     });
 });
 
-describe('llmsFullTxt', () => {
+describe(llmsFullTxt, () => {
     it('joins documents with a horizontal rule', () => {
         expect(llmsFullTxt(['# A', '# B'])).toBe('# A\n\n---\n\n# B');
     });

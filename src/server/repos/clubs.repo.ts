@@ -8,11 +8,8 @@ import type { SQL } from 'drizzle-orm';
 import type { SQLiteColumn } from 'drizzle-orm/sqlite-core';
 import type { Db } from '@/db';
 import { fetchClubProfile } from '@/db/queries/club-profile';
-import {
-    countResults,
-    fetchResults,
-    type ResultPage,
-} from '@/db/queries/results';
+import { countResults, fetchResults } from '@/db/queries/results';
+import type { ResultPage } from '@/db/queries/results';
 import { clubs, grades, seasons, teamSeasonResults } from '@/db/schema';
 import { toGradeResults } from '@/server/domain/club-history';
 import type { PageRequest } from '@/server/domain/table-query';
@@ -53,13 +50,13 @@ function clubResultPageFor(request: PageRequest): ResultPage {
     };
 }
 
-export interface ClubRow {
+export type ClubRow = {
     readonly id: number;
     readonly clubKey: string;
     readonly name: string;
     readonly establishedYear: number | null;
     readonly homeVenue: string | null;
-}
+};
 
 export function toClub(row: ClubRow): Club {
     return {
@@ -96,13 +93,13 @@ export function createClubsRepo(db: Db): {
 } {
     return {
         async all(): Promise<readonly Club[]> {
-            return fetchClubs(db);
+            return await fetchClubs(db);
         },
         async profile(clubKey: string): Promise<ClubProfile | null> {
-            return fetchClubProfile(db, clubKey);
+            return await fetchClubProfile(db, clubKey);
         },
         async countResults(clubKey: string): Promise<number> {
-            return countResults(db, { clubKey });
+            return await countResults(db, { clubKey });
         },
         async resultsPage(
             clubKey: string,

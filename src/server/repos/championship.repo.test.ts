@@ -77,7 +77,7 @@ function baseSpec(): SeedSpec {
     };
 }
 
-describe('createChampionshipRepo', () => {
+describe(createChampionshipRepo, () => {
     it('history() ranks only final seasons, oldest first', async () => {
         const db = createTestDb();
         await seed(db, baseSpec());
@@ -87,7 +87,7 @@ describe('createChampionshipRepo', () => {
         // The 2025 season is not final, so only 2024 is ranked.
         expect(history).toHaveLength(1);
         expect(history[0]?.year).toBe(2024);
-        expect(history[0]?.rows.map((row) => row.club.key)).toEqual([
+        expect(history[0]?.rows.map((row) => row.club.key)).toStrictEqual([
             'contax',
             'garville',
         ]);
@@ -113,7 +113,7 @@ describe('createChampionshipRepo', () => {
 
         // Only one ranked season exists, so there is nothing to compare
         // coverage against.
-        expect(history[0]?.coverageChanged).toBe(false);
+        expect(history[0]?.coverageChanged).toBeFalsy();
     });
 
     it('history() over an empty database returns no seasons', async () => {
@@ -121,6 +121,6 @@ describe('createChampionshipRepo', () => {
 
         const history = await createChampionshipRepo(db).history();
 
-        expect(history).toEqual([]);
+        expect(history).toStrictEqual([]);
     });
 });

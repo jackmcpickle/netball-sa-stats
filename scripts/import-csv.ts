@@ -11,10 +11,8 @@
  * `competitions` or `grade_weights`, only verifies they're present.
  */
 import { resolve } from 'node:path';
-import {
-    createWranglerExecutor,
-    type WranglerTarget,
-} from '../src/pipeline/import/executors.ts';
+import { createWranglerExecutor } from '../src/pipeline/import/executors.ts';
+import type { WranglerTarget } from '../src/pipeline/import/executors.ts';
 import { runImport } from '../src/pipeline/import/run.ts';
 import { ImportValidationError } from '../src/pipeline/import/types.ts';
 

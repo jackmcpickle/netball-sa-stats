@@ -231,8 +231,8 @@ describe('ladders service', () => {
         const result = unwrap(await createServices(db).ladders.getPage({}));
 
         expect(result.year).toBeNull();
-        expect(result.years).toEqual([]);
-        expect(result.grades).toEqual([]);
+        expect(result.years).toStrictEqual([]);
+        expect(result.grades).toStrictEqual([]);
         expect(result.ladder).toBeNull();
     });
 });

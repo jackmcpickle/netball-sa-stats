@@ -47,11 +47,11 @@ const loadHeadToHead = createServerFn({ method: 'GET' })
             pageSize: z.number().int().optional(),
         }),
     )
-    .handler(async ({ data }) => {
-        return resolvePageResult(
+    .handler(async ({ data }) =>
+        resolvePageResult(
             await createServices(getDb()).headToHead.getPage(data),
-        );
-    });
+        ),
+    );
 
 const DESCRIPTION =
     'Head-to-head records between South Australian netball clubs: every meeting since 2025, by grade band, with wins, losses and margins for both sides.';
@@ -77,6 +77,6 @@ export const Route = createFileRoute('/head-to-head')({
         includePast: search.includePast,
         ...tableSearchDeps(search),
     }),
-    loader: async ({ deps }) => loadHeadToHead({ data: deps }),
+    loader: async ({ deps }) => await loadHeadToHead({ data: deps }),
     component: HeadToHeadPage,
 });

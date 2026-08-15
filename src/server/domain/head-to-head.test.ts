@@ -22,10 +22,10 @@ function fact(overrides: Partial<GameFact>): GameFact {
     };
 }
 
-describe('buildHeadToHead', () => {
+describe(buildHeadToHead, () => {
     it('counts a home win for club A', () => {
         const h2h = buildHeadToHead([fact({})], 'a', 'b', 'all');
-        expect(h2h.record).toEqual({
+        expect(h2h.record).toStrictEqual({
             played: 1,
             won: 1,
             drawn: 0,
@@ -125,9 +125,9 @@ describe('buildHeadToHead', () => {
     it('returns an empty record when the clubs have never met', () => {
         const h2h = buildHeadToHead([], 'a', 'b', 'all');
         expect(h2h.record.played).toBe(0);
-        expect(h2h.meetings).toEqual([]);
-        expect(h2h.bySeason).toEqual([]);
-        expect(h2h.byBand).toEqual([]);
+        expect(h2h.meetings).toStrictEqual([]);
+        expect(h2h.bySeason).toStrictEqual([]);
+        expect(h2h.byBand).toStrictEqual([]);
     });
 
     it('ignores games involving neither club', () => {
@@ -159,7 +159,7 @@ describe('buildHeadToHead', () => {
             'all',
         );
         expect(h2h.record.played).toBe(0);
-        expect(h2h.meetings).toEqual([]);
+        expect(h2h.meetings).toStrictEqual([]);
     });
 
     it('filters to a single band without disturbing other bands', () => {
@@ -185,7 +185,7 @@ describe('buildHeadToHead', () => {
             'b',
             'all',
         );
-        expect(h2h.byBand.map((band) => band.tier)).toEqual([1, 4]);
+        expect(h2h.byBand.map((band) => band.tier)).toStrictEqual([1, 4]);
         expect(h2h.byBand[0].played).toBe(1);
     });
 
@@ -196,7 +196,7 @@ describe('buildHeadToHead', () => {
             'b',
             'all',
         );
-        expect(h2h.bySeason.map((s) => s.year)).toEqual([2024, 2026]);
+        expect(h2h.bySeason.map((s) => s.year)).toStrictEqual([2024, 2026]);
         expect(h2h.meetings[0].year).toBe(2026);
     });
 
@@ -207,7 +207,7 @@ describe('buildHeadToHead', () => {
             'b',
             'all',
         );
-        expect(h2h.meetings.map((m) => m.round)).toEqual([12, 7, 3]);
+        expect(h2h.meetings.map((m) => m.round)).toStrictEqual([12, 7, 3]);
     });
 
     it('carries the season goal differential from A perspective', () => {
@@ -228,7 +228,7 @@ describe('buildHeadToHead', () => {
             'all',
         );
         expect(h2h.record.played).toBe(0);
-        expect(h2h.meetings).toEqual([]);
+        expect(h2h.meetings).toStrictEqual([]);
     });
 
     it('omits goals for a game with no recorded score', () => {
@@ -249,12 +249,12 @@ describe('buildHeadToHead', () => {
             'b',
             'all',
         );
-        expect(h2h.meetings[0].isFinals).toBe(true);
+        expect(h2h.meetings[0].isFinals).toBeTruthy();
         expect(h2h.meetings[0].roundName).toBe('Grand Final');
     });
 });
 
-describe('topOpponents', () => {
+describe(topOpponents, () => {
     it('orders by games played then name, so ties are stable', () => {
         expect(
             topOpponents([
@@ -262,7 +262,7 @@ describe('topOpponents', () => {
                 { clubKey: 'c', name: 'Charlie', played: 9 },
                 { clubKey: 'a', name: 'Alpha', played: 3 },
             ]),
-        ).toEqual([
+        ).toStrictEqual([
             { clubKey: 'c', name: 'Charlie', played: 9 },
             { clubKey: 'a', name: 'Alpha', played: 3 },
             { clubKey: 'b', name: 'Bravo', played: 3 },
@@ -270,6 +270,6 @@ describe('topOpponents', () => {
     });
 
     it('is empty for a club with no games', () => {
-        expect(topOpponents([])).toEqual([]);
+        expect(topOpponents([])).toStrictEqual([]);
     });
 });

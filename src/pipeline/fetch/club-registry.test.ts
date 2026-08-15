@@ -39,7 +39,7 @@ describe('ClubRegistry curation safety', () => {
 
         const clubs = registry.getClubs();
         expect(clubs).toHaveLength(1);
-        expect(clubs[0]).toEqual(existingClubs[0]);
+        expect(clubs[0]).toStrictEqual(existingClubs[0]);
         // established_year/home_venue/name are curated fields and must
         // survive verbatim, not be overwritten from the new PlayHQ name.
         expect(clubs[0]?.name).toBe('Walkerville Netball Club');
@@ -48,7 +48,7 @@ describe('ClubRegistry curation safety', () => {
         const aliases = registry.getAliases();
         expect(aliases).toHaveLength(2);
         const newAlias = aliases.find((a) => a.alias_text === 'Walkerville NC');
-        expect(newAlias).toEqual({
+        expect(newAlias).toStrictEqual({
             club_key: 'walkerville',
             alias_text: 'Walkerville NC',
             source: 'playhq',
@@ -68,7 +68,7 @@ describe('ClubRegistry curation safety', () => {
         const newClub = registry
             .getClubs()
             .find((c) => c.club_key === 'newtown-netball-club');
-        expect(newClub).toEqual({
+        expect(newClub).toStrictEqual({
             club_key: 'newtown-netball-club',
             name: 'Newtown Netball Club',
             established_year: null,
@@ -122,7 +122,7 @@ describe('ClubRegistry curation safety', () => {
 
         const aliases = registry.getAliases();
         const aliasTexts = aliases.map((a) => a.alias_text);
-        expect(aliasTexts).toEqual([...new Set(aliasTexts)]);
+        expect(aliasTexts).toStrictEqual([...new Set(aliasTexts)]);
         expect(aliases).toHaveLength(1);
         // archive_pdf wins deterministically over playhq for a same-text tie.
         expect(aliases[0]?.source).toBe('archive_pdf');
@@ -152,7 +152,7 @@ describe('ClubRegistry curation safety', () => {
 
         const aliases = registry.getAliases();
         expect(aliases).toHaveLength(1);
-        expect(aliases[0]).toEqual({
+        expect(aliases[0]).toStrictEqual({
             club_key: 'matrics',
             alias_text: 'Matrics',
             source: 'archive_pdf',
@@ -160,7 +160,7 @@ describe('ClubRegistry curation safety', () => {
     });
 });
 
-describe('dedupeAliasesByText', () => {
+describe(dedupeAliasesByText, () => {
     it('is a pure function of the rows, independent of input order', () => {
         const rows: ClubAliasRow[] = [
             { club_key: 'matrics', alias_text: 'Matrics', source: 'playhq' },
@@ -172,10 +172,10 @@ describe('dedupeAliasesByText', () => {
         ];
         const reversed = [...rows].reverse();
 
-        expect(dedupeAliasesByText(rows)).toEqual(
+        expect(dedupeAliasesByText(rows)).toStrictEqual(
             dedupeAliasesByText(reversed),
         );
-        expect(dedupeAliasesByText(rows)).toEqual([
+        expect(dedupeAliasesByText(rows)).toStrictEqual([
             {
                 club_key: 'matrics',
                 alias_text: 'Matrics',
@@ -189,6 +189,6 @@ describe('dedupeAliasesByText', () => {
             { club_key: 'a', alias_text: 'Alpha', source: 'playhq' },
             { club_key: 'b', alias_text: 'Beta', source: 'archive_pdf' },
         ];
-        expect(dedupeAliasesByText(rows)).toEqual(rows);
+        expect(dedupeAliasesByText(rows)).toStrictEqual(rows);
     });
 });

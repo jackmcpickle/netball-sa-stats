@@ -22,11 +22,11 @@ export const CLUB_RESULTS_TABLE_SPEC: TableSpec = {
     defaultDesc: true,
 } as const;
 
-interface Record_ {
+type Record_ = {
     readonly won: number;
     readonly games: number;
     readonly hasRecord: boolean;
-}
+};
 
 function careerRecord(rows: readonly ResultRow[]): Record_ {
     let won = 0;

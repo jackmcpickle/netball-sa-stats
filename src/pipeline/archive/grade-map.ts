@@ -19,12 +19,20 @@ function normaliseGradeHeader(name: string): string {
 }
 
 function letterGradeName(normalised: string): string | null {
-    const grade = normalised.match(/^([A-H]) ?(\d+)?$/u);
-    if (grade === null) return null;
+    const grade = /^([A-H]) ?(\d+)?$/u.exec(normalised);
+    if (grade === null) {
+        return null;
+    }
     const [, letter, division] = grade;
-    if (letter === 'A' && division === '1') return 'AMND League';
-    if (letter === 'A' && division === '2') return 'A. Grade';
-    if (letter === 'H' && division === undefined) return 'H Grade';
+    if (letter === 'A' && division === '1') {
+        return 'AMND League';
+    }
+    if (letter === 'A' && division === '2') {
+        return 'A. Grade';
+    }
+    if (letter === 'H' && division === undefined) {
+        return 'H Grade';
+    }
     return division === undefined ? null : `${letter}. ${division}`;
 }
 
@@ -32,8 +40,12 @@ function namedSeniorGrade(normalised: string): string | null {
     if (normalised === 'AMND LEAGUE' || normalised === 'AMND') {
         return 'AMND League';
     }
-    if (normalised === 'A GRADE') return 'A. Grade';
-    if (normalised === 'H GRADE') return 'H Grade';
+    if (normalised === 'A GRADE') {
+        return 'A. Grade';
+    }
+    if (normalised === 'H GRADE') {
+        return 'H Grade';
+    }
     return null;
 }
 
@@ -46,7 +58,9 @@ function numberedGradeName(normalised: string): string | null {
     ];
     for (const [pattern, prefix] of rules) {
         const match = normalised.match(pattern);
-        if (match?.[1] !== undefined) return `${prefix} ${match[1]}`;
+        if (match?.[1] !== undefined) {
+            return `${prefix} ${match[1]}`;
+        }
     }
     return null;
 }
@@ -62,8 +76,12 @@ function canonicalGradeName(name: string): string {
 }
 
 function ageBandFor(tier: number): string {
-    if (tier === 6) return 'Intermediate';
-    if (tier >= 8) return 'Junior';
+    if (tier === 6) {
+        return 'Intermediate';
+    }
+    if (tier >= 8) {
+        return 'Junior';
+    }
     return 'Senior';
 }
 

@@ -16,13 +16,15 @@ import {
     processGrade,
     resolveCompetitionKey,
     seasonWanted,
-    type CollectOptions,
-    type CollectedPlayHq,
-    type FetchReport,
-    type GradeContext,
-    type GradeRow,
-    type SeasonRow,
-    type TeamRow,
+} from '@/pipeline/fetch/collect';
+import type {
+    CollectOptions,
+    CollectedPlayHq,
+    FetchReport,
+    GradeContext,
+    GradeRow,
+    SeasonRow,
+    TeamRow,
 } from '@/pipeline/fetch/collect';
 import type { GameRow } from '@/pipeline/fetch/games';
 
@@ -57,7 +59,7 @@ async function readExistingCsv<T extends Record<string, string>>(
     fileName: string,
 ): Promise<T[]> {
     try {
-        const text = await readFile(resolve(DATA_DIR, fileName), 'utf8');
+        const text = await readFile(resolve(DATA_DIR, fileName), 'utf-8');
         return parseCsv(text) as T[];
     } catch {
         return [];
@@ -77,12 +79,12 @@ function resultKeyOf(r: Record<string, CsvValue>): string {
     return `${String(r.grade_key)}|${String(r.ladder_position).padStart(4, '0')}`;
 }
 
-export interface ExistingCsvRows {
+export type ExistingCsvRows = {
     readonly seasons: readonly Record<string, string>[];
     readonly grades: readonly Record<string, string>[];
     readonly teams: readonly Record<string, string>[];
     readonly results: readonly Record<string, string>[];
-}
+};
 
 /**
  * The rows a PlayHQ run must carry over untouched.
@@ -106,7 +108,9 @@ export function archiveRowsToKeep(
     fetchedSeasonKeys?: ReadonlySet<string>,
 ): ExistingCsvRows {
     const seasons = existing.seasons.filter((row) => {
-        if (row.source !== 'playhq') return true;
+        if (row.source !== 'playhq') {
+            return true;
+        }
         return (
             fetchedSeasonKeys !== undefined &&
             !fetchedSeasonKeys.has(row.season_key)
@@ -144,7 +148,7 @@ async function writeGamesCsvs(
         await writeFile(
             resolve(DATA_DIR, `games-${String(year)}.csv`),
             toCsv(sorted),
-            'utf8',
+            'utf-8',
         );
         total += sorted.length;
     }
@@ -195,23 +199,23 @@ async function writeCsvs(
         resultKeyOf(a).localeCompare(resultKeyOf(b)),
     );
 
-    await writeFile(resolve(DATA_DIR, 'seasons.csv'), toCsv(seasons), 'utf8');
+    await writeFile(resolve(DATA_DIR, 'seasons.csv'), toCsv(seasons), 'utf-8');
     await writeFile(
         resolve(DATA_DIR, 'clubs.csv'),
         toCsv(clubRegistry.getClubs()),
-        'utf8',
+        'utf-8',
     );
     await writeFile(
         resolve(DATA_DIR, 'club_aliases.csv'),
         toCsv(clubRegistry.getAliases()),
-        'utf8',
+        'utf-8',
     );
-    await writeFile(resolve(DATA_DIR, 'grades.csv'), toCsv(grades), 'utf8');
-    await writeFile(resolve(DATA_DIR, 'teams.csv'), toCsv(teams), 'utf8');
+    await writeFile(resolve(DATA_DIR, 'grades.csv'), toCsv(grades), 'utf-8');
+    await writeFile(resolve(DATA_DIR, 'teams.csv'), toCsv(teams), 'utf-8');
     await writeFile(
         resolve(DATA_DIR, 'team_season_results.csv'),
         toCsv(results),
-        'utf8',
+        'utf-8',
     );
 
     return {

@@ -44,11 +44,11 @@ export function robotsTxt(): string {
     ].join('\n');
 }
 
-export interface SitemapEntry {
+export type SitemapEntry = {
     readonly path: string;
     readonly changefreq: 'daily' | 'weekly' | 'monthly' | 'yearly';
     readonly priority: string;
-}
+};
 
 export function sitemapXml(
     entries: readonly SitemapEntry[],
@@ -73,13 +73,13 @@ export function sitemapXml(
     ].join('\n');
 }
 
-export interface LlmsTxtInput {
+export type LlmsTxtInput = {
     /** Ranked years, ascending. */
     readonly rankedYears: readonly number[];
     readonly competitions: readonly string[];
     readonly clubs: readonly { readonly key: string; readonly name: string }[];
     readonly isSampleData: boolean;
-}
+};
 
 /** The llmstxt.org shape: H1, blockquote summary, then linked H2 sections. */
 export function llmsTxt(input: LlmsTxtInput): string {

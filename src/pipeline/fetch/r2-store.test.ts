@@ -14,7 +14,9 @@ class MemoryR2 {
     } | null> {
         this.getCalls += 1;
         const hit = this.map.get(key);
-        if (!hit) return null;
+        if (!hit) {
+            return null;
+        }
         return {
             json: async () => JSON.parse(hit.body) as unknown,
             customMetadata: { capturedAtMs: hit.capturedAtMs },
@@ -24,7 +26,9 @@ class MemoryR2 {
         key: string,
     ): Promise<{ customMetadata: { capturedAtMs: string } } | null> {
         const hit = this.map.get(key);
-        if (!hit) return null;
+        if (!hit) {
+            return null;
+        }
         return { customMetadata: { capturedAtMs: hit.capturedAtMs } };
     }
 
@@ -48,28 +52,30 @@ function storeOf(bucket: MemoryR2): CaptureStore {
     return createR2Store(bucket as unknown as R2Bucket);
 }
 
-describe('createR2Store', () => {
+describe(createR2Store, () => {
     it('returns undefined for a missing key', async () => {
-        expect(
-            await storeOf(new MemoryR2()).get('gradeLadder_x.json'),
-        ).toBeUndefined();
+        await expect(
+            storeOf(new MemoryR2()).get('gradeLadder_x.json'),
+        ).resolves.toBeUndefined();
     });
 
     it('round-trips put/get and capturedAtMs under raw/', async () => {
         const bucket = new MemoryR2();
         const store = storeOf(bucket);
         await store.put('gradeLadder_x.json', { data: 1 }, 1_700_000_000_000);
-        expect(await store.get('gradeLadder_x.json')).toEqual({ data: 1 });
-        expect(await store.capturedAtMs('gradeLadder_x.json')).toBe(
+        await expect(store.get('gradeLadder_x.json')).resolves.toStrictEqual({
+            data: 1,
+        });
+        await expect(store.capturedAtMs('gradeLadder_x.json')).resolves.toBe(
             1_700_000_000_000,
         );
-        expect(bucket.hasRawKey('gradeLadder_x.json')).toBe(true);
+        expect(bucket.hasRawKey('gradeLadder_x.json')).toBeTruthy();
     });
 
     it('returns undefined capturedAtMs for a missing key', async () => {
-        expect(
-            await storeOf(new MemoryR2()).capturedAtMs('gradeLadder_x.json'),
-        ).toBeUndefined();
+        await expect(
+            storeOf(new MemoryR2()).capturedAtMs('gradeLadder_x.json'),
+        ).resolves.toBeUndefined();
     });
 
     it('reads capturedAtMs from head, without downloading the body', async () => {

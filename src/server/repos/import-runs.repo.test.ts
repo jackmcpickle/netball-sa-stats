@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { createImportRunsRepo } from '@/server/repos/import-runs.repo';
 import { createTestDb } from '@/server/testing/harness';
 
-describe('createImportRunsRepo', () => {
+describe(createImportRunsRepo, () => {
     it('tracks a running import, lists newest first, and clears running on ok', async () => {
         const db = createTestDb();
         const repo = createImportRunsRepo(db);
@@ -29,10 +29,10 @@ describe('createImportRunsRepo', () => {
             games: false,
         });
 
-        expect(await repo.hasRunning()).toBe(true);
+        await expect(repo.hasRunning()).resolves.toBeTruthy();
 
         const listed = await repo.list();
-        expect(listed.map((run) => run.id)).toEqual([runningId, olderId]);
+        expect(listed.map((run) => run.id)).toStrictEqual([runningId, olderId]);
         expect(listed[0]).toMatchObject({
             instanceId: 'current',
             status: 'running',
@@ -55,8 +55,8 @@ describe('createImportRunsRepo', () => {
             warningsJson: '["warn"]',
         });
 
-        expect(await repo.hasRunning()).toBe(false);
-        expect(await repo.list()).toEqual([
+        await expect(repo.hasRunning()).resolves.toBeFalsy();
+        await expect(repo.list()).resolves.toStrictEqual([
             expect.objectContaining({
                 id: runningId,
                 status: 'ok',
@@ -80,7 +80,7 @@ describe('createImportRunsRepo', () => {
             games: true,
         });
 
-        expect(await repo.hasRunning()).toBe(false);
+        await expect(repo.hasRunning()).resolves.toBeFalsy();
         expect((await repo.list())[0]).toMatchObject({
             id: skippedId,
             status: 'skipped',
@@ -95,7 +95,7 @@ describe('createImportRunsRepo', () => {
         });
         await repo.markSkipped(runningId, 201);
 
-        expect(await repo.hasRunning()).toBe(false);
+        await expect(repo.hasRunning()).resolves.toBeFalsy();
         expect(
             (await repo.list()).find((run) => run.id === runningId),
         ).toMatchObject({
@@ -122,12 +122,12 @@ describe('createImportRunsRepo', () => {
         });
 
         const stale = await repo.runningOlderThan(1000);
-        expect(stale.map((run) => run.id)).toEqual([staleId]);
-        expect(await repo.hasRunningSince(1000)).toBe(true);
-        expect(await repo.hasRunningSince(6000)).toBe(false);
+        expect(stale.map((run) => run.id)).toStrictEqual([staleId]);
+        await expect(repo.hasRunningSince(1000)).resolves.toBeTruthy();
+        await expect(repo.hasRunningSince(6000)).resolves.toBeFalsy();
 
         await repo.markError(staleId, 2000, 'boom');
-        expect(await repo.hasRunning()).toBe(true);
+        await expect(repo.hasRunning()).resolves.toBeTruthy();
         expect(
             (await repo.list()).find((run) => run.id === staleId),
         ).toMatchObject({

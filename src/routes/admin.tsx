@@ -37,14 +37,14 @@ export const ensureAdminSession = createServerFn({ method: 'GET' })
 
 export const loadAdmin = createServerFn({ method: 'GET' }).handler(async () => {
     await ensureAdminSession({ data: { next: '/admin' } });
-    return createServices(getDb()).admin.getPage();
+    return await createServices(getDb()).admin.getPage();
 });
 
 export const runImport = createServerFn({ method: 'POST' })
     .validator(z.object({ yearsText: z.string() }))
     .handler(async ({ data }) => {
         await ensureAdminSession({ data: { next: '/admin' } });
-        return createServices(getDb(), {
+        return await createServices(getDb(), {
             startImport: startPlayHqImport,
         }).admin.runImport(data.yearsText);
     });
@@ -63,7 +63,7 @@ export const loginAdmin = createServerFn({ method: 'POST' })
     )
     .handler(async ({ data }) => {
         const { password, sessionSecret } = readAdminSecrets();
-        const next = data.next;
+        const { next } = data;
         if (password.length === 0 || sessionSecret.length === 0) {
             throw redirect({
                 to: '/admin/login',

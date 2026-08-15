@@ -9,7 +9,7 @@ import {
     webSiteSchema,
 } from '@/seo/structured-data';
 
-interface PageHeadInput {
+type PageHeadInput = {
     /** Page title without the site suffix. */
     readonly title: string;
     readonly description: string;
@@ -24,21 +24,21 @@ interface PageHeadInput {
     readonly noIndex?: boolean;
     /** ISO timestamp for the WebPage node, when the page knows one. */
     readonly dateModified?: string;
-}
+};
 
-interface MetaTag {
+type MetaTag = {
     readonly title?: string;
     readonly name?: string;
     readonly property?: string;
     readonly content?: string;
     readonly 'script:ld+json'?: Record<string, unknown>;
-}
+};
 
-interface LinkTag {
+type LinkTag = {
     readonly rel: string;
     readonly href: string;
     readonly type?: string;
-}
+};
 
 export function pageTitle(title: string): string {
     return title === SITE.name

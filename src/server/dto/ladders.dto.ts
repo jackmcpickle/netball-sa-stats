@@ -1,7 +1,7 @@
 import type { TableState } from '@/db/queries/pagination';
 import type { Club, GradeSummary } from '@/server/dto/shared.dto';
 
-export interface LadderRow {
+export type LadderRow = {
     readonly position: number;
     readonly club: Club;
     /** Includes the squad number where a club fields more than one team. */
@@ -16,28 +16,28 @@ export interface LadderRow {
     readonly points: number | null;
     /** Provenance note, e.g. PlayHQ's played count not reconciling with W+D+L. */
     readonly notes: string | null;
-}
+};
 
-export interface LadderDto {
+export type LadderDto = {
     readonly grade: GradeSummary;
     readonly rows: readonly LadderRow[];
     readonly totalRows: number;
     readonly tableState: TableState;
-}
+};
 
-export interface LaddersParams {
+export type LaddersParams = {
     readonly year?: number;
     readonly grade?: string;
     readonly sort?: string;
     readonly dir?: 'asc' | 'desc';
     readonly page?: number;
     readonly pageSize?: number;
-}
+};
 
-export interface LaddersPageDto {
+export type LaddersPageDto = {
     readonly years: readonly number[];
     /** Null only for a genuinely empty dataset — see `Coverage.resolveYear`. */
     readonly year: number | null;
     readonly grades: readonly GradeSummary[];
     readonly ladder: LadderDto | null;
-}
+};
