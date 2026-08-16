@@ -1,6 +1,7 @@
 {
     "$schema": "node_modules/wrangler/config-schema.json",
     "name": "netball-stats",
+    "account_id": "16a04bbc76ee5eccbcc1d6c39bc9a797",
     "workers_dev": true,
     "preview_urls": true,
     "compatibility_date": "2026-08-07",
@@ -30,6 +31,11 @@
             "bucket_name": "netball-stats-playhq-raw",
         },
     ],
+    // 20:00 UTC daily = 05:30/06:30 ACST next morning, after PlayHQ has
+    // settled the previous day's results.
+    "triggers": {
+        "crons": ["0 20 * * *"],
+    },
     "workflows": [
         {
             "name": "playhq-import",
