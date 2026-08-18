@@ -62,6 +62,13 @@ export function SiteFooter(): JSX.Element {
                     >
                         About
                     </Link>
+                    <Link
+                        to="/faq"
+                        className="text-sm text-ink-body no-underline hover:underline"
+                    >
+                        {/* oxlint-disable-next-line react/jsx-curly-brace-presence -- plan: string literals in JSX wrapped in braces */}
+                        {'FAQ'}
+                    </Link>
                     <a
                         href="/llms.txt"
                         className="text-sm text-ink-body no-underline hover:underline"

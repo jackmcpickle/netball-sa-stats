@@ -35,6 +35,7 @@ const PATHS = [
     '/head-to-head',
     '/method',
     '/about',
+    '/faq',
 ];
 
 describe(pageHead, () => {

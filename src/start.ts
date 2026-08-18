@@ -8,8 +8,9 @@
  *    headers, so an agent can discover both without parsing HTML.
  */
 import { createMiddleware, createStart } from '@tanstack/react-start';
-import { isNull } from 'es-toolkit';
+import { isNull, isUndefined } from 'es-toolkit';
 import { getDb } from '@/db';
+import { cacheControlFor } from '@/seo/cache-control';
 import { prefersMarkdown } from '@/seo/markdown/negotiate';
 import { normalisePath, renderMarkdown } from '@/seo/markdown/resolve';
 import { absoluteUrl, markdownPath } from '@/seo/site';
@@ -52,7 +53,8 @@ const markdownTwin = createMiddleware({ type: 'request' }).server(
         const path = normalisePath(url.pathname);
         return new Response(request.method === 'HEAD' ? null : body, {
             headers: {
-                'cache-control': 'public, max-age=300',
+                'cache-control':
+                    cacheControlFor(path, 'markdown') ?? 'public, max-age=300',
                 'content-type': 'text/markdown; charset=utf-8',
                 link: `<${absoluteUrl(path)}>; rel="canonical"`,
             },
@@ -80,8 +82,21 @@ const discoveryLinks = createMiddleware({ type: 'request' }).server(
     },
 );
 
+const pageCache = createMiddleware({ type: 'request' }).server(
+    async ({ request, next }) => {
+        // oxlint-disable-next-line node/callback-return -- TanStack middleware: next() is awaited and its result returned on every path, not a Node errback
+        const result = await next();
+        const path = normalisePath(new URL(request.url).pathname);
+        const control = cacheControlFor(path, 'html');
+        if (!isUndefined(control)) {
+            result.response.headers.set('cache-control', control);
+        }
+        return result;
+    },
+);
+
 export const startInstance = createStart(() => ({
     // `discoveryLinks` sits above `markdownTwin` so its headers land on
     // markdown and HTML responses alike.
-    requestMiddleware: [canonicalHost, discoveryLinks, markdownTwin],
+    requestMiddleware: [canonicalHost, discoveryLinks, pageCache, markdownTwin],
 }));

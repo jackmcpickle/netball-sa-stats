@@ -190,6 +190,11 @@ const PAGE_ROUTES = [
         async (): Promise<{ Route: UncheckedRoute }> =>
             await import('@/routes/about'),
     ],
+    [
+        '/faq',
+        async (): Promise<{ Route: UncheckedRoute }> =>
+            await import('@/routes/faq'),
+    ],
 ] as const;
 
 describe('page routes', () => {
