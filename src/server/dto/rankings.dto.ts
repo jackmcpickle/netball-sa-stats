@@ -20,6 +20,13 @@ export interface ChampionshipRow {
     readonly previousRank: number | null;
 }
 
+/** The rank-1 club on the unsorted championship table. */
+export interface ChampionshipLeader {
+    readonly club: Club;
+    readonly points: number;
+    readonly teams: number;
+}
+
 export interface ChampionshipSeason {
     readonly year: number;
     readonly rows: readonly ChampionshipRow[];
@@ -52,13 +59,14 @@ export interface RankingsParams {
 }
 
 export interface RankingsPageDto {
-    readonly coverage: Coverage;
-    readonly season: ChampionshipSeason;
-    readonly totalRows: number;
-    readonly tableState: TableState;
-    readonly previousYear: number | null;
-    readonly series: readonly ClubRankSeries[];
-    readonly worstRank: number;
     readonly clubCount: number;
+    readonly coverage: Coverage;
     readonly gradeCount: number;
+    readonly leader: ChampionshipLeader | null;
+    readonly previousYear: number | null;
+    readonly season: ChampionshipSeason;
+    readonly series: readonly ClubRankSeries[];
+    readonly tableState: TableState;
+    readonly totalRows: number;
+    readonly worstRank: number;
 }

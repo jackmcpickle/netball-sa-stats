@@ -222,6 +222,23 @@ describe('rankings service', () => {
         expect(result.tableState.sort).toBe('rank');
     });
 
+    it('names the rank-1 club as leader when the table is sorted by name', async () => {
+        const db = createTestDb();
+        await seed(db, baseSpec());
+
+        const result = unwrap(
+            await createServices(db).rankings.getPage({
+                dir: 'asc',
+                season: 2024,
+                sort: 'club',
+            }),
+        );
+
+        expect(result.season.rows[0]?.club.key).toBe('ajax');
+        expect(result.leader?.club.key).toBe('contax');
+        expect(result.leader?.points).toBeGreaterThan(0);
+    });
+
     it('returns no-ranked-seasons for a completely empty database', async () => {
         const db = createTestDb();
 

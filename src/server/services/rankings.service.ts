@@ -3,7 +3,7 @@
  * from repos + the `Championship` domain object, returning a `Result` instead
  * of throwing.
  */
-import { isUndefined } from 'es-toolkit';
+import { isNull, isUndefined } from 'es-toolkit';
 import { CHAMPIONSHIP_TABLE_SPEC } from '@/db/queries/championship';
 import type { Repos } from '@/server/container';
 import { Championship } from '@/server/domain/championship';
@@ -95,6 +95,7 @@ export function createRankingsService(repos: Repos): RankingsService {
             if (!championship.ok) {
                 return championship;
             }
+            const leaderRow = championship.value.leader();
             const paged = championship.value.sorted(
                 TableQuery.from(
                     {
@@ -128,6 +129,13 @@ export function createRankingsService(repos: Repos): RankingsService {
                     (total, grades) => total + grades.length,
                     0,
                 ),
+                leader: isNull(leaderRow)
+                    ? null
+                    : {
+                          club: leaderRow.club,
+                          points: leaderRow.points,
+                          teams: leaderRow.teams,
+                      },
                 previousYear,
                 season: {
                     coverageChanged:
