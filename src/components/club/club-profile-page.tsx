@@ -9,10 +9,12 @@ import { BandTrendGrid } from '@/components/club/band-trend-grid';
 import { ClubResultsTable } from '@/components/club/club-results-table';
 import { ClubStatGrid } from '@/components/club/club-stat-grid';
 import { TopOpponentsPanel } from '@/components/club/top-opponents-panel';
+import { FaqSection } from '@/components/faq-section';
 import { PageShell, Panel } from '@/components/ui/layout';
 import { FieldSelect } from '@/components/ui/select';
 import type { TableState } from '@/db/queries/pagination';
 import type { TableSearch } from '@/routes/-table-params';
+import { buildClubFaq } from '@/seo/faq';
 
 const routeApi = getRouteApi('/clubs/$clubKey');
 
@@ -202,6 +204,8 @@ export function ClubProfilePage(): JSX.Element {
                     </p>
                 </Panel>
             )}
+
+            <FaqSection entries={buildClubFaq({ profile, topOpponents })} />
         </PageShell>
     );
 }

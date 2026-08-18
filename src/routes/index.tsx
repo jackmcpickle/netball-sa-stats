@@ -1,15 +1,17 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { createServerFn } from '@tanstack/react-start';
+import { isUndefined } from 'es-toolkit';
 import { z } from 'zod';
 import { RankingsPage } from '@/components/rankings/rankings-page';
 import { getDb } from '@/db';
 import { parseOptionalIntParam } from '@/routes/-search-params';
 import { tableSearchSchema } from '@/routes/-table-params';
-import { HOME_FAQ } from '@/seo/faq';
+import { buildHomeFaq } from '@/seo/faq';
 import { pageHead } from '@/seo/head';
 import { SITE } from '@/seo/site';
 import { datasetSchema, faqSchema } from '@/seo/structured-data';
 import { createServices, resolvePageResult } from '@/server/container';
+import type { RankingsPageDto } from '@/server/dto/rankings.dto';
 
 export type { RankingsPageDto as RankingsData } from '@/server/dto/rankings.dto';
 
@@ -48,8 +50,10 @@ export const Route = createFileRoute('/')({
         pageSize: search.pageSize,
     }),
     loader: async ({ deps }) => await loadRankings({ data: deps }),
-    head: () =>
-        pageHead({
+    // Annotated, not inferred — see the note on the club profile route.
+    head: ({ loaderData }: { loaderData?: RankingsPageDto }) => {
+        const entries = isUndefined(loaderData) ? [] : buildHomeFaq(loaderData);
+        return pageHead({
             title: SITE.name,
             description: DESCRIPTION,
             path: '/',
@@ -60,8 +64,9 @@ export const Route = createFileRoute('/')({
                     path: '/',
                     temporalCoverage: '2000/..',
                 }),
-                faqSchema(HOME_FAQ),
+                ...(entries.length === 0 ? [] : [faqSchema(entries)]),
             ],
-        }),
+        });
+    },
     component: RankingsPage,
 });

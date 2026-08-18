@@ -8,7 +8,7 @@
  */
 import { isNull } from 'es-toolkit';
 import { describeClub, ordinal } from '@/seo/descriptions';
-import { HOME_FAQ, METHOD_FAQ } from '@/seo/faq';
+import { buildHomeFaq, METHOD_FAQ } from '@/seo/faq';
 import { frontMatter, section, table } from '@/seo/markdown/table';
 import { absoluteUrl, SITE } from '@/seo/site';
 import type { FaqEntry } from '@/seo/structured-data';
@@ -122,7 +122,7 @@ export function renderRankings(data: RankingsPageDto): string {
         '',
         coverageBlock(data.coverage),
         '',
-        faqBlock(HOME_FAQ),
+        faqBlock(buildHomeFaq(data)),
         '',
         section(
             '## Other pages',

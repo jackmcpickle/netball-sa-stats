@@ -8,9 +8,10 @@ import { PageShell } from '@/components/ui/layout';
 import { getDb } from '@/db';
 import { tableSearchSchema } from '@/routes/-table-params';
 import { describeClub } from '@/seo/descriptions';
+import { buildClubFaq } from '@/seo/faq';
 import { pageHead } from '@/seo/head';
 import { absoluteUrl } from '@/seo/site';
-import { breadcrumbSchema } from '@/seo/structured-data';
+import { breadcrumbSchema, faqSchema } from '@/seo/structured-data';
 import { createServices, resolvePageResult } from '@/server/container';
 import type { ClubProfilePageDto } from '@/server/dto/club-profile.dto';
 
@@ -72,6 +73,7 @@ export const Route = createFileRoute('/clubs/$clubKey')({
         const description = isUndefined(profile)
             ? `Championship record, ladder finishes and strength trend for ${name} in South Australian netball.`
             : describeClub(profile);
+        const entries = isUndefined(loaderData) ? [] : buildClubFaq(loaderData);
         return pageHead({
             title: name,
             description,
@@ -98,6 +100,7 @@ export const Route = createFileRoute('/clubs/$clubKey')({
                     { name: 'Clubs', path: '/clubs' },
                     { name, path },
                 ]),
+                ...(entries.length === 0 ? [] : [faqSchema(entries)]),
             ],
         });
     },

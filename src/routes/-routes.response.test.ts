@@ -234,7 +234,9 @@ describe('page routes', () => {
                     careerPoints: 12,
                     minorPremierships: 1,
                     seasons: [{ year: 2024 }],
+                    winPercentage: null,
                 },
+                topOpponents: [],
             },
         });
         expect(head?.links).toContainEqual({
@@ -243,6 +245,10 @@ describe('page routes', () => {
         });
         expect(JSON.stringify(head?.meta)).toContain('SportsTeam');
         expect(JSON.stringify(head?.meta)).toContain('Contax');
+        expect(JSON.stringify(head?.meta)).toContain('FAQPage');
+        expect(JSON.stringify(head?.meta)).toContain(
+            'How many career championship points and minor premierships does Contax have?',
+        );
     });
 
     it('keeps admin out of search indexes', async () => {

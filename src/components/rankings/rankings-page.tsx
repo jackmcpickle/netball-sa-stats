@@ -8,7 +8,7 @@ import { ChampionshipTable } from '@/components/rankings/championship-table';
 import { Eyebrow, PageShell, Panel, StatFigure } from '@/components/ui/layout';
 import { FieldSelect } from '@/components/ui/select';
 import type { TableState } from '@/db/queries/pagination';
-import { HOME_FAQ } from '@/seo/faq';
+import { buildHomeFaq } from '@/seo/faq';
 
 const routeApi = getRouteApi('/');
 
@@ -165,7 +165,7 @@ export function RankingsPage(): JSX.Element {
                 </Panel>
             )}
 
-            <FaqSection entries={HOME_FAQ} />
+            <FaqSection entries={buildHomeFaq(data)} />
         </PageShell>
     );
 }
