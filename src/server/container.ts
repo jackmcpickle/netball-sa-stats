@@ -27,6 +27,8 @@ import type {
 } from '@/server/services/admin.service';
 import { createClubsService } from '@/server/services/clubs.service';
 import type { ClubsService } from '@/server/services/clubs.service';
+import { createFaqService } from '@/server/services/faq.service';
+import type { FaqService } from '@/server/services/faq.service';
 import { createHeadToHeadService } from '@/server/services/head-to-head.service';
 import type { HeadToHeadService } from '@/server/services/head-to-head.service';
 import { createLaddersService } from '@/server/services/ladders.service';
@@ -49,13 +51,14 @@ export interface Repos {
 }
 
 export interface Services {
-    readonly rankings: RankingsService;
-    readonly ladders: LaddersService;
-    readonly clubs: ClubsService;
-    readonly method: MethodService;
-    readonly headToHead: HeadToHeadService;
-    readonly results: ResultsService;
     readonly admin: AdminService;
+    readonly clubs: ClubsService;
+    readonly faq: FaqService;
+    readonly headToHead: HeadToHeadService;
+    readonly ladders: LaddersService;
+    readonly method: MethodService;
+    readonly rankings: RankingsService;
+    readonly results: ResultsService;
 }
 
 function createRepos(db: Db): Repos {
@@ -84,6 +87,7 @@ export function createServices(
             startImport: extras?.startImport ?? defaultStartImport,
         }),
         clubs: createClubsService(repos),
+        faq: createFaqService(repos),
         headToHead: createHeadToHeadService(repos),
         ladders: createLaddersService(repos),
         method: createMethodService(repos),
