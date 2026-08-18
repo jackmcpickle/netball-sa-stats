@@ -40,6 +40,7 @@ dist-ssr
 
 # SDD scratch workspace
 .superpowers/
+.worktrees/
 
 # Derived CSV exports (data/*.csv and data/raw/ are committed)
 data/export/
