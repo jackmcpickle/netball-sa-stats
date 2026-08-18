@@ -23,7 +23,12 @@ export function FaqPage(): JSX.Element {
                     }
                 </p>
             </article>
-            {entries.length > 0 ? <FaqSection entries={entries} /> : null}
+            {entries.length > 0 ? (
+                <FaqSection
+                    entries={entries}
+                    heading={'Questions'}
+                />
+            ) : null}
         </PageShell>
     );
 }

@@ -251,6 +251,104 @@ describe('page routes', () => {
         );
     });
 
+    it('builds the FAQ head from loaded site data', async () => {
+        const { Route } = await import('@/routes/faq');
+        const head = asRoute(Route).options.head?.({
+            loaderData: {
+                coverage: {
+                    changeNote: null,
+                    competitions: [
+                        {
+                            competition: {
+                                key: 'amnd',
+                                name: 'AMND',
+                                shortName: 'AMND',
+                            },
+                            seasons: [
+                                { note: null, status: 'ranked', year: 2024 },
+                            ],
+                        },
+                    ],
+                    isSampleData: false,
+                    methodologyBreak: null,
+                    rankedYears: [2024],
+                    timelineGaps: [],
+                    years: [2024],
+                },
+                fixtureFromYear: null,
+                latestRankedYear: 2024,
+                leader: {
+                    club: {
+                        accent: 'pink',
+                        establishedYear: null,
+                        homeVenue: null,
+                        key: 'contax',
+                        name: 'Contax',
+                    },
+                    points: 12,
+                    teams: 2,
+                },
+            },
+        });
+        expect(head?.links).toContainEqual({
+            rel: 'canonical',
+            href: 'https://netballsa.com/faq',
+        });
+        expect(JSON.stringify(head?.meta)).toContain('FAQPage');
+        expect(JSON.stringify(head?.meta)).toContain(
+            'What is the South Australian netball club championship?',
+        );
+    });
+
+    it('builds the Home head FAQPage from loaded rankings', async () => {
+        const { Route } = await import('@/routes/index');
+        const head = asRoute(Route).options.head?.({
+            loaderData: {
+                coverage: {
+                    changeNote: null,
+                    competitions: [
+                        {
+                            competition: {
+                                key: 'amnd',
+                                name: 'AMND',
+                                shortName: 'AMND',
+                            },
+                            seasons: [
+                                { note: null, status: 'ranked', year: 2024 },
+                            ],
+                        },
+                    ],
+                    isSampleData: false,
+                    methodologyBreak: null,
+                    rankedYears: [2024],
+                    timelineGaps: [],
+                    years: [2024],
+                },
+                leader: {
+                    club: {
+                        accent: 'pink',
+                        establishedYear: null,
+                        homeVenue: null,
+                        key: 'contax',
+                        name: 'Contax',
+                    },
+                    points: 12,
+                    teams: 2,
+                },
+                season: { year: 2024 },
+                totalRows: 2,
+            },
+        });
+        expect(head?.links).toContainEqual({
+            rel: 'canonical',
+            href: 'https://netballsa.com/',
+        });
+        expect(JSON.stringify(head?.meta)).toContain('FAQPage');
+        expect(JSON.stringify(head?.meta)).toContain(
+            'Who is leading the 2024 club championship?',
+        );
+    });
+
     it('keeps admin out of search indexes', async () => {
         const { Route } = await import('@/routes/admin');
         const head = asRoute(Route).options.head?.({});

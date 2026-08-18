@@ -2,10 +2,16 @@
  * Global request middleware, in the order it runs:
  *
  * 1. `www.netballsa.com` redirects to the apex, which is the canonical host.
- * 2. A request for `/thing.md`, or any page request whose `Accept` prefers
- *    `text/markdown`, is answered with the markdown twin of that page.
- * 3. Every response advertises its canonical URL and markdown twin in `Link`
+ * 2. Every response advertises its canonical URL and markdown twin in `Link`
  *    headers, so an agent can discover both without parsing HTML.
+ * 3. `pageCache` stamps `Cache-Control` on successful (200) HTML responses —
+ *    a week for `/faq`. It sits inside `discoveryLinks` and outside
+ *    `markdownTwin`, so Link headers still apply and `/faq` HTML (which
+ *    falls through `markdownTwin` to `next()`) gets the week-long header.
+ *    Error documents are not cached.
+ * 4. A request for `/thing.md`, or any page request whose `Accept` prefers
+ *    `text/markdown`, is answered with the markdown twin of that page.
+ *    A `.md` 404 is not given the `/faq` week-long cache.
  */
 import { createMiddleware, createStart } from '@tanstack/react-start';
 import { isNull, isUndefined } from 'es-toolkit';
@@ -88,7 +94,7 @@ const pageCache = createMiddleware({ type: 'request' }).server(
         const result = await next();
         const path = normalisePath(new URL(request.url).pathname);
         const control = cacheControlFor(path, 'html');
-        if (!isUndefined(control)) {
+        if (result.response.status === 200 && !isUndefined(control)) {
             result.response.headers.set('cache-control', control);
         }
         return result;

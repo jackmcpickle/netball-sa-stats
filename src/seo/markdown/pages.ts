@@ -332,6 +332,7 @@ export function renderClubProfile(data: ClubProfilePageDto): string {
                       ]),
                   ),
               ),
+        '',
         faqBlock(buildClubFaq(data)),
     ].join('\n');
 }
