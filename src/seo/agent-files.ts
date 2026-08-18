@@ -103,6 +103,7 @@ export function llmsTxt(input: LlmsTxtInput): string {
         '',
         `- [Club championship rankings](${absoluteUrl('/index.md')}): one weighted score per club per season, the site's headline table.`,
         `- [Method](${absoluteUrl('/method.md')}): how the score is built, the grade weight table, and the documented limits of the data.`,
+        `- [FAQ](${absoluteUrl('/faq.md')}): common questions about the championship, coverage and fixture results.`,
         `- [Ladders](${absoluteUrl('/ladders.md')}): full grade ladders — position, played, won, lost, goals, percentage.`,
         `- [Clubs](${absoluteUrl('/clubs.md')}): club index with championship totals; each club has its own page.`,
         `- [Results](${absoluteUrl('/results.md')}): fixture-level results, 2025 onwards.`,

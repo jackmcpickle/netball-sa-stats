@@ -10,6 +10,7 @@ const STATIC_ENTRIES: readonly SitemapEntry[] = [
     { changefreq: 'daily', path: '/results', priority: '0.9' },
     { changefreq: 'weekly', path: '/clubs', priority: '0.8' },
     { changefreq: 'weekly', path: '/head-to-head', priority: '0.7' },
+    { changefreq: 'weekly', path: '/faq', priority: '0.6' },
     { changefreq: 'monthly', path: '/method', priority: '0.7' },
     { changefreq: 'monthly', path: '/about', priority: '0.6' },
 ];

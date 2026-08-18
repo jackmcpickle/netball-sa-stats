@@ -12,6 +12,7 @@ import {
     renderAbout,
     renderClubIndex,
     renderClubProfile,
+    renderFaq,
     renderHeadToHead,
     renderLadders,
     renderMethod,
@@ -149,6 +150,9 @@ export async function renderMarkdown(db: Db, url: URL): Promise<string | null> {
     if (path === '/method') {
         return render(await services.method.getPage(), renderMethod);
     }
+    if (path === '/faq') {
+        return render(await services.faq.getPage(), renderFaq);
+    }
     return null;
 }
 
@@ -159,6 +163,7 @@ export const MARKDOWN_PATHS = [
     '/results',
     '/clubs',
     '/head-to-head',
+    '/faq',
     '/method',
     '/about',
 ] as const;

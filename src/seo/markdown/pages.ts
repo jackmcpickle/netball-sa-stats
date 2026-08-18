@@ -8,12 +8,18 @@
  */
 import { isNull } from 'es-toolkit';
 import { describeClub, ordinal } from '@/seo/descriptions';
-import { buildHomeFaq, METHOD_FAQ } from '@/seo/faq';
+import {
+    buildClubFaq,
+    buildHomeFaq,
+    buildSiteFaq,
+    METHOD_FAQ,
+} from '@/seo/faq';
 import { frontMatter, section, table } from '@/seo/markdown/table';
 import { absoluteUrl, SITE } from '@/seo/site';
 import type { FaqEntry } from '@/seo/structured-data';
 import type { ClubProfilePageDto } from '@/server/dto/club-profile.dto';
 import type { ClubIndexPageDto } from '@/server/dto/clubs.dto';
+import type { FaqPageDto } from '@/server/dto/faq.dto';
 import type { HeadToHeadPageDto } from '@/server/dto/head-to-head.dto';
 import type { LaddersPageDto } from '@/server/dto/ladders.dto';
 import type { MethodPageDto } from '@/server/dto/method.dto';
@@ -131,6 +137,7 @@ export function renderRankings(data: RankingsPageDto): string {
             '- [Results](/results.md) — fixture-level results from 2025',
             '- [Head to head](/head-to-head.md) — records between two clubs',
             '- [Method](/method.md) — how the score is built',
+            '- [FAQ](/faq.md) — common questions about clubs and results',
         ),
     ].join('\n');
 }
@@ -325,6 +332,7 @@ export function renderClubProfile(data: ClubProfilePageDto): string {
                       ]),
                   ),
               ),
+        faqBlock(buildClubFaq(data)),
     ].join('\n');
 }
 
@@ -380,6 +388,19 @@ export function renderHeadToHead(data: HeadToHeadPageDto): string {
                 .map((club) => `- ${club.name} — \`${club.key}\``)
                 .join('\n'),
         ),
+    ].join('\n');
+}
+
+export function renderFaq(data: FaqPageDto): string {
+    return [
+        header({
+            description:
+                'Common questions about South Australian netball club rankings, coverage and fixture results, answered from the published dataset.',
+            path: '/faq',
+            title: 'Common questions',
+        }),
+        '',
+        faqBlock(buildSiteFaq(data)),
     ].join('\n');
 }
 

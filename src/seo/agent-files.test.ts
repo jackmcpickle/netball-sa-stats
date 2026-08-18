@@ -43,6 +43,7 @@ describe(sitemapXml, () => {
         expect(xml).toContain('<loc>https://netballsa.com/</loc>');
         expect(xml).toContain('<loc>https://netballsa.com/method</loc>');
         expect(xml).toContain('<loc>https://netballsa.com/about</loc>');
+        expect(xml).toContain('<loc>https://netballsa.com/faq</loc>');
         expect(xml).toContain('<loc>https://netballsa.com/clubs/contax</loc>');
     });
 
@@ -80,6 +81,7 @@ describe(llmsTxt, () => {
         expect(body).toContain('https://netballsa.com/method.md');
         expect(body).toContain('https://netballsa.com/index.md');
         expect(body).toContain('https://netballsa.com/clubs/contax.md');
+        expect(body).toContain('https://netballsa.com/faq.md');
     });
 
     it('states the covered span from the ranked years', () => {

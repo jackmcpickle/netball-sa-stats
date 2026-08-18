@@ -173,4 +173,14 @@ describe(renderMarkdown, () => {
         const body = await renderMarkdown(db, url('/head-to-head.md'));
         expect(body).toContain('?a=CLUB_KEY&b=CLUB_KEY');
     });
+
+    it('renders the FAQ twin from the same builders as the HTML page', async () => {
+        const db = await seededDb();
+        const body = await renderMarkdown(db, url('/faq.md'));
+        expect(body).toContain('# Common questions');
+        expect(body).toContain(
+            'What is the South Australian netball club championship?',
+        );
+        expect(body).toContain('## Frequently asked questions');
+    });
 });
