@@ -419,3 +419,33 @@ describe('fetchGamePageForGrade paging and sorting', () => {
         ).resolves.toBe(0);
     });
 });
+
+describe('GamesRepo.earliestYear', () => {
+    it('is the earliest season year that has a game', async () => {
+        const { db, seeded } = await setup();
+        await seedGames(db, seeded, [
+            {
+                away: 'garville',
+                awayScore: 30,
+                gradeKey: 'amnd-2026-a1',
+                home: 'contax',
+                homeScore: 40,
+                round: 1,
+            },
+            {
+                away: 'garville',
+                awayScore: 32,
+                gradeKey: 'amnd-2025-a1',
+                home: 'contax',
+                homeScore: 41,
+                round: 1,
+            },
+        ]);
+        await expect(createGamesRepo(db).earliestYear()).resolves.toBe(2025);
+    });
+
+    it('is null when there are no games', async () => {
+        const { db } = await setup();
+        await expect(createGamesRepo(db).earliestYear()).resolves.toBeNull();
+    });
+});

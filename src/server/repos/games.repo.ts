@@ -229,25 +229,40 @@ export async function fetchOpponentCounts(
     }));
 }
 
+export async function fetchEarliestGameYear(db: Db): Promise<number | null> {
+    const [row] = await db
+        .select({
+            year: sql<number | null>`min(${seasons.startYear})`,
+        })
+        .from(games)
+        .innerJoin(grades, eq(grades.id, games.gradeId))
+        .innerJoin(seasons, eq(seasons.id, grades.seasonId));
+    return row?.year ?? null;
+}
+
 export interface GamesRepo {
+    readonly countForGrade: (gradeKey: string) => Promise<number>;
+    readonly earliestYear: () => Promise<number | null>;
     readonly factsForPair: (
         clubA: string,
         clubB: string,
     ) => Promise<readonly GameFact[]>;
-    readonly countForGrade: (gradeKey: string) => Promise<number>;
+    readonly opponentCounts: (
+        clubKey: string,
+    ) => Promise<readonly OpponentCount[]>;
     readonly pageForGrade: (
         gradeKey: string,
         request: PageRequest,
     ) => Promise<readonly GameFact[]>;
-    readonly opponentCounts: (
-        clubKey: string,
-    ) => Promise<readonly OpponentCount[]>;
 }
 
 export function createGamesRepo(db: Db): GamesRepo {
     return {
         async countForGrade(gradeKey: string): Promise<number> {
             return await countGamesForGrade(db, gradeKey);
+        },
+        async earliestYear(): Promise<number | null> {
+            return await fetchEarliestGameYear(db);
         },
         async factsForPair(
             clubA: string,
