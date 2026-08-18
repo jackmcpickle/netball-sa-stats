@@ -87,6 +87,15 @@ export class Championship {
     }
 
     /**
+     * Rank 1 on the unsorted season. Table sort and page must not change
+     * this: Home FAQ names the championship leader, not the first visible
+     * row.
+     */
+    public leader(): ChampionshipRow | null {
+        return this.rowsData.find((row) => row.rank === 1) ?? null;
+    }
+
+    /**
      * The one table still sorted and sliced in memory, and the only one that
      * cannot move to SQL without a schema change.
      *

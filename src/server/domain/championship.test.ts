@@ -93,3 +93,26 @@ describe('Championship.fromHistory', () => {
         });
     });
 });
+
+describe('Championship.leader', () => {
+    it('returns the rank-1 row even when it is not first in the array', () => {
+        // SAFETY: leader() reads only `rank`; these literals supply it.
+        const rows = [
+            { club: { key: 'b', name: 'B' }, points: 8, rank: 2, teams: 4 },
+            { club: { key: 'a', name: 'A' }, points: 10, rank: 1, teams: 5 },
+        ] as ChampionshipRow[];
+        const result = Championship.fromHistory(historyOf(2024, rows), 2024);
+        if (!result.ok) {
+            throw new Error('expected ok');
+        }
+        expect(result.value.leader()?.club.key).toBe('a');
+    });
+
+    it('is null when the season has no rows', () => {
+        const result = Championship.fromHistory(historyOf(2024, []), 2024);
+        if (!result.ok) {
+            throw new Error('expected ok');
+        }
+        expect(result.value.leader()).toBeNull();
+    });
+});
