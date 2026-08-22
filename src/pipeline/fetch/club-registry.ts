@@ -106,9 +106,9 @@ export class ClubRegistry {
         this.byPlayhqId.set(organisationId, clubKey);
         this.clubs.set(clubKey, {
             club_key: clubKey,
-            name: organisationName,
             established_year: null,
             home_venue: null,
+            name: organisationName,
             playhq_id: organisationId,
         });
 
@@ -121,8 +121,8 @@ export class ClubRegistry {
             return;
         }
         this.aliases.set(aliasText, {
-            club_key: clubKey,
             alias_text: aliasText,
+            club_key: clubKey,
             source,
         });
     }

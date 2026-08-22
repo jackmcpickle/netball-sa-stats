@@ -15,12 +15,15 @@ export function cell(value: CsvValue): string {
     return /["\n,]/u.test(text) ? `"${text.replaceAll('"', '""')}"` : text;
 }
 
-export function toCsv(rows: readonly Record<string, CsvValue>[]): string {
+export function toCsv(
+    rows: readonly Record<string, CsvValue>[],
+    columns?: readonly string[],
+): string {
     const [first] = rows;
     if (isUndefined(first)) {
         return '';
     }
-    const headers = Object.keys(first);
+    const headers = columns ?? Object.keys(first);
     const lines = rows.map((row) =>
         headers.map((header) => cell(row[header] ?? null)).join(','),
     );

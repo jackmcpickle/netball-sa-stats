@@ -327,6 +327,7 @@ describe(runImport, () => {
             )
             .get() as { n: number };
         expect(saucnaWeights.n).toBe(0);
+        // SAFETY: COUNT(*) always yields one numeric row.
         const amndWeights = db
             .prepare(
                 `SELECT COUNT(*) AS n FROM grade_weights

@@ -245,12 +245,18 @@ async function writeCsvs(
     await writeFile(resolve(DATA_DIR, 'seasons.csv'), toCsv(seasons), 'utf-8');
     await writeFile(
         resolve(DATA_DIR, 'clubs.csv'),
-        toCsv(clubRegistry.getClubs()),
+        toCsv(clubRegistry.getClubs(), [
+            'club_key',
+            'name',
+            'established_year',
+            'home_venue',
+            'playhq_id',
+        ]),
         'utf-8',
     );
     await writeFile(
         resolve(DATA_DIR, 'club_aliases.csv'),
-        toCsv(clubRegistry.getAliases()),
+        toCsv(clubRegistry.getAliases(), ['club_key', 'alias_text', 'source']),
         'utf-8',
     );
     await writeFile(resolve(DATA_DIR, 'grades.csv'), toCsv(grades), 'utf-8');
@@ -278,17 +284,17 @@ async function loadClubRegistry(): Promise<ClubRegistry> {
     const existingClubs = clubRows.map(
         (row): ClubRow => ({
             club_key: row.club_key,
-            name: row.name,
             established_year:
                 row.established_year === '' ? null : row.established_year,
             home_venue: row.home_venue === '' ? null : row.home_venue,
+            name: row.name,
             playhq_id: row.playhq_id === '' ? null : row.playhq_id,
         }),
     );
     const existingAliases = aliasRows.map(
         (row): ClubAliasRow => ({
-            club_key: row.club_key,
             alias_text: row.alias_text,
+            club_key: row.club_key,
             source: row.source,
         }),
     );
