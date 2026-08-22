@@ -153,11 +153,15 @@ async function assertRowCountsMatch(
  * Belt-and-braces for `toScoringRow`'s `weight: row.weight ?? 0` fallback in
  * `src/db/queries/results.ts`: that fallback exists so a missing weight row
  * degrades to "scores nothing" instead of throwing mid-render, but it must
- * never actually fire in production. A grade whose `(competition, tier,
- * division)` has no matching row in `grade_weights` — e.g. a mistyped tier —
- * would otherwise import cleanly and silently score zero for every team in
- * it. `assertRowCountsMatch` only checks table sizes, not this coverage, so
- * it would not catch it.
+ * never actually fire for a championship competition. A grade whose
+ * `(competition, tier, division)` has no matching row in `grade_weights` —
+ * e.g. a mistyped AMND tier — would otherwise import cleanly and silently
+ * score zero for every team in it.
+ *
+ * Competitions with no `grade_weights` at all (metro associations, name-only
+ * seeds) are not in the championship. They stay unweighted on purpose.
+ * Inventing bands just to pass this check would mix them into AMND scoring.
+ * `assertRowCountsMatch` only checks table sizes, not this coverage.
  */
 async function assertGradeWeightCoverage(
     queryAll: (sql: string) => Promise<Record<string, unknown>[]>,
@@ -166,11 +170,15 @@ async function assertGradeWeightCoverage(
         SELECT g.grade_key AS gradeKey, s.start_year AS year
         FROM grades g
         JOIN seasons s ON s.id = g.season_id
+        JOIN competitions c ON c.id = s.competition_id
         LEFT JOIN grade_weights gw
             ON gw.competition_id = s.competition_id
             AND gw.tier = g.tier
             AND gw.division IS g.division
-        WHERE gw.id IS NULL;
+        WHERE gw.id IS NULL
+          AND EXISTS (
+            SELECT 1 FROM grade_weights w WHERE w.competition_id = c.id
+          );
     `);
     if (unweighted.length > 0) {
         const offenders = unweighted
