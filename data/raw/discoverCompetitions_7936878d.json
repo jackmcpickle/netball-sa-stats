@@ -1,0 +1,106 @@
+{
+    "data": {
+        "discoverCompetitions": [
+            {
+                "id": "dffbc9e3",
+                "name": "M League",
+                "seasons": [
+                    {
+                        "id": "f1e37382",
+                        "name": "Winter 2026",
+                        "startDate": "2026-04-13",
+                        "endDate": "2026-07-27",
+                        "status": {
+                            "name": "Completed",
+                            "value": "COMPLETED"
+                        }
+                    },
+                    {
+                        "id": "46934b6b",
+                        "name": "Winter 2025",
+                        "startDate": "2025-05-12",
+                        "endDate": "2025-09-01",
+                        "status": {
+                            "name": "Completed",
+                            "value": "COMPLETED"
+                        }
+                    },
+                    {
+                        "id": "1f3507d7",
+                        "name": "Summer 2024/25",
+                        "startDate": "2024-10-14",
+                        "endDate": "2025-02-24",
+                        "status": {
+                            "name": "Completed",
+                            "value": "COMPLETED"
+                        }
+                    },
+                    {
+                        "id": "ee11c6be",
+                        "name": "Winter 2024",
+                        "startDate": "2024-05-13",
+                        "endDate": "2024-08-19",
+                        "status": {
+                            "name": "Completed",
+                            "value": "COMPLETED"
+                        }
+                    }
+                ],
+                "organisation": {
+                    "id": "7936878d",
+                    "name": "South Australian Mens and Mixed Netball Association"
+                }
+            },
+            {
+                "id": "046da5b0",
+                "name": "SAMMNA Super League",
+                "seasons": [
+                    {
+                        "id": "de4ada32",
+                        "name": "Summer 2026/27",
+                        "startDate": "2026-08-31",
+                        "endDate": "2027-02-12",
+                        "status": {
+                            "name": "Upcoming",
+                            "value": "UPCOMING"
+                        }
+                    },
+                    {
+                        "id": "df1cf840",
+                        "name": "Summer 2025/26",
+                        "startDate": "2025-09-26",
+                        "endDate": "2025-12-12",
+                        "status": {
+                            "name": "Completed",
+                            "value": "COMPLETED"
+                        }
+                    },
+                    {
+                        "id": "6904c2c1",
+                        "name": "2025",
+                        "startDate": "2024-10-14",
+                        "endDate": "2025-02-17",
+                        "status": {
+                            "name": "Completed",
+                            "value": "COMPLETED"
+                        }
+                    },
+                    {
+                        "id": "b7fb0cbf",
+                        "name": "Summer 2023/24",
+                        "startDate": "2023-10-09",
+                        "endDate": "2024-03-25",
+                        "status": {
+                            "name": "Completed",
+                            "value": "COMPLETED"
+                        }
+                    }
+                ],
+                "organisation": {
+                    "id": "7936878d",
+                    "name": "South Australian Mens and Mixed Netball Association"
+                }
+            }
+        ]
+    }
+}

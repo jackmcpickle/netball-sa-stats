@@ -1,0 +1,148 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "6353d1db",
+            "name": "13U/6",
+            "ladderType": "POINTS_AVERAGE",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "1ac52164",
+                                "name": "Glenunga Flight 13B",
+                                "organisation": {
+                                    "id": "05a8f52f",
+                                    "name": "Glenunga",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 11,
+                            "lost": 3,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 374,
+                            "pointsAgainst": 241,
+                            "pointsDifference": 133,
+                            "forfeits": 0,
+                            "percentage": 155.19,
+                            "competitionPoints": 23
+                        },
+                        {
+                            "team": {
+                                "id": "0bfb6587",
+                                "name": "Flinders Park 13C",
+                                "organisation": {
+                                    "id": "7721739e",
+                                    "name": "Flinders Park",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 11,
+                            "lost": 4,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 349,
+                            "pointsAgainst": 171,
+                            "pointsDifference": 178,
+                            "forfeits": 0,
+                            "percentage": 204.09,
+                            "competitionPoints": 22
+                        },
+                        {
+                            "team": {
+                                "id": "c4f29e1c",
+                                "name": "Cove Tigers Orange 13A",
+                                "organisation": {
+                                    "id": "ab06439f",
+                                    "name": "Cove Netball Club Inc",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 9,
+                            "lost": 5,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 306,
+                            "pointsAgainst": 183,
+                            "pointsDifference": 123,
+                            "forfeits": 0,
+                            "percentage": 167.21,
+                            "competitionPoints": 19
+                        },
+                        {
+                            "team": {
+                                "id": "9eae65b5",
+                                "name": "WP Galaxy 13F",
+                                "organisation": {
+                                    "id": "53002de5",
+                                    "name": "Westbourne Park Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 5,
+                            "lost": 9,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 232,
+                            "pointsAgainst": 263,
+                            "pointsDifference": -31,
+                            "forfeits": 1,
+                            "percentage": 88.21,
+                            "competitionPoints": 10
+                        },
+                        {
+                            "team": {
+                                "id": "acee8e69",
+                                "name": "PHOS 13A",
+                                "organisation": {
+                                    "id": "361e148c",
+                                    "name": "PHOS Camden",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 4,
+                            "lost": 10,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 245,
+                            "pointsAgainst": 329,
+                            "pointsDifference": -84,
+                            "forfeits": 1,
+                            "percentage": 74.47,
+                            "competitionPoints": 8
+                        },
+                        {
+                            "team": {
+                                "id": "f0c50689",
+                                "name": "St Josephs 13D",
+                                "organisation": {
+                                    "id": "8793c382",
+                                    "name": "St Joseph's (Somerton Park)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 0,
+                            "lost": 15,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 105,
+                            "pointsAgainst": 424,
+                            "pointsDifference": -319,
+                            "forfeits": 0,
+                            "percentage": 24.76,
+                            "competitionPoints": 0
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

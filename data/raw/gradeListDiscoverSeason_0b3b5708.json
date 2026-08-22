@@ -1,0 +1,951 @@
+{
+    "data": {
+        "discoverSeason": {
+            "id": "0b3b5708",
+            "name": "Winter 2025",
+            "competition": {
+                "id": "48160e58",
+                "name": "SAUCNA Winter",
+                "type": "HOME_AND_AWAY",
+                "organisation": {
+                    "id": "fb89f1f1",
+                    "name": "SA United Church Netball Association"
+                }
+            },
+            "status": {
+                "name": "Completed",
+                "value": "COMPLETED"
+            },
+            "grades": [
+                {
+                    "id": "47ec3332",
+                    "name": "8U/1",
+                    "day": {
+                        "name": "Saturday",
+                        "value": "SATURDAY"
+                    },
+                    "gender": {
+                        "name": "Mixed",
+                        "value": "MIXED"
+                    },
+                    "age": {
+                        "name": "U8",
+                        "value": "U8"
+                    }
+                },
+                {
+                    "id": "9bd48741",
+                    "name": "8U/2",
+                    "day": {
+                        "name": "Saturday",
+                        "value": "SATURDAY"
+                    },
+                    "gender": {
+                        "name": "Mixed",
+                        "value": "MIXED"
+                    },
+                    "age": {
+                        "name": "U8",
+                        "value": "U8"
+                    }
+                },
+                {
+                    "id": "bc42e698",
+                    "name": "8U/3",
+                    "day": {
+                        "name": "Saturday",
+                        "value": "SATURDAY"
+                    },
+                    "gender": {
+                        "name": "Mixed",
+                        "value": "MIXED"
+                    },
+                    "age": {
+                        "name": "U8",
+                        "value": "U8"
+                    }
+                },
+                {
+                    "id": "a8dd9bb2",
+                    "name": "8U/4",
+                    "day": {
+                        "name": "Saturday",
+                        "value": "SATURDAY"
+                    },
+                    "gender": {
+                        "name": "Mixed",
+                        "value": "MIXED"
+                    },
+                    "age": {
+                        "name": "U8",
+                        "value": "U8"
+                    }
+                },
+                {
+                    "id": "de78b56a",
+                    "name": "9U/1",
+                    "day": {
+                        "name": "Saturday",
+                        "value": "SATURDAY"
+                    },
+                    "gender": {
+                        "name": "Mixed",
+                        "value": "MIXED"
+                    },
+                    "age": {
+                        "name": "U9",
+                        "value": "U9"
+                    }
+                },
+                {
+                    "id": "c3827471",
+                    "name": "9U/2",
+                    "day": {
+                        "name": "Saturday",
+                        "value": "SATURDAY"
+                    },
+                    "gender": {
+                        "name": "Mixed",
+                        "value": "MIXED"
+                    },
+                    "age": {
+                        "name": "U9",
+                        "value": "U9"
+                    }
+                },
+                {
+                    "id": "a8ff12b3",
+                    "name": "9U/3",
+                    "day": {
+                        "name": "Saturday",
+                        "value": "SATURDAY"
+                    },
+                    "gender": {
+                        "name": "Mixed",
+                        "value": "MIXED"
+                    },
+                    "age": {
+                        "name": "U9",
+                        "value": "U9"
+                    }
+                },
+                {
+                    "id": "f03d3a9a",
+                    "name": "9U/4",
+                    "day": {
+                        "name": "Saturday",
+                        "value": "SATURDAY"
+                    },
+                    "gender": {
+                        "name": "Mixed",
+                        "value": "MIXED"
+                    },
+                    "age": {
+                        "name": "U9",
+                        "value": "U9"
+                    }
+                },
+                {
+                    "id": "387caa4f",
+                    "name": "11U/1",
+                    "day": {
+                        "name": "Saturday",
+                        "value": "SATURDAY"
+                    },
+                    "gender": {
+                        "name": "Mixed",
+                        "value": "MIXED"
+                    },
+                    "age": {
+                        "name": "U11",
+                        "value": "U11"
+                    }
+                },
+                {
+                    "id": "75275a34",
+                    "name": "11U/2",
+                    "day": {
+                        "name": "Saturday",
+                        "value": "SATURDAY"
+                    },
+                    "gender": {
+                        "name": "Mixed",
+                        "value": "MIXED"
+                    },
+                    "age": {
+                        "name": "U11",
+                        "value": "U11"
+                    }
+                },
+                {
+                    "id": "3eb88168",
+                    "name": "11U/3",
+                    "day": {
+                        "name": "Saturday",
+                        "value": "SATURDAY"
+                    },
+                    "gender": {
+                        "name": "Mixed",
+                        "value": "MIXED"
+                    },
+                    "age": {
+                        "name": "U11",
+                        "value": "U11"
+                    }
+                },
+                {
+                    "id": "bcc62abb",
+                    "name": "11U/4",
+                    "day": {
+                        "name": "Saturday",
+                        "value": "SATURDAY"
+                    },
+                    "gender": {
+                        "name": "Mixed",
+                        "value": "MIXED"
+                    },
+                    "age": {
+                        "name": "U11",
+                        "value": "U11"
+                    }
+                },
+                {
+                    "id": "3520a856",
+                    "name": "11U/5",
+                    "day": {
+                        "name": "Saturday",
+                        "value": "SATURDAY"
+                    },
+                    "gender": {
+                        "name": "Mixed",
+                        "value": "MIXED"
+                    },
+                    "age": {
+                        "name": "U11",
+                        "value": "U11"
+                    }
+                },
+                {
+                    "id": "f58164d7",
+                    "name": "11U/6",
+                    "day": {
+                        "name": "Saturday",
+                        "value": "SATURDAY"
+                    },
+                    "gender": {
+                        "name": "Mixed",
+                        "value": "MIXED"
+                    },
+                    "age": {
+                        "name": "U11",
+                        "value": "U11"
+                    }
+                },
+                {
+                    "id": "d67236e5",
+                    "name": "11U/7",
+                    "day": {
+                        "name": "Saturday",
+                        "value": "SATURDAY"
+                    },
+                    "gender": {
+                        "name": "Mixed",
+                        "value": "MIXED"
+                    },
+                    "age": {
+                        "name": "U11",
+                        "value": "U11"
+                    }
+                },
+                {
+                    "id": "ac64bbcd",
+                    "name": "11U/8",
+                    "day": {
+                        "name": "Saturday",
+                        "value": "SATURDAY"
+                    },
+                    "gender": {
+                        "name": "Mixed",
+                        "value": "MIXED"
+                    },
+                    "age": {
+                        "name": "U11",
+                        "value": "U11"
+                    }
+                },
+                {
+                    "id": "2007882b",
+                    "name": "11U/9",
+                    "day": {
+                        "name": "Saturday",
+                        "value": "SATURDAY"
+                    },
+                    "gender": {
+                        "name": "Mixed",
+                        "value": "MIXED"
+                    },
+                    "age": {
+                        "name": "U11",
+                        "value": "U11"
+                    }
+                },
+                {
+                    "id": "3d01479f",
+                    "name": "13U/1",
+                    "day": {
+                        "name": "Saturday",
+                        "value": "SATURDAY"
+                    },
+                    "gender": {
+                        "name": "Mixed",
+                        "value": "MIXED"
+                    },
+                    "age": {
+                        "name": "U13",
+                        "value": "U13"
+                    }
+                },
+                {
+                    "id": "5d03dd3d",
+                    "name": "13U/10",
+                    "day": {
+                        "name": "Saturday",
+                        "value": "SATURDAY"
+                    },
+                    "gender": {
+                        "name": "Mixed",
+                        "value": "MIXED"
+                    },
+                    "age": {
+                        "name": "U13",
+                        "value": "U13"
+                    }
+                },
+                {
+                    "id": "e6907e92",
+                    "name": "13U/2",
+                    "day": {
+                        "name": "Saturday",
+                        "value": "SATURDAY"
+                    },
+                    "gender": {
+                        "name": "Mixed",
+                        "value": "MIXED"
+                    },
+                    "age": {
+                        "name": "U13",
+                        "value": "U13"
+                    }
+                },
+                {
+                    "id": "9fe87e8e",
+                    "name": "13U/3",
+                    "day": {
+                        "name": "Saturday",
+                        "value": "SATURDAY"
+                    },
+                    "gender": {
+                        "name": "Mixed",
+                        "value": "MIXED"
+                    },
+                    "age": {
+                        "name": "U13",
+                        "value": "U13"
+                    }
+                },
+                {
+                    "id": "6bbe4f62",
+                    "name": "13U/4",
+                    "day": {
+                        "name": "Saturday",
+                        "value": "SATURDAY"
+                    },
+                    "gender": {
+                        "name": "Mixed",
+                        "value": "MIXED"
+                    },
+                    "age": {
+                        "name": "U13",
+                        "value": "U13"
+                    }
+                },
+                {
+                    "id": "4bc3dd4f",
+                    "name": "13U/5",
+                    "day": {
+                        "name": "Saturday",
+                        "value": "SATURDAY"
+                    },
+                    "gender": {
+                        "name": "Mixed",
+                        "value": "MIXED"
+                    },
+                    "age": {
+                        "name": "U13",
+                        "value": "U13"
+                    }
+                },
+                {
+                    "id": "99b23d63",
+                    "name": "13U/6",
+                    "day": {
+                        "name": "Saturday",
+                        "value": "SATURDAY"
+                    },
+                    "gender": {
+                        "name": "Mixed",
+                        "value": "MIXED"
+                    },
+                    "age": {
+                        "name": "U13",
+                        "value": "U13"
+                    }
+                },
+                {
+                    "id": "04325eae",
+                    "name": "13U/7",
+                    "day": {
+                        "name": "Saturday",
+                        "value": "SATURDAY"
+                    },
+                    "gender": {
+                        "name": "Mixed",
+                        "value": "MIXED"
+                    },
+                    "age": {
+                        "name": "U13",
+                        "value": "U13"
+                    }
+                },
+                {
+                    "id": "422d91ec",
+                    "name": "13U/8",
+                    "day": {
+                        "name": "Saturday",
+                        "value": "SATURDAY"
+                    },
+                    "gender": {
+                        "name": "Mixed",
+                        "value": "MIXED"
+                    },
+                    "age": {
+                        "name": "U13",
+                        "value": "U13"
+                    }
+                },
+                {
+                    "id": "c7e6d48b",
+                    "name": "13U/9",
+                    "day": {
+                        "name": "Saturday",
+                        "value": "SATURDAY"
+                    },
+                    "gender": {
+                        "name": "Mixed",
+                        "value": "MIXED"
+                    },
+                    "age": {
+                        "name": "U13",
+                        "value": "U13"
+                    }
+                },
+                {
+                    "id": "b226d800",
+                    "name": "15U/1",
+                    "day": {
+                        "name": "Saturday",
+                        "value": "SATURDAY"
+                    },
+                    "gender": {
+                        "name": "Girls",
+                        "value": "GIRLS"
+                    },
+                    "age": {
+                        "name": "U15",
+                        "value": "U15"
+                    }
+                },
+                {
+                    "id": "9346a084",
+                    "name": "15U/10",
+                    "day": {
+                        "name": "Saturday",
+                        "value": "SATURDAY"
+                    },
+                    "gender": {
+                        "name": "Girls",
+                        "value": "GIRLS"
+                    },
+                    "age": {
+                        "name": "U15",
+                        "value": "U15"
+                    }
+                },
+                {
+                    "id": "4141460e",
+                    "name": "15U/2",
+                    "day": {
+                        "name": "Saturday",
+                        "value": "SATURDAY"
+                    },
+                    "gender": {
+                        "name": "Girls",
+                        "value": "GIRLS"
+                    },
+                    "age": {
+                        "name": "U15",
+                        "value": "U15"
+                    }
+                },
+                {
+                    "id": "43e2885e",
+                    "name": "15U/3",
+                    "day": {
+                        "name": "Saturday",
+                        "value": "SATURDAY"
+                    },
+                    "gender": {
+                        "name": "Girls",
+                        "value": "GIRLS"
+                    },
+                    "age": {
+                        "name": "U15",
+                        "value": "U15"
+                    }
+                },
+                {
+                    "id": "bc7ff111",
+                    "name": "15U/4",
+                    "day": {
+                        "name": "Saturday",
+                        "value": "SATURDAY"
+                    },
+                    "gender": {
+                        "name": "Girls",
+                        "value": "GIRLS"
+                    },
+                    "age": {
+                        "name": "U15",
+                        "value": "U15"
+                    }
+                },
+                {
+                    "id": "324d5ec0",
+                    "name": "15U/5",
+                    "day": {
+                        "name": "Saturday",
+                        "value": "SATURDAY"
+                    },
+                    "gender": {
+                        "name": "Girls",
+                        "value": "GIRLS"
+                    },
+                    "age": {
+                        "name": "U15",
+                        "value": "U15"
+                    }
+                },
+                {
+                    "id": "37250ab0",
+                    "name": "15U/6",
+                    "day": {
+                        "name": "Saturday",
+                        "value": "SATURDAY"
+                    },
+                    "gender": {
+                        "name": "Girls",
+                        "value": "GIRLS"
+                    },
+                    "age": {
+                        "name": "U15",
+                        "value": "U15"
+                    }
+                },
+                {
+                    "id": "0db7ddb2",
+                    "name": "15U/7",
+                    "day": {
+                        "name": "Saturday",
+                        "value": "SATURDAY"
+                    },
+                    "gender": {
+                        "name": "Girls",
+                        "value": "GIRLS"
+                    },
+                    "age": {
+                        "name": "U15",
+                        "value": "U15"
+                    }
+                },
+                {
+                    "id": "614651e9",
+                    "name": "15U/8",
+                    "day": {
+                        "name": "Saturday",
+                        "value": "SATURDAY"
+                    },
+                    "gender": {
+                        "name": "Girls",
+                        "value": "GIRLS"
+                    },
+                    "age": {
+                        "name": "U15",
+                        "value": "U15"
+                    }
+                },
+                {
+                    "id": "74be6f34",
+                    "name": "15U/9",
+                    "day": {
+                        "name": "Saturday",
+                        "value": "SATURDAY"
+                    },
+                    "gender": {
+                        "name": "Girls",
+                        "value": "GIRLS"
+                    },
+                    "age": {
+                        "name": "U15",
+                        "value": "U15"
+                    }
+                },
+                {
+                    "id": "12b47c3c",
+                    "name": "17U/1",
+                    "day": {
+                        "name": "Saturday",
+                        "value": "SATURDAY"
+                    },
+                    "gender": {
+                        "name": "Girls",
+                        "value": "GIRLS"
+                    },
+                    "age": {
+                        "name": "U17",
+                        "value": "U17"
+                    }
+                },
+                {
+                    "id": "c97d9898",
+                    "name": "17U/2",
+                    "day": {
+                        "name": "Saturday",
+                        "value": "SATURDAY"
+                    },
+                    "gender": {
+                        "name": "Girls",
+                        "value": "GIRLS"
+                    },
+                    "age": {
+                        "name": "U17",
+                        "value": "U17"
+                    }
+                },
+                {
+                    "id": "c9634c8b",
+                    "name": "17U/3",
+                    "day": {
+                        "name": "Saturday",
+                        "value": "SATURDAY"
+                    },
+                    "gender": {
+                        "name": "Girls",
+                        "value": "GIRLS"
+                    },
+                    "age": {
+                        "name": "U17",
+                        "value": "U17"
+                    }
+                },
+                {
+                    "id": "c0a2213a",
+                    "name": "17U/4",
+                    "day": {
+                        "name": "Saturday",
+                        "value": "SATURDAY"
+                    },
+                    "gender": {
+                        "name": "Girls",
+                        "value": "GIRLS"
+                    },
+                    "age": {
+                        "name": "U17",
+                        "value": "U17"
+                    }
+                },
+                {
+                    "id": "bfdce8ad",
+                    "name": "17U/5",
+                    "day": {
+                        "name": "Saturday",
+                        "value": "SATURDAY"
+                    },
+                    "gender": {
+                        "name": "Girls",
+                        "value": "GIRLS"
+                    },
+                    "age": {
+                        "name": "U17",
+                        "value": "U17"
+                    }
+                },
+                {
+                    "id": "302ff774",
+                    "name": "17U/6",
+                    "day": {
+                        "name": "Saturday",
+                        "value": "SATURDAY"
+                    },
+                    "gender": {
+                        "name": "Girls",
+                        "value": "GIRLS"
+                    },
+                    "age": {
+                        "name": "U17",
+                        "value": "U17"
+                    }
+                },
+                {
+                    "id": "8fc33130",
+                    "name": "17U/7",
+                    "day": {
+                        "name": "Saturday",
+                        "value": "SATURDAY"
+                    },
+                    "gender": {
+                        "name": "Girls",
+                        "value": "GIRLS"
+                    },
+                    "age": {
+                        "name": "U17",
+                        "value": "U17"
+                    }
+                },
+                {
+                    "id": "d460e67a",
+                    "name": "A1",
+                    "day": {
+                        "name": "Saturday",
+                        "value": "SATURDAY"
+                    },
+                    "gender": {
+                        "name": "Women",
+                        "value": "WOMENS"
+                    },
+                    "age": {
+                        "name": "Open",
+                        "value": "OPEN"
+                    }
+                },
+                {
+                    "id": "b5864dd5",
+                    "name": "A2",
+                    "day": {
+                        "name": "Saturday",
+                        "value": "SATURDAY"
+                    },
+                    "gender": {
+                        "name": "Women",
+                        "value": "WOMENS"
+                    },
+                    "age": {
+                        "name": "Open",
+                        "value": "OPEN"
+                    }
+                },
+                {
+                    "id": "5276e79f",
+                    "name": "A3",
+                    "day": {
+                        "name": "Saturday",
+                        "value": "SATURDAY"
+                    },
+                    "gender": {
+                        "name": "Women",
+                        "value": "WOMENS"
+                    },
+                    "age": {
+                        "name": "Open",
+                        "value": "OPEN"
+                    }
+                },
+                {
+                    "id": "e21bad40",
+                    "name": "A4",
+                    "day": {
+                        "name": "Saturday",
+                        "value": "SATURDAY"
+                    },
+                    "gender": {
+                        "name": "Women",
+                        "value": "WOMENS"
+                    },
+                    "age": {
+                        "name": "Open",
+                        "value": "OPEN"
+                    }
+                },
+                {
+                    "id": "3a7d9598",
+                    "name": "A5",
+                    "day": {
+                        "name": "Saturday",
+                        "value": "SATURDAY"
+                    },
+                    "gender": {
+                        "name": "Women",
+                        "value": "WOMENS"
+                    },
+                    "age": {
+                        "name": "Open",
+                        "value": "OPEN"
+                    }
+                },
+                {
+                    "id": "c35cb7ea",
+                    "name": "B1",
+                    "day": {
+                        "name": "Saturday",
+                        "value": "SATURDAY"
+                    },
+                    "gender": {
+                        "name": "Women",
+                        "value": "WOMENS"
+                    },
+                    "age": {
+                        "name": "Open",
+                        "value": "OPEN"
+                    }
+                },
+                {
+                    "id": "7eb7b88a",
+                    "name": "B2",
+                    "day": {
+                        "name": "Saturday",
+                        "value": "SATURDAY"
+                    },
+                    "gender": {
+                        "name": "Women",
+                        "value": "WOMENS"
+                    },
+                    "age": {
+                        "name": "Open",
+                        "value": "OPEN"
+                    }
+                },
+                {
+                    "id": "ee1cd15d",
+                    "name": "B3",
+                    "day": {
+                        "name": "Saturday",
+                        "value": "SATURDAY"
+                    },
+                    "gender": {
+                        "name": "Women",
+                        "value": "WOMENS"
+                    },
+                    "age": {
+                        "name": "Open",
+                        "value": "OPEN"
+                    }
+                },
+                {
+                    "id": "a6524b43",
+                    "name": "B4",
+                    "day": {
+                        "name": "Saturday",
+                        "value": "SATURDAY"
+                    },
+                    "gender": {
+                        "name": "Women",
+                        "value": "WOMENS"
+                    },
+                    "age": {
+                        "name": "Open",
+                        "value": "OPEN"
+                    }
+                },
+                {
+                    "id": "168d17d9",
+                    "name": "B5",
+                    "day": {
+                        "name": "Saturday",
+                        "value": "SATURDAY"
+                    },
+                    "gender": {
+                        "name": "Women",
+                        "value": "WOMENS"
+                    },
+                    "age": {
+                        "name": "Open",
+                        "value": "OPEN"
+                    }
+                },
+                {
+                    "id": "408b5e1c",
+                    "name": "C1",
+                    "day": {
+                        "name": "Saturday",
+                        "value": "SATURDAY"
+                    },
+                    "gender": {
+                        "name": "Women",
+                        "value": "WOMENS"
+                    },
+                    "age": {
+                        "name": "Open",
+                        "value": "OPEN"
+                    }
+                },
+                {
+                    "id": "7a2e1394",
+                    "name": "C2",
+                    "day": {
+                        "name": "Saturday",
+                        "value": "SATURDAY"
+                    },
+                    "gender": {
+                        "name": "Women",
+                        "value": "WOMENS"
+                    },
+                    "age": {
+                        "name": "Open",
+                        "value": "OPEN"
+                    }
+                },
+                {
+                    "id": "3777f4b5",
+                    "name": "C3",
+                    "day": {
+                        "name": "Saturday",
+                        "value": "SATURDAY"
+                    },
+                    "gender": {
+                        "name": "Women",
+                        "value": "WOMENS"
+                    },
+                    "age": {
+                        "name": "Open",
+                        "value": "OPEN"
+                    }
+                },
+                {
+                    "id": "fed49a73",
+                    "name": "C4",
+                    "day": {
+                        "name": "Saturday",
+                        "value": "SATURDAY"
+                    },
+                    "gender": {
+                        "name": "Women",
+                        "value": "WOMENS"
+                    },
+                    "age": {
+                        "name": "Open",
+                        "value": "OPEN"
+                    }
+                }
+            ]
+        }
+    }
+}

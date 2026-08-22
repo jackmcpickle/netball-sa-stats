@@ -1,0 +1,126 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "d29f4baf",
+            "name": "C2",
+            "ladderType": "TOTAL_COMPETITION_POINTS",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "863a0ce5",
+                                "name": "Northern Storm 4",
+                                "organisation": {
+                                    "id": "2e78dfde",
+                                    "name": "Northern Storm Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 9,
+                            "lost": 3,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 443,
+                            "pointsAgainst": 310,
+                            "pointsDifference": 0,
+                            "forfeits": 1,
+                            "percentage": 142.9,
+                            "competitionPoints": 18
+                        },
+                        {
+                            "team": {
+                                "id": "5eda19ea",
+                                "name": "Sapphires 2",
+                                "organisation": {
+                                    "id": "314bbf68",
+                                    "name": "Sapphires (SA)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 8,
+                            "lost": 3,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 417,
+                            "pointsAgainst": 350,
+                            "pointsDifference": 0,
+                            "forfeits": 2,
+                            "percentage": 119.14,
+                            "competitionPoints": 16
+                        },
+                        {
+                            "team": {
+                                "id": "9458fad3",
+                                "name": "Gazelles 5",
+                                "organisation": {
+                                    "id": "b2a76075",
+                                    "name": "Gazelles (SA)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 6,
+                            "lost": 7,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 344,
+                            "pointsAgainst": 383,
+                            "pointsDifference": 0,
+                            "forfeits": 0,
+                            "percentage": 89.82,
+                            "competitionPoints": 12
+                        },
+                        {
+                            "team": {
+                                "id": "ff0d8f3a",
+                                "name": "Cobras 3",
+                                "organisation": {
+                                    "id": "fda07884",
+                                    "name": "Northern Cobras",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 5,
+                            "lost": 8,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 337,
+                            "pointsAgainst": 431,
+                            "pointsDifference": 0,
+                            "forfeits": 0,
+                            "percentage": 78.19,
+                            "competitionPoints": 10
+                        },
+                        {
+                            "team": {
+                                "id": "2b99de04",
+                                "name": "Fireworks 4",
+                                "organisation": {
+                                    "id": "27ce429f",
+                                    "name": "Fireworks Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 3,
+                            "lost": 10,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 351,
+                            "pointsAgainst": 494,
+                            "pointsDifference": 0,
+                            "forfeits": 0,
+                            "percentage": 71.05,
+                            "competitionPoints": 6
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

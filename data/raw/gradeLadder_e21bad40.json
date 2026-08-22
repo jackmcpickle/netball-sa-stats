@@ -1,0 +1,170 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "e21bad40",
+            "name": "A4",
+            "ladderType": "POINTS_AVERAGE",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "1a036e6e",
+                                "name": "Morialta B",
+                                "organisation": {
+                                    "id": "46cdd3a1",
+                                    "name": "Morialta Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 11,
+                            "lost": 2,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 394,
+                            "pointsAgainst": 312,
+                            "pointsDifference": 82,
+                            "forfeits": 0,
+                            "percentage": 126.28,
+                            "competitionPoints": 22
+                        },
+                        {
+                            "team": {
+                                "id": "d706fda7",
+                                "name": "Rosefield Rangers A",
+                                "organisation": {
+                                    "id": "f7fe98c2",
+                                    "name": "Rosefield Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 10,
+                            "lost": 3,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 405,
+                            "pointsAgainst": 392,
+                            "pointsDifference": 13,
+                            "forfeits": 0,
+                            "percentage": 103.32,
+                            "competitionPoints": 20
+                        },
+                        {
+                            "team": {
+                                "id": "4a489ad9",
+                                "name": "Old Ignatians A",
+                                "organisation": {
+                                    "id": "0113cb3e",
+                                    "name": "Old Ignatians",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 8,
+                            "lost": 5,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 353,
+                            "pointsAgainst": 290,
+                            "pointsDifference": 63,
+                            "forfeits": 0,
+                            "percentage": 121.72,
+                            "competitionPoints": 16
+                        },
+                        {
+                            "team": {
+                                "id": "cd8c0170",
+                                "name": "Adelaide Luth Shiraz D",
+                                "organisation": {
+                                    "id": "66a7fd12",
+                                    "name": "Adelaide Lutheran",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 7,
+                            "lost": 7,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 397,
+                            "pointsAgainst": 362,
+                            "pointsDifference": 35,
+                            "forfeits": 0,
+                            "percentage": 109.67,
+                            "competitionPoints": 14
+                        },
+                        {
+                            "team": {
+                                "id": "e1fe280f",
+                                "name": "Rosebourne A",
+                                "organisation": {
+                                    "id": "cfe4f8f0",
+                                    "name": "Rosebourne",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 6,
+                            "lost": 7,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 320,
+                            "pointsAgainst": 362,
+                            "pointsDifference": -42,
+                            "forfeits": 0,
+                            "percentage": 88.4,
+                            "competitionPoints": 12
+                        },
+                        {
+                            "team": {
+                                "id": "79b876b8",
+                                "name": "Glengowrie A",
+                                "organisation": {
+                                    "id": "8d82bd18",
+                                    "name": "Glengowrie",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 5,
+                            "lost": 9,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 396,
+                            "pointsAgainst": 432,
+                            "pointsDifference": -36,
+                            "forfeits": 0,
+                            "percentage": 91.67,
+                            "competitionPoints": 10
+                        },
+                        {
+                            "team": {
+                                "id": "025d96a1",
+                                "name": "Southern Knights A",
+                                "organisation": {
+                                    "id": "6720bf40",
+                                    "name": "Southern Knights",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 2,
+                            "lost": 11,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 299,
+                            "pointsAgainst": 414,
+                            "pointsDifference": -115,
+                            "forfeits": 1,
+                            "percentage": 72.22,
+                            "competitionPoints": 4
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

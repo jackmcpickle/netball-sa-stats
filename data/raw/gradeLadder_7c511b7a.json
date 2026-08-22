@@ -1,0 +1,126 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "7c511b7a",
+            "name": "Sub Junior 1",
+            "ladderType": "TOTAL_COMPETITION_POINTS",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "b5d8e736",
+                                "name": "Fireworks 12",
+                                "organisation": {
+                                    "id": "27ce429f",
+                                    "name": "Fireworks Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 12,
+                            "lost": 0,
+                            "drawn": 0,
+                            "byes": 3,
+                            "pointsFor": 425,
+                            "pointsAgainst": 85,
+                            "pointsDifference": 0,
+                            "forfeits": 0,
+                            "percentage": 500,
+                            "competitionPoints": 24
+                        },
+                        {
+                            "team": {
+                                "id": "76cc9ea0",
+                                "name": "SN Hawks 2",
+                                "organisation": {
+                                    "id": "65a24905",
+                                    "name": "Salisbury North Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 8,
+                            "lost": 4,
+                            "drawn": 0,
+                            "byes": 3,
+                            "pointsFor": 270,
+                            "pointsAgainst": 211,
+                            "pointsDifference": 0,
+                            "forfeits": 0,
+                            "percentage": 127.96,
+                            "competitionPoints": 16
+                        },
+                        {
+                            "team": {
+                                "id": "4bf6147a",
+                                "name": "EPDemons 8",
+                                "organisation": {
+                                    "id": "5f9fef9c",
+                                    "name": "Eastern Park Demons",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 4,
+                            "lost": 5,
+                            "drawn": 1,
+                            "byes": 3,
+                            "pointsFor": 164,
+                            "pointsAgainst": 244,
+                            "pointsDifference": 0,
+                            "forfeits": 2,
+                            "percentage": 67.21,
+                            "competitionPoints": 9
+                        },
+                        {
+                            "team": {
+                                "id": "4c459bcc",
+                                "name": "Angle Vale  13",
+                                "organisation": {
+                                    "id": "1267db67",
+                                    "name": "Angle Vale",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 3,
+                            "lost": 8,
+                            "drawn": 1,
+                            "byes": 3,
+                            "pointsFor": 139,
+                            "pointsAgainst": 282,
+                            "pointsDifference": 0,
+                            "forfeits": 0,
+                            "percentage": 49.29,
+                            "competitionPoints": 7
+                        },
+                        {
+                            "team": {
+                                "id": "a7a564e8",
+                                "name": "Harlequin 5",
+                                "organisation": {
+                                    "id": "6df86dac",
+                                    "name": "Harlequin Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 2,
+                            "lost": 10,
+                            "drawn": 0,
+                            "byes": 3,
+                            "pointsFor": 121,
+                            "pointsAgainst": 297,
+                            "pointsDifference": 0,
+                            "forfeits": 0,
+                            "percentage": 40.74,
+                            "competitionPoints": 4
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

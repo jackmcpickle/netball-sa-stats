@@ -1,0 +1,148 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "cb6fce82",
+            "name": "13U/3",
+            "ladderType": "POINTS_AVERAGE",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "b08c8c95",
+                                "name": "SMAA O",
+                                "organisation": {
+                                    "id": "72bc9771",
+                                    "name": "St Michael & All Angels",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 10,
+                            "lost": 4,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 386,
+                            "pointsAgainst": 243,
+                            "pointsDifference": 0,
+                            "forfeits": 1,
+                            "percentage": 158.85,
+                            "competitionPoints": 20
+                        },
+                        {
+                            "team": {
+                                "id": "6d7c41b5",
+                                "name": "WP Emerald AA",
+                                "organisation": {
+                                    "id": "53002de5",
+                                    "name": "Westbourne Park Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 7,
+                            "lost": 7,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 352,
+                            "pointsAgainst": 304,
+                            "pointsDifference": 0,
+                            "forfeits": 0,
+                            "percentage": 115.79,
+                            "competitionPoints": 14
+                        },
+                        {
+                            "team": {
+                                "id": "b3167b65",
+                                "name": "St Monicas G",
+                                "organisation": {
+                                    "id": "9b1b9579",
+                                    "name": "St Monicas",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 7,
+                            "lost": 8,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 332,
+                            "pointsAgainst": 332,
+                            "pointsDifference": 0,
+                            "forfeits": 0,
+                            "percentage": 100,
+                            "competitionPoints": 14
+                        },
+                        {
+                            "team": {
+                                "id": "ef5955e0",
+                                "name": "Morialta P",
+                                "organisation": {
+                                    "id": "46cdd3a1",
+                                    "name": "Morialta Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 7,
+                            "lost": 8,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 360,
+                            "pointsAgainst": 368,
+                            "pointsDifference": 0,
+                            "forfeits": 0,
+                            "percentage": 97.83,
+                            "competitionPoints": 14
+                        },
+                        {
+                            "team": {
+                                "id": "28ab2898",
+                                "name": "St Johns Luth H",
+                                "organisation": {
+                                    "id": "f5111a09",
+                                    "name": "St Johns Lutheran Unley",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 5,
+                            "lost": 6,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 300,
+                            "pointsAgainst": 354,
+                            "pointsDifference": 0,
+                            "forfeits": 3,
+                            "percentage": 84.75,
+                            "competitionPoints": 10
+                        },
+                        {
+                            "team": {
+                                "id": "f642a2ce",
+                                "name": "St Joseph's N",
+                                "organisation": {
+                                    "id": "8793c382",
+                                    "name": "St Joseph's (Somerton Park)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 0,
+                            "lost": 15,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 248,
+                            "pointsAgainst": 377,
+                            "pointsDifference": 0,
+                            "forfeits": 0,
+                            "percentage": 65.78,
+                            "competitionPoints": 0
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

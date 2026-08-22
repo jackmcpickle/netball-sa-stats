@@ -1,0 +1,192 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "0fc7c081",
+            "name": "INTER 5",
+            "ladderType": "TOTAL_COMPETITION_POINTS",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "e5436116",
+                                "name": "Garville",
+                                "organisation": {
+                                    "id": "241b44c0",
+                                    "name": "Garville",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 11,
+                            "lost": 2,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 607,
+                            "pointsAgainst": 319,
+                            "pointsDifference": 288,
+                            "forfeits": 0,
+                            "percentage": 190.28,
+                            "competitionPoints": 22
+                        },
+                        {
+                            "team": {
+                                "id": "15882876",
+                                "name": "South Adelaide",
+                                "organisation": {
+                                    "id": "2e63c9f2",
+                                    "name": "South Adelaide Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 8,
+                            "lost": 4,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 405,
+                            "pointsAgainst": 313,
+                            "pointsDifference": 92,
+                            "forfeits": 0,
+                            "percentage": 129.39,
+                            "competitionPoints": 18
+                        },
+                        {
+                            "team": {
+                                "id": "cdb1cfa6",
+                                "name": "Walkerville",
+                                "organisation": {
+                                    "id": "a83c7a81",
+                                    "name": "Walkerville",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 7,
+                            "lost": 5,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 489,
+                            "pointsAgainst": 383,
+                            "pointsDifference": 106,
+                            "forfeits": 0,
+                            "percentage": 127.68,
+                            "competitionPoints": 16
+                        },
+                        {
+                            "team": {
+                                "id": "5149f7ee",
+                                "name": "Metro Jets 1",
+                                "organisation": {
+                                    "id": "601b914e",
+                                    "name": "Metro Jets",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 5,
+                            "lost": 8,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 457,
+                            "pointsAgainst": 434,
+                            "pointsDifference": 23,
+                            "forfeits": 0,
+                            "percentage": 105.3,
+                            "competitionPoints": 10
+                        },
+                        {
+                            "team": {
+                                "id": "bd953a25",
+                                "name": "Norwood",
+                                "organisation": {
+                                    "id": "d275f255",
+                                    "name": "Norwood Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 5,
+                            "lost": 8,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 368,
+                            "pointsAgainst": 416,
+                            "pointsDifference": -48,
+                            "forfeits": 0,
+                            "percentage": 88.46,
+                            "competitionPoints": 10
+                        },
+                        {
+                            "team": {
+                                "id": "b54db9d4",
+                                "name": "Metro Jets 2",
+                                "organisation": {
+                                    "id": "601b914e",
+                                    "name": "Metro Jets",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 3,
+                            "lost": 9,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 330,
+                            "pointsAgainst": 458,
+                            "pointsDifference": -128,
+                            "forfeits": 0,
+                            "percentage": 72.05,
+                            "competitionPoints": 8
+                        },
+                        {
+                            "team": {
+                                "id": "1acf932b",
+                                "name": "Cheerio 1",
+                                "organisation": {
+                                    "id": "4d3928a7",
+                                    "name": "Cheerio Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 2,
+                            "lost": 11,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 191,
+                            "pointsAgainst": 606,
+                            "pointsDifference": -415,
+                            "forfeits": 0,
+                            "percentage": 31.52,
+                            "competitionPoints": 4
+                        },
+                        {
+                            "team": {
+                                "id": "7aba0748",
+                                "name": "Cheerio 2",
+                                "organisation": {
+                                    "id": "4d3928a7",
+                                    "name": "Cheerio Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 0,
+                            "lost": 13,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 102,
+                            "pointsAgainst": 721,
+                            "pointsDifference": -619,
+                            "forfeits": 0,
+                            "percentage": 14.15,
+                            "competitionPoints": 0
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

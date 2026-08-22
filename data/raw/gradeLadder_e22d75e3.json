@@ -1,0 +1,170 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "e22d75e3",
+            "name": "Inters Div 1",
+            "ladderType": "TOTAL_COMPETITION_POINTS",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "3316f489",
+                                "name": "Southern Stars Inters Red",
+                                "organisation": {
+                                    "id": "d7cbd109",
+                                    "name": "Southern Stars Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 8,
+                            "won": 8,
+                            "lost": 0,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 459,
+                            "pointsAgainst": 195,
+                            "pointsDifference": 264,
+                            "forfeits": 0,
+                            "percentage": 235.38,
+                            "competitionPoints": 20
+                        },
+                        {
+                            "team": {
+                                "id": "4c43e13d",
+                                "name": "Falcons Intermediate Red",
+                                "organisation": {
+                                    "id": "4f6dfa31",
+                                    "name": "Flagstaff Hill Falcons Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 8,
+                            "won": 6,
+                            "lost": 1,
+                            "drawn": 1,
+                            "byes": 2,
+                            "pointsFor": 348,
+                            "pointsAgainst": 195,
+                            "pointsDifference": 153,
+                            "forfeits": 0,
+                            "percentage": 178.46,
+                            "competitionPoints": 17
+                        },
+                        {
+                            "team": {
+                                "id": "e602d307",
+                                "name": "Reynella 1",
+                                "organisation": {
+                                    "id": "485b7b56",
+                                    "name": "Reynella Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 9,
+                            "won": 5,
+                            "lost": 3,
+                            "drawn": 1,
+                            "byes": 1,
+                            "pointsFor": 314,
+                            "pointsAgainst": 237,
+                            "pointsDifference": 77,
+                            "forfeits": 0,
+                            "percentage": 132.49,
+                            "competitionPoints": 13
+                        },
+                        {
+                            "team": {
+                                "id": "df22f1a5",
+                                "name": "Southern Stars Inters White",
+                                "organisation": {
+                                    "id": "d7cbd109",
+                                    "name": "Southern Stars Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 9,
+                            "won": 4,
+                            "lost": 5,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 293,
+                            "pointsAgainst": 346,
+                            "pointsDifference": -53,
+                            "forfeits": 0,
+                            "percentage": 84.68,
+                            "competitionPoints": 10
+                        },
+                        {
+                            "team": {
+                                "id": "5174a898",
+                                "name": "Ladybirds RED",
+                                "organisation": {
+                                    "id": "6df89217",
+                                    "name": "Ladybirds Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 9,
+                            "won": 4,
+                            "lost": 5,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 275,
+                            "pointsAgainst": 349,
+                            "pointsDifference": -74,
+                            "forfeits": 0,
+                            "percentage": 78.8,
+                            "competitionPoints": 10
+                        },
+                        {
+                            "team": {
+                                "id": "dc864090",
+                                "name": "Falcons Intermediate Blue",
+                                "organisation": {
+                                    "id": "4f6dfa31",
+                                    "name": "Flagstaff Hill Falcons Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 8,
+                            "won": 2,
+                            "lost": 5,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 204,
+                            "pointsAgainst": 341,
+                            "pointsDifference": -137,
+                            "forfeits": 1,
+                            "percentage": 59.82,
+                            "competitionPoints": 8
+                        },
+                        {
+                            "team": {
+                                "id": "516606b9",
+                                "name": "Cove Tigers Black",
+                                "organisation": {
+                                    "id": "ab06439f",
+                                    "name": "Cove Netball Club Inc",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 9,
+                            "won": 0,
+                            "lost": 9,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 179,
+                            "pointsAgainst": 409,
+                            "pointsDifference": -230,
+                            "forfeits": 0,
+                            "percentage": 43.77,
+                            "competitionPoints": 2
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

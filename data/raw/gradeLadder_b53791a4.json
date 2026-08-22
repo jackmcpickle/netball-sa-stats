@@ -1,0 +1,170 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "b53791a4",
+            "name": "C3",
+            "ladderType": "POINTS_AVERAGE",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "1e986e27",
+                                "name": "Adelaide Luth Royal L",
+                                "organisation": {
+                                    "id": "66a7fd12",
+                                    "name": "Adelaide Lutheran",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 11,
+                            "lost": 2,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 370,
+                            "pointsAgainst": 295,
+                            "pointsDifference": 75,
+                            "forfeits": 0,
+                            "percentage": 125.42,
+                            "competitionPoints": 22
+                        },
+                        {
+                            "team": {
+                                "id": "d3d38cb0",
+                                "name": "PHOS Netball C",
+                                "organisation": {
+                                    "id": "361e148c",
+                                    "name": "PHOS Camden",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 7,
+                            "lost": 5,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 289,
+                            "pointsAgainst": 272,
+                            "pointsDifference": 17,
+                            "forfeits": 0,
+                            "percentage": 106.25,
+                            "competitionPoints": 14
+                        },
+                        {
+                            "team": {
+                                "id": "69ce3e9b",
+                                "name": "Old Ignatians D",
+                                "organisation": {
+                                    "id": "0113cb3e",
+                                    "name": "Old Ignatians",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 7,
+                            "lost": 5,
+                            "drawn": 1,
+                            "byes": 1,
+                            "pointsFor": 415,
+                            "pointsAgainst": 322,
+                            "pointsDifference": 93,
+                            "forfeits": 0,
+                            "percentage": 128.88,
+                            "competitionPoints": 15
+                        },
+                        {
+                            "team": {
+                                "id": "84823fdc",
+                                "name": "Southern Knights B",
+                                "organisation": {
+                                    "id": "6720bf40",
+                                    "name": "Southern Knights",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 6,
+                            "lost": 5,
+                            "drawn": 1,
+                            "byes": 2,
+                            "pointsFor": 324,
+                            "pointsAgainst": 253,
+                            "pointsDifference": 71,
+                            "forfeits": 0,
+                            "percentage": 128.06,
+                            "competitionPoints": 13
+                        },
+                        {
+                            "team": {
+                                "id": "0cea5cb0",
+                                "name": "WP Teal K",
+                                "organisation": {
+                                    "id": "53002de5",
+                                    "name": "Westbourne Park Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 3,
+                            "lost": 9,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 279,
+                            "pointsAgainst": 339,
+                            "pointsDifference": -60,
+                            "forfeits": 0,
+                            "percentage": 82.3,
+                            "competitionPoints": 6
+                        },
+                        {
+                            "team": {
+                                "id": "02934372",
+                                "name": "Burnside City B",
+                                "organisation": {
+                                    "id": "96f9975a",
+                                    "name": "Burnside City Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 3,
+                            "lost": 10,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 334,
+                            "pointsAgainst": 363,
+                            "pointsDifference": -29,
+                            "forfeits": 0,
+                            "percentage": 92.01,
+                            "competitionPoints": 6
+                        },
+                        {
+                            "team": {
+                                "id": "ba6708bc",
+                                "name": "Sparkling Diamonds  A",
+                                "organisation": {
+                                    "id": "290b1ee1",
+                                    "name": "Sparkling Diamonds",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 2,
+                            "lost": 11,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 279,
+                            "pointsAgainst": 446,
+                            "pointsDifference": -167,
+                            "forfeits": 0,
+                            "percentage": 62.56,
+                            "competitionPoints": 4
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

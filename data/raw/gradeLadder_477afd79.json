@@ -1,0 +1,170 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "477afd79",
+            "name": "D5",
+            "ladderType": "TOTAL_COMPETITION_POINTS",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "5ca600f2",
+                                "name": "Bombers 4",
+                                "organisation": {
+                                    "id": "fdc2c5fd",
+                                    "name": "Northern Bombers Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 12,
+                            "lost": 1,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 560,
+                            "pointsAgainst": 276,
+                            "pointsDifference": 284,
+                            "forfeits": 0,
+                            "percentage": 202.9,
+                            "competitionPoints": 24
+                        },
+                        {
+                            "team": {
+                                "id": "b0ee6902",
+                                "name": "Angle Vale 08",
+                                "organisation": {
+                                    "id": "1267db67",
+                                    "name": "Angle Vale",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 11,
+                            "lost": 2,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 610,
+                            "pointsAgainst": 275,
+                            "pointsDifference": 335,
+                            "forfeits": 0,
+                            "percentage": 221.82,
+                            "competitionPoints": 22
+                        },
+                        {
+                            "team": {
+                                "id": "ffe0e107",
+                                "name": "Koalas 2",
+                                "organisation": {
+                                    "id": "b3d5bec7",
+                                    "name": "Koala United",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 9,
+                            "lost": 4,
+                            "drawn": 1,
+                            "byes": 1,
+                            "pointsFor": 505,
+                            "pointsAgainst": 390,
+                            "pointsDifference": 115,
+                            "forfeits": 0,
+                            "percentage": 129.49,
+                            "competitionPoints": 19
+                        },
+                        {
+                            "team": {
+                                "id": "a3bae4ae",
+                                "name": "Northern Storm 4",
+                                "organisation": {
+                                    "id": "2e78dfde",
+                                    "name": "Northern Storm Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 7,
+                            "lost": 7,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 439,
+                            "pointsAgainst": 411,
+                            "pointsDifference": 28,
+                            "forfeits": 0,
+                            "percentage": 106.81,
+                            "competitionPoints": 14
+                        },
+                        {
+                            "team": {
+                                "id": "d24dea7c",
+                                "name": "Bombers 5",
+                                "organisation": {
+                                    "id": "fdc2c5fd",
+                                    "name": "Northern Bombers Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 3,
+                            "lost": 9,
+                            "drawn": 1,
+                            "byes": 1,
+                            "pointsFor": 293,
+                            "pointsAgainst": 447,
+                            "pointsDifference": -154,
+                            "forfeits": 1,
+                            "percentage": 65.55,
+                            "competitionPoints": 7
+                        },
+                        {
+                            "team": {
+                                "id": "3527aec6",
+                                "name": "Warriors 3",
+                                "organisation": {
+                                    "id": "204e3fbe",
+                                    "name": "Warriors Netball Club (SA)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 2,
+                            "lost": 10,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 237,
+                            "pointsAgainst": 518,
+                            "pointsDifference": -281,
+                            "forfeits": 1,
+                            "percentage": 45.75,
+                            "competitionPoints": 4
+                        },
+                        {
+                            "team": {
+                                "id": "380a9e70",
+                                "name": "Warriors 2",
+                                "organisation": {
+                                    "id": "204e3fbe",
+                                    "name": "Warriors Netball Club (SA)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 0,
+                            "lost": 13,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 161,
+                            "pointsAgainst": 488,
+                            "pointsDifference": -327,
+                            "forfeits": 0,
+                            "percentage": 32.99,
+                            "competitionPoints": 0
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

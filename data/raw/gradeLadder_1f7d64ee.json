@@ -1,0 +1,148 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "1f7d64ee",
+            "name": "9U/2",
+            "ladderType": "POINTS_AVERAGE",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "3b759bd2",
+                                "name": "Glengowrie Uniting 9B",
+                                "organisation": {
+                                    "id": "8d82bd18",
+                                    "name": "Glengowrie",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 10,
+                            "lost": 4,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 185,
+                            "pointsAgainst": 98,
+                            "pointsDifference": 87,
+                            "forfeits": 0,
+                            "percentage": 188.78,
+                            "competitionPoints": 21
+                        },
+                        {
+                            "team": {
+                                "id": "7f81c7e6",
+                                "name": "Grange Sealions 9A",
+                                "organisation": {
+                                    "id": "473e0fc3",
+                                    "name": "Grange Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 9,
+                            "lost": 3,
+                            "drawn": 3,
+                            "byes": 0,
+                            "pointsFor": 174,
+                            "pointsAgainst": 110,
+                            "pointsDifference": 64,
+                            "forfeits": 0,
+                            "percentage": 158.18,
+                            "competitionPoints": 21
+                        },
+                        {
+                            "team": {
+                                "id": "23b959f0",
+                                "name": "St Josephs 9B",
+                                "organisation": {
+                                    "id": "8793c382",
+                                    "name": "St Joseph's (Somerton Park)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 9,
+                            "lost": 5,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 124,
+                            "pointsAgainst": 96,
+                            "pointsDifference": 28,
+                            "forfeits": 0,
+                            "percentage": 129.17,
+                            "competitionPoints": 19
+                        },
+                        {
+                            "team": {
+                                "id": "3ad1f845",
+                                "name": "WP Rose 9A",
+                                "organisation": {
+                                    "id": "53002de5",
+                                    "name": "Westbourne Park Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 8,
+                            "lost": 6,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 142,
+                            "pointsAgainst": 141,
+                            "pointsDifference": 1,
+                            "forfeits": 0,
+                            "percentage": 100.71,
+                            "competitionPoints": 17
+                        },
+                        {
+                            "team": {
+                                "id": "d4486179",
+                                "name": "PHOS Netball 9A",
+                                "organisation": {
+                                    "id": "361e148c",
+                                    "name": "PHOS Camden",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 4,
+                            "lost": 11,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 117,
+                            "pointsAgainst": 174,
+                            "pointsDifference": -57,
+                            "forfeits": 0,
+                            "percentage": 67.24,
+                            "competitionPoints": 8
+                        },
+                        {
+                            "team": {
+                                "id": "314c1daa",
+                                "name": "Cove Tigers Orange 9A",
+                                "organisation": {
+                                    "id": "ab06439f",
+                                    "name": "Cove Netball Club Inc",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 2,
+                            "lost": 13,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 81,
+                            "pointsAgainst": 204,
+                            "pointsDifference": -123,
+                            "forfeits": 0,
+                            "percentage": 39.71,
+                            "competitionPoints": 4
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

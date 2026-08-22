@@ -36,7 +36,7 @@ describe('competition catalogue', () => {
                 (competition) => competition.key === key,
             );
             expect(seed?.playhqOrgId).toMatch(/^[0-9a-f]{8}$/u);
-            expect(seed?.hasData).toBeFalsy();
+            expect(seed?.hasData).toBeTruthy();
         }
     });
 
@@ -63,15 +63,20 @@ describe('competition catalogue', () => {
         expect(orgIds).not.toContain('489c7576');
     });
 
-    it('does not claim data for any new association', () => {
+    it('claims data only for competitions that have imported rows', () => {
         const claiming = COMPETITION_SEEDS.filter(
-            (competition) =>
-                competition.hasData &&
-                !['amnd', 'premier_league', 'premier_league_reserves'].includes(
-                    competition.key,
-                ),
-        );
-        expect(claiming).toStrictEqual([]);
+            (competition) => competition.hasData,
+        ).map((competition) => competition.key);
+        expect(claiming).toStrictEqual([
+            'amnd',
+            'premier_league',
+            'premier_league_reserves',
+            'city_night_division',
+            'saucna',
+            'suna',
+            'elizabeth',
+            'sammna',
+        ]);
     });
 });
 

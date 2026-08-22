@@ -1,0 +1,192 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "33e585ea",
+            "name": "Primary 3",
+            "ladderType": "TOTAL_COMPETITION_POINTS",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "9b952dd9",
+                                "name": "Matrics",
+                                "organisation": {
+                                    "id": "0969cc64",
+                                    "name": "Matrics",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 12,
+                            "lost": 1,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 207,
+                            "pointsAgainst": 123,
+                            "pointsDifference": 84,
+                            "forfeits": 0,
+                            "percentage": 168.29,
+                            "competitionPoints": 24
+                        },
+                        {
+                            "team": {
+                                "id": "9a812755",
+                                "name": "South Adelaide",
+                                "organisation": {
+                                    "id": "2e63c9f2",
+                                    "name": "South Adelaide Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 11,
+                            "lost": 2,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 293,
+                            "pointsAgainst": 157,
+                            "pointsDifference": 136,
+                            "forfeits": 0,
+                            "percentage": 186.62,
+                            "competitionPoints": 22
+                        },
+                        {
+                            "team": {
+                                "id": "202bb798",
+                                "name": "Oakdale",
+                                "organisation": {
+                                    "id": "2f66832f",
+                                    "name": "Oakdale Netball Club (SA)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 7,
+                            "lost": 5,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 187,
+                            "pointsAgainst": 202,
+                            "pointsDifference": -15,
+                            "forfeits": 0,
+                            "percentage": 92.57,
+                            "competitionPoints": 15
+                        },
+                        {
+                            "team": {
+                                "id": "42fa857c",
+                                "name": "Newton Jaguars",
+                                "organisation": {
+                                    "id": "d275f255",
+                                    "name": "Norwood Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 6,
+                            "lost": 7,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 144,
+                            "pointsAgainst": 177,
+                            "pointsDifference": -33,
+                            "forfeits": 0,
+                            "percentage": 81.36,
+                            "competitionPoints": 12
+                        },
+                        {
+                            "team": {
+                                "id": "5c6a6c06",
+                                "name": "Contax",
+                                "organisation": {
+                                    "id": "a8ee2320",
+                                    "name": "Contax",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 5,
+                            "lost": 8,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 161,
+                            "pointsAgainst": 188,
+                            "pointsDifference": -27,
+                            "forfeits": 0,
+                            "percentage": 85.64,
+                            "competitionPoints": 10
+                        },
+                        {
+                            "team": {
+                                "id": "6aa8970e",
+                                "name": "Reynella",
+                                "organisation": {
+                                    "id": "485b7b56",
+                                    "name": "Reynella Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 4,
+                            "lost": 8,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 148,
+                            "pointsAgainst": 187,
+                            "pointsDifference": -39,
+                            "forfeits": 0,
+                            "percentage": 79.14,
+                            "competitionPoints": 9
+                        },
+                        {
+                            "team": {
+                                "id": "41ac352e",
+                                "name": "Metro Jets",
+                                "organisation": {
+                                    "id": "601b914e",
+                                    "name": "Metro Jets",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 2,
+                            "lost": 11,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 93,
+                            "pointsAgainst": 228,
+                            "pointsDifference": -135,
+                            "forfeits": 0,
+                            "percentage": 40.79,
+                            "competitionPoints": 4
+                        },
+                        {
+                            "team": {
+                                "id": "8483840b",
+                                "name": "Walkerville",
+                                "organisation": {
+                                    "id": "a83c7a81",
+                                    "name": "Walkerville",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 1,
+                            "lost": 12,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 142,
+                            "pointsAgainst": 240,
+                            "pointsDifference": -98,
+                            "forfeits": 0,
+                            "percentage": 59.17,
+                            "competitionPoints": 2
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

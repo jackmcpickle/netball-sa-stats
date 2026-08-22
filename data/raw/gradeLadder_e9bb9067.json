@@ -1,0 +1,148 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "e9bb9067",
+            "name": "C4",
+            "ladderType": "TOTAL_COMPETITION_POINTS",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "7a76088c",
+                                "name": "Hallett Cove B",
+                                "organisation": {
+                                    "id": "afa7dc80",
+                                    "name": "Hallett Cove Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 13,
+                            "lost": 1,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 586,
+                            "pointsAgainst": 251,
+                            "pointsDifference": 335,
+                            "forfeits": 0,
+                            "percentage": 233.47,
+                            "competitionPoints": 27
+                        },
+                        {
+                            "team": {
+                                "id": "3af05a64",
+                                "name": "Adelaide Uni G",
+                                "organisation": {
+                                    "id": "d5bdb649",
+                                    "name": "Adelaide University",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 11,
+                            "lost": 3,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 440,
+                            "pointsAgainst": 326,
+                            "pointsDifference": 114,
+                            "forfeits": 0,
+                            "percentage": 134.97,
+                            "competitionPoints": 23
+                        },
+                        {
+                            "team": {
+                                "id": "f9f7631e",
+                                "name": "Adelaide Luth Rose M",
+                                "organisation": {
+                                    "id": "66a7fd12",
+                                    "name": "Adelaide Lutheran",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 7,
+                            "lost": 8,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 362,
+                            "pointsAgainst": 347,
+                            "pointsDifference": 15,
+                            "forfeits": 0,
+                            "percentage": 104.32,
+                            "competitionPoints": 14
+                        },
+                        {
+                            "team": {
+                                "id": "8fe9c096",
+                                "name": "St Josephs A",
+                                "organisation": {
+                                    "id": "8793c382",
+                                    "name": "St Joseph's (Somerton Park)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 4,
+                            "lost": 11,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 250,
+                            "pointsAgainst": 417,
+                            "pointsDifference": -167,
+                            "forfeits": 0,
+                            "percentage": 59.95,
+                            "competitionPoints": 8
+                        },
+                        {
+                            "team": {
+                                "id": "b3469e74",
+                                "name": "Walkerville D",
+                                "organisation": {
+                                    "id": "a83c7a81",
+                                    "name": "Walkerville",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 3,
+                            "lost": 11,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 290,
+                            "pointsAgainst": 421,
+                            "pointsDifference": -131,
+                            "forfeits": 0,
+                            "percentage": 68.88,
+                            "competitionPoints": 6
+                        },
+                        {
+                            "team": {
+                                "id": "e43bec7c",
+                                "name": "Adelaide Luth Sapphire N",
+                                "organisation": {
+                                    "id": "66a7fd12",
+                                    "name": "Adelaide Lutheran",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 1,
+                            "lost": 14,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 231,
+                            "pointsAgainst": 397,
+                            "pointsDifference": -166,
+                            "forfeits": 0,
+                            "percentage": 58.19,
+                            "competitionPoints": 2
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

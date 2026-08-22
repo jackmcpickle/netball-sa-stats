@@ -1,0 +1,148 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "5a6b2575",
+            "name": "11U/1",
+            "ladderType": "POINTS_AVERAGE",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "68a0f4b1",
+                                "name": "Glengowrie Red L",
+                                "organisation": {
+                                    "id": "8d82bd18",
+                                    "name": "Glengowrie",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 15,
+                            "lost": 0,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 370,
+                            "pointsAgainst": 174,
+                            "pointsDifference": 0,
+                            "forfeits": 0,
+                            "percentage": 212.64,
+                            "competitionPoints": 30
+                        },
+                        {
+                            "team": {
+                                "id": "35c232c8",
+                                "name": "Grange Purple W",
+                                "organisation": {
+                                    "id": "473e0fc3",
+                                    "name": "Grange Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 11,
+                            "lost": 4,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 256,
+                            "pointsAgainst": 184,
+                            "pointsDifference": 0,
+                            "forfeits": 0,
+                            "percentage": 139.13,
+                            "competitionPoints": 22
+                        },
+                        {
+                            "team": {
+                                "id": "a4874554",
+                                "name": "Henley Sharks Q",
+                                "organisation": {
+                                    "id": "e234a948",
+                                    "name": "Henley Sharks Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 9,
+                            "lost": 6,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 283,
+                            "pointsAgainst": 197,
+                            "pointsDifference": 0,
+                            "forfeits": 0,
+                            "percentage": 143.65,
+                            "competitionPoints": 18
+                        },
+                        {
+                            "team": {
+                                "id": "bf45b02c",
+                                "name": "Grange Blue X",
+                                "organisation": {
+                                    "id": "473e0fc3",
+                                    "name": "Grange Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 7,
+                            "lost": 7,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 223,
+                            "pointsAgainst": 258,
+                            "pointsDifference": 0,
+                            "forfeits": 0,
+                            "percentage": 86.43,
+                            "competitionPoints": 14
+                        },
+                        {
+                            "team": {
+                                "id": "83d74a68",
+                                "name": "Glengowrie White M",
+                                "organisation": {
+                                    "id": "8d82bd18",
+                                    "name": "Glengowrie",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 5,
+                            "lost": 10,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 192,
+                            "pointsAgainst": 291,
+                            "pointsDifference": 0,
+                            "forfeits": 0,
+                            "percentage": 65.98,
+                            "competitionPoints": 10
+                        },
+                        {
+                            "team": {
+                                "id": "627902b8",
+                                "name": "WP Lorikeet AG",
+                                "organisation": {
+                                    "id": "53002de5",
+                                    "name": "Westbourne Park Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 3,
+                            "lost": 10,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 146,
+                            "pointsAgainst": 366,
+                            "pointsDifference": 0,
+                            "forfeits": 1,
+                            "percentage": 39.89,
+                            "competitionPoints": 6
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

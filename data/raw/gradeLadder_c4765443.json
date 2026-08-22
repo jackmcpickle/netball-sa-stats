@@ -1,0 +1,192 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "c4765443",
+            "name": "13U/10",
+            "ladderType": "POINTS_AVERAGE",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "cd236ef8",
+                                "name": "Hectorville Hurricanes 13G",
+                                "organisation": {
+                                    "id": "a836b73f",
+                                    "name": "Hectorville Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 11,
+                            "lost": 2,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 337,
+                            "pointsAgainst": 105,
+                            "pointsDifference": 232,
+                            "forfeits": 0,
+                            "percentage": 320.95,
+                            "competitionPoints": 22
+                        },
+                        {
+                            "team": {
+                                "id": "fc604840",
+                                "name": "Henley Sharks Red 13F",
+                                "organisation": {
+                                    "id": "e234a948",
+                                    "name": "Henley Sharks Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 10,
+                            "lost": 3,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 314,
+                            "pointsAgainst": 159,
+                            "pointsDifference": 155,
+                            "forfeits": 0,
+                            "percentage": 197.48,
+                            "competitionPoints": 20
+                        },
+                        {
+                            "team": {
+                                "id": "bcf95367",
+                                "name": "Burnside City Gold 13D",
+                                "organisation": {
+                                    "id": "96f9975a",
+                                    "name": "Burnside City Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 6,
+                            "lost": 7,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 209,
+                            "pointsAgainst": 172,
+                            "pointsDifference": 37,
+                            "forfeits": 0,
+                            "percentage": 121.51,
+                            "competitionPoints": 13
+                        },
+                        {
+                            "team": {
+                                "id": "442b415b",
+                                "name": "Hallett Cove 13C",
+                                "organisation": {
+                                    "id": "afa7dc80",
+                                    "name": "Hallett Cove Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 6,
+                            "lost": 7,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 202,
+                            "pointsAgainst": 231,
+                            "pointsDifference": -29,
+                            "forfeits": 0,
+                            "percentage": 87.45,
+                            "competitionPoints": 12
+                        },
+                        {
+                            "team": {
+                                "id": "9e0b4ec3",
+                                "name": "Glengowrie 13G",
+                                "organisation": {
+                                    "id": "8d82bd18",
+                                    "name": "Glengowrie",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 3,
+                            "lost": 9,
+                            "drawn": 1,
+                            "byes": 1,
+                            "pointsFor": 115,
+                            "pointsAgainst": 200,
+                            "pointsDifference": -85,
+                            "forfeits": 0,
+                            "percentage": 57.5,
+                            "competitionPoints": 7
+                        },
+                        {
+                            "team": {
+                                "id": "10a0404f",
+                                "name": "SMAA 13E",
+                                "organisation": {
+                                    "id": "72bc9771",
+                                    "name": "St Michael & All Angels",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 3,
+                            "lost": 9,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 109,
+                            "pointsAgainst": 163,
+                            "pointsDifference": -54,
+                            "forfeits": 1,
+                            "percentage": 66.87,
+                            "competitionPoints": 7
+                        },
+                        {
+                            "team": {
+                                "id": "736041ff",
+                                "name": "Morialta 13E",
+                                "organisation": {
+                                    "id": "46cdd3a1",
+                                    "name": "Morialta Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 3,
+                            "lost": 11,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 165,
+                            "pointsAgainst": 264,
+                            "pointsDifference": -99,
+                            "forfeits": 0,
+                            "percentage": 62.5,
+                            "competitionPoints": 6
+                        },
+                        {
+                            "team": {
+                                "id": "16f48e92",
+                                "name": "PHOS 13B",
+                                "organisation": {
+                                    "id": "361e148c",
+                                    "name": "PHOS Camden",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 0,
+                            "lost": 13,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 113,
+                            "pointsAgainst": 270,
+                            "pointsDifference": -157,
+                            "forfeits": 0,
+                            "percentage": 41.85,
+                            "competitionPoints": 1
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

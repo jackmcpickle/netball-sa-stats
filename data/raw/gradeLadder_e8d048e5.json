@@ -1,0 +1,192 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "e8d048e5",
+            "name": "Junior 8",
+            "ladderType": "POINTS_AVERAGE",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "7b2b5afb",
+                                "name": "Reynella",
+                                "organisation": {
+                                    "id": "485b7b56",
+                                    "name": "Reynella Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 12,
+                            "lost": 2,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 458,
+                            "pointsAgainst": 272,
+                            "pointsDifference": 186,
+                            "forfeits": 0,
+                            "percentage": 168.38,
+                            "competitionPoints": 24
+                        },
+                        {
+                            "team": {
+                                "id": "ad444ffe",
+                                "name": "South Adelaide",
+                                "organisation": {
+                                    "id": "2e63c9f2",
+                                    "name": "South Adelaide Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 10,
+                            "lost": 4,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 487,
+                            "pointsAgainst": 278,
+                            "pointsDifference": 209,
+                            "forfeits": 0,
+                            "percentage": 175.18,
+                            "competitionPoints": 20
+                        },
+                        {
+                            "team": {
+                                "id": "0cd11d5a",
+                                "name": "Newton Jaguars 1",
+                                "organisation": {
+                                    "id": "d275f255",
+                                    "name": "Norwood Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 9,
+                            "lost": 5,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 317,
+                            "pointsAgainst": 326,
+                            "pointsDifference": -9,
+                            "forfeits": 0,
+                            "percentage": 97.24,
+                            "competitionPoints": 18
+                        },
+                        {
+                            "team": {
+                                "id": "61cf1a4d",
+                                "name": "Adelaide Wildcats",
+                                "organisation": {
+                                    "id": "92fdb2ed",
+                                    "name": "Adelaide Wildcats",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 7,
+                            "lost": 7,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 386,
+                            "pointsAgainst": 298,
+                            "pointsDifference": 88,
+                            "forfeits": 0,
+                            "percentage": 129.53,
+                            "competitionPoints": 14
+                        },
+                        {
+                            "team": {
+                                "id": "186c258f",
+                                "name": "Metro Jets 1",
+                                "organisation": {
+                                    "id": "601b914e",
+                                    "name": "Metro Jets",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 6,
+                            "lost": 8,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 339,
+                            "pointsAgainst": 344,
+                            "pointsDifference": -5,
+                            "forfeits": 0,
+                            "percentage": 98.55,
+                            "competitionPoints": 12
+                        },
+                        {
+                            "team": {
+                                "id": "d590edc6",
+                                "name": "Newton Jaguars 2",
+                                "organisation": {
+                                    "id": "d275f255",
+                                    "name": "Norwood Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 5,
+                            "lost": 9,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 237,
+                            "pointsAgainst": 307,
+                            "pointsDifference": -70,
+                            "forfeits": 0,
+                            "percentage": 77.2,
+                            "competitionPoints": 10
+                        },
+                        {
+                            "team": {
+                                "id": "48916025",
+                                "name": "Metro Jets 2",
+                                "organisation": {
+                                    "id": "601b914e",
+                                    "name": "Metro Jets",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 3,
+                            "lost": 11,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 263,
+                            "pointsAgainst": 397,
+                            "pointsDifference": -134,
+                            "forfeits": 0,
+                            "percentage": 66.25,
+                            "competitionPoints": 6
+                        },
+                        {
+                            "team": {
+                                "id": "c62ca708",
+                                "name": "Cheerio",
+                                "organisation": {
+                                    "id": "4d3928a7",
+                                    "name": "Cheerio Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 0,
+                            "lost": 14,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 102,
+                            "pointsAgainst": 532,
+                            "pointsDifference": -430,
+                            "forfeits": 0,
+                            "percentage": 19.17,
+                            "competitionPoints": 0
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

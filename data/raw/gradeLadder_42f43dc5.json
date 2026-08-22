@@ -1,0 +1,170 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "42f43dc5",
+            "name": "17U/2",
+            "ladderType": "POINTS_AVERAGE",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "10ef15be",
+                                "name": "Morialta E",
+                                "organisation": {
+                                    "id": "46cdd3a1",
+                                    "name": "Morialta Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 11,
+                            "lost": 1,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 590,
+                            "pointsAgainst": 265,
+                            "pointsDifference": 0,
+                            "forfeits": 0,
+                            "percentage": 222.64,
+                            "competitionPoints": 22
+                        },
+                        {
+                            "team": {
+                                "id": "c5fd9a40",
+                                "name": "WP Flame N",
+                                "organisation": {
+                                    "id": "53002de5",
+                                    "name": "Westbourne Park Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 9,
+                            "lost": 3,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 577,
+                            "pointsAgainst": 422,
+                            "pointsDifference": 0,
+                            "forfeits": 0,
+                            "percentage": 136.73,
+                            "competitionPoints": 18
+                        },
+                        {
+                            "team": {
+                                "id": "63c4383e",
+                                "name": "WP Ignite M",
+                                "organisation": {
+                                    "id": "53002de5",
+                                    "name": "Westbourne Park Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 7,
+                            "lost": 3,
+                            "drawn": 1,
+                            "byes": 2,
+                            "pointsFor": 493,
+                            "pointsAgainst": 400,
+                            "pointsDifference": 0,
+                            "forfeits": 1,
+                            "percentage": 123.25,
+                            "competitionPoints": 15
+                        },
+                        {
+                            "team": {
+                                "id": "55685cc4",
+                                "name": "Glenunga Storm B",
+                                "organisation": {
+                                    "id": "05a8f52f",
+                                    "name": "Glenunga",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 6,
+                            "lost": 6,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 450,
+                            "pointsAgainst": 438,
+                            "pointsDifference": 0,
+                            "forfeits": 0,
+                            "percentage": 102.74,
+                            "competitionPoints": 12
+                        },
+                        {
+                            "team": {
+                                "id": "04d5df45",
+                                "name": "Hectorville Hurricanes B",
+                                "organisation": {
+                                    "id": "a836b73f",
+                                    "name": "Hectorville Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 3,
+                            "lost": 8,
+                            "drawn": 1,
+                            "byes": 2,
+                            "pointsFor": 366,
+                            "pointsAgainst": 573,
+                            "pointsDifference": 0,
+                            "forfeits": 0,
+                            "percentage": 63.87,
+                            "competitionPoints": 7
+                        },
+                        {
+                            "team": {
+                                "id": "fd8044bf",
+                                "name": "Grange Pink F",
+                                "organisation": {
+                                    "id": "473e0fc3",
+                                    "name": "Grange Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 2,
+                            "lost": 8,
+                            "drawn": 1,
+                            "byes": 2,
+                            "pointsFor": 388,
+                            "pointsAgainst": 547,
+                            "pointsDifference": 0,
+                            "forfeits": 1,
+                            "percentage": 70.93,
+                            "competitionPoints": 5
+                        },
+                        {
+                            "team": {
+                                "id": "fa615a2f",
+                                "name": "St Johns Luth D",
+                                "organisation": {
+                                    "id": "f5111a09",
+                                    "name": "St Johns Lutheran Unley",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 2,
+                            "lost": 9,
+                            "drawn": 1,
+                            "byes": 2,
+                            "pointsFor": 376,
+                            "pointsAgainst": 595,
+                            "pointsDifference": 0,
+                            "forfeits": 0,
+                            "percentage": 63.19,
+                            "competitionPoints": 5
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

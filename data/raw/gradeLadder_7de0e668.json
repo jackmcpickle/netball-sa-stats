@@ -1,0 +1,148 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "7de0e668",
+            "name": "9U/1",
+            "ladderType": "POINTS_AVERAGE",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "390bbb42",
+                                "name": "St Josephs 9A",
+                                "organisation": {
+                                    "id": "8793c382",
+                                    "name": "St Joseph's (Somerton Park)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 15,
+                            "lost": 0,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 344,
+                            "pointsAgainst": 64,
+                            "pointsDifference": 280,
+                            "forfeits": 0,
+                            "percentage": 537.5,
+                            "competitionPoints": 30
+                        },
+                        {
+                            "team": {
+                                "id": "4b998b90",
+                                "name": "Glengowrie Uniting 9A",
+                                "organisation": {
+                                    "id": "8d82bd18",
+                                    "name": "Glengowrie",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 12,
+                            "lost": 3,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 305,
+                            "pointsAgainst": 85,
+                            "pointsDifference": 220,
+                            "forfeits": 0,
+                            "percentage": 358.82,
+                            "competitionPoints": 24
+                        },
+                        {
+                            "team": {
+                                "id": "6b7c9152",
+                                "name": "Henley Sharks 9A",
+                                "organisation": {
+                                    "id": "e234a948",
+                                    "name": "Henley Sharks Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 9,
+                            "lost": 6,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 146,
+                            "pointsAgainst": 125,
+                            "pointsDifference": 21,
+                            "forfeits": 0,
+                            "percentage": 116.8,
+                            "competitionPoints": 18
+                        },
+                        {
+                            "team": {
+                                "id": "bea2cbf0",
+                                "name": "Hectorville 9A",
+                                "organisation": {
+                                    "id": "a836b73f",
+                                    "name": "Hectorville Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 5,
+                            "lost": 10,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 112,
+                            "pointsAgainst": 246,
+                            "pointsDifference": -134,
+                            "forfeits": 0,
+                            "percentage": 45.53,
+                            "competitionPoints": 10
+                        },
+                        {
+                            "team": {
+                                "id": "c99c569b",
+                                "name": "St Monicas 9A",
+                                "organisation": {
+                                    "id": "9b1b9579",
+                                    "name": "St Monicas",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 3,
+                            "lost": 12,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 66,
+                            "pointsAgainst": 230,
+                            "pointsDifference": -164,
+                            "forfeits": 0,
+                            "percentage": 28.7,
+                            "competitionPoints": 6
+                        },
+                        {
+                            "team": {
+                                "id": "1c3f4c2b",
+                                "name": "Rosefield Supernovas 9A",
+                                "organisation": {
+                                    "id": "f7fe98c2",
+                                    "name": "Rosefield Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 1,
+                            "lost": 13,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 51,
+                            "pointsAgainst": 274,
+                            "pointsDifference": -223,
+                            "forfeits": 1,
+                            "percentage": 18.61,
+                            "competitionPoints": 2
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

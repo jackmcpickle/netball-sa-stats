@@ -1,0 +1,148 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "a2a1146e",
+            "name": "C2",
+            "ladderType": "POINTS_AVERAGE",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "ee82a164",
+                                "name": "Pembroke OS 2",
+                                "organisation": {
+                                    "id": "0b5f7af5",
+                                    "name": "Pembroke O.S.",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 11,
+                            "lost": 1,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 670,
+                            "pointsAgainst": 318,
+                            "pointsDifference": 352,
+                            "forfeits": 0,
+                            "percentage": 210.69,
+                            "competitionPoints": 23
+                        },
+                        {
+                            "team": {
+                                "id": "ed1177ed",
+                                "name": "Metro Jets",
+                                "organisation": {
+                                    "id": "601b914e",
+                                    "name": "Metro Jets",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 8,
+                            "lost": 3,
+                            "drawn": 2,
+                            "byes": 0,
+                            "pointsFor": 518,
+                            "pointsAgainst": 373,
+                            "pointsDifference": 145,
+                            "forfeits": 0,
+                            "percentage": 138.87,
+                            "competitionPoints": 18
+                        },
+                        {
+                            "team": {
+                                "id": "f1ee7ec1",
+                                "name": "SHOCS",
+                                "organisation": {
+                                    "id": "d45fe04a",
+                                    "name": "Sacred Heart O.C.",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 5,
+                            "lost": 8,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 458,
+                            "pointsAgainst": 462,
+                            "pointsDifference": -4,
+                            "forfeits": 0,
+                            "percentage": 99.13,
+                            "competitionPoints": 10
+                        },
+                        {
+                            "team": {
+                                "id": "e356cd71",
+                                "name": "Pembroke OS 1",
+                                "organisation": {
+                                    "id": "0b5f7af5",
+                                    "name": "Pembroke O.S.",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 5,
+                            "lost": 8,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 391,
+                            "pointsAgainst": 423,
+                            "pointsDifference": -32,
+                            "forfeits": 0,
+                            "percentage": 92.43,
+                            "competitionPoints": 10
+                        },
+                        {
+                            "team": {
+                                "id": "83667ff8",
+                                "name": "Adelaide Wildcats",
+                                "organisation": {
+                                    "id": "92fdb2ed",
+                                    "name": "Adelaide Wildcats",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 4,
+                            "lost": 8,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 407,
+                            "pointsAgainst": 413,
+                            "pointsDifference": -6,
+                            "forfeits": 0,
+                            "percentage": 98.55,
+                            "competitionPoints": 9
+                        },
+                        {
+                            "team": {
+                                "id": "210ac787",
+                                "name": "Walkerville",
+                                "organisation": {
+                                    "id": "a83c7a81",
+                                    "name": "Walkerville",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 0,
+                            "lost": 13,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 125,
+                            "pointsAgainst": 726,
+                            "pointsDifference": -601,
+                            "forfeits": 0,
+                            "percentage": 17.22,
+                            "competitionPoints": 0
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

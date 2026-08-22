@@ -1,0 +1,170 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "32439be9",
+            "name": "17U/7",
+            "ladderType": "POINTS_AVERAGE",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "0fd99e36",
+                                "name": "St Josephs 17C",
+                                "organisation": {
+                                    "id": "8793c382",
+                                    "name": "St Joseph's (Somerton Park)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 12,
+                            "lost": 2,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 343,
+                            "pointsAgainst": 180,
+                            "pointsDifference": 163,
+                            "forfeits": 0,
+                            "percentage": 190.56,
+                            "competitionPoints": 24
+                        },
+                        {
+                            "team": {
+                                "id": "945496a5",
+                                "name": "CLG Jade 17C",
+                                "organisation": {
+                                    "id": "5d401652",
+                                    "name": "Colonel Light Gardens",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 12,
+                            "lost": 1,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 358,
+                            "pointsAgainst": 193,
+                            "pointsDifference": 165,
+                            "forfeits": 1,
+                            "percentage": 185.49,
+                            "competitionPoints": 24
+                        },
+                        {
+                            "team": {
+                                "id": "d9bcee52",
+                                "name": "Cove Tigers Silver 17B",
+                                "organisation": {
+                                    "id": "ab06439f",
+                                    "name": "Cove Netball Club Inc",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 6,
+                            "lost": 5,
+                            "drawn": 1,
+                            "byes": 2,
+                            "pointsFor": 297,
+                            "pointsAgainst": 232,
+                            "pointsDifference": 65,
+                            "forfeits": 1,
+                            "percentage": 128.02,
+                            "competitionPoints": 13
+                        },
+                        {
+                            "team": {
+                                "id": "05aff0f7",
+                                "name": "Glengowrie 17B",
+                                "organisation": {
+                                    "id": "8d82bd18",
+                                    "name": "Glengowrie",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 5,
+                            "lost": 8,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 231,
+                            "pointsAgainst": 342,
+                            "pointsDifference": -111,
+                            "forfeits": 0,
+                            "percentage": 67.54,
+                            "competitionPoints": 10
+                        },
+                        {
+                            "team": {
+                                "id": "fa5dd9fc",
+                                "name": "SMAA 17C",
+                                "organisation": {
+                                    "id": "72bc9771",
+                                    "name": "St Michael & All Angels",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 3,
+                            "lost": 9,
+                            "drawn": 1,
+                            "byes": 1,
+                            "pointsFor": 250,
+                            "pointsAgainst": 303,
+                            "pointsDifference": -53,
+                            "forfeits": 0,
+                            "percentage": 82.51,
+                            "competitionPoints": 7
+                        },
+                        {
+                            "team": {
+                                "id": "450cef43",
+                                "name": "Hallett Cove 17B",
+                                "organisation": {
+                                    "id": "afa7dc80",
+                                    "name": "Hallett Cove Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 3,
+                            "lost": 6,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 200,
+                            "pointsAgainst": 315,
+                            "pointsDifference": -115,
+                            "forfeits": 4,
+                            "percentage": 63.49,
+                            "competitionPoints": 6
+                        },
+                        {
+                            "team": {
+                                "id": "d0609a18",
+                                "name": "Grange Silver 17C",
+                                "organisation": {
+                                    "id": "473e0fc3",
+                                    "name": "Grange Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 1,
+                            "lost": 11,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 191,
+                            "pointsAgainst": 305,
+                            "pointsDifference": -114,
+                            "forfeits": 1,
+                            "percentage": 62.62,
+                            "competitionPoints": 2
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

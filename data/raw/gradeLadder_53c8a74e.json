@@ -1,0 +1,148 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "53c8a74e",
+            "name": "Junior 4",
+            "ladderType": "TOTAL_COMPETITION_POINTS",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "9d71e25e",
+                                "name": "Tiki 4",
+                                "organisation": {
+                                    "id": "62eaac91",
+                                    "name": "Tiki",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 12,
+                            "lost": 2,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 497,
+                            "pointsAgainst": 304,
+                            "pointsDifference": 193,
+                            "forfeits": 0,
+                            "percentage": 163.49,
+                            "competitionPoints": 25
+                        },
+                        {
+                            "team": {
+                                "id": "ea2867c1",
+                                "name": "N Bombers 7",
+                                "organisation": {
+                                    "id": "fdc2c5fd",
+                                    "name": "Northern Bombers Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 8,
+                            "lost": 7,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 391,
+                            "pointsAgainst": 319,
+                            "pointsDifference": 72,
+                            "forfeits": 0,
+                            "percentage": 122.57,
+                            "competitionPoints": 16
+                        },
+                        {
+                            "team": {
+                                "id": "b6562221",
+                                "name": "S Panthers  4",
+                                "organisation": {
+                                    "id": "87e68d0f",
+                                    "name": "Smithfield Panthers",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 8,
+                            "lost": 7,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 291,
+                            "pointsAgainst": 327,
+                            "pointsDifference": -36,
+                            "forfeits": 0,
+                            "percentage": 88.99,
+                            "competitionPoints": 16
+                        },
+                        {
+                            "team": {
+                                "id": "7ec65d40",
+                                "name": "EPDemons 08",
+                                "organisation": {
+                                    "id": "5f9fef9c",
+                                    "name": "Eastern Park Demons",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 7,
+                            "lost": 7,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 336,
+                            "pointsAgainst": 170,
+                            "pointsDifference": 166,
+                            "forfeits": 0,
+                            "percentage": 197.65,
+                            "competitionPoints": 15
+                        },
+                        {
+                            "team": {
+                                "id": "a5eaaa64",
+                                "name": "Northern Storm 4",
+                                "organisation": {
+                                    "id": "2e78dfde",
+                                    "name": "Northern Storm Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 4,
+                            "lost": 11,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 275,
+                            "pointsAgainst": 428,
+                            "pointsDifference": -153,
+                            "forfeits": 0,
+                            "percentage": 64.25,
+                            "competitionPoints": 8
+                        },
+                        {
+                            "team": {
+                                "id": "ca633001",
+                                "name": "Mystic Opals 09",
+                                "organisation": {
+                                    "id": "637de894",
+                                    "name": "Mystic Opals",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 0,
+                            "lost": 15,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 223,
+                            "pointsAgainst": 606,
+                            "pointsDifference": -383,
+                            "forfeits": 0,
+                            "percentage": 36.8,
+                            "competitionPoints": 0
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

@@ -1,0 +1,170 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "f3e41426",
+            "name": "15U/8",
+            "ladderType": "POINTS_AVERAGE",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "6286ad5d",
+                                "name": "Burnside City 15A",
+                                "organisation": {
+                                    "id": "96f9975a",
+                                    "name": "Burnside City Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 10,
+                            "lost": 3,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 361,
+                            "pointsAgainst": 292,
+                            "pointsDifference": 69,
+                            "forfeits": 0,
+                            "percentage": 123.63,
+                            "competitionPoints": 20
+                        },
+                        {
+                            "team": {
+                                "id": "6a272ba4",
+                                "name": "Flinders Park 15B",
+                                "organisation": {
+                                    "id": "7721739e",
+                                    "name": "Flinders Park",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 9,
+                            "lost": 3,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 329,
+                            "pointsAgainst": 236,
+                            "pointsDifference": 93,
+                            "forfeits": 0,
+                            "percentage": 139.41,
+                            "competitionPoints": 18
+                        },
+                        {
+                            "team": {
+                                "id": "d917d743",
+                                "name": "Hectorville 15D",
+                                "organisation": {
+                                    "id": "a836b73f",
+                                    "name": "Hectorville Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 9,
+                            "lost": 4,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 392,
+                            "pointsAgainst": 286,
+                            "pointsDifference": 106,
+                            "forfeits": 0,
+                            "percentage": 137.06,
+                            "competitionPoints": 18
+                        },
+                        {
+                            "team": {
+                                "id": "a04040a9",
+                                "name": "WP Zoom 15G",
+                                "organisation": {
+                                    "id": "53002de5",
+                                    "name": "Westbourne Park Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 8,
+                            "lost": 5,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 366,
+                            "pointsAgainst": 279,
+                            "pointsDifference": 87,
+                            "forfeits": 0,
+                            "percentage": 131.18,
+                            "competitionPoints": 16
+                        },
+                        {
+                            "team": {
+                                "id": "4fb6bc82",
+                                "name": "Morialta 15G",
+                                "organisation": {
+                                    "id": "46cdd3a1",
+                                    "name": "Morialta Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 7,
+                            "lost": 5,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 338,
+                            "pointsAgainst": 325,
+                            "pointsDifference": 13,
+                            "forfeits": 0,
+                            "percentage": 104,
+                            "competitionPoints": 14
+                        },
+                        {
+                            "team": {
+                                "id": "a923aca0",
+                                "name": "Glenunga Hype 15C",
+                                "organisation": {
+                                    "id": "05a8f52f",
+                                    "name": "Glenunga",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 7,
+                            "lost": 7,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 262,
+                            "pointsAgainst": 377,
+                            "pointsDifference": -115,
+                            "forfeits": 0,
+                            "percentage": 69.5,
+                            "competitionPoints": 14
+                        },
+                        {
+                            "team": {
+                                "id": "2d2fdc1a",
+                                "name": "WP Zippy 15F",
+                                "organisation": {
+                                    "id": "53002de5",
+                                    "name": "Westbourne Park Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 0,
+                            "lost": 12,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 142,
+                            "pointsAgainst": 395,
+                            "pointsDifference": -253,
+                            "forfeits": 0,
+                            "percentage": 35.95,
+                            "competitionPoints": 0
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

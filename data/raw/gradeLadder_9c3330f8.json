@@ -1,0 +1,148 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "9c3330f8",
+            "name": "Primary 6B",
+            "ladderType": "POINTS_AVERAGE",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "ce023043",
+                                "name": "Matrics",
+                                "organisation": {
+                                    "id": "0969cc64",
+                                    "name": "Matrics",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 13,
+                            "lost": 0,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 232,
+                            "pointsAgainst": 70,
+                            "pointsDifference": 162,
+                            "forfeits": 0,
+                            "percentage": 331.43,
+                            "competitionPoints": 26
+                        },
+                        {
+                            "team": {
+                                "id": "3f9122f7",
+                                "name": "Garville",
+                                "organisation": {
+                                    "id": "241b44c0",
+                                    "name": "Garville",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 7,
+                            "lost": 5,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 130,
+                            "pointsAgainst": 98,
+                            "pointsDifference": 32,
+                            "forfeits": 0,
+                            "percentage": 132.65,
+                            "competitionPoints": 15
+                        },
+                        {
+                            "team": {
+                                "id": "f6d9e1b0",
+                                "name": "Walkerville 1",
+                                "organisation": {
+                                    "id": "a83c7a81",
+                                    "name": "Walkerville",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 7,
+                            "lost": 6,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 97,
+                            "pointsAgainst": 99,
+                            "pointsDifference": -2,
+                            "forfeits": 0,
+                            "percentage": 97.98,
+                            "competitionPoints": 14
+                        },
+                        {
+                            "team": {
+                                "id": "d3f79328",
+                                "name": "Walkerville 2",
+                                "organisation": {
+                                    "id": "a83c7a81",
+                                    "name": "Walkerville",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 5,
+                            "lost": 7,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 103,
+                            "pointsAgainst": 138,
+                            "pointsDifference": -35,
+                            "forfeits": 0,
+                            "percentage": 74.64,
+                            "competitionPoints": 11
+                        },
+                        {
+                            "team": {
+                                "id": "f9014fd6",
+                                "name": "Cheerio",
+                                "organisation": {
+                                    "id": "4d3928a7",
+                                    "name": "Cheerio Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 2,
+                            "lost": 11,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 34,
+                            "pointsAgainst": 211,
+                            "pointsDifference": -177,
+                            "forfeits": 0,
+                            "percentage": 16.11,
+                            "competitionPoints": 4
+                        },
+                        {
+                            "team": {
+                                "id": "73d9cab9",
+                                "name": "Metro Jets",
+                                "organisation": {
+                                    "id": "601b914e",
+                                    "name": "Metro Jets",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 0,
+                            "lost": 13,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 49,
+                            "pointsAgainst": 162,
+                            "pointsDifference": -113,
+                            "forfeits": 0,
+                            "percentage": 30.25,
+                            "competitionPoints": 0
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

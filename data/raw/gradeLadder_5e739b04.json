@@ -1,0 +1,148 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "5e739b04",
+            "name": "Seniors Div 03",
+            "ladderType": "TOTAL_COMPETITION_POINTS",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "d1fa6f80",
+                                "name": "Pulse",
+                                "organisation": {
+                                    "id": "31eb38c8",
+                                    "name": "Pulse Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 13,
+                            "lost": 2,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 746,
+                            "pointsAgainst": 550,
+                            "pointsDifference": 196,
+                            "forfeits": 0,
+                            "percentage": 135.64,
+                            "competitionPoints": 26
+                        },
+                        {
+                            "team": {
+                                "id": "442996fe",
+                                "name": "Valley Vikings Vidar",
+                                "organisation": {
+                                    "id": "165f1feb",
+                                    "name": "Valley Vikings",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 9,
+                            "lost": 5,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 725,
+                            "pointsAgainst": 613,
+                            "pointsDifference": 112,
+                            "forfeits": 0,
+                            "percentage": 118.27,
+                            "competitionPoints": 19
+                        },
+                        {
+                            "team": {
+                                "id": "7bf48586",
+                                "name": "Cove Tigers Black",
+                                "organisation": {
+                                    "id": "ab06439f",
+                                    "name": "Cove Netball Club Inc",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 8,
+                            "lost": 6,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 626,
+                            "pointsAgainst": 676,
+                            "pointsDifference": -50,
+                            "forfeits": 0,
+                            "percentage": 92.6,
+                            "competitionPoints": 17
+                        },
+                        {
+                            "team": {
+                                "id": "8a6c8d77",
+                                "name": "Morphett Vale  3",
+                                "organisation": {
+                                    "id": "b3f21234",
+                                    "name": "Morphett Vale Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 8,
+                            "lost": 7,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 621,
+                            "pointsAgainst": 652,
+                            "pointsDifference": -31,
+                            "forfeits": 0,
+                            "percentage": 95.25,
+                            "competitionPoints": 16
+                        },
+                        {
+                            "team": {
+                                "id": "b0b6ae97",
+                                "name": "Southern Stars Senior Pink",
+                                "organisation": {
+                                    "id": "d7cbd109",
+                                    "name": "Southern Stars Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 4,
+                            "lost": 11,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 522,
+                            "pointsAgainst": 624,
+                            "pointsDifference": -102,
+                            "forfeits": 0,
+                            "percentage": 83.65,
+                            "competitionPoints": 8
+                        },
+                        {
+                            "team": {
+                                "id": "a6deebd3",
+                                "name": "Reynella 4",
+                                "organisation": {
+                                    "id": "485b7b56",
+                                    "name": "Reynella Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 2,
+                            "lost": 13,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 526,
+                            "pointsAgainst": 651,
+                            "pointsDifference": -125,
+                            "forfeits": 0,
+                            "percentage": 80.8,
+                            "competitionPoints": 4
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

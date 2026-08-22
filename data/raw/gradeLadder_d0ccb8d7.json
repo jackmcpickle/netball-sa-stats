@@ -1,0 +1,104 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "d0ccb8d7",
+            "name": "D5",
+            "ladderType": "TOTAL_COMPETITION_POINTS",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "15f723a5",
+                                "name": "Vulcans 07",
+                                "organisation": {
+                                    "id": "f00d83f9",
+                                    "name": "Vulcans Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 11,
+                            "lost": 2,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 610,
+                            "pointsAgainst": 266,
+                            "pointsDifference": 344,
+                            "forfeits": 0,
+                            "percentage": 229.32,
+                            "competitionPoints": 22
+                        },
+                        {
+                            "team": {
+                                "id": "8f6d7f87",
+                                "name": "Mystic Opals 04",
+                                "organisation": {
+                                    "id": "637de894",
+                                    "name": "Mystic Opals",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 8,
+                            "lost": 5,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 434,
+                            "pointsAgainst": 478,
+                            "pointsDifference": -44,
+                            "forfeits": 0,
+                            "percentage": 90.79,
+                            "competitionPoints": 16
+                        },
+                        {
+                            "team": {
+                                "id": "cdcf719a",
+                                "name": "Koalas 2",
+                                "organisation": {
+                                    "id": "b3d5bec7",
+                                    "name": "Koala United",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 3,
+                            "lost": 9,
+                            "drawn": 1,
+                            "byes": 1,
+                            "pointsFor": 353,
+                            "pointsAgainst": 534,
+                            "pointsDifference": -181,
+                            "forfeits": 0,
+                            "percentage": 66.1,
+                            "competitionPoints": 7
+                        },
+                        {
+                            "team": {
+                                "id": "d7d3aa97",
+                                "name": "Bombers 04",
+                                "organisation": {
+                                    "id": "fdc2c5fd",
+                                    "name": "Northern Bombers Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 1,
+                            "lost": 11,
+                            "drawn": 1,
+                            "byes": 1,
+                            "pointsFor": 345,
+                            "pointsAgainst": 552,
+                            "pointsDifference": -207,
+                            "forfeits": 0,
+                            "percentage": 62.5,
+                            "competitionPoints": 3
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

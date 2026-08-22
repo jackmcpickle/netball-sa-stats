@@ -1,0 +1,76 @@
+{
+    "data": {
+        "discoverCompetitions": [
+            {
+                "id": "df334328",
+                "name": "City Night Division",
+                "seasons": [
+                    {
+                        "id": "94ff75d1",
+                        "name": "2021",
+                        "startDate": "2021-10-12",
+                        "endDate": "2022-03-25",
+                        "status": {
+                            "name": "Completed",
+                            "value": "COMPLETED"
+                        }
+                    }
+                ],
+                "organisation": {
+                    "id": "2276ec85",
+                    "name": "City Night Division"
+                }
+            },
+            {
+                "id": "a2a0b35d",
+                "name": "City Night Division 1",
+                "seasons": [
+                    {
+                        "id": "2fd93f8f",
+                        "name": "Summer 2025/26",
+                        "startDate": "2025-10-18",
+                        "endDate": "2026-03-16",
+                        "status": {
+                            "name": "Completed",
+                            "value": "COMPLETED"
+                        }
+                    },
+                    {
+                        "id": "ca718c27",
+                        "name": "Summer 2024/25",
+                        "startDate": "2024-10-15",
+                        "endDate": "2025-03-21",
+                        "status": {
+                            "name": "Completed",
+                            "value": "COMPLETED"
+                        }
+                    },
+                    {
+                        "id": "b3a58c30",
+                        "name": "Summer 2023/24",
+                        "startDate": "2023-10-17",
+                        "endDate": "2024-03-15",
+                        "status": {
+                            "name": "Completed",
+                            "value": "COMPLETED"
+                        }
+                    },
+                    {
+                        "id": "10763e90",
+                        "name": "Summer 2022/23",
+                        "startDate": "2022-10-18",
+                        "endDate": "2023-03-31",
+                        "status": {
+                            "name": "Completed",
+                            "value": "COMPLETED"
+                        }
+                    }
+                ],
+                "organisation": {
+                    "id": "2276ec85",
+                    "name": "City Night Division"
+                }
+            }
+        ]
+    }
+}

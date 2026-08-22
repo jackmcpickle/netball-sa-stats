@@ -1,0 +1,148 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "21e87217",
+            "name": "11U/7",
+            "ladderType": "POINTS_AVERAGE",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "fd602e3c",
+                                "name": "St Monicas 11B",
+                                "organisation": {
+                                    "id": "9b1b9579",
+                                    "name": "St Monicas",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 13,
+                            "lost": 2,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 287,
+                            "pointsAgainst": 87,
+                            "pointsDifference": 200,
+                            "forfeits": 0,
+                            "percentage": 329.89,
+                            "competitionPoints": 26
+                        },
+                        {
+                            "team": {
+                                "id": "06d35023",
+                                "name": "Wesley 11A",
+                                "organisation": {
+                                    "id": "5b275702",
+                                    "name": "Wesley Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 12,
+                            "lost": 2,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 253,
+                            "pointsAgainst": 128,
+                            "pointsDifference": 125,
+                            "forfeits": 0,
+                            "percentage": 197.66,
+                            "competitionPoints": 24
+                        },
+                        {
+                            "team": {
+                                "id": "86ac82a9",
+                                "name": "WP Koala 11E",
+                                "organisation": {
+                                    "id": "53002de5",
+                                    "name": "Westbourne Park Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 8,
+                            "lost": 7,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 257,
+                            "pointsAgainst": 189,
+                            "pointsDifference": 68,
+                            "forfeits": 0,
+                            "percentage": 135.98,
+                            "competitionPoints": 16
+                        },
+                        {
+                            "team": {
+                                "id": "306ac1e6",
+                                "name": "Cove Tigers Silver 11B",
+                                "organisation": {
+                                    "id": "ab06439f",
+                                    "name": "Cove Netball Club Inc",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 7,
+                            "lost": 8,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 186,
+                            "pointsAgainst": 181,
+                            "pointsDifference": 5,
+                            "forfeits": 0,
+                            "percentage": 102.76,
+                            "competitionPoints": 14
+                        },
+                        {
+                            "team": {
+                                "id": "777080d6",
+                                "name": "Grange Maroon 11E",
+                                "organisation": {
+                                    "id": "473e0fc3",
+                                    "name": "Grange Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 4,
+                            "lost": 11,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 115,
+                            "pointsAgainst": 259,
+                            "pointsDifference": -144,
+                            "forfeits": 0,
+                            "percentage": 44.4,
+                            "competitionPoints": 8
+                        },
+                        {
+                            "team": {
+                                "id": "f0f19fe5",
+                                "name": "Glenunga Fire 11C",
+                                "organisation": {
+                                    "id": "05a8f52f",
+                                    "name": "Glenunga",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 0,
+                            "lost": 14,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 64,
+                            "pointsAgainst": 318,
+                            "pointsDifference": -254,
+                            "forfeits": 0,
+                            "percentage": 20.13,
+                            "competitionPoints": 0
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

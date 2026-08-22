@@ -1,0 +1,170 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "068fbbc3",
+            "name": "D2",
+            "ladderType": "TOTAL_COMPETITION_POINTS",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "b7facf59",
+                                "name": "Bombers 2",
+                                "organisation": {
+                                    "id": "fdc2c5fd",
+                                    "name": "Northern Bombers Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 12,
+                            "lost": 1,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 457,
+                            "pointsAgainst": 236,
+                            "pointsDifference": 221,
+                            "forfeits": 0,
+                            "percentage": 193.64,
+                            "competitionPoints": 24
+                        },
+                        {
+                            "team": {
+                                "id": "8ec48b65",
+                                "name": "Warriors 1",
+                                "organisation": {
+                                    "id": "204e3fbe",
+                                    "name": "Warriors Netball Club (SA)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 11,
+                            "lost": 2,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 396,
+                            "pointsAgainst": 224,
+                            "pointsDifference": 172,
+                            "forfeits": 0,
+                            "percentage": 176.79,
+                            "competitionPoints": 22
+                        },
+                        {
+                            "team": {
+                                "id": "46824aab",
+                                "name": "Lazers 06",
+                                "organisation": {
+                                    "id": "d2f381fb",
+                                    "name": "Lazers (SA)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 9,
+                            "lost": 4,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 446,
+                            "pointsAgainst": 326,
+                            "pointsDifference": 120,
+                            "forfeits": 0,
+                            "percentage": 136.81,
+                            "competitionPoints": 18
+                        },
+                        {
+                            "team": {
+                                "id": "563c23c5",
+                                "name": "Angle Vale 06",
+                                "organisation": {
+                                    "id": "1267db67",
+                                    "name": "Angle Vale",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 7,
+                            "lost": 5,
+                            "drawn": 0,
+                            "byes": 3,
+                            "pointsFor": 428,
+                            "pointsAgainst": 356,
+                            "pointsDifference": 72,
+                            "forfeits": 0,
+                            "percentage": 120.22,
+                            "competitionPoints": 14
+                        },
+                        {
+                            "team": {
+                                "id": "0b3f7e29",
+                                "name": "COBRAS 4",
+                                "organisation": {
+                                    "id": "fda07884",
+                                    "name": "Northern Cobras",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 5,
+                            "lost": 8,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 312,
+                            "pointsAgainst": 371,
+                            "pointsDifference": -59,
+                            "forfeits": 0,
+                            "percentage": 84.1,
+                            "competitionPoints": 10
+                        },
+                        {
+                            "team": {
+                                "id": "baeb1910",
+                                "name": "Angle Vale 05",
+                                "organisation": {
+                                    "id": "1267db67",
+                                    "name": "Angle Vale",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 5,
+                            "lost": 7,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 348,
+                            "pointsAgainst": 436,
+                            "pointsDifference": -88,
+                            "forfeits": 1,
+                            "percentage": 79.82,
+                            "competitionPoints": 10
+                        },
+                        {
+                            "team": {
+                                "id": "7b891a45",
+                                "name": "Tiki 3",
+                                "organisation": {
+                                    "id": "62eaac91",
+                                    "name": "Tiki",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 0,
+                            "lost": 12,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 176,
+                            "pointsAgainst": 614,
+                            "pointsDifference": -438,
+                            "forfeits": 1,
+                            "percentage": 28.66,
+                            "competitionPoints": 0
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

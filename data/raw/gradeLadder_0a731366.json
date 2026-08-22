@@ -1,0 +1,148 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "0a731366",
+            "name": "B1",
+            "ladderType": "TOTAL_COMPETITION_POINTS",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "63c2153b",
+                                "name": "Oakdale",
+                                "organisation": {
+                                    "id": "2f66832f",
+                                    "name": "Oakdale Netball Club (SA)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 13,
+                            "lost": 0,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 753,
+                            "pointsAgainst": 413,
+                            "pointsDifference": 340,
+                            "forfeits": 0,
+                            "percentage": 182.32,
+                            "competitionPoints": 26
+                        },
+                        {
+                            "team": {
+                                "id": "d7c15501",
+                                "name": "Garville",
+                                "organisation": {
+                                    "id": "241b44c0",
+                                    "name": "Garville",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 9,
+                            "lost": 4,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 502,
+                            "pointsAgainst": 410,
+                            "pointsDifference": 92,
+                            "forfeits": 0,
+                            "percentage": 122.44,
+                            "competitionPoints": 18
+                        },
+                        {
+                            "team": {
+                                "id": "0b165e76",
+                                "name": "Matrics",
+                                "organisation": {
+                                    "id": "0969cc64",
+                                    "name": "Matrics",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 7,
+                            "lost": 5,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 518,
+                            "pointsAgainst": 520,
+                            "pointsDifference": -2,
+                            "forfeits": 0,
+                            "percentage": 99.62,
+                            "competitionPoints": 15
+                        },
+                        {
+                            "team": {
+                                "id": "64a875af",
+                                "name": "Adelaide Wildcats",
+                                "organisation": {
+                                    "id": "92fdb2ed",
+                                    "name": "Adelaide Wildcats",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 5,
+                            "lost": 8,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 437,
+                            "pointsAgainst": 581,
+                            "pointsDifference": -144,
+                            "forfeits": 0,
+                            "percentage": 75.22,
+                            "competitionPoints": 10
+                        },
+                        {
+                            "team": {
+                                "id": "dde36d1c",
+                                "name": "Contax",
+                                "organisation": {
+                                    "id": "a8ee2320",
+                                    "name": "Contax",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 3,
+                            "lost": 9,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 417,
+                            "pointsAgainst": 519,
+                            "pointsDifference": -102,
+                            "forfeits": 0,
+                            "percentage": 80.35,
+                            "competitionPoints": 7
+                        },
+                        {
+                            "team": {
+                                "id": "380282f3",
+                                "name": "South Adelaide",
+                                "organisation": {
+                                    "id": "2e63c9f2",
+                                    "name": "South Adelaide Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 1,
+                            "lost": 12,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 457,
+                            "pointsAgainst": 641,
+                            "pointsDifference": -184,
+                            "forfeits": 0,
+                            "percentage": 71.29,
+                            "competitionPoints": 2
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

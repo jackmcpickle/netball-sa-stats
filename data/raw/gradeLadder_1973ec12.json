@@ -1,0 +1,104 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "1973ec12",
+            "name": "Inters 2",
+            "ladderType": "TOTAL_COMPETITION_POINTS",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "4b95991e",
+                                "name": "S W Tigers 1",
+                                "organisation": {
+                                    "id": "db2c0548",
+                                    "name": "Salisbury West Tigers Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 10,
+                            "lost": 1,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 351,
+                            "pointsAgainst": 249,
+                            "pointsDifference": 102,
+                            "forfeits": 2,
+                            "percentage": 140.96,
+                            "competitionPoints": 20
+                        },
+                        {
+                            "team": {
+                                "id": "48b6ca62",
+                                "name": "Angle Vale 10",
+                                "organisation": {
+                                    "id": "1267db67",
+                                    "name": "Angle Vale",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 6,
+                            "lost": 6,
+                            "drawn": 1,
+                            "byes": 1,
+                            "pointsFor": 286,
+                            "pointsAgainst": 319,
+                            "pointsDifference": -33,
+                            "forfeits": 0,
+                            "percentage": 89.66,
+                            "competitionPoints": 13
+                        },
+                        {
+                            "team": {
+                                "id": "aee6087c",
+                                "name": "Tiki 4",
+                                "organisation": {
+                                    "id": "62eaac91",
+                                    "name": "Tiki",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 5,
+                            "lost": 8,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 277,
+                            "pointsAgainst": 317,
+                            "pointsDifference": -40,
+                            "forfeits": 0,
+                            "percentage": 87.38,
+                            "competitionPoints": 10
+                        },
+                        {
+                            "team": {
+                                "id": "f8e1119f",
+                                "name": "Fireworks 09",
+                                "organisation": {
+                                    "id": "27ce429f",
+                                    "name": "Fireworks Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 3,
+                            "lost": 10,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 318,
+                            "pointsAgainst": 416,
+                            "pointsDifference": -98,
+                            "forfeits": 0,
+                            "percentage": 76.44,
+                            "competitionPoints": 6
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

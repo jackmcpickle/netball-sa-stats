@@ -1,0 +1,126 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "b3f28652",
+            "name": "B3",
+            "ladderType": "TOTAL_COMPETITION_POINTS",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "4373b4de",
+                                "name": "Harlequin 2",
+                                "organisation": {
+                                    "id": "6df86dac",
+                                    "name": "Harlequin Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 10,
+                            "lost": 2,
+                            "drawn": 0,
+                            "byes": 3,
+                            "pointsFor": 463,
+                            "pointsAgainst": 322,
+                            "pointsDifference": 0,
+                            "forfeits": 0,
+                            "percentage": 143.79,
+                            "competitionPoints": 20
+                        },
+                        {
+                            "team": {
+                                "id": "0612812d",
+                                "name": "EPDemons 4",
+                                "organisation": {
+                                    "id": "5f9fef9c",
+                                    "name": "Eastern Park Demons",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 8,
+                            "lost": 3,
+                            "drawn": 1,
+                            "byes": 3,
+                            "pointsFor": 475,
+                            "pointsAgainst": 425,
+                            "pointsDifference": 0,
+                            "forfeits": 0,
+                            "percentage": 111.76,
+                            "competitionPoints": 17
+                        },
+                        {
+                            "team": {
+                                "id": "2f2cac63",
+                                "name": "Fireworks 2",
+                                "organisation": {
+                                    "id": "27ce429f",
+                                    "name": "Fireworks Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 6,
+                            "lost": 6,
+                            "drawn": 0,
+                            "byes": 3,
+                            "pointsFor": 449,
+                            "pointsAgainst": 398,
+                            "pointsDifference": 0,
+                            "forfeits": 0,
+                            "percentage": 112.81,
+                            "competitionPoints": 12
+                        },
+                        {
+                            "team": {
+                                "id": "af850553",
+                                "name": "Cobras 2",
+                                "organisation": {
+                                    "id": "fda07884",
+                                    "name": "Northern Cobras",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 3,
+                            "lost": 8,
+                            "drawn": 1,
+                            "byes": 1,
+                            "pointsFor": 414,
+                            "pointsAgainst": 557,
+                            "pointsDifference": 0,
+                            "forfeits": 1,
+                            "percentage": 74.33,
+                            "competitionPoints": 7
+                        },
+                        {
+                            "team": {
+                                "id": "33e497b4",
+                                "name": "Lazers 02",
+                                "organisation": {
+                                    "id": "d2f381fb",
+                                    "name": "Lazers (SA)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 1,
+                            "lost": 12,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 396,
+                            "pointsAgainst": 568,
+                            "pointsDifference": 0,
+                            "forfeits": 0,
+                            "percentage": 69.72,
+                            "competitionPoints": 2
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

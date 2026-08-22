@@ -1,0 +1,170 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "5f1303c0",
+            "name": "C3",
+            "ladderType": "POINTS_AVERAGE",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "79de1ce9",
+                                "name": "Henley Sharks F",
+                                "organisation": {
+                                    "id": "e234a948",
+                                    "name": "Henley Sharks Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 10,
+                            "lost": 2,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 415,
+                            "pointsAgainst": 271,
+                            "pointsDifference": 144,
+                            "forfeits": 0,
+                            "percentage": 153.14,
+                            "competitionPoints": 20
+                        },
+                        {
+                            "team": {
+                                "id": "52b3317b",
+                                "name": "WP Maroon N",
+                                "organisation": {
+                                    "id": "53002de5",
+                                    "name": "Westbourne Park Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 10,
+                            "lost": 2,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 381,
+                            "pointsAgainst": 316,
+                            "pointsDifference": 65,
+                            "forfeits": 0,
+                            "percentage": 120.57,
+                            "competitionPoints": 20
+                        },
+                        {
+                            "team": {
+                                "id": "f5ddeccb",
+                                "name": "Adelaide Luth Royal K",
+                                "organisation": {
+                                    "id": "66a7fd12",
+                                    "name": "Adelaide Lutheran",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 7,
+                            "lost": 6,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 419,
+                            "pointsAgainst": 369,
+                            "pointsDifference": 50,
+                            "forfeits": 0,
+                            "percentage": 113.55,
+                            "competitionPoints": 14
+                        },
+                        {
+                            "team": {
+                                "id": "2b2d8e55",
+                                "name": "Hallett Cove B",
+                                "organisation": {
+                                    "id": "afa7dc80",
+                                    "name": "Hallett Cove Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 5,
+                            "lost": 8,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 369,
+                            "pointsAgainst": 342,
+                            "pointsDifference": 27,
+                            "forfeits": 0,
+                            "percentage": 107.89,
+                            "competitionPoints": 10
+                        },
+                        {
+                            "team": {
+                                "id": "2a5f6bc5",
+                                "name": "Walkerville C",
+                                "organisation": {
+                                    "id": "a83c7a81",
+                                    "name": "Walkerville",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 5,
+                            "lost": 7,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 251,
+                            "pointsAgainst": 321,
+                            "pointsDifference": -70,
+                            "forfeits": 0,
+                            "percentage": 78.19,
+                            "competitionPoints": 10
+                        },
+                        {
+                            "team": {
+                                "id": "a3f0118e",
+                                "name": "Hectorville Hurricanes  B",
+                                "organisation": {
+                                    "id": "a836b73f",
+                                    "name": "Hectorville Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 5,
+                            "lost": 8,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 312,
+                            "pointsAgainst": 404,
+                            "pointsDifference": -92,
+                            "forfeits": 0,
+                            "percentage": 77.23,
+                            "competitionPoints": 10
+                        },
+                        {
+                            "team": {
+                                "id": "111e766f",
+                                "name": "St Monicas B",
+                                "organisation": {
+                                    "id": "9b1b9579",
+                                    "name": "St Monicas",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 0,
+                            "lost": 11,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 251,
+                            "pointsAgainst": 375,
+                            "pointsDifference": -124,
+                            "forfeits": 1,
+                            "percentage": 66.93,
+                            "competitionPoints": 0
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

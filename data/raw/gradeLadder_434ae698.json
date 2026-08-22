@@ -1,0 +1,126 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "434ae698",
+            "name": "13&U Div 3",
+            "ladderType": "TOTAL_COMPETITION_POINTS",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "6f16d3d2",
+                                "name": "Valley Vikings Astrid",
+                                "organisation": {
+                                    "id": "165f1feb",
+                                    "name": "Valley Vikings",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 8,
+                            "won": 8,
+                            "lost": 0,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 154,
+                            "pointsAgainst": 53,
+                            "pointsDifference": 101,
+                            "forfeits": 0,
+                            "percentage": 290.57,
+                            "competitionPoints": 20
+                        },
+                        {
+                            "team": {
+                                "id": "bf54ebc6",
+                                "name": "Reynella 5",
+                                "organisation": {
+                                    "id": "485b7b56",
+                                    "name": "Reynella Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 8,
+                            "won": 5,
+                            "lost": 3,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 114,
+                            "pointsAgainst": 82,
+                            "pointsDifference": 32,
+                            "forfeits": 0,
+                            "percentage": 139.02,
+                            "competitionPoints": 14
+                        },
+                        {
+                            "team": {
+                                "id": "7bf4333b",
+                                "name": "Ladybirds RED",
+                                "organisation": {
+                                    "id": "6df89217",
+                                    "name": "Ladybirds Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 8,
+                            "won": 5,
+                            "lost": 3,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 105,
+                            "pointsAgainst": 94,
+                            "pointsDifference": 11,
+                            "forfeits": 0,
+                            "percentage": 111.7,
+                            "competitionPoints": 14
+                        },
+                        {
+                            "team": {
+                                "id": "0cb4c3cd",
+                                "name": "Reynella 6",
+                                "organisation": {
+                                    "id": "485b7b56",
+                                    "name": "Reynella Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 8,
+                            "won": 1,
+                            "lost": 7,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 74,
+                            "pointsAgainst": 124,
+                            "pointsDifference": -50,
+                            "forfeits": 0,
+                            "percentage": 59.68,
+                            "competitionPoints": 6
+                        },
+                        {
+                            "team": {
+                                "id": "87ae7627",
+                                "name": "Cove Tigers Red",
+                                "organisation": {
+                                    "id": "ab06439f",
+                                    "name": "Cove Netball Club Inc",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 8,
+                            "won": 1,
+                            "lost": 7,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 44,
+                            "pointsAgainst": 138,
+                            "pointsDifference": -94,
+                            "forfeits": 0,
+                            "percentage": 31.88,
+                            "competitionPoints": 6
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

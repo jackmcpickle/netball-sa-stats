@@ -1,0 +1,55 @@
+{
+    "data": {
+        "discoverSeason": {
+            "id": "f1e37382",
+            "name": "Winter 2026",
+            "competition": {
+                "id": "dffbc9e3",
+                "name": "M League",
+                "type": "DOMESTIC",
+                "organisation": {
+                    "id": "7936878d",
+                    "name": "South Australian Mens and Mixed Netball Association"
+                }
+            },
+            "status": {
+                "name": "Completed",
+                "value": "COMPLETED"
+            },
+            "grades": [
+                {
+                    "id": "4e046bf5",
+                    "name": "Junior Boys",
+                    "day": {
+                        "name": "Monday",
+                        "value": "MONDAY"
+                    },
+                    "gender": {
+                        "name": "Boys",
+                        "value": "BOYS"
+                    },
+                    "age": {
+                        "name": "Junior",
+                        "value": "JUNIOR"
+                    }
+                },
+                {
+                    "id": "9153b9bf",
+                    "name": "Open Mens",
+                    "day": {
+                        "name": "Monday",
+                        "value": "MONDAY"
+                    },
+                    "gender": {
+                        "name": "Men",
+                        "value": "MENS"
+                    },
+                    "age": {
+                        "name": "Open",
+                        "value": "OPEN"
+                    }
+                }
+            ]
+        }
+    }
+}

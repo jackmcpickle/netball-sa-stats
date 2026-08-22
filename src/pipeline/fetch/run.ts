@@ -278,17 +278,17 @@ async function loadClubRegistry(): Promise<ClubRegistry> {
     const existingClubs = clubRows.map(
         (row): ClubRow => ({
             club_key: row.club_key,
+            name: row.name,
             established_year:
                 row.established_year === '' ? null : row.established_year,
             home_venue: row.home_venue === '' ? null : row.home_venue,
-            name: row.name,
             playhq_id: row.playhq_id === '' ? null : row.playhq_id,
         }),
     );
     const existingAliases = aliasRows.map(
         (row): ClubAliasRow => ({
-            alias_text: row.alias_text,
             club_key: row.club_key,
+            alias_text: row.alias_text,
             source: row.source,
         }),
     );

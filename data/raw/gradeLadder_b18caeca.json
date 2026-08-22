@@ -1,0 +1,148 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "b18caeca",
+            "name": "Primary 1",
+            "ladderType": "TOTAL_COMPETITION_POINTS",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "3b8e3d7e",
+                                "name": "FIREWORKS 20",
+                                "organisation": {
+                                    "id": "27ce429f",
+                                    "name": "Fireworks Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 15,
+                            "lost": 0,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 285,
+                            "pointsAgainst": 58,
+                            "pointsDifference": 227,
+                            "forfeits": 0,
+                            "percentage": 491.38,
+                            "competitionPoints": 30
+                        },
+                        {
+                            "team": {
+                                "id": "546d8521",
+                                "name": "Angle Vale 17",
+                                "organisation": {
+                                    "id": "1267db67",
+                                    "name": "Angle Vale",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 9,
+                            "lost": 6,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 124,
+                            "pointsAgainst": 134,
+                            "pointsDifference": -10,
+                            "forfeits": 0,
+                            "percentage": 92.54,
+                            "competitionPoints": 18
+                        },
+                        {
+                            "team": {
+                                "id": "ce4e7a34",
+                                "name": "Tiki 6",
+                                "organisation": {
+                                    "id": "62eaac91",
+                                    "name": "Tiki",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 7,
+                            "lost": 7,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 129,
+                            "pointsAgainst": 122,
+                            "pointsDifference": 7,
+                            "forfeits": 0,
+                            "percentage": 105.74,
+                            "competitionPoints": 15
+                        },
+                        {
+                            "team": {
+                                "id": "b9afcab6",
+                                "name": "Gumnuts 09",
+                                "organisation": {
+                                    "id": "f630493f",
+                                    "name": "Gumnuts",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 6,
+                            "lost": 8,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 106,
+                            "pointsAgainst": 157,
+                            "pointsDifference": -51,
+                            "forfeits": 0,
+                            "percentage": 67.52,
+                            "competitionPoints": 13
+                        },
+                        {
+                            "team": {
+                                "id": "5417a1b4",
+                                "name": "Gazelles 12",
+                                "organisation": {
+                                    "id": "b2a76075",
+                                    "name": "Gazelles (SA)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 3,
+                            "lost": 10,
+                            "drawn": 2,
+                            "byes": 0,
+                            "pointsFor": 95,
+                            "pointsAgainst": 186,
+                            "pointsDifference": -91,
+                            "forfeits": 0,
+                            "percentage": 51.08,
+                            "competitionPoints": 8
+                        },
+                        {
+                            "team": {
+                                "id": "2035592c",
+                                "name": "Angle Vale 16",
+                                "organisation": {
+                                    "id": "1267db67",
+                                    "name": "Angle Vale",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 3,
+                            "lost": 12,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 95,
+                            "pointsAgainst": 177,
+                            "pointsDifference": -82,
+                            "forfeits": 0,
+                            "percentage": 53.67,
+                            "competitionPoints": 6
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

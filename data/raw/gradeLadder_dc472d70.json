@@ -1,0 +1,192 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "dc472d70",
+            "name": "INTER 2",
+            "ladderType": "TOTAL_COMPETITION_POINTS",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "713a2898",
+                                "name": "Contax Pink",
+                                "organisation": {
+                                    "id": "a8ee2320",
+                                    "name": "Contax",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 14,
+                            "lost": 0,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 702,
+                            "pointsAgainst": 408,
+                            "pointsDifference": 294,
+                            "forfeits": 0,
+                            "percentage": 172.06,
+                            "competitionPoints": 28
+                        },
+                        {
+                            "team": {
+                                "id": "6da33a12",
+                                "name": "Oakdale Purple",
+                                "organisation": {
+                                    "id": "2f66832f",
+                                    "name": "Oakdale Netball Club (SA)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 9,
+                            "lost": 4,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 546,
+                            "pointsAgainst": 377,
+                            "pointsDifference": 169,
+                            "forfeits": 0,
+                            "percentage": 144.83,
+                            "competitionPoints": 19
+                        },
+                        {
+                            "team": {
+                                "id": "05b70a84",
+                                "name": "Oakdale Gold",
+                                "organisation": {
+                                    "id": "2f66832f",
+                                    "name": "Oakdale Netball Club (SA)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 9,
+                            "lost": 5,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 530,
+                            "pointsAgainst": 463,
+                            "pointsDifference": 67,
+                            "forfeits": 0,
+                            "percentage": 114.47,
+                            "competitionPoints": 18
+                        },
+                        {
+                            "team": {
+                                "id": "0ec7eeac",
+                                "name": "Matrics",
+                                "organisation": {
+                                    "id": "0969cc64",
+                                    "name": "Matrics",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 7,
+                            "lost": 6,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 571,
+                            "pointsAgainst": 576,
+                            "pointsDifference": -5,
+                            "forfeits": 0,
+                            "percentage": 99.13,
+                            "competitionPoints": 15
+                        },
+                        {
+                            "team": {
+                                "id": "3dda79a7",
+                                "name": "Garville",
+                                "organisation": {
+                                    "id": "241b44c0",
+                                    "name": "Garville",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 7,
+                            "lost": 7,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 593,
+                            "pointsAgainst": 513,
+                            "pointsDifference": 80,
+                            "forfeits": 0,
+                            "percentage": 115.59,
+                            "competitionPoints": 14
+                        },
+                        {
+                            "team": {
+                                "id": "4cb3897e",
+                                "name": "Contax Blue",
+                                "organisation": {
+                                    "id": "a8ee2320",
+                                    "name": "Contax",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 7,
+                            "lost": 7,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 474,
+                            "pointsAgainst": 470,
+                            "pointsDifference": 4,
+                            "forfeits": 0,
+                            "percentage": 100.85,
+                            "competitionPoints": 14
+                        },
+                        {
+                            "team": {
+                                "id": "2d190c14",
+                                "name": "South Adelaide",
+                                "organisation": {
+                                    "id": "2e63c9f2",
+                                    "name": "South Adelaide Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 1,
+                            "lost": 13,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 342,
+                            "pointsAgainst": 616,
+                            "pointsDifference": -274,
+                            "forfeits": 0,
+                            "percentage": 55.52,
+                            "competitionPoints": 2
+                        },
+                        {
+                            "team": {
+                                "id": "1d87ad83",
+                                "name": "Tango",
+                                "organisation": {
+                                    "id": "d4389d20",
+                                    "name": "Tango Netball Club Inc",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 1,
+                            "lost": 13,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 372,
+                            "pointsAgainst": 707,
+                            "pointsDifference": -335,
+                            "forfeits": 0,
+                            "percentage": 52.62,
+                            "competitionPoints": 2
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

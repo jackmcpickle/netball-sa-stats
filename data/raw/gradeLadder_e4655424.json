@@ -1,0 +1,192 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "e4655424",
+            "name": "A3",
+            "ladderType": "POINTS_AVERAGE",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "1889f5fe",
+                                "name": "Wesley A",
+                                "organisation": {
+                                    "id": "5b275702",
+                                    "name": "Wesley Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 11,
+                            "lost": 1,
+                            "drawn": 2,
+                            "byes": 0,
+                            "pointsFor": 669,
+                            "pointsAgainst": 443,
+                            "pointsDifference": 0,
+                            "forfeits": 0,
+                            "percentage": 151.02,
+                            "competitionPoints": 24
+                        },
+                        {
+                            "team": {
+                                "id": "0fb63910",
+                                "name": "Adelaide Lutheran Ruby C",
+                                "organisation": {
+                                    "id": "66a7fd12",
+                                    "name": "Adelaide Lutheran",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 9,
+                            "lost": 4,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 553,
+                            "pointsAgainst": 431,
+                            "pointsDifference": 0,
+                            "forfeits": 0,
+                            "percentage": 128.31,
+                            "competitionPoints": 19
+                        },
+                        {
+                            "team": {
+                                "id": "c385b158",
+                                "name": "WP Fred C",
+                                "organisation": {
+                                    "id": "53002de5",
+                                    "name": "Westbourne Park Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 8,
+                            "lost": 3,
+                            "drawn": 3,
+                            "byes": 0,
+                            "pointsFor": 616,
+                            "pointsAgainst": 517,
+                            "pointsDifference": 0,
+                            "forfeits": 0,
+                            "percentage": 119.15,
+                            "competitionPoints": 19
+                        },
+                        {
+                            "team": {
+                                "id": "d7771d6c",
+                                "name": "Old Collegians B",
+                                "organisation": {
+                                    "id": "4f001e19",
+                                    "name": "Old Collegians",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 8,
+                            "lost": 6,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 661,
+                            "pointsAgainst": 598,
+                            "pointsDifference": 0,
+                            "forfeits": 0,
+                            "percentage": 110.54,
+                            "competitionPoints": 16
+                        },
+                        {
+                            "team": {
+                                "id": "ebd2e371",
+                                "name": "Rosefield Surge A",
+                                "organisation": {
+                                    "id": "f7fe98c2",
+                                    "name": "Rosefield Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 7,
+                            "lost": 3,
+                            "drawn": 2,
+                            "byes": 0,
+                            "pointsFor": 551,
+                            "pointsAgainst": 548,
+                            "pointsDifference": 0,
+                            "forfeits": 2,
+                            "percentage": 100.55,
+                            "competitionPoints": 16
+                        },
+                        {
+                            "team": {
+                                "id": "10a284c9",
+                                "name": "PHOS B",
+                                "organisation": {
+                                    "id": "361e148c",
+                                    "name": "PHOS Camden",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 5,
+                            "lost": 9,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 503,
+                            "pointsAgainst": 588,
+                            "pointsDifference": 0,
+                            "forfeits": 0,
+                            "percentage": 85.54,
+                            "competitionPoints": 10
+                        },
+                        {
+                            "team": {
+                                "id": "f50f47d4",
+                                "name": "SMAA C",
+                                "organisation": {
+                                    "id": "72bc9771",
+                                    "name": "St Michael & All Angels",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 2,
+                            "lost": 12,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 394,
+                            "pointsAgainst": 589,
+                            "pointsDifference": 0,
+                            "forfeits": 0,
+                            "percentage": 66.89,
+                            "competitionPoints": 4
+                        },
+                        {
+                            "team": {
+                                "id": "1e3302d8",
+                                "name": "MOSA A",
+                                "organisation": {
+                                    "id": "d0775505",
+                                    "name": "Mercedes College Old Scholars",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 2,
+                            "lost": 5,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 226,
+                            "pointsAgainst": 459,
+                            "pointsDifference": 0,
+                            "forfeits": 7,
+                            "percentage": 49.24,
+                            "competitionPoints": 4
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

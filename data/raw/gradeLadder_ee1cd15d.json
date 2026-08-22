@@ -1,0 +1,170 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "ee1cd15d",
+            "name": "B3",
+            "ladderType": "POINTS_AVERAGE",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "332ac566",
+                                "name": "St Johns Luth Byrne B",
+                                "organisation": {
+                                    "id": "f5111a09",
+                                    "name": "St Johns Lutheran Unley",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 12,
+                            "lost": 1,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 355,
+                            "pointsAgainst": 258,
+                            "pointsDifference": 97,
+                            "forfeits": 0,
+                            "percentage": 137.6,
+                            "competitionPoints": 24
+                        },
+                        {
+                            "team": {
+                                "id": "bad7c506",
+                                "name": "St Josephs A",
+                                "organisation": {
+                                    "id": "8793c382",
+                                    "name": "St Joseph's (Somerton Park)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 9,
+                            "lost": 3,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 360,
+                            "pointsAgainst": 291,
+                            "pointsDifference": 69,
+                            "forfeits": 0,
+                            "percentage": 123.71,
+                            "competitionPoints": 18
+                        },
+                        {
+                            "team": {
+                                "id": "a2990c04",
+                                "name": "Adelaide Uni D",
+                                "organisation": {
+                                    "id": "d5bdb649",
+                                    "name": "Adelaide University",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 8,
+                            "lost": 4,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 304,
+                            "pointsAgainst": 250,
+                            "pointsDifference": 54,
+                            "forfeits": 0,
+                            "percentage": 121.6,
+                            "competitionPoints": 16
+                        },
+                        {
+                            "team": {
+                                "id": "3c605362",
+                                "name": "Hallett Cove A",
+                                "organisation": {
+                                    "id": "afa7dc80",
+                                    "name": "Hallett Cove Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 8,
+                            "lost": 5,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 376,
+                            "pointsAgainst": 332,
+                            "pointsDifference": 44,
+                            "forfeits": 0,
+                            "percentage": 113.25,
+                            "competitionPoints": 16
+                        },
+                        {
+                            "team": {
+                                "id": "e9852461",
+                                "name": "Henley Sharks C",
+                                "organisation": {
+                                    "id": "e234a948",
+                                    "name": "Henley Sharks Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 4,
+                            "lost": 7,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 225,
+                            "pointsAgainst": 323,
+                            "pointsDifference": -98,
+                            "forfeits": 2,
+                            "percentage": 69.66,
+                            "competitionPoints": 8
+                        },
+                        {
+                            "team": {
+                                "id": "ba4b5fb2",
+                                "name": "Grange D",
+                                "organisation": {
+                                    "id": "473e0fc3",
+                                    "name": "Grange Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 3,
+                            "lost": 9,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 278,
+                            "pointsAgainst": 315,
+                            "pointsDifference": -37,
+                            "forfeits": 0,
+                            "percentage": 88.25,
+                            "competitionPoints": 6
+                        },
+                        {
+                            "team": {
+                                "id": "6e404217",
+                                "name": "WP Purple I",
+                                "organisation": {
+                                    "id": "53002de5",
+                                    "name": "Westbourne Park Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 1,
+                            "lost": 10,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 199,
+                            "pointsAgainst": 328,
+                            "pointsDifference": -129,
+                            "forfeits": 2,
+                            "percentage": 60.67,
+                            "competitionPoints": 2
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

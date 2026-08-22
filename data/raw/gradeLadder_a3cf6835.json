@@ -1,0 +1,170 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "a3cf6835",
+            "name": "C3",
+            "ladderType": "TOTAL_COMPETITION_POINTS",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "ccf3ba7f",
+                                "name": "Warriors 1",
+                                "organisation": {
+                                    "id": "204e3fbe",
+                                    "name": "Warriors Netball Club (SA)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 11,
+                            "lost": 1,
+                            "drawn": 1,
+                            "byes": 2,
+                            "pointsFor": 564,
+                            "pointsAgainst": 377,
+                            "pointsDifference": 187,
+                            "forfeits": 0,
+                            "percentage": 149.6,
+                            "competitionPoints": 23
+                        },
+                        {
+                            "team": {
+                                "id": "95c038d9",
+                                "name": "Dragons 1",
+                                "organisation": {
+                                    "id": "b9678a45",
+                                    "name": "Dragons Netball Club (SA)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 9,
+                            "lost": 3,
+                            "drawn": 1,
+                            "byes": 2,
+                            "pointsFor": 480,
+                            "pointsAgainst": 356,
+                            "pointsDifference": 124,
+                            "forfeits": 0,
+                            "percentage": 134.83,
+                            "competitionPoints": 17
+                        },
+                        {
+                            "team": {
+                                "id": "d7b0fd30",
+                                "name": "N Bombers  1",
+                                "organisation": {
+                                    "id": "fdc2c5fd",
+                                    "name": "Northern Bombers Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 8,
+                            "lost": 4,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 479,
+                            "pointsAgainst": 442,
+                            "pointsDifference": 37,
+                            "forfeits": 1,
+                            "percentage": 108.37,
+                            "competitionPoints": 16
+                        },
+                        {
+                            "team": {
+                                "id": "74a5ab9e",
+                                "name": "FIREWORKS 04",
+                                "organisation": {
+                                    "id": "27ce429f",
+                                    "name": "Fireworks Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 6,
+                            "lost": 8,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 489,
+                            "pointsAgainst": 468,
+                            "pointsDifference": 21,
+                            "forfeits": 0,
+                            "percentage": 104.49,
+                            "competitionPoints": 12
+                        },
+                        {
+                            "team": {
+                                "id": "de6b80e3",
+                                "name": "Gumnuts 03",
+                                "organisation": {
+                                    "id": "f630493f",
+                                    "name": "Gumnuts",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 4,
+                            "lost": 9,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 260,
+                            "pointsAgainst": 317,
+                            "pointsDifference": -57,
+                            "forfeits": 1,
+                            "percentage": 82.02,
+                            "competitionPoints": 8
+                        },
+                        {
+                            "team": {
+                                "id": "3c7240de",
+                                "name": "Northern Lights 3",
+                                "organisation": {
+                                    "id": "71b577d1",
+                                    "name": "Northern Lights Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 4,
+                            "lost": 7,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 354,
+                            "pointsAgainst": 501,
+                            "pointsDifference": -147,
+                            "forfeits": 2,
+                            "percentage": 70.66,
+                            "competitionPoints": 8
+                        },
+                        {
+                            "team": {
+                                "id": "36a70089",
+                                "name": "N Cobras 2",
+                                "organisation": {
+                                    "id": "fda07884",
+                                    "name": "Northern Cobras",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 2,
+                            "lost": 11,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 397,
+                            "pointsAgainst": 562,
+                            "pointsDifference": -165,
+                            "forfeits": 1,
+                            "percentage": 70.64,
+                            "competitionPoints": 2
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

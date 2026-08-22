@@ -1,0 +1,148 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "387caa4f",
+            "name": "11U/1",
+            "ladderType": "POINTS_AVERAGE",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "512d958c",
+                                "name": "Grange Aqua 11A",
+                                "organisation": {
+                                    "id": "473e0fc3",
+                                    "name": "Grange Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 13,
+                            "lost": 2,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 517,
+                            "pointsAgainst": 336,
+                            "pointsDifference": 181,
+                            "forfeits": 0,
+                            "percentage": 153.87,
+                            "competitionPoints": 26
+                        },
+                        {
+                            "team": {
+                                "id": "eba01c0b",
+                                "name": "SMAA 11A",
+                                "organisation": {
+                                    "id": "72bc9771",
+                                    "name": "St Michael & All Angels",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 11,
+                            "lost": 4,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 490,
+                            "pointsAgainst": 340,
+                            "pointsDifference": 150,
+                            "forfeits": 0,
+                            "percentage": 144.12,
+                            "competitionPoints": 22
+                        },
+                        {
+                            "team": {
+                                "id": "94c74409",
+                                "name": "Glengowrie 11A",
+                                "organisation": {
+                                    "id": "8d82bd18",
+                                    "name": "Glengowrie",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 10,
+                            "lost": 4,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 551,
+                            "pointsAgainst": 405,
+                            "pointsDifference": 146,
+                            "forfeits": 0,
+                            "percentage": 136.05,
+                            "competitionPoints": 21
+                        },
+                        {
+                            "team": {
+                                "id": "4582b4e0",
+                                "name": "Henley Sharks 11A",
+                                "organisation": {
+                                    "id": "e234a948",
+                                    "name": "Henley Sharks Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 7,
+                            "lost": 7,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 468,
+                            "pointsAgainst": 396,
+                            "pointsDifference": 72,
+                            "forfeits": 0,
+                            "percentage": 118.18,
+                            "competitionPoints": 15
+                        },
+                        {
+                            "team": {
+                                "id": "0e681e6f",
+                                "name": "Morialta 11A",
+                                "organisation": {
+                                    "id": "46cdd3a1",
+                                    "name": "Morialta Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 2,
+                            "lost": 13,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 320,
+                            "pointsAgainst": 472,
+                            "pointsDifference": -152,
+                            "forfeits": 0,
+                            "percentage": 67.8,
+                            "competitionPoints": 4
+                        },
+                        {
+                            "team": {
+                                "id": "8e2380b0",
+                                "name": "St Josephs 11A",
+                                "organisation": {
+                                    "id": "8793c382",
+                                    "name": "St Joseph's (Somerton Park)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 1,
+                            "lost": 14,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 201,
+                            "pointsAgainst": 598,
+                            "pointsDifference": -397,
+                            "forfeits": 0,
+                            "percentage": 33.61,
+                            "competitionPoints": 2
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

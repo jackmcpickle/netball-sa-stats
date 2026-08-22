@@ -1,0 +1,82 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "68e2658b",
+            "name": "U14 Boys",
+            "ladderType": "TOTAL_COMPETITION_POINTS",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "b7d04d08",
+                                "name": "Mystic Opals B1",
+                                "organisation": {
+                                    "id": "637de894",
+                                    "name": "Mystic Opals",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 9,
+                            "won": 6,
+                            "lost": 3,
+                            "drawn": 0,
+                            "byes": 5,
+                            "pointsFor": 176,
+                            "pointsAgainst": 129,
+                            "pointsDifference": 47,
+                            "forfeits": 0,
+                            "percentage": 136.43,
+                            "competitionPoints": 12
+                        },
+                        {
+                            "team": {
+                                "id": "0506c446",
+                                "name": "Northern Storm B1",
+                                "organisation": {
+                                    "id": "2e78dfde",
+                                    "name": "Northern Storm Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 10,
+                            "won": 5,
+                            "lost": 5,
+                            "drawn": 0,
+                            "byes": 5,
+                            "pointsFor": 196,
+                            "pointsAgainst": 182,
+                            "pointsDifference": 14,
+                            "forfeits": 0,
+                            "percentage": 107.69,
+                            "competitionPoints": 10
+                        },
+                        {
+                            "team": {
+                                "id": "a343fe26",
+                                "name": "TIKI B1",
+                                "organisation": {
+                                    "id": "62eaac91",
+                                    "name": "Tiki",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 9,
+                            "won": 3,
+                            "lost": 5,
+                            "drawn": 0,
+                            "byes": 5,
+                            "pointsFor": 134,
+                            "pointsAgainst": 195,
+                            "pointsDifference": -61,
+                            "forfeits": 1,
+                            "percentage": 68.72,
+                            "competitionPoints": 6
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

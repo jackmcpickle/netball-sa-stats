@@ -1,0 +1,192 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "bc7ff111",
+            "name": "15U/4",
+            "ladderType": "POINTS_AVERAGE",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "741fed2f",
+                                "name": "Glenunga Wild 15A",
+                                "organisation": {
+                                    "id": "05a8f52f",
+                                    "name": "Glenunga",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 11,
+                            "lost": 3,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 521,
+                            "pointsAgainst": 370,
+                            "pointsDifference": 151,
+                            "forfeits": 0,
+                            "percentage": 140.81,
+                            "competitionPoints": 22
+                        },
+                        {
+                            "team": {
+                                "id": "bc262eff",
+                                "name": "Burnside City 15A",
+                                "organisation": {
+                                    "id": "96f9975a",
+                                    "name": "Burnside City Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 11,
+                            "lost": 2,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 428,
+                            "pointsAgainst": 330,
+                            "pointsDifference": 98,
+                            "forfeits": 1,
+                            "percentage": 129.7,
+                            "competitionPoints": 22
+                        },
+                        {
+                            "team": {
+                                "id": "1284ac84",
+                                "name": "Rosefield Phoenix 15B",
+                                "organisation": {
+                                    "id": "f7fe98c2",
+                                    "name": "Rosefield Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 10,
+                            "lost": 3,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 429,
+                            "pointsAgainst": 369,
+                            "pointsDifference": 60,
+                            "forfeits": 0,
+                            "percentage": 116.26,
+                            "competitionPoints": 21
+                        },
+                        {
+                            "team": {
+                                "id": "b7a7a6d6",
+                                "name": "Hectorville Red 15A",
+                                "organisation": {
+                                    "id": "a836b73f",
+                                    "name": "Hectorville Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 10,
+                            "lost": 3,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 414,
+                            "pointsAgainst": 398,
+                            "pointsDifference": 16,
+                            "forfeits": 0,
+                            "percentage": 104.02,
+                            "competitionPoints": 21
+                        },
+                        {
+                            "team": {
+                                "id": "e87a1c6e",
+                                "name": "Glengowrie 15C",
+                                "organisation": {
+                                    "id": "8d82bd18",
+                                    "name": "Glengowrie",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 8,
+                            "lost": 6,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 397,
+                            "pointsAgainst": 392,
+                            "pointsDifference": 5,
+                            "forfeits": 0,
+                            "percentage": 101.28,
+                            "competitionPoints": 16
+                        },
+                        {
+                            "team": {
+                                "id": "d65b0f3e",
+                                "name": "Hectorville Blue 15B",
+                                "organisation": {
+                                    "id": "a836b73f",
+                                    "name": "Hectorville Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 7,
+                            "lost": 7,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 340,
+                            "pointsAgainst": 425,
+                            "pointsDifference": -85,
+                            "forfeits": 0,
+                            "percentage": 80,
+                            "competitionPoints": 14
+                        },
+                        {
+                            "team": {
+                                "id": "c70b9ddf",
+                                "name": "Morialta 15D",
+                                "organisation": {
+                                    "id": "46cdd3a1",
+                                    "name": "Morialta Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 3,
+                            "lost": 10,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 327,
+                            "pointsAgainst": 419,
+                            "pointsDifference": -92,
+                            "forfeits": 0,
+                            "percentage": 78.04,
+                            "competitionPoints": 7
+                        },
+                        {
+                            "team": {
+                                "id": "2822e15d",
+                                "name": "SMAA 15A",
+                                "organisation": {
+                                    "id": "72bc9771",
+                                    "name": "St Michael & All Angels",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 1,
+                            "lost": 12,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 309,
+                            "pointsAgainst": 462,
+                            "pointsDifference": -153,
+                            "forfeits": 0,
+                            "percentage": 66.88,
+                            "competitionPoints": 3
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

@@ -1,0 +1,148 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "e5a0898b",
+            "name": "9U/3",
+            "ladderType": "POINTS_AVERAGE",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "44450f90",
+                                "name": "Hectorville Hurricanes 9A",
+                                "organisation": {
+                                    "id": "a836b73f",
+                                    "name": "Hectorville Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 12,
+                            "lost": 1,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 146,
+                            "pointsAgainst": 43,
+                            "pointsDifference": 103,
+                            "forfeits": 0,
+                            "percentage": 339.53,
+                            "competitionPoints": 25
+                        },
+                        {
+                            "team": {
+                                "id": "37c19ddc",
+                                "name": "Morialta 9B",
+                                "organisation": {
+                                    "id": "46cdd3a1",
+                                    "name": "Morialta Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 9,
+                            "lost": 3,
+                            "drawn": 2,
+                            "byes": 0,
+                            "pointsFor": 108,
+                            "pointsAgainst": 74,
+                            "pointsDifference": 34,
+                            "forfeits": 0,
+                            "percentage": 145.95,
+                            "competitionPoints": 20
+                        },
+                        {
+                            "team": {
+                                "id": "17b4dabf",
+                                "name": "SMAA 9A",
+                                "organisation": {
+                                    "id": "72bc9771",
+                                    "name": "St Michael & All Angels",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 10,
+                            "lost": 4,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 100,
+                            "pointsAgainst": 70,
+                            "pointsDifference": 30,
+                            "forfeits": 0,
+                            "percentage": 142.86,
+                            "competitionPoints": 20
+                        },
+                        {
+                            "team": {
+                                "id": "20d0ca74",
+                                "name": "Glengowrie 9D",
+                                "organisation": {
+                                    "id": "8d82bd18",
+                                    "name": "Glengowrie",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 5,
+                            "lost": 9,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 61,
+                            "pointsAgainst": 108,
+                            "pointsDifference": -47,
+                            "forfeits": 0,
+                            "percentage": 56.48,
+                            "competitionPoints": 10
+                        },
+                        {
+                            "team": {
+                                "id": "93caefa9",
+                                "name": "Rosefield Robins 9A",
+                                "organisation": {
+                                    "id": "f7fe98c2",
+                                    "name": "Rosefield Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 4,
+                            "lost": 9,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 62,
+                            "pointsAgainst": 107,
+                            "pointsDifference": -45,
+                            "forfeits": 0,
+                            "percentage": 57.94,
+                            "competitionPoints": 9
+                        },
+                        {
+                            "team": {
+                                "id": "73a240b3",
+                                "name": "Grange Silver 9B",
+                                "organisation": {
+                                    "id": "473e0fc3",
+                                    "name": "Grange Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 4,
+                            "lost": 8,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 45,
+                            "pointsAgainst": 120,
+                            "pointsDifference": -75,
+                            "forfeits": 1,
+                            "percentage": 37.5,
+                            "competitionPoints": 8
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

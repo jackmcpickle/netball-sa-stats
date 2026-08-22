@@ -1,0 +1,148 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "fed49a73",
+            "name": "C4",
+            "ladderType": "POINTS_AVERAGE",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "1380f89c",
+                                "name": "Cove Tigers Silver B",
+                                "organisation": {
+                                    "id": "ab06439f",
+                                    "name": "Cove Netball Club Inc",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 11,
+                            "lost": 4,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 400,
+                            "pointsAgainst": 196,
+                            "pointsDifference": 204,
+                            "forfeits": 0,
+                            "percentage": 204.08,
+                            "competitionPoints": 22
+                        },
+                        {
+                            "team": {
+                                "id": "7cba6912",
+                                "name": "Diamonds  B",
+                                "organisation": {
+                                    "id": "290b1ee1",
+                                    "name": "Sparkling Diamonds",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 11,
+                            "lost": 3,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 367,
+                            "pointsAgainst": 274,
+                            "pointsDifference": 93,
+                            "forfeits": 1,
+                            "percentage": 133.94,
+                            "competitionPoints": 22
+                        },
+                        {
+                            "team": {
+                                "id": "dccf416f",
+                                "name": "St Josephs C",
+                                "organisation": {
+                                    "id": "8793c382",
+                                    "name": "St Joseph's (Somerton Park)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 8,
+                            "lost": 6,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 285,
+                            "pointsAgainst": 305,
+                            "pointsDifference": -20,
+                            "forfeits": 1,
+                            "percentage": 93.44,
+                            "competitionPoints": 16
+                        },
+                        {
+                            "team": {
+                                "id": "9f431f1e",
+                                "name": "St Monicas C",
+                                "organisation": {
+                                    "id": "9b1b9579",
+                                    "name": "St Monicas",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 4,
+                            "lost": 10,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 332,
+                            "pointsAgainst": 312,
+                            "pointsDifference": 20,
+                            "forfeits": 0,
+                            "percentage": 106.41,
+                            "competitionPoints": 8
+                        },
+                        {
+                            "team": {
+                                "id": "7cc7fa26",
+                                "name": "Walkerville D",
+                                "organisation": {
+                                    "id": "a83c7a81",
+                                    "name": "Walkerville",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 4,
+                            "lost": 11,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 227,
+                            "pointsAgainst": 365,
+                            "pointsDifference": -138,
+                            "forfeits": 0,
+                            "percentage": 62.19,
+                            "competitionPoints": 8
+                        },
+                        {
+                            "team": {
+                                "id": "7a773a3f",
+                                "name": "Adelaide Luth Sapphire N",
+                                "organisation": {
+                                    "id": "66a7fd12",
+                                    "name": "Adelaide Lutheran",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 2,
+                            "lost": 13,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 187,
+                            "pointsAgainst": 346,
+                            "pointsDifference": -159,
+                            "forfeits": 0,
+                            "percentage": 54.05,
+                            "competitionPoints": 4
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

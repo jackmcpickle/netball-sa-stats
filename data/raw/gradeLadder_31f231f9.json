@@ -1,0 +1,170 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "31f231f9",
+            "name": "15U/5",
+            "ladderType": "POINTS_AVERAGE",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "430760ff",
+                                "name": "Grange Pink 15D",
+                                "organisation": {
+                                    "id": "473e0fc3",
+                                    "name": "Grange Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 11,
+                            "lost": 1,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 428,
+                            "pointsAgainst": 203,
+                            "pointsDifference": 225,
+                            "forfeits": 0,
+                            "percentage": 210.84,
+                            "competitionPoints": 22
+                        },
+                        {
+                            "team": {
+                                "id": "18d96461",
+                                "name": "St Monicas 15B",
+                                "organisation": {
+                                    "id": "9b1b9579",
+                                    "name": "St Monicas",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 9,
+                            "lost": 4,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 398,
+                            "pointsAgainst": 259,
+                            "pointsDifference": 139,
+                            "forfeits": 0,
+                            "percentage": 153.67,
+                            "competitionPoints": 18
+                        },
+                        {
+                            "team": {
+                                "id": "64dd89c9",
+                                "name": "Morialta 15E",
+                                "organisation": {
+                                    "id": "46cdd3a1",
+                                    "name": "Morialta Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 8,
+                            "lost": 4,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 383,
+                            "pointsAgainst": 260,
+                            "pointsDifference": 123,
+                            "forfeits": 0,
+                            "percentage": 147.31,
+                            "competitionPoints": 16
+                        },
+                        {
+                            "team": {
+                                "id": "a279a173",
+                                "name": "St Josephs Red 15C",
+                                "organisation": {
+                                    "id": "8793c382",
+                                    "name": "St Joseph's (Somerton Park)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 4,
+                            "lost": 8,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 282,
+                            "pointsAgainst": 294,
+                            "pointsDifference": -12,
+                            "forfeits": 0,
+                            "percentage": 95.92,
+                            "competitionPoints": 8
+                        },
+                        {
+                            "team": {
+                                "id": "c354acb8",
+                                "name": "St Josephs White  15D",
+                                "organisation": {
+                                    "id": "8793c382",
+                                    "name": "St Joseph's (Somerton Park)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 3,
+                            "lost": 10,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 295,
+                            "pointsAgainst": 432,
+                            "pointsDifference": -137,
+                            "forfeits": 0,
+                            "percentage": 68.29,
+                            "competitionPoints": 6
+                        },
+                        {
+                            "team": {
+                                "id": "df2359ec",
+                                "name": "Glengowrie Uniting 15A",
+                                "organisation": {
+                                    "id": "8d82bd18",
+                                    "name": "Glengowrie",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 2,
+                            "lost": 10,
+                            "drawn": 1,
+                            "byes": 1,
+                            "pointsFor": 245,
+                            "pointsAgainst": 429,
+                            "pointsDifference": -184,
+                            "forfeits": 0,
+                            "percentage": 57.11,
+                            "competitionPoints": 5
+                        },
+                        {
+                            "team": {
+                                "id": "a87871a3",
+                                "name": "St Johns Luth Sautner 15C",
+                                "organisation": {
+                                    "id": "f5111a09",
+                                    "name": "St Johns Lutheran Unley",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 0,
+                            "lost": 11,
+                            "drawn": 1,
+                            "byes": 1,
+                            "pointsFor": 240,
+                            "pointsAgainst": 394,
+                            "pointsDifference": -154,
+                            "forfeits": 1,
+                            "percentage": 60.91,
+                            "competitionPoints": 1
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

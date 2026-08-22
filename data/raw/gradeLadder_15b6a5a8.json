@@ -1,0 +1,148 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "15b6a5a8",
+            "name": "9U/1",
+            "ladderType": "POINTS_AVERAGE",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "95bb2497",
+                                "name": "Glengowrie White 9A",
+                                "organisation": {
+                                    "id": "8d82bd18",
+                                    "name": "Glengowrie",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 15,
+                            "lost": 0,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 307,
+                            "pointsAgainst": 81,
+                            "pointsDifference": 226,
+                            "forfeits": 0,
+                            "percentage": 379.01,
+                            "competitionPoints": 30
+                        },
+                        {
+                            "team": {
+                                "id": "3976b5a3",
+                                "name": "Glengowrie Red 9B",
+                                "organisation": {
+                                    "id": "8d82bd18",
+                                    "name": "Glengowrie",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 13,
+                            "lost": 2,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 178,
+                            "pointsAgainst": 110,
+                            "pointsDifference": 68,
+                            "forfeits": 0,
+                            "percentage": 161.82,
+                            "competitionPoints": 26
+                        },
+                        {
+                            "team": {
+                                "id": "5e30c2fd",
+                                "name": "Flinders Park 9A",
+                                "organisation": {
+                                    "id": "7721739e",
+                                    "name": "Flinders Park",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 9,
+                            "lost": 6,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 145,
+                            "pointsAgainst": 161,
+                            "pointsDifference": -16,
+                            "forfeits": 0,
+                            "percentage": 90.06,
+                            "competitionPoints": 18
+                        },
+                        {
+                            "team": {
+                                "id": "25e99a37",
+                                "name": "St Josephs 9A",
+                                "organisation": {
+                                    "id": "8793c382",
+                                    "name": "St Joseph's (Somerton Park)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 6,
+                            "lost": 9,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 125,
+                            "pointsAgainst": 169,
+                            "pointsDifference": -44,
+                            "forfeits": 0,
+                            "percentage": 73.96,
+                            "competitionPoints": 12
+                        },
+                        {
+                            "team": {
+                                "id": "4d449e54",
+                                "name": "Glenunga Hype 9A",
+                                "organisation": {
+                                    "id": "05a8f52f",
+                                    "name": "Glenunga",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 5,
+                            "lost": 10,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 111,
+                            "pointsAgainst": 199,
+                            "pointsDifference": -88,
+                            "forfeits": 0,
+                            "percentage": 55.78,
+                            "competitionPoints": 10
+                        },
+                        {
+                            "team": {
+                                "id": "0a044075",
+                                "name": "Morialta 9A",
+                                "organisation": {
+                                    "id": "46cdd3a1",
+                                    "name": "Morialta Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 1,
+                            "lost": 13,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 82,
+                            "pointsAgainst": 228,
+                            "pointsDifference": -146,
+                            "forfeits": 0,
+                            "percentage": 35.96,
+                            "competitionPoints": 3
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

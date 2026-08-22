@@ -1,0 +1,148 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "d609b63d",
+            "name": "Primary 2",
+            "ladderType": "TOTAL_COMPETITION_POINTS",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "e49e68bd",
+                                "name": "Smithfield Panthers 7",
+                                "organisation": {
+                                    "id": "87e68d0f",
+                                    "name": "Smithfield Panthers",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 9,
+                            "lost": 5,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 165,
+                            "pointsAgainst": 80,
+                            "pointsDifference": 85,
+                            "forfeits": 0,
+                            "percentage": 206.25,
+                            "competitionPoints": 18
+                        },
+                        {
+                            "team": {
+                                "id": "6228fb57",
+                                "name": "Angle Vale 15",
+                                "organisation": {
+                                    "id": "1267db67",
+                                    "name": "Angle Vale",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 8,
+                            "lost": 5,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 151,
+                            "pointsAgainst": 91,
+                            "pointsDifference": 60,
+                            "forfeits": 0,
+                            "percentage": 165.93,
+                            "competitionPoints": 17
+                        },
+                        {
+                            "team": {
+                                "id": "c25f872c",
+                                "name": "Lazers 14",
+                                "organisation": {
+                                    "id": "d2f381fb",
+                                    "name": "Lazers (SA)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 8,
+                            "lost": 5,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 151,
+                            "pointsAgainst": 107,
+                            "pointsDifference": 44,
+                            "forfeits": 0,
+                            "percentage": 141.12,
+                            "competitionPoints": 17
+                        },
+                        {
+                            "team": {
+                                "id": "6e7e1533",
+                                "name": "Gazelles 12",
+                                "organisation": {
+                                    "id": "b2a76075",
+                                    "name": "Gazelles (SA)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 8,
+                            "lost": 6,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 98,
+                            "pointsAgainst": 135,
+                            "pointsDifference": -37,
+                            "forfeits": 0,
+                            "percentage": 72.59,
+                            "competitionPoints": 16
+                        },
+                        {
+                            "team": {
+                                "id": "d08f6b0a",
+                                "name": "Gawler River 6",
+                                "organisation": {
+                                    "id": "fefba28e",
+                                    "name": "Angle Vale Football Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 2,
+                            "lost": 11,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 69,
+                            "pointsAgainst": 136,
+                            "pointsDifference": -67,
+                            "forfeits": 1,
+                            "percentage": 50.74,
+                            "competitionPoints": 4
+                        },
+                        {
+                            "team": {
+                                "id": "37c78833",
+                                "name": "Warriors 5",
+                                "organisation": {
+                                    "id": "204e3fbe",
+                                    "name": "Warriors Netball Club (SA)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 0,
+                            "lost": 12,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 14,
+                            "pointsAgainst": 147,
+                            "pointsDifference": -133,
+                            "forfeits": 2,
+                            "percentage": 9.52,
+                            "competitionPoints": 0
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

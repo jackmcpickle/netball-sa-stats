@@ -1,0 +1,148 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "410fdc50",
+            "name": "C2",
+            "ladderType": "POINTS_AVERAGE",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "a0a55ed5",
+                                "name": "Reynella",
+                                "organisation": {
+                                    "id": "485b7b56",
+                                    "name": "Reynella Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 13,
+                            "lost": 1,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 686,
+                            "pointsAgainst": 314,
+                            "pointsDifference": 372,
+                            "forfeits": 0,
+                            "percentage": 218.47,
+                            "competitionPoints": 26
+                        },
+                        {
+                            "team": {
+                                "id": "41657c55",
+                                "name": "Oakdale 2",
+                                "organisation": {
+                                    "id": "2f66832f",
+                                    "name": "Oakdale Netball Club (SA)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 10,
+                            "lost": 4,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 597,
+                            "pointsAgainst": 438,
+                            "pointsDifference": 159,
+                            "forfeits": 0,
+                            "percentage": 136.3,
+                            "competitionPoints": 20
+                        },
+                        {
+                            "team": {
+                                "id": "dddbbee7",
+                                "name": "Oakdale 1",
+                                "organisation": {
+                                    "id": "2f66832f",
+                                    "name": "Oakdale Netball Club (SA)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 6,
+                            "lost": 8,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 500,
+                            "pointsAgainst": 515,
+                            "pointsDifference": -15,
+                            "forfeits": 0,
+                            "percentage": 97.09,
+                            "competitionPoints": 12
+                        },
+                        {
+                            "team": {
+                                "id": "382928d8",
+                                "name": "Walkerville 2",
+                                "organisation": {
+                                    "id": "a83c7a81",
+                                    "name": "Walkerville",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 5,
+                            "lost": 9,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 378,
+                            "pointsAgainst": 651,
+                            "pointsDifference": -273,
+                            "forfeits": 0,
+                            "percentage": 58.06,
+                            "competitionPoints": 10
+                        },
+                        {
+                            "team": {
+                                "id": "f415e4bd",
+                                "name": "Walkerville 1",
+                                "organisation": {
+                                    "id": "a83c7a81",
+                                    "name": "Walkerville",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 4,
+                            "lost": 10,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 454,
+                            "pointsAgainst": 582,
+                            "pointsDifference": -128,
+                            "forfeits": 0,
+                            "percentage": 78.01,
+                            "competitionPoints": 8
+                        },
+                        {
+                            "team": {
+                                "id": "e540cbe1",
+                                "name": "Old Ignatians",
+                                "organisation": {
+                                    "id": "0113cb3e",
+                                    "name": "Old Ignatians",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 0,
+                            "lost": 14,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 248,
+                            "pointsAgainst": 595,
+                            "pointsDifference": -347,
+                            "forfeits": 0,
+                            "percentage": 41.68,
+                            "competitionPoints": 0
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

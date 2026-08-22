@@ -1,0 +1,192 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "bfb13d4d",
+            "name": "15U/1",
+            "ladderType": "POINTS_AVERAGE",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "3000b08f",
+                                "name": "St Johns Luth Flood 15A",
+                                "organisation": {
+                                    "id": "f5111a09",
+                                    "name": "St Johns Lutheran Unley",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 14,
+                            "lost": 0,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 561,
+                            "pointsAgainst": 246,
+                            "pointsDifference": 315,
+                            "forfeits": 0,
+                            "percentage": 228.05,
+                            "competitionPoints": 28
+                        },
+                        {
+                            "team": {
+                                "id": "4df5b26f",
+                                "name": "Grange Aqua 15A",
+                                "organisation": {
+                                    "id": "473e0fc3",
+                                    "name": "Grange Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 11,
+                            "lost": 3,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 526,
+                            "pointsAgainst": 412,
+                            "pointsDifference": 114,
+                            "forfeits": 0,
+                            "percentage": 127.67,
+                            "competitionPoints": 22
+                        },
+                        {
+                            "team": {
+                                "id": "e540cf2a",
+                                "name": "Morialta Black 15A",
+                                "organisation": {
+                                    "id": "46cdd3a1",
+                                    "name": "Morialta Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 10,
+                            "lost": 4,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 450,
+                            "pointsAgainst": 290,
+                            "pointsDifference": 160,
+                            "forfeits": 0,
+                            "percentage": 155.17,
+                            "competitionPoints": 20
+                        },
+                        {
+                            "team": {
+                                "id": "80b4c074",
+                                "name": "Morialta Red 15B",
+                                "organisation": {
+                                    "id": "46cdd3a1",
+                                    "name": "Morialta Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 9,
+                            "lost": 3,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 355,
+                            "pointsAgainst": 400,
+                            "pointsDifference": -45,
+                            "forfeits": 2,
+                            "percentage": 88.75,
+                            "competitionPoints": 18
+                        },
+                        {
+                            "team": {
+                                "id": "07a6c62a",
+                                "name": "Henley Sharks 15A",
+                                "organisation": {
+                                    "id": "e234a948",
+                                    "name": "Henley Sharks Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 5,
+                            "lost": 9,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 404,
+                            "pointsAgainst": 508,
+                            "pointsDifference": -104,
+                            "forfeits": 0,
+                            "percentage": 79.53,
+                            "competitionPoints": 10
+                        },
+                        {
+                            "team": {
+                                "id": "6e5332a8",
+                                "name": "St Monicas 15A",
+                                "organisation": {
+                                    "id": "9b1b9579",
+                                    "name": "St Monicas",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 4,
+                            "lost": 9,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 353,
+                            "pointsAgainst": 424,
+                            "pointsDifference": -71,
+                            "forfeits": 0,
+                            "percentage": 83.25,
+                            "competitionPoints": 9
+                        },
+                        {
+                            "team": {
+                                "id": "e3b2dbcc",
+                                "name": "Wesley 15A",
+                                "organisation": {
+                                    "id": "5b275702",
+                                    "name": "Wesley Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 4,
+                            "lost": 7,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 247,
+                            "pointsAgainst": 471,
+                            "pointsDifference": -224,
+                            "forfeits": 3,
+                            "percentage": 52.44,
+                            "competitionPoints": 8
+                        },
+                        {
+                            "team": {
+                                "id": "ae0cb3a3",
+                                "name": "SMAA 15A",
+                                "organisation": {
+                                    "id": "72bc9771",
+                                    "name": "St Michael & All Angels",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 2,
+                            "lost": 10,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 349,
+                            "pointsAgainst": 494,
+                            "pointsDifference": -145,
+                            "forfeits": 1,
+                            "percentage": 70.65,
+                            "competitionPoints": 5
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

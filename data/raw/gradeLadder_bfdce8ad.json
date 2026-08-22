@@ -1,0 +1,148 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "bfdce8ad",
+            "name": "17U/5",
+            "ladderType": "POINTS_AVERAGE",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "dd1c7515",
+                                "name": "CLG Turquoise 17D",
+                                "organisation": {
+                                    "id": "5d401652",
+                                    "name": "Colonel Light Gardens",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 15,
+                            "lost": 0,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 613,
+                            "pointsAgainst": 240,
+                            "pointsDifference": 373,
+                            "forfeits": 0,
+                            "percentage": 255.42,
+                            "competitionPoints": 30
+                        },
+                        {
+                            "team": {
+                                "id": "e10c6fd1",
+                                "name": "Glengowrie 17A",
+                                "organisation": {
+                                    "id": "8d82bd18",
+                                    "name": "Glengowrie",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 8,
+                            "lost": 7,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 364,
+                            "pointsAgainst": 380,
+                            "pointsDifference": -16,
+                            "forfeits": 0,
+                            "percentage": 95.79,
+                            "competitionPoints": 16
+                        },
+                        {
+                            "team": {
+                                "id": "b1e6d129",
+                                "name": "Glenunga Thunder 17B",
+                                "organisation": {
+                                    "id": "05a8f52f",
+                                    "name": "Glenunga",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 7,
+                            "lost": 8,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 368,
+                            "pointsAgainst": 431,
+                            "pointsDifference": -63,
+                            "forfeits": 0,
+                            "percentage": 85.38,
+                            "competitionPoints": 14
+                        },
+                        {
+                            "team": {
+                                "id": "ee8f4e13",
+                                "name": "St Monicas 17A",
+                                "organisation": {
+                                    "id": "9b1b9579",
+                                    "name": "St Monicas",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 6,
+                            "lost": 8,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 375,
+                            "pointsAgainst": 402,
+                            "pointsDifference": -27,
+                            "forfeits": 1,
+                            "percentage": 93.28,
+                            "competitionPoints": 12
+                        },
+                        {
+                            "team": {
+                                "id": "c21f0d9d",
+                                "name": "St Josephs 17C",
+                                "organisation": {
+                                    "id": "8793c382",
+                                    "name": "St Joseph's (Somerton Park)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 5,
+                            "lost": 9,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 370,
+                            "pointsAgainst": 420,
+                            "pointsDifference": -50,
+                            "forfeits": 0,
+                            "percentage": 88.1,
+                            "competitionPoints": 11
+                        },
+                        {
+                            "team": {
+                                "id": "73c60f2e",
+                                "name": "Burnside City 17A",
+                                "organisation": {
+                                    "id": "96f9975a",
+                                    "name": "Burnside City Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 3,
+                            "lost": 10,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 272,
+                            "pointsAgainst": 489,
+                            "pointsDifference": -217,
+                            "forfeits": 1,
+                            "percentage": 55.62,
+                            "competitionPoints": 7
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

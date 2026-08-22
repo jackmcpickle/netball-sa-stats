@@ -1,0 +1,170 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "fe0432b7",
+            "name": "INTER 3",
+            "ladderType": "TOTAL_COMPETITION_POINTS",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "0f117f63",
+                                "name": "Garville 2",
+                                "organisation": {
+                                    "id": "241b44c0",
+                                    "name": "Garville",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 11,
+                            "won": 11,
+                            "lost": 0,
+                            "drawn": 0,
+                            "byes": 3,
+                            "pointsFor": 659,
+                            "pointsAgainst": 290,
+                            "pointsDifference": 369,
+                            "forfeits": 0,
+                            "percentage": 227.24,
+                            "competitionPoints": 28
+                        },
+                        {
+                            "team": {
+                                "id": "1b7f6daa",
+                                "name": "Newton Jaguars",
+                                "organisation": {
+                                    "id": "d275f255",
+                                    "name": "Norwood Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 11,
+                            "lost": 2,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 678,
+                            "pointsAgainst": 478,
+                            "pointsDifference": 200,
+                            "forfeits": 0,
+                            "percentage": 141.84,
+                            "competitionPoints": 24
+                        },
+                        {
+                            "team": {
+                                "id": "f29bbf38",
+                                "name": "Tango",
+                                "organisation": {
+                                    "id": "d4389d20",
+                                    "name": "Tango Netball Club Inc",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 7,
+                            "lost": 5,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 512,
+                            "pointsAgainst": 419,
+                            "pointsDifference": 93,
+                            "forfeits": 0,
+                            "percentage": 122.2,
+                            "competitionPoints": 18
+                        },
+                        {
+                            "team": {
+                                "id": "a91c2c53",
+                                "name": "Oakdale Purple",
+                                "organisation": {
+                                    "id": "2f66832f",
+                                    "name": "Oakdale Netball Club (SA)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 8,
+                            "lost": 5,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 535,
+                            "pointsAgainst": 539,
+                            "pointsDifference": -4,
+                            "forfeits": 0,
+                            "percentage": 99.26,
+                            "competitionPoints": 18
+                        },
+                        {
+                            "team": {
+                                "id": "8738fb73",
+                                "name": "Contax",
+                                "organisation": {
+                                    "id": "a8ee2320",
+                                    "name": "Contax",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 7,
+                            "lost": 5,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 503,
+                            "pointsAgainst": 518,
+                            "pointsDifference": -15,
+                            "forfeits": 0,
+                            "percentage": 97.1,
+                            "competitionPoints": 18
+                        },
+                        {
+                            "team": {
+                                "id": "e6c80be0",
+                                "name": "Walkerville",
+                                "organisation": {
+                                    "id": "a83c7a81",
+                                    "name": "Walkerville",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 4,
+                            "lost": 9,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 505,
+                            "pointsAgainst": 545,
+                            "pointsDifference": -40,
+                            "forfeits": 0,
+                            "percentage": 92.66,
+                            "competitionPoints": 10
+                        },
+                        {
+                            "team": {
+                                "id": "8c32b94e",
+                                "name": "Garville",
+                                "organisation": {
+                                    "id": "241b44c0",
+                                    "name": "Garville",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 1,
+                            "lost": 12,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 352,
+                            "pointsAgainst": 682,
+                            "pointsDifference": -330,
+                            "forfeits": 0,
+                            "percentage": 51.61,
+                            "competitionPoints": 4
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

@@ -1,0 +1,192 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "df233069",
+            "name": "13U/2",
+            "ladderType": "POINTS_AVERAGE",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "e055b50f",
+                                "name": "Henley Sharks Blue 13B",
+                                "organisation": {
+                                    "id": "e234a948",
+                                    "name": "Henley Sharks Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 12,
+                            "lost": 2,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 395,
+                            "pointsAgainst": 314,
+                            "pointsDifference": 81,
+                            "forfeits": 0,
+                            "percentage": 125.8,
+                            "competitionPoints": 24
+                        },
+                        {
+                            "team": {
+                                "id": "21a961c2",
+                                "name": "Hectorville Blue 13A",
+                                "organisation": {
+                                    "id": "a836b73f",
+                                    "name": "Hectorville Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 11,
+                            "lost": 3,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 403,
+                            "pointsAgainst": 358,
+                            "pointsDifference": 45,
+                            "forfeits": 0,
+                            "percentage": 112.57,
+                            "competitionPoints": 22
+                        },
+                        {
+                            "team": {
+                                "id": "af344f99",
+                                "name": "Hectorville Red 13B",
+                                "organisation": {
+                                    "id": "a836b73f",
+                                    "name": "Hectorville Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 9,
+                            "lost": 5,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 409,
+                            "pointsAgainst": 299,
+                            "pointsDifference": 110,
+                            "forfeits": 0,
+                            "percentage": 136.79,
+                            "competitionPoints": 18
+                        },
+                        {
+                            "team": {
+                                "id": "d3fea121",
+                                "name": "WP Comet 13A",
+                                "organisation": {
+                                    "id": "53002de5",
+                                    "name": "Westbourne Park Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 8,
+                            "lost": 5,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 464,
+                            "pointsAgainst": 230,
+                            "pointsDifference": 234,
+                            "forfeits": 0,
+                            "percentage": 201.74,
+                            "competitionPoints": 17
+                        },
+                        {
+                            "team": {
+                                "id": "e4a30a73",
+                                "name": "Morialta 13B",
+                                "organisation": {
+                                    "id": "46cdd3a1",
+                                    "name": "Morialta Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 8,
+                            "lost": 5,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 352,
+                            "pointsAgainst": 298,
+                            "pointsDifference": 54,
+                            "forfeits": 0,
+                            "percentage": 118.12,
+                            "competitionPoints": 17
+                        },
+                        {
+                            "team": {
+                                "id": "62a8ba45",
+                                "name": "Grange Grey 13B",
+                                "organisation": {
+                                    "id": "473e0fc3",
+                                    "name": "Grange Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 6,
+                            "lost": 8,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 308,
+                            "pointsAgainst": 419,
+                            "pointsDifference": -111,
+                            "forfeits": 0,
+                            "percentage": 73.51,
+                            "competitionPoints": 12
+                        },
+                        {
+                            "team": {
+                                "id": "d4644932",
+                                "name": "WP Asteroids 13B",
+                                "organisation": {
+                                    "id": "53002de5",
+                                    "name": "Westbourne Park Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 3,
+                            "lost": 11,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 316,
+                            "pointsAgainst": 476,
+                            "pointsDifference": -160,
+                            "forfeits": 0,
+                            "percentage": 66.39,
+                            "competitionPoints": 6
+                        },
+                        {
+                            "team": {
+                                "id": "a6509d6d",
+                                "name": "Flinders Park 13B",
+                                "organisation": {
+                                    "id": "7721739e",
+                                    "name": "Flinders Park",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 1,
+                            "lost": 13,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 225,
+                            "pointsAgainst": 478,
+                            "pointsDifference": -253,
+                            "forfeits": 0,
+                            "percentage": 47.07,
+                            "competitionPoints": 2
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

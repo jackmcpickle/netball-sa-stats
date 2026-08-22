@@ -1,0 +1,126 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "7f5e600c",
+            "name": "D1",
+            "ladderType": "TOTAL_COMPETITION_POINTS",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "dbf094eb",
+                                "name": "Lazers 05",
+                                "organisation": {
+                                    "id": "d2f381fb",
+                                    "name": "Lazers (SA)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 10,
+                            "lost": 0,
+                            "drawn": 1,
+                            "byes": 3,
+                            "pointsFor": 447,
+                            "pointsAgainst": 310,
+                            "pointsDifference": 137,
+                            "forfeits": 0,
+                            "percentage": 144.19,
+                            "competitionPoints": 21
+                        },
+                        {
+                            "team": {
+                                "id": "eb249cce",
+                                "name": "Lazers 06",
+                                "organisation": {
+                                    "id": "d2f381fb",
+                                    "name": "Lazers (SA)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 7,
+                            "lost": 3,
+                            "drawn": 1,
+                            "byes": 3,
+                            "pointsFor": 492,
+                            "pointsAgainst": 349,
+                            "pointsDifference": 143,
+                            "forfeits": 0,
+                            "percentage": 140.97,
+                            "competitionPoints": 15
+                        },
+                        {
+                            "team": {
+                                "id": "6e1993b0",
+                                "name": "Vulcans 06",
+                                "organisation": {
+                                    "id": "f00d83f9",
+                                    "name": "Vulcans Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 4,
+                            "lost": 7,
+                            "drawn": 0,
+                            "byes": 3,
+                            "pointsFor": 343,
+                            "pointsAgainst": 400,
+                            "pointsDifference": -57,
+                            "forfeits": 0,
+                            "percentage": 85.75,
+                            "competitionPoints": 8
+                        },
+                        {
+                            "team": {
+                                "id": "5ccde5ec",
+                                "name": "Koalas 1",
+                                "organisation": {
+                                    "id": "b3d5bec7",
+                                    "name": "Koala United",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 3,
+                            "lost": 8,
+                            "drawn": 0,
+                            "byes": 3,
+                            "pointsFor": 428,
+                            "pointsAgainst": 509,
+                            "pointsDifference": -81,
+                            "forfeits": 0,
+                            "percentage": 84.09,
+                            "competitionPoints": 6
+                        },
+                        {
+                            "team": {
+                                "id": "9eb1b443",
+                                "name": "Gumnuts 04",
+                                "organisation": {
+                                    "id": "f630493f",
+                                    "name": "Gumnuts",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 3,
+                            "lost": 9,
+                            "drawn": 0,
+                            "byes": 3,
+                            "pointsFor": 376,
+                            "pointsAgainst": 518,
+                            "pointsDifference": -142,
+                            "forfeits": 0,
+                            "percentage": 72.59,
+                            "competitionPoints": 6
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

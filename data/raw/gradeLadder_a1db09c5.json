@@ -1,0 +1,104 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "a1db09c5",
+            "name": "Junior 1",
+            "ladderType": "TOTAL_COMPETITION_POINTS",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "eeafedae",
+                                "name": "EPDemons 06",
+                                "organisation": {
+                                    "id": "5f9fef9c",
+                                    "name": "Eastern Park Demons",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 12,
+                            "lost": 2,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 621,
+                            "pointsAgainst": 341,
+                            "pointsDifference": 280,
+                            "forfeits": 0,
+                            "percentage": 182.11,
+                            "competitionPoints": 24
+                        },
+                        {
+                            "team": {
+                                "id": "aad20a1e",
+                                "name": "FIREWORKS 10",
+                                "organisation": {
+                                    "id": "27ce429f",
+                                    "name": "Fireworks Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 11,
+                            "lost": 3,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 522,
+                            "pointsAgainst": 377,
+                            "pointsDifference": 145,
+                            "forfeits": 0,
+                            "percentage": 138.46,
+                            "competitionPoints": 22
+                        },
+                        {
+                            "team": {
+                                "id": "ca44f199",
+                                "name": "Gazelles 08",
+                                "organisation": {
+                                    "id": "b2a76075",
+                                    "name": "Gazelles (SA)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 6,
+                            "lost": 8,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 457,
+                            "pointsAgainst": 515,
+                            "pointsDifference": -58,
+                            "forfeits": 0,
+                            "percentage": 88.74,
+                            "competitionPoints": 12
+                        },
+                        {
+                            "team": {
+                                "id": "82bab919",
+                                "name": "WILDFIRE 2",
+                                "organisation": {
+                                    "id": "197d1c9c",
+                                    "name": "Wildfire Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 1,
+                            "lost": 13,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 317,
+                            "pointsAgainst": 525,
+                            "pointsDifference": -208,
+                            "forfeits": 0,
+                            "percentage": 60.38,
+                            "competitionPoints": 2
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

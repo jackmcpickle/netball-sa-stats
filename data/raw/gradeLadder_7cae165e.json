@@ -1,0 +1,104 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "7cae165e",
+            "name": "Primary 1",
+            "ladderType": "TOTAL_COMPETITION_POINTS",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "64debc93",
+                                "name": "Gumnuts 08",
+                                "organisation": {
+                                    "id": "f630493f",
+                                    "name": "Gumnuts",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 14,
+                            "lost": 0,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 309,
+                            "pointsAgainst": 73,
+                            "pointsDifference": 236,
+                            "forfeits": 0,
+                            "percentage": 423.29,
+                            "competitionPoints": 28
+                        },
+                        {
+                            "team": {
+                                "id": "64da4889",
+                                "name": "FIREWORKS 19",
+                                "organisation": {
+                                    "id": "27ce429f",
+                                    "name": "Fireworks Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 9,
+                            "lost": 4,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 205,
+                            "pointsAgainst": 123,
+                            "pointsDifference": 82,
+                            "forfeits": 0,
+                            "percentage": 166.67,
+                            "competitionPoints": 19
+                        },
+                        {
+                            "team": {
+                                "id": "7d21de4d",
+                                "name": "Vulcans 11",
+                                "organisation": {
+                                    "id": "f00d83f9",
+                                    "name": "Vulcans Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 6,
+                            "lost": 7,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 233,
+                            "pointsAgainst": 161,
+                            "pointsDifference": 72,
+                            "forfeits": 0,
+                            "percentage": 144.72,
+                            "competitionPoints": 13
+                        },
+                        {
+                            "team": {
+                                "id": "92f609e0",
+                                "name": "Lazers 14",
+                                "organisation": {
+                                    "id": "d2f381fb",
+                                    "name": "Lazers (SA)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 4,
+                            "lost": 10,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 167,
+                            "pointsAgainst": 185,
+                            "pointsDifference": -18,
+                            "forfeits": 0,
+                            "percentage": 90.27,
+                            "competitionPoints": 8
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

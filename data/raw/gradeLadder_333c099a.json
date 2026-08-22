@@ -1,0 +1,126 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "333c099a",
+            "name": "D5",
+            "ladderType": "TOTAL_COMPETITION_POINTS",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "66264ff6",
+                                "name": "N Bombers 3",
+                                "organisation": {
+                                    "id": "fdc2c5fd",
+                                    "name": "Northern Bombers Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 12,
+                            "lost": 1,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 597,
+                            "pointsAgainst": 269,
+                            "pointsDifference": 328,
+                            "forfeits": 0,
+                            "percentage": 221.93,
+                            "competitionPoints": 24
+                        },
+                        {
+                            "team": {
+                                "id": "f6fe4894",
+                                "name": "N Bombers 4",
+                                "organisation": {
+                                    "id": "fdc2c5fd",
+                                    "name": "Northern Bombers Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 7,
+                            "lost": 4,
+                            "drawn": 1,
+                            "byes": 2,
+                            "pointsFor": 355,
+                            "pointsAgainst": 363,
+                            "pointsDifference": -8,
+                            "forfeits": 1,
+                            "percentage": 97.8,
+                            "competitionPoints": 15
+                        },
+                        {
+                            "team": {
+                                "id": "cdfca6a8",
+                                "name": "N Bombers 5",
+                                "organisation": {
+                                    "id": "fdc2c5fd",
+                                    "name": "Northern Bombers Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 5,
+                            "lost": 8,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 339,
+                            "pointsAgainst": 416,
+                            "pointsDifference": -77,
+                            "forfeits": 0,
+                            "percentage": 81.49,
+                            "competitionPoints": 10
+                        },
+                        {
+                            "team": {
+                                "id": "4b360a90",
+                                "name": "Angle Vale 10",
+                                "organisation": {
+                                    "id": "1267db67",
+                                    "name": "Angle Vale",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 4,
+                            "lost": 9,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 261,
+                            "pointsAgainst": 399,
+                            "pointsDifference": -138,
+                            "forfeits": 0,
+                            "percentage": 65.41,
+                            "competitionPoints": 8
+                        },
+                        {
+                            "team": {
+                                "id": "4f7ae63d",
+                                "name": "Lazers 10",
+                                "organisation": {
+                                    "id": "d2f381fb",
+                                    "name": "Lazers (SA)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 1,
+                            "lost": 11,
+                            "drawn": 1,
+                            "byes": 2,
+                            "pointsFor": 206,
+                            "pointsAgainst": 519,
+                            "pointsDifference": -313,
+                            "forfeits": 0,
+                            "percentage": 39.69,
+                            "competitionPoints": 3
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

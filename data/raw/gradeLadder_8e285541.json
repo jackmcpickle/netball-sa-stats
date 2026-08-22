@@ -1,0 +1,148 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "8e285541",
+            "name": "9U/2",
+            "ladderType": "POINTS_AVERAGE",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "89fae771",
+                                "name": "PHOS 9A",
+                                "organisation": {
+                                    "id": "361e148c",
+                                    "name": "PHOS Camden",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 11,
+                            "lost": 2,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 148,
+                            "pointsAgainst": 90,
+                            "pointsDifference": 58,
+                            "forfeits": 0,
+                            "percentage": 164.44,
+                            "competitionPoints": 23
+                        },
+                        {
+                            "team": {
+                                "id": "13737a66",
+                                "name": "Grange Pink 9A",
+                                "organisation": {
+                                    "id": "473e0fc3",
+                                    "name": "Grange Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 10,
+                            "lost": 5,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 127,
+                            "pointsAgainst": 105,
+                            "pointsDifference": 22,
+                            "forfeits": 0,
+                            "percentage": 120.95,
+                            "competitionPoints": 20
+                        },
+                        {
+                            "team": {
+                                "id": "8cce0b0e",
+                                "name": "Hallett Cove 9A",
+                                "organisation": {
+                                    "id": "afa7dc80",
+                                    "name": "Hallett Cove Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 6,
+                            "lost": 7,
+                            "drawn": 2,
+                            "byes": 0,
+                            "pointsFor": 116,
+                            "pointsAgainst": 113,
+                            "pointsDifference": 3,
+                            "forfeits": 0,
+                            "percentage": 102.65,
+                            "competitionPoints": 14
+                        },
+                        {
+                            "team": {
+                                "id": "00d2d0f5",
+                                "name": "Henley Sharks 9A",
+                                "organisation": {
+                                    "id": "e234a948",
+                                    "name": "Henley Sharks Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 6,
+                            "lost": 7,
+                            "drawn": 2,
+                            "byes": 0,
+                            "pointsFor": 132,
+                            "pointsAgainst": 138,
+                            "pointsDifference": -6,
+                            "forfeits": 0,
+                            "percentage": 95.65,
+                            "competitionPoints": 14
+                        },
+                        {
+                            "team": {
+                                "id": "7d4e23d5",
+                                "name": "Glengowrie White 9C",
+                                "organisation": {
+                                    "id": "8d82bd18",
+                                    "name": "Glengowrie",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 4,
+                            "lost": 8,
+                            "drawn": 3,
+                            "byes": 0,
+                            "pointsFor": 104,
+                            "pointsAgainst": 152,
+                            "pointsDifference": -48,
+                            "forfeits": 0,
+                            "percentage": 68.42,
+                            "competitionPoints": 11
+                        },
+                        {
+                            "team": {
+                                "id": "85c29db7",
+                                "name": "St Monicas 9A",
+                                "organisation": {
+                                    "id": "9b1b9579",
+                                    "name": "St Monicas",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 3,
+                            "lost": 10,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 79,
+                            "pointsAgainst": 108,
+                            "pointsDifference": -29,
+                            "forfeits": 1,
+                            "percentage": 73.15,
+                            "competitionPoints": 7
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

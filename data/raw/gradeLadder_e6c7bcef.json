@@ -1,0 +1,170 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "e6c7bcef",
+            "name": "B1",
+            "ladderType": "TOTAL_COMPETITION_POINTS",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "1f0a6bcc",
+                                "name": "Angle Vale 01",
+                                "organisation": {
+                                    "id": "1267db67",
+                                    "name": "Angle Vale",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 10,
+                            "lost": 2,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 647,
+                            "pointsAgainst": 528,
+                            "pointsDifference": 119,
+                            "forfeits": 0,
+                            "percentage": 122.54,
+                            "competitionPoints": 20
+                        },
+                        {
+                            "team": {
+                                "id": "7fa604ac",
+                                "name": "Vulcans 03",
+                                "organisation": {
+                                    "id": "f00d83f9",
+                                    "name": "Vulcans Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 10,
+                            "lost": 2,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 620,
+                            "pointsAgainst": 538,
+                            "pointsDifference": 82,
+                            "forfeits": 0,
+                            "percentage": 115.24,
+                            "competitionPoints": 20
+                        },
+                        {
+                            "team": {
+                                "id": "77caba6f",
+                                "name": "Lazers 01",
+                                "organisation": {
+                                    "id": "d2f381fb",
+                                    "name": "Lazers (SA)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 7,
+                            "lost": 5,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 541,
+                            "pointsAgainst": 505,
+                            "pointsDifference": 36,
+                            "forfeits": 0,
+                            "percentage": 107.13,
+                            "competitionPoints": 14
+                        },
+                        {
+                            "team": {
+                                "id": "d57f7224",
+                                "name": "Gazelles 02",
+                                "organisation": {
+                                    "id": "b2a76075",
+                                    "name": "Gazelles (SA)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 6,
+                            "lost": 6,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 600,
+                            "pointsAgainst": 590,
+                            "pointsDifference": 10,
+                            "forfeits": 0,
+                            "percentage": 101.69,
+                            "competitionPoints": 12
+                        },
+                        {
+                            "team": {
+                                "id": "a179b3de",
+                                "name": "Northern Lights 1",
+                                "organisation": {
+                                    "id": "71b577d1",
+                                    "name": "Northern Lights Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 4,
+                            "lost": 8,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 574,
+                            "pointsAgainst": 590,
+                            "pointsDifference": -16,
+                            "forfeits": 0,
+                            "percentage": 97.29,
+                            "competitionPoints": 8
+                        },
+                        {
+                            "team": {
+                                "id": "e1bebcc7",
+                                "name": "WILDFIRE 1",
+                                "organisation": {
+                                    "id": "197d1c9c",
+                                    "name": "Wildfire Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 4,
+                            "lost": 8,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 509,
+                            "pointsAgainst": 567,
+                            "pointsDifference": -58,
+                            "forfeits": 0,
+                            "percentage": 89.77,
+                            "competitionPoints": 8
+                        },
+                        {
+                            "team": {
+                                "id": "27f3ee73",
+                                "name": "EPDemons 01",
+                                "organisation": {
+                                    "id": "5f9fef9c",
+                                    "name": "Eastern Park Demons",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 1,
+                            "lost": 11,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 462,
+                            "pointsAgainst": 635,
+                            "pointsDifference": -173,
+                            "forfeits": 0,
+                            "percentage": 72.76,
+                            "competitionPoints": 2
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

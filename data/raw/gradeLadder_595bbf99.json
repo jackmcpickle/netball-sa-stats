@@ -1,0 +1,148 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "595bbf99",
+            "name": "A1",
+            "ladderType": "TOTAL_COMPETITION_POINTS",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "2e2a3c81",
+                                "name": "Gazelles 1",
+                                "organisation": {
+                                    "id": "b2a76075",
+                                    "name": "Gazelles (SA)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 10,
+                            "lost": 5,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 648,
+                            "pointsAgainst": 478,
+                            "pointsDifference": 0,
+                            "forfeits": 0,
+                            "percentage": 135.56,
+                            "competitionPoints": 20
+                        },
+                        {
+                            "team": {
+                                "id": "01670216",
+                                "name": "Phoenix 1",
+                                "organisation": {
+                                    "id": "9df538be",
+                                    "name": "INACTIVE.... Phoenix Netball Club (ENA, SA)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 10,
+                            "lost": 5,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 631,
+                            "pointsAgainst": 566,
+                            "pointsDifference": 0,
+                            "forfeits": 0,
+                            "percentage": 111.48,
+                            "competitionPoints": 20
+                        },
+                        {
+                            "team": {
+                                "id": "f501b5ff",
+                                "name": "Dragons 1",
+                                "organisation": {
+                                    "id": "b9678a45",
+                                    "name": "Dragons Netball Club (SA)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 11,
+                            "lost": 3,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 584,
+                            "pointsAgainst": 468,
+                            "pointsDifference": 0,
+                            "forfeits": 0,
+                            "percentage": 124.79,
+                            "competitionPoints": 17
+                        },
+                        {
+                            "team": {
+                                "id": "1c1543f4",
+                                "name": "Fireworks 1",
+                                "organisation": {
+                                    "id": "27ce429f",
+                                    "name": "Fireworks Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 7,
+                            "lost": 7,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 478,
+                            "pointsAgainst": 533,
+                            "pointsDifference": 0,
+                            "forfeits": 1,
+                            "percentage": 89.68,
+                            "competitionPoints": 14
+                        },
+                        {
+                            "team": {
+                                "id": "d5f5ea1d",
+                                "name": "Dolphins 1",
+                                "organisation": {
+                                    "id": "89b07ac7",
+                                    "name": "Dolphins (SA)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 4,
+                            "lost": 9,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 531,
+                            "pointsAgainst": 632,
+                            "pointsDifference": 0,
+                            "forfeits": 1,
+                            "percentage": 84.02,
+                            "competitionPoints": 9
+                        },
+                        {
+                            "team": {
+                                "id": "da7ffb3b",
+                                "name": "EPDemons 1",
+                                "organisation": {
+                                    "id": "5f9fef9c",
+                                    "name": "Eastern Park Demons",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 2,
+                            "lost": 10,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 406,
+                            "pointsAgainst": 601,
+                            "pointsDifference": 0,
+                            "forfeits": 3,
+                            "percentage": 67.55,
+                            "competitionPoints": 4
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

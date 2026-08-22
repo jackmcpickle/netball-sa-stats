@@ -1,0 +1,192 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "cdefa107",
+            "name": "B5",
+            "ladderType": "POINTS_AVERAGE",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "3dcfae6d",
+                                "name": "Hectorville Hurricanes A",
+                                "organisation": {
+                                    "id": "a836b73f",
+                                    "name": "Hectorville Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 13,
+                            "lost": 1,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 733,
+                            "pointsAgainst": 403,
+                            "pointsDifference": 330,
+                            "forfeits": 0,
+                            "percentage": 181.89,
+                            "competitionPoints": 26
+                        },
+                        {
+                            "team": {
+                                "id": "840f05fd",
+                                "name": "CLG Ammolite B",
+                                "organisation": {
+                                    "id": "5d401652",
+                                    "name": "Colonel Light Gardens",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 12,
+                            "lost": 2,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 639,
+                            "pointsAgainst": 379,
+                            "pointsDifference": 260,
+                            "forfeits": 0,
+                            "percentage": 168.6,
+                            "competitionPoints": 24
+                        },
+                        {
+                            "team": {
+                                "id": "63c4850d",
+                                "name": "St Josephs B",
+                                "organisation": {
+                                    "id": "8793c382",
+                                    "name": "St Joseph's (Somerton Park)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 11,
+                            "lost": 3,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 606,
+                            "pointsAgainst": 483,
+                            "pointsDifference": 123,
+                            "forfeits": 0,
+                            "percentage": 125.47,
+                            "competitionPoints": 22
+                        },
+                        {
+                            "team": {
+                                "id": "b22edb86",
+                                "name": "Rosefield Clash B",
+                                "organisation": {
+                                    "id": "f7fe98c2",
+                                    "name": "Rosefield Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 8,
+                            "lost": 6,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 586,
+                            "pointsAgainst": 541,
+                            "pointsDifference": 45,
+                            "forfeits": 0,
+                            "percentage": 108.32,
+                            "competitionPoints": 16
+                        },
+                        {
+                            "team": {
+                                "id": "f72e3003",
+                                "name": "Old Collegians Yellow C",
+                                "organisation": {
+                                    "id": "4f001e19",
+                                    "name": "Old Collegians",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 5,
+                            "lost": 9,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 486,
+                            "pointsAgainst": 593,
+                            "pointsDifference": -107,
+                            "forfeits": 0,
+                            "percentage": 81.96,
+                            "competitionPoints": 10
+                        },
+                        {
+                            "team": {
+                                "id": "c6eb5532",
+                                "name": "WP Blue M",
+                                "organisation": {
+                                    "id": "53002de5",
+                                    "name": "Westbourne Park Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 5,
+                            "lost": 8,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 417,
+                            "pointsAgainst": 538,
+                            "pointsDifference": -121,
+                            "forfeits": 1,
+                            "percentage": 77.51,
+                            "competitionPoints": 10
+                        },
+                        {
+                            "team": {
+                                "id": "eb86a04a",
+                                "name": "Grange D",
+                                "organisation": {
+                                    "id": "473e0fc3",
+                                    "name": "Grange Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 2,
+                            "lost": 12,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 465,
+                            "pointsAgainst": 667,
+                            "pointsDifference": -202,
+                            "forfeits": 0,
+                            "percentage": 69.72,
+                            "competitionPoints": 4
+                        },
+                        {
+                            "team": {
+                                "id": "9559d14c",
+                                "name": "Southern Knights B",
+                                "organisation": {
+                                    "id": "6720bf40",
+                                    "name": "Southern Knights",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 0,
+                            "lost": 12,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 333,
+                            "pointsAgainst": 661,
+                            "pointsDifference": -328,
+                            "forfeits": 2,
+                            "percentage": 50.38,
+                            "competitionPoints": 0
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

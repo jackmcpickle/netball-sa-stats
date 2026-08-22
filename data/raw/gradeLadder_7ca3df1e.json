@@ -1,0 +1,148 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "7ca3df1e",
+            "name": "B3",
+            "ladderType": "TOTAL_COMPETITION_POINTS",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "9e63d88a",
+                                "name": "Gawler River 3",
+                                "organisation": {
+                                    "id": "fefba28e",
+                                    "name": "Angle Vale Football Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 12,
+                            "lost": 2,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 508,
+                            "pointsAgainst": 346,
+                            "pointsDifference": 162,
+                            "forfeits": 0,
+                            "percentage": 146.82,
+                            "competitionPoints": 24
+                        },
+                        {
+                            "team": {
+                                "id": "952f0a7b",
+                                "name": "Lazers 02",
+                                "organisation": {
+                                    "id": "d2f381fb",
+                                    "name": "Lazers (SA)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 11,
+                            "lost": 3,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 564,
+                            "pointsAgainst": 441,
+                            "pointsDifference": 123,
+                            "forfeits": 0,
+                            "percentage": 127.89,
+                            "competitionPoints": 22
+                        },
+                        {
+                            "team": {
+                                "id": "78a330ca",
+                                "name": "COBRAS 1",
+                                "organisation": {
+                                    "id": "fda07884",
+                                    "name": "Northern Cobras",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 9,
+                            "lost": 5,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 575,
+                            "pointsAgainst": 523,
+                            "pointsDifference": 52,
+                            "forfeits": 0,
+                            "percentage": 109.94,
+                            "competitionPoints": 18
+                        },
+                        {
+                            "team": {
+                                "id": "8af57dff",
+                                "name": "Gazelles 03",
+                                "organisation": {
+                                    "id": "b2a76075",
+                                    "name": "Gazelles (SA)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 7,
+                            "lost": 7,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 464,
+                            "pointsAgainst": 444,
+                            "pointsDifference": 20,
+                            "forfeits": 0,
+                            "percentage": 104.5,
+                            "competitionPoints": 14
+                        },
+                        {
+                            "team": {
+                                "id": "08ed1322",
+                                "name": "Brahma 1",
+                                "organisation": {
+                                    "id": "14cdd742",
+                                    "name": "Brahma United",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 2,
+                            "lost": 12,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 442,
+                            "pointsAgainst": 533,
+                            "pointsDifference": -91,
+                            "forfeits": 0,
+                            "percentage": 82.93,
+                            "competitionPoints": 4
+                        },
+                        {
+                            "team": {
+                                "id": "71b801bf",
+                                "name": "Northern Storm 2",
+                                "organisation": {
+                                    "id": "2e78dfde",
+                                    "name": "Northern Storm Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 1,
+                            "lost": 12,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 360,
+                            "pointsAgainst": 626,
+                            "pointsDifference": -266,
+                            "forfeits": 1,
+                            "percentage": 57.51,
+                            "competitionPoints": 2
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

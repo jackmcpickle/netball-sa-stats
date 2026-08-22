@@ -1,0 +1,148 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "8d0983dc",
+            "name": "11U/1",
+            "ladderType": "POINTS_AVERAGE",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "cdbc514e",
+                                "name": "St Josephs Red 11A",
+                                "organisation": {
+                                    "id": "8793c382",
+                                    "name": "St Joseph's (Somerton Park)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 14,
+                            "lost": 0,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 406,
+                            "pointsAgainst": 125,
+                            "pointsDifference": 281,
+                            "forfeits": 0,
+                            "percentage": 324.8,
+                            "competitionPoints": 28
+                        },
+                        {
+                            "team": {
+                                "id": "185dac6e",
+                                "name": "Glengowrie Red 11A",
+                                "organisation": {
+                                    "id": "8d82bd18",
+                                    "name": "Glengowrie",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 12,
+                            "lost": 2,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 409,
+                            "pointsAgainst": 180,
+                            "pointsDifference": 229,
+                            "forfeits": 0,
+                            "percentage": 227.22,
+                            "competitionPoints": 24
+                        },
+                        {
+                            "team": {
+                                "id": "76f100b1",
+                                "name": "Henley Sharks Pink 11A",
+                                "organisation": {
+                                    "id": "e234a948",
+                                    "name": "Henley Sharks Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 8,
+                            "lost": 6,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 296,
+                            "pointsAgainst": 235,
+                            "pointsDifference": 61,
+                            "forfeits": 0,
+                            "percentage": 125.96,
+                            "competitionPoints": 16
+                        },
+                        {
+                            "team": {
+                                "id": "4c86d011",
+                                "name": "WP Kangaroo 11A",
+                                "organisation": {
+                                    "id": "53002de5",
+                                    "name": "Westbourne Park Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 5,
+                            "lost": 9,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 192,
+                            "pointsAgainst": 350,
+                            "pointsDifference": -158,
+                            "forfeits": 0,
+                            "percentage": 54.86,
+                            "competitionPoints": 10
+                        },
+                        {
+                            "team": {
+                                "id": "060a3a4a",
+                                "name": "St Josephs White 11B",
+                                "organisation": {
+                                    "id": "8793c382",
+                                    "name": "St Joseph's (Somerton Park)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 4,
+                            "lost": 9,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 176,
+                            "pointsAgainst": 361,
+                            "pointsDifference": -185,
+                            "forfeits": 1,
+                            "percentage": 48.75,
+                            "competitionPoints": 8
+                        },
+                        {
+                            "team": {
+                                "id": "2f037b2b",
+                                "name": "Morialta 11A",
+                                "organisation": {
+                                    "id": "46cdd3a1",
+                                    "name": "Morialta Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 3,
+                            "lost": 11,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 173,
+                            "pointsAgainst": 401,
+                            "pointsDifference": -228,
+                            "forfeits": 0,
+                            "percentage": 43.14,
+                            "competitionPoints": 6
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

@@ -1,0 +1,104 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "4e046bf5",
+            "name": "Junior Boys",
+            "ladderType": "TOTAL_COMPETITION_POINTS",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "bea14072",
+                                "name": "South Adelaide",
+                                "organisation": {
+                                    "id": "2e63c9f2",
+                                    "name": "South Adelaide Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 10,
+                            "lost": 2,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 612,
+                            "pointsAgainst": 478,
+                            "pointsDifference": 134,
+                            "forfeits": 0,
+                            "percentage": 128.03,
+                            "competitionPoints": 20
+                        },
+                        {
+                            "team": {
+                                "id": "d30bb16b",
+                                "name": "Oakdale",
+                                "organisation": {
+                                    "id": "2f66832f",
+                                    "name": "Oakdale Netball Club (SA)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 8,
+                            "lost": 4,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 608,
+                            "pointsAgainst": 450,
+                            "pointsDifference": 158,
+                            "forfeits": 0,
+                            "percentage": 135.11,
+                            "competitionPoints": 16
+                        },
+                        {
+                            "team": {
+                                "id": "d423b787",
+                                "name": "Garville",
+                                "organisation": {
+                                    "id": "241b44c0",
+                                    "name": "Garville",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 6,
+                            "lost": 6,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 523,
+                            "pointsAgainst": 498,
+                            "pointsDifference": 25,
+                            "forfeits": 0,
+                            "percentage": 105.02,
+                            "competitionPoints": 12
+                        },
+                        {
+                            "team": {
+                                "id": "ec1024ac",
+                                "name": "Contax",
+                                "organisation": {
+                                    "id": "a8ee2320",
+                                    "name": "Contax",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 0,
+                            "lost": 12,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 393,
+                            "pointsAgainst": 710,
+                            "pointsDifference": -317,
+                            "forfeits": 0,
+                            "percentage": 55.35,
+                            "competitionPoints": 0
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

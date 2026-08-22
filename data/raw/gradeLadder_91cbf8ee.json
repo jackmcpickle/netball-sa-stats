@@ -1,0 +1,148 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "91cbf8ee",
+            "name": "B4",
+            "ladderType": "TOTAL_COMPETITION_POINTS",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "34023285",
+                                "name": "West Croydon Hawks",
+                                "organisation": {
+                                    "id": "202bd461",
+                                    "name": "West Croydon Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 11,
+                            "lost": 2,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 730,
+                            "pointsAgainst": 497,
+                            "pointsDifference": 233,
+                            "forfeits": 0,
+                            "percentage": 146.88,
+                            "competitionPoints": 22
+                        },
+                        {
+                            "team": {
+                                "id": "8d45450d",
+                                "name": "Oakdale 2",
+                                "organisation": {
+                                    "id": "2f66832f",
+                                    "name": "Oakdale Netball Club (SA)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 9,
+                            "lost": 4,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 636,
+                            "pointsAgainst": 502,
+                            "pointsDifference": 134,
+                            "forfeits": 0,
+                            "percentage": 126.69,
+                            "competitionPoints": 18
+                        },
+                        {
+                            "team": {
+                                "id": "a503e941",
+                                "name": "Walkerville",
+                                "organisation": {
+                                    "id": "a83c7a81",
+                                    "name": "Walkerville",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 8,
+                            "lost": 5,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 625,
+                            "pointsAgainst": 492,
+                            "pointsDifference": 133,
+                            "forfeits": 0,
+                            "percentage": 127.03,
+                            "competitionPoints": 16
+                        },
+                        {
+                            "team": {
+                                "id": "fa9310d2",
+                                "name": "Oakdale 1",
+                                "organisation": {
+                                    "id": "2f66832f",
+                                    "name": "Oakdale Netball Club (SA)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 6,
+                            "lost": 7,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 489,
+                            "pointsAgainst": 451,
+                            "pointsDifference": 38,
+                            "forfeits": 0,
+                            "percentage": 108.43,
+                            "competitionPoints": 12
+                        },
+                        {
+                            "team": {
+                                "id": "000e724e",
+                                "name": "Norwood",
+                                "organisation": {
+                                    "id": "d275f255",
+                                    "name": "Norwood Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 4,
+                            "lost": 9,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 410,
+                            "pointsAgainst": 615,
+                            "pointsDifference": -205,
+                            "forfeits": 0,
+                            "percentage": 66.67,
+                            "competitionPoints": 8
+                        },
+                        {
+                            "team": {
+                                "id": "b6ab2979",
+                                "name": "Adelaide Wildcats",
+                                "organisation": {
+                                    "id": "92fdb2ed",
+                                    "name": "Adelaide Wildcats",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 1,
+                            "lost": 12,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 333,
+                            "pointsAgainst": 642,
+                            "pointsDifference": -309,
+                            "forfeits": 0,
+                            "percentage": 51.87,
+                            "competitionPoints": 2
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

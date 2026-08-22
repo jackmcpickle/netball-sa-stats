@@ -1,0 +1,170 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "db00eb07",
+            "name": "13U/4",
+            "ladderType": "POINTS_AVERAGE",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "ba5c93d5",
+                                "name": "St Monicas 13A",
+                                "organisation": {
+                                    "id": "9b1b9579",
+                                    "name": "St Monicas",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 9,
+                            "lost": 1,
+                            "drawn": 1,
+                            "byes": 2,
+                            "pointsFor": 315,
+                            "pointsAgainst": 127,
+                            "pointsDifference": 188,
+                            "forfeits": 0,
+                            "percentage": 248.03,
+                            "competitionPoints": 19
+                        },
+                        {
+                            "team": {
+                                "id": "544f39fd",
+                                "name": "Wesley 13A",
+                                "organisation": {
+                                    "id": "5b275702",
+                                    "name": "Wesley Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 9,
+                            "lost": 3,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 387,
+                            "pointsAgainst": 181,
+                            "pointsDifference": 206,
+                            "forfeits": 1,
+                            "percentage": 213.81,
+                            "competitionPoints": 18
+                        },
+                        {
+                            "team": {
+                                "id": "5e6dabf3",
+                                "name": "SMAA 13C",
+                                "organisation": {
+                                    "id": "72bc9771",
+                                    "name": "St Michael & All Angels",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 9,
+                            "lost": 5,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 459,
+                            "pointsAgainst": 262,
+                            "pointsDifference": 197,
+                            "forfeits": 0,
+                            "percentage": 175.19,
+                            "competitionPoints": 18
+                        },
+                        {
+                            "team": {
+                                "id": "d720ccad",
+                                "name": "Hectorville Hurricanes 13C",
+                                "organisation": {
+                                    "id": "a836b73f",
+                                    "name": "Hectorville Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 8,
+                            "lost": 5,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 358,
+                            "pointsAgainst": 256,
+                            "pointsDifference": 102,
+                            "forfeits": 0,
+                            "percentage": 139.84,
+                            "competitionPoints": 16
+                        },
+                        {
+                            "team": {
+                                "id": "9cb64a8e",
+                                "name": "Glenunga Diamonds 13A",
+                                "organisation": {
+                                    "id": "05a8f52f",
+                                    "name": "Glenunga",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 6,
+                            "lost": 5,
+                            "drawn": 1,
+                            "byes": 2,
+                            "pointsFor": 300,
+                            "pointsAgainst": 232,
+                            "pointsDifference": 68,
+                            "forfeits": 0,
+                            "percentage": 129.31,
+                            "competitionPoints": 13
+                        },
+                        {
+                            "team": {
+                                "id": "c520c070",
+                                "name": "Henley Sharks Purple 13D",
+                                "organisation": {
+                                    "id": "e234a948",
+                                    "name": "Henley Sharks Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 2,
+                            "lost": 11,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 132,
+                            "pointsAgainst": 395,
+                            "pointsDifference": -263,
+                            "forfeits": 0,
+                            "percentage": 33.42,
+                            "competitionPoints": 4
+                        },
+                        {
+                            "team": {
+                                "id": "1a2caa94",
+                                "name": "St Josephs 13C",
+                                "organisation": {
+                                    "id": "8793c382",
+                                    "name": "St Joseph's (Somerton Park)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 0,
+                            "lost": 12,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 72,
+                            "pointsAgainst": 455,
+                            "pointsDifference": -383,
+                            "forfeits": 0,
+                            "percentage": 15.82,
+                            "competitionPoints": 0
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

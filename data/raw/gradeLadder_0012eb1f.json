@@ -1,0 +1,148 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "0012eb1f",
+            "name": "17U/7",
+            "ladderType": "TOTAL_COMPETITION_POINTS",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "6d4c3bdc",
+                                "name": "CLG Ivory 17E",
+                                "organisation": {
+                                    "id": "5d401652",
+                                    "name": "Colonel Light Gardens",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 11,
+                            "lost": 4,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 642,
+                            "pointsAgainst": 429,
+                            "pointsDifference": 213,
+                            "forfeits": 0,
+                            "percentage": 149.65,
+                            "competitionPoints": 22
+                        },
+                        {
+                            "team": {
+                                "id": "3f6f96e9",
+                                "name": "WP Ignite 17F",
+                                "organisation": {
+                                    "id": "53002de5",
+                                    "name": "Westbourne Park Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 11,
+                            "lost": 4,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 601,
+                            "pointsAgainst": 424,
+                            "pointsDifference": 177,
+                            "forfeits": 0,
+                            "percentage": 141.75,
+                            "competitionPoints": 22
+                        },
+                        {
+                            "team": {
+                                "id": "843b13be",
+                                "name": "Hallett Cove 17B",
+                                "organisation": {
+                                    "id": "afa7dc80",
+                                    "name": "Hallett Cove Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 9,
+                            "lost": 6,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 572,
+                            "pointsAgainst": 476,
+                            "pointsDifference": 96,
+                            "forfeits": 0,
+                            "percentage": 120.17,
+                            "competitionPoints": 18
+                        },
+                        {
+                            "team": {
+                                "id": "a2484e23",
+                                "name": "Burnside City 17A",
+                                "organisation": {
+                                    "id": "96f9975a",
+                                    "name": "Burnside City Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 9,
+                            "lost": 5,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 584,
+                            "pointsAgainst": 504,
+                            "pointsDifference": 80,
+                            "forfeits": 1,
+                            "percentage": 115.87,
+                            "competitionPoints": 18
+                        },
+                        {
+                            "team": {
+                                "id": "f67c76a9",
+                                "name": "CLG Amber 17D",
+                                "organisation": {
+                                    "id": "5d401652",
+                                    "name": "Colonel Light Gardens",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 3,
+                            "lost": 12,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 399,
+                            "pointsAgainst": 593,
+                            "pointsDifference": -194,
+                            "forfeits": 0,
+                            "percentage": 67.28,
+                            "competitionPoints": 6
+                        },
+                        {
+                            "team": {
+                                "id": "df30fa32",
+                                "name": "Hectorville 17D",
+                                "organisation": {
+                                    "id": "a836b73f",
+                                    "name": "Hectorville Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 2,
+                            "lost": 12,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 293,
+                            "pointsAgainst": 665,
+                            "pointsDifference": -372,
+                            "forfeits": 1,
+                            "percentage": 44.06,
+                            "competitionPoints": 4
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

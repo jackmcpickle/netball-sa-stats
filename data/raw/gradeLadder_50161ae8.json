@@ -1,0 +1,170 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "50161ae8",
+            "name": "B2",
+            "ladderType": "POINTS_AVERAGE",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "9e60c38e",
+                                "name": "Scotch B",
+                                "organisation": {
+                                    "id": "19f539c8",
+                                    "name": "Scotch Old Scholars",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 11,
+                            "lost": 2,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 678,
+                            "pointsAgainst": 471,
+                            "pointsDifference": 0,
+                            "forfeits": 0,
+                            "percentage": 143.95,
+                            "competitionPoints": 22
+                        },
+                        {
+                            "team": {
+                                "id": "2f04fabd",
+                                "name": "Henley Sharks C",
+                                "organisation": {
+                                    "id": "e234a948",
+                                    "name": "Henley Sharks Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 9,
+                            "lost": 3,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 609,
+                            "pointsAgainst": 459,
+                            "pointsDifference": 0,
+                            "forfeits": 0,
+                            "percentage": 132.68,
+                            "competitionPoints": 18
+                        },
+                        {
+                            "team": {
+                                "id": "b2d324b1",
+                                "name": "WP Red F",
+                                "organisation": {
+                                    "id": "53002de5",
+                                    "name": "Westbourne Park Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 9,
+                            "lost": 3,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 549,
+                            "pointsAgainst": 470,
+                            "pointsDifference": 0,
+                            "forfeits": 0,
+                            "percentage": 116.81,
+                            "competitionPoints": 18
+                        },
+                        {
+                            "team": {
+                                "id": "d23c7408",
+                                "name": "Grange Hawks D",
+                                "organisation": {
+                                    "id": "473e0fc3",
+                                    "name": "Grange Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 8,
+                            "lost": 5,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 549,
+                            "pointsAgainst": 489,
+                            "pointsDifference": 0,
+                            "forfeits": 0,
+                            "percentage": 112.27,
+                            "competitionPoints": 16
+                        },
+                        {
+                            "team": {
+                                "id": "9d9102e8",
+                                "name": "Adelaide Lutheran Scarlet H",
+                                "organisation": {
+                                    "id": "66a7fd12",
+                                    "name": "Adelaide Lutheran",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 4,
+                            "lost": 9,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 485,
+                            "pointsAgainst": 505,
+                            "pointsDifference": 0,
+                            "forfeits": 0,
+                            "percentage": 96.04,
+                            "competitionPoints": 8
+                        },
+                        {
+                            "team": {
+                                "id": "34e32656",
+                                "name": "CLG Gold B",
+                                "organisation": {
+                                    "id": "5d401652",
+                                    "name": "Colonel Light Gardens",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 2,
+                            "lost": 9,
+                            "drawn": 1,
+                            "byes": 2,
+                            "pointsFor": 471,
+                            "pointsAgainst": 640,
+                            "pointsDifference": 0,
+                            "forfeits": 0,
+                            "percentage": 73.59,
+                            "competitionPoints": 5
+                        },
+                        {
+                            "team": {
+                                "id": "da2066bb",
+                                "name": "Adelaide Lutheran Merlot I",
+                                "organisation": {
+                                    "id": "66a7fd12",
+                                    "name": "Adelaide Lutheran",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 2,
+                            "lost": 10,
+                            "drawn": 1,
+                            "byes": 1,
+                            "pointsFor": 412,
+                            "pointsAgainst": 599,
+                            "pointsDifference": 0,
+                            "forfeits": 0,
+                            "percentage": 68.78,
+                            "competitionPoints": 5
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

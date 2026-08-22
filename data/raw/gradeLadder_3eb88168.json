@@ -1,0 +1,192 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "3eb88168",
+            "name": "11U/3",
+            "ladderType": "POINTS_AVERAGE",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "c53e6af5",
+                                "name": "Glenunga Heat 11A",
+                                "organisation": {
+                                    "id": "05a8f52f",
+                                    "name": "Glenunga",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 12,
+                            "lost": 2,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 365,
+                            "pointsAgainst": 190,
+                            "pointsDifference": 175,
+                            "forfeits": 0,
+                            "percentage": 192.11,
+                            "competitionPoints": 24
+                        },
+                        {
+                            "team": {
+                                "id": "01e49d1e",
+                                "name": "Hectorville 11A",
+                                "organisation": {
+                                    "id": "a836b73f",
+                                    "name": "Hectorville Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 11,
+                            "lost": 2,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 312,
+                            "pointsAgainst": 189,
+                            "pointsDifference": 123,
+                            "forfeits": 0,
+                            "percentage": 165.08,
+                            "competitionPoints": 22
+                        },
+                        {
+                            "team": {
+                                "id": "c8ff7e79",
+                                "name": "Flinders Park 11B",
+                                "organisation": {
+                                    "id": "7721739e",
+                                    "name": "Flinders Park",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 11,
+                            "lost": 2,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 289,
+                            "pointsAgainst": 170,
+                            "pointsDifference": 119,
+                            "forfeits": 0,
+                            "percentage": 170,
+                            "competitionPoints": 23
+                        },
+                        {
+                            "team": {
+                                "id": "f4125f6b",
+                                "name": "Glengowrie 11C",
+                                "organisation": {
+                                    "id": "8d82bd18",
+                                    "name": "Glengowrie",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 9,
+                            "lost": 5,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 230,
+                            "pointsAgainst": 179,
+                            "pointsDifference": 51,
+                            "forfeits": 0,
+                            "percentage": 128.49,
+                            "competitionPoints": 18
+                        },
+                        {
+                            "team": {
+                                "id": "bba1ca2e",
+                                "name": "WP Bilby 11B",
+                                "organisation": {
+                                    "id": "53002de5",
+                                    "name": "Westbourne Park Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 7,
+                            "lost": 5,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 169,
+                            "pointsAgainst": 177,
+                            "pointsDifference": -8,
+                            "forfeits": 1,
+                            "percentage": 95.48,
+                            "competitionPoints": 14
+                        },
+                        {
+                            "team": {
+                                "id": "7c8c7ac2",
+                                "name": "Rosefield Stars 11A",
+                                "organisation": {
+                                    "id": "f7fe98c2",
+                                    "name": "Rosefield Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 4,
+                            "lost": 7,
+                            "drawn": 2,
+                            "byes": 1,
+                            "pointsFor": 201,
+                            "pointsAgainst": 266,
+                            "pointsDifference": -65,
+                            "forfeits": 0,
+                            "percentage": 75.56,
+                            "competitionPoints": 10
+                        },
+                        {
+                            "team": {
+                                "id": "6864ce0d",
+                                "name": "Grange Green 11C",
+                                "organisation": {
+                                    "id": "473e0fc3",
+                                    "name": "Grange Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 3,
+                            "lost": 10,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 166,
+                            "pointsAgainst": 287,
+                            "pointsDifference": -121,
+                            "forfeits": 0,
+                            "percentage": 57.84,
+                            "competitionPoints": 7
+                        },
+                        {
+                            "team": {
+                                "id": "d28216ea",
+                                "name": "PHOS 11A",
+                                "organisation": {
+                                    "id": "361e148c",
+                                    "name": "PHOS Camden",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 0,
+                            "lost": 14,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 107,
+                            "pointsAgainst": 381,
+                            "pointsDifference": -274,
+                            "forfeits": 0,
+                            "percentage": 28.08,
+                            "competitionPoints": 0
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

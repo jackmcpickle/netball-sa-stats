@@ -1,0 +1,192 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "9a8fc201",
+            "name": "C4",
+            "ladderType": "POINTS_AVERAGE",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "f6bee415",
+                                "name": "Adelaide Uni Black G",
+                                "organisation": {
+                                    "id": "d5bdb649",
+                                    "name": "Adelaide University",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 12,
+                            "lost": 2,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 580,
+                            "pointsAgainst": 408,
+                            "pointsDifference": 172,
+                            "forfeits": 0,
+                            "percentage": 142.16,
+                            "competitionPoints": 24
+                        },
+                        {
+                            "team": {
+                                "id": "4718f53f",
+                                "name": "Marion Hub B",
+                                "organisation": {
+                                    "id": "d387c693",
+                                    "name": "Marion Hub Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 11,
+                            "lost": 3,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 529,
+                            "pointsAgainst": 426,
+                            "pointsDifference": 103,
+                            "forfeits": 0,
+                            "percentage": 124.18,
+                            "competitionPoints": 22
+                        },
+                        {
+                            "team": {
+                                "id": "42a0d3cd",
+                                "name": "Adelaide Luth Rose L",
+                                "organisation": {
+                                    "id": "66a7fd12",
+                                    "name": "Adelaide Lutheran",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 9,
+                            "lost": 5,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 528,
+                            "pointsAgainst": 502,
+                            "pointsDifference": 26,
+                            "forfeits": 0,
+                            "percentage": 105.18,
+                            "competitionPoints": 18
+                        },
+                        {
+                            "team": {
+                                "id": "ad8959d0",
+                                "name": "Diamonds B",
+                                "organisation": {
+                                    "id": "290b1ee1",
+                                    "name": "Sparkling Diamonds",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 8,
+                            "lost": 5,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 401,
+                            "pointsAgainst": 401,
+                            "pointsDifference": 0,
+                            "forfeits": 1,
+                            "percentage": 100,
+                            "competitionPoints": 16
+                        },
+                        {
+                            "team": {
+                                "id": "516dd0fe",
+                                "name": "Adelaide Luth Sapphire M",
+                                "organisation": {
+                                    "id": "66a7fd12",
+                                    "name": "Adelaide Lutheran",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 6,
+                            "lost": 8,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 390,
+                            "pointsAgainst": 394,
+                            "pointsDifference": -4,
+                            "forfeits": 0,
+                            "percentage": 98.98,
+                            "competitionPoints": 12
+                        },
+                        {
+                            "team": {
+                                "id": "2e0e6535",
+                                "name": "Walkerville D",
+                                "organisation": {
+                                    "id": "a83c7a81",
+                                    "name": "Walkerville",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 4,
+                            "lost": 10,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 431,
+                            "pointsAgainst": 515,
+                            "pointsDifference": -84,
+                            "forfeits": 0,
+                            "percentage": 83.69,
+                            "competitionPoints": 8
+                        },
+                        {
+                            "team": {
+                                "id": "c013cbe6",
+                                "name": "Adelaide Uni White H",
+                                "organisation": {
+                                    "id": "d5bdb649",
+                                    "name": "Adelaide University",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 3,
+                            "lost": 11,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 435,
+                            "pointsAgainst": 476,
+                            "pointsDifference": -41,
+                            "forfeits": 0,
+                            "percentage": 91.39,
+                            "competitionPoints": 6
+                        },
+                        {
+                            "team": {
+                                "id": "74178a4c",
+                                "name": "Morialta E",
+                                "organisation": {
+                                    "id": "46cdd3a1",
+                                    "name": "Morialta Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 3,
+                            "lost": 11,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 337,
+                            "pointsAgainst": 509,
+                            "pointsDifference": -172,
+                            "forfeits": 0,
+                            "percentage": 66.21,
+                            "competitionPoints": 6
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

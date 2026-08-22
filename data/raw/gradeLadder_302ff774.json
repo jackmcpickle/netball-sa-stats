@@ -1,0 +1,148 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "302ff774",
+            "name": "17U/6",
+            "ladderType": "POINTS_AVERAGE",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "710945df",
+                                "name": "Diamonds 17A",
+                                "organisation": {
+                                    "id": "290b1ee1",
+                                    "name": "Sparkling Diamonds",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 13,
+                            "lost": 2,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 460,
+                            "pointsAgainst": 264,
+                            "pointsDifference": 196,
+                            "forfeits": 0,
+                            "percentage": 174.24,
+                            "competitionPoints": 26
+                        },
+                        {
+                            "team": {
+                                "id": "84d2b4a8",
+                                "name": "WP Chilli 17D",
+                                "organisation": {
+                                    "id": "53002de5",
+                                    "name": "Westbourne Park Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 11,
+                            "lost": 3,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 404,
+                            "pointsAgainst": 232,
+                            "pointsDifference": 172,
+                            "forfeits": 1,
+                            "percentage": 174.14,
+                            "competitionPoints": 22
+                        },
+                        {
+                            "team": {
+                                "id": "e39d7cdd",
+                                "name": "Morialta 17E",
+                                "organisation": {
+                                    "id": "46cdd3a1",
+                                    "name": "Morialta Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 7,
+                            "lost": 8,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 388,
+                            "pointsAgainst": 313,
+                            "pointsDifference": 75,
+                            "forfeits": 0,
+                            "percentage": 123.96,
+                            "competitionPoints": 14
+                        },
+                        {
+                            "team": {
+                                "id": "aea7f95a",
+                                "name": "Hectorville 17D",
+                                "organisation": {
+                                    "id": "a836b73f",
+                                    "name": "Hectorville Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 5,
+                            "lost": 9,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 364,
+                            "pointsAgainst": 397,
+                            "pointsDifference": -33,
+                            "forfeits": 1,
+                            "percentage": 91.69,
+                            "competitionPoints": 10
+                        },
+                        {
+                            "team": {
+                                "id": "2283cde1",
+                                "name": "CLG Aqua 17C",
+                                "organisation": {
+                                    "id": "5d401652",
+                                    "name": "Colonel Light Gardens",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 3,
+                            "lost": 9,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 143,
+                            "pointsAgainst": 290,
+                            "pointsDifference": -147,
+                            "forfeits": 3,
+                            "percentage": 49.31,
+                            "competitionPoints": 6
+                        },
+                        {
+                            "team": {
+                                "id": "79b4432c",
+                                "name": "Henley Sharks 17C",
+                                "organisation": {
+                                    "id": "e234a948",
+                                    "name": "Henley Sharks Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 1,
+                            "lost": 12,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 159,
+                            "pointsAgainst": 422,
+                            "pointsDifference": -263,
+                            "forfeits": 2,
+                            "percentage": 37.68,
+                            "competitionPoints": 2
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

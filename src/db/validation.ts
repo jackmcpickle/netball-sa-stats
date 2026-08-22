@@ -75,7 +75,8 @@ export const gradeInsertSchema = createInsertSchema(grades, {
 export const teamSelectSchema = createSelectSchema(teams);
 export const teamInsertSchema = createInsertSchema(teams, {
     displayName: name,
-    squadNumber: z.int().min(1).max(20).nullable().optional(),
+    // Fireworks (Elizabeth) numbers teams 21–23. Identity is still playhq_id.
+    squadNumber: z.int().min(1).max(64).nullable().optional(),
 }).omit(omitGenerated);
 
 const count = z.int().min(0).max(200);

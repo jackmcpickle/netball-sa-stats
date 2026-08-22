@@ -1,0 +1,104 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "09989b97",
+            "name": "M-League Men's Division 2",
+            "ladderType": "TOTAL_COMPETITION_POINTS",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "d49b6993",
+                                "name": "Stars",
+                                "organisation": {
+                                    "id": "7936878d",
+                                    "name": "South Australian Mens and Mixed Netball Association",
+                                    "type": "ASSOCIATION"
+                                }
+                            },
+                            "played": 9,
+                            "won": 5,
+                            "lost": 4,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 398,
+                            "pointsAgainst": 467,
+                            "pointsDifference": -69,
+                            "forfeits": 0,
+                            "percentage": 85.22,
+                            "competitionPoints": 10
+                        },
+                        {
+                            "team": {
+                                "id": "9f2adb81",
+                                "name": "Garville Grey",
+                                "organisation": {
+                                    "id": "241b44c0",
+                                    "name": "Garville",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 9,
+                            "won": 4,
+                            "lost": 5,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 386,
+                            "pointsAgainst": 441,
+                            "pointsDifference": -55,
+                            "forfeits": 0,
+                            "percentage": 87.53,
+                            "competitionPoints": 8
+                        },
+                        {
+                            "team": {
+                                "id": "0b29b384",
+                                "name": "RSA.Berserkers",
+                                "organisation": {
+                                    "id": "7936878d",
+                                    "name": "South Australian Mens and Mixed Netball Association",
+                                    "type": "ASSOCIATION"
+                                }
+                            },
+                            "played": 9,
+                            "won": 3,
+                            "lost": 6,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 393,
+                            "pointsAgainst": 441,
+                            "pointsDifference": -48,
+                            "forfeits": 0,
+                            "percentage": 89.12,
+                            "competitionPoints": 6
+                        },
+                        {
+                            "team": {
+                                "id": "a739b7ac",
+                                "name": "Contax White",
+                                "organisation": {
+                                    "id": "a8ee2320",
+                                    "name": "Contax",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 9,
+                            "won": 3,
+                            "lost": 6,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 396,
+                            "pointsAgainst": 451,
+                            "pointsDifference": -55,
+                            "forfeits": 0,
+                            "percentage": 87.8,
+                            "competitionPoints": 6
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

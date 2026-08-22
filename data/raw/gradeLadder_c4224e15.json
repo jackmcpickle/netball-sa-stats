@@ -1,0 +1,170 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "c4224e15",
+            "name": "C1",
+            "ladderType": "TOTAL_COMPETITION_POINTS",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "6ddfc527",
+                                "name": "Tiki 1",
+                                "organisation": {
+                                    "id": "62eaac91",
+                                    "name": "Tiki",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 11,
+                            "lost": 1,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 562,
+                            "pointsAgainst": 393,
+                            "pointsDifference": 169,
+                            "forfeits": 0,
+                            "percentage": 143,
+                            "competitionPoints": 22
+                        },
+                        {
+                            "team": {
+                                "id": "1433a10c",
+                                "name": "S Panthers 1",
+                                "organisation": {
+                                    "id": "87e68d0f",
+                                    "name": "Smithfield Panthers",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 9,
+                            "lost": 2,
+                            "drawn": 1,
+                            "byes": 2,
+                            "pointsFor": 399,
+                            "pointsAgainst": 277,
+                            "pointsDifference": 122,
+                            "forfeits": 0,
+                            "percentage": 144.04,
+                            "competitionPoints": 19
+                        },
+                        {
+                            "team": {
+                                "id": "ce58a0dd",
+                                "name": "Northern Lights 2",
+                                "organisation": {
+                                    "id": "71b577d1",
+                                    "name": "Northern Lights Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 7,
+                            "lost": 4,
+                            "drawn": 1,
+                            "byes": 2,
+                            "pointsFor": 446,
+                            "pointsAgainst": 393,
+                            "pointsDifference": 53,
+                            "forfeits": 0,
+                            "percentage": 113.49,
+                            "competitionPoints": 15
+                        },
+                        {
+                            "team": {
+                                "id": "02896f55",
+                                "name": "Mystic Opals 03",
+                                "organisation": {
+                                    "id": "637de894",
+                                    "name": "Mystic Opals",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 6,
+                            "lost": 6,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 448,
+                            "pointsAgainst": 394,
+                            "pointsDifference": 54,
+                            "forfeits": 0,
+                            "percentage": 113.71,
+                            "competitionPoints": 12
+                        },
+                        {
+                            "team": {
+                                "id": "210b039c",
+                                "name": "Legacy 1",
+                                "organisation": {
+                                    "id": "c3f79466",
+                                    "name": "Legacy Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 4,
+                            "lost": 7,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 334,
+                            "pointsAgainst": 392,
+                            "pointsDifference": -58,
+                            "forfeits": 1,
+                            "percentage": 85.2,
+                            "competitionPoints": 8
+                        },
+                        {
+                            "team": {
+                                "id": "0f9e600a",
+                                "name": "Sakura 1",
+                                "organisation": {
+                                    "id": "e67c2e01",
+                                    "name": "Sakura Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 2,
+                            "lost": 9,
+                            "drawn": 1,
+                            "byes": 2,
+                            "pointsFor": 339,
+                            "pointsAgainst": 550,
+                            "pointsDifference": -211,
+                            "forfeits": 0,
+                            "percentage": 61.64,
+                            "competitionPoints": 5
+                        },
+                        {
+                            "team": {
+                                "id": "62432454",
+                                "name": "Harlequin 2",
+                                "organisation": {
+                                    "id": "6df86dac",
+                                    "name": "Harlequin Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 1,
+                            "lost": 10,
+                            "drawn": 1,
+                            "byes": 2,
+                            "pointsFor": 285,
+                            "pointsAgainst": 414,
+                            "pointsDifference": -129,
+                            "forfeits": 0,
+                            "percentage": 68.84,
+                            "competitionPoints": 3
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

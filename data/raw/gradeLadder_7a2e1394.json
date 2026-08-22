@@ -1,0 +1,170 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "7a2e1394",
+            "name": "C2",
+            "ladderType": "POINTS_AVERAGE",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "c5bfc709",
+                                "name": "Glengowrie C",
+                                "organisation": {
+                                    "id": "8d82bd18",
+                                    "name": "Glengowrie",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 12,
+                            "lost": 0,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 446,
+                            "pointsAgainst": 184,
+                            "pointsDifference": 262,
+                            "forfeits": 0,
+                            "percentage": 242.39,
+                            "competitionPoints": 24
+                        },
+                        {
+                            "team": {
+                                "id": "a273427c",
+                                "name": "St Monicas B",
+                                "organisation": {
+                                    "id": "9b1b9579",
+                                    "name": "St Monicas",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 11,
+                            "lost": 3,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 330,
+                            "pointsAgainst": 274,
+                            "pointsDifference": 56,
+                            "forfeits": 0,
+                            "percentage": 120.44,
+                            "competitionPoints": 22
+                        },
+                        {
+                            "team": {
+                                "id": "938d6f4e",
+                                "name": "Diamonds  A",
+                                "organisation": {
+                                    "id": "290b1ee1",
+                                    "name": "Sparkling Diamonds",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 6,
+                            "lost": 8,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 382,
+                            "pointsAgainst": 356,
+                            "pointsDifference": 26,
+                            "forfeits": 0,
+                            "percentage": 107.3,
+                            "competitionPoints": 12
+                        },
+                        {
+                            "team": {
+                                "id": "5cc1964c",
+                                "name": "Adelaide Uni G",
+                                "organisation": {
+                                    "id": "d5bdb649",
+                                    "name": "Adelaide University",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 6,
+                            "lost": 8,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 250,
+                            "pointsAgainst": 318,
+                            "pointsDifference": -68,
+                            "forfeits": 0,
+                            "percentage": 78.62,
+                            "competitionPoints": 12
+                        },
+                        {
+                            "team": {
+                                "id": "2adb26d7",
+                                "name": "PHOS D",
+                                "organisation": {
+                                    "id": "361e148c",
+                                    "name": "PHOS Camden",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 5,
+                            "lost": 8,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 214,
+                            "pointsAgainst": 292,
+                            "pointsDifference": -78,
+                            "forfeits": 0,
+                            "percentage": 73.29,
+                            "competitionPoints": 10
+                        },
+                        {
+                            "team": {
+                                "id": "ae4a6062",
+                                "name": "WP Blue L",
+                                "organisation": {
+                                    "id": "53002de5",
+                                    "name": "Westbourne Park Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 5,
+                            "lost": 8,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 244,
+                            "pointsAgainst": 369,
+                            "pointsDifference": -125,
+                            "forfeits": 0,
+                            "percentage": 66.12,
+                            "competitionPoints": 10
+                        },
+                        {
+                            "team": {
+                                "id": "7f1bbfbc",
+                                "name": "Old Ignatians D",
+                                "organisation": {
+                                    "id": "0113cb3e",
+                                    "name": "Old Ignatians",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 4,
+                            "lost": 10,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 282,
+                            "pointsAgainst": 355,
+                            "pointsDifference": -73,
+                            "forfeits": 0,
+                            "percentage": 79.44,
+                            "competitionPoints": 8
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

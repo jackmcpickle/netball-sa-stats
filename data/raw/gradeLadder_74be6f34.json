@@ -1,0 +1,148 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "74be6f34",
+            "name": "15U/9",
+            "ladderType": "POINTS_AVERAGE",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "03361b9e",
+                                "name": "Glenunga Storm 15C",
+                                "organisation": {
+                                    "id": "05a8f52f",
+                                    "name": "Glenunga",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 14,
+                            "lost": 1,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 517,
+                            "pointsAgainst": 299,
+                            "pointsDifference": 218,
+                            "forfeits": 0,
+                            "percentage": 172.91,
+                            "competitionPoints": 28
+                        },
+                        {
+                            "team": {
+                                "id": "6502cc61",
+                                "name": "WP Heatwave 15H",
+                                "organisation": {
+                                    "id": "53002de5",
+                                    "name": "Westbourne Park Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 12,
+                            "lost": 3,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 527,
+                            "pointsAgainst": 370,
+                            "pointsDifference": 157,
+                            "forfeits": 0,
+                            "percentage": 142.43,
+                            "competitionPoints": 24
+                        },
+                        {
+                            "team": {
+                                "id": "1f430420",
+                                "name": "Morialta 15G",
+                                "organisation": {
+                                    "id": "46cdd3a1",
+                                    "name": "Morialta Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 7,
+                            "lost": 8,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 374,
+                            "pointsAgainst": 368,
+                            "pointsDifference": 6,
+                            "forfeits": 0,
+                            "percentage": 101.63,
+                            "competitionPoints": 14
+                        },
+                        {
+                            "team": {
+                                "id": "5ed49b66",
+                                "name": "St Monicas 15C",
+                                "organisation": {
+                                    "id": "9b1b9579",
+                                    "name": "St Monicas",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 6,
+                            "lost": 9,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 337,
+                            "pointsAgainst": 366,
+                            "pointsDifference": -29,
+                            "forfeits": 0,
+                            "percentage": 92.08,
+                            "competitionPoints": 12
+                        },
+                        {
+                            "team": {
+                                "id": "3cc50d7a",
+                                "name": "Glengowrie 15E",
+                                "organisation": {
+                                    "id": "8d82bd18",
+                                    "name": "Glengowrie",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 3,
+                            "lost": 12,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 348,
+                            "pointsAgainst": 507,
+                            "pointsDifference": -159,
+                            "forfeits": 0,
+                            "percentage": 68.64,
+                            "competitionPoints": 6
+                        },
+                        {
+                            "team": {
+                                "id": "7740e2a5",
+                                "name": "PHOS 15D",
+                                "organisation": {
+                                    "id": "361e148c",
+                                    "name": "PHOS Camden",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 3,
+                            "lost": 11,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 306,
+                            "pointsAgainst": 499,
+                            "pointsDifference": -193,
+                            "forfeits": 1,
+                            "percentage": 61.32,
+                            "competitionPoints": 6
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

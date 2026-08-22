@@ -1,0 +1,148 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "e7dfb3c4",
+            "name": "B5",
+            "ladderType": "TOTAL_COMPETITION_POINTS",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "b184b0b1",
+                                "name": "Wesley D",
+                                "organisation": {
+                                    "id": "5b275702",
+                                    "name": "Wesley Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 14,
+                            "lost": 0,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 469,
+                            "pointsAgainst": 288,
+                            "pointsDifference": 181,
+                            "forfeits": 0,
+                            "percentage": 162.85,
+                            "competitionPoints": 28
+                        },
+                        {
+                            "team": {
+                                "id": "e46e1fd4",
+                                "name": "Walkerville B",
+                                "organisation": {
+                                    "id": "a83c7a81",
+                                    "name": "Walkerville",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 8,
+                            "lost": 6,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 424,
+                            "pointsAgainst": 331,
+                            "pointsDifference": 93,
+                            "forfeits": 0,
+                            "percentage": 128.1,
+                            "competitionPoints": 17
+                        },
+                        {
+                            "team": {
+                                "id": "8d11b1cf",
+                                "name": "CLG Ammolite C",
+                                "organisation": {
+                                    "id": "5d401652",
+                                    "name": "Colonel Light Gardens",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 7,
+                            "lost": 7,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 362,
+                            "pointsAgainst": 408,
+                            "pointsDifference": -46,
+                            "forfeits": 1,
+                            "percentage": 88.73,
+                            "competitionPoints": 14
+                        },
+                        {
+                            "team": {
+                                "id": "28171b04",
+                                "name": "Adelaide Luth Ocean J",
+                                "organisation": {
+                                    "id": "66a7fd12",
+                                    "name": "Adelaide Lutheran",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 6,
+                            "lost": 8,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 349,
+                            "pointsAgainst": 406,
+                            "pointsDifference": -57,
+                            "forfeits": 0,
+                            "percentage": 85.96,
+                            "competitionPoints": 13
+                        },
+                        {
+                            "team": {
+                                "id": "d9765297",
+                                "name": "Morialta C",
+                                "organisation": {
+                                    "id": "46cdd3a1",
+                                    "name": "Morialta Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 6,
+                            "lost": 9,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 346,
+                            "pointsAgainst": 338,
+                            "pointsDifference": 8,
+                            "forfeits": 0,
+                            "percentage": 102.37,
+                            "competitionPoints": 12
+                        },
+                        {
+                            "team": {
+                                "id": "4b8c9e07",
+                                "name": "St Monicas B",
+                                "organisation": {
+                                    "id": "9b1b9579",
+                                    "name": "St Monicas",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 2,
+                            "lost": 13,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 343,
+                            "pointsAgainst": 522,
+                            "pointsDifference": -179,
+                            "forfeits": 0,
+                            "percentage": 65.71,
+                            "competitionPoints": 4
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

@@ -1,0 +1,170 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "818aef55",
+            "name": "11U/9",
+            "ladderType": "POINTS_AVERAGE",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "40b1f39b",
+                                "name": "St Monicas 11C",
+                                "organisation": {
+                                    "id": "9b1b9579",
+                                    "name": "St Monicas",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 9,
+                            "lost": 4,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 167,
+                            "pointsAgainst": 88,
+                            "pointsDifference": 79,
+                            "forfeits": 0,
+                            "percentage": 189.77,
+                            "competitionPoints": 18
+                        },
+                        {
+                            "team": {
+                                "id": "6ddff1ac",
+                                "name": "WP Parrot 11G",
+                                "organisation": {
+                                    "id": "53002de5",
+                                    "name": "Westbourne Park Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 7,
+                            "lost": 6,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 160,
+                            "pointsAgainst": 142,
+                            "pointsDifference": 18,
+                            "forfeits": 0,
+                            "percentage": 112.68,
+                            "competitionPoints": 14
+                        },
+                        {
+                            "team": {
+                                "id": "c2dcce42",
+                                "name": "Henley Sharks 11F",
+                                "organisation": {
+                                    "id": "e234a948",
+                                    "name": "Henley Sharks Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 6,
+                            "lost": 6,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 149,
+                            "pointsAgainst": 84,
+                            "pointsDifference": 65,
+                            "forfeits": 0,
+                            "percentage": 177.38,
+                            "competitionPoints": 12
+                        },
+                        {
+                            "team": {
+                                "id": "767123d5",
+                                "name": "Hallett Cove 11C",
+                                "organisation": {
+                                    "id": "afa7dc80",
+                                    "name": "Hallett Cove Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 6,
+                            "lost": 7,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 150,
+                            "pointsAgainst": 84,
+                            "pointsDifference": 66,
+                            "forfeits": 0,
+                            "percentage": 178.57,
+                            "competitionPoints": 12
+                        },
+                        {
+                            "team": {
+                                "id": "c6f66b53",
+                                "name": "Morialta 11D",
+                                "organisation": {
+                                    "id": "46cdd3a1",
+                                    "name": "Morialta Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 6,
+                            "lost": 7,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 183,
+                            "pointsAgainst": 147,
+                            "pointsDifference": 36,
+                            "forfeits": 0,
+                            "percentage": 124.49,
+                            "competitionPoints": 12
+                        },
+                        {
+                            "team": {
+                                "id": "c6a182f1",
+                                "name": "Glengowrie Uniting 11I",
+                                "organisation": {
+                                    "id": "8d82bd18",
+                                    "name": "Glengowrie",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 4,
+                            "lost": 8,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 53,
+                            "pointsAgainst": 139,
+                            "pointsDifference": -86,
+                            "forfeits": 0,
+                            "percentage": 38.13,
+                            "competitionPoints": 8
+                        },
+                        {
+                            "team": {
+                                "id": "201da90e",
+                                "name": "Grange Red 11G",
+                                "organisation": {
+                                    "id": "473e0fc3",
+                                    "name": "Grange Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 0,
+                            "lost": 12,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 18,
+                            "pointsAgainst": 196,
+                            "pointsDifference": -178,
+                            "forfeits": 0,
+                            "percentage": 9.18,
+                            "competitionPoints": 0
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

@@ -1,0 +1,170 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "708d4374",
+            "name": "17U/1",
+            "ladderType": "POINTS_AVERAGE",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "42ed3e93",
+                                "name": "Morialta Black 17A",
+                                "organisation": {
+                                    "id": "46cdd3a1",
+                                    "name": "Morialta Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 13,
+                            "lost": 0,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 493,
+                            "pointsAgainst": 231,
+                            "pointsDifference": 262,
+                            "forfeits": 0,
+                            "percentage": 213.42,
+                            "competitionPoints": 26
+                        },
+                        {
+                            "team": {
+                                "id": "a3241609",
+                                "name": "Morialta Green 17B",
+                                "organisation": {
+                                    "id": "46cdd3a1",
+                                    "name": "Morialta Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 10,
+                            "lost": 3,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 464,
+                            "pointsAgainst": 385,
+                            "pointsDifference": 79,
+                            "forfeits": 0,
+                            "percentage": 120.52,
+                            "competitionPoints": 20
+                        },
+                        {
+                            "team": {
+                                "id": "0d5c6984",
+                                "name": "St Josephs 17A",
+                                "organisation": {
+                                    "id": "8793c382",
+                                    "name": "St Joseph's (Somerton Park)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 9,
+                            "lost": 2,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 373,
+                            "pointsAgainst": 283,
+                            "pointsDifference": 90,
+                            "forfeits": 1,
+                            "percentage": 131.8,
+                            "competitionPoints": 18
+                        },
+                        {
+                            "team": {
+                                "id": "e2faf076",
+                                "name": "Burnside City Gold 17A",
+                                "organisation": {
+                                    "id": "96f9975a",
+                                    "name": "Burnside City Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 7,
+                            "lost": 5,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 321,
+                            "pointsAgainst": 335,
+                            "pointsDifference": -14,
+                            "forfeits": 0,
+                            "percentage": 95.82,
+                            "competitionPoints": 14
+                        },
+                        {
+                            "team": {
+                                "id": "77335a10",
+                                "name": "Flinders Park 17A",
+                                "organisation": {
+                                    "id": "7721739e",
+                                    "name": "Flinders Park",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 6,
+                            "lost": 6,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 354,
+                            "pointsAgainst": 297,
+                            "pointsDifference": 57,
+                            "forfeits": 0,
+                            "percentage": 119.19,
+                            "competitionPoints": 12
+                        },
+                        {
+                            "team": {
+                                "id": "f1baf00d",
+                                "name": "WP Lion 17B",
+                                "organisation": {
+                                    "id": "53002de5",
+                                    "name": "Westbourne Park Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 3,
+                            "lost": 8,
+                            "drawn": 1,
+                            "byes": 1,
+                            "pointsFor": 208,
+                            "pointsAgainst": 469,
+                            "pointsDifference": -261,
+                            "forfeits": 1,
+                            "percentage": 44.35,
+                            "competitionPoints": 7
+                        },
+                        {
+                            "team": {
+                                "id": "c1744b79",
+                                "name": "Cove Tigers Orange 17A",
+                                "organisation": {
+                                    "id": "ab06439f",
+                                    "name": "Cove Netball Club Inc",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 1,
+                            "lost": 11,
+                            "drawn": 1,
+                            "byes": 1,
+                            "pointsFor": 218,
+                            "pointsAgainst": 445,
+                            "pointsDifference": -227,
+                            "forfeits": 0,
+                            "percentage": 48.99,
+                            "competitionPoints": 3
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

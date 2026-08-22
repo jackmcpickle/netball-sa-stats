@@ -1,0 +1,170 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "4d4e7a6c",
+            "name": "INTER 5 B",
+            "ladderType": "TOTAL_COMPETITION_POINTS",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "f6d2a92f",
+                                "name": "Reynella 2",
+                                "organisation": {
+                                    "id": "485b7b56",
+                                    "name": "Reynella Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 11,
+                            "lost": 1,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 596,
+                            "pointsAgainst": 313,
+                            "pointsDifference": 283,
+                            "forfeits": 0,
+                            "percentage": 190.42,
+                            "competitionPoints": 24
+                        },
+                        {
+                            "team": {
+                                "id": "58aa9425",
+                                "name": "Cheerio",
+                                "organisation": {
+                                    "id": "4d3928a7",
+                                    "name": "Cheerio Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 11,
+                            "won": 6,
+                            "lost": 4,
+                            "drawn": 0,
+                            "byes": 3,
+                            "pointsFor": 432,
+                            "pointsAgainst": 290,
+                            "pointsDifference": 142,
+                            "forfeits": 0,
+                            "percentage": 148.97,
+                            "competitionPoints": 18
+                        },
+                        {
+                            "team": {
+                                "id": "4cd9a446",
+                                "name": "Metro Jets",
+                                "organisation": {
+                                    "id": "601b914e",
+                                    "name": "Metro Jets",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 7,
+                            "lost": 5,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 497,
+                            "pointsAgainst": 476,
+                            "pointsDifference": 21,
+                            "forfeits": 0,
+                            "percentage": 104.41,
+                            "competitionPoints": 16
+                        },
+                        {
+                            "team": {
+                                "id": "f093cb68",
+                                "name": "Reynella 1",
+                                "organisation": {
+                                    "id": "485b7b56",
+                                    "name": "Reynella Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 5,
+                            "lost": 6,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 506,
+                            "pointsAgainst": 446,
+                            "pointsDifference": 60,
+                            "forfeits": 0,
+                            "percentage": 113.45,
+                            "competitionPoints": 14
+                        },
+                        {
+                            "team": {
+                                "id": "19c3ab50",
+                                "name": "Adelaide Wildcats",
+                                "organisation": {
+                                    "id": "92fdb2ed",
+                                    "name": "Adelaide Wildcats",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 3,
+                            "lost": 8,
+                            "drawn": 1,
+                            "byes": 1,
+                            "pointsFor": 424,
+                            "pointsAgainst": 445,
+                            "pointsDifference": -21,
+                            "forfeits": 0,
+                            "percentage": 95.28,
+                            "competitionPoints": 9
+                        },
+                        {
+                            "team": {
+                                "id": "ff2d9cf5",
+                                "name": "Newton Jaguars",
+                                "organisation": {
+                                    "id": "d275f255",
+                                    "name": "Norwood Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 2,
+                            "lost": 9,
+                            "drawn": 1,
+                            "byes": 2,
+                            "pointsFor": 312,
+                            "pointsAgainst": 508,
+                            "pointsDifference": -196,
+                            "forfeits": 0,
+                            "percentage": 61.42,
+                            "competitionPoints": 9
+                        },
+                        {
+                            "team": {
+                                "id": "b4af4a9c",
+                                "name": "South Adelaide",
+                                "organisation": {
+                                    "id": "2e63c9f2",
+                                    "name": "South Adelaide Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 0,
+                            "lost": 11,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 139,
+                            "pointsAgainst": 666,
+                            "pointsDifference": -527,
+                            "forfeits": 0,
+                            "percentage": 20.87,
+                            "competitionPoints": 4
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

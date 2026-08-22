@@ -1,0 +1,148 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "ab7c2f0e",
+            "name": "Inters 2",
+            "ladderType": "TOTAL_COMPETITION_POINTS",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "16ef0169",
+                                "name": "Lazers 09",
+                                "organisation": {
+                                    "id": "d2f381fb",
+                                    "name": "Lazers (SA)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 9,
+                            "lost": 3,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 365,
+                            "pointsAgainst": 236,
+                            "pointsDifference": 129,
+                            "forfeits": 1,
+                            "percentage": 154.66,
+                            "competitionPoints": 18
+                        },
+                        {
+                            "team": {
+                                "id": "19ec54be",
+                                "name": "Gazelles 07",
+                                "organisation": {
+                                    "id": "b2a76075",
+                                    "name": "Gazelles (SA)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 9,
+                            "lost": 4,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 421,
+                            "pointsAgainst": 360,
+                            "pointsDifference": 61,
+                            "forfeits": 0,
+                            "percentage": 116.94,
+                            "competitionPoints": 18
+                        },
+                        {
+                            "team": {
+                                "id": "a9191cfc",
+                                "name": "Tiki 3",
+                                "organisation": {
+                                    "id": "62eaac91",
+                                    "name": "Tiki",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 7,
+                            "lost": 5,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 408,
+                            "pointsAgainst": 377,
+                            "pointsDifference": 31,
+                            "forfeits": 0,
+                            "percentage": 108.22,
+                            "competitionPoints": 15
+                        },
+                        {
+                            "team": {
+                                "id": "cf9b79a1",
+                                "name": "Gumnuts 05",
+                                "organisation": {
+                                    "id": "f630493f",
+                                    "name": "Gumnuts",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 6,
+                            "lost": 6,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 352,
+                            "pointsAgainst": 239,
+                            "pointsDifference": 113,
+                            "forfeits": 0,
+                            "percentage": 147.28,
+                            "competitionPoints": 13
+                        },
+                        {
+                            "team": {
+                                "id": "d36206b6",
+                                "name": "Angle Vale 10",
+                                "organisation": {
+                                    "id": "1267db67",
+                                    "name": "Angle Vale",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 4,
+                            "lost": 7,
+                            "drawn": 2,
+                            "byes": 0,
+                            "pointsFor": 423,
+                            "pointsAgainst": 467,
+                            "pointsDifference": -44,
+                            "forfeits": 0,
+                            "percentage": 90.58,
+                            "competitionPoints": 10
+                        },
+                        {
+                            "team": {
+                                "id": "2bbfd66f",
+                                "name": "Northern Storm 3",
+                                "organisation": {
+                                    "id": "2e78dfde",
+                                    "name": "Northern Storm Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 2,
+                            "lost": 10,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 222,
+                            "pointsAgainst": 359,
+                            "pointsDifference": -137,
+                            "forfeits": 1,
+                            "percentage": 61.84,
+                            "competitionPoints": 4
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

@@ -1,0 +1,170 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "9ad98171",
+            "name": "13U/1",
+            "ladderType": "POINTS_AVERAGE",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "15d6b2f0",
+                                "name": "Morialta 13A",
+                                "organisation": {
+                                    "id": "46cdd3a1",
+                                    "name": "Morialta Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 11,
+                            "lost": 1,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 384,
+                            "pointsAgainst": 236,
+                            "pointsDifference": 148,
+                            "forfeits": 0,
+                            "percentage": 162.71,
+                            "competitionPoints": 22
+                        },
+                        {
+                            "team": {
+                                "id": "2c9bd83e",
+                                "name": "SMAA 13A",
+                                "organisation": {
+                                    "id": "72bc9771",
+                                    "name": "St Michael & All Angels",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 10,
+                            "lost": 2,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 298,
+                            "pointsAgainst": 207,
+                            "pointsDifference": 91,
+                            "forfeits": 0,
+                            "percentage": 143.96,
+                            "competitionPoints": 20
+                        },
+                        {
+                            "team": {
+                                "id": "0c100405",
+                                "name": "Glengowrie Red 13A",
+                                "organisation": {
+                                    "id": "8d82bd18",
+                                    "name": "Glengowrie",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 9,
+                            "lost": 4,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 359,
+                            "pointsAgainst": 268,
+                            "pointsDifference": 91,
+                            "forfeits": 0,
+                            "percentage": 133.96,
+                            "competitionPoints": 18
+                        },
+                        {
+                            "team": {
+                                "id": "38fedec1",
+                                "name": "Flinders Park 13A",
+                                "organisation": {
+                                    "id": "7721739e",
+                                    "name": "Flinders Park",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 8,
+                            "lost": 4,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 293,
+                            "pointsAgainst": 301,
+                            "pointsDifference": -8,
+                            "forfeits": 0,
+                            "percentage": 97.34,
+                            "competitionPoints": 16
+                        },
+                        {
+                            "team": {
+                                "id": "72593f8e",
+                                "name": "Grange Aqua 13A",
+                                "organisation": {
+                                    "id": "473e0fc3",
+                                    "name": "Grange Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 4,
+                            "lost": 9,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 260,
+                            "pointsAgainst": 315,
+                            "pointsDifference": -55,
+                            "forfeits": 0,
+                            "percentage": 82.54,
+                            "competitionPoints": 8
+                        },
+                        {
+                            "team": {
+                                "id": "5a1c2aa3",
+                                "name": "Glengowrie White 13B",
+                                "organisation": {
+                                    "id": "8d82bd18",
+                                    "name": "Glengowrie",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 4,
+                            "lost": 9,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 283,
+                            "pointsAgainst": 369,
+                            "pointsDifference": -86,
+                            "forfeits": 0,
+                            "percentage": 76.69,
+                            "competitionPoints": 8
+                        },
+                        {
+                            "team": {
+                                "id": "97d73176",
+                                "name": "St Josephs Red 13A",
+                                "organisation": {
+                                    "id": "8793c382",
+                                    "name": "St Joseph's (Somerton Park)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 0,
+                            "lost": 12,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 197,
+                            "pointsAgainst": 368,
+                            "pointsDifference": -171,
+                            "forfeits": 1,
+                            "percentage": 53.53,
+                            "competitionPoints": 0
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

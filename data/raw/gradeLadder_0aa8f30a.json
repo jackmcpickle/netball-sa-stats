@@ -1,0 +1,148 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "0aa8f30a",
+            "name": "Seniors Div 01",
+            "ladderType": "TOTAL_COMPETITION_POINTS",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "d9bc7d3d",
+                                "name": "Morphett Vale  1",
+                                "organisation": {
+                                    "id": "b3f21234",
+                                    "name": "Morphett Vale Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 14,
+                            "lost": 1,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 754,
+                            "pointsAgainst": 522,
+                            "pointsDifference": 232,
+                            "forfeits": 0,
+                            "percentage": 144.44,
+                            "competitionPoints": 28
+                        },
+                        {
+                            "team": {
+                                "id": "786b14ac",
+                                "name": "Southern Phoenix 1",
+                                "organisation": {
+                                    "id": "913e663a",
+                                    "name": "Southern Phoenix Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 9,
+                            "lost": 6,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 738,
+                            "pointsAgainst": 685,
+                            "pointsDifference": 53,
+                            "forfeits": 0,
+                            "percentage": 107.74,
+                            "competitionPoints": 18
+                        },
+                        {
+                            "team": {
+                                "id": "99126dc5",
+                                "name": "Falcons Senior Red",
+                                "organisation": {
+                                    "id": "4f6dfa31",
+                                    "name": "Flagstaff Hill Falcons Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 7,
+                            "lost": 7,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 644,
+                            "pointsAgainst": 718,
+                            "pointsDifference": -74,
+                            "forfeits": 0,
+                            "percentage": 89.69,
+                            "competitionPoints": 15
+                        },
+                        {
+                            "team": {
+                                "id": "985857ea",
+                                "name": "Reynella 1",
+                                "organisation": {
+                                    "id": "485b7b56",
+                                    "name": "Reynella Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 7,
+                            "lost": 8,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 578,
+                            "pointsAgainst": 665,
+                            "pointsDifference": -87,
+                            "forfeits": 0,
+                            "percentage": 86.92,
+                            "competitionPoints": 14
+                        },
+                        {
+                            "team": {
+                                "id": "d9d287d4",
+                                "name": "Southern Stars Senior Red",
+                                "organisation": {
+                                    "id": "d7cbd109",
+                                    "name": "Southern Stars Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 4,
+                            "lost": 10,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 652,
+                            "pointsAgainst": 687,
+                            "pointsDifference": -35,
+                            "forfeits": 1,
+                            "percentage": 94.91,
+                            "competitionPoints": 8
+                        },
+                        {
+                            "team": {
+                                "id": "6a8da830",
+                                "name": "Reynella 2",
+                                "organisation": {
+                                    "id": "485b7b56",
+                                    "name": "Reynella Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 3,
+                            "lost": 11,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 485,
+                            "pointsAgainst": 574,
+                            "pointsDifference": -89,
+                            "forfeits": 0,
+                            "percentage": 84.49,
+                            "competitionPoints": 7
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

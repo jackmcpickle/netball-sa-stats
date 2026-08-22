@@ -1,0 +1,170 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "9153b9bf",
+            "name": "Open Mens",
+            "ladderType": "TOTAL_COMPETITION_POINTS",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "9869c893",
+                                "name": "Oakdale",
+                                "organisation": {
+                                    "id": "2f66832f",
+                                    "name": "Oakdale Netball Club (SA)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 11,
+                            "lost": 1,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 792,
+                            "pointsAgainst": 401,
+                            "pointsDifference": 391,
+                            "forfeits": 0,
+                            "percentage": 197.51,
+                            "competitionPoints": 22
+                        },
+                        {
+                            "team": {
+                                "id": "00e3a46d",
+                                "name": "Garville",
+                                "organisation": {
+                                    "id": "241b44c0",
+                                    "name": "Garville",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 10,
+                            "lost": 2,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 764,
+                            "pointsAgainst": 467,
+                            "pointsDifference": 297,
+                            "forfeits": 0,
+                            "percentage": 163.6,
+                            "competitionPoints": 20
+                        },
+                        {
+                            "team": {
+                                "id": "b6dd52e1",
+                                "name": "Contax",
+                                "organisation": {
+                                    "id": "a8ee2320",
+                                    "name": "Contax",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 9,
+                            "lost": 2,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 674,
+                            "pointsAgainst": 517,
+                            "pointsDifference": 157,
+                            "forfeits": 1,
+                            "percentage": 130.37,
+                            "competitionPoints": 18
+                        },
+                        {
+                            "team": {
+                                "id": "d5daed5f",
+                                "name": "Matrics",
+                                "organisation": {
+                                    "id": "0969cc64",
+                                    "name": "Matrics",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 6,
+                            "lost": 6,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 517,
+                            "pointsAgainst": 518,
+                            "pointsDifference": -1,
+                            "forfeits": 0,
+                            "percentage": 99.81,
+                            "competitionPoints": 12
+                        },
+                        {
+                            "team": {
+                                "id": "68ee44d6",
+                                "name": "Norwood",
+                                "organisation": {
+                                    "id": "d275f255",
+                                    "name": "Norwood Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 4,
+                            "lost": 8,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 527,
+                            "pointsAgainst": 664,
+                            "pointsDifference": -137,
+                            "forfeits": 0,
+                            "percentage": 79.37,
+                            "competitionPoints": 8
+                        },
+                        {
+                            "team": {
+                                "id": "7d8133f9",
+                                "name": "RSA.Destroyers",
+                                "organisation": {
+                                    "id": "a69c53eb",
+                                    "name": "Ravens Sports Association Inc",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 2,
+                            "lost": 10,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 381,
+                            "pointsAgainst": 720,
+                            "pointsDifference": -339,
+                            "forfeits": 0,
+                            "percentage": 52.92,
+                            "competitionPoints": 4
+                        },
+                        {
+                            "team": {
+                                "id": "b1b7e3f6",
+                                "name": "RSA.Berserkers",
+                                "organisation": {
+                                    "id": "a69c53eb",
+                                    "name": "Ravens Sports Association Inc",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 0,
+                            "lost": 12,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 407,
+                            "pointsAgainst": 775,
+                            "pointsDifference": -368,
+                            "forfeits": 0,
+                            "percentage": 52.52,
+                            "competitionPoints": 0
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

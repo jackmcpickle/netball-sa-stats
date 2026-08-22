@@ -1,0 +1,148 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "b58c119f",
+            "name": "B4",
+            "ladderType": "TOTAL_COMPETITION_POINTS",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "8325e5b9",
+                                "name": "Mystic Opals 02",
+                                "organisation": {
+                                    "id": "637de894",
+                                    "name": "Mystic Opals",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 13,
+                            "lost": 2,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 670,
+                            "pointsAgainst": 469,
+                            "pointsDifference": 201,
+                            "forfeits": 0,
+                            "percentage": 142.86,
+                            "competitionPoints": 26
+                        },
+                        {
+                            "team": {
+                                "id": "17d1c7c3",
+                                "name": "COBRAS 2",
+                                "organisation": {
+                                    "id": "fda07884",
+                                    "name": "Northern Cobras",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 11,
+                            "lost": 4,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 609,
+                            "pointsAgainst": 477,
+                            "pointsDifference": 132,
+                            "forfeits": 0,
+                            "percentage": 127.67,
+                            "competitionPoints": 22
+                        },
+                        {
+                            "team": {
+                                "id": "f259f6da",
+                                "name": "Dragons 2",
+                                "organisation": {
+                                    "id": "b9678a45",
+                                    "name": "Dragons Netball Club (SA)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 10,
+                            "lost": 5,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 606,
+                            "pointsAgainst": 529,
+                            "pointsDifference": 77,
+                            "forfeits": 0,
+                            "percentage": 114.56,
+                            "competitionPoints": 20
+                        },
+                        {
+                            "team": {
+                                "id": "e42fc80f",
+                                "name": "EPDemons 03",
+                                "organisation": {
+                                    "id": "5f9fef9c",
+                                    "name": "Eastern Park Demons",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 6,
+                            "lost": 9,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 474,
+                            "pointsAgainst": 573,
+                            "pointsDifference": -99,
+                            "forfeits": 0,
+                            "percentage": 82.72,
+                            "competitionPoints": 12
+                        },
+                        {
+                            "team": {
+                                "id": "de29bb22",
+                                "name": "Angle Vale 04",
+                                "organisation": {
+                                    "id": "1267db67",
+                                    "name": "Angle Vale",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 3,
+                            "lost": 12,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 527,
+                            "pointsAgainst": 666,
+                            "pointsDifference": -139,
+                            "forfeits": 0,
+                            "percentage": 79.13,
+                            "competitionPoints": 6
+                        },
+                        {
+                            "team": {
+                                "id": "d587dbae",
+                                "name": "Gazelles 04",
+                                "organisation": {
+                                    "id": "b2a76075",
+                                    "name": "Gazelles (SA)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 2,
+                            "lost": 13,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 430,
+                            "pointsAgainst": 602,
+                            "pointsDifference": -172,
+                            "forfeits": 0,
+                            "percentage": 71.43,
+                            "competitionPoints": 4
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

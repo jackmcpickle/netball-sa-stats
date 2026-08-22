@@ -1,0 +1,148 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "9833c671",
+            "name": "Junior 8",
+            "ladderType": "POINTS_AVERAGE",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "0583ae8c",
+                                "name": "Oakdale",
+                                "organisation": {
+                                    "id": "2f66832f",
+                                    "name": "Oakdale Netball Club (SA)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 11,
+                            "lost": 3,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 538,
+                            "pointsAgainst": 208,
+                            "pointsDifference": 330,
+                            "forfeits": 0,
+                            "percentage": 258.65,
+                            "competitionPoints": 22
+                        },
+                        {
+                            "team": {
+                                "id": "57ff44b5",
+                                "name": "Walkerville",
+                                "organisation": {
+                                    "id": "a83c7a81",
+                                    "name": "Walkerville",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 10,
+                            "lost": 3,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 454,
+                            "pointsAgainst": 275,
+                            "pointsDifference": 179,
+                            "forfeits": 0,
+                            "percentage": 165.09,
+                            "competitionPoints": 21
+                        },
+                        {
+                            "team": {
+                                "id": "6ce53e9c",
+                                "name": "Newton Jaguars",
+                                "organisation": {
+                                    "id": "d275f255",
+                                    "name": "Norwood Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 8,
+                            "lost": 5,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 336,
+                            "pointsAgainst": 329,
+                            "pointsDifference": 7,
+                            "forfeits": 0,
+                            "percentage": 102.13,
+                            "competitionPoints": 17
+                        },
+                        {
+                            "team": {
+                                "id": "2ad1c76d",
+                                "name": "Cheerio",
+                                "organisation": {
+                                    "id": "4d3928a7",
+                                    "name": "Cheerio Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 3,
+                            "lost": 10,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 207,
+                            "pointsAgainst": 469,
+                            "pointsDifference": -262,
+                            "forfeits": 0,
+                            "percentage": 44.14,
+                            "competitionPoints": 7
+                        },
+                        {
+                            "team": {
+                                "id": "982410f6",
+                                "name": "Reynella",
+                                "organisation": {
+                                    "id": "485b7b56",
+                                    "name": "Reynella Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 2,
+                            "lost": 11,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 171,
+                            "pointsAgainst": 486,
+                            "pointsDifference": -315,
+                            "forfeits": 0,
+                            "percentage": 35.19,
+                            "competitionPoints": 5
+                        },
+                        {
+                            "team": {
+                                "id": "9e58e6cd",
+                                "name": "South Adelaide",
+                                "organisation": {
+                                    "id": "2e63c9f2",
+                                    "name": "South Adelaide Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 1,
+                            "lost": 11,
+                            "drawn": 2,
+                            "byes": 0,
+                            "pointsFor": 212,
+                            "pointsAgainst": 480,
+                            "pointsDifference": -268,
+                            "forfeits": 0,
+                            "percentage": 44.17,
+                            "competitionPoints": 4
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

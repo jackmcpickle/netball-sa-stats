@@ -1,0 +1,104 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "09b19a63",
+            "name": "B1",
+            "ladderType": "TOTAL_COMPETITION_POINTS",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "523b87bb",
+                                "name": "Northern Lights 1",
+                                "organisation": {
+                                    "id": "71b577d1",
+                                    "name": "Northern Lights Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 11,
+                            "lost": 3,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 580,
+                            "pointsAgainst": 459,
+                            "pointsDifference": 121,
+                            "forfeits": 0,
+                            "percentage": 126.36,
+                            "competitionPoints": 22
+                        },
+                        {
+                            "team": {
+                                "id": "2df986c0",
+                                "name": "EPDemons 02",
+                                "organisation": {
+                                    "id": "5f9fef9c",
+                                    "name": "Eastern Park Demons",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 9,
+                            "lost": 5,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 615,
+                            "pointsAgainst": 611,
+                            "pointsDifference": 4,
+                            "forfeits": 0,
+                            "percentage": 100.65,
+                            "competitionPoints": 18
+                        },
+                        {
+                            "team": {
+                                "id": "d42e66f5",
+                                "name": "EPDemons 01",
+                                "organisation": {
+                                    "id": "5f9fef9c",
+                                    "name": "Eastern Park Demons",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 5,
+                            "lost": 9,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 593,
+                            "pointsAgainst": 633,
+                            "pointsDifference": -40,
+                            "forfeits": 0,
+                            "percentage": 93.68,
+                            "competitionPoints": 10
+                        },
+                        {
+                            "team": {
+                                "id": "7c072305",
+                                "name": "Mystic Opals 02",
+                                "organisation": {
+                                    "id": "637de894",
+                                    "name": "Mystic Opals",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 1,
+                            "lost": 13,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 430,
+                            "pointsAgainst": 663,
+                            "pointsDifference": -233,
+                            "forfeits": 0,
+                            "percentage": 64.86,
+                            "competitionPoints": 2
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

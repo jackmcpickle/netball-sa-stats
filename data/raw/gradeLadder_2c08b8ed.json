@@ -1,0 +1,170 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "2c08b8ed",
+            "name": "15U/2",
+            "ladderType": "POINTS_AVERAGE",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "4e347316",
+                                "name": "St Josephs 15A",
+                                "organisation": {
+                                    "id": "8793c382",
+                                    "name": "St Joseph's (Somerton Park)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 12,
+                            "lost": 0,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 443,
+                            "pointsAgainst": 145,
+                            "pointsDifference": 298,
+                            "forfeits": 0,
+                            "percentage": 305.52,
+                            "competitionPoints": 24
+                        },
+                        {
+                            "team": {
+                                "id": "993fa3ae",
+                                "name": "Grange Grey 15B",
+                                "organisation": {
+                                    "id": "473e0fc3",
+                                    "name": "Grange Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 9,
+                            "lost": 3,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 400,
+                            "pointsAgainst": 238,
+                            "pointsDifference": 162,
+                            "forfeits": 0,
+                            "percentage": 168.07,
+                            "competitionPoints": 18
+                        },
+                        {
+                            "team": {
+                                "id": "b0bbfb33",
+                                "name": "Hectorville 15A",
+                                "organisation": {
+                                    "id": "a836b73f",
+                                    "name": "Hectorville Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 9,
+                            "lost": 4,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 407,
+                            "pointsAgainst": 346,
+                            "pointsDifference": 61,
+                            "forfeits": 0,
+                            "percentage": 117.63,
+                            "competitionPoints": 18
+                        },
+                        {
+                            "team": {
+                                "id": "a3b01f30",
+                                "name": "Henley Sharks 15B",
+                                "organisation": {
+                                    "id": "e234a948",
+                                    "name": "Henley Sharks Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 6,
+                            "lost": 7,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 333,
+                            "pointsAgainst": 297,
+                            "pointsDifference": 36,
+                            "forfeits": 0,
+                            "percentage": 112.12,
+                            "competitionPoints": 12
+                        },
+                        {
+                            "team": {
+                                "id": "93cba4fd",
+                                "name": "WP Sonic 15A",
+                                "organisation": {
+                                    "id": "53002de5",
+                                    "name": "Westbourne Park Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 4,
+                            "lost": 7,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 289,
+                            "pointsAgainst": 415,
+                            "pointsDifference": -126,
+                            "forfeits": 2,
+                            "percentage": 69.64,
+                            "competitionPoints": 8
+                        },
+                        {
+                            "team": {
+                                "id": "7e4da4ed",
+                                "name": "Rosefield Hurricanes 15A",
+                                "organisation": {
+                                    "id": "f7fe98c2",
+                                    "name": "Rosefield Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 1,
+                            "lost": 11,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 183,
+                            "pointsAgainst": 423,
+                            "pointsDifference": -240,
+                            "forfeits": 0,
+                            "percentage": 43.26,
+                            "competitionPoints": 2
+                        },
+                        {
+                            "team": {
+                                "id": "64ce46df",
+                                "name": "St Johns Luth Castledine1 15B",
+                                "organisation": {
+                                    "id": "f5111a09",
+                                    "name": "St Johns Lutheran Unley",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 1,
+                            "lost": 11,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 245,
+                            "pointsAgainst": 436,
+                            "pointsDifference": -191,
+                            "forfeits": 1,
+                            "percentage": 56.19,
+                            "competitionPoints": 2
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

@@ -1,0 +1,126 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "e4037310",
+            "name": "Junior 2",
+            "ladderType": "TOTAL_COMPETITION_POINTS",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "3d0b9b2b",
+                                "name": "Gazelles 08",
+                                "organisation": {
+                                    "id": "b2a76075",
+                                    "name": "Gazelles (SA)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 8,
+                            "lost": 4,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 419,
+                            "pointsAgainst": 376,
+                            "pointsDifference": 43,
+                            "forfeits": 0,
+                            "percentage": 111.44,
+                            "competitionPoints": 16
+                        },
+                        {
+                            "team": {
+                                "id": "7e35ca4a",
+                                "name": "Northern Storm 5",
+                                "organisation": {
+                                    "id": "2e78dfde",
+                                    "name": "Northern Storm Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 6,
+                            "lost": 5,
+                            "drawn": 1,
+                            "byes": 2,
+                            "pointsFor": 450,
+                            "pointsAgainst": 474,
+                            "pointsDifference": -24,
+                            "forfeits": 0,
+                            "percentage": 94.94,
+                            "competitionPoints": 13
+                        },
+                        {
+                            "team": {
+                                "id": "5824e4fd",
+                                "name": "Koalas 3",
+                                "organisation": {
+                                    "id": "b3d5bec7",
+                                    "name": "Koala United",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 5,
+                            "lost": 8,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 418,
+                            "pointsAgainst": 486,
+                            "pointsDifference": -68,
+                            "forfeits": 0,
+                            "percentage": 86.01,
+                            "competitionPoints": 10
+                        },
+                        {
+                            "team": {
+                                "id": "a6dabdf2",
+                                "name": "Angle Vale 11",
+                                "organisation": {
+                                    "id": "1267db67",
+                                    "name": "Angle Vale",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 4,
+                            "lost": 7,
+                            "drawn": 1,
+                            "byes": 2,
+                            "pointsFor": 381,
+                            "pointsAgainst": 464,
+                            "pointsDifference": -83,
+                            "forfeits": 0,
+                            "percentage": 82.11,
+                            "competitionPoints": 9
+                        },
+                        {
+                            "team": {
+                                "id": "af65fdcf",
+                                "name": "Lazers 09",
+                                "organisation": {
+                                    "id": "d2f381fb",
+                                    "name": "Lazers (SA)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 4,
+                            "lost": 8,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 400,
+                            "pointsAgainst": 439,
+                            "pointsDifference": -39,
+                            "forfeits": 0,
+                            "percentage": 91.12,
+                            "competitionPoints": 8
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

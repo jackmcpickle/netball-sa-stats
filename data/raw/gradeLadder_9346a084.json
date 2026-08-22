@@ -1,0 +1,148 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "9346a084",
+            "name": "15U/10",
+            "ladderType": "POINTS_AVERAGE",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "b7f87863",
+                                "name": "Wesley 15A",
+                                "organisation": {
+                                    "id": "5b275702",
+                                    "name": "Wesley Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 15,
+                            "lost": 0,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 686,
+                            "pointsAgainst": 273,
+                            "pointsDifference": 413,
+                            "forfeits": 0,
+                            "percentage": 251.28,
+                            "competitionPoints": 30
+                        },
+                        {
+                            "team": {
+                                "id": "625c901e",
+                                "name": "CLG Jade 15C",
+                                "organisation": {
+                                    "id": "5d401652",
+                                    "name": "Colonel Light Gardens",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 10,
+                            "lost": 4,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 538,
+                            "pointsAgainst": 303,
+                            "pointsDifference": 235,
+                            "forfeits": 1,
+                            "percentage": 177.56,
+                            "competitionPoints": 20
+                        },
+                        {
+                            "team": {
+                                "id": "c1854505",
+                                "name": "SMAA 15C",
+                                "organisation": {
+                                    "id": "72bc9771",
+                                    "name": "St Michael & All Angels",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 8,
+                            "lost": 7,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 513,
+                            "pointsAgainst": 400,
+                            "pointsDifference": 113,
+                            "forfeits": 0,
+                            "percentage": 128.25,
+                            "competitionPoints": 16
+                        },
+                        {
+                            "team": {
+                                "id": "60eb29ac",
+                                "name": "Henley Sharks 15E",
+                                "organisation": {
+                                    "id": "e234a948",
+                                    "name": "Henley Sharks Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 6,
+                            "lost": 9,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 377,
+                            "pointsAgainst": 450,
+                            "pointsDifference": -73,
+                            "forfeits": 0,
+                            "percentage": 83.78,
+                            "competitionPoints": 12
+                        },
+                        {
+                            "team": {
+                                "id": "832db9e2",
+                                "name": "Hallett Cove 15C",
+                                "organisation": {
+                                    "id": "afa7dc80",
+                                    "name": "Hallett Cove Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 5,
+                            "lost": 10,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 344,
+                            "pointsAgainst": 534,
+                            "pointsDifference": -190,
+                            "forfeits": 0,
+                            "percentage": 64.42,
+                            "competitionPoints": 10
+                        },
+                        {
+                            "team": {
+                                "id": "fdb727b1",
+                                "name": "Hectorville 15F",
+                                "organisation": {
+                                    "id": "a836b73f",
+                                    "name": "Hectorville Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 1,
+                            "lost": 14,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 188,
+                            "pointsAgainst": 686,
+                            "pointsDifference": -498,
+                            "forfeits": 0,
+                            "percentage": 27.41,
+                            "competitionPoints": 2
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

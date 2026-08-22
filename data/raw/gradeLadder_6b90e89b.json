@@ -1,0 +1,104 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "6b90e89b",
+            "name": "A1",
+            "ladderType": "TOTAL_COMPETITION_POINTS",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "835f531e",
+                                "name": "Vulcans 01",
+                                "organisation": {
+                                    "id": "f00d83f9",
+                                    "name": "Vulcans Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 13,
+                            "lost": 1,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 639,
+                            "pointsAgainst": 418,
+                            "pointsDifference": 221,
+                            "forfeits": 0,
+                            "percentage": 152.87,
+                            "competitionPoints": 26
+                        },
+                        {
+                            "team": {
+                                "id": "0dd593a2",
+                                "name": "Mystic Opals 01",
+                                "organisation": {
+                                    "id": "637de894",
+                                    "name": "Mystic Opals",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 6,
+                            "lost": 7,
+                            "drawn": 1,
+                            "byes": 1,
+                            "pointsFor": 512,
+                            "pointsAgainst": 505,
+                            "pointsDifference": 7,
+                            "forfeits": 0,
+                            "percentage": 101.39,
+                            "competitionPoints": 13
+                        },
+                        {
+                            "team": {
+                                "id": "6eb979e7",
+                                "name": "Lazers 01",
+                                "organisation": {
+                                    "id": "d2f381fb",
+                                    "name": "Lazers (SA)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 5,
+                            "lost": 8,
+                            "drawn": 1,
+                            "byes": 1,
+                            "pointsFor": 462,
+                            "pointsAgainst": 508,
+                            "pointsDifference": -46,
+                            "forfeits": 0,
+                            "percentage": 90.94,
+                            "competitionPoints": 11
+                        },
+                        {
+                            "team": {
+                                "id": "5dcec604",
+                                "name": "Gazelles 01",
+                                "organisation": {
+                                    "id": "b2a76075",
+                                    "name": "Gazelles (SA)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 5,
+                            "lost": 9,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 479,
+                            "pointsAgainst": 555,
+                            "pointsDifference": -76,
+                            "forfeits": 0,
+                            "percentage": 86.31,
+                            "competitionPoints": 10
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

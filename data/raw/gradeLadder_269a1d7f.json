@@ -1,0 +1,170 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "269a1d7f",
+            "name": "Junior 7",
+            "ladderType": "POINTS_AVERAGE",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "043c809b",
+                                "name": "Matrics 1",
+                                "organisation": {
+                                    "id": "0969cc64",
+                                    "name": "Matrics",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 11,
+                            "lost": 1,
+                            "drawn": 1,
+                            "byes": 1,
+                            "pointsFor": 522,
+                            "pointsAgainst": 204,
+                            "pointsDifference": 318,
+                            "forfeits": 0,
+                            "percentage": 255.88,
+                            "competitionPoints": 23
+                        },
+                        {
+                            "team": {
+                                "id": "b2c8e2f1",
+                                "name": "Newton Jaguars",
+                                "organisation": {
+                                    "id": "d275f255",
+                                    "name": "Norwood Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 11,
+                            "won": 7,
+                            "lost": 4,
+                            "drawn": 0,
+                            "byes": 3,
+                            "pointsFor": 279,
+                            "pointsAgainst": 242,
+                            "pointsDifference": 37,
+                            "forfeits": 0,
+                            "percentage": 115.29,
+                            "competitionPoints": 14
+                        },
+                        {
+                            "team": {
+                                "id": "b158a7ee",
+                                "name": "Reynella 1",
+                                "organisation": {
+                                    "id": "485b7b56",
+                                    "name": "Reynella Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 6,
+                            "lost": 5,
+                            "drawn": 1,
+                            "byes": 2,
+                            "pointsFor": 287,
+                            "pointsAgainst": 293,
+                            "pointsDifference": -6,
+                            "forfeits": 0,
+                            "percentage": 97.95,
+                            "competitionPoints": 13
+                        },
+                        {
+                            "team": {
+                                "id": "97c4326f",
+                                "name": "Metro Jets",
+                                "organisation": {
+                                    "id": "601b914e",
+                                    "name": "Metro Jets",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 5,
+                            "lost": 6,
+                            "drawn": 2,
+                            "byes": 1,
+                            "pointsFor": 294,
+                            "pointsAgainst": 313,
+                            "pointsDifference": -19,
+                            "forfeits": 0,
+                            "percentage": 93.93,
+                            "competitionPoints": 12
+                        },
+                        {
+                            "team": {
+                                "id": "8d165563",
+                                "name": "Garville",
+                                "organisation": {
+                                    "id": "241b44c0",
+                                    "name": "Garville",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 4,
+                            "lost": 7,
+                            "drawn": 1,
+                            "byes": 2,
+                            "pointsFor": 309,
+                            "pointsAgainst": 314,
+                            "pointsDifference": -5,
+                            "forfeits": 0,
+                            "percentage": 98.41,
+                            "competitionPoints": 9
+                        },
+                        {
+                            "team": {
+                                "id": "10e01350",
+                                "name": "Reynella 2",
+                                "organisation": {
+                                    "id": "485b7b56",
+                                    "name": "Reynella Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 3,
+                            "lost": 10,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 192,
+                            "pointsAgainst": 338,
+                            "pointsDifference": -146,
+                            "forfeits": 0,
+                            "percentage": 56.8,
+                            "competitionPoints": 6
+                        },
+                        {
+                            "team": {
+                                "id": "ba5403ab",
+                                "name": "Tango",
+                                "organisation": {
+                                    "id": "d4389d20",
+                                    "name": "Tango Netball Club Inc",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 11,
+                            "won": 0,
+                            "lost": 10,
+                            "drawn": 1,
+                            "byes": 3,
+                            "pointsFor": 133,
+                            "pointsAgainst": 425,
+                            "pointsDifference": -292,
+                            "forfeits": 0,
+                            "percentage": 31.29,
+                            "competitionPoints": 1
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

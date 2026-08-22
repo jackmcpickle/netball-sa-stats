@@ -1,0 +1,126 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "816fea5c",
+            "name": "Primary 3",
+            "ladderType": "TOTAL_COMPETITION_POINTS",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "35e453b9",
+                                "name": "Northern Storm 9",
+                                "organisation": {
+                                    "id": "2e78dfde",
+                                    "name": "Northern Storm Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 10,
+                            "lost": 2,
+                            "drawn": 1,
+                            "byes": 2,
+                            "pointsFor": 133,
+                            "pointsAgainst": 46,
+                            "pointsDifference": 0,
+                            "forfeits": 0,
+                            "percentage": 289.13,
+                            "competitionPoints": 21
+                        },
+                        {
+                            "team": {
+                                "id": "41a40ba7",
+                                "name": "Mystic Opals 8",
+                                "organisation": {
+                                    "id": "637de894",
+                                    "name": "Mystic Opals",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 8,
+                            "lost": 5,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 68,
+                            "pointsAgainst": 50,
+                            "pointsDifference": 0,
+                            "forfeits": 0,
+                            "percentage": 136,
+                            "competitionPoints": 16
+                        },
+                        {
+                            "team": {
+                                "id": "f45e0c21",
+                                "name": "EPDemons 13",
+                                "organisation": {
+                                    "id": "5f9fef9c",
+                                    "name": "Eastern Park Demons",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 7,
+                            "lost": 5,
+                            "drawn": 1,
+                            "byes": 1,
+                            "pointsFor": 75,
+                            "pointsAgainst": 69,
+                            "pointsDifference": 0,
+                            "forfeits": 0,
+                            "percentage": 108.7,
+                            "competitionPoints": 15
+                        },
+                        {
+                            "team": {
+                                "id": "2094608b",
+                                "name": "Fireworks 18",
+                                "organisation": {
+                                    "id": "27ce429f",
+                                    "name": "Fireworks Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 6,
+                            "lost": 6,
+                            "drawn": 1,
+                            "byes": 2,
+                            "pointsFor": 50,
+                            "pointsAgainst": 37,
+                            "pointsDifference": 0,
+                            "forfeits": 0,
+                            "percentage": 135.14,
+                            "competitionPoints": 13
+                        },
+                        {
+                            "team": {
+                                "id": "98bea6b4",
+                                "name": "Angle Vale 19",
+                                "organisation": {
+                                    "id": "1267db67",
+                                    "name": "Angle Vale",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 3,
+                            "lost": 9,
+                            "drawn": 1,
+                            "byes": 1,
+                            "pointsFor": 22,
+                            "pointsAgainst": 41,
+                            "pointsDifference": 0,
+                            "forfeits": 0,
+                            "percentage": 53.66,
+                            "competitionPoints": 7
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

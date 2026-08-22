@@ -1,0 +1,126 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "76e0adc9",
+            "name": "D6",
+            "ladderType": "TOTAL_COMPETITION_POINTS",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "66e35afa",
+                                "name": "Mystic Opals 05",
+                                "organisation": {
+                                    "id": "637de894",
+                                    "name": "Mystic Opals",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 12,
+                            "lost": 0,
+                            "drawn": 0,
+                            "byes": 3,
+                            "pointsFor": 429,
+                            "pointsAgainst": 189,
+                            "pointsDifference": 240,
+                            "forfeits": 0,
+                            "percentage": 226.98,
+                            "competitionPoints": 24
+                        },
+                        {
+                            "team": {
+                                "id": "bcd235b5",
+                                "name": "Mystic Opals 06",
+                                "organisation": {
+                                    "id": "637de894",
+                                    "name": "Mystic Opals",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 8,
+                            "lost": 4,
+                            "drawn": 0,
+                            "byes": 3,
+                            "pointsFor": 280,
+                            "pointsAgainst": 201,
+                            "pointsDifference": 79,
+                            "forfeits": 0,
+                            "percentage": 139.3,
+                            "competitionPoints": 16
+                        },
+                        {
+                            "team": {
+                                "id": "2baa0ec3",
+                                "name": "Northern Lights 5",
+                                "organisation": {
+                                    "id": "71b577d1",
+                                    "name": "Northern Lights Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 7,
+                            "lost": 5,
+                            "drawn": 0,
+                            "byes": 3,
+                            "pointsFor": 253,
+                            "pointsAgainst": 245,
+                            "pointsDifference": 8,
+                            "forfeits": 0,
+                            "percentage": 103.27,
+                            "competitionPoints": 14
+                        },
+                        {
+                            "team": {
+                                "id": "ecea8777",
+                                "name": "Mystic Opals 07",
+                                "organisation": {
+                                    "id": "637de894",
+                                    "name": "Mystic Opals",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 2,
+                            "lost": 10,
+                            "drawn": 0,
+                            "byes": 3,
+                            "pointsFor": 170,
+                            "pointsAgainst": 327,
+                            "pointsDifference": -157,
+                            "forfeits": 0,
+                            "percentage": 51.99,
+                            "competitionPoints": 4
+                        },
+                        {
+                            "team": {
+                                "id": "da328a06",
+                                "name": "Angle Vale 11",
+                                "organisation": {
+                                    "id": "1267db67",
+                                    "name": "Angle Vale",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 1,
+                            "lost": 11,
+                            "drawn": 0,
+                            "byes": 3,
+                            "pointsFor": 176,
+                            "pointsAgainst": 346,
+                            "pointsDifference": -170,
+                            "forfeits": 0,
+                            "percentage": 50.87,
+                            "competitionPoints": 2
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

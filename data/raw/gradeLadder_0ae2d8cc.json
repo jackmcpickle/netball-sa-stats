@@ -1,0 +1,192 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "0ae2d8cc",
+            "name": "A5",
+            "ladderType": "POINTS_AVERAGE",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "603c52fc",
+                                "name": "Old Ignatians A",
+                                "organisation": {
+                                    "id": "0113cb3e",
+                                    "name": "Old Ignatians",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 11,
+                            "lost": 3,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 633,
+                            "pointsAgainst": 503,
+                            "pointsDifference": 130,
+                            "forfeits": 0,
+                            "percentage": 125.84,
+                            "competitionPoints": 22
+                        },
+                        {
+                            "team": {
+                                "id": "9cb8060e",
+                                "name": "Scotch B",
+                                "organisation": {
+                                    "id": "19f539c8",
+                                    "name": "Scotch Old Scholars",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 10,
+                            "lost": 2,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 586,
+                            "pointsAgainst": 431,
+                            "pointsDifference": 155,
+                            "forfeits": 2,
+                            "percentage": 135.96,
+                            "competitionPoints": 20
+                        },
+                        {
+                            "team": {
+                                "id": "8960ad78",
+                                "name": "Grange Hawks C",
+                                "organisation": {
+                                    "id": "473e0fc3",
+                                    "name": "Grange Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 9,
+                            "lost": 5,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 612,
+                            "pointsAgainst": 546,
+                            "pointsDifference": 66,
+                            "forfeits": 0,
+                            "percentage": 112.09,
+                            "competitionPoints": 18
+                        },
+                        {
+                            "team": {
+                                "id": "80f031ac",
+                                "name": "WP Silver G",
+                                "organisation": {
+                                    "id": "53002de5",
+                                    "name": "Westbourne Park Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 9,
+                            "lost": 5,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 661,
+                            "pointsAgainst": 593,
+                            "pointsDifference": 68,
+                            "forfeits": 0,
+                            "percentage": 111.47,
+                            "competitionPoints": 18
+                        },
+                        {
+                            "team": {
+                                "id": "570ecbc6",
+                                "name": "WP Red E",
+                                "organisation": {
+                                    "id": "53002de5",
+                                    "name": "Westbourne Park Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 7,
+                            "lost": 7,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 612,
+                            "pointsAgainst": 554,
+                            "pointsDifference": 58,
+                            "forfeits": 0,
+                            "percentage": 110.47,
+                            "competitionPoints": 14
+                        },
+                        {
+                            "team": {
+                                "id": "0b7f276b",
+                                "name": "Cove Tigers Orange A",
+                                "organisation": {
+                                    "id": "ab06439f",
+                                    "name": "Cove Netball Club Inc",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 6,
+                            "lost": 8,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 579,
+                            "pointsAgainst": 548,
+                            "pointsDifference": 31,
+                            "forfeits": 0,
+                            "percentage": 105.66,
+                            "competitionPoints": 12
+                        },
+                        {
+                            "team": {
+                                "id": "42d3194b",
+                                "name": "Ravens Valkyries A",
+                                "organisation": {
+                                    "id": "a69c53eb",
+                                    "name": "Ravens Sports Association Inc",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 3,
+                            "lost": 11,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 465,
+                            "pointsAgainst": 720,
+                            "pointsDifference": -255,
+                            "forfeits": 0,
+                            "percentage": 64.58,
+                            "competitionPoints": 6
+                        },
+                        {
+                            "team": {
+                                "id": "b9d82314",
+                                "name": "St Johns Luth Casey A",
+                                "organisation": {
+                                    "id": "f5111a09",
+                                    "name": "St Johns Lutheran Unley",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 1,
+                            "lost": 12,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 453,
+                            "pointsAgainst": 706,
+                            "pointsDifference": -253,
+                            "forfeits": 1,
+                            "percentage": 64.16,
+                            "competitionPoints": 2
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

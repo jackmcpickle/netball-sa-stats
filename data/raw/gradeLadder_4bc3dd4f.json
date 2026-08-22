@@ -1,0 +1,170 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "4bc3dd4f",
+            "name": "13U/5",
+            "ladderType": "POINTS_AVERAGE",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "412abe8a",
+                                "name": "Burnside City 13A",
+                                "organisation": {
+                                    "id": "96f9975a",
+                                    "name": "Burnside City Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 13,
+                            "lost": 0,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 382,
+                            "pointsAgainst": 158,
+                            "pointsDifference": 224,
+                            "forfeits": 0,
+                            "percentage": 241.77,
+                            "competitionPoints": 26
+                        },
+                        {
+                            "team": {
+                                "id": "b6e66ad3",
+                                "name": "Rosefield Rapids 13B",
+                                "organisation": {
+                                    "id": "f7fe98c2",
+                                    "name": "Rosefield Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 9,
+                            "lost": 4,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 346,
+                            "pointsAgainst": 206,
+                            "pointsDifference": 140,
+                            "forfeits": 0,
+                            "percentage": 167.96,
+                            "competitionPoints": 18
+                        },
+                        {
+                            "team": {
+                                "id": "563d52c3",
+                                "name": "Glengowrie 13E",
+                                "organisation": {
+                                    "id": "8d82bd18",
+                                    "name": "Glengowrie",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 7,
+                            "lost": 5,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 237,
+                            "pointsAgainst": 176,
+                            "pointsDifference": 61,
+                            "forfeits": 0,
+                            "percentage": 134.66,
+                            "competitionPoints": 14
+                        },
+                        {
+                            "team": {
+                                "id": "51113a42",
+                                "name": "Grange Pink 13D",
+                                "organisation": {
+                                    "id": "473e0fc3",
+                                    "name": "Grange Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 4,
+                            "lost": 7,
+                            "drawn": 1,
+                            "byes": 2,
+                            "pointsFor": 204,
+                            "pointsAgainst": 220,
+                            "pointsDifference": -16,
+                            "forfeits": 0,
+                            "percentage": 92.73,
+                            "competitionPoints": 9
+                        },
+                        {
+                            "team": {
+                                "id": "a96b1d34",
+                                "name": "PHOS 13A",
+                                "organisation": {
+                                    "id": "361e148c",
+                                    "name": "PHOS Camden",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 3,
+                            "lost": 9,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 165,
+                            "pointsAgainst": 263,
+                            "pointsDifference": -98,
+                            "forfeits": 0,
+                            "percentage": 62.74,
+                            "competitionPoints": 6
+                        },
+                        {
+                            "team": {
+                                "id": "0b9297b6",
+                                "name": "Henley Sharks 13D",
+                                "organisation": {
+                                    "id": "e234a948",
+                                    "name": "Henley Sharks Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 2,
+                            "lost": 10,
+                            "drawn": 1,
+                            "byes": 1,
+                            "pointsFor": 150,
+                            "pointsAgainst": 331,
+                            "pointsDifference": -181,
+                            "forfeits": 0,
+                            "percentage": 45.32,
+                            "competitionPoints": 5
+                        },
+                        {
+                            "team": {
+                                "id": "f02ee6fa",
+                                "name": "Rosefield Spirit 13A",
+                                "organisation": {
+                                    "id": "f7fe98c2",
+                                    "name": "Rosefield Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 1,
+                            "lost": 11,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 201,
+                            "pointsAgainst": 331,
+                            "pointsDifference": -130,
+                            "forfeits": 1,
+                            "percentage": 60.73,
+                            "competitionPoints": 2
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

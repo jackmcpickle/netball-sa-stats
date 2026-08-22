@@ -1,0 +1,192 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "b2aa5748",
+            "name": "C2",
+            "ladderType": "TOTAL_COMPETITION_POINTS",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "70a921fc",
+                                "name": "Gumnuts 03",
+                                "organisation": {
+                                    "id": "f630493f",
+                                    "name": "Gumnuts",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 9,
+                            "lost": 3,
+                            "drawn": 1,
+                            "byes": 1,
+                            "pointsFor": 599,
+                            "pointsAgainst": 443,
+                            "pointsDifference": 156,
+                            "forfeits": 0,
+                            "percentage": 135.21,
+                            "competitionPoints": 19
+                        },
+                        {
+                            "team": {
+                                "id": "3fa53909",
+                                "name": "Tiki 1",
+                                "organisation": {
+                                    "id": "62eaac91",
+                                    "name": "Tiki",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 9,
+                            "lost": 3,
+                            "drawn": 1,
+                            "byes": 1,
+                            "pointsFor": 643,
+                            "pointsAgainst": 477,
+                            "pointsDifference": 166,
+                            "forfeits": 0,
+                            "percentage": 134.8,
+                            "competitionPoints": 19
+                        },
+                        {
+                            "team": {
+                                "id": "8faac296",
+                                "name": "FIREWORKS 04",
+                                "organisation": {
+                                    "id": "27ce429f",
+                                    "name": "Fireworks Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 9,
+                            "lost": 2,
+                            "drawn": 1,
+                            "byes": 1,
+                            "pointsFor": 349,
+                            "pointsAgainst": 269,
+                            "pointsDifference": 80,
+                            "forfeits": 1,
+                            "percentage": 129.74,
+                            "competitionPoints": 19
+                        },
+                        {
+                            "team": {
+                                "id": "5c485f07",
+                                "name": "Northern Lights 3",
+                                "organisation": {
+                                    "id": "71b577d1",
+                                    "name": "Northern Lights Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 9,
+                            "lost": 5,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 531,
+                            "pointsAgainst": 351,
+                            "pointsDifference": 180,
+                            "forfeits": 0,
+                            "percentage": 151.28,
+                            "competitionPoints": 18
+                        },
+                        {
+                            "team": {
+                                "id": "d4975c8d",
+                                "name": "S Panthers  01",
+                                "organisation": {
+                                    "id": "87e68d0f",
+                                    "name": "Smithfield Panthers",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 8,
+                            "lost": 4,
+                            "drawn": 1,
+                            "byes": 1,
+                            "pointsFor": 518,
+                            "pointsAgainst": 393,
+                            "pointsDifference": 125,
+                            "forfeits": 0,
+                            "percentage": 131.81,
+                            "competitionPoints": 17
+                        },
+                        {
+                            "team": {
+                                "id": "e1333312",
+                                "name": "Bombers 01",
+                                "organisation": {
+                                    "id": "fdc2c5fd",
+                                    "name": "Northern Bombers Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 5,
+                            "lost": 6,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 409,
+                            "pointsAgainst": 444,
+                            "pointsDifference": -35,
+                            "forfeits": 2,
+                            "percentage": 92.12,
+                            "competitionPoints": 10
+                        },
+                        {
+                            "team": {
+                                "id": "4db6aae2",
+                                "name": "Gazelles 04",
+                                "organisation": {
+                                    "id": "b2a76075",
+                                    "name": "Gazelles (SA)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 4,
+                            "lost": 10,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 479,
+                            "pointsAgainst": 649,
+                            "pointsDifference": -170,
+                            "forfeits": 0,
+                            "percentage": 73.81,
+                            "competitionPoints": 8
+                        },
+                        {
+                            "team": {
+                                "id": "a192bdfa",
+                                "name": "EPDemons 04",
+                                "organisation": {
+                                    "id": "5f9fef9c",
+                                    "name": "Eastern Park Demons",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 0,
+                            "lost": 13,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 166,
+                            "pointsAgainst": 549,
+                            "pointsDifference": -383,
+                            "forfeits": 0,
+                            "percentage": 30.24,
+                            "competitionPoints": 0
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

@@ -1,0 +1,170 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "9937f355",
+            "name": "15U/4",
+            "ladderType": "POINTS_AVERAGE",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "a4ca4f2c",
+                                "name": "Cove Tigers Orange 15A",
+                                "organisation": {
+                                    "id": "ab06439f",
+                                    "name": "Cove Netball Club Inc",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 13,
+                            "lost": 0,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 476,
+                            "pointsAgainst": 226,
+                            "pointsDifference": 250,
+                            "forfeits": 0,
+                            "percentage": 210.62,
+                            "competitionPoints": 26
+                        },
+                        {
+                            "team": {
+                                "id": "de350bae",
+                                "name": "Hectorville 15B",
+                                "organisation": {
+                                    "id": "a836b73f",
+                                    "name": "Hectorville Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 10,
+                            "lost": 2,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 320,
+                            "pointsAgainst": 284,
+                            "pointsDifference": 36,
+                            "forfeits": 0,
+                            "percentage": 112.68,
+                            "competitionPoints": 20
+                        },
+                        {
+                            "team": {
+                                "id": "9ae79e70",
+                                "name": "PHOS Netball 15A",
+                                "organisation": {
+                                    "id": "361e148c",
+                                    "name": "PHOS Camden",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 8,
+                            "lost": 5,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 316,
+                            "pointsAgainst": 300,
+                            "pointsDifference": 16,
+                            "forfeits": 0,
+                            "percentage": 105.33,
+                            "competitionPoints": 16
+                        },
+                        {
+                            "team": {
+                                "id": "0fd11dfa",
+                                "name": "CLG Blue 15A",
+                                "organisation": {
+                                    "id": "5d401652",
+                                    "name": "Colonel Light Gardens",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 7,
+                            "lost": 6,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 346,
+                            "pointsAgainst": 419,
+                            "pointsDifference": -73,
+                            "forfeits": 0,
+                            "percentage": 82.58,
+                            "competitionPoints": 14
+                        },
+                        {
+                            "team": {
+                                "id": "862f0765",
+                                "name": "WP Speedy 15D",
+                                "organisation": {
+                                    "id": "53002de5",
+                                    "name": "Westbourne Park Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 6,
+                            "lost": 7,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 317,
+                            "pointsAgainst": 387,
+                            "pointsDifference": -70,
+                            "forfeits": 0,
+                            "percentage": 81.91,
+                            "competitionPoints": 12
+                        },
+                        {
+                            "team": {
+                                "id": "cd3092f5",
+                                "name": "Morialta 15D",
+                                "organisation": {
+                                    "id": "46cdd3a1",
+                                    "name": "Morialta Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 4,
+                            "lost": 8,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 276,
+                            "pointsAgainst": 339,
+                            "pointsDifference": -63,
+                            "forfeits": 0,
+                            "percentage": 81.42,
+                            "competitionPoints": 8
+                        },
+                        {
+                            "team": {
+                                "id": "f6d67922",
+                                "name": "SMAA 15B",
+                                "organisation": {
+                                    "id": "72bc9771",
+                                    "name": "St Michael & All Angels",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 3,
+                            "lost": 9,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 234,
+                            "pointsAgainst": 330,
+                            "pointsDifference": -96,
+                            "forfeits": 0,
+                            "percentage": 70.91,
+                            "competitionPoints": 6
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

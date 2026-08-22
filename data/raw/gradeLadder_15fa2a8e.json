@@ -1,0 +1,104 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "15fa2a8e",
+            "name": "Junior 1",
+            "ladderType": "TOTAL_COMPETITION_POINTS",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "1a462aeb",
+                                "name": "Mystic Opals 6",
+                                "organisation": {
+                                    "id": "637de894",
+                                    "name": "Mystic Opals",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 14,
+                            "lost": 0,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 621,
+                            "pointsAgainst": 275,
+                            "pointsDifference": 0,
+                            "forfeits": 0,
+                            "percentage": 225.82,
+                            "competitionPoints": 28
+                        },
+                        {
+                            "team": {
+                                "id": "f4fe206e",
+                                "name": "Fireworks 9",
+                                "organisation": {
+                                    "id": "27ce429f",
+                                    "name": "Fireworks Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 9,
+                            "lost": 3,
+                            "drawn": 1,
+                            "byes": 1,
+                            "pointsFor": 569,
+                            "pointsAgainst": 443,
+                            "pointsDifference": 0,
+                            "forfeits": 1,
+                            "percentage": 128.44,
+                            "competitionPoints": 19
+                        },
+                        {
+                            "team": {
+                                "id": "ec427bd0",
+                                "name": "EPDemons 6",
+                                "organisation": {
+                                    "id": "5f9fef9c",
+                                    "name": "Eastern Park Demons",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 5,
+                            "lost": 9,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 484,
+                            "pointsAgainst": 582,
+                            "pointsDifference": 0,
+                            "forfeits": 0,
+                            "percentage": 83.16,
+                            "competitionPoints": 10
+                        },
+                        {
+                            "team": {
+                                "id": "81184246",
+                                "name": "Lazers 05",
+                                "organisation": {
+                                    "id": "d2f381fb",
+                                    "name": "Lazers (SA)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 3,
+                            "lost": 9,
+                            "drawn": 1,
+                            "byes": 1,
+                            "pointsFor": 456,
+                            "pointsAgainst": 533,
+                            "pointsDifference": 0,
+                            "forfeits": 1,
+                            "percentage": 85.55,
+                            "competitionPoints": 7
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

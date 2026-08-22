@@ -35,7 +35,7 @@ export const COMPETITION_SEEDS: readonly CompetitionSeed[] = [
         playhqOrgId: '6fefc037',
     },
     {
-        hasData: false,
+        hasData: true,
         key: 'city_night_division',
         name: 'City Night Division',
         playhqOrgId: '2276ec85',
@@ -48,25 +48,25 @@ export const COMPETITION_SEEDS: readonly CompetitionSeed[] = [
     },
     { hasData: false, key: 'juniors', name: 'Juniors', playhqOrgId: null },
     {
-        hasData: false,
+        hasData: true,
         key: 'saucna',
         name: 'South Australian United Church Netball Association',
         playhqOrgId: 'fb89f1f1',
     },
     {
-        hasData: false,
+        hasData: true,
         key: 'suna',
         name: 'Southern United Netball Association',
         playhqOrgId: '4bd9b8ae',
     },
     {
-        hasData: false,
+        hasData: true,
         key: 'elizabeth',
         name: 'Elizabeth Netball Association',
         playhqOrgId: '7ffb0e67',
     },
     {
-        hasData: false,
+        hasData: true,
         key: 'sammna',
         name: "South Australian Men's and Mixed Netball Association",
         playhqOrgId: '7936878d',

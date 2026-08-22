@@ -362,6 +362,29 @@ describe('processGrade curation safety: seasons.is_final', () => {
         expect(result?.seasonRow.status).toBe('in_progress');
         expect(result?.seasonRow.is_final).toBe(1);
     });
+
+    it('sets summer end_year to start_year + 1 so City Night imports', () => {
+        const registry = new ClubRegistry([], []);
+        const result = processGrade(
+            { age: null, id: 'cnd-a1', name: 'A1 Grade' },
+            standings,
+            {
+                isFinalBySeasonKey: new Map(),
+                orgId: CITY_NIGHT_ORG_ID,
+                period: 'summer',
+                playHqCompetitionName: 'City Night Division 1',
+                seasonName: 'Summer 2023/24',
+                seasonPlayhqId: 'cnd-2023',
+                seasonStatus: 'completed',
+                startYear: 2023,
+            },
+            registry,
+            1000,
+        );
+        expect(result?.seasonRow.competition_period).toBe('summer');
+        expect(result?.seasonRow.start_year).toBe(2023);
+        expect(result?.seasonRow.end_year).toBe(2024);
+    });
 });
 
 function makeStanding(overrides: {

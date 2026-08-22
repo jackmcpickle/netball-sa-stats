@@ -1,0 +1,192 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "ffae34ed",
+            "name": "C1",
+            "ladderType": "POINTS_AVERAGE",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "c8ec2b77",
+                                "name": "WP Silver J",
+                                "organisation": {
+                                    "id": "53002de5",
+                                    "name": "Westbourne Park Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 14,
+                            "lost": 0,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 527,
+                            "pointsAgainst": 316,
+                            "pointsDifference": 211,
+                            "forfeits": 0,
+                            "percentage": 166.77,
+                            "competitionPoints": 28
+                        },
+                        {
+                            "team": {
+                                "id": "33fc5881",
+                                "name": "WP Purple I",
+                                "organisation": {
+                                    "id": "53002de5",
+                                    "name": "Westbourne Park Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 11,
+                            "lost": 3,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 356,
+                            "pointsAgainst": 357,
+                            "pointsDifference": -1,
+                            "forfeits": 0,
+                            "percentage": 99.72,
+                            "competitionPoints": 22
+                        },
+                        {
+                            "team": {
+                                "id": "f4e3144f",
+                                "name": "Old Collegians C",
+                                "organisation": {
+                                    "id": "4f001e19",
+                                    "name": "Old Collegians",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 9,
+                            "lost": 5,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 418,
+                            "pointsAgainst": 351,
+                            "pointsDifference": 67,
+                            "forfeits": 0,
+                            "percentage": 119.09,
+                            "competitionPoints": 18
+                        },
+                        {
+                            "team": {
+                                "id": "264df79e",
+                                "name": "Scotch E",
+                                "organisation": {
+                                    "id": "19f539c8",
+                                    "name": "Scotch Old Scholars",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 9,
+                            "lost": 5,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 383,
+                            "pointsAgainst": 358,
+                            "pointsDifference": 25,
+                            "forfeits": 0,
+                            "percentage": 106.98,
+                            "competitionPoints": 18
+                        },
+                        {
+                            "team": {
+                                "id": "e6f6ca29",
+                                "name": "Seacliff B",
+                                "organisation": {
+                                    "id": "f33aba5d",
+                                    "name": "Seacliff Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 7,
+                            "lost": 7,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 379,
+                            "pointsAgainst": 440,
+                            "pointsDifference": -61,
+                            "forfeits": 0,
+                            "percentage": 86.14,
+                            "competitionPoints": 14
+                        },
+                        {
+                            "team": {
+                                "id": "6c7bc703",
+                                "name": "Glenunga Open Alpha A",
+                                "organisation": {
+                                    "id": "05a8f52f",
+                                    "name": "Glenunga",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 5,
+                            "lost": 9,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 320,
+                            "pointsAgainst": 399,
+                            "pointsDifference": -79,
+                            "forfeits": 0,
+                            "percentage": 80.2,
+                            "competitionPoints": 10
+                        },
+                        {
+                            "team": {
+                                "id": "35e40f94",
+                                "name": "SMAA E",
+                                "organisation": {
+                                    "id": "72bc9771",
+                                    "name": "St Michael & All Angels",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 4,
+                            "lost": 10,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 380,
+                            "pointsAgainst": 449,
+                            "pointsDifference": -69,
+                            "forfeits": 0,
+                            "percentage": 84.63,
+                            "competitionPoints": 8
+                        },
+                        {
+                            "team": {
+                                "id": "3e9ca85a",
+                                "name": "Walkerville C",
+                                "organisation": {
+                                    "id": "a83c7a81",
+                                    "name": "Walkerville",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 3,
+                            "lost": 11,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 331,
+                            "pointsAgainst": 424,
+                            "pointsDifference": -93,
+                            "forfeits": 0,
+                            "percentage": 78.07,
+                            "competitionPoints": 6
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

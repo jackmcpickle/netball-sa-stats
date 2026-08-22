@@ -1,0 +1,170 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "75275a34",
+            "name": "11U/2",
+            "ladderType": "POINTS_AVERAGE",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "6a5db270",
+                                "name": "Flinders Park 11A",
+                                "organisation": {
+                                    "id": "7721739e",
+                                    "name": "Flinders Park",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 12,
+                            "lost": 1,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 471,
+                            "pointsAgainst": 46,
+                            "pointsDifference": 425,
+                            "forfeits": 0,
+                            "percentage": 1023.91,
+                            "competitionPoints": 24
+                        },
+                        {
+                            "team": {
+                                "id": "fd6ba383",
+                                "name": "WP Kangaroo 11A",
+                                "organisation": {
+                                    "id": "53002de5",
+                                    "name": "Westbourne Park Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 8,
+                            "lost": 5,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 213,
+                            "pointsAgainst": 256,
+                            "pointsDifference": -43,
+                            "forfeits": 0,
+                            "percentage": 83.2,
+                            "competitionPoints": 16
+                        },
+                        {
+                            "team": {
+                                "id": "bd0ca08c",
+                                "name": "Glengowrie 11B",
+                                "organisation": {
+                                    "id": "8d82bd18",
+                                    "name": "Glengowrie",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 7,
+                            "lost": 5,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 155,
+                            "pointsAgainst": 236,
+                            "pointsDifference": -81,
+                            "forfeits": 0,
+                            "percentage": 65.68,
+                            "competitionPoints": 14
+                        },
+                        {
+                            "team": {
+                                "id": "cf90be21",
+                                "name": "St Josephs 11B",
+                                "organisation": {
+                                    "id": "8793c382",
+                                    "name": "St Joseph's (Somerton Park)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 7,
+                            "lost": 6,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 186,
+                            "pointsAgainst": 217,
+                            "pointsDifference": -31,
+                            "forfeits": 0,
+                            "percentage": 85.71,
+                            "competitionPoints": 14
+                        },
+                        {
+                            "team": {
+                                "id": "bff0e8d4",
+                                "name": "Henley Sharks 11B",
+                                "organisation": {
+                                    "id": "e234a948",
+                                    "name": "Henley Sharks Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 5,
+                            "lost": 8,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 124,
+                            "pointsAgainst": 219,
+                            "pointsDifference": -95,
+                            "forfeits": 0,
+                            "percentage": 56.62,
+                            "competitionPoints": 10
+                        },
+                        {
+                            "team": {
+                                "id": "d91e2464",
+                                "name": "Grange Blue 11B",
+                                "organisation": {
+                                    "id": "473e0fc3",
+                                    "name": "Grange Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 4,
+                            "lost": 8,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 132,
+                            "pointsAgainst": 227,
+                            "pointsDifference": -95,
+                            "forfeits": 0,
+                            "percentage": 58.15,
+                            "competitionPoints": 8
+                        },
+                        {
+                            "team": {
+                                "id": "270f0316",
+                                "name": "St Monicas 11A",
+                                "organisation": {
+                                    "id": "9b1b9579",
+                                    "name": "St Monicas",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 3,
+                            "lost": 9,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 156,
+                            "pointsAgainst": 236,
+                            "pointsDifference": -80,
+                            "forfeits": 0,
+                            "percentage": 66.1,
+                            "competitionPoints": 6
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

@@ -1,0 +1,126 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "40268023",
+            "name": "B3",
+            "ladderType": "TOTAL_COMPETITION_POINTS",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "e28c6a87",
+                                "name": "Angle Vale 02",
+                                "organisation": {
+                                    "id": "1267db67",
+                                    "name": "Angle Vale",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 10,
+                            "lost": 0,
+                            "drawn": 0,
+                            "byes": 3,
+                            "pointsFor": 484,
+                            "pointsAgainst": 329,
+                            "pointsDifference": 155,
+                            "forfeits": 1,
+                            "percentage": 147.11,
+                            "competitionPoints": 20
+                        },
+                        {
+                            "team": {
+                                "id": "f926a9bd",
+                                "name": "WILDFIRE 2",
+                                "organisation": {
+                                    "id": "197d1c9c",
+                                    "name": "Wildfire Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 6,
+                            "lost": 3,
+                            "drawn": 1,
+                            "byes": 3,
+                            "pointsFor": 393,
+                            "pointsAgainst": 421,
+                            "pointsDifference": -28,
+                            "forfeits": 1,
+                            "percentage": 93.35,
+                            "competitionPoints": 13
+                        },
+                        {
+                            "team": {
+                                "id": "40590ad1",
+                                "name": "Gazelles 03",
+                                "organisation": {
+                                    "id": "b2a76075",
+                                    "name": "Gazelles (SA)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 6,
+                            "lost": 5,
+                            "drawn": 0,
+                            "byes": 3,
+                            "pointsFor": 471,
+                            "pointsAgainst": 357,
+                            "pointsDifference": 114,
+                            "forfeits": 0,
+                            "percentage": 131.93,
+                            "competitionPoints": 12
+                        },
+                        {
+                            "team": {
+                                "id": "1db0a6f6",
+                                "name": "Angle Vale 03",
+                                "organisation": {
+                                    "id": "1267db67",
+                                    "name": "Angle Vale",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 4,
+                            "lost": 7,
+                            "drawn": 1,
+                            "byes": 3,
+                            "pointsFor": 416,
+                            "pointsAgainst": 474,
+                            "pointsDifference": -58,
+                            "forfeits": 0,
+                            "percentage": 87.76,
+                            "competitionPoints": 9
+                        },
+                        {
+                            "team": {
+                                "id": "4953b444",
+                                "name": "COBRAS 1",
+                                "organisation": {
+                                    "id": "fda07884",
+                                    "name": "Northern Cobras",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 1,
+                            "lost": 9,
+                            "drawn": 0,
+                            "byes": 3,
+                            "pointsFor": 325,
+                            "pointsAgainst": 508,
+                            "pointsDifference": -183,
+                            "forfeits": 1,
+                            "percentage": 63.98,
+                            "competitionPoints": 2
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

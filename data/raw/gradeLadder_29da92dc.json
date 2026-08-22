@@ -1,0 +1,126 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "29da92dc",
+            "name": "Sub Junior 2",
+            "ladderType": "TOTAL_COMPETITION_POINTS",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "d071ad8e",
+                                "name": "Fireworks 17",
+                                "organisation": {
+                                    "id": "27ce429f",
+                                    "name": "Fireworks Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 11,
+                            "lost": 1,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 304,
+                            "pointsAgainst": 112,
+                            "pointsDifference": 192,
+                            "forfeits": 0,
+                            "percentage": 271.43,
+                            "competitionPoints": 22
+                        },
+                        {
+                            "team": {
+                                "id": "39829ea3",
+                                "name": "EPDemons 09",
+                                "organisation": {
+                                    "id": "5f9fef9c",
+                                    "name": "Eastern Park Demons",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 9,
+                            "lost": 3,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 145,
+                            "pointsAgainst": 115,
+                            "pointsDifference": 30,
+                            "forfeits": 0,
+                            "percentage": 126.09,
+                            "competitionPoints": 18
+                        },
+                        {
+                            "team": {
+                                "id": "d16cb1a9",
+                                "name": "Gawler River 5",
+                                "organisation": {
+                                    "id": "fefba28e",
+                                    "name": "Angle Vale Football Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 7,
+                            "lost": 6,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 173,
+                            "pointsAgainst": 241,
+                            "pointsDifference": -68,
+                            "forfeits": 0,
+                            "percentage": 71.78,
+                            "competitionPoints": 14
+                        },
+                        {
+                            "team": {
+                                "id": "188936ee",
+                                "name": "Angle Vale 13",
+                                "organisation": {
+                                    "id": "1267db67",
+                                    "name": "Angle Vale",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 4,
+                            "lost": 8,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 140,
+                            "pointsAgainst": 194,
+                            "pointsDifference": -54,
+                            "forfeits": 0,
+                            "percentage": 72.16,
+                            "competitionPoints": 8
+                        },
+                        {
+                            "team": {
+                                "id": "a7e0d540",
+                                "name": "Kaleteeya 1",
+                                "organisation": {
+                                    "id": "1c9460c3",
+                                    "name": "Kaleteeya Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 1,
+                            "lost": 10,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 109,
+                            "pointsAgainst": 231,
+                            "pointsDifference": -122,
+                            "forfeits": 1,
+                            "percentage": 47.19,
+                            "competitionPoints": 2
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

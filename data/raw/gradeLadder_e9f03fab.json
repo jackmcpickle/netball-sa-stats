@@ -1,0 +1,170 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "e9f03fab",
+            "name": "13U/6",
+            "ladderType": "POINTS_AVERAGE",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "fcb7011e",
+                                "name": "Wesley 13A",
+                                "organisation": {
+                                    "id": "5b275702",
+                                    "name": "Wesley Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 11,
+                            "lost": 2,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 304,
+                            "pointsAgainst": 199,
+                            "pointsDifference": 105,
+                            "forfeits": 0,
+                            "percentage": 152.76,
+                            "competitionPoints": 22
+                        },
+                        {
+                            "team": {
+                                "id": "42284586",
+                                "name": "Glengowrie Uniting 13D",
+                                "organisation": {
+                                    "id": "8d82bd18",
+                                    "name": "Glengowrie",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 10,
+                            "lost": 4,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 353,
+                            "pointsAgainst": 277,
+                            "pointsDifference": 76,
+                            "forfeits": 0,
+                            "percentage": 127.44,
+                            "competitionPoints": 20
+                        },
+                        {
+                            "team": {
+                                "id": "f717a668",
+                                "name": "WP Coral 13F",
+                                "organisation": {
+                                    "id": "53002de5",
+                                    "name": "Westbourne Park Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 8,
+                            "lost": 6,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 344,
+                            "pointsAgainst": 249,
+                            "pointsDifference": 95,
+                            "forfeits": 0,
+                            "percentage": 138.15,
+                            "competitionPoints": 16
+                        },
+                        {
+                            "team": {
+                                "id": "1f027fe0",
+                                "name": "Henley Sharks 13D",
+                                "organisation": {
+                                    "id": "e234a948",
+                                    "name": "Henley Sharks Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 7,
+                            "lost": 7,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 289,
+                            "pointsAgainst": 260,
+                            "pointsDifference": 29,
+                            "forfeits": 0,
+                            "percentage": 111.15,
+                            "competitionPoints": 14
+                        },
+                        {
+                            "team": {
+                                "id": "3541cef2",
+                                "name": "Hallett Cove 13B",
+                                "organisation": {
+                                    "id": "afa7dc80",
+                                    "name": "Hallett Cove Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 6,
+                            "lost": 7,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 261,
+                            "pointsAgainst": 222,
+                            "pointsDifference": 39,
+                            "forfeits": 0,
+                            "percentage": 117.57,
+                            "competitionPoints": 12
+                        },
+                        {
+                            "team": {
+                                "id": "ed4adbb8",
+                                "name": "Grange Silver 13E",
+                                "organisation": {
+                                    "id": "473e0fc3",
+                                    "name": "Grange Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 3,
+                            "lost": 11,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 231,
+                            "pointsAgainst": 334,
+                            "pointsDifference": -103,
+                            "forfeits": 0,
+                            "percentage": 69.16,
+                            "competitionPoints": 6
+                        },
+                        {
+                            "team": {
+                                "id": "bc7354e9",
+                                "name": "Hectorville 13C",
+                                "organisation": {
+                                    "id": "a836b73f",
+                                    "name": "Hectorville Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 1,
+                            "lost": 12,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 124,
+                            "pointsAgainst": 365,
+                            "pointsDifference": -241,
+                            "forfeits": 0,
+                            "percentage": 33.97,
+                            "competitionPoints": 2
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

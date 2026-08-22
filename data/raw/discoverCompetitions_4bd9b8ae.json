@@ -1,0 +1,116 @@
+{
+    "data": {
+        "discoverCompetitions": [
+            {
+                "id": "7838f8d9",
+                "name": "Schools Competition",
+                "seasons": [
+                    {
+                        "id": "f79de6bc",
+                        "name": "2026",
+                        "startDate": "2026-04-28",
+                        "endDate": "2026-09-08",
+                        "status": {
+                            "name": "Active",
+                            "value": "ACTIVE"
+                        }
+                    },
+                    {
+                        "id": "7bb481a7",
+                        "name": "2025",
+                        "startDate": "2025-04-29",
+                        "endDate": "2025-09-09",
+                        "status": {
+                            "name": "Completed",
+                            "value": "COMPLETED"
+                        }
+                    }
+                ],
+                "organisation": {
+                    "id": "4bd9b8ae",
+                    "name": "Southern United Netball Association"
+                }
+            },
+            {
+                "id": "de320ccc",
+                "name": "SUNA  JUNIOR CARNIVAL",
+                "seasons": [
+                    {
+                        "id": "279f28a9",
+                        "name": "Winter 2026",
+                        "startDate": "2026-07-26",
+                        "endDate": "2026-07-26",
+                        "status": {
+                            "name": "Completed",
+                            "value": "COMPLETED"
+                        }
+                    }
+                ],
+                "organisation": {
+                    "id": "4bd9b8ae",
+                    "name": "Southern United Netball Association"
+                }
+            },
+            {
+                "id": "d0635feb",
+                "name": "SUNA 9 & U Carnival",
+                "seasons": [
+                    {
+                        "id": "75d86a3e",
+                        "name": "Winter 2026",
+                        "startDate": "2026-08-23",
+                        "endDate": "2026-08-23",
+                        "status": {
+                            "name": "Upcoming",
+                            "value": "UPCOMING"
+                        }
+                    }
+                ],
+                "organisation": {
+                    "id": "4bd9b8ae",
+                    "name": "Southern United Netball Association"
+                }
+            },
+            {
+                "id": "e023c5a2",
+                "name": "SUNA Summer",
+                "seasons": [
+                    {
+                        "id": "b83353f1",
+                        "name": "Summer 2026/27",
+                        "startDate": "2026-10-06",
+                        "endDate": "2027-03-25",
+                        "status": {
+                            "name": "Upcoming",
+                            "value": "UPCOMING"
+                        }
+                    }
+                ],
+                "organisation": {
+                    "id": "4bd9b8ae",
+                    "name": "Southern United Netball Association"
+                }
+            },
+            {
+                "id": "3548835b",
+                "name": "SUNA Winter",
+                "seasons": [
+                    {
+                        "id": "44ae2f11",
+                        "name": "Winter 2026",
+                        "startDate": "2026-04-28",
+                        "endDate": "2026-09-11",
+                        "status": {
+                            "name": "Active",
+                            "value": "ACTIVE"
+                        }
+                    }
+                ],
+                "organisation": {
+                    "id": "4bd9b8ae",
+                    "name": "Southern United Netball Association"
+                }
+            }
+        ]
+    }
+}

@@ -406,7 +406,7 @@ export function processGrade(
     const seasonRow: SeasonRow = {
         competition_key: competitionKey,
         competition_period: ctx.period,
-        end_year: ctx.startYear,
+        end_year: ctx.period === 'summer' ? ctx.startYear + 1 : ctx.startYear,
         is_final: Number(ctx.isFinalBySeasonKey.get(seasonKey) ?? 0),
         label: ctx.seasonName,
         playhq_id: ctx.seasonPlayhqId,

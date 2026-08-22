@@ -1,0 +1,126 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "20f28214",
+            "name": "Primary 3",
+            "ladderType": "TOTAL_COMPETITION_POINTS",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "1a3c9e20",
+                                "name": "S Panthers 09",
+                                "organisation": {
+                                    "id": "87e68d0f",
+                                    "name": "Smithfield Panthers",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 13,
+                            "lost": 0,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 227,
+                            "pointsAgainst": 43,
+                            "pointsDifference": 184,
+                            "forfeits": 0,
+                            "percentage": 527.91,
+                            "competitionPoints": 26
+                        },
+                        {
+                            "team": {
+                                "id": "64a73e9a",
+                                "name": "Angle Vale 15",
+                                "organisation": {
+                                    "id": "1267db67",
+                                    "name": "Angle Vale",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 9,
+                            "lost": 4,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 158,
+                            "pointsAgainst": 59,
+                            "pointsDifference": 99,
+                            "forfeits": 0,
+                            "percentage": 267.8,
+                            "competitionPoints": 18
+                        },
+                        {
+                            "team": {
+                                "id": "b72a3995",
+                                "name": "Angle Vale 14",
+                                "organisation": {
+                                    "id": "1267db67",
+                                    "name": "Angle Vale",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 5,
+                            "lost": 8,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 53,
+                            "pointsAgainst": 84,
+                            "pointsDifference": -31,
+                            "forfeits": 0,
+                            "percentage": 63.1,
+                            "competitionPoints": 10
+                        },
+                        {
+                            "team": {
+                                "id": "204cf732",
+                                "name": "WILDFIRE 6",
+                                "organisation": {
+                                    "id": "197d1c9c",
+                                    "name": "Wildfire Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 4,
+                            "lost": 8,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 64,
+                            "pointsAgainst": 95,
+                            "pointsDifference": -31,
+                            "forfeits": 1,
+                            "percentage": 67.37,
+                            "competitionPoints": 8
+                        },
+                        {
+                            "team": {
+                                "id": "c8f19439",
+                                "name": "Northern Storm 6",
+                                "organisation": {
+                                    "id": "2e78dfde",
+                                    "name": "Northern Storm Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 2,
+                            "lost": 11,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 30,
+                            "pointsAgainst": 115,
+                            "pointsDifference": -85,
+                            "forfeits": 0,
+                            "percentage": 26.09,
+                            "competitionPoints": 4
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

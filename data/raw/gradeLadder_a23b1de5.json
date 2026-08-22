@@ -1,0 +1,192 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "a23b1de5",
+            "name": "B1",
+            "ladderType": "POINTS_AVERAGE",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "d9cd2fb6",
+                                "name": "Old Ignatians A",
+                                "organisation": {
+                                    "id": "0113cb3e",
+                                    "name": "Old Ignatians",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 13,
+                            "lost": 1,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 664,
+                            "pointsAgainst": 379,
+                            "pointsDifference": 285,
+                            "forfeits": 0,
+                            "percentage": 175.2,
+                            "competitionPoints": 26
+                        },
+                        {
+                            "team": {
+                                "id": "bb5c23d8",
+                                "name": "Adelaide Luth Ruby E",
+                                "organisation": {
+                                    "id": "66a7fd12",
+                                    "name": "Adelaide Lutheran",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 12,
+                            "lost": 2,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 758,
+                            "pointsAgainst": 523,
+                            "pointsDifference": 235,
+                            "forfeits": 0,
+                            "percentage": 144.93,
+                            "competitionPoints": 24
+                        },
+                        {
+                            "team": {
+                                "id": "b975466b",
+                                "name": "Adelaide Uni C",
+                                "organisation": {
+                                    "id": "d5bdb649",
+                                    "name": "Adelaide University",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 9,
+                            "lost": 5,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 572,
+                            "pointsAgainst": 476,
+                            "pointsDifference": 96,
+                            "forfeits": 0,
+                            "percentage": 120.17,
+                            "competitionPoints": 18
+                        },
+                        {
+                            "team": {
+                                "id": "14cacf8f",
+                                "name": "WP Yellow F",
+                                "organisation": {
+                                    "id": "53002de5",
+                                    "name": "Westbourne Park Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 8,
+                            "lost": 5,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 564,
+                            "pointsAgainst": 493,
+                            "pointsDifference": 71,
+                            "forfeits": 1,
+                            "percentage": 114.4,
+                            "competitionPoints": 16
+                        },
+                        {
+                            "team": {
+                                "id": "4610e833",
+                                "name": "Adelaide Luth Azure F",
+                                "organisation": {
+                                    "id": "66a7fd12",
+                                    "name": "Adelaide Lutheran",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 7,
+                            "lost": 7,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 603,
+                            "pointsAgainst": 606,
+                            "pointsDifference": -3,
+                            "forfeits": 0,
+                            "percentage": 99.5,
+                            "competitionPoints": 14
+                        },
+                        {
+                            "team": {
+                                "id": "001f58d2",
+                                "name": "Henley Blue A",
+                                "organisation": {
+                                    "id": "e234a948",
+                                    "name": "Henley Sharks Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 5,
+                            "lost": 9,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 527,
+                            "pointsAgainst": 550,
+                            "pointsDifference": -23,
+                            "forfeits": 0,
+                            "percentage": 95.82,
+                            "competitionPoints": 10
+                        },
+                        {
+                            "team": {
+                                "id": "04bf3ff8",
+                                "name": "St Johns Luth Casey A",
+                                "organisation": {
+                                    "id": "f5111a09",
+                                    "name": "St Johns Lutheran Unley",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 2,
+                            "lost": 12,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 529,
+                            "pointsAgainst": 678,
+                            "pointsDifference": -149,
+                            "forfeits": 0,
+                            "percentage": 78.02,
+                            "competitionPoints": 4
+                        },
+                        {
+                            "team": {
+                                "id": "44543e8b",
+                                "name": "Henley Silver B",
+                                "organisation": {
+                                    "id": "e234a948",
+                                    "name": "Henley Sharks Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 0,
+                            "lost": 12,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 213,
+                            "pointsAgainst": 725,
+                            "pointsDifference": -512,
+                            "forfeits": 2,
+                            "percentage": 29.38,
+                            "competitionPoints": 0
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

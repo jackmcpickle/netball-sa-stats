@@ -1,0 +1,148 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "d9f54b8d",
+            "name": "C1",
+            "ladderType": "TOTAL_COMPETITION_POINTS",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "01748fd7",
+                                "name": "Adelaide Wildcats",
+                                "organisation": {
+                                    "id": "92fdb2ed",
+                                    "name": "Adelaide Wildcats",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 14,
+                            "lost": 0,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 716,
+                            "pointsAgainst": 336,
+                            "pointsDifference": 380,
+                            "forfeits": 0,
+                            "percentage": 213.1,
+                            "competitionPoints": 28
+                        },
+                        {
+                            "team": {
+                                "id": "06661df4",
+                                "name": "Walkerville 2",
+                                "organisation": {
+                                    "id": "a83c7a81",
+                                    "name": "Walkerville",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 10,
+                            "lost": 4,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 595,
+                            "pointsAgainst": 522,
+                            "pointsDifference": 73,
+                            "forfeits": 0,
+                            "percentage": 113.98,
+                            "competitionPoints": 20
+                        },
+                        {
+                            "team": {
+                                "id": "abf2c4db",
+                                "name": "Garville",
+                                "organisation": {
+                                    "id": "241b44c0",
+                                    "name": "Garville",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 5,
+                            "lost": 9,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 480,
+                            "pointsAgainst": 514,
+                            "pointsDifference": -34,
+                            "forfeits": 0,
+                            "percentage": 93.39,
+                            "competitionPoints": 10
+                        },
+                        {
+                            "team": {
+                                "id": "c6c18290",
+                                "name": "Old Ignatians",
+                                "organisation": {
+                                    "id": "0113cb3e",
+                                    "name": "Old Ignatians",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 5,
+                            "lost": 9,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 440,
+                            "pointsAgainst": 532,
+                            "pointsDifference": -92,
+                            "forfeits": 0,
+                            "percentage": 82.71,
+                            "competitionPoints": 10
+                        },
+                        {
+                            "team": {
+                                "id": "3977e676",
+                                "name": "SHOCS",
+                                "organisation": {
+                                    "id": "d45fe04a",
+                                    "name": "Sacred Heart O.C.",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 5,
+                            "lost": 9,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 530,
+                            "pointsAgainst": 642,
+                            "pointsDifference": -112,
+                            "forfeits": 0,
+                            "percentage": 82.55,
+                            "competitionPoints": 10
+                        },
+                        {
+                            "team": {
+                                "id": "b451594c",
+                                "name": "Walkerville 1",
+                                "organisation": {
+                                    "id": "a83c7a81",
+                                    "name": "Walkerville",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 3,
+                            "lost": 11,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 434,
+                            "pointsAgainst": 611,
+                            "pointsDifference": -177,
+                            "forfeits": 0,
+                            "percentage": 71.03,
+                            "competitionPoints": 6
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

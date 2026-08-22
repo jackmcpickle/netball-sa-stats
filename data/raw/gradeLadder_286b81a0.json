@@ -1,0 +1,148 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "286b81a0",
+            "name": "Primary 4",
+            "ladderType": "TOTAL_COMPETITION_POINTS",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "87a8ec12",
+                                "name": "Tiki 6",
+                                "organisation": {
+                                    "id": "62eaac91",
+                                    "name": "Tiki",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 9,
+                            "lost": 4,
+                            "drawn": 2,
+                            "byes": 0,
+                            "pointsFor": 101,
+                            "pointsAgainst": 33,
+                            "pointsDifference": 68,
+                            "forfeits": 0,
+                            "percentage": 306.06,
+                            "competitionPoints": 20
+                        },
+                        {
+                            "team": {
+                                "id": "93b865bb",
+                                "name": "FIREWORKS 21",
+                                "organisation": {
+                                    "id": "27ce429f",
+                                    "name": "Fireworks Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 8,
+                            "lost": 6,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 141,
+                            "pointsAgainst": 48,
+                            "pointsDifference": 93,
+                            "forfeits": 0,
+                            "percentage": 293.75,
+                            "competitionPoints": 17
+                        },
+                        {
+                            "team": {
+                                "id": "bf073a4d",
+                                "name": "Bombers 09",
+                                "organisation": {
+                                    "id": "fdc2c5fd",
+                                    "name": "Northern Bombers Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 8,
+                            "lost": 7,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 49,
+                            "pointsAgainst": 51,
+                            "pointsDifference": -2,
+                            "forfeits": 0,
+                            "percentage": 96.08,
+                            "competitionPoints": 16
+                        },
+                        {
+                            "team": {
+                                "id": "5de2d249",
+                                "name": "Lazers 15",
+                                "organisation": {
+                                    "id": "d2f381fb",
+                                    "name": "Lazers (SA)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 6,
+                            "lost": 8,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 91,
+                            "pointsAgainst": 50,
+                            "pointsDifference": 41,
+                            "forfeits": 0,
+                            "percentage": 182,
+                            "competitionPoints": 13
+                        },
+                        {
+                            "team": {
+                                "id": "3fec4cf0",
+                                "name": "Mystic Opals 11",
+                                "organisation": {
+                                    "id": "637de894",
+                                    "name": "Mystic Opals",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 5,
+                            "lost": 8,
+                            "drawn": 1,
+                            "byes": 1,
+                            "pointsFor": 51,
+                            "pointsAgainst": 122,
+                            "pointsDifference": -71,
+                            "forfeits": 0,
+                            "percentage": 41.8,
+                            "competitionPoints": 11
+                        },
+                        {
+                            "team": {
+                                "id": "901ecf8e",
+                                "name": "Warriors 4",
+                                "organisation": {
+                                    "id": "204e3fbe",
+                                    "name": "Warriors Netball Club (SA)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 2,
+                            "lost": 11,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 8,
+                            "pointsAgainst": 123,
+                            "pointsDifference": -115,
+                            "forfeits": 2,
+                            "percentage": 6.5,
+                            "competitionPoints": 4
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

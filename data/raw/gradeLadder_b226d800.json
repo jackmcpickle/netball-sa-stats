@@ -1,0 +1,192 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "b226d800",
+            "name": "15U/1",
+            "ladderType": "POINTS_AVERAGE",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "1cdc38fe",
+                                "name": "Morialta 15A",
+                                "organisation": {
+                                    "id": "46cdd3a1",
+                                    "name": "Morialta Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 12,
+                            "lost": 1,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 462,
+                            "pointsAgainst": 352,
+                            "pointsDifference": 110,
+                            "forfeits": 1,
+                            "percentage": 131.25,
+                            "competitionPoints": 24
+                        },
+                        {
+                            "team": {
+                                "id": "cc824a5c",
+                                "name": "St Josephs 15A",
+                                "organisation": {
+                                    "id": "8793c382",
+                                    "name": "St Joseph's (Somerton Park)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 11,
+                            "lost": 3,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 440,
+                            "pointsAgainst": 337,
+                            "pointsDifference": 103,
+                            "forfeits": 0,
+                            "percentage": 130.56,
+                            "competitionPoints": 22
+                        },
+                        {
+                            "team": {
+                                "id": "81575661",
+                                "name": "Glengowrie 15A",
+                                "organisation": {
+                                    "id": "8d82bd18",
+                                    "name": "Glengowrie",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 9,
+                            "lost": 5,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 487,
+                            "pointsAgainst": 485,
+                            "pointsDifference": 2,
+                            "forfeits": 0,
+                            "percentage": 100.41,
+                            "competitionPoints": 18
+                        },
+                        {
+                            "team": {
+                                "id": "890d124d",
+                                "name": "Henley Sharks 15A",
+                                "organisation": {
+                                    "id": "e234a948",
+                                    "name": "Henley Sharks Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 8,
+                            "lost": 5,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 400,
+                            "pointsAgainst": 417,
+                            "pointsDifference": -17,
+                            "forfeits": 1,
+                            "percentage": 95.92,
+                            "competitionPoints": 16
+                        },
+                        {
+                            "team": {
+                                "id": "ea83c313",
+                                "name": "Grange Aqua 15A",
+                                "organisation": {
+                                    "id": "473e0fc3",
+                                    "name": "Grange Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 6,
+                            "lost": 7,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 426,
+                            "pointsAgainst": 411,
+                            "pointsDifference": 15,
+                            "forfeits": 0,
+                            "percentage": 103.65,
+                            "competitionPoints": 13
+                        },
+                        {
+                            "team": {
+                                "id": "084b4b11",
+                                "name": "Flinders Park 15A",
+                                "organisation": {
+                                    "id": "7721739e",
+                                    "name": "Flinders Park",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 5,
+                            "lost": 8,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 445,
+                            "pointsAgainst": 461,
+                            "pointsDifference": -16,
+                            "forfeits": 0,
+                            "percentage": 96.53,
+                            "competitionPoints": 11
+                        },
+                        {
+                            "team": {
+                                "id": "b6bb869f",
+                                "name": "Cove Tigers Orange 15A",
+                                "organisation": {
+                                    "id": "ab06439f",
+                                    "name": "Cove Netball Club Inc",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 4,
+                            "lost": 10,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 415,
+                            "pointsAgainst": 461,
+                            "pointsDifference": -46,
+                            "forfeits": 0,
+                            "percentage": 90.02,
+                            "competitionPoints": 8
+                        },
+                        {
+                            "team": {
+                                "id": "ce1dd239",
+                                "name": "WP Cyclone 15A",
+                                "organisation": {
+                                    "id": "53002de5",
+                                    "name": "Westbourne Park Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 4,
+                            "lost": 10,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 397,
+                            "pointsAgainst": 548,
+                            "pointsDifference": -151,
+                            "forfeits": 0,
+                            "percentage": 72.45,
+                            "competitionPoints": 8
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

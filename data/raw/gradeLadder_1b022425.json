@@ -1,0 +1,148 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "1b022425",
+            "name": "13U/9",
+            "ladderType": "POINTS_AVERAGE",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "111d2251",
+                                "name": "Rosefield Magic 13C",
+                                "organisation": {
+                                    "id": "f7fe98c2",
+                                    "name": "Rosefield Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 14,
+                            "lost": 0,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 329,
+                            "pointsAgainst": 197,
+                            "pointsDifference": 132,
+                            "forfeits": 0,
+                            "percentage": 167.01,
+                            "competitionPoints": 28
+                        },
+                        {
+                            "team": {
+                                "id": "f2219459",
+                                "name": "WP Cosmic 13I",
+                                "organisation": {
+                                    "id": "53002de5",
+                                    "name": "Westbourne Park Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 9,
+                            "lost": 5,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 313,
+                            "pointsAgainst": 293,
+                            "pointsDifference": 20,
+                            "forfeits": 0,
+                            "percentage": 106.83,
+                            "competitionPoints": 18
+                        },
+                        {
+                            "team": {
+                                "id": "c54fedc3",
+                                "name": "St Monicas 13B",
+                                "organisation": {
+                                    "id": "9b1b9579",
+                                    "name": "St Monicas",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 7,
+                            "lost": 7,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 383,
+                            "pointsAgainst": 317,
+                            "pointsDifference": 66,
+                            "forfeits": 0,
+                            "percentage": 120.82,
+                            "competitionPoints": 14
+                        },
+                        {
+                            "team": {
+                                "id": "2fec7c3f",
+                                "name": "Glengowrie 13F",
+                                "organisation": {
+                                    "id": "8d82bd18",
+                                    "name": "Glengowrie",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 7,
+                            "lost": 8,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 305,
+                            "pointsAgainst": 294,
+                            "pointsDifference": 11,
+                            "forfeits": 0,
+                            "percentage": 103.74,
+                            "competitionPoints": 14
+                        },
+                        {
+                            "team": {
+                                "id": "424cfc98",
+                                "name": "Grange Silver 13E",
+                                "organisation": {
+                                    "id": "473e0fc3",
+                                    "name": "Grange Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 4,
+                            "lost": 10,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 185,
+                            "pointsAgainst": 333,
+                            "pointsDifference": -148,
+                            "forfeits": 0,
+                            "percentage": 55.56,
+                            "competitionPoints": 8
+                        },
+                        {
+                            "team": {
+                                "id": "accf9233",
+                                "name": "Glenunga Spirit 13C",
+                                "organisation": {
+                                    "id": "05a8f52f",
+                                    "name": "Glenunga",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 3,
+                            "lost": 12,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 288,
+                            "pointsAgainst": 369,
+                            "pointsDifference": -81,
+                            "forfeits": 0,
+                            "percentage": 78.05,
+                            "competitionPoints": 6
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

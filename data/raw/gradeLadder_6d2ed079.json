@@ -1,0 +1,148 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "6d2ed079",
+            "name": "13U/9",
+            "ladderType": "POINTS_AVERAGE",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "96056d8b",
+                                "name": "Rosefield Rapids 13D",
+                                "organisation": {
+                                    "id": "f7fe98c2",
+                                    "name": "Rosefield Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 10,
+                            "lost": 4,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 420,
+                            "pointsAgainst": 218,
+                            "pointsDifference": 202,
+                            "forfeits": 0,
+                            "percentage": 192.66,
+                            "competitionPoints": 20
+                        },
+                        {
+                            "team": {
+                                "id": "a3e69709",
+                                "name": "Sparkling Diamonds 13A",
+                                "organisation": {
+                                    "id": "290b1ee1",
+                                    "name": "Sparkling Diamonds",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 9,
+                            "lost": 4,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 328,
+                            "pointsAgainst": 217,
+                            "pointsDifference": 111,
+                            "forfeits": 0,
+                            "percentage": 151.15,
+                            "competitionPoints": 19
+                        },
+                        {
+                            "team": {
+                                "id": "fb817575",
+                                "name": "Hallett Cove 13C",
+                                "organisation": {
+                                    "id": "afa7dc80",
+                                    "name": "Hallett Cove Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 9,
+                            "lost": 5,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 341,
+                            "pointsAgainst": 269,
+                            "pointsDifference": 72,
+                            "forfeits": 0,
+                            "percentage": 126.77,
+                            "competitionPoints": 18
+                        },
+                        {
+                            "team": {
+                                "id": "60d3fc41",
+                                "name": "St Monicas 13C",
+                                "organisation": {
+                                    "id": "9b1b9579",
+                                    "name": "St Monicas",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 8,
+                            "lost": 6,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 333,
+                            "pointsAgainst": 229,
+                            "pointsDifference": 104,
+                            "forfeits": 0,
+                            "percentage": 145.41,
+                            "competitionPoints": 16
+                        },
+                        {
+                            "team": {
+                                "id": "c60a1300",
+                                "name": "WP Garnet 13G",
+                                "organisation": {
+                                    "id": "53002de5",
+                                    "name": "Westbourne Park Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 2,
+                            "lost": 11,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 215,
+                            "pointsAgainst": 285,
+                            "pointsDifference": -70,
+                            "forfeits": 0,
+                            "percentage": 75.44,
+                            "competitionPoints": 5
+                        },
+                        {
+                            "team": {
+                                "id": "647dbf7f",
+                                "name": "Wesley 13B",
+                                "organisation": {
+                                    "id": "5b275702",
+                                    "name": "Wesley Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 0,
+                            "lost": 15,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 52,
+                            "pointsAgainst": 471,
+                            "pointsDifference": -419,
+                            "forfeits": 0,
+                            "percentage": 11.04,
+                            "competitionPoints": 0
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

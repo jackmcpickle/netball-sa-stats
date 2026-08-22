@@ -1,0 +1,192 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "12442066",
+            "name": "M-League - Mens Division",
+            "ladderType": "TOTAL_COMPETITION_POINTS",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "1af2492b",
+                                "name": "The Outlaws",
+                                "organisation": {
+                                    "id": "7936878d",
+                                    "name": "South Australian Mens and Mixed Netball Association",
+                                    "type": "ASSOCIATION"
+                                }
+                            },
+                            "played": 14,
+                            "won": 12,
+                            "lost": 2,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 903,
+                            "pointsAgainst": 499,
+                            "pointsDifference": 404,
+                            "forfeits": 0,
+                            "percentage": 180.96,
+                            "competitionPoints": 24
+                        },
+                        {
+                            "team": {
+                                "id": "30a1c4a0",
+                                "name": "Garville",
+                                "organisation": {
+                                    "id": "241b44c0",
+                                    "name": "Garville",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 12,
+                            "lost": 2,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 846,
+                            "pointsAgainst": 488,
+                            "pointsDifference": 358,
+                            "forfeits": 0,
+                            "percentage": 173.36,
+                            "competitionPoints": 24
+                        },
+                        {
+                            "team": {
+                                "id": "23b5709d",
+                                "name": "South Adelaide",
+                                "organisation": {
+                                    "id": "2e63c9f2",
+                                    "name": "South Adelaide Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 11,
+                            "lost": 3,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 782,
+                            "pointsAgainst": 597,
+                            "pointsDifference": 185,
+                            "forfeits": 0,
+                            "percentage": 130.99,
+                            "competitionPoints": 22
+                        },
+                        {
+                            "team": {
+                                "id": "533f603d",
+                                "name": "Tango",
+                                "organisation": {
+                                    "id": "d4389d20",
+                                    "name": "Tango Netball Club Inc",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 8,
+                            "lost": 6,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 615,
+                            "pointsAgainst": 661,
+                            "pointsDifference": -46,
+                            "forfeits": 0,
+                            "percentage": 93.04,
+                            "competitionPoints": 16
+                        },
+                        {
+                            "team": {
+                                "id": "fc650d91",
+                                "name": "Contax",
+                                "organisation": {
+                                    "id": "a8ee2320",
+                                    "name": "Contax",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 7,
+                            "lost": 7,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 751,
+                            "pointsAgainst": 695,
+                            "pointsDifference": 56,
+                            "forfeits": 0,
+                            "percentage": 108.06,
+                            "competitionPoints": 14
+                        },
+                        {
+                            "team": {
+                                "id": "a6c371d7",
+                                "name": "Oakdale",
+                                "organisation": {
+                                    "id": "2f66832f",
+                                    "name": "Oakdale Netball Club (SA)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 4,
+                            "lost": 10,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 587,
+                            "pointsAgainst": 719,
+                            "pointsDifference": -132,
+                            "forfeits": 0,
+                            "percentage": 81.64,
+                            "competitionPoints": 8
+                        },
+                        {
+                            "team": {
+                                "id": "ca8bc0cc",
+                                "name": "RSA.Destroyers",
+                                "organisation": {
+                                    "id": "a69c53eb",
+                                    "name": "Ravens Sports Association Inc",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 2,
+                            "lost": 12,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 556,
+                            "pointsAgainst": 788,
+                            "pointsDifference": -232,
+                            "forfeits": 0,
+                            "percentage": 70.56,
+                            "competitionPoints": 4
+                        },
+                        {
+                            "team": {
+                                "id": "4474af21",
+                                "name": "RSA.Berserkers",
+                                "organisation": {
+                                    "id": "a69c53eb",
+                                    "name": "Ravens Sports Association Inc",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 0,
+                            "lost": 14,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 405,
+                            "pointsAgainst": 998,
+                            "pointsDifference": -593,
+                            "forfeits": 0,
+                            "percentage": 40.58,
+                            "competitionPoints": 0
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

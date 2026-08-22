@@ -1,0 +1,126 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "bdd88f7d",
+            "name": "D3",
+            "ladderType": "TOTAL_COMPETITION_POINTS",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "9806e9cb",
+                                "name": "Bombers 3",
+                                "organisation": {
+                                    "id": "fdc2c5fd",
+                                    "name": "Northern Bombers Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 10,
+                            "lost": 2,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 305,
+                            "pointsAgainst": 181,
+                            "pointsDifference": 124,
+                            "forfeits": 0,
+                            "percentage": 168.51,
+                            "competitionPoints": 20
+                        },
+                        {
+                            "team": {
+                                "id": "1e8c32e1",
+                                "name": "Smithfield Panthers 4",
+                                "organisation": {
+                                    "id": "87e68d0f",
+                                    "name": "Smithfield Panthers",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 7,
+                            "lost": 5,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 394,
+                            "pointsAgainst": 343,
+                            "pointsDifference": 51,
+                            "forfeits": 0,
+                            "percentage": 114.87,
+                            "competitionPoints": 14
+                        },
+                        {
+                            "team": {
+                                "id": "a197a21c",
+                                "name": "Angle Vale 07",
+                                "organisation": {
+                                    "id": "1267db67",
+                                    "name": "Angle Vale",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 6,
+                            "lost": 6,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 369,
+                            "pointsAgainst": 459,
+                            "pointsDifference": -90,
+                            "forfeits": 0,
+                            "percentage": 80.39,
+                            "competitionPoints": 12
+                        },
+                        {
+                            "team": {
+                                "id": "7d8fdf4c",
+                                "name": "Gazelles 06",
+                                "organisation": {
+                                    "id": "b2a76075",
+                                    "name": "Gazelles (SA)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 4,
+                            "lost": 9,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 315,
+                            "pointsAgainst": 495,
+                            "pointsDifference": -180,
+                            "forfeits": 0,
+                            "percentage": 63.64,
+                            "competitionPoints": 8
+                        },
+                        {
+                            "team": {
+                                "id": "f1dc3134",
+                                "name": "Smithfield Panthers 3",
+                                "organisation": {
+                                    "id": "87e68d0f",
+                                    "name": "Smithfield Panthers",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 1,
+                            "lost": 11,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 204,
+                            "pointsAgainst": 388,
+                            "pointsDifference": -184,
+                            "forfeits": 0,
+                            "percentage": 52.58,
+                            "competitionPoints": 2
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

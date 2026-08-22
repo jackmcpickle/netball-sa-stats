@@ -1,0 +1,170 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "edd2014a",
+            "name": "13U/8",
+            "ladderType": "POINTS_AVERAGE",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "b86b64f9",
+                                "name": "Burnside City Green 13C",
+                                "organisation": {
+                                    "id": "96f9975a",
+                                    "name": "Burnside City Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 12,
+                            "lost": 1,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 339,
+                            "pointsAgainst": 203,
+                            "pointsDifference": 136,
+                            "forfeits": 0,
+                            "percentage": 167,
+                            "competitionPoints": 24
+                        },
+                        {
+                            "team": {
+                                "id": "91b5a81a",
+                                "name": "WP Jupiter 13H",
+                                "organisation": {
+                                    "id": "53002de5",
+                                    "name": "Westbourne Park Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 11,
+                            "lost": 1,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 244,
+                            "pointsAgainst": 178,
+                            "pointsDifference": 66,
+                            "forfeits": 0,
+                            "percentage": 137.08,
+                            "competitionPoints": 22
+                        },
+                        {
+                            "team": {
+                                "id": "9f6215c7",
+                                "name": "SMAA 13D",
+                                "organisation": {
+                                    "id": "72bc9771",
+                                    "name": "St Michael & All Angels",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 8,
+                            "lost": 3,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 228,
+                            "pointsAgainst": 172,
+                            "pointsDifference": 56,
+                            "forfeits": 1,
+                            "percentage": 132.56,
+                            "competitionPoints": 16
+                        },
+                        {
+                            "team": {
+                                "id": "7e276051",
+                                "name": "Flinders Park 13D",
+                                "organisation": {
+                                    "id": "7721739e",
+                                    "name": "Flinders Park",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 8,
+                            "lost": 6,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 300,
+                            "pointsAgainst": 259,
+                            "pointsDifference": 41,
+                            "forfeits": 0,
+                            "percentage": 115.83,
+                            "competitionPoints": 16
+                        },
+                        {
+                            "team": {
+                                "id": "2cd5db69",
+                                "name": "Hectorville Hurricanes 13F",
+                                "organisation": {
+                                    "id": "a836b73f",
+                                    "name": "Hectorville Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 5,
+                            "lost": 8,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 247,
+                            "pointsAgainst": 212,
+                            "pointsDifference": 35,
+                            "forfeits": 0,
+                            "percentage": 116.51,
+                            "competitionPoints": 10
+                        },
+                        {
+                            "team": {
+                                "id": "2e581c2d",
+                                "name": "WP Saturn 13G",
+                                "organisation": {
+                                    "id": "53002de5",
+                                    "name": "Westbourne Park Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 2,
+                            "lost": 11,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 162,
+                            "pointsAgainst": 272,
+                            "pointsDifference": -110,
+                            "forfeits": 0,
+                            "percentage": 59.56,
+                            "competitionPoints": 4
+                        },
+                        {
+                            "team": {
+                                "id": "09286655",
+                                "name": "Wesley 13B",
+                                "organisation": {
+                                    "id": "5b275702",
+                                    "name": "Wesley Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 1,
+                            "lost": 11,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 118,
+                            "pointsAgainst": 342,
+                            "pointsDifference": -224,
+                            "forfeits": 1,
+                            "percentage": 34.5,
+                            "competitionPoints": 2
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

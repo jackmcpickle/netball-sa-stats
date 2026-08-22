@@ -1,0 +1,170 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "ee9484d1",
+            "name": "Junior 4",
+            "ladderType": "TOTAL_COMPETITION_POINTS",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "3b48cf67",
+                                "name": "Mystic Opals 07",
+                                "organisation": {
+                                    "id": "637de894",
+                                    "name": "Mystic Opals",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 9,
+                            "lost": 3,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 330,
+                            "pointsAgainst": 244,
+                            "pointsDifference": 86,
+                            "forfeits": 0,
+                            "percentage": 135.25,
+                            "competitionPoints": 18
+                        },
+                        {
+                            "team": {
+                                "id": "2c333b8b",
+                                "name": "Angle Vale 12",
+                                "organisation": {
+                                    "id": "1267db67",
+                                    "name": "Angle Vale",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 8,
+                            "lost": 4,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 289,
+                            "pointsAgainst": 202,
+                            "pointsDifference": 87,
+                            "forfeits": 0,
+                            "percentage": 143.07,
+                            "competitionPoints": 16
+                        },
+                        {
+                            "team": {
+                                "id": "b3e4b6f7",
+                                "name": "Harlequin 5",
+                                "organisation": {
+                                    "id": "6df86dac",
+                                    "name": "Harlequin Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 5,
+                            "lost": 7,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 192,
+                            "pointsAgainst": 142,
+                            "pointsDifference": 50,
+                            "forfeits": 0,
+                            "percentage": 135.21,
+                            "competitionPoints": 10
+                        },
+                        {
+                            "team": {
+                                "id": "6beed186",
+                                "name": "Fireworks 14",
+                                "organisation": {
+                                    "id": "27ce429f",
+                                    "name": "Fireworks Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 11,
+                            "won": 4,
+                            "lost": 6,
+                            "drawn": 1,
+                            "byes": 2,
+                            "pointsFor": 270,
+                            "pointsAgainst": 301,
+                            "pointsDifference": -31,
+                            "forfeits": 0,
+                            "percentage": 89.7,
+                            "competitionPoints": 9
+                        },
+                        {
+                            "team": {
+                                "id": "faba52b7",
+                                "name": "Warriors 4",
+                                "organisation": {
+                                    "id": "204e3fbe",
+                                    "name": "Warriors Netball Club (SA)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 11,
+                            "won": 3,
+                            "lost": 8,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 259,
+                            "pointsAgainst": 314,
+                            "pointsDifference": -55,
+                            "forfeits": 0,
+                            "percentage": 82.48,
+                            "competitionPoints": 6
+                        },
+                        {
+                            "team": {
+                                "id": "7d4fac22",
+                                "name": "Gazelles 09",
+                                "organisation": {
+                                    "id": "b2a76075",
+                                    "name": "Gazelles (SA)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 11,
+                            "won": 2,
+                            "lost": 8,
+                            "drawn": 1,
+                            "byes": 2,
+                            "pointsFor": 163,
+                            "pointsAgainst": 236,
+                            "pointsDifference": -73,
+                            "forfeits": 0,
+                            "percentage": 69.07,
+                            "competitionPoints": 5
+                        },
+                        {
+                            "team": {
+                                "id": "c6cec191",
+                                "name": "Lazers 10",
+                                "organisation": {
+                                    "id": "d2f381fb",
+                                    "name": "Lazers (SA)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 11,
+                            "won": 2,
+                            "lost": 9,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 171,
+                            "pointsAgainst": 399,
+                            "pointsDifference": -228,
+                            "forfeits": 0,
+                            "percentage": 42.86,
+                            "competitionPoints": 4
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

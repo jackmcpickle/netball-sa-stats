@@ -1,0 +1,192 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "d293e079",
+            "name": "B2",
+            "ladderType": "POINTS_AVERAGE",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "9bb5624f",
+                                "name": "Flinders Park Blue C",
+                                "organisation": {
+                                    "id": "7721739e",
+                                    "name": "Flinders Park",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 13,
+                            "lost": 0,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 401,
+                            "pointsAgainst": 316,
+                            "pointsDifference": 85,
+                            "forfeits": 0,
+                            "percentage": 126.9,
+                            "competitionPoints": 27
+                        },
+                        {
+                            "team": {
+                                "id": "5499f127",
+                                "name": "WP Green H",
+                                "organisation": {
+                                    "id": "53002de5",
+                                    "name": "Westbourne Park Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 10,
+                            "lost": 3,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 390,
+                            "pointsAgainst": 273,
+                            "pointsDifference": 117,
+                            "forfeits": 0,
+                            "percentage": 142.86,
+                            "competitionPoints": 21
+                        },
+                        {
+                            "team": {
+                                "id": "9fcde072",
+                                "name": "Flinders Park Red D",
+                                "organisation": {
+                                    "id": "7721739e",
+                                    "name": "Flinders Park",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 8,
+                            "lost": 6,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 399,
+                            "pointsAgainst": 435,
+                            "pointsDifference": -36,
+                            "forfeits": 0,
+                            "percentage": 91.72,
+                            "competitionPoints": 16
+                        },
+                        {
+                            "team": {
+                                "id": "614d2bfc",
+                                "name": "Hallett Cove A",
+                                "organisation": {
+                                    "id": "afa7dc80",
+                                    "name": "Hallett Cove Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 7,
+                            "lost": 7,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 434,
+                            "pointsAgainst": 425,
+                            "pointsDifference": 9,
+                            "forfeits": 0,
+                            "percentage": 102.12,
+                            "competitionPoints": 14
+                        },
+                        {
+                            "team": {
+                                "id": "fced3340",
+                                "name": "Old Ignatians B",
+                                "organisation": {
+                                    "id": "0113cb3e",
+                                    "name": "Old Ignatians",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 5,
+                            "lost": 7,
+                            "drawn": 2,
+                            "byes": 0,
+                            "pointsFor": 408,
+                            "pointsAgainst": 421,
+                            "pointsDifference": -13,
+                            "forfeits": 0,
+                            "percentage": 96.91,
+                            "competitionPoints": 12
+                        },
+                        {
+                            "team": {
+                                "id": "10e73d94",
+                                "name": "WP Indigo I",
+                                "organisation": {
+                                    "id": "53002de5",
+                                    "name": "Westbourne Park Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 5,
+                            "lost": 8,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 435,
+                            "pointsAgainst": 407,
+                            "pointsDifference": 28,
+                            "forfeits": 0,
+                            "percentage": 106.88,
+                            "competitionPoints": 11
+                        },
+                        {
+                            "team": {
+                                "id": "a81f405d",
+                                "name": "Adelaide Uni E",
+                                "organisation": {
+                                    "id": "d5bdb649",
+                                    "name": "Adelaide University",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 5,
+                            "lost": 7,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 309,
+                            "pointsAgainst": 410,
+                            "pointsDifference": -101,
+                            "forfeits": 1,
+                            "percentage": 75.37,
+                            "competitionPoints": 11
+                        },
+                        {
+                            "team": {
+                                "id": "8af61c1a",
+                                "name": "Walkerville A",
+                                "organisation": {
+                                    "id": "a83c7a81",
+                                    "name": "Walkerville",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 3,
+                            "lost": 9,
+                            "drawn": 2,
+                            "byes": 0,
+                            "pointsFor": 291,
+                            "pointsAgainst": 380,
+                            "pointsDifference": -89,
+                            "forfeits": 0,
+                            "percentage": 76.58,
+                            "competitionPoints": 8
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

@@ -1,0 +1,148 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "0c91e425",
+            "name": "M-League Men's Division 1",
+            "ladderType": "TOTAL_COMPETITION_POINTS",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "1065c807",
+                                "name": "Garville Red",
+                                "organisation": {
+                                    "id": "241b44c0",
+                                    "name": "Garville",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 10,
+                            "won": 10,
+                            "lost": 0,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 736,
+                            "pointsAgainst": 406,
+                            "pointsDifference": 330,
+                            "forfeits": 0,
+                            "percentage": 181.28,
+                            "competitionPoints": 20
+                        },
+                        {
+                            "team": {
+                                "id": "7c9ac1e8",
+                                "name": "South Adelaide Open Men's Blue",
+                                "organisation": {
+                                    "id": "2e63c9f2",
+                                    "name": "South Adelaide Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 10,
+                            "won": 7,
+                            "lost": 3,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 635,
+                            "pointsAgainst": 385,
+                            "pointsDifference": 250,
+                            "forfeits": 0,
+                            "percentage": 164.94,
+                            "competitionPoints": 14
+                        },
+                        {
+                            "team": {
+                                "id": "d8b8c1d9",
+                                "name": "Contax Blue",
+                                "organisation": {
+                                    "id": "a8ee2320",
+                                    "name": "Contax",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 10,
+                            "won": 7,
+                            "lost": 3,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 632,
+                            "pointsAgainst": 467,
+                            "pointsDifference": 165,
+                            "forfeits": 0,
+                            "percentage": 135.33,
+                            "competitionPoints": 14
+                        },
+                        {
+                            "team": {
+                                "id": "97dd190a",
+                                "name": "South Adelaide Open Men's White",
+                                "organisation": {
+                                    "id": "2e63c9f2",
+                                    "name": "South Adelaide Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 10,
+                            "won": 5,
+                            "lost": 5,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 505,
+                            "pointsAgainst": 502,
+                            "pointsDifference": 3,
+                            "forfeits": 0,
+                            "percentage": 100.6,
+                            "competitionPoints": 10
+                        },
+                        {
+                            "team": {
+                                "id": "631da4bb",
+                                "name": "Oakdale",
+                                "organisation": {
+                                    "id": "2f66832f",
+                                    "name": "Oakdale Netball Club (SA)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 10,
+                            "won": 3,
+                            "lost": 7,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 350,
+                            "pointsAgainst": 528,
+                            "pointsDifference": -178,
+                            "forfeits": 0,
+                            "percentage": 66.29,
+                            "competitionPoints": 6
+                        },
+                        {
+                            "team": {
+                                "id": "c2f87bce",
+                                "name": "Tango",
+                                "organisation": {
+                                    "id": "d4389d20",
+                                    "name": "Tango Netball Club Inc",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 10,
+                            "won": 1,
+                            "lost": 8,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 306,
+                            "pointsAgainst": 649,
+                            "pointsDifference": -343,
+                            "forfeits": 1,
+                            "percentage": 47.15,
+                            "competitionPoints": 2
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

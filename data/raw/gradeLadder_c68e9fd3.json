@@ -1,0 +1,192 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "c68e9fd3",
+            "name": "B3",
+            "ladderType": "TOTAL_COMPETITION_POINTS",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "bcd93fe1",
+                                "name": "Metro Jets",
+                                "organisation": {
+                                    "id": "601b914e",
+                                    "name": "Metro Jets",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 11,
+                            "lost": 2,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 637,
+                            "pointsAgainst": 510,
+                            "pointsDifference": 127,
+                            "forfeits": 0,
+                            "percentage": 124.9,
+                            "competitionPoints": 22
+                        },
+                        {
+                            "team": {
+                                "id": "db1db384",
+                                "name": "Matrics",
+                                "organisation": {
+                                    "id": "0969cc64",
+                                    "name": "Matrics",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 8,
+                            "lost": 4,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 621,
+                            "pointsAgainst": 564,
+                            "pointsDifference": 57,
+                            "forfeits": 0,
+                            "percentage": 110.11,
+                            "competitionPoints": 17
+                        },
+                        {
+                            "team": {
+                                "id": "9a55d3ac",
+                                "name": "Oakdale",
+                                "organisation": {
+                                    "id": "2f66832f",
+                                    "name": "Oakdale Netball Club (SA)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 8,
+                            "lost": 5,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 635,
+                            "pointsAgainst": 594,
+                            "pointsDifference": 41,
+                            "forfeits": 0,
+                            "percentage": 106.9,
+                            "competitionPoints": 16
+                        },
+                        {
+                            "team": {
+                                "id": "4e93b78d",
+                                "name": "South Adelaide",
+                                "organisation": {
+                                    "id": "2e63c9f2",
+                                    "name": "South Adelaide Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 6,
+                            "lost": 6,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 585,
+                            "pointsAgainst": 585,
+                            "pointsDifference": 0,
+                            "forfeits": 0,
+                            "percentage": 100,
+                            "competitionPoints": 13
+                        },
+                        {
+                            "team": {
+                                "id": "18d26f31",
+                                "name": "SHOCS",
+                                "organisation": {
+                                    "id": "d45fe04a",
+                                    "name": "Sacred Heart O.C.",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 6,
+                            "lost": 7,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 610,
+                            "pointsAgainst": 567,
+                            "pointsDifference": 43,
+                            "forfeits": 0,
+                            "percentage": 107.58,
+                            "competitionPoints": 12
+                        },
+                        {
+                            "team": {
+                                "id": "c8a38a2b",
+                                "name": "Walkerville 2",
+                                "organisation": {
+                                    "id": "a83c7a81",
+                                    "name": "Walkerville",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 5,
+                            "lost": 8,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 578,
+                            "pointsAgainst": 624,
+                            "pointsDifference": -46,
+                            "forfeits": 0,
+                            "percentage": 92.63,
+                            "competitionPoints": 10
+                        },
+                        {
+                            "team": {
+                                "id": "25beb71f",
+                                "name": "Walkerville 1",
+                                "organisation": {
+                                    "id": "a83c7a81",
+                                    "name": "Walkerville",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 2,
+                            "lost": 11,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 506,
+                            "pointsAgainst": 669,
+                            "pointsDifference": -163,
+                            "forfeits": 0,
+                            "percentage": 75.64,
+                            "competitionPoints": 4
+                        },
+                        {
+                            "team": {
+                                "id": "a2e7962f",
+                                "name": "Cheerio",
+                                "organisation": {
+                                    "id": "4d3928a7",
+                                    "name": "Cheerio Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 1,
+                            "lost": 12,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 422,
+                            "pointsAgainst": 649,
+                            "pointsDifference": -227,
+                            "forfeits": 0,
+                            "percentage": 65.02,
+                            "competitionPoints": 2
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

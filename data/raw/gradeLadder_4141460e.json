@@ -1,0 +1,192 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "4141460e",
+            "name": "15U/2",
+            "ladderType": "POINTS_AVERAGE",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "0df0512e",
+                                "name": "Hallett Cove 15A",
+                                "organisation": {
+                                    "id": "afa7dc80",
+                                    "name": "Hallett Cove Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 10,
+                            "lost": 3,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 386,
+                            "pointsAgainst": 315,
+                            "pointsDifference": 71,
+                            "forfeits": 0,
+                            "percentage": 122.54,
+                            "competitionPoints": 21
+                        },
+                        {
+                            "team": {
+                                "id": "03a746e3",
+                                "name": "Morialta 15B",
+                                "organisation": {
+                                    "id": "46cdd3a1",
+                                    "name": "Morialta Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 10,
+                            "lost": 4,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 550,
+                            "pointsAgainst": 355,
+                            "pointsDifference": 195,
+                            "forfeits": 0,
+                            "percentage": 154.93,
+                            "competitionPoints": 20
+                        },
+                        {
+                            "team": {
+                                "id": "a93e947d",
+                                "name": "WP Storm 15B",
+                                "organisation": {
+                                    "id": "53002de5",
+                                    "name": "Westbourne Park Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 9,
+                            "lost": 5,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 494,
+                            "pointsAgainst": 361,
+                            "pointsDifference": 133,
+                            "forfeits": 0,
+                            "percentage": 136.84,
+                            "competitionPoints": 18
+                        },
+                        {
+                            "team": {
+                                "id": "630a093d",
+                                "name": "PHOS 15A",
+                                "organisation": {
+                                    "id": "361e148c",
+                                    "name": "PHOS Camden",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 9,
+                            "lost": 5,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 410,
+                            "pointsAgainst": 346,
+                            "pointsDifference": 64,
+                            "forfeits": 0,
+                            "percentage": 118.5,
+                            "competitionPoints": 18
+                        },
+                        {
+                            "team": {
+                                "id": "3f318209",
+                                "name": "Grange White 15B",
+                                "organisation": {
+                                    "id": "473e0fc3",
+                                    "name": "Grange Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 7,
+                            "lost": 6,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 356,
+                            "pointsAgainst": 376,
+                            "pointsDifference": -20,
+                            "forfeits": 0,
+                            "percentage": 94.68,
+                            "competitionPoints": 15
+                        },
+                        {
+                            "team": {
+                                "id": "83668151",
+                                "name": "St Johns Luth Castledine 15B",
+                                "organisation": {
+                                    "id": "f5111a09",
+                                    "name": "St Johns Lutheran Unley",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 4,
+                            "lost": 10,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 375,
+                            "pointsAgainst": 435,
+                            "pointsDifference": -60,
+                            "forfeits": 0,
+                            "percentage": 86.21,
+                            "competitionPoints": 8
+                        },
+                        {
+                            "team": {
+                                "id": "84204bb0",
+                                "name": "St Johns Hemmerling 15A",
+                                "organisation": {
+                                    "id": "f5111a09",
+                                    "name": "St Johns Lutheran Unley",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 1,
+                            "lost": 12,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 315,
+                            "pointsAgainst": 444,
+                            "pointsDifference": -129,
+                            "forfeits": 1,
+                            "percentage": 70.95,
+                            "competitionPoints": 2
+                        },
+                        {
+                            "team": {
+                                "id": "c4d815c2",
+                                "name": "St Josephs 15B",
+                                "organisation": {
+                                    "id": "8793c382",
+                                    "name": "St Joseph's (Somerton Park)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 1,
+                            "lost": 13,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 291,
+                            "pointsAgainst": 545,
+                            "pointsDifference": -254,
+                            "forfeits": 0,
+                            "percentage": 53.39,
+                            "competitionPoints": 2
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

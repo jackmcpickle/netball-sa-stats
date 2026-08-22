@@ -1,0 +1,170 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "c125201c",
+            "name": "A1",
+            "ladderType": "POINTS_AVERAGE",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "1a84a733",
+                                "name": "SMAA A",
+                                "organisation": {
+                                    "id": "72bc9771",
+                                    "name": "St Michael & All Angels",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 11,
+                            "lost": 1,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 798,
+                            "pointsAgainst": 520,
+                            "pointsDifference": 278,
+                            "forfeits": 0,
+                            "percentage": 153.46,
+                            "competitionPoints": 22
+                        },
+                        {
+                            "team": {
+                                "id": "383dc612",
+                                "name": "WP Queen A",
+                                "organisation": {
+                                    "id": "53002de5",
+                                    "name": "Westbourne Park Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 10,
+                            "lost": 2,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 706,
+                            "pointsAgainst": 525,
+                            "pointsDifference": 181,
+                            "forfeits": 0,
+                            "percentage": 134.48,
+                            "competitionPoints": 20
+                        },
+                        {
+                            "team": {
+                                "id": "a487e2f6",
+                                "name": "Adelaide Luth Blue A",
+                                "organisation": {
+                                    "id": "66a7fd12",
+                                    "name": "Adelaide Lutheran",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 7,
+                            "lost": 5,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 593,
+                            "pointsAgainst": 519,
+                            "pointsDifference": 74,
+                            "forfeits": 0,
+                            "percentage": 114.26,
+                            "competitionPoints": 14
+                        },
+                        {
+                            "team": {
+                                "id": "c95bf59e",
+                                "name": "Grange Galahs A",
+                                "organisation": {
+                                    "id": "473e0fc3",
+                                    "name": "Grange Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 6,
+                            "lost": 5,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 564,
+                            "pointsAgainst": 530,
+                            "pointsDifference": 34,
+                            "forfeits": 1,
+                            "percentage": 106.42,
+                            "competitionPoints": 12
+                        },
+                        {
+                            "team": {
+                                "id": "38f34823",
+                                "name": "Flinders Park A",
+                                "organisation": {
+                                    "id": "7721739e",
+                                    "name": "Flinders Park",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 4,
+                            "lost": 8,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 574,
+                            "pointsAgainst": 606,
+                            "pointsDifference": -32,
+                            "forfeits": 0,
+                            "percentage": 94.72,
+                            "competitionPoints": 8
+                        },
+                        {
+                            "team": {
+                                "id": "5287f8e7",
+                                "name": "Grange B",
+                                "organisation": {
+                                    "id": "473e0fc3",
+                                    "name": "Grange Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 2,
+                            "lost": 10,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 467,
+                            "pointsAgainst": 676,
+                            "pointsDifference": -209,
+                            "forfeits": 0,
+                            "percentage": 69.08,
+                            "competitionPoints": 4
+                        },
+                        {
+                            "team": {
+                                "id": "12df1fd7",
+                                "name": "WP Gold B",
+                                "organisation": {
+                                    "id": "53002de5",
+                                    "name": "Westbourne Park Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 2,
+                            "lost": 10,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 487,
+                            "pointsAgainst": 813,
+                            "pointsDifference": -326,
+                            "forfeits": 0,
+                            "percentage": 59.9,
+                            "competitionPoints": 4
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

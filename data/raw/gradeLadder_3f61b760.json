@@ -1,0 +1,148 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "3f61b760",
+            "name": "11&U Div 2",
+            "ladderType": "TOTAL_COMPETITION_POINTS",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "97bb5d27",
+                                "name": "Reynella White",
+                                "organisation": {
+                                    "id": "485b7b56",
+                                    "name": "Reynella Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 10,
+                            "won": 9,
+                            "lost": 1,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 219,
+                            "pointsAgainst": 74,
+                            "pointsDifference": 145,
+                            "forfeits": 0,
+                            "percentage": 295.95,
+                            "competitionPoints": 18
+                        },
+                        {
+                            "team": {
+                                "id": "53ad20c6",
+                                "name": "Southern Stars 11s Red",
+                                "organisation": {
+                                    "id": "d7cbd109",
+                                    "name": "Southern Stars Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 10,
+                            "won": 9,
+                            "lost": 1,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 214,
+                            "pointsAgainst": 95,
+                            "pointsDifference": 119,
+                            "forfeits": 0,
+                            "percentage": 225.26,
+                            "competitionPoints": 18
+                        },
+                        {
+                            "team": {
+                                "id": "7cdce857",
+                                "name": "Falcons U11 Blue",
+                                "organisation": {
+                                    "id": "4f6dfa31",
+                                    "name": "Flagstaff Hill Falcons Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 10,
+                            "won": 5,
+                            "lost": 5,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 134,
+                            "pointsAgainst": 186,
+                            "pointsDifference": -52,
+                            "forfeits": 0,
+                            "percentage": 72.04,
+                            "competitionPoints": 10
+                        },
+                        {
+                            "team": {
+                                "id": "84ee6bc5",
+                                "name": "Reynella Grey",
+                                "organisation": {
+                                    "id": "485b7b56",
+                                    "name": "Reynella Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 10,
+                            "won": 4,
+                            "lost": 6,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 121,
+                            "pointsAgainst": 157,
+                            "pointsDifference": -36,
+                            "forfeits": 0,
+                            "percentage": 77.07,
+                            "competitionPoints": 8
+                        },
+                        {
+                            "team": {
+                                "id": "048580bd",
+                                "name": "Southern Stars 11s White",
+                                "organisation": {
+                                    "id": "d7cbd109",
+                                    "name": "Southern Stars Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 10,
+                            "won": 3,
+                            "lost": 7,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 111,
+                            "pointsAgainst": 185,
+                            "pointsDifference": -74,
+                            "forfeits": 0,
+                            "percentage": 60,
+                            "competitionPoints": 6
+                        },
+                        {
+                            "team": {
+                                "id": "f93199a6",
+                                "name": "Valley Vikings Eira",
+                                "organisation": {
+                                    "id": "165f1feb",
+                                    "name": "Valley Vikings",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 10,
+                            "won": 0,
+                            "lost": 10,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 74,
+                            "pointsAgainst": 176,
+                            "pointsDifference": -102,
+                            "forfeits": 0,
+                            "percentage": 42.05,
+                            "competitionPoints": 0
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

@@ -1,0 +1,55 @@
+{
+    "data": {
+        "discoverSeason": {
+            "id": "46934b6b",
+            "name": "Winter 2025",
+            "competition": {
+                "id": "dffbc9e3",
+                "name": "M League",
+                "type": "DOMESTIC",
+                "organisation": {
+                    "id": "7936878d",
+                    "name": "South Australian Mens and Mixed Netball Association"
+                }
+            },
+            "status": {
+                "name": "Completed",
+                "value": "COMPLETED"
+            },
+            "grades": [
+                {
+                    "id": "18e410d0",
+                    "name": "M-League - Junior Division",
+                    "day": {
+                        "name": "Monday",
+                        "value": "MONDAY"
+                    },
+                    "gender": {
+                        "name": "Boys",
+                        "value": "BOYS"
+                    },
+                    "age": {
+                        "name": "Junior",
+                        "value": "JUNIOR"
+                    }
+                },
+                {
+                    "id": "12442066",
+                    "name": "M-League - Mens Division",
+                    "day": {
+                        "name": "Monday",
+                        "value": "MONDAY"
+                    },
+                    "gender": {
+                        "name": "Men",
+                        "value": "MENS"
+                    },
+                    "age": {
+                        "name": "Open",
+                        "value": "OPEN"
+                    }
+                }
+            ]
+        }
+    }
+}

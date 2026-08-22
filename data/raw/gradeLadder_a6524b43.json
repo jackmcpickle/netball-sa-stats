@@ -1,0 +1,192 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "a6524b43",
+            "name": "B4",
+            "ladderType": "POINTS_AVERAGE",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "751cdbcc",
+                                "name": "WP Pink J",
+                                "organisation": {
+                                    "id": "53002de5",
+                                    "name": "Westbourne Park Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 11,
+                            "lost": 2,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 433,
+                            "pointsAgainst": 423,
+                            "pointsDifference": 10,
+                            "forfeits": 1,
+                            "percentage": 102.36,
+                            "competitionPoints": 22
+                        },
+                        {
+                            "team": {
+                                "id": "bebb7b98",
+                                "name": "Adelaide Luth Merlot I",
+                                "organisation": {
+                                    "id": "66a7fd12",
+                                    "name": "Adelaide Lutheran",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 10,
+                            "lost": 4,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 456,
+                            "pointsAgainst": 355,
+                            "pointsDifference": 101,
+                            "forfeits": 0,
+                            "percentage": 128.45,
+                            "competitionPoints": 20
+                        },
+                        {
+                            "team": {
+                                "id": "3f4a414b",
+                                "name": "Adelaide Uni E",
+                                "organisation": {
+                                    "id": "d5bdb649",
+                                    "name": "Adelaide University",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 7,
+                            "lost": 7,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 414,
+                            "pointsAgainst": 330,
+                            "pointsDifference": 84,
+                            "forfeits": 0,
+                            "percentage": 125.45,
+                            "competitionPoints": 14
+                        },
+                        {
+                            "team": {
+                                "id": "4c0e937a",
+                                "name": "SMAA D",
+                                "organisation": {
+                                    "id": "72bc9771",
+                                    "name": "St Michael & All Angels",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 7,
+                            "lost": 7,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 467,
+                            "pointsAgainst": 422,
+                            "pointsDifference": 45,
+                            "forfeits": 0,
+                            "percentage": 110.66,
+                            "competitionPoints": 14
+                        },
+                        {
+                            "team": {
+                                "id": "a4528c7d",
+                                "name": "Walkerville B",
+                                "organisation": {
+                                    "id": "a83c7a81",
+                                    "name": "Walkerville",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 6,
+                            "lost": 8,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 347,
+                            "pointsAgainst": 339,
+                            "pointsDifference": 8,
+                            "forfeits": 0,
+                            "percentage": 102.36,
+                            "competitionPoints": 12
+                        },
+                        {
+                            "team": {
+                                "id": "60d831b1",
+                                "name": "CLG Gold A",
+                                "organisation": {
+                                    "id": "5d401652",
+                                    "name": "Colonel Light Gardens",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 5,
+                            "lost": 8,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 386,
+                            "pointsAgainst": 428,
+                            "pointsDifference": -42,
+                            "forfeits": 1,
+                            "percentage": 90.19,
+                            "competitionPoints": 10
+                        },
+                        {
+                            "team": {
+                                "id": "e8502e1e",
+                                "name": "Glengowrie B",
+                                "organisation": {
+                                    "id": "8d82bd18",
+                                    "name": "Glengowrie",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 4,
+                            "lost": 10,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 310,
+                            "pointsAgainst": 455,
+                            "pointsDifference": -145,
+                            "forfeits": 0,
+                            "percentage": 68.13,
+                            "competitionPoints": 8
+                        },
+                        {
+                            "team": {
+                                "id": "156c8e54",
+                                "name": "PHOS C",
+                                "organisation": {
+                                    "id": "361e148c",
+                                    "name": "PHOS Camden",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 3,
+                            "lost": 11,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 400,
+                            "pointsAgainst": 461,
+                            "pointsDifference": -61,
+                            "forfeits": 0,
+                            "percentage": 86.77,
+                            "competitionPoints": 6
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

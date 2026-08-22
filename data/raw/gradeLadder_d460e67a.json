@@ -1,0 +1,170 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "d460e67a",
+            "name": "A1",
+            "ladderType": "POINTS_AVERAGE",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "8dcb5a7a",
+                                "name": "Grange Galahs A",
+                                "organisation": {
+                                    "id": "473e0fc3",
+                                    "name": "Grange Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 11,
+                            "lost": 2,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 398,
+                            "pointsAgainst": 258,
+                            "pointsDifference": 140,
+                            "forfeits": 0,
+                            "percentage": 154.26,
+                            "competitionPoints": 22
+                        },
+                        {
+                            "team": {
+                                "id": "5e3479ee",
+                                "name": "SMAA A",
+                                "organisation": {
+                                    "id": "72bc9771",
+                                    "name": "St Michael & All Angels",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 10,
+                            "lost": 2,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 517,
+                            "pointsAgainst": 316,
+                            "pointsDifference": 201,
+                            "forfeits": 0,
+                            "percentage": 163.61,
+                            "competitionPoints": 20
+                        },
+                        {
+                            "team": {
+                                "id": "789b447c",
+                                "name": "WP Queen A",
+                                "organisation": {
+                                    "id": "53002de5",
+                                    "name": "Westbourne Park Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 9,
+                            "lost": 3,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 405,
+                            "pointsAgainst": 318,
+                            "pointsDifference": 87,
+                            "forfeits": 0,
+                            "percentage": 127.36,
+                            "competitionPoints": 18
+                        },
+                        {
+                            "team": {
+                                "id": "27b7c6f0",
+                                "name": "Adelaide Luth Blue A",
+                                "organisation": {
+                                    "id": "66a7fd12",
+                                    "name": "Adelaide Lutheran",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 6,
+                            "lost": 6,
+                            "drawn": 1,
+                            "byes": 1,
+                            "pointsFor": 347,
+                            "pointsAgainst": 297,
+                            "pointsDifference": 50,
+                            "forfeits": 0,
+                            "percentage": 116.84,
+                            "competitionPoints": 13
+                        },
+                        {
+                            "team": {
+                                "id": "ba272913",
+                                "name": "Morialta A",
+                                "organisation": {
+                                    "id": "46cdd3a1",
+                                    "name": "Morialta Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 6,
+                            "lost": 7,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 338,
+                            "pointsAgainst": 394,
+                            "pointsDifference": -56,
+                            "forfeits": 0,
+                            "percentage": 85.79,
+                            "competitionPoints": 12
+                        },
+                        {
+                            "team": {
+                                "id": "278252c9",
+                                "name": "St Monicas A",
+                                "organisation": {
+                                    "id": "9b1b9579",
+                                    "name": "St Monicas",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 3,
+                            "lost": 7,
+                            "drawn": 1,
+                            "byes": 1,
+                            "pointsFor": 235,
+                            "pointsAgainst": 460,
+                            "pointsDifference": -225,
+                            "forfeits": 2,
+                            "percentage": 51.09,
+                            "competitionPoints": 7
+                        },
+                        {
+                            "team": {
+                                "id": "2e91361a",
+                                "name": "Scotch A",
+                                "organisation": {
+                                    "id": "19f539c8",
+                                    "name": "Scotch Old Scholars",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 0,
+                            "lost": 11,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 259,
+                            "pointsAgainst": 456,
+                            "pointsDifference": -197,
+                            "forfeits": 1,
+                            "percentage": 56.8,
+                            "competitionPoints": 0
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

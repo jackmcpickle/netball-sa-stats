@@ -1,0 +1,148 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "4fe0154f",
+            "name": "C Grade",
+            "ladderType": "TOTAL_COMPETITION_POINTS",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "6ee4314e",
+                                "name": "Adelaide Wildcats Green",
+                                "organisation": {
+                                    "id": "92fdb2ed",
+                                    "name": "Adelaide Wildcats",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 11,
+                            "lost": 2,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 627,
+                            "pointsAgainst": 480,
+                            "pointsDifference": 147,
+                            "forfeits": 0,
+                            "percentage": 130.63,
+                            "competitionPoints": 22
+                        },
+                        {
+                            "team": {
+                                "id": "62bd4e1a",
+                                "name": "Metro Jets",
+                                "organisation": {
+                                    "id": "601b914e",
+                                    "name": "Metro Jets",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 9,
+                            "lost": 4,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 624,
+                            "pointsAgainst": 470,
+                            "pointsDifference": 154,
+                            "forfeits": 0,
+                            "percentage": 132.77,
+                            "competitionPoints": 18
+                        },
+                        {
+                            "team": {
+                                "id": "f99360e0",
+                                "name": "Cheerio",
+                                "organisation": {
+                                    "id": "4d3928a7",
+                                    "name": "Cheerio Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 7,
+                            "lost": 6,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 487,
+                            "pointsAgainst": 501,
+                            "pointsDifference": -14,
+                            "forfeits": 0,
+                            "percentage": 97.21,
+                            "competitionPoints": 14
+                        },
+                        {
+                            "team": {
+                                "id": "707df4ba",
+                                "name": "Walkerville",
+                                "organisation": {
+                                    "id": "a83c7a81",
+                                    "name": "Walkerville",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 4,
+                            "lost": 9,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 490,
+                            "pointsAgainst": 462,
+                            "pointsDifference": 28,
+                            "forfeits": 0,
+                            "percentage": 106.06,
+                            "competitionPoints": 8
+                        },
+                        {
+                            "team": {
+                                "id": "422cb4cf",
+                                "name": "Adelaide Wildcats Purple",
+                                "organisation": {
+                                    "id": "92fdb2ed",
+                                    "name": "Adelaide Wildcats",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 4,
+                            "lost": 9,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 449,
+                            "pointsAgainst": 562,
+                            "pointsDifference": -113,
+                            "forfeits": 0,
+                            "percentage": 79.89,
+                            "competitionPoints": 8
+                        },
+                        {
+                            "team": {
+                                "id": "d3c012ff",
+                                "name": "SHOCS",
+                                "organisation": {
+                                    "id": "d45fe04a",
+                                    "name": "Sacred Heart O.C.",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 0,
+                            "lost": 13,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 240,
+                            "pointsAgainst": 701,
+                            "pointsDifference": -461,
+                            "forfeits": 0,
+                            "percentage": 34.24,
+                            "competitionPoints": 0
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

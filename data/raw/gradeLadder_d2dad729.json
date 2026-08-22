@@ -1,0 +1,148 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "d2dad729",
+            "name": "17U/5",
+            "ladderType": "POINTS_AVERAGE",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "644c659f",
+                                "name": "Rosefield Mavericks 17B",
+                                "organisation": {
+                                    "id": "f7fe98c2",
+                                    "name": "Rosefield Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 9,
+                            "lost": 5,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 352,
+                            "pointsAgainst": 310,
+                            "pointsDifference": 42,
+                            "forfeits": 0,
+                            "percentage": 113.55,
+                            "competitionPoints": 18
+                        },
+                        {
+                            "team": {
+                                "id": "24ff7b88",
+                                "name": "St Josephs 17B",
+                                "organisation": {
+                                    "id": "8793c382",
+                                    "name": "St Joseph's (Somerton Park)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 8,
+                            "lost": 6,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 354,
+                            "pointsAgainst": 289,
+                            "pointsDifference": 65,
+                            "forfeits": 0,
+                            "percentage": 122.49,
+                            "competitionPoints": 16
+                        },
+                        {
+                            "team": {
+                                "id": "dc8a2c65",
+                                "name": "Morialta 17E",
+                                "organisation": {
+                                    "id": "46cdd3a1",
+                                    "name": "Morialta Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 8,
+                            "lost": 6,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 378,
+                            "pointsAgainst": 354,
+                            "pointsDifference": 24,
+                            "forfeits": 0,
+                            "percentage": 106.78,
+                            "competitionPoints": 16
+                        },
+                        {
+                            "team": {
+                                "id": "58217419",
+                                "name": "Wesley 17A",
+                                "organisation": {
+                                    "id": "5b275702",
+                                    "name": "Wesley Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 8,
+                            "lost": 6,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 429,
+                            "pointsAgainst": 425,
+                            "pointsDifference": 4,
+                            "forfeits": 0,
+                            "percentage": 100.94,
+                            "competitionPoints": 16
+                        },
+                        {
+                            "team": {
+                                "id": "30440d01",
+                                "name": "Flinders Park 17C",
+                                "organisation": {
+                                    "id": "7721739e",
+                                    "name": "Flinders Park",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 8,
+                            "lost": 6,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 386,
+                            "pointsAgainst": 409,
+                            "pointsDifference": -23,
+                            "forfeits": 0,
+                            "percentage": 94.38,
+                            "competitionPoints": 16
+                        },
+                        {
+                            "team": {
+                                "id": "b3397117",
+                                "name": "PHOS 17B",
+                                "organisation": {
+                                    "id": "361e148c",
+                                    "name": "PHOS Camden",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 4,
+                            "lost": 7,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 307,
+                            "pointsAgainst": 419,
+                            "pointsDifference": -112,
+                            "forfeits": 3,
+                            "percentage": 73.27,
+                            "competitionPoints": 8
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

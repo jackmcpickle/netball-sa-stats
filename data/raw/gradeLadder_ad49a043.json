@@ -1,0 +1,126 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "ad49a043",
+            "name": "Inter 2",
+            "ladderType": "TOTAL_COMPETITION_POINTS",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "f6520459",
+                                "name": "Vulcans 07",
+                                "organisation": {
+                                    "id": "f00d83f9",
+                                    "name": "Vulcans Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 10,
+                            "lost": 2,
+                            "drawn": 0,
+                            "byes": 3,
+                            "pointsFor": 440,
+                            "pointsAgainst": 254,
+                            "pointsDifference": 186,
+                            "forfeits": 0,
+                            "percentage": 173.23,
+                            "competitionPoints": 20
+                        },
+                        {
+                            "team": {
+                                "id": "22aaef22",
+                                "name": "Angle Vale 12",
+                                "organisation": {
+                                    "id": "1267db67",
+                                    "name": "Angle Vale",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 10,
+                            "lost": 0,
+                            "drawn": 0,
+                            "byes": 3,
+                            "pointsFor": 462,
+                            "pointsAgainst": 286,
+                            "pointsDifference": 176,
+                            "forfeits": 2,
+                            "percentage": 161.54,
+                            "competitionPoints": 20
+                        },
+                        {
+                            "team": {
+                                "id": "5a665705",
+                                "name": "N Bombers 6",
+                                "organisation": {
+                                    "id": "fdc2c5fd",
+                                    "name": "Northern Bombers Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 7,
+                            "lost": 5,
+                            "drawn": 0,
+                            "byes": 3,
+                            "pointsFor": 462,
+                            "pointsAgainst": 407,
+                            "pointsDifference": 55,
+                            "forfeits": 0,
+                            "percentage": 113.51,
+                            "competitionPoints": 14
+                        },
+                        {
+                            "team": {
+                                "id": "8485a149",
+                                "name": "Mystic Opals 08",
+                                "organisation": {
+                                    "id": "637de894",
+                                    "name": "Mystic Opals",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 3,
+                            "lost": 9,
+                            "drawn": 0,
+                            "byes": 3,
+                            "pointsFor": 325,
+                            "pointsAgainst": 402,
+                            "pointsDifference": -77,
+                            "forfeits": 0,
+                            "percentage": 80.85,
+                            "competitionPoints": 6
+                        },
+                        {
+                            "team": {
+                                "id": "5ea93082",
+                                "name": "EPDemons 05",
+                                "organisation": {
+                                    "id": "5f9fef9c",
+                                    "name": "Eastern Park Demons",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 0,
+                            "lost": 10,
+                            "drawn": 0,
+                            "byes": 3,
+                            "pointsFor": 202,
+                            "pointsAgainst": 542,
+                            "pointsDifference": -340,
+                            "forfeits": 2,
+                            "percentage": 37.27,
+                            "competitionPoints": 0
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

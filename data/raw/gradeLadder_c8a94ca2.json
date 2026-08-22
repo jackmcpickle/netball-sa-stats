@@ -1,0 +1,170 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "c8a94ca2",
+            "name": "D4",
+            "ladderType": "TOTAL_COMPETITION_POINTS",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "5cc2beea",
+                                "name": "Tiki 2",
+                                "organisation": {
+                                    "id": "62eaac91",
+                                    "name": "Tiki",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 12,
+                            "lost": 0,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 479,
+                            "pointsAgainst": 288,
+                            "pointsDifference": 191,
+                            "forfeits": 0,
+                            "percentage": 166.32,
+                            "competitionPoints": 24
+                        },
+                        {
+                            "team": {
+                                "id": "e7fc3603",
+                                "name": "N Bombers 2",
+                                "organisation": {
+                                    "id": "fdc2c5fd",
+                                    "name": "Northern Bombers Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 8,
+                            "lost": 4,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 511,
+                            "pointsAgainst": 316,
+                            "pointsDifference": 195,
+                            "forfeits": 0,
+                            "percentage": 161.71,
+                            "competitionPoints": 16
+                        },
+                        {
+                            "team": {
+                                "id": "f689896c",
+                                "name": "Lazers 09",
+                                "organisation": {
+                                    "id": "d2f381fb",
+                                    "name": "Lazers (SA)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 8,
+                            "lost": 4,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 471,
+                            "pointsAgainst": 346,
+                            "pointsDifference": 125,
+                            "forfeits": 0,
+                            "percentage": 136.13,
+                            "competitionPoints": 16
+                        },
+                        {
+                            "team": {
+                                "id": "56f4954b",
+                                "name": "Angle Vale 09",
+                                "organisation": {
+                                    "id": "1267db67",
+                                    "name": "Angle Vale",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 8,
+                            "lost": 3,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 396,
+                            "pointsAgainst": 307,
+                            "pointsDifference": 89,
+                            "forfeits": 1,
+                            "percentage": 128.99,
+                            "competitionPoints": 16
+                        },
+                        {
+                            "team": {
+                                "id": "8112473d",
+                                "name": "S Panthers 3",
+                                "organisation": {
+                                    "id": "87e68d0f",
+                                    "name": "Smithfield Panthers",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 4,
+                            "lost": 7,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 273,
+                            "pointsAgainst": 377,
+                            "pointsDifference": -104,
+                            "forfeits": 1,
+                            "percentage": 72.41,
+                            "competitionPoints": 8
+                        },
+                        {
+                            "team": {
+                                "id": "195a4d94",
+                                "name": "Koalas 2",
+                                "organisation": {
+                                    "id": "b3d5bec7",
+                                    "name": "Koala United",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 1,
+                            "lost": 10,
+                            "drawn": 1,
+                            "byes": 2,
+                            "pointsFor": 259,
+                            "pointsAgainst": 437,
+                            "pointsDifference": -178,
+                            "forfeits": 0,
+                            "percentage": 59.27,
+                            "competitionPoints": 3
+                        },
+                        {
+                            "team": {
+                                "id": "a6157533",
+                                "name": "Gazelles 06",
+                                "organisation": {
+                                    "id": "b2a76075",
+                                    "name": "Gazelles (SA)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 0,
+                            "lost": 11,
+                            "drawn": 1,
+                            "byes": 2,
+                            "pointsFor": 213,
+                            "pointsAgainst": 531,
+                            "pointsDifference": -318,
+                            "forfeits": 0,
+                            "percentage": 40.11,
+                            "competitionPoints": 1
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

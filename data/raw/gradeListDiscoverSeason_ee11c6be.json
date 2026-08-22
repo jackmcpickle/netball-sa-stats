@@ -1,0 +1,71 @@
+{
+    "data": {
+        "discoverSeason": {
+            "id": "ee11c6be",
+            "name": "Winter 2024",
+            "competition": {
+                "id": "dffbc9e3",
+                "name": "M League",
+                "type": "DOMESTIC",
+                "organisation": {
+                    "id": "7936878d",
+                    "name": "South Australian Mens and Mixed Netball Association"
+                }
+            },
+            "status": {
+                "name": "Completed",
+                "value": "COMPLETED"
+            },
+            "grades": [
+                {
+                    "id": "a7c658ef",
+                    "name": "M-League Junior Mixed Division",
+                    "day": {
+                        "name": "Monday",
+                        "value": "MONDAY"
+                    },
+                    "gender": {
+                        "name": "Mixed",
+                        "value": "MIXED"
+                    },
+                    "age": {
+                        "name": "U17",
+                        "value": "U17"
+                    }
+                },
+                {
+                    "id": "0c91e425",
+                    "name": "M-League Men's Division 1",
+                    "day": {
+                        "name": "Monday",
+                        "value": "MONDAY"
+                    },
+                    "gender": {
+                        "name": "Men",
+                        "value": "MENS"
+                    },
+                    "age": {
+                        "name": "Open",
+                        "value": "OPEN"
+                    }
+                },
+                {
+                    "id": "09989b97",
+                    "name": "M-League Men's Division 2",
+                    "day": {
+                        "name": "Monday",
+                        "value": "MONDAY"
+                    },
+                    "gender": {
+                        "name": "Men",
+                        "value": "MENS"
+                    },
+                    "age": {
+                        "name": "Open",
+                        "value": "OPEN"
+                    }
+                }
+            ]
+        }
+    }
+}

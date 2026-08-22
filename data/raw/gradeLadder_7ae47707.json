@@ -1,0 +1,148 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "7ae47707",
+            "name": "11U/3",
+            "ladderType": "POINTS_AVERAGE",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "cf2ef76a",
+                                "name": "Hallett Cove 11A",
+                                "organisation": {
+                                    "id": "afa7dc80",
+                                    "name": "Hallett Cove Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 11,
+                            "lost": 2,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 278,
+                            "pointsAgainst": 114,
+                            "pointsDifference": 164,
+                            "forfeits": 0,
+                            "percentage": 243.86,
+                            "competitionPoints": 23
+                        },
+                        {
+                            "team": {
+                                "id": "1a5da143",
+                                "name": "Glengowrie Uniting 11C",
+                                "organisation": {
+                                    "id": "8d82bd18",
+                                    "name": "Glengowrie",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 8,
+                            "lost": 6,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 334,
+                            "pointsAgainst": 199,
+                            "pointsDifference": 135,
+                            "forfeits": 0,
+                            "percentage": 167.84,
+                            "competitionPoints": 16
+                        },
+                        {
+                            "team": {
+                                "id": "a9796fc5",
+                                "name": "St Josephs 11B",
+                                "organisation": {
+                                    "id": "8793c382",
+                                    "name": "St Joseph's (Somerton Park)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 7,
+                            "lost": 7,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 266,
+                            "pointsAgainst": 206,
+                            "pointsDifference": 60,
+                            "forfeits": 0,
+                            "percentage": 129.13,
+                            "competitionPoints": 14
+                        },
+                        {
+                            "team": {
+                                "id": "fdae3f1a",
+                                "name": "Glenunga Diamonds 11A",
+                                "organisation": {
+                                    "id": "05a8f52f",
+                                    "name": "Glenunga",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 3,
+                            "lost": 10,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 141,
+                            "pointsAgainst": 232,
+                            "pointsDifference": -91,
+                            "forfeits": 0,
+                            "percentage": 60.78,
+                            "competitionPoints": 7
+                        },
+                        {
+                            "team": {
+                                "id": "3b9f69e6",
+                                "name": "Hectorville 11B",
+                                "organisation": {
+                                    "id": "a836b73f",
+                                    "name": "Hectorville Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 3,
+                            "lost": 11,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 139,
+                            "pointsAgainst": 266,
+                            "pointsDifference": -127,
+                            "forfeits": 0,
+                            "percentage": 52.26,
+                            "competitionPoints": 6
+                        },
+                        {
+                            "team": {
+                                "id": "6ef5e8b3",
+                                "name": "WP Swan 11B",
+                                "organisation": {
+                                    "id": "53002de5",
+                                    "name": "Westbourne Park Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 2,
+                            "lost": 11,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 106,
+                            "pointsAgainst": 247,
+                            "pointsDifference": -141,
+                            "forfeits": 0,
+                            "percentage": 42.91,
+                            "competitionPoints": 5
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

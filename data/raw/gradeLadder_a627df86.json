@@ -1,0 +1,126 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "a627df86",
+            "name": "Inter 1",
+            "ladderType": "TOTAL_COMPETITION_POINTS",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "6f887105",
+                                "name": "FIREWORKS 08",
+                                "organisation": {
+                                    "id": "27ce429f",
+                                    "name": "Fireworks Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 12,
+                            "lost": 0,
+                            "drawn": 0,
+                            "byes": 3,
+                            "pointsFor": 694,
+                            "pointsAgainst": 137,
+                            "pointsDifference": 557,
+                            "forfeits": 0,
+                            "percentage": 506.57,
+                            "competitionPoints": 24
+                        },
+                        {
+                            "team": {
+                                "id": "50fdf90c",
+                                "name": "Gazelles 07",
+                                "organisation": {
+                                    "id": "b2a76075",
+                                    "name": "Gazelles (SA)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 6,
+                            "lost": 5,
+                            "drawn": 1,
+                            "byes": 3,
+                            "pointsFor": 362,
+                            "pointsAgainst": 446,
+                            "pointsDifference": -84,
+                            "forfeits": 0,
+                            "percentage": 81.17,
+                            "competitionPoints": 13
+                        },
+                        {
+                            "team": {
+                                "id": "38de3cbb",
+                                "name": "Tiki 3",
+                                "organisation": {
+                                    "id": "62eaac91",
+                                    "name": "Tiki",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 5,
+                            "lost": 6,
+                            "drawn": 0,
+                            "byes": 3,
+                            "pointsFor": 272,
+                            "pointsAgainst": 362,
+                            "pointsDifference": -90,
+                            "forfeits": 1,
+                            "percentage": 75.14,
+                            "competitionPoints": 10
+                        },
+                        {
+                            "team": {
+                                "id": "69a079ac",
+                                "name": "FIREWORKS 09",
+                                "organisation": {
+                                    "id": "27ce429f",
+                                    "name": "Fireworks Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 3,
+                            "lost": 8,
+                            "drawn": 1,
+                            "byes": 3,
+                            "pointsFor": 307,
+                            "pointsAgainst": 469,
+                            "pointsDifference": -162,
+                            "forfeits": 0,
+                            "percentage": 65.46,
+                            "competitionPoints": 7
+                        },
+                        {
+                            "team": {
+                                "id": "c8f717c3",
+                                "name": "Northern Storm 3",
+                                "organisation": {
+                                    "id": "2e78dfde",
+                                    "name": "Northern Storm Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 3,
+                            "lost": 8,
+                            "drawn": 0,
+                            "byes": 3,
+                            "pointsFor": 260,
+                            "pointsAgainst": 481,
+                            "pointsDifference": -221,
+                            "forfeits": 1,
+                            "percentage": 54.05,
+                            "competitionPoints": 6
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

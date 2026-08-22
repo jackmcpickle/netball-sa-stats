@@ -1,0 +1,148 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "5d0bd261",
+            "name": "B4",
+            "ladderType": "TOTAL_COMPETITION_POINTS",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "2b6e3a9d",
+                                "name": "Oakdale 2",
+                                "organisation": {
+                                    "id": "2f66832f",
+                                    "name": "Oakdale Netball Club (SA)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 11,
+                            "lost": 3,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 766,
+                            "pointsAgainst": 587,
+                            "pointsDifference": 179,
+                            "forfeits": 0,
+                            "percentage": 130.49,
+                            "competitionPoints": 22
+                        },
+                        {
+                            "team": {
+                                "id": "e50d19da",
+                                "name": "Oakdale 1",
+                                "organisation": {
+                                    "id": "2f66832f",
+                                    "name": "Oakdale Netball Club (SA)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 10,
+                            "lost": 4,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 585,
+                            "pointsAgainst": 553,
+                            "pointsDifference": 32,
+                            "forfeits": 0,
+                            "percentage": 105.79,
+                            "competitionPoints": 20
+                        },
+                        {
+                            "team": {
+                                "id": "a4c9ab81",
+                                "name": "Old Ignatians",
+                                "organisation": {
+                                    "id": "0113cb3e",
+                                    "name": "Old Ignatians",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 8,
+                            "lost": 5,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 542,
+                            "pointsAgainst": 516,
+                            "pointsDifference": 26,
+                            "forfeits": 0,
+                            "percentage": 105.04,
+                            "competitionPoints": 17
+                        },
+                        {
+                            "team": {
+                                "id": "7127d27e",
+                                "name": "Walkerville 1",
+                                "organisation": {
+                                    "id": "a83c7a81",
+                                    "name": "Walkerville",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 7,
+                            "lost": 7,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 560,
+                            "pointsAgainst": 541,
+                            "pointsDifference": 19,
+                            "forfeits": 0,
+                            "percentage": 103.51,
+                            "competitionPoints": 14
+                        },
+                        {
+                            "team": {
+                                "id": "124aa076",
+                                "name": "Metro Jets",
+                                "organisation": {
+                                    "id": "601b914e",
+                                    "name": "Metro Jets",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 6,
+                            "lost": 7,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 531,
+                            "pointsAgainst": 581,
+                            "pointsDifference": -50,
+                            "forfeits": 0,
+                            "percentage": 91.39,
+                            "competitionPoints": 9
+                        },
+                        {
+                            "team": {
+                                "id": "344f76e2",
+                                "name": "Contax",
+                                "organisation": {
+                                    "id": "a8ee2320",
+                                    "name": "Contax",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 3,
+                            "lost": 11,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 518,
+                            "pointsAgainst": 638,
+                            "pointsDifference": -120,
+                            "forfeits": 0,
+                            "percentage": 81.19,
+                            "competitionPoints": 6
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

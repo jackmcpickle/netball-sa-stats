@@ -1,0 +1,104 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "e4a4ae5f",
+            "name": "Primary 1",
+            "ladderType": "TOTAL_COMPETITION_POINTS",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "db26f69b",
+                                "name": "Matrics",
+                                "organisation": {
+                                    "id": "0969cc64",
+                                    "name": "Matrics",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 13,
+                            "lost": 0,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 429,
+                            "pointsAgainst": 182,
+                            "pointsDifference": 247,
+                            "forfeits": 0,
+                            "percentage": 235.71,
+                            "competitionPoints": 26
+                        },
+                        {
+                            "team": {
+                                "id": "079f9913",
+                                "name": "Contax",
+                                "organisation": {
+                                    "id": "a8ee2320",
+                                    "name": "Contax",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 7,
+                            "lost": 5,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 339,
+                            "pointsAgainst": 270,
+                            "pointsDifference": 69,
+                            "forfeits": 0,
+                            "percentage": 125.56,
+                            "competitionPoints": 15
+                        },
+                        {
+                            "team": {
+                                "id": "f6e74765",
+                                "name": "Oakdale",
+                                "organisation": {
+                                    "id": "2f66832f",
+                                    "name": "Oakdale Netball Club (SA)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 6,
+                            "lost": 6,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 296,
+                            "pointsAgainst": 277,
+                            "pointsDifference": 19,
+                            "forfeits": 0,
+                            "percentage": 106.86,
+                            "competitionPoints": 13
+                        },
+                        {
+                            "team": {
+                                "id": "e83ed2fb",
+                                "name": "Reynella",
+                                "organisation": {
+                                    "id": "485b7b56",
+                                    "name": "Reynella Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 2,
+                            "lost": 11,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 220,
+                            "pointsAgainst": 357,
+                            "pointsDifference": -137,
+                            "forfeits": 0,
+                            "percentage": 61.62,
+                            "competitionPoints": 4
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

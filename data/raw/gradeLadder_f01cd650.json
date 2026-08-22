@@ -1,0 +1,148 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "f01cd650",
+            "name": "Sub Junior 2",
+            "ladderType": "TOTAL_COMPETITION_POINTS",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "28f5745c",
+                                "name": "Walkerville",
+                                "organisation": {
+                                    "id": "a83c7a81",
+                                    "name": "Walkerville",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 11,
+                            "lost": 1,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 335,
+                            "pointsAgainst": 241,
+                            "pointsDifference": 94,
+                            "forfeits": 0,
+                            "percentage": 139,
+                            "competitionPoints": 22
+                        },
+                        {
+                            "team": {
+                                "id": "cf0b719a",
+                                "name": "Oakdale",
+                                "organisation": {
+                                    "id": "2f66832f",
+                                    "name": "Oakdale Netball Club (SA)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 9,
+                            "lost": 3,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 321,
+                            "pointsAgainst": 248,
+                            "pointsDifference": 73,
+                            "forfeits": 0,
+                            "percentage": 129.44,
+                            "competitionPoints": 18
+                        },
+                        {
+                            "team": {
+                                "id": "c019c260",
+                                "name": "Contax",
+                                "organisation": {
+                                    "id": "a8ee2320",
+                                    "name": "Contax",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 7,
+                            "lost": 4,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 316,
+                            "pointsAgainst": 249,
+                            "pointsDifference": 67,
+                            "forfeits": 0,
+                            "percentage": 126.91,
+                            "competitionPoints": 15
+                        },
+                        {
+                            "team": {
+                                "id": "695233d8",
+                                "name": "Seaford Storm",
+                                "organisation": {
+                                    "id": "8cdec648",
+                                    "name": "Seaford Storm Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 6,
+                            "lost": 6,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 285,
+                            "pointsAgainst": 280,
+                            "pointsDifference": 5,
+                            "forfeits": 0,
+                            "percentage": 101.79,
+                            "competitionPoints": 12
+                        },
+                        {
+                            "team": {
+                                "id": "55335d53",
+                                "name": "Garville",
+                                "organisation": {
+                                    "id": "241b44c0",
+                                    "name": "Garville",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 1,
+                            "lost": 10,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 259,
+                            "pointsAgainst": 394,
+                            "pointsDifference": -135,
+                            "forfeits": 0,
+                            "percentage": 65.74,
+                            "competitionPoints": 3
+                        },
+                        {
+                            "team": {
+                                "id": "62ea9e6b",
+                                "name": "Metro Jets",
+                                "organisation": {
+                                    "id": "601b914e",
+                                    "name": "Metro Jets",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 1,
+                            "lost": 11,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 240,
+                            "pointsAgainst": 344,
+                            "pointsDifference": -104,
+                            "forfeits": 0,
+                            "percentage": 69.77,
+                            "competitionPoints": 2
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

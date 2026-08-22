@@ -1,0 +1,126 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "e7c09cb9",
+            "name": "Seniors Div 06",
+            "ladderType": "TOTAL_COMPETITION_POINTS",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "74abdde9",
+                                "name": "Southern Stars Senior Gold",
+                                "organisation": {
+                                    "id": "d7cbd109",
+                                    "name": "Southern Stars Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 8,
+                            "won": 7,
+                            "lost": 0,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 402,
+                            "pointsAgainst": 182,
+                            "pointsDifference": 220,
+                            "forfeits": 1,
+                            "percentage": 220.88,
+                            "competitionPoints": 18
+                        },
+                        {
+                            "team": {
+                                "id": "bf545432",
+                                "name": "Valley Vikings Frode",
+                                "organisation": {
+                                    "id": "165f1feb",
+                                    "name": "Valley Vikings",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 8,
+                            "won": 6,
+                            "lost": 2,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 446,
+                            "pointsAgainst": 230,
+                            "pointsDifference": 216,
+                            "forfeits": 0,
+                            "percentage": 193.91,
+                            "competitionPoints": 16
+                        },
+                        {
+                            "team": {
+                                "id": "9fea34ae",
+                                "name": "Morphett Vale 5",
+                                "organisation": {
+                                    "id": "b3f21234",
+                                    "name": "Morphett Vale Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 8,
+                            "won": 4,
+                            "lost": 4,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 205,
+                            "pointsAgainst": 304,
+                            "pointsDifference": -99,
+                            "forfeits": 0,
+                            "percentage": 67.43,
+                            "competitionPoints": 12
+                        },
+                        {
+                            "team": {
+                                "id": "65e94fbd",
+                                "name": "Cove Tigers Blue",
+                                "organisation": {
+                                    "id": "ab06439f",
+                                    "name": "Cove Netball Club Inc",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 8,
+                            "won": 3,
+                            "lost": 5,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 275,
+                            "pointsAgainst": 362,
+                            "pointsDifference": -87,
+                            "forfeits": 0,
+                            "percentage": 75.97,
+                            "competitionPoints": 10
+                        },
+                        {
+                            "team": {
+                                "id": "b4c43566",
+                                "name": "Mitchell Park WHITE",
+                                "organisation": {
+                                    "id": "a2d41ea1",
+                                    "name": "Mitchell Park",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 8,
+                            "won": 0,
+                            "lost": 8,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 181,
+                            "pointsAgainst": 431,
+                            "pointsDifference": -250,
+                            "forfeits": 0,
+                            "percentage": 42,
+                            "competitionPoints": 4
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

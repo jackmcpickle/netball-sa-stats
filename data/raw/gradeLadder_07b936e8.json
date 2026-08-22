@@ -1,0 +1,126 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "07b936e8",
+            "name": "Sub Junior 2",
+            "ladderType": "TOTAL_COMPETITION_POINTS",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "3fc24af1",
+                                "name": "Lazers 12",
+                                "organisation": {
+                                    "id": "d2f381fb",
+                                    "name": "Lazers (SA)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 12,
+                            "lost": 1,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 123,
+                            "pointsAgainst": 51,
+                            "pointsDifference": 72,
+                            "forfeits": 0,
+                            "percentage": 241.18,
+                            "competitionPoints": 24
+                        },
+                        {
+                            "team": {
+                                "id": "55eafd22",
+                                "name": "Gumnuts 07",
+                                "organisation": {
+                                    "id": "f630493f",
+                                    "name": "Gumnuts",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 7,
+                            "lost": 4,
+                            "drawn": 0,
+                            "byes": 3,
+                            "pointsFor": 169,
+                            "pointsAgainst": 137,
+                            "pointsDifference": 32,
+                            "forfeits": 0,
+                            "percentage": 123.36,
+                            "competitionPoints": 14
+                        },
+                        {
+                            "team": {
+                                "id": "f6d1e701",
+                                "name": "WILDFIRE 5",
+                                "organisation": {
+                                    "id": "197d1c9c",
+                                    "name": "Wildfire Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 5,
+                            "lost": 6,
+                            "drawn": 0,
+                            "byes": 3,
+                            "pointsFor": 157,
+                            "pointsAgainst": 151,
+                            "pointsDifference": 6,
+                            "forfeits": 0,
+                            "percentage": 103.97,
+                            "competitionPoints": 10
+                        },
+                        {
+                            "team": {
+                                "id": "1866e0a6",
+                                "name": "EPDemons 13",
+                                "organisation": {
+                                    "id": "5f9fef9c",
+                                    "name": "Eastern Park Demons",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 5,
+                            "lost": 5,
+                            "drawn": 0,
+                            "byes": 3,
+                            "pointsFor": 122,
+                            "pointsAgainst": 150,
+                            "pointsDifference": -28,
+                            "forfeits": 1,
+                            "percentage": 81.33,
+                            "competitionPoints": 10
+                        },
+                        {
+                            "team": {
+                                "id": "e624c0b3",
+                                "name": "S Panthers 06",
+                                "organisation": {
+                                    "id": "87e68d0f",
+                                    "name": "Smithfield Panthers",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 0,
+                            "lost": 12,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 47,
+                            "pointsAgainst": 155,
+                            "pointsDifference": -108,
+                            "forfeits": 0,
+                            "percentage": 30.32,
+                            "competitionPoints": -2
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

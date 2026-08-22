@@ -1,0 +1,192 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "ef47cec8",
+            "name": "B2",
+            "ladderType": "POINTS_AVERAGE",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "f2e358ea",
+                                "name": "Rosefield Rangers B",
+                                "organisation": {
+                                    "id": "f7fe98c2",
+                                    "name": "Rosefield Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 11,
+                            "lost": 3,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 697,
+                            "pointsAgainst": 487,
+                            "pointsDifference": 210,
+                            "forfeits": 0,
+                            "percentage": 143.12,
+                            "competitionPoints": 22
+                        },
+                        {
+                            "team": {
+                                "id": "3751de03",
+                                "name": "Henley Sharks C",
+                                "organisation": {
+                                    "id": "e234a948",
+                                    "name": "Henley Sharks Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 10,
+                            "lost": 2,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 634,
+                            "pointsAgainst": 544,
+                            "pointsDifference": 90,
+                            "forfeits": 1,
+                            "percentage": 116.54,
+                            "competitionPoints": 21
+                        },
+                        {
+                            "team": {
+                                "id": "5e777c86",
+                                "name": "PHOS Netball B",
+                                "organisation": {
+                                    "id": "361e148c",
+                                    "name": "PHOS Camden",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 10,
+                            "lost": 3,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 561,
+                            "pointsAgainst": 499,
+                            "pointsDifference": 62,
+                            "forfeits": 0,
+                            "percentage": 112.42,
+                            "competitionPoints": 21
+                        },
+                        {
+                            "team": {
+                                "id": "08dcaad7",
+                                "name": "Adelaide Luth Scarlet G",
+                                "organisation": {
+                                    "id": "66a7fd12",
+                                    "name": "Adelaide Lutheran",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 8,
+                            "lost": 5,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 570,
+                            "pointsAgainst": 470,
+                            "pointsDifference": 100,
+                            "forfeits": 0,
+                            "percentage": 121.28,
+                            "competitionPoints": 17
+                        },
+                        {
+                            "team": {
+                                "id": "af7930bb",
+                                "name": "Grange Hawks D",
+                                "organisation": {
+                                    "id": "473e0fc3",
+                                    "name": "Grange Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 5,
+                            "lost": 6,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 457,
+                            "pointsAgainst": 544,
+                            "pointsDifference": -87,
+                            "forfeits": 2,
+                            "percentage": 84.01,
+                            "competitionPoints": 11
+                        },
+                        {
+                            "team": {
+                                "id": "f70150f7",
+                                "name": "Adelaide Luth Navy H",
+                                "organisation": {
+                                    "id": "66a7fd12",
+                                    "name": "Adelaide Lutheran",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 5,
+                            "lost": 9,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 527,
+                            "pointsAgainst": 556,
+                            "pointsDifference": -29,
+                            "forfeits": 0,
+                            "percentage": 94.78,
+                            "competitionPoints": 10
+                        },
+                        {
+                            "team": {
+                                "id": "30ea8109",
+                                "name": "WP Pink G",
+                                "organisation": {
+                                    "id": "53002de5",
+                                    "name": "Westbourne Park Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 4,
+                            "lost": 9,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 514,
+                            "pointsAgainst": 622,
+                            "pointsDifference": -108,
+                            "forfeits": 1,
+                            "percentage": 82.64,
+                            "competitionPoints": 8
+                        },
+                        {
+                            "team": {
+                                "id": "d0a5fb88",
+                                "name": "Wesley B",
+                                "organisation": {
+                                    "id": "5b275702",
+                                    "name": "Wesley Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 1,
+                            "lost": 13,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 467,
+                            "pointsAgainst": 705,
+                            "pointsDifference": -238,
+                            "forfeits": 0,
+                            "percentage": 66.24,
+                            "competitionPoints": 2
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

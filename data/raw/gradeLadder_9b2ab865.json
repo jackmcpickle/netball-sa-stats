@@ -1,0 +1,192 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "9b2ab865",
+            "name": "B4",
+            "ladderType": "POINTS_AVERAGE",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "ba5b8a5f",
+                                "name": "Flinders Park D",
+                                "organisation": {
+                                    "id": "7721739e",
+                                    "name": "Flinders Park",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 12,
+                            "lost": 1,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 370,
+                            "pointsAgainst": 289,
+                            "pointsDifference": 81,
+                            "forfeits": 1,
+                            "percentage": 128.03,
+                            "competitionPoints": 25
+                        },
+                        {
+                            "team": {
+                                "id": "0cc0e957",
+                                "name": "Walkerville A",
+                                "organisation": {
+                                    "id": "a83c7a81",
+                                    "name": "Walkerville",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 9,
+                            "lost": 2,
+                            "drawn": 3,
+                            "byes": 0,
+                            "pointsFor": 379,
+                            "pointsAgainst": 329,
+                            "pointsDifference": 50,
+                            "forfeits": 0,
+                            "percentage": 115.2,
+                            "competitionPoints": 21
+                        },
+                        {
+                            "team": {
+                                "id": "e186f7e8",
+                                "name": "Adelaide Uni E",
+                                "organisation": {
+                                    "id": "d5bdb649",
+                                    "name": "Adelaide University",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 9,
+                            "lost": 4,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 472,
+                            "pointsAgainst": 299,
+                            "pointsDifference": 173,
+                            "forfeits": 0,
+                            "percentage": 157.86,
+                            "competitionPoints": 19
+                        },
+                        {
+                            "team": {
+                                "id": "163cfd5a",
+                                "name": "SMAA D",
+                                "organisation": {
+                                    "id": "72bc9771",
+                                    "name": "St Michael & All Angels",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 7,
+                            "lost": 6,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 419,
+                            "pointsAgainst": 374,
+                            "pointsDifference": 45,
+                            "forfeits": 0,
+                            "percentage": 112.03,
+                            "competitionPoints": 15
+                        },
+                        {
+                            "team": {
+                                "id": "c12e8c43",
+                                "name": "Glengowrie Uniting B",
+                                "organisation": {
+                                    "id": "8d82bd18",
+                                    "name": "Glengowrie",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 7,
+                            "lost": 7,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 367,
+                            "pointsAgainst": 403,
+                            "pointsDifference": -36,
+                            "forfeits": 0,
+                            "percentage": 91.07,
+                            "competitionPoints": 14
+                        },
+                        {
+                            "team": {
+                                "id": "3e857b4b",
+                                "name": "St Johns Luth Byrne B",
+                                "organisation": {
+                                    "id": "f5111a09",
+                                    "name": "St Johns Lutheran Unley",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 7,
+                            "lost": 7,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 377,
+                            "pointsAgainst": 421,
+                            "pointsDifference": -44,
+                            "forfeits": 0,
+                            "percentage": 89.55,
+                            "competitionPoints": 14
+                        },
+                        {
+                            "team": {
+                                "id": "d49c3cc6",
+                                "name": "Henley Sharks E",
+                                "organisation": {
+                                    "id": "e234a948",
+                                    "name": "Henley Sharks Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 3,
+                            "lost": 10,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 248,
+                            "pointsAgainst": 363,
+                            "pointsDifference": -115,
+                            "forfeits": 1,
+                            "percentage": 68.32,
+                            "competitionPoints": 6
+                        },
+                        {
+                            "team": {
+                                "id": "158c88b7",
+                                "name": "Adelaide Luth Merlot I",
+                                "organisation": {
+                                    "id": "66a7fd12",
+                                    "name": "Adelaide Lutheran",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 0,
+                            "lost": 14,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 253,
+                            "pointsAgainst": 407,
+                            "pointsDifference": -154,
+                            "forfeits": 0,
+                            "percentage": 62.16,
+                            "competitionPoints": 0
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

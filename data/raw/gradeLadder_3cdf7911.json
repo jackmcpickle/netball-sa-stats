@@ -1,0 +1,126 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "3cdf7911",
+            "name": "C1",
+            "ladderType": "TOTAL_COMPETITION_POINTS",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "7ad82408",
+                                "name": "Gumnuts 02",
+                                "organisation": {
+                                    "id": "f630493f",
+                                    "name": "Gumnuts",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 10,
+                            "lost": 0,
+                            "drawn": 0,
+                            "byes": 3,
+                            "pointsFor": 525,
+                            "pointsAgainst": 270,
+                            "pointsDifference": 255,
+                            "forfeits": 1,
+                            "percentage": 194.44,
+                            "competitionPoints": 20
+                        },
+                        {
+                            "team": {
+                                "id": "4579e48a",
+                                "name": "FIREWORKS 02",
+                                "organisation": {
+                                    "id": "27ce429f",
+                                    "name": "Fireworks Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 9,
+                            "lost": 2,
+                            "drawn": 0,
+                            "byes": 3,
+                            "pointsFor": 413,
+                            "pointsAgainst": 276,
+                            "pointsDifference": 137,
+                            "forfeits": 0,
+                            "percentage": 149.64,
+                            "competitionPoints": 18
+                        },
+                        {
+                            "team": {
+                                "id": "05b7e68d",
+                                "name": "Mystic Opals 03",
+                                "organisation": {
+                                    "id": "637de894",
+                                    "name": "Mystic Opals",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 6,
+                            "lost": 5,
+                            "drawn": 0,
+                            "byes": 3,
+                            "pointsFor": 404,
+                            "pointsAgainst": 326,
+                            "pointsDifference": 78,
+                            "forfeits": 0,
+                            "percentage": 123.93,
+                            "competitionPoints": 12
+                        },
+                        {
+                            "team": {
+                                "id": "eeae2589",
+                                "name": "COBRAS 2",
+                                "organisation": {
+                                    "id": "fda07884",
+                                    "name": "Northern Cobras",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 2,
+                            "lost": 9,
+                            "drawn": 0,
+                            "byes": 3,
+                            "pointsFor": 362,
+                            "pointsAgainst": 490,
+                            "pointsDifference": -128,
+                            "forfeits": 0,
+                            "percentage": 73.88,
+                            "competitionPoints": 4
+                        },
+                        {
+                            "team": {
+                                "id": "fc505cae",
+                                "name": "Northern Storm 1",
+                                "organisation": {
+                                    "id": "2e78dfde",
+                                    "name": "Northern Storm Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 1,
+                            "lost": 10,
+                            "drawn": 0,
+                            "byes": 3,
+                            "pointsFor": 191,
+                            "pointsAgainst": 373,
+                            "pointsDifference": -182,
+                            "forfeits": 1,
+                            "percentage": 51.21,
+                            "competitionPoints": 2
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

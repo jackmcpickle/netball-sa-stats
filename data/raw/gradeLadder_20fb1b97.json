@@ -1,0 +1,148 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "20fb1b97",
+            "name": "A5",
+            "ladderType": "POINTS_AVERAGE",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "0370fe73",
+                                "name": "Adelaide Luth Cobalt D",
+                                "organisation": {
+                                    "id": "66a7fd12",
+                                    "name": "Adelaide Lutheran",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 13,
+                            "lost": 0,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 533,
+                            "pointsAgainst": 310,
+                            "pointsDifference": 223,
+                            "forfeits": 0,
+                            "percentage": 171.94,
+                            "competitionPoints": 27
+                        },
+                        {
+                            "team": {
+                                "id": "a0cce136",
+                                "name": "Morialta B",
+                                "organisation": {
+                                    "id": "46cdd3a1",
+                                    "name": "Morialta Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 9,
+                            "lost": 5,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 467,
+                            "pointsAgainst": 323,
+                            "pointsDifference": 144,
+                            "forfeits": 0,
+                            "percentage": 144.58,
+                            "competitionPoints": 18
+                        },
+                        {
+                            "team": {
+                                "id": "dd0d7d13",
+                                "name": "Grange C",
+                                "organisation": {
+                                    "id": "473e0fc3",
+                                    "name": "Grange Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 7,
+                            "lost": 6,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 453,
+                            "pointsAgainst": 409,
+                            "pointsDifference": 44,
+                            "forfeits": 0,
+                            "percentage": 110.76,
+                            "competitionPoints": 15
+                        },
+                        {
+                            "team": {
+                                "id": "2a0f6c36",
+                                "name": "Southern Knights A",
+                                "organisation": {
+                                    "id": "6720bf40",
+                                    "name": "Southern Knights",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 6,
+                            "lost": 7,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 373,
+                            "pointsAgainst": 430,
+                            "pointsDifference": -57,
+                            "forfeits": 0,
+                            "percentage": 86.74,
+                            "competitionPoints": 12
+                        },
+                        {
+                            "team": {
+                                "id": "ea95949b",
+                                "name": "WP Red E",
+                                "organisation": {
+                                    "id": "53002de5",
+                                    "name": "Westbourne Park Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 1,
+                            "lost": 10,
+                            "drawn": 1,
+                            "byes": 1,
+                            "pointsFor": 305,
+                            "pointsAgainst": 436,
+                            "pointsDifference": -131,
+                            "forfeits": 1,
+                            "percentage": 69.95,
+                            "competitionPoints": 3
+                        },
+                        {
+                            "team": {
+                                "id": "ecd14c2b",
+                                "name": "Scotch D",
+                                "organisation": {
+                                    "id": "19f539c8",
+                                    "name": "Scotch Old Scholars",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 1,
+                            "lost": 8,
+                            "drawn": 1,
+                            "byes": 1,
+                            "pointsFor": 249,
+                            "pointsAgainst": 472,
+                            "pointsDifference": -223,
+                            "forfeits": 3,
+                            "percentage": 52.75,
+                            "competitionPoints": 3
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

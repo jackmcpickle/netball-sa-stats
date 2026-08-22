@@ -1,0 +1,148 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "c0a2213a",
+            "name": "17U/4",
+            "ladderType": "POINTS_AVERAGE",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "7deb9b7b",
+                                "name": "SMAA 17B",
+                                "organisation": {
+                                    "id": "72bc9771",
+                                    "name": "St Michael & All Angels",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 13,
+                            "lost": 1,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 443,
+                            "pointsAgainst": 324,
+                            "pointsDifference": 119,
+                            "forfeits": 0,
+                            "percentage": 136.73,
+                            "competitionPoints": 27
+                        },
+                        {
+                            "team": {
+                                "id": "4c597dbd",
+                                "name": "WP Spicy 17C",
+                                "organisation": {
+                                    "id": "53002de5",
+                                    "name": "Westbourne Park Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 10,
+                            "lost": 4,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 445,
+                            "pointsAgainst": 333,
+                            "pointsDifference": 112,
+                            "forfeits": 0,
+                            "percentage": 133.63,
+                            "competitionPoints": 21
+                        },
+                        {
+                            "team": {
+                                "id": "badb79d5",
+                                "name": "Henley Sharks 17B",
+                                "organisation": {
+                                    "id": "e234a948",
+                                    "name": "Henley Sharks Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 9,
+                            "lost": 5,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 374,
+                            "pointsAgainst": 384,
+                            "pointsDifference": -10,
+                            "forfeits": 1,
+                            "percentage": 97.4,
+                            "competitionPoints": 18
+                        },
+                        {
+                            "team": {
+                                "id": "c59a0f7a",
+                                "name": "Morialta 17D",
+                                "organisation": {
+                                    "id": "46cdd3a1",
+                                    "name": "Morialta Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 7,
+                            "lost": 8,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 406,
+                            "pointsAgainst": 396,
+                            "pointsDifference": 10,
+                            "forfeits": 0,
+                            "percentage": 102.53,
+                            "competitionPoints": 14
+                        },
+                        {
+                            "team": {
+                                "id": "8a1c2e4f",
+                                "name": "Hallett Cove 17A",
+                                "organisation": {
+                                    "id": "afa7dc80",
+                                    "name": "Hallett Cove Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 4,
+                            "lost": 11,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 363,
+                            "pointsAgainst": 473,
+                            "pointsDifference": -110,
+                            "forfeits": 0,
+                            "percentage": 76.74,
+                            "competitionPoints": 8
+                        },
+                        {
+                            "team": {
+                                "id": "6e9b4c58",
+                                "name": "WP Sizzle 17B",
+                                "organisation": {
+                                    "id": "53002de5",
+                                    "name": "Westbourne Park Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 1,
+                            "lost": 13,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 291,
+                            "pointsAgainst": 412,
+                            "pointsDifference": -121,
+                            "forfeits": 0,
+                            "percentage": 70.63,
+                            "competitionPoints": 2
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

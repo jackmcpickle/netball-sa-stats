@@ -1,0 +1,126 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "136e4280",
+            "name": "B2",
+            "ladderType": "TOTAL_COMPETITION_POINTS",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "52773802",
+                                "name": "Lazers 03",
+                                "organisation": {
+                                    "id": "d2f381fb",
+                                    "name": "Lazers (SA)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 10,
+                            "lost": 1,
+                            "drawn": 0,
+                            "byes": 3,
+                            "pointsFor": 560,
+                            "pointsAgainst": 417,
+                            "pointsDifference": 143,
+                            "forfeits": 1,
+                            "percentage": 134.29,
+                            "competitionPoints": 20
+                        },
+                        {
+                            "team": {
+                                "id": "37c89f89",
+                                "name": "Gumnuts 01",
+                                "organisation": {
+                                    "id": "f630493f",
+                                    "name": "Gumnuts",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 8,
+                            "lost": 4,
+                            "drawn": 0,
+                            "byes": 3,
+                            "pointsFor": 503,
+                            "pointsAgainst": 406,
+                            "pointsDifference": 97,
+                            "forfeits": 0,
+                            "percentage": 123.89,
+                            "competitionPoints": 16
+                        },
+                        {
+                            "team": {
+                                "id": "30e6cda0",
+                                "name": "EPDemons 03",
+                                "organisation": {
+                                    "id": "5f9fef9c",
+                                    "name": "Eastern Park Demons",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 6,
+                            "lost": 6,
+                            "drawn": 0,
+                            "byes": 3,
+                            "pointsFor": 423,
+                            "pointsAgainst": 463,
+                            "pointsDifference": -40,
+                            "forfeits": 0,
+                            "percentage": 91.36,
+                            "competitionPoints": 12
+                        },
+                        {
+                            "team": {
+                                "id": "8b10df58",
+                                "name": "FIREWORKS 02",
+                                "organisation": {
+                                    "id": "27ce429f",
+                                    "name": "Fireworks Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 3,
+                            "lost": 9,
+                            "drawn": 0,
+                            "byes": 3,
+                            "pointsFor": 427,
+                            "pointsAgainst": 484,
+                            "pointsDifference": -57,
+                            "forfeits": 0,
+                            "percentage": 88.22,
+                            "competitionPoints": 6
+                        },
+                        {
+                            "team": {
+                                "id": "884483a5",
+                                "name": "Gumnuts 02",
+                                "organisation": {
+                                    "id": "f630493f",
+                                    "name": "Gumnuts",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 3,
+                            "lost": 7,
+                            "drawn": 0,
+                            "byes": 3,
+                            "pointsFor": 419,
+                            "pointsAgainst": 562,
+                            "pointsDifference": -143,
+                            "forfeits": 2,
+                            "percentage": 74.56,
+                            "competitionPoints": 6
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

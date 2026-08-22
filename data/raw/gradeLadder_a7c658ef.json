@@ -1,0 +1,104 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "a7c658ef",
+            "name": "M-League Junior Mixed Division",
+            "ladderType": "TOTAL_COMPETITION_POINTS",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "c0259504",
+                                "name": "South Adelaide U17 Junior Mixed",
+                                "organisation": {
+                                    "id": "2e63c9f2",
+                                    "name": "South Adelaide Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 9,
+                            "won": 9,
+                            "lost": 0,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 397,
+                            "pointsAgainst": 315,
+                            "pointsDifference": 82,
+                            "forfeits": 0,
+                            "percentage": 126.03,
+                            "competitionPoints": 18
+                        },
+                        {
+                            "team": {
+                                "id": "85762b79",
+                                "name": "Oakdale",
+                                "organisation": {
+                                    "id": "2f66832f",
+                                    "name": "Oakdale Netball Club (SA)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 9,
+                            "won": 5,
+                            "lost": 4,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 346,
+                            "pointsAgainst": 330,
+                            "pointsDifference": 16,
+                            "forfeits": 0,
+                            "percentage": 104.85,
+                            "competitionPoints": 10
+                        },
+                        {
+                            "team": {
+                                "id": "53fd9176",
+                                "name": "Garville Mixed U17",
+                                "organisation": {
+                                    "id": "241b44c0",
+                                    "name": "Garville",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 9,
+                            "won": 2,
+                            "lost": 7,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 322,
+                            "pointsAgainst": 345,
+                            "pointsDifference": -23,
+                            "forfeits": 0,
+                            "percentage": 93.33,
+                            "competitionPoints": 4
+                        },
+                        {
+                            "team": {
+                                "id": "17c1824a",
+                                "name": "Spice Goals",
+                                "organisation": {
+                                    "id": "7936878d",
+                                    "name": "South Australian Mens and Mixed Netball Association",
+                                    "type": "ASSOCIATION"
+                                }
+                            },
+                            "played": 9,
+                            "won": 2,
+                            "lost": 7,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 284,
+                            "pointsAgainst": 359,
+                            "pointsDifference": -75,
+                            "forfeits": 0,
+                            "percentage": 79.11,
+                            "competitionPoints": 4
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

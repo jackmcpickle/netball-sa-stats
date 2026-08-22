@@ -1,0 +1,126 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "ee1218a3",
+            "name": "D2",
+            "ladderType": "TOTAL_COMPETITION_POINTS",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "79070daf",
+                                "name": "FIREWORKS 05",
+                                "organisation": {
+                                    "id": "27ce429f",
+                                    "name": "Fireworks Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 11,
+                            "lost": 1,
+                            "drawn": 0,
+                            "byes": 3,
+                            "pointsFor": 478,
+                            "pointsAgainst": 312,
+                            "pointsDifference": 166,
+                            "forfeits": 0,
+                            "percentage": 153.21,
+                            "competitionPoints": 22
+                        },
+                        {
+                            "team": {
+                                "id": "84b2fa8a",
+                                "name": "Gazelles 05",
+                                "organisation": {
+                                    "id": "b2a76075",
+                                    "name": "Gazelles (SA)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 10,
+                            "lost": 2,
+                            "drawn": 0,
+                            "byes": 3,
+                            "pointsFor": 506,
+                            "pointsAgainst": 376,
+                            "pointsDifference": 130,
+                            "forfeits": 0,
+                            "percentage": 134.57,
+                            "competitionPoints": 20
+                        },
+                        {
+                            "team": {
+                                "id": "3f506901",
+                                "name": "Bombers 03",
+                                "organisation": {
+                                    "id": "fdc2c5fd",
+                                    "name": "Northern Bombers Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 5,
+                            "lost": 7,
+                            "drawn": 0,
+                            "byes": 3,
+                            "pointsFor": 331,
+                            "pointsAgainst": 386,
+                            "pointsDifference": -55,
+                            "forfeits": 0,
+                            "percentage": 85.75,
+                            "competitionPoints": 10
+                        },
+                        {
+                            "team": {
+                                "id": "f0094e60",
+                                "name": "Lazers 07",
+                                "organisation": {
+                                    "id": "d2f381fb",
+                                    "name": "Lazers (SA)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 3,
+                            "lost": 9,
+                            "drawn": 0,
+                            "byes": 3,
+                            "pointsFor": 362,
+                            "pointsAgainst": 452,
+                            "pointsDifference": -90,
+                            "forfeits": 0,
+                            "percentage": 80.09,
+                            "competitionPoints": 6
+                        },
+                        {
+                            "team": {
+                                "id": "b71158cb",
+                                "name": "S Panthers 03",
+                                "organisation": {
+                                    "id": "87e68d0f",
+                                    "name": "Smithfield Panthers",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 1,
+                            "lost": 11,
+                            "drawn": 0,
+                            "byes": 3,
+                            "pointsFor": 275,
+                            "pointsAgainst": 426,
+                            "pointsDifference": -151,
+                            "forfeits": 0,
+                            "percentage": 64.55,
+                            "competitionPoints": 2
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

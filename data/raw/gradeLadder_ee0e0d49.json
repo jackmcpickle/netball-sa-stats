@@ -1,0 +1,126 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "ee0e0d49",
+            "name": "Primary 2",
+            "ladderType": "TOTAL_COMPETITION_POINTS",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "d9073151",
+                                "name": "SNNC Green 2",
+                                "organisation": {
+                                    "id": "65a24905",
+                                    "name": "Salisbury North Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 11,
+                            "lost": 1,
+                            "drawn": 1,
+                            "byes": 2,
+                            "pointsFor": 76,
+                            "pointsAgainst": 60,
+                            "pointsDifference": 16,
+                            "forfeits": 0,
+                            "percentage": 126.67,
+                            "competitionPoints": 23
+                        },
+                        {
+                            "team": {
+                                "id": "f4b0ba9f",
+                                "name": "FIREWORKS 21",
+                                "organisation": {
+                                    "id": "27ce429f",
+                                    "name": "Fireworks Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 9,
+                            "lost": 2,
+                            "drawn": 2,
+                            "byes": 2,
+                            "pointsFor": 116,
+                            "pointsAgainst": 62,
+                            "pointsDifference": 54,
+                            "forfeits": 0,
+                            "percentage": 187.1,
+                            "competitionPoints": 20
+                        },
+                        {
+                            "team": {
+                                "id": "0b1f6e1e",
+                                "name": "EPDemons 12",
+                                "organisation": {
+                                    "id": "5f9fef9c",
+                                    "name": "Eastern Park Demons",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 9,
+                            "lost": 4,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 147,
+                            "pointsAgainst": 69,
+                            "pointsDifference": 78,
+                            "forfeits": 0,
+                            "percentage": 213.04,
+                            "competitionPoints": 18
+                        },
+                        {
+                            "team": {
+                                "id": "5ab6b318",
+                                "name": "S Panthers  8",
+                                "organisation": {
+                                    "id": "87e68d0f",
+                                    "name": "Smithfield Panthers",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 4,
+                            "lost": 8,
+                            "drawn": 1,
+                            "byes": 2,
+                            "pointsFor": 100,
+                            "pointsAgainst": 104,
+                            "pointsDifference": -4,
+                            "forfeits": 0,
+                            "percentage": 96.15,
+                            "competitionPoints": 9
+                        },
+                        {
+                            "team": {
+                                "id": "15eacf35",
+                                "name": "Mystic Opals 12",
+                                "organisation": {
+                                    "id": "637de894",
+                                    "name": "Mystic Opals",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 3,
+                            "lost": 8,
+                            "drawn": 2,
+                            "byes": 2,
+                            "pointsFor": 98,
+                            "pointsAgainst": 110,
+                            "pointsDifference": -12,
+                            "forfeits": 0,
+                            "percentage": 89.09,
+                            "competitionPoints": 8
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

@@ -1,0 +1,170 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "3777f4b5",
+            "name": "C3",
+            "ladderType": "POINTS_AVERAGE",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "b1052e72",
+                                "name": "Morialta E",
+                                "organisation": {
+                                    "id": "46cdd3a1",
+                                    "name": "Morialta Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 12,
+                            "lost": 2,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 429,
+                            "pointsAgainst": 337,
+                            "pointsDifference": 92,
+                            "forfeits": 0,
+                            "percentage": 127.3,
+                            "competitionPoints": 24
+                        },
+                        {
+                            "team": {
+                                "id": "e10ff428",
+                                "name": "Burnside City B",
+                                "organisation": {
+                                    "id": "96f9975a",
+                                    "name": "Burnside City Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 10,
+                            "lost": 1,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 381,
+                            "pointsAgainst": 195,
+                            "pointsDifference": 186,
+                            "forfeits": 1,
+                            "percentage": 195.38,
+                            "competitionPoints": 20
+                        },
+                        {
+                            "team": {
+                                "id": "0fb32217",
+                                "name": "Adelaide Luth Royal L",
+                                "organisation": {
+                                    "id": "66a7fd12",
+                                    "name": "Adelaide Lutheran",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 9,
+                            "lost": 2,
+                            "drawn": 1,
+                            "byes": 2,
+                            "pointsFor": 309,
+                            "pointsAgainst": 267,
+                            "pointsDifference": 42,
+                            "forfeits": 0,
+                            "percentage": 115.73,
+                            "competitionPoints": 19
+                        },
+                        {
+                            "team": {
+                                "id": "c695f908",
+                                "name": "Walkerville C",
+                                "organisation": {
+                                    "id": "a83c7a81",
+                                    "name": "Walkerville",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 6,
+                            "lost": 6,
+                            "drawn": 1,
+                            "byes": 1,
+                            "pointsFor": 399,
+                            "pointsAgainst": 358,
+                            "pointsDifference": 41,
+                            "forfeits": 0,
+                            "percentage": 111.45,
+                            "competitionPoints": 13
+                        },
+                        {
+                            "team": {
+                                "id": "07449f38",
+                                "name": "Hallett Cove B",
+                                "organisation": {
+                                    "id": "afa7dc80",
+                                    "name": "Hallett Cove Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 4,
+                            "lost": 9,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 257,
+                            "pointsAgainst": 347,
+                            "pointsDifference": -90,
+                            "forfeits": 0,
+                            "percentage": 74.06,
+                            "competitionPoints": 8
+                        },
+                        {
+                            "team": {
+                                "id": "aa848811",
+                                "name": "WP Orange M",
+                                "organisation": {
+                                    "id": "53002de5",
+                                    "name": "Westbourne Park Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 3,
+                            "lost": 9,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 317,
+                            "pointsAgainst": 480,
+                            "pointsDifference": -163,
+                            "forfeits": 1,
+                            "percentage": 66.04,
+                            "competitionPoints": 6
+                        },
+                        {
+                            "team": {
+                                "id": "e9830700",
+                                "name": "Adelaide Luth Rose M",
+                                "organisation": {
+                                    "id": "66a7fd12",
+                                    "name": "Adelaide Lutheran",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 2,
+                            "lost": 10,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 216,
+                            "pointsAgainst": 324,
+                            "pointsDifference": -108,
+                            "forfeits": 0,
+                            "percentage": 66.67,
+                            "competitionPoints": 4
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

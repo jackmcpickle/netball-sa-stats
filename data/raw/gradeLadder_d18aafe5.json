@@ -1,0 +1,126 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "d18aafe5",
+            "name": "Seniors Div 02",
+            "ladderType": "TOTAL_COMPETITION_POINTS",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "67b9ae2d",
+                                "name": "Southern Phoenix 2",
+                                "organisation": {
+                                    "id": "913e663a",
+                                    "name": "Southern Phoenix Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 9,
+                            "lost": 3,
+                            "drawn": 0,
+                            "byes": 3,
+                            "pointsFor": 511,
+                            "pointsAgainst": 442,
+                            "pointsDifference": 69,
+                            "forfeits": 0,
+                            "percentage": 115.61,
+                            "competitionPoints": 24
+                        },
+                        {
+                            "team": {
+                                "id": "c96a2465",
+                                "name": "Southern Stars Senior Teal",
+                                "organisation": {
+                                    "id": "d7cbd109",
+                                    "name": "Southern Stars Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 7,
+                            "lost": 5,
+                            "drawn": 0,
+                            "byes": 3,
+                            "pointsFor": 560,
+                            "pointsAgainst": 471,
+                            "pointsDifference": 89,
+                            "forfeits": 0,
+                            "percentage": 118.9,
+                            "competitionPoints": 20
+                        },
+                        {
+                            "team": {
+                                "id": "a07bffc0",
+                                "name": "Reynella 3",
+                                "organisation": {
+                                    "id": "485b7b56",
+                                    "name": "Reynella Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 7,
+                            "lost": 5,
+                            "drawn": 0,
+                            "byes": 3,
+                            "pointsFor": 520,
+                            "pointsAgainst": 481,
+                            "pointsDifference": 39,
+                            "forfeits": 0,
+                            "percentage": 108.11,
+                            "competitionPoints": 20
+                        },
+                        {
+                            "team": {
+                                "id": "ec45cee6",
+                                "name": "Ladybirds RED",
+                                "organisation": {
+                                    "id": "6df89217",
+                                    "name": "Ladybirds Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 6,
+                            "lost": 6,
+                            "drawn": 0,
+                            "byes": 3,
+                            "pointsFor": 495,
+                            "pointsAgainst": 492,
+                            "pointsDifference": 3,
+                            "forfeits": 0,
+                            "percentage": 100.61,
+                            "competitionPoints": 18
+                        },
+                        {
+                            "team": {
+                                "id": "ce1dc71d",
+                                "name": "Morphett Vale  2",
+                                "organisation": {
+                                    "id": "b3f21234",
+                                    "name": "Morphett Vale Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 1,
+                            "lost": 11,
+                            "drawn": 0,
+                            "byes": 3,
+                            "pointsFor": 432,
+                            "pointsAgainst": 632,
+                            "pointsDifference": -200,
+                            "forfeits": 0,
+                            "percentage": 68.35,
+                            "competitionPoints": 8
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

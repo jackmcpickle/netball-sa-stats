@@ -1,0 +1,148 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "dcedac0c",
+            "name": "D1",
+            "ladderType": "TOTAL_COMPETITION_POINTS",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "41d3bc51",
+                                "name": "Fireworks 06",
+                                "organisation": {
+                                    "id": "27ce429f",
+                                    "name": "Fireworks Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 11,
+                            "lost": 3,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 462,
+                            "pointsAgainst": 309,
+                            "pointsDifference": 153,
+                            "forfeits": 0,
+                            "percentage": 149.51,
+                            "competitionPoints": 22
+                        },
+                        {
+                            "team": {
+                                "id": "979c4c1e",
+                                "name": "Mystic Opals 04",
+                                "organisation": {
+                                    "id": "637de894",
+                                    "name": "Mystic Opals",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 10,
+                            "lost": 4,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 474,
+                            "pointsAgainst": 403,
+                            "pointsDifference": 71,
+                            "forfeits": 0,
+                            "percentage": 117.62,
+                            "competitionPoints": 20
+                        },
+                        {
+                            "team": {
+                                "id": "35a09671",
+                                "name": "Bombers 1",
+                                "organisation": {
+                                    "id": "fdc2c5fd",
+                                    "name": "Northern Bombers Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 9,
+                            "lost": 4,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 523,
+                            "pointsAgainst": 461,
+                            "pointsDifference": 62,
+                            "forfeits": 1,
+                            "percentage": 113.45,
+                            "competitionPoints": 18
+                        },
+                        {
+                            "team": {
+                                "id": "76ebad11",
+                                "name": "Tiki 2",
+                                "organisation": {
+                                    "id": "62eaac91",
+                                    "name": "Tiki",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 6,
+                            "lost": 8,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 512,
+                            "pointsAgainst": 541,
+                            "pointsDifference": -29,
+                            "forfeits": 0,
+                            "percentage": 94.64,
+                            "competitionPoints": 12
+                        },
+                        {
+                            "team": {
+                                "id": "d524386a",
+                                "name": "Koalas 1",
+                                "organisation": {
+                                    "id": "b3d5bec7",
+                                    "name": "Koala United",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 4,
+                            "lost": 10,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 475,
+                            "pointsAgainst": 604,
+                            "pointsDifference": -129,
+                            "forfeits": 0,
+                            "percentage": 78.64,
+                            "competitionPoints": 8
+                        },
+                        {
+                            "team": {
+                                "id": "ef18b635",
+                                "name": "Gazelles 05",
+                                "organisation": {
+                                    "id": "b2a76075",
+                                    "name": "Gazelles (SA)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 2,
+                            "lost": 11,
+                            "drawn": 0,
+                            "byes": 0,
+                            "pointsFor": 407,
+                            "pointsAgainst": 535,
+                            "pointsDifference": -128,
+                            "forfeits": 1,
+                            "percentage": 76.07,
+                            "competitionPoints": 4
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

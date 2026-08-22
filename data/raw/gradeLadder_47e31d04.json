@@ -1,0 +1,126 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "47e31d04",
+            "name": "Sub Junior 4",
+            "ladderType": "TOTAL_COMPETITION_POINTS",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "9deff3f2",
+                                "name": "SNNC Gold 2",
+                                "organisation": {
+                                    "id": "65a24905",
+                                    "name": "Salisbury North Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 12,
+                            "lost": 1,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 272,
+                            "pointsAgainst": 124,
+                            "pointsDifference": 148,
+                            "forfeits": 0,
+                            "percentage": 219.35,
+                            "competitionPoints": 24
+                        },
+                        {
+                            "team": {
+                                "id": "542e3ee3",
+                                "name": "S Panthers 07",
+                                "organisation": {
+                                    "id": "87e68d0f",
+                                    "name": "Smithfield Panthers",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 10,
+                            "lost": 2,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 263,
+                            "pointsAgainst": 101,
+                            "pointsDifference": 162,
+                            "forfeits": 0,
+                            "percentage": 260.4,
+                            "competitionPoints": 20
+                        },
+                        {
+                            "team": {
+                                "id": "d4a4ce5c",
+                                "name": "Angle Vale 13",
+                                "organisation": {
+                                    "id": "1267db67",
+                                    "name": "Angle Vale",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 9,
+                            "lost": 3,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 280,
+                            "pointsAgainst": 132,
+                            "pointsDifference": 148,
+                            "forfeits": 0,
+                            "percentage": 212.12,
+                            "competitionPoints": 18
+                        },
+                        {
+                            "team": {
+                                "id": "25668278",
+                                "name": "Gazelles 12",
+                                "organisation": {
+                                    "id": "b2a76075",
+                                    "name": "Gazelles (SA)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 2,
+                            "lost": 9,
+                            "drawn": 0,
+                            "byes": 3,
+                            "pointsFor": 68,
+                            "pointsAgainst": 175,
+                            "pointsDifference": -107,
+                            "forfeits": 0,
+                            "percentage": 38.86,
+                            "competitionPoints": 4
+                        },
+                        {
+                            "team": {
+                                "id": "824893d2",
+                                "name": "Mystic Opals 10",
+                                "organisation": {
+                                    "id": "637de894",
+                                    "name": "Mystic Opals",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 0,
+                            "lost": 10,
+                            "drawn": 0,
+                            "byes": 3,
+                            "pointsFor": 37,
+                            "pointsAgainst": 183,
+                            "pointsDifference": -146,
+                            "forfeits": 1,
+                            "percentage": 20.22,
+                            "competitionPoints": -2
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

@@ -80,11 +80,11 @@ describe(parseGradeName, () => {
     it('falls back on an unknown association grade instead of throwing', () => {
         expect(parseGradeName('Mystery Grade 9', 'saucna')).toStrictEqual({
             division: 9,
-            tier: 99,
+            tier: 20,
         });
         expect(parseGradeName('Open Women', 'elizabeth')).toStrictEqual({
             division: null,
-            tier: 99,
+            tier: 20,
         });
     });
 
@@ -167,6 +167,30 @@ describe('parseGradeName for SA associations', () => {
         ).toStrictEqual({
             division: null,
             tier: 1,
+        });
+        expect(
+            parseGradeName("M-League Men's Division 1", 'sammna'),
+        ).toStrictEqual({
+            division: 1,
+            tier: 1,
+        });
+        expect(
+            parseGradeName('M-League Junior Mixed Division', 'sammna'),
+        ).toStrictEqual({
+            division: null,
+            tier: 2,
+        });
+        expect(parseGradeName('Open Mens', 'sammna')).toStrictEqual({
+            division: null,
+            tier: 1,
+        });
+        expect(parseGradeName('Junior Boys', 'sammna')).toStrictEqual({
+            division: null,
+            tier: 2,
+        });
+        expect(parseGradeName('U14 Boys', 'elizabeth')).toStrictEqual({
+            division: null,
+            tier: 7,
         });
         expect(parseGradeName('8U/1', 'saucna')).toStrictEqual({
             division: 1,

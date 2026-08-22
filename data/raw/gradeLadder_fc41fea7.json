@@ -1,0 +1,170 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "fc41fea7",
+            "name": "B2",
+            "ladderType": "TOTAL_COMPETITION_POINTS",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "988826b7",
+                                "name": "Angle Vale 02",
+                                "organisation": {
+                                    "id": "1267db67",
+                                    "name": "Angle Vale",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 10,
+                            "lost": 2,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 537,
+                            "pointsAgainst": 329,
+                            "pointsDifference": 208,
+                            "forfeits": 0,
+                            "percentage": 163.22,
+                            "competitionPoints": 20
+                        },
+                        {
+                            "team": {
+                                "id": "712ef702",
+                                "name": "Fireworks 02",
+                                "organisation": {
+                                    "id": "27ce429f",
+                                    "name": "Fireworks Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 9,
+                            "lost": 3,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 603,
+                            "pointsAgainst": 401,
+                            "pointsDifference": 202,
+                            "forfeits": 0,
+                            "percentage": 150.37,
+                            "competitionPoints": 18
+                        },
+                        {
+                            "team": {
+                                "id": "95a48823",
+                                "name": "Gawler River 2",
+                                "organisation": {
+                                    "id": "fefba28e",
+                                    "name": "Angle Vale Football Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 8,
+                            "lost": 3,
+                            "drawn": 1,
+                            "byes": 2,
+                            "pointsFor": 541,
+                            "pointsAgainst": 449,
+                            "pointsDifference": 92,
+                            "forfeits": 0,
+                            "percentage": 120.49,
+                            "competitionPoints": 17
+                        },
+                        {
+                            "team": {
+                                "id": "23cebece",
+                                "name": "Harlequin 2",
+                                "organisation": {
+                                    "id": "6df86dac",
+                                    "name": "Harlequin Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 6,
+                            "lost": 4,
+                            "drawn": 1,
+                            "byes": 2,
+                            "pointsFor": 413,
+                            "pointsAgainst": 379,
+                            "pointsDifference": 34,
+                            "forfeits": 1,
+                            "percentage": 108.97,
+                            "competitionPoints": 13
+                        },
+                        {
+                            "team": {
+                                "id": "839fdf31",
+                                "name": "Angle Vale 03",
+                                "organisation": {
+                                    "id": "1267db67",
+                                    "name": "Angle Vale",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 6,
+                            "lost": 6,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 457,
+                            "pointsAgainst": 470,
+                            "pointsDifference": -13,
+                            "forfeits": 0,
+                            "percentage": 97.23,
+                            "competitionPoints": 12
+                        },
+                        {
+                            "team": {
+                                "id": "748776d9",
+                                "name": "EPDemons 02",
+                                "organisation": {
+                                    "id": "5f9fef9c",
+                                    "name": "Eastern Park Demons",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 2,
+                            "lost": 8,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 296,
+                            "pointsAgainst": 439,
+                            "pointsDifference": -143,
+                            "forfeits": 2,
+                            "percentage": 67.43,
+                            "competitionPoints": 4
+                        },
+                        {
+                            "team": {
+                                "id": "5a04bb8e",
+                                "name": "Smithfield Panthers 1",
+                                "organisation": {
+                                    "id": "87e68d0f",
+                                    "name": "Smithfield Panthers",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 0,
+                            "lost": 11,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 249,
+                            "pointsAgainst": 629,
+                            "pointsDifference": -380,
+                            "forfeits": 1,
+                            "percentage": 39.59,
+                            "competitionPoints": 0
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

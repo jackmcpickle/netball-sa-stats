@@ -1,0 +1,170 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "ae66b2bd",
+            "name": "Junior 3",
+            "ladderType": "TOTAL_COMPETITION_POINTS",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "e954327e",
+                                "name": "Bombers 07",
+                                "organisation": {
+                                    "id": "fdc2c5fd",
+                                    "name": "Northern Bombers Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 11,
+                            "lost": 0,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 303,
+                            "pointsAgainst": 99,
+                            "pointsDifference": 204,
+                            "forfeits": 0,
+                            "percentage": 306.06,
+                            "competitionPoints": 22
+                        },
+                        {
+                            "team": {
+                                "id": "5d7ae1d8",
+                                "name": "Mystic Opals 08",
+                                "organisation": {
+                                    "id": "637de894",
+                                    "name": "Mystic Opals",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 7,
+                            "lost": 4,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 163,
+                            "pointsAgainst": 183,
+                            "pointsDifference": -20,
+                            "forfeits": 0,
+                            "percentage": 89.07,
+                            "competitionPoints": 14
+                        },
+                        {
+                            "team": {
+                                "id": "8ad992c6",
+                                "name": "Vulcans 08",
+                                "organisation": {
+                                    "id": "f00d83f9",
+                                    "name": "Vulcans Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 7,
+                            "lost": 6,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 296,
+                            "pointsAgainst": 360,
+                            "pointsDifference": -64,
+                            "forfeits": 0,
+                            "percentage": 82.22,
+                            "competitionPoints": 14
+                        },
+                        {
+                            "team": {
+                                "id": "204302cd",
+                                "name": "Tiki 4",
+                                "organisation": {
+                                    "id": "62eaac91",
+                                    "name": "Tiki",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 6,
+                            "lost": 6,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 225,
+                            "pointsAgainst": 148,
+                            "pointsDifference": 77,
+                            "forfeits": 0,
+                            "percentage": 152.03,
+                            "competitionPoints": 12
+                        },
+                        {
+                            "team": {
+                                "id": "a0786450",
+                                "name": "EPDemons 09",
+                                "organisation": {
+                                    "id": "5f9fef9c",
+                                    "name": "Eastern Park Demons",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 6,
+                            "lost": 6,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 336,
+                            "pointsAgainst": 316,
+                            "pointsDifference": 20,
+                            "forfeits": 0,
+                            "percentage": 106.33,
+                            "competitionPoints": 12
+                        },
+                        {
+                            "team": {
+                                "id": "2b61f4b8",
+                                "name": "Koalas 4",
+                                "organisation": {
+                                    "id": "b3d5bec7",
+                                    "name": "Koala United",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 4,
+                            "lost": 8,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 273,
+                            "pointsAgainst": 328,
+                            "pointsDifference": -55,
+                            "forfeits": 0,
+                            "percentage": 83.23,
+                            "competitionPoints": 8
+                        },
+                        {
+                            "team": {
+                                "id": "6d72dafc",
+                                "name": "FIREWORKS 13",
+                                "organisation": {
+                                    "id": "27ce429f",
+                                    "name": "Fireworks Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 2,
+                            "lost": 10,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 231,
+                            "pointsAgainst": 338,
+                            "pointsDifference": -107,
+                            "forfeits": 0,
+                            "percentage": 68.34,
+                            "competitionPoints": 4
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

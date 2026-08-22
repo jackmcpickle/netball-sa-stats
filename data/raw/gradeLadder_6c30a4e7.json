@@ -1,0 +1,126 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "6c30a4e7",
+            "name": "Sub Junior 3",
+            "ladderType": "TOTAL_COMPETITION_POINTS",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "8a5141d1",
+                                "name": "Mystic Opals 09",
+                                "organisation": {
+                                    "id": "637de894",
+                                    "name": "Mystic Opals",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 9,
+                            "lost": 2,
+                            "drawn": 0,
+                            "byes": 3,
+                            "pointsFor": 184,
+                            "pointsAgainst": 127,
+                            "pointsDifference": 57,
+                            "forfeits": 0,
+                            "percentage": 144.88,
+                            "competitionPoints": 18
+                        },
+                        {
+                            "team": {
+                                "id": "7e676173",
+                                "name": "Tiki 5",
+                                "organisation": {
+                                    "id": "62eaac91",
+                                    "name": "Tiki",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 8,
+                            "lost": 3,
+                            "drawn": 0,
+                            "byes": 3,
+                            "pointsFor": 225,
+                            "pointsAgainst": 160,
+                            "pointsDifference": 65,
+                            "forfeits": 0,
+                            "percentage": 140.63,
+                            "competitionPoints": 16
+                        },
+                        {
+                            "team": {
+                                "id": "113b0fc9",
+                                "name": "FIREWORKS 17",
+                                "organisation": {
+                                    "id": "27ce429f",
+                                    "name": "Fireworks Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 5,
+                            "lost": 8,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 201,
+                            "pointsAgainst": 203,
+                            "pointsDifference": -2,
+                            "forfeits": 0,
+                            "percentage": 99.01,
+                            "competitionPoints": 10
+                        },
+                        {
+                            "team": {
+                                "id": "1e28a84d",
+                                "name": "Vulcans 10",
+                                "organisation": {
+                                    "id": "f00d83f9",
+                                    "name": "Vulcans Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 4,
+                            "lost": 5,
+                            "drawn": 0,
+                            "byes": 3,
+                            "pointsFor": 139,
+                            "pointsAgainst": 149,
+                            "pointsDifference": -10,
+                            "forfeits": 2,
+                            "percentage": 93.29,
+                            "competitionPoints": 8
+                        },
+                        {
+                            "team": {
+                                "id": "d720b268",
+                                "name": "Gazelles 11",
+                                "organisation": {
+                                    "id": "b2a76075",
+                                    "name": "Gazelles (SA)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 1,
+                            "lost": 9,
+                            "drawn": 0,
+                            "byes": 3,
+                            "pointsFor": 68,
+                            "pointsAgainst": 160,
+                            "pointsDifference": -92,
+                            "forfeits": 1,
+                            "percentage": 42.5,
+                            "competitionPoints": 2
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

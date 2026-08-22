@@ -1,0 +1,126 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "b3a9edb0",
+            "name": "Inters 3",
+            "ladderType": "TOTAL_COMPETITION_POINTS",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "6ec94243",
+                                "name": "FIREWORKS 08",
+                                "organisation": {
+                                    "id": "27ce429f",
+                                    "name": "Fireworks Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 8,
+                            "lost": 3,
+                            "drawn": 0,
+                            "byes": 3,
+                            "pointsFor": 197,
+                            "pointsAgainst": 133,
+                            "pointsDifference": 64,
+                            "forfeits": 0,
+                            "percentage": 148.12,
+                            "competitionPoints": 16
+                        },
+                        {
+                            "team": {
+                                "id": "7f94a97b",
+                                "name": "Gazelles 08",
+                                "organisation": {
+                                    "id": "b2a76075",
+                                    "name": "Gazelles (SA)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 7,
+                            "lost": 5,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 278,
+                            "pointsAgainst": 174,
+                            "pointsDifference": 104,
+                            "forfeits": 0,
+                            "percentage": 159.77,
+                            "competitionPoints": 14
+                        },
+                        {
+                            "team": {
+                                "id": "a7fc0e1b",
+                                "name": "Koalas 3",
+                                "organisation": {
+                                    "id": "b3d5bec7",
+                                    "name": "Koala United",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 7,
+                            "lost": 4,
+                            "drawn": 0,
+                            "byes": 3,
+                            "pointsFor": 198,
+                            "pointsAgainst": 197,
+                            "pointsDifference": 1,
+                            "forfeits": 0,
+                            "percentage": 100.51,
+                            "competitionPoints": 14
+                        },
+                        {
+                            "team": {
+                                "id": "77bd47ad",
+                                "name": "Mystic Opals 07",
+                                "organisation": {
+                                    "id": "637de894",
+                                    "name": "Mystic Opals",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 1,
+                            "lost": 11,
+                            "drawn": 0,
+                            "byes": 3,
+                            "pointsFor": 174,
+                            "pointsAgainst": 205,
+                            "pointsDifference": -31,
+                            "forfeits": 0,
+                            "percentage": 84.88,
+                            "competitionPoints": 2
+                        },
+                        {
+                            "team": {
+                                "id": "eb1e9671",
+                                "name": "Angle Vale 11",
+                                "organisation": {
+                                    "id": "1267db67",
+                                    "name": "Angle Vale",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 1,
+                            "lost": 9,
+                            "drawn": 0,
+                            "byes": 3,
+                            "pointsFor": 81,
+                            "pointsAgainst": 219,
+                            "pointsDifference": -138,
+                            "forfeits": 1,
+                            "percentage": 36.99,
+                            "competitionPoints": 0
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

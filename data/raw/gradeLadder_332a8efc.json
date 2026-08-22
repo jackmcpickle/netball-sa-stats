@@ -1,0 +1,126 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "332a8efc",
+            "name": "D4",
+            "ladderType": "TOTAL_COMPETITION_POINTS",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "40c6f1c0",
+                                "name": "PHOENIX 5",
+                                "organisation": {
+                                    "id": "9df538be",
+                                    "name": "INACTIVE.... Phoenix Netball Club (ENA, SA)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 11,
+                            "lost": 1,
+                            "drawn": 0,
+                            "byes": 3,
+                            "pointsFor": 372,
+                            "pointsAgainst": 191,
+                            "pointsDifference": 181,
+                            "forfeits": 0,
+                            "percentage": 194.76,
+                            "competitionPoints": 22
+                        },
+                        {
+                            "team": {
+                                "id": "f84ec95c",
+                                "name": "Harlequin 4",
+                                "organisation": {
+                                    "id": "6df86dac",
+                                    "name": "Harlequin Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 8,
+                            "lost": 4,
+                            "drawn": 0,
+                            "byes": 3,
+                            "pointsFor": 400,
+                            "pointsAgainst": 246,
+                            "pointsDifference": 154,
+                            "forfeits": 0,
+                            "percentage": 162.6,
+                            "competitionPoints": 16
+                        },
+                        {
+                            "team": {
+                                "id": "b63dad4e",
+                                "name": "Lazers 07",
+                                "organisation": {
+                                    "id": "d2f381fb",
+                                    "name": "Lazers (SA)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 6,
+                            "lost": 6,
+                            "drawn": 0,
+                            "byes": 3,
+                            "pointsFor": 370,
+                            "pointsAgainst": 302,
+                            "pointsDifference": 68,
+                            "forfeits": 0,
+                            "percentage": 122.52,
+                            "competitionPoints": 12
+                        },
+                        {
+                            "team": {
+                                "id": "9abf5605",
+                                "name": "Fireworks 07",
+                                "organisation": {
+                                    "id": "27ce429f",
+                                    "name": "Fireworks Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 5,
+                            "lost": 8,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 404,
+                            "pointsAgainst": 332,
+                            "pointsDifference": 72,
+                            "forfeits": 0,
+                            "percentage": 121.69,
+                            "competitionPoints": 10
+                        },
+                        {
+                            "team": {
+                                "id": "721da9b6",
+                                "name": "Mystic Opals 05",
+                                "organisation": {
+                                    "id": "637de894",
+                                    "name": "Mystic Opals",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 1,
+                            "lost": 10,
+                            "drawn": 0,
+                            "byes": 3,
+                            "pointsFor": 176,
+                            "pointsAgainst": 629,
+                            "pointsDifference": -453,
+                            "forfeits": 1,
+                            "percentage": 27.98,
+                            "competitionPoints": 2
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

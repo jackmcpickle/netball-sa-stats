@@ -1,0 +1,170 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "df3d61f2",
+            "name": "A4",
+            "ladderType": "POINTS_AVERAGE",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "944db9bd",
+                                "name": "Adelaide Uni B",
+                                "organisation": {
+                                    "id": "d5bdb649",
+                                    "name": "Adelaide University",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 11,
+                            "lost": 1,
+                            "drawn": 1,
+                            "byes": 2,
+                            "pointsFor": 385,
+                            "pointsAgainst": 227,
+                            "pointsDifference": 158,
+                            "forfeits": 0,
+                            "percentage": 169.6,
+                            "competitionPoints": 23
+                        },
+                        {
+                            "team": {
+                                "id": "aa26e852",
+                                "name": "Adelaide Luth Shiraz C",
+                                "organisation": {
+                                    "id": "66a7fd12",
+                                    "name": "Adelaide Lutheran",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 10,
+                            "lost": 2,
+                            "drawn": 1,
+                            "byes": 2,
+                            "pointsFor": 377,
+                            "pointsAgainst": 284,
+                            "pointsDifference": 93,
+                            "forfeits": 0,
+                            "percentage": 132.75,
+                            "competitionPoints": 21
+                        },
+                        {
+                            "team": {
+                                "id": "f1a09479",
+                                "name": "Rosebourne A",
+                                "organisation": {
+                                    "id": "cfe4f8f0",
+                                    "name": "Rosebourne",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 7,
+                            "lost": 3,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 311,
+                            "pointsAgainst": 365,
+                            "pointsDifference": -54,
+                            "forfeits": 2,
+                            "percentage": 85.21,
+                            "competitionPoints": 14
+                        },
+                        {
+                            "team": {
+                                "id": "4ce39520",
+                                "name": "Burnside City A",
+                                "organisation": {
+                                    "id": "96f9975a",
+                                    "name": "Burnside City Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 8,
+                            "lost": 5,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 381,
+                            "pointsAgainst": 355,
+                            "pointsDifference": 26,
+                            "forfeits": 1,
+                            "percentage": 107.32,
+                            "competitionPoints": 16
+                        },
+                        {
+                            "team": {
+                                "id": "c223a2d9",
+                                "name": "Glengowrie Uniting A",
+                                "organisation": {
+                                    "id": "8d82bd18",
+                                    "name": "Glengowrie",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 6,
+                            "lost": 8,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 411,
+                            "pointsAgainst": 396,
+                            "pointsDifference": 15,
+                            "forfeits": 0,
+                            "percentage": 103.79,
+                            "competitionPoints": 12
+                        },
+                        {
+                            "team": {
+                                "id": "0f2c6f14",
+                                "name": "SMAA C",
+                                "organisation": {
+                                    "id": "72bc9771",
+                                    "name": "St Michael & All Angels",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 2,
+                            "lost": 9,
+                            "drawn": 1,
+                            "byes": 2,
+                            "pointsFor": 284,
+                            "pointsAgainst": 377,
+                            "pointsDifference": -93,
+                            "forfeits": 1,
+                            "percentage": 75.33,
+                            "competitionPoints": 5
+                        },
+                        {
+                            "team": {
+                                "id": "0cf24e07",
+                                "name": "Seacliff A",
+                                "organisation": {
+                                    "id": "f33aba5d",
+                                    "name": "Seacliff Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 2,
+                            "lost": 10,
+                            "drawn": 1,
+                            "byes": 1,
+                            "pointsFor": 266,
+                            "pointsAgainst": 419,
+                            "pointsDifference": -153,
+                            "forfeits": 1,
+                            "percentage": 63.48,
+                            "competitionPoints": 5
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

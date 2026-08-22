@@ -1,0 +1,170 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "d3b4b03d",
+            "name": "15U/4",
+            "ladderType": "POINTS_AVERAGE",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "985a00c7",
+                                "name": "Hectorville Red 15C",
+                                "organisation": {
+                                    "id": "a836b73f",
+                                    "name": "Hectorville Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 10,
+                            "lost": 2,
+                            "drawn": 1,
+                            "byes": 2,
+                            "pointsFor": 399,
+                            "pointsAgainst": 301,
+                            "pointsDifference": 98,
+                            "forfeits": 0,
+                            "percentage": 132.56,
+                            "competitionPoints": 21
+                        },
+                        {
+                            "team": {
+                                "id": "d352e592",
+                                "name": "SMAA 15A",
+                                "organisation": {
+                                    "id": "72bc9771",
+                                    "name": "St Michael & All Angels",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 10,
+                            "lost": 3,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 339,
+                            "pointsAgainst": 249,
+                            "pointsDifference": 90,
+                            "forfeits": 1,
+                            "percentage": 136.14,
+                            "competitionPoints": 20
+                        },
+                        {
+                            "team": {
+                                "id": "c617cdc2",
+                                "name": "St Monicas 15A",
+                                "organisation": {
+                                    "id": "9b1b9579",
+                                    "name": "St Monicas",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 9,
+                            "lost": 4,
+                            "drawn": 1,
+                            "byes": 1,
+                            "pointsFor": 423,
+                            "pointsAgainst": 296,
+                            "pointsDifference": 127,
+                            "forfeits": 0,
+                            "percentage": 142.91,
+                            "competitionPoints": 19
+                        },
+                        {
+                            "team": {
+                                "id": "5adef005",
+                                "name": "WP Heatwave 15C",
+                                "organisation": {
+                                    "id": "53002de5",
+                                    "name": "Westbourne Park Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 7,
+                            "lost": 7,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 312,
+                            "pointsAgainst": 338,
+                            "pointsDifference": -26,
+                            "forfeits": 0,
+                            "percentage": 92.31,
+                            "competitionPoints": 14
+                        },
+                        {
+                            "team": {
+                                "id": "c21bfed0",
+                                "name": "Hectorville Blue 15B",
+                                "organisation": {
+                                    "id": "a836b73f",
+                                    "name": "Hectorville Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 4,
+                            "lost": 9,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 287,
+                            "pointsAgainst": 294,
+                            "pointsDifference": -7,
+                            "forfeits": 0,
+                            "percentage": 97.62,
+                            "competitionPoints": 8
+                        },
+                        {
+                            "team": {
+                                "id": "09a8e222",
+                                "name": "WP Hurricane 15B",
+                                "organisation": {
+                                    "id": "53002de5",
+                                    "name": "Westbourne Park Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 3,
+                            "lost": 8,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 222,
+                            "pointsAgainst": 293,
+                            "pointsDifference": -71,
+                            "forfeits": 1,
+                            "percentage": 75.77,
+                            "competitionPoints": 6
+                        },
+                        {
+                            "team": {
+                                "id": "67fd8b1f",
+                                "name": "Burnside City 15A",
+                                "organisation": {
+                                    "id": "96f9975a",
+                                    "name": "Burnside City Uniting",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 14,
+                            "won": 1,
+                            "lost": 13,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 188,
+                            "pointsAgainst": 399,
+                            "pointsDifference": -211,
+                            "forfeits": 0,
+                            "percentage": 47.12,
+                            "competitionPoints": 2
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

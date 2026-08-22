@@ -1,0 +1,148 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "3c3c2d27",
+            "name": "Primary 1",
+            "ladderType": "TOTAL_COMPETITION_POINTS",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "492ec45c",
+                                "name": "Fireworks 16",
+                                "organisation": {
+                                    "id": "27ce429f",
+                                    "name": "Fireworks Netball Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 14,
+                            "lost": 0,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 366,
+                            "pointsAgainst": 53,
+                            "pointsDifference": 0,
+                            "forfeits": 0,
+                            "percentage": 690.57,
+                            "competitionPoints": 29
+                        },
+                        {
+                            "team": {
+                                "id": "a2a60494",
+                                "name": "EPDemons 11",
+                                "organisation": {
+                                    "id": "5f9fef9c",
+                                    "name": "Eastern Park Demons",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 12,
+                            "lost": 2,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 361,
+                            "pointsAgainst": 71,
+                            "pointsDifference": 0,
+                            "forfeits": 0,
+                            "percentage": 508.45,
+                            "competitionPoints": 25
+                        },
+                        {
+                            "team": {
+                                "id": "f1c538f3",
+                                "name": "Angle Vale  17",
+                                "organisation": {
+                                    "id": "1267db67",
+                                    "name": "Angle Vale",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 8,
+                            "lost": 6,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 147,
+                            "pointsAgainst": 141,
+                            "pointsDifference": 0,
+                            "forfeits": 0,
+                            "percentage": 104.26,
+                            "competitionPoints": 17
+                        },
+                        {
+                            "team": {
+                                "id": "1121a9bf",
+                                "name": "Warriors 6",
+                                "organisation": {
+                                    "id": "204e3fbe",
+                                    "name": "Warriors Netball Club (SA)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 4,
+                            "lost": 9,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 106,
+                            "pointsAgainst": 282,
+                            "pointsDifference": 0,
+                            "forfeits": 1,
+                            "percentage": 37.59,
+                            "competitionPoints": 9
+                        },
+                        {
+                            "team": {
+                                "id": "5a4187c3",
+                                "name": "Angle Vale  16",
+                                "organisation": {
+                                    "id": "1267db67",
+                                    "name": "Angle Vale",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 3,
+                            "lost": 11,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 94,
+                            "pointsAgainst": 248,
+                            "pointsDifference": 0,
+                            "forfeits": 0,
+                            "percentage": 37.9,
+                            "competitionPoints": 7
+                        },
+                        {
+                            "team": {
+                                "id": "f506dba7",
+                                "name": "Tiki 7",
+                                "organisation": {
+                                    "id": "62eaac91",
+                                    "name": "Tiki",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 15,
+                            "won": 1,
+                            "lost": 13,
+                            "drawn": 1,
+                            "byes": 0,
+                            "pointsFor": 50,
+                            "pointsAgainst": 329,
+                            "pointsDifference": 0,
+                            "forfeits": 0,
+                            "percentage": 15.2,
+                            "competitionPoints": 3
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

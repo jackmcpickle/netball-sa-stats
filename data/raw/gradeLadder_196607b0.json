@@ -1,0 +1,170 @@
+{
+    "data": {
+        "discoverGrade": {
+            "id": "196607b0",
+            "name": "C1",
+            "ladderType": "TOTAL_COMPETITION_POINTS",
+            "ladder": [
+                {
+                    "pool": null,
+                    "standings": [
+                        {
+                            "team": {
+                                "id": "a95f8f19",
+                                "name": "Brahma 1",
+                                "organisation": {
+                                    "id": "14cdd742",
+                                    "name": "Brahma United",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 12,
+                            "lost": 1,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 515,
+                            "pointsAgainst": 328,
+                            "pointsDifference": 0,
+                            "forfeits": 0,
+                            "percentage": 157.01,
+                            "competitionPoints": 24
+                        },
+                        {
+                            "team": {
+                                "id": "062ed6a7",
+                                "name": "Warriors 1",
+                                "organisation": {
+                                    "id": "204e3fbe",
+                                    "name": "Warriors Netball Club (SA)",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 7,
+                            "lost": 6,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 526,
+                            "pointsAgainst": 418,
+                            "pointsDifference": 0,
+                            "forfeits": 0,
+                            "percentage": 125.84,
+                            "competitionPoints": 14
+                        },
+                        {
+                            "team": {
+                                "id": "0ddafc2f",
+                                "name": "Gawler River 3",
+                                "organisation": {
+                                    "id": "fefba28e",
+                                    "name": "Angle Vale Football Club",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 7,
+                            "lost": 5,
+                            "drawn": 0,
+                            "byes": 2,
+                            "pointsFor": 370,
+                            "pointsAgainst": 343,
+                            "pointsDifference": 0,
+                            "forfeits": 0,
+                            "percentage": 107.87,
+                            "competitionPoints": 14
+                        },
+                        {
+                            "team": {
+                                "id": "80478f1f",
+                                "name": "Mystic Opals 2",
+                                "organisation": {
+                                    "id": "637de894",
+                                    "name": "Mystic Opals",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 6,
+                            "lost": 6,
+                            "drawn": 1,
+                            "byes": 1,
+                            "pointsFor": 408,
+                            "pointsAgainst": 455,
+                            "pointsDifference": 0,
+                            "forfeits": 0,
+                            "percentage": 89.67,
+                            "competitionPoints": 13
+                        },
+                        {
+                            "team": {
+                                "id": "0a98e0a6",
+                                "name": "Angle Vale  4",
+                                "organisation": {
+                                    "id": "1267db67",
+                                    "name": "Angle Vale",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 12,
+                            "won": 5,
+                            "lost": 5,
+                            "drawn": 2,
+                            "byes": 2,
+                            "pointsFor": 378,
+                            "pointsAgainst": 337,
+                            "pointsDifference": 0,
+                            "forfeits": 0,
+                            "percentage": 112.17,
+                            "competitionPoints": 12
+                        },
+                        {
+                            "team": {
+                                "id": "459607de",
+                                "name": "Panthers 1",
+                                "organisation": {
+                                    "id": "87e68d0f",
+                                    "name": "Smithfield Panthers",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 3,
+                            "lost": 7,
+                            "drawn": 1,
+                            "byes": 1,
+                            "pointsFor": 278,
+                            "pointsAgainst": 348,
+                            "pointsDifference": 0,
+                            "forfeits": 1,
+                            "percentage": 79.89,
+                            "competitionPoints": 7
+                        },
+                        {
+                            "team": {
+                                "id": "6b02c30d",
+                                "name": "Tiki 2",
+                                "organisation": {
+                                    "id": "62eaac91",
+                                    "name": "Tiki",
+                                    "type": "CLUB"
+                                }
+                            },
+                            "played": 13,
+                            "won": 0,
+                            "lost": 13,
+                            "drawn": 0,
+                            "byes": 1,
+                            "pointsFor": 277,
+                            "pointsAgainst": 634,
+                            "pointsDifference": 0,
+                            "forfeits": 0,
+                            "percentage": 43.69,
+                            "competitionPoints": 0
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}
