@@ -32,13 +32,37 @@ import type {
     GradeListDiscoverSeasonResponse,
 } from '@/pipeline/fetch/types';
 import type { ImportData } from '@/pipeline/import/types';
-import {
-    COMPETITION_SEEDS,
-    competitionSeedByOrgId,
-} from '@/pipeline/seed/catalogue';
-import type { CompetitionSeed } from '@/pipeline/seed/catalogue';
 
-const AMND_ORG_ID = '7a5f35e1';
+export const AMND_ORG_ID = '7a5f35e1';
+export const NETBALL_SA_ORG_ID = '6fefc037';
+export const SAUCNA_ORG_ID = 'fb89f1f1';
+export const SUNA_ORG_ID = '4bd9b8ae';
+export const HILLS_ORG_ID = 'e801d340';
+export const MID_HILLS_ORG_ID = '7d13cb92';
+export const SOUTHERN_HILLS_ORG_ID = 'de681683';
+
+interface AssociationOrg {
+    key: string;
+    winterCompetitionName: string;
+}
+
+/** 1:1 PlayHQ org → catalogue key, winter home-and-away only. */
+const ASSOCIATION_BY_ORG = new Map<string, AssociationOrg>([
+    [SAUCNA_ORG_ID, { key: 'saucna', winterCompetitionName: 'SAUCNA Winter' }],
+    [SUNA_ORG_ID, { key: 'suna', winterCompetitionName: 'SUNA Winter' }],
+    [
+        HILLS_ORG_ID,
+        {
+            key: 'hills',
+            winterCompetitionName: 'Hills Netball Association',
+        },
+    ],
+    [MID_HILLS_ORG_ID, { key: 'mid_hills', winterCompetitionName: 'WINTER' }],
+    [
+        SOUTHERN_HILLS_ORG_ID,
+        { key: 'southern_hills', winterCompetitionName: 'SHNA' },
+    ],
+]);
 
 // oxlint-disable-next-line typescript/consistent-type-definitions -- CSV row: interface has no implicit index signature, so it stops assigning to Record<string, CsvValue>
 export type SeasonRow = {
@@ -98,9 +122,8 @@ export interface CollectOptions {
     years?: readonly number[];
     gradeId?: string;
     /**
-     * PlayHQ organisation IDs to walk. Omitted means the competitions that
-     * already have data (AMND + Netball SA). Pass a new catalogue org to
-     * fetch it the same way without changing the default AMND/PL walk.
+     * PlayHQ organisation IDs to walk. Omitted means every `COLLECT_JOBS`
+     * org. Pass one id to target a single association.
      */
     orgIds?: readonly string[];
 }
@@ -167,39 +190,11 @@ export function isCataloguedPlayHqCompetition(
     orgId: string,
     playHqCompetitionName: string,
 ): boolean {
-    const restricted = COMPETITION_SEEDS.filter(
-        (seed) =>
-            seed.playhqOrgId === orgId &&
-            !isUndefined(seed.playhqCompetitionNames),
-    );
-    if (restricted.length === 0) {
+    const association = ASSOCIATION_BY_ORG.get(orgId);
+    if (isUndefined(association)) {
         return true;
     }
-    return restricted.some((seed) =>
-        seed.playhqCompetitionNames?.includes(playHqCompetitionName),
-    );
-}
-
-function associationKeyFor(
-    orgId: string,
-    playHqCompetitionName: string | undefined,
-): string | null {
-    const matches = COMPETITION_SEEDS.filter(
-        (seed) =>
-            seed.playhqOrgId === orgId &&
-            !isUndefined(seed.playhqCompetitionNames),
-    );
-    if (matches.length === 0) {
-        return null;
-    }
-    if (isUndefined(playHqCompetitionName)) {
-        return null;
-    }
-    return (
-        matches.find((seed) =>
-            seed.playhqCompetitionNames?.includes(playHqCompetitionName),
-        )?.key ?? null
-    );
+    return playHqCompetitionName === association.winterCompetitionName;
 }
 
 /**
@@ -209,23 +204,23 @@ function associationKeyFor(
  * is out of scope (not a catalogued competition) and is skipped rather than
  * failing the whole run.
  *
- * `playHqCompetitionName` is required for the SA associations that share an
- * org with carnivals / summer. Omit it and those orgs resolve to null.
+ * Association orgs are 1:1 like AMND, but only for the winter home-and-away
+ * PlayHQ competition. Carnival / summer names resolve to null.
  */
 export function resolveCompetitionKey(
     orgId: string,
     gradeName: string,
     playHqCompetitionName?: string,
 ): string | null {
-    const associationKey = associationKeyFor(orgId, playHqCompetitionName);
-    if (!isNull(associationKey)) {
-        return associationKey;
-    }
-    if (!isUndefined(competitionSeedByOrgId(orgId)?.playhqCompetitionNames)) {
-        return null;
-    }
     if (orgId === AMND_ORG_ID) {
         return 'amnd';
+    }
+    const association = ASSOCIATION_BY_ORG.get(orgId);
+    if (!isUndefined(association)) {
+        if (playHqCompetitionName === association.winterCompetitionName) {
+            return association.key;
+        }
+        return null;
     }
     const normalised = gradeName.trim().toUpperCase();
     if (normalised === 'PREMIER DIVISION') {
@@ -553,61 +548,32 @@ interface CollectJob {
     minYear: number;
 }
 
-function defaultCollectOrgIds(): string[] {
-    const ids: string[] = [];
-    const seen = new Set<string>();
-    for (const seed of COMPETITION_SEEDS) {
-        if (
-            !seed.hasData ||
-            isNull(seed.playhqOrgId) ||
-            seen.has(seed.playhqOrgId)
-        ) {
-            continue;
-        }
-        seen.add(seed.playhqOrgId);
-        ids.push(seed.playhqOrgId);
-    }
-    return ids;
-}
-
-function jobFromSeed(seed: CompetitionSeed): CollectJob | null {
-    if (isNull(seed.playhqOrgId)) {
-        return null;
-    }
-    return {
-        minYear: seed.collectMinYear ?? 2022,
-        orgId: seed.playhqOrgId,
-        period: seed.collectPeriod ?? 'winter',
-    };
-}
+const COLLECT_JOBS: readonly CollectJob[] = [
+    { minYear: 2022, orgId: AMND_ORG_ID, period: 'winter' },
+    { minYear: 2023, orgId: NETBALL_SA_ORG_ID, period: 'annual' },
+    { minYear: 2022, orgId: SAUCNA_ORG_ID, period: 'winter' },
+    { minYear: 2022, orgId: SUNA_ORG_ID, period: 'winter' },
+    { minYear: 2022, orgId: HILLS_ORG_ID, period: 'winter' },
+    { minYear: 2022, orgId: MID_HILLS_ORG_ID, period: 'winter' },
+    { minYear: 2022, orgId: SOUTHERN_HILLS_ORG_ID, period: 'winter' },
+];
 
 /**
- * One collect job per PlayHQ org. Default is AMND + Netball SA, the orgs
- * that already have `hasData`. Pass `orgIds` to target a catalogued
- * association without changing that default.
+ * The hardcoded collect walk. Pass `orgIds` to target one org (the CLI
+ * `--org` / `--competition` flags) without changing `COLLECT_JOBS`.
  */
 export function collectJobsFor(
     orgIds?: readonly string[],
 ): readonly CollectJob[] {
-    const wanted = new Set(orgIds ?? defaultCollectOrgIds());
-    const jobs: CollectJob[] = [];
-    const seen = new Set<string>();
-    for (const seed of COMPETITION_SEEDS) {
-        const job =
-            !isNull(seed.playhqOrgId) &&
-            wanted.has(seed.playhqOrgId) &&
-            !seen.has(seed.playhqOrgId)
-                ? jobFromSeed(seed)
-                : null;
-        if (!isNull(job)) {
-            seen.add(job.orgId);
-            jobs.push(job);
-        }
+    if (isUndefined(orgIds) || orgIds.length === 0) {
+        return COLLECT_JOBS;
     }
+    const wanted = new Set(orgIds);
+    const jobs = COLLECT_JOBS.filter((job) => wanted.has(job.orgId));
     for (const orgId of wanted) {
-        if (!seen.has(orgId)) {
+        if (!COLLECT_JOBS.some((job) => job.orgId === orgId)) {
             throw new Error(
-                `unknown PlayHQ org id "${orgId}" — not in the competition catalogue`,
+                `unknown PlayHQ org id "${orgId}" — not in COLLECT_JOBS`,
             );
         }
     }

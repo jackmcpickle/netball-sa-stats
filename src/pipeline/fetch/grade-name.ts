@@ -14,7 +14,14 @@
  * weights, and they must not be parsed as AMND bands.
  */
 import { isNull, isUndefined } from 'es-toolkit';
-import { usesAssociationGradeNames } from '@/pipeline/seed/catalogue';
+
+const ASSOCIATION_COMPETITION_KEYS = new Set([
+    'saucna',
+    'suna',
+    'hills',
+    'mid_hills',
+    'southern_hills',
+]);
 
 export interface ParsedGrade {
     tier: number;
@@ -38,7 +45,7 @@ function normalise(name: string): string {
         .trim();
 }
 
-const AMND_RULES: readonly Rule[] = [
+const RULES: readonly Rule[] = [
     { pattern: /^PREMIER DIVISION$/u, tier: 1 },
     { pattern: /^RESERVES DIVISION$/u, tier: 2 },
     { pattern: /^AMND(?: LEAGUE)?$/u, tier: 3 },
@@ -120,9 +127,9 @@ export function parseGradeName(
 ): ParsedGrade {
     if (
         !isUndefined(competitionKey) &&
-        usesAssociationGradeNames(competitionKey)
+        ASSOCIATION_COMPETITION_KEYS.has(competitionKey)
     ) {
         return parseWith(name, ASSOCIATION_RULES);
     }
-    return parseWith(name, AMND_RULES);
+    return parseWith(name, RULES);
 }

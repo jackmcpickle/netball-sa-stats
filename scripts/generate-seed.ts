@@ -5,8 +5,9 @@
  * Run after editing src/pipeline/seed/catalogue.ts:
  *   pnpm exec tsx scripts/generate-seed.ts
  *
- * The CSVs are the readable artefact; the SQL is derived so local and remote D1 seed
- * identically through `wrangler d1 migrations apply`.
+ * The CSVs are the readable artefact; `0001_seed.sql` is the original applied
+ * seed. Do not regenerate 0001 in place after it has run remotely: add a new
+ * `drizzle/000N_*.sql` with INSERT ON CONFLICT instead.
  */
 import { writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
@@ -23,19 +24,19 @@ function sqlText(value: string | null): string {
 }
 
 const competitionRows = COMPETITION_SEEDS.map((competition) => ({
+    has_data: competition.hasData ? 1 : 0,
     key: competition.key,
     name: competition.name,
     playhq_org_id: competition.playhqOrgId,
-    has_data: competition.hasData ? 1 : 0,
 }));
 
 const gradeWeights = buildGradeWeights();
 
 const weightRows = gradeWeights.map((weight) => ({
     competition_key: weight.competitionKey,
-    tier: weight.tier,
     division: weight.division,
     label: weight.label,
+    tier: weight.tier,
     weight: weight.weight,
 }));
 

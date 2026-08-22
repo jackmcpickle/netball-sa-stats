@@ -7,6 +7,13 @@ import { ClubRegistry } from '@/pipeline/fetch/club-registry';
 import { flattenStandings } from '@/pipeline/fetch/ladder';
 import type { Standing } from '@/pipeline/fetch/ladder';
 import {
+    AMND_ORG_ID,
+    HILLS_ORG_ID,
+    MID_HILLS_ORG_ID,
+    NETBALL_SA_ORG_ID,
+    SAUCNA_ORG_ID,
+    SOUTHERN_HILLS_ORG_ID,
+    SUNA_ORG_ID,
     archiveRowsToKeep,
     collectJobsFor,
     collectPlayHqData,
@@ -17,9 +24,6 @@ import {
 } from '@/pipeline/fetch/run';
 import type { GradeContext } from '@/pipeline/fetch/run';
 import type { GradeLadderResponse } from '@/pipeline/fetch/types';
-
-const AMND_ORG_ID = '7a5f35e1';
-const NETBALL_SA_ORG_ID = '6fefc037';
 
 const ladderFixturePath = resolve(
     import.meta.dirname,
@@ -78,41 +82,41 @@ describe(resolveCompetitionKey, () => {
     });
 
     it('maps a verified SA association winter competition to its catalogue key', () => {
-        expect(resolveCompetitionKey('fb89f1f1', 'A1', 'SAUCNA Winter')).toBe(
-            'saucna',
-        );
         expect(
-            resolveCompetitionKey('4bd9b8ae', 'Seniors Div 01', 'SUNA Winter'),
+            resolveCompetitionKey(SAUCNA_ORG_ID, 'A1', 'SAUCNA Winter'),
+        ).toBe('saucna');
+        expect(
+            resolveCompetitionKey(SUNA_ORG_ID, 'Seniors Div 01', 'SUNA Winter'),
         ).toBe('suna');
         expect(
             resolveCompetitionKey(
-                'e801d340',
+                HILLS_ORG_ID,
                 'A1',
                 'Hills Netball Association',
             ),
         ).toBe('hills');
-        expect(resolveCompetitionKey('7d13cb92', 'A grade', 'WINTER')).toBe(
-            'mid_hills',
-        );
-        expect(resolveCompetitionKey('de681683', 'A1', 'SHNA')).toBe(
+        expect(
+            resolveCompetitionKey(MID_HILLS_ORG_ID, 'A grade', 'WINTER'),
+        ).toBe('mid_hills');
+        expect(resolveCompetitionKey(SOUTHERN_HILLS_ORG_ID, 'A1', 'SHNA')).toBe(
             'southern_hills',
         );
     });
 
     it('returns null for carnival or summer entries on those orgs', () => {
         expect(
-            resolveCompetitionKey('fb89f1f1', '8U/1', 'Junior Carnival'),
+            resolveCompetitionKey(SAUCNA_ORG_ID, '8U/1', 'Junior Carnival'),
         ).toBeNull();
         expect(
             resolveCompetitionKey(
-                '4bd9b8ae',
+                SUNA_ORG_ID,
                 '9&U Div 1',
                 'Schools Competition',
             ),
         ).toBeNull();
         expect(
             resolveCompetitionKey(
-                'e801d340',
+                HILLS_ORG_ID,
                 '9u Div1',
                 'Ready Set Go Carnival',
             ),
@@ -120,7 +124,7 @@ describe(resolveCompetitionKey, () => {
     });
 
     it('returns null for an association org when the PlayHQ competition name is missing', () => {
-        expect(resolveCompetitionKey('fb89f1f1', 'A1')).toBeNull();
+        expect(resolveCompetitionKey(SAUCNA_ORG_ID, 'A1')).toBeNull();
     });
 });
 
@@ -139,35 +143,40 @@ describe(isCataloguedPlayHqCompetition, () => {
 
     it('keeps only the winter home-and-away entry for each new association', () => {
         expect(
-            isCataloguedPlayHqCompetition('fb89f1f1', 'SAUCNA Winter'),
+            isCataloguedPlayHqCompetition(SAUCNA_ORG_ID, 'SAUCNA Winter'),
         ).toBeTruthy();
         expect(
-            isCataloguedPlayHqCompetition('fb89f1f1', 'Junior Carnival'),
+            isCataloguedPlayHqCompetition(SAUCNA_ORG_ID, 'Junior Carnival'),
         ).toBeFalsy();
         expect(
-            isCataloguedPlayHqCompetition('4bd9b8ae', 'SUNA Winter'),
+            isCataloguedPlayHqCompetition(SUNA_ORG_ID, 'SUNA Winter'),
         ).toBeTruthy();
         expect(
-            isCataloguedPlayHqCompetition('4bd9b8ae', 'SUNA Summer'),
+            isCataloguedPlayHqCompetition(SUNA_ORG_ID, 'SUNA Summer'),
         ).toBeFalsy();
     });
 });
 
 describe(collectJobsFor, () => {
-    it('defaults to AMND and Netball SA only', () => {
+    it('walks AMND, Netball SA and the five SA association orgs', () => {
         expect(collectJobsFor().map((job) => job.orgId)).toStrictEqual([
             AMND_ORG_ID,
             NETBALL_SA_ORG_ID,
+            SAUCNA_ORG_ID,
+            SUNA_ORG_ID,
+            HILLS_ORG_ID,
+            MID_HILLS_ORG_ID,
+            SOUTHERN_HILLS_ORG_ID,
         ]);
     });
 
-    it('can target a catalogued association org', () => {
-        expect(collectJobsFor(['fb89f1f1'])).toStrictEqual([
-            { minYear: 2022, orgId: 'fb89f1f1', period: 'winter' },
+    it('can target one hardcoded association org', () => {
+        expect(collectJobsFor([SAUCNA_ORG_ID])).toStrictEqual([
+            { minYear: 2022, orgId: SAUCNA_ORG_ID, period: 'winter' },
         ]);
     });
 
-    it('fails loud on an org id that is not in the catalogue', () => {
+    it('fails loud on an org id that is not in COLLECT_JOBS', () => {
         expect(() => collectJobsFor(['deadbeef'])).toThrow(/deadbeef/u);
     });
 });
@@ -736,6 +745,20 @@ function gamesEnvelope(): CaptureEnvelope {
     };
 }
 
+/** Empty `discoverCompetitions` captures so default COLLECT_JOBS stay offline. */
+function emptyAssociationDiscovers(): [string, ReturnType<typeof seedEntry>][] {
+    return [
+        SAUCNA_ORG_ID,
+        SUNA_ORG_ID,
+        HILLS_ORG_ID,
+        MID_HILLS_ORG_ID,
+        SOUTHERN_HILLS_ORG_ID,
+    ].map((orgId) => [
+        `discoverCompetitions_${orgId}.json`,
+        seedEntry({ data: { discoverCompetitions: [] } }),
+    ]);
+}
+
 describe(collectPlayHqData, () => {
     afterEach(() => {
         vi.restoreAllMocks();
@@ -766,6 +789,7 @@ describe(collectPlayHqData, () => {
                     `discoverCompetitions_${NETBALL_SA_ORG_ID}.json`,
                     seedEntry({ data: { discoverCompetitions: [] } }),
                 ],
+                ...emptyAssociationDiscovers(),
                 [
                     'gradeListDiscoverSeason_season-2024.json',
                     seedEntry(
@@ -822,11 +846,10 @@ describe(collectPlayHqData, () => {
             .mockImplementation(() => {
                 throw new Error('live PlayHQ must not be called');
             });
-        const saucnaId = 'fb89f1f1';
         const store = createMemoryStore(
             new Map([
                 [
-                    `discoverCompetitions_${saucnaId}.json`,
+                    `discoverCompetitions_${SAUCNA_ORG_ID}.json`,
                     seedEntry({
                         data: {
                             discoverCompetitions: [
@@ -834,7 +857,7 @@ describe(collectPlayHqData, () => {
                                     id: 'saucna-winter',
                                     name: 'SAUCNA Winter',
                                     organisation: {
-                                        id: saucnaId,
+                                        id: SAUCNA_ORG_ID,
                                         name: 'SAUCNA',
                                     },
                                     seasons: [
@@ -854,7 +877,7 @@ describe(collectPlayHqData, () => {
                                     id: 'saucna-carnival',
                                     name: 'Junior Carnival',
                                     organisation: {
-                                        id: saucnaId,
+                                        id: SAUCNA_ORG_ID,
                                         name: 'SAUCNA',
                                     },
                                     seasons: [
@@ -895,7 +918,7 @@ describe(collectPlayHqData, () => {
             cacheFirst: true,
             clubRegistry: new ClubRegistry([], []),
             isFinalBySeasonKey: new Map(),
-            orgIds: [saucnaId],
+            orgIds: [SAUCNA_ORG_ID],
             store,
             years: [2024],
         });
@@ -935,6 +958,7 @@ describe(collectPlayHqData, () => {
                     `discoverCompetitions_${NETBALL_SA_ORG_ID}.json`,
                     seedEntry({ data: { discoverCompetitions: [] } }),
                 ],
+                ...emptyAssociationDiscovers(),
             ]),
         );
 
@@ -978,6 +1002,7 @@ describe(collectPlayHqData, () => {
                     `discoverCompetitions_${NETBALL_SA_ORG_ID}.json`,
                     seedEntry({ data: { discoverCompetitions: [] } }),
                 ],
+                ...emptyAssociationDiscovers(),
                 [
                     'gradeListDiscoverSeason_season-2024.json',
                     seedEntry(
@@ -1036,6 +1061,7 @@ describe(collectPlayHqData, () => {
                     `discoverCompetitions_${NETBALL_SA_ORG_ID}.json`,
                     seedEntry({ data: { discoverCompetitions: [] } }),
                 ],
+                ...emptyAssociationDiscovers(),
                 [
                     'gradeListDiscoverSeason_season-2024.json',
                     seedEntry(

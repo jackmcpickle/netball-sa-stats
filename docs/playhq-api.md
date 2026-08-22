@@ -77,12 +77,13 @@ VM was not blocked). Each org also lists carnivals / schools / summer;
 | `mid_hills`      | `7d13cb92` | Mid Hills Netball Association           | `WINTER`                    | `discoverCompetitions_midhills_7d13cb92.json` |
 | `southern_hills` | `de681683` | Southern Hills Netball Association      | `SHNA`                      | `discoverCompetitions_shna_de681683.json`     |
 
-Fetch one of these with `pnpm exec tsx scripts/fetch-playhq.ts --competition=saucna --year=2025`.
-Default fetch is still AMND + Netball SA. Do not invent season IDs; read them
-from the probe or a live `discoverCompetitions` response. Grade lists from one
-completed winter each are under `gradeListDiscoverSeason_*` in the same folder.
-Import is not wired to those ladders yet: unknown club names fail loud, and
-there are no championship weights.
+`COLLECT_JOBS` in `src/pipeline/fetch/collect.ts` includes these org IDs.
+Target one with `pnpm exec tsx scripts/fetch-playhq.ts --competition=saucna --year=2025`.
+Do not invent season IDs; read them from the probe or a live
+`discoverCompetitions` response. Grade lists from one completed winter each
+are under `gradeListDiscoverSeason_*` in the same folder. Import is not wired
+to those ladders yet: unknown club names fail loud, and there are no
+championship weights.
 
 Note: a single logical competition (e.g. Premier League) can be split
 across **multiple `discoverCompetitions` entries** if PlayHQ re-created the

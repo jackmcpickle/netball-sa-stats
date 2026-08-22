@@ -107,7 +107,7 @@ So ladders are scraped as the fact table. A `matches` table drops in later witho
 | Mid Hills Netball Association          | `mid_hills`               | No — org verified, no imported rows  | `7d13cb92` |
 | Southern Hills (SHNA)                  | `southern_hills`          | No — org verified, no imported rows  | `de681683` |
 
-The first three carry ladder data and championship weights. The five SA associations have verified PlayHQ org IDs (checked 2026-08-22 via `discoverCompetitions`). Fetch them with `--org=<id>` or `--competition=<key>`. Default fetch stays AMND + Premier League.
+The first three carry ladder data and championship weights. The five SA associations have verified PlayHQ org IDs (checked 2026-08-22 via `discoverCompetitions`). `COLLECT_JOBS` in `collect.ts` walks those orgs the same way as AMND. `--org` / `--competition` still targets one. `0001_seed.sql` is already applied, so the new rows land in `drizzle/0009_sa_associations.sql`.
 
 They are **not** in the club championship. No `grade_weights` rows, and `fetchChampionshipHistory` only scores keys that already have bands. Importing a SUNA ladder later must not change Contax's AMND rank.
 

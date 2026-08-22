@@ -31,7 +31,6 @@ describe('competition catalogue', () => {
             );
             expect(seed?.playhqOrgId).toMatch(/^[0-9a-f]{8}$/u);
             expect(seed?.hasData).toBeFalsy();
-            expect(seed?.playhqCompetitionNames?.length).toBeGreaterThan(0);
         }
     });
 });
