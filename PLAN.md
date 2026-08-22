@@ -141,7 +141,9 @@ Each association org also lists carnivals, schools or summer on PlayHQ. Those na
 
 SADNA, Hills, Masters, Kangaroo Island, Kadina, Yorke Peninsula, Port Augusta, Roxby Downs, Adelaide Plains, North Eastern, Murray Valley, KNT, Mid South East, Mount Gambier, Limestone Coast, Great Flinders, and Western Eyre are name-only. Do not use WA `489c7576` for SADNA. Do not use `e801d340` or NSW Hills District `cd26c84e` for Hills. Skip Netball SA Country `b0bbe786` and the Adelaide Plains / BLGNA *-rep orgs. Skip Broken Hill as NSW.
 
-GSNA `879ed891` is live. Official site https://greatsouthernnetball.wixsite.com/gsna lists ten Fleurieu clubs: Encounter Bay, Goolwa, Langhorne Creek, McLaren Vale, Mount Compass, Myponga, Strathalbyn, Victor Harbor, Willunga, Yankalilla.
+GSNA `879ed891` is live (`great-southern-netball-association-sa`). Official site https://greatsouthernnetball.wixsite.com/gsna lists ten Fleurieu clubs: Encounter Bay, Goolwa, Langhorne Creek, McLaren Vale, Mount Compass, Myponga, Strathalbyn, Victor Harbor, Willunga, Yankalilla.
+
+Indexed PlayHQ slugs that match the live orgs: Elizabeth `elizabeth-netball-association`, Barossa `barossa-light-and-gawler-netball-association`, SAMMNA `south-australian-mens-and-mixed-netball-association` (https://sammna.com.au/), City Night `city-night-division`. City Night's public index only had 2021. GraphQL has summer 2023+. Gawler `10c20df0` started as a SAcommunity snippet and then answered `discoverCompetitions` as Gawler and District.
 
 Hills is NSA country. The official site is https://www.hillsnetballassociation.com/. hills.netball.asn.au does not resolve. Matches are Saturday home/away in the Netball SA winter season only. The ten clubs are Aldgate, Bridgewater, Crafers, Heathfield, Ironbank/Cherry Gardens, Mylor, Piccadilly, Stirling Comets, Summertown, and Uraidla. Contacts on file: hnaro1@outlook.com, info@hillsnetballassociation.com. The HNA site does not mention PlayHQ.
 

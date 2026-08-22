@@ -98,6 +98,14 @@ are under `gradeListDiscoverSeason_*` in the same folder. Import is not wired
 to those ladders yet: unknown club names fail loud, and there are no
 championship weights.
 
+PlayHQ org slugs that match those ids: `elizabeth-netball-association`,
+`barossa-light-and-gawler-netball-association`,
+`south-australian-mens-and-mixed-netball-association` (sammna.com.au),
+`city-night-division`, `great-southern-netball-association-sa`. City Night's
+public index only listed 2021. The 2023+ job walks `City Night Division 1`
+summer from GraphQL. Gawler `10c20df0` was a medium-confidence snippet
+until `discoverCompetitions` returned the org name.
+
 Hills stays catalogued with a null org. Do not commit `e801d340` or NSW
 `cd26c84e`. Do not use WA SADNA `489c7576`, Netball SA Country carnival
 `b0bbe786`, or Adelaide Plains / BLGNA *-rep orgs. Carnivals and summer
