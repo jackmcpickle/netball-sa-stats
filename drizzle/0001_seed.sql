@@ -7,6 +7,11 @@ INSERT INTO competitions (key, name, playhq_org_id) VALUES ('premier_league_rese
 INSERT INTO competitions (key, name, playhq_org_id) VALUES ('city_night_division', 'City Night Division', NULL) ON CONFLICT(key) DO UPDATE SET name = excluded.name, playhq_org_id = excluded.playhq_org_id;
 INSERT INTO competitions (key, name, playhq_org_id) VALUES ('super_league', 'Super League', NULL) ON CONFLICT(key) DO UPDATE SET name = excluded.name, playhq_org_id = excluded.playhq_org_id;
 INSERT INTO competitions (key, name, playhq_org_id) VALUES ('juniors', 'Juniors', NULL) ON CONFLICT(key) DO UPDATE SET name = excluded.name, playhq_org_id = excluded.playhq_org_id;
+INSERT INTO competitions (key, name, playhq_org_id) VALUES ('saucna', 'South Australian United Church Netball Association', 'fb89f1f1') ON CONFLICT(key) DO UPDATE SET name = excluded.name, playhq_org_id = excluded.playhq_org_id;
+INSERT INTO competitions (key, name, playhq_org_id) VALUES ('suna', 'Southern United Netball Association', '4bd9b8ae') ON CONFLICT(key) DO UPDATE SET name = excluded.name, playhq_org_id = excluded.playhq_org_id;
+INSERT INTO competitions (key, name, playhq_org_id) VALUES ('hills', 'Hills Netball Association', 'e801d340') ON CONFLICT(key) DO UPDATE SET name = excluded.name, playhq_org_id = excluded.playhq_org_id;
+INSERT INTO competitions (key, name, playhq_org_id) VALUES ('mid_hills', 'Mid Hills Netball Association', '7d13cb92') ON CONFLICT(key) DO UPDATE SET name = excluded.name, playhq_org_id = excluded.playhq_org_id;
+INSERT INTO competitions (key, name, playhq_org_id) VALUES ('southern_hills', 'Southern Hills Netball Association', 'de681683') ON CONFLICT(key) DO UPDATE SET name = excluded.name, playhq_org_id = excluded.playhq_org_id;
 
 INSERT INTO grade_weights (competition_id, tier, division, label, weight) SELECT id, 1, NULL, 'Premier Division', 1 FROM competitions WHERE key = 'premier_league';
 INSERT INTO grade_weights (competition_id, tier, division, label, weight) SELECT id, 2, NULL, 'Reserves Division', 0.8 FROM competitions WHERE key = 'premier_league_reserves';

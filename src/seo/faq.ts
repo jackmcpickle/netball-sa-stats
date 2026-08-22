@@ -207,7 +207,7 @@ export function buildSiteFaq(data: {
                 'What is the difference between championship score and club strength?',
         },
         {
-            answer: `Published PlayHQ ladders and fixtures for Netball SA and AMND from 2022 onward, and archived AMND Final Premiership Placings PDFs for earlier seasons.${fixture}`,
+            answer: `Published PlayHQ ladders and fixtures for Netball SA and AMND from 2022 onward, and archived AMND Final Premiership Placings PDFs for earlier seasons. SAUCNA, SUNA, Hills, Mid Hills and Southern Hills are in the catalogue with verified PlayHQ org IDs, but they are not imported and are not scored in the championship yet.${fixture}`,
             question: 'Where does the data come from?',
         },
         {

@@ -23,19 +23,19 @@ function sqlText(value: string | null): string {
 }
 
 const competitionRows = COMPETITION_SEEDS.map((competition) => ({
-    has_data: competition.hasData ? 1 : 0,
     key: competition.key,
     name: competition.name,
     playhq_org_id: competition.playhqOrgId,
+    has_data: competition.hasData ? 1 : 0,
 }));
 
 const gradeWeights = buildGradeWeights();
 
 const weightRows = gradeWeights.map((weight) => ({
     competition_key: weight.competitionKey,
+    tier: weight.tier,
     division: weight.division,
     label: weight.label,
-    tier: weight.tier,
     weight: weight.weight,
 }));
 

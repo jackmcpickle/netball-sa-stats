@@ -13,6 +13,7 @@ import {
 import { fetchResults, toScoringRow } from '@/db/queries/results';
 import type { ResultRow } from '@/db/queries/results';
 import { previousRanks, rankSeasons } from '@/pipeline/scoring/championship';
+import { championshipCompetitionKeys } from '@/pipeline/seed/catalogue';
 import type {
     ChampionshipRow,
     ChampionshipSeason,
@@ -50,6 +51,17 @@ function clubIndexFrom(rows: readonly ResultRow[]): ReadonlyMap<string, Club> {
 }
 
 /**
+ * Association ladders stay out of the AMND/PL championship until those
+ * competitions have calibrated `grade_weights` / BANDS entries.
+ */
+export function rowsForChampionship(
+    rows: readonly ResultRow[],
+): readonly ResultRow[] {
+    const keys = championshipCompetitionKeys();
+    return rows.filter((row) => keys.has(row.competitionKey));
+}
+
+/**
  * Every finished season, ranked, oldest first.
  *
  * `finalOnly` is what keeps an in-progress season out of the championship: the
@@ -60,8 +72,9 @@ export async function fetchChampionshipHistory(
     db: Db,
 ): Promise<readonly ChampionshipSeason[]> {
     const rows = await fetchResults(db, { finalOnly: true });
-    const clubs = clubIndexFrom(rows);
-    const ranked = rankSeasons(rows.map(toScoringRow));
+    const scored = rowsForChampionship(rows);
+    const clubs = clubIndexFrom(scored);
+    const ranked = rankSeasons(scored.map(toScoringRow));
 
     return ranked.map((season, index): ChampionshipSeason => {
         const previousSeason = ranked[index - 1];
@@ -73,19 +86,19 @@ export async function fetchChampionshipHistory(
         const coverageChanged =
             !isUndefined(previousSeason) &&
             movementBoundaryChanged({
-                competitionKeys: competitionKeysFor(rows, season.year),
-                placementBases: placementBasesForYear(rows, season.year),
+                competitionKeys: competitionKeysFor(scored, season.year),
+                placementBases: placementBasesForYear(scored, season.year),
                 previousCompetitionKeys: competitionKeysFor(
-                    rows,
+                    scored,
                     previousSeason.year,
                 ),
                 previousPlacementBases: placementBasesForYear(
-                    rows,
+                    scored,
                     previousSeason.year,
                 ),
-                previousSources: sourcesForYear(rows, previousSeason.year),
+                previousSources: sourcesForYear(scored, previousSeason.year),
                 previousYear: previousSeason.year,
-                sources: sourcesForYear(rows, season.year),
+                sources: sourcesForYear(scored, season.year),
                 year: season.year,
             });
         const championshipRows = season.totals.flatMap(

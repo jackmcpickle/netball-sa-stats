@@ -93,16 +93,31 @@ So ladders are scraped as the fact table. A `matches` table drops in later witho
 
 ## Competitions
 
-| Competition                            | Key                       | Phase 1 data        | Org ID     |
-| -------------------------------------- | ------------------------- | ------------------- | ---------- |
-| Adelaide Metropolitan Netball Division | `amnd`                    | Yes                 | `7a5f35e1` |
-| Netball SA Premier League              | `premier_league`          | Yes                 | `6fefc037` |
-| Premier League Reserves                | `premier_league_reserves` | Yes                 | `6fefc037` |
-| City Night Division                    | `city_night_division`     | No — org ID unknown | —          |
-| Super League                           | `super_league`            | No — unresearched   | —          |
-| Juniors                                | `juniors`                 | No                  | —          |
+| Competition                            | Key                       | Phase 1 data                         | Org ID     |
+| -------------------------------------- | ------------------------- | ------------------------------------ | ---------- |
+| Adelaide Metropolitan Netball Division | `amnd`                    | Yes                                  | `7a5f35e1` |
+| Netball SA Premier League              | `premier_league`          | Yes                                  | `6fefc037` |
+| Premier League Reserves                | `premier_league_reserves` | Yes                                  | `6fefc037` |
+| City Night Division                    | `city_night_division`     | No — org ID unknown                  | —          |
+| Super League                           | `super_league`            | No — unresearched                    | —          |
+| Juniors                                | `juniors`                 | No                                   | —          |
+| SAUCNA                                 | `saucna`                  | No — org verified, no imported rows  | `fb89f1f1` |
+| Southern United (SUNA)                 | `suna`                    | No — org verified, no imported rows  | `4bd9b8ae` |
+| Hills Netball Association              | `hills`                   | No — org verified (SA, not NSW HDNA) | `e801d340` |
+| Mid Hills Netball Association          | `mid_hills`               | No — org verified, no imported rows  | `7d13cb92` |
+| Southern Hills (SHNA)                  | `southern_hills`          | No — org verified, no imported rows  | `de681683` |
 
-All six are **seeded in the catalogue**; only the first three carry data. The UI shows what exists. Adding the rest later is purely additive — more rows, more weight entries, no schema change.
+The first three carry ladder data and championship weights. The five SA associations have verified PlayHQ org IDs (checked 2026-08-22 via `discoverCompetitions`). Fetch them with `--org=<id>` or `--competition=<key>`. Default fetch stays AMND + Premier League.
+
+They are **not** in the club championship. No `grade_weights` rows, and `fetchChampionshipHistory` only scores keys that already have bands. Importing a SUNA ladder later must not change Contax's AMND rank.
+
+Each association org also lists carnivals, schools or summer on PlayHQ. Those names are out of scope until they get their own catalogue keys. Winter home-and-away only:
+
+- SAUCNA → `SAUCNA Winter` (slug `sa-united-church-netball-association`)
+- SUNA → `SUNA Winter` (`southern-united-netball-association`)
+- Hills → `Hills Netball Association` (Heathfield / Aldgate; not NSW Hills District)
+- Mid Hills → `WINTER`
+- SHNA → `SHNA` (`southern-hills-netball-association`)
 
 City Night Division is **not resolved**. It is a separate organisation, absent from every public index checked, with no confirmed URL or season. Schema stays summer-capable (`competition_period`, `start_year`, `end_year`) because that costs nothing now and is a migration later.
 
@@ -110,9 +125,9 @@ City Night Division is **not resolved**. It is a separate organisation, absent f
 
 **PlayHQ only. 2022–2026, five seasons.**
 
-| Source | Seasons                      | Gives                     |
-| ------ | ---------------------------- | ------------------------- |
-| PlayHQ | AMND 2022–2026, PL 2022–2026 | Full ladders + team stats |
+| Source | Seasons                                                                           | Gives                                 |
+| ------ | --------------------------------------------------------------------------------- | ------------------------------------- |
+| PlayHQ | AMND 2022–2026, PL 2022–2026. Association orgs verified, no imported ladders yet. | Full ladders + team stats for AMND/PL |
 
 Premier League has **no 2022 season** — it did not run, due to COVID. That is a real-world absence, not missing data, and the UI should say so rather than render a gap. AMND ran 2022 normally.
 

@@ -1,0 +1,89 @@
+{
+    "data": {
+        "discoverCompetitions": [
+            {
+                "id": "3523a8b0",
+                "name": "Hills Netball Association",
+                "seasons": [
+                    {
+                        "id": "aecd4bda",
+                        "name": "Winter 2026",
+                        "startDate": "2026-04-25",
+                        "endDate": "2026-09-05",
+                        "status": { "name": "Active", "value": "ACTIVE" }
+                    },
+                    {
+                        "id": "9add846c",
+                        "name": "Winter 2025",
+                        "startDate": "2025-04-26",
+                        "endDate": "2025-09-06",
+                        "status": { "name": "Completed", "value": "COMPLETED" }
+                    },
+                    {
+                        "id": "74742f07",
+                        "name": "Winter 2024",
+                        "startDate": "2024-04-27",
+                        "endDate": "2024-09-21",
+                        "status": { "name": "Completed", "value": "COMPLETED" }
+                    },
+                    {
+                        "id": "a9d8e22d",
+                        "name": "Winter 2023",
+                        "startDate": "2023-04-29",
+                        "endDate": "2023-09-09",
+                        "status": { "name": "Completed", "value": "COMPLETED" }
+                    },
+                    {
+                        "id": "ef137039",
+                        "name": "Winter 2022",
+                        "startDate": "2022-04-30",
+                        "endDate": "2022-09-10",
+                        "status": { "name": "Completed", "value": "COMPLETED" }
+                    }
+                ],
+                "organisation": {
+                    "id": "e801d340",
+                    "name": "Hills Netball Association"
+                }
+            },
+            {
+                "id": "3c0fb6d1",
+                "name": "Ready Set Go Carnival",
+                "seasons": [
+                    {
+                        "id": "8f161550",
+                        "name": "Winter 2026",
+                        "startDate": "2026-08-23",
+                        "endDate": "2026-08-23",
+                        "status": { "name": "Upcoming", "value": "UPCOMING" }
+                    },
+                    {
+                        "id": "9a09b22d",
+                        "name": "Winter 2025",
+                        "startDate": "2025-08-24",
+                        "endDate": "2025-08-24",
+                        "status": { "name": "Completed", "value": "COMPLETED" }
+                    },
+                    {
+                        "id": "63966e58",
+                        "name": "Winter 2024",
+                        "startDate": "2024-08-18",
+                        "endDate": "2024-08-18",
+                        "status": { "name": "Completed", "value": "COMPLETED" }
+                    },
+                    {
+                        "id": "3d9d223f",
+                        "name": "Winter 2023",
+                        "startDate": "2023-08-20",
+                        "endDate": "2023-08-20",
+                        "status": { "name": "Completed", "value": "COMPLETED" }
+                    }
+                ],
+                "organisation": {
+                    "id": "e801d340",
+                    "name": "Hills Netball Association"
+                }
+            }
+        ]
+    }
+}

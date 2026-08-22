@@ -65,6 +65,25 @@ Response: `data/raw/probe/discoverCompetitions_netballsa_6fefc037.json` (Netball
 5 competitions incl. "The Hospital Research Foundation Premier League") and
 `data/raw/probe/discoverCompetitions_amnd_7a5f35e1.json` (AMND, 2 competitions).
 
+South Australian associations verified the same way on 2026-08-22 (this cloud
+VM was not blocked). Each org also lists carnivals / schools / summer;
+`collect` only walks the winter home-and-away name in the catalogue.
+
+| Catalogue key    | Org ID     | PlayHQ org name                         | Winter competition name     | Probe                                         |
+| ---------------- | ---------- | --------------------------------------- | --------------------------- | --------------------------------------------- |
+| `saucna`         | `fb89f1f1` | SA United Church Netball Association    | `SAUCNA Winter`             | `discoverCompetitions_saucna_fb89f1f1.json`   |
+| `suna`           | `4bd9b8ae` | Southern United Netball Association     | `SUNA Winter`               | `discoverCompetitions_suna_4bd9b8ae.json`     |
+| `hills`          | `e801d340` | Hills Netball Association (SA, not NSW) | `Hills Netball Association` | `discoverCompetitions_hills_e801d340.json`    |
+| `mid_hills`      | `7d13cb92` | Mid Hills Netball Association           | `WINTER`                    | `discoverCompetitions_midhills_7d13cb92.json` |
+| `southern_hills` | `de681683` | Southern Hills Netball Association      | `SHNA`                      | `discoverCompetitions_shna_de681683.json`     |
+
+Fetch one of these with `pnpm exec tsx scripts/fetch-playhq.ts --competition=saucna --year=2025`.
+Default fetch is still AMND + Netball SA. Do not invent season IDs; read them
+from the probe or a live `discoverCompetitions` response. Grade lists from one
+completed winter each are under `gradeListDiscoverSeason_*` in the same folder.
+Import is not wired to those ladders yet: unknown club names fail loud, and
+there are no championship weights.
+
 Note: a single logical competition (e.g. Premier League) can be split
 across **multiple `discoverCompetitions` entries** if PlayHQ re-created the
 competition object at some point — AMND has a separate "AMND 2022" entry

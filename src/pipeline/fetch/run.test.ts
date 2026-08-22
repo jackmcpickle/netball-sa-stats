@@ -8,7 +8,9 @@ import { flattenStandings } from '@/pipeline/fetch/ladder';
 import type { Standing } from '@/pipeline/fetch/ladder';
 import {
     archiveRowsToKeep,
+    collectJobsFor,
     collectPlayHqData,
+    isCataloguedPlayHqCompetition,
     processGrade,
     resolveCompetitionKey,
     seasonWanted,
@@ -73,6 +75,100 @@ describe(resolveCompetitionKey, () => {
         expect(
             resolveCompetitionKey(NETBALL_SA_ORG_ID, 'Walking Netball 50+'),
         ).toBeNull();
+    });
+
+    it('maps a verified SA association winter competition to its catalogue key', () => {
+        expect(resolveCompetitionKey('fb89f1f1', 'A1', 'SAUCNA Winter')).toBe(
+            'saucna',
+        );
+        expect(
+            resolveCompetitionKey('4bd9b8ae', 'Seniors Div 01', 'SUNA Winter'),
+        ).toBe('suna');
+        expect(
+            resolveCompetitionKey(
+                'e801d340',
+                'A1',
+                'Hills Netball Association',
+            ),
+        ).toBe('hills');
+        expect(resolveCompetitionKey('7d13cb92', 'A grade', 'WINTER')).toBe(
+            'mid_hills',
+        );
+        expect(resolveCompetitionKey('de681683', 'A1', 'SHNA')).toBe(
+            'southern_hills',
+        );
+    });
+
+    it('returns null for carnival or summer entries on those orgs', () => {
+        expect(
+            resolveCompetitionKey('fb89f1f1', '8U/1', 'Junior Carnival'),
+        ).toBeNull();
+        expect(
+            resolveCompetitionKey(
+                '4bd9b8ae',
+                '9&U Div 1',
+                'Schools Competition',
+            ),
+        ).toBeNull();
+        expect(
+            resolveCompetitionKey(
+                'e801d340',
+                '9u Div1',
+                'Ready Set Go Carnival',
+            ),
+        ).toBeNull();
+    });
+
+    it('returns null for an association org when the PlayHQ competition name is missing', () => {
+        expect(resolveCompetitionKey('fb89f1f1', 'A1')).toBeNull();
+    });
+});
+
+describe(isCataloguedPlayHqCompetition, () => {
+    it('keeps AMND and Netball SA seasons in scope', () => {
+        expect(
+            isCataloguedPlayHqCompetition(AMND_ORG_ID, 'AMND Competition'),
+        ).toBeTruthy();
+        expect(
+            isCataloguedPlayHqCompetition(
+                NETBALL_SA_ORG_ID,
+                'The Hospital Research Foundation Premier League',
+            ),
+        ).toBeTruthy();
+    });
+
+    it('keeps only the winter home-and-away entry for each new association', () => {
+        expect(
+            isCataloguedPlayHqCompetition('fb89f1f1', 'SAUCNA Winter'),
+        ).toBeTruthy();
+        expect(
+            isCataloguedPlayHqCompetition('fb89f1f1', 'Junior Carnival'),
+        ).toBeFalsy();
+        expect(
+            isCataloguedPlayHqCompetition('4bd9b8ae', 'SUNA Winter'),
+        ).toBeTruthy();
+        expect(
+            isCataloguedPlayHqCompetition('4bd9b8ae', 'SUNA Summer'),
+        ).toBeFalsy();
+    });
+});
+
+describe(collectJobsFor, () => {
+    it('defaults to AMND and Netball SA only', () => {
+        expect(collectJobsFor().map((job) => job.orgId)).toStrictEqual([
+            AMND_ORG_ID,
+            NETBALL_SA_ORG_ID,
+        ]);
+    });
+
+    it('can target a catalogued association org', () => {
+        expect(collectJobsFor(['fb89f1f1'])).toStrictEqual([
+            { minYear: 2022, orgId: 'fb89f1f1', period: 'winter' },
+        ]);
+    });
+
+    it('fails loud on an org id that is not in the catalogue', () => {
+        expect(() => collectJobsFor(['deadbeef'])).toThrow(/deadbeef/u);
     });
 });
 
@@ -718,6 +814,100 @@ describe(collectPlayHqData, () => {
             teams: 2,
         });
         expect(collected.seasons[0]?.status).toBe('active');
+    });
+
+    it('collects a targeted association winter season and does not walk its carnival', async () => {
+        const fetchSpy = vi
+            .spyOn(globalThis, 'fetch')
+            .mockImplementation(() => {
+                throw new Error('live PlayHQ must not be called');
+            });
+        const saucnaId = 'fb89f1f1';
+        const store = createMemoryStore(
+            new Map([
+                [
+                    `discoverCompetitions_${saucnaId}.json`,
+                    seedEntry({
+                        data: {
+                            discoverCompetitions: [
+                                {
+                                    id: 'saucna-winter',
+                                    name: 'SAUCNA Winter',
+                                    organisation: {
+                                        id: saucnaId,
+                                        name: 'SAUCNA',
+                                    },
+                                    seasons: [
+                                        {
+                                            endDate: '2024-03-23',
+                                            id: 'saucna-2024',
+                                            name: 'Winter 2024',
+                                            startDate: '2024-03-23',
+                                            status: {
+                                                name: 'Completed',
+                                                value: 'COMPLETED',
+                                            },
+                                        },
+                                    ],
+                                },
+                                {
+                                    id: 'saucna-carnival',
+                                    name: 'Junior Carnival',
+                                    organisation: {
+                                        id: saucnaId,
+                                        name: 'SAUCNA',
+                                    },
+                                    seasons: [
+                                        {
+                                            endDate: '2024-07-16',
+                                            id: 'carnival-2024',
+                                            name: 'Winter 2024',
+                                            startDate: '2024-07-16',
+                                            status: {
+                                                name: 'Completed',
+                                                value: 'COMPLETED',
+                                            },
+                                        },
+                                    ],
+                                },
+                            ],
+                        },
+                    }),
+                ],
+                [
+                    'gradeListDiscoverSeason_saucna-2024.json',
+                    seedEntry(
+                        seasonEnvelope('saucna-2024', 'Winter 2024', [
+                            { id: 'grade-a1', name: 'A1' },
+                        ]),
+                    ),
+                ],
+                [
+                    'gradeLadder_grade-a1.json',
+                    seedEntry(
+                        ladderEnvelope('grade-a1', 'A1', twoTeamStandings()),
+                    ),
+                ],
+            ]),
+        );
+
+        const collected = await collectPlayHqData({
+            cacheFirst: true,
+            clubRegistry: new ClubRegistry([], []),
+            isFinalBySeasonKey: new Map(),
+            orgIds: [saucnaId],
+            store,
+            years: [2024],
+        });
+
+        expect(fetchSpy).not.toHaveBeenCalled();
+        expect(collected.seasons).toHaveLength(1);
+        expect(collected.seasons[0]).toMatchObject({
+            competition_key: 'saucna',
+            season_key: 'saucna-winter-2024',
+        });
+        expect(collected.grades[0]?.name).toBe('A1');
+        expect(collected.grades[0]?.tier).toBe(1);
     });
 
     it('never requests a completed season when years is omitted', async () => {

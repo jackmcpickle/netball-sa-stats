@@ -24,7 +24,9 @@ import type { GameRow } from '@/pipeline/fetch/games';
 // Re-exported so `scripts/`, tests and `to-import.ts` can keep treating this
 // module as the fetch entrypoint while the Worker imports `collect.ts` alone.
 export {
+    collectJobsFor,
     collectPlayHqData,
+    isCataloguedPlayHqCompetition,
     processGrade,
     resolveCompetitionKey,
     seasonWanted,
@@ -51,6 +53,8 @@ export interface FetchOptions {
     years?: readonly number[];
     /** Restrict the games fetch to a single PlayHQ grade id, for spot checks. */
     gradeId?: string;
+    /** Restrict collect to these PlayHQ organisation IDs. */
+    orgIds?: readonly string[];
 }
 
 async function readExistingCsv<T extends Record<string, string>>(
@@ -278,6 +282,7 @@ export async function runFetch(options: FetchOptions): Promise<FetchReport> {
         games: options.games,
         gradeId: options.gradeId,
         isFinalBySeasonKey,
+        orgIds: options.orgIds,
         store,
         years: options.years,
     });

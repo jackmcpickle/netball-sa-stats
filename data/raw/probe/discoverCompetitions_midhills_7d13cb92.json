@@ -1,0 +1,85 @@
+{
+    "data": {
+        "discoverCompetitions": [
+            {
+                "id": "02856f89",
+                "name": "Mid Hills Netball Association Carnival",
+                "seasons": [
+                    {
+                        "id": "23de3c45",
+                        "name": "2026",
+                        "startDate": "2026-05-17",
+                        "endDate": "2026-05-17",
+                        "status": { "name": "Completed", "value": "COMPLETED" }
+                    }
+                ],
+                "organisation": {
+                    "id": "7d13cb92",
+                    "name": "Mid Hills Netball Association"
+                }
+            },
+            {
+                "id": "9e77b6be",
+                "name": "Summer",
+                "seasons": [
+                    {
+                        "id": "899f82b1",
+                        "name": "Summer 2025/26",
+                        "startDate": "2025-10-14",
+                        "endDate": "2026-02-18",
+                        "status": { "name": "Completed", "value": "COMPLETED" }
+                    },
+                    {
+                        "id": "9939d502",
+                        "name": "Summer 2024/25",
+                        "startDate": "2024-10-15",
+                        "endDate": "2025-02-19",
+                        "status": { "name": "Completed", "value": "COMPLETED" }
+                    },
+                    {
+                        "id": "22b62b60",
+                        "name": "Summer 2023/24",
+                        "startDate": "2023-10-17",
+                        "endDate": "2024-02-21",
+                        "status": { "name": "Completed", "value": "COMPLETED" }
+                    }
+                ],
+                "organisation": {
+                    "id": "7d13cb92",
+                    "name": "Mid Hills Netball Association"
+                }
+            },
+            {
+                "id": "58fd4015",
+                "name": "WINTER",
+                "seasons": [
+                    {
+                        "id": "6620ff9e",
+                        "name": "Winter 2026",
+                        "startDate": "2026-05-02",
+                        "endDate": "2026-09-05",
+                        "status": { "name": "Active", "value": "ACTIVE" }
+                    },
+                    {
+                        "id": "067b8d1a",
+                        "name": "Winter 2025",
+                        "startDate": "2025-05-03",
+                        "endDate": "2025-09-06",
+                        "status": { "name": "Completed", "value": "COMPLETED" }
+                    },
+                    {
+                        "id": "a8b8aedc",
+                        "name": "Winter 2024",
+                        "startDate": "2024-05-04",
+                        "endDate": "2024-09-07",
+                        "status": { "name": "Completed", "value": "COMPLETED" }
+                    }
+                ],
+                "organisation": {
+                    "id": "7d13cb92",
+                    "name": "Mid Hills Netball Association"
+                }
+            }
+        ]
+    }
+}

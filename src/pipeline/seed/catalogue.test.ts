@@ -5,6 +5,7 @@ import { describe, expect, it } from 'vitest';
 import {
     COMPETITION_SEEDS,
     buildGradeWeights,
+    championshipCompetitionKeys,
 } from '@/pipeline/seed/catalogue';
 import type { GradeWeightSeed } from '@/pipeline/seed/catalogue';
 
@@ -20,6 +21,18 @@ describe('competition catalogue', () => {
                 competition.hasData && isNull(competition.playhqOrgId),
         ).map((competition) => competition.key);
         expect(withDataMissingOrgId).toStrictEqual([]);
+    });
+
+    it('lists the five SA associations Jack named, each with a PlayHQ org id', () => {
+        const keys = ['saucna', 'suna', 'hills', 'mid_hills', 'southern_hills'];
+        for (const key of keys) {
+            const seed = COMPETITION_SEEDS.find(
+                (competition) => competition.key === key,
+            );
+            expect(seed?.playhqOrgId).toMatch(/^[0-9a-f]{8}$/u);
+            expect(seed?.hasData).toBeFalsy();
+            expect(seed?.playhqCompetitionNames?.length).toBeGreaterThan(0);
+        }
     });
 });
 
@@ -77,6 +90,14 @@ describe('grade weights', () => {
         for (const weight of weights) {
             expect(weight.weight).toBe(Math.round(weight.weight * 1000) / 1000);
         }
+    });
+
+    it('keeps the championship on AMND and Premier League until new weights exist', () => {
+        expect([...championshipCompetitionKeys()].toSorted()).toStrictEqual([
+            'amnd',
+            'premier_league',
+            'premier_league_reserves',
+        ]);
     });
 });
 

@@ -32,9 +32,13 @@ import type {
     GradeListDiscoverSeasonResponse,
 } from '@/pipeline/fetch/types';
 import type { ImportData } from '@/pipeline/import/types';
+import {
+    COMPETITION_SEEDS,
+    competitionSeedByOrgId,
+} from '@/pipeline/seed/catalogue';
+import type { CompetitionSeed } from '@/pipeline/seed/catalogue';
 
 const AMND_ORG_ID = '7a5f35e1';
-const NETBALL_SA_ORG_ID = '6fefc037';
 
 // oxlint-disable-next-line typescript/consistent-type-definitions -- CSV row: interface has no implicit index signature, so it stops assigning to Record<string, CsvValue>
 export type SeasonRow = {
@@ -93,6 +97,12 @@ export interface CollectOptions {
     games?: boolean;
     years?: readonly number[];
     gradeId?: string;
+    /**
+     * PlayHQ organisation IDs to walk. Omitted means the competitions that
+     * already have data (AMND + Netball SA). Pass a new catalogue org to
+     * fetch it the same way without changing the default AMND/PL walk.
+     */
+    orgIds?: readonly string[];
 }
 
 export interface CollectedPlayHq {
@@ -149,16 +159,71 @@ async function discoverSeasons(
 }
 
 /**
+ * True when this PlayHQ competition object is one we fetch for the org.
+ * Association orgs also list carnivals, schools and summer; those stay out
+ * of scope until they have their own catalogue keys.
+ */
+export function isCataloguedPlayHqCompetition(
+    orgId: string,
+    playHqCompetitionName: string,
+): boolean {
+    const restricted = COMPETITION_SEEDS.filter(
+        (seed) =>
+            seed.playhqOrgId === orgId &&
+            !isUndefined(seed.playhqCompetitionNames),
+    );
+    if (restricted.length === 0) {
+        return true;
+    }
+    return restricted.some((seed) =>
+        seed.playhqCompetitionNames?.includes(playHqCompetitionName),
+    );
+}
+
+function associationKeyFor(
+    orgId: string,
+    playHqCompetitionName: string | undefined,
+): string | null {
+    const matches = COMPETITION_SEEDS.filter(
+        (seed) =>
+            seed.playhqOrgId === orgId &&
+            !isUndefined(seed.playhqCompetitionNames),
+    );
+    if (matches.length === 0) {
+        return null;
+    }
+    if (isUndefined(playHqCompetitionName)) {
+        return null;
+    }
+    return (
+        matches.find((seed) =>
+            seed.playhqCompetitionNames?.includes(playHqCompetitionName),
+        )?.key ?? null
+    );
+}
+
+/**
  * competitionKey for a grade name under a given org. `null` means "in scope
  * for the org's season, but not a competition this task fetches" — e.g. the
  * Netball SA Premier League season also lists "Walking Netball 50+", which
- * is out of scope (not one of the six catalogued competitions) and is
- * skipped rather than failing the whole run.
+ * is out of scope (not a catalogued competition) and is skipped rather than
+ * failing the whole run.
+ *
+ * `playHqCompetitionName` is required for the SA associations that share an
+ * org with carnivals / summer. Omit it and those orgs resolve to null.
  */
 export function resolveCompetitionKey(
     orgId: string,
     gradeName: string,
+    playHqCompetitionName?: string,
 ): string | null {
+    const associationKey = associationKeyFor(orgId, playHqCompetitionName);
+    if (!isNull(associationKey)) {
+        return associationKey;
+    }
+    if (!isUndefined(competitionSeedByOrgId(orgId)?.playhqCompetitionNames)) {
+        return null;
+    }
     if (orgId === AMND_ORG_ID) {
         return 'amnd';
     }
@@ -215,6 +280,7 @@ export interface GradeContext {
     seasonPlayhqId: string;
     seasonStatus: string;
     isFinalBySeasonKey: ReadonlyMap<string, string>;
+    playHqCompetitionName?: string;
 }
 
 interface ProcessedGrade {
@@ -276,14 +342,18 @@ export function processGrade(
     clubRegistry: ClubRegistry,
     scrapedAt: number,
 ): ProcessedGrade | null {
-    const competitionKey = resolveCompetitionKey(ctx.orgId, grade.name);
+    const competitionKey = resolveCompetitionKey(
+        ctx.orgId,
+        grade.name,
+        ctx.playHqCompetitionName,
+    );
     if (isNull(competitionKey)) {
         return null;
     }
     const seasonKey = buildSeasonKey(competitionKey, ctx.period, ctx.startYear);
     const gradeKey = buildGradeKey(seasonKey, grade.name);
 
-    const { tier, division } = parseGradeName(grade.name);
+    const { tier, division } = parseGradeName(grade.name, competitionKey);
     const gradeRow: GradeRow = {
         age_band: grade.age?.name ?? null,
         division,
@@ -483,10 +553,66 @@ interface CollectJob {
     minYear: number;
 }
 
-const COLLECT_JOBS: readonly CollectJob[] = [
-    { minYear: 2022, orgId: AMND_ORG_ID, period: 'winter' },
-    { minYear: 2023, orgId: NETBALL_SA_ORG_ID, period: 'annual' },
-];
+function defaultCollectOrgIds(): string[] {
+    const ids: string[] = [];
+    const seen = new Set<string>();
+    for (const seed of COMPETITION_SEEDS) {
+        if (
+            !seed.hasData ||
+            isNull(seed.playhqOrgId) ||
+            seen.has(seed.playhqOrgId)
+        ) {
+            continue;
+        }
+        seen.add(seed.playhqOrgId);
+        ids.push(seed.playhqOrgId);
+    }
+    return ids;
+}
+
+function jobFromSeed(seed: CompetitionSeed): CollectJob | null {
+    if (isNull(seed.playhqOrgId)) {
+        return null;
+    }
+    return {
+        minYear: seed.collectMinYear ?? 2022,
+        orgId: seed.playhqOrgId,
+        period: seed.collectPeriod ?? 'winter',
+    };
+}
+
+/**
+ * One collect job per PlayHQ org. Default is AMND + Netball SA, the orgs
+ * that already have `hasData`. Pass `orgIds` to target a catalogued
+ * association without changing that default.
+ */
+export function collectJobsFor(
+    orgIds?: readonly string[],
+): readonly CollectJob[] {
+    const wanted = new Set(orgIds ?? defaultCollectOrgIds());
+    const jobs: CollectJob[] = [];
+    const seen = new Set<string>();
+    for (const seed of COMPETITION_SEEDS) {
+        const job =
+            !isNull(seed.playhqOrgId) &&
+            wanted.has(seed.playhqOrgId) &&
+            !seen.has(seed.playhqOrgId)
+                ? jobFromSeed(seed)
+                : null;
+        if (!isNull(job)) {
+            seen.add(job.orgId);
+            jobs.push(job);
+        }
+    }
+    for (const orgId of wanted) {
+        if (!seen.has(orgId)) {
+            throw new Error(
+                `unknown PlayHQ org id "${orgId}" — not in the competition catalogue`,
+            );
+        }
+    }
+    return jobs;
+}
 
 interface CollectAccumulator {
     seasonRows: Map<string, SeasonRow>;
@@ -508,8 +634,13 @@ async function ingestGrade(
         age: { name: string } | null;
     },
     acc: CollectAccumulator,
+    playHqCompetitionName: string,
 ): Promise<void> {
-    const competitionKey = resolveCompetitionKey(job.orgId, grade.name);
+    const competitionKey = resolveCompetitionKey(
+        job.orgId,
+        grade.name,
+        playHqCompetitionName,
+    );
     // Out of scope, e.g. "Walking Netball 50+" under the Premier League season.
     // Reported (not just dropped) so a grade that genuinely comes into
     // scope later under a catalogued org doesn't silently vanish.
@@ -571,6 +702,7 @@ async function ingestGrade(
             isFinalBySeasonKey: options.isFinalBySeasonKey,
             orgId: job.orgId,
             period: job.period,
+            playHqCompetitionName,
             seasonName: season.name,
             seasonPlayhqId: season.id,
             seasonStatus: season.status.value.toLowerCase(),
@@ -606,9 +738,16 @@ async function ingestSeason(
     job: CollectJob,
     season: SeasonEntry,
     acc: CollectAccumulator,
+    playHqCompetitionName: string,
 ): Promise<void> {
     const startYear = parseStartYear(season.startDate);
     if (startYear < job.minYear || !seasonWanted(season, options.years)) {
+        return;
+    }
+    if (!isCataloguedPlayHqCompetition(job.orgId, playHqCompetitionName)) {
+        console.warn(
+            `out-of-scope PlayHQ competition skipped: "${playHqCompetitionName}" (season ${season.name}, org ${job.orgId})`,
+        );
         return;
     }
 
@@ -635,7 +774,15 @@ async function ingestSeason(
 
     for (const grade of discoverSeason.grades) {
         // oxlint-disable-next-line eslint/no-await-in-loop, react-doctor/async-await-in-loop -- sequential by design: PlayHQ etiquette caps us at ~1 req/sec.
-        await ingestGrade(options, job, season, startYear, grade, acc);
+        await ingestGrade(
+            options,
+            job,
+            season,
+            startYear,
+            grade,
+            acc,
+            playHqCompetitionName,
+        );
     }
 }
 
@@ -651,16 +798,16 @@ export async function collectPlayHqData(
         teamRows: new Map(),
     };
 
-    for (const job of COLLECT_JOBS) {
+    for (const job of collectJobsFor(options.orgIds)) {
         // oxlint-disable-next-line eslint/no-await-in-loop, react-doctor/async-await-in-loop -- sequential by design: PlayHQ etiquette caps us at ~1 req/sec.
         const entries = await discoverSeasons(
             options.store,
             job.orgId,
             options.cacheFirst,
         );
-        for (const { season } of entries) {
+        for (const { competitionName, season } of entries) {
             // oxlint-disable-next-line eslint/no-await-in-loop, react-doctor/async-await-in-loop -- sequential by design: PlayHQ etiquette caps us at ~1 req/sec.
-            await ingestSeason(options, job, season, acc);
+            await ingestSeason(options, job, season, acc, competitionName);
         }
     }
 

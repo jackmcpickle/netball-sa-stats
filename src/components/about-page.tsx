@@ -28,12 +28,16 @@ export function AboutPage(): JSX.Element {
                     Where the numbers come from
                 </h2>
                 <p className="leading-[1.55] text-ink-body">
-                    Ladders and fixtures published on PlayHQ for Netball SA and
-                    AMND competitions, from 2022 onward, plus archived AMND
-                    Final Premiership Placings PDFs for earlier seasons. Nothing
-                    is estimated, interpolated or hand-entered: every figure
-                    traces back to a published source, and seasons with no
-                    recoverable source are shown as gaps rather than filled in.
+                    Ladders and fixtures published on PlayHQ from 2022 onward,
+                    plus archived AMND Final Premiership Placings PDFs for
+                    earlier seasons. The championship score currently uses AMND
+                    and Premier League only. SAUCNA, SUNA, Hills, Mid Hills and
+                    Southern Hills are in the catalogue with verified PlayHQ org
+                    IDs, but they have no imported ladders and no grade weights
+                    yet, so they do not change the ranking. Nothing is
+                    estimated, interpolated or hand-entered: every figure traces
+                    back to a published source, and seasons with no recoverable
+                    source are shown as gaps rather than filled in.
                 </p>
 
                 <h2 className="mt-10 mb-4 text-lg font-semibold text-ink">

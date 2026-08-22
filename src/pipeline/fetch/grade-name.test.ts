@@ -76,4 +76,86 @@ describe(parseGradeName, () => {
             /Mystery Grade 9/u,
         );
     });
+
+    it('does not parse association names as AMND bands', () => {
+        expect(() => parseGradeName('A1')).toThrow(/A1/u);
+        expect(() => parseGradeName('Seniors Div 01')).toThrow(
+            /Seniors Div 01/u,
+        );
+        expect(() => parseGradeName('8U/1')).toThrow(/8U\/1/u);
+    });
+});
+
+describe('parseGradeName for SA associations', () => {
+    it('parses senior A/B/C names from the 2025 winter grade lists', () => {
+        expect(parseGradeName('A1', 'saucna')).toStrictEqual({
+            division: 1,
+            tier: 1,
+        });
+        expect(parseGradeName('A grade', 'mid_hills')).toStrictEqual({
+            division: null,
+            tier: 1,
+        });
+        expect(parseGradeName('A2 Grade', 'mid_hills')).toStrictEqual({
+            division: 2,
+            tier: 1,
+        });
+        expect(parseGradeName('B5', 'saucna')).toStrictEqual({
+            division: 5,
+            tier: 2,
+        });
+        expect(parseGradeName('C grade', 'mid_hills')).toStrictEqual({
+            division: null,
+            tier: 3,
+        });
+        expect(parseGradeName('C2', 'hills')).toStrictEqual({
+            division: 2,
+            tier: 3,
+        });
+        expect(parseGradeName('Seniors Div 01', 'suna')).toStrictEqual({
+            division: 1,
+            tier: 1,
+        });
+        expect(parseGradeName('Seniors Div 06', 'suna')).toStrictEqual({
+            division: 6,
+            tier: 1,
+        });
+    });
+
+    it('parses inter and age-group names from the verified winter lists', () => {
+        expect(parseGradeName('Inter 1', 'hills')).toStrictEqual({
+            division: 1,
+            tier: 4,
+        });
+        expect(parseGradeName('Inters Div 1', 'mid_hills')).toStrictEqual({
+            division: 1,
+            tier: 4,
+        });
+        expect(parseGradeName('Inters 2', 'southern_hills')).toStrictEqual({
+            division: 2,
+            tier: 4,
+        });
+        expect(parseGradeName('8U/1', 'saucna')).toStrictEqual({
+            division: 1,
+            tier: 10,
+        });
+        expect(parseGradeName('17U/7', 'saucna')).toStrictEqual({
+            division: 7,
+            tier: 5,
+        });
+        expect(parseGradeName('11u Div1', 'hills')).toStrictEqual({
+            division: 1,
+            tier: 8,
+        });
+        expect(parseGradeName('9&U Div 1', 'suna')).toStrictEqual({
+            division: 1,
+            tier: 9,
+        });
+        expect(
+            parseGradeName('13 & Under Division 3', 'southern_hills'),
+        ).toStrictEqual({
+            division: 3,
+            tier: 7,
+        });
+    });
 });

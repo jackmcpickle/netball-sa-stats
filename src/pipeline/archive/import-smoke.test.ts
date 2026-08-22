@@ -11,6 +11,11 @@ const competitionKeys = new Set([
     'city_night_division',
     'super_league',
     'juniors',
+    'saucna',
+    'suna',
+    'hills',
+    'mid_hills',
+    'southern_hills',
 ]);
 
 describe('archive CSV import smoke', () => {

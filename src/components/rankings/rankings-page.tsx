@@ -69,10 +69,11 @@ export function RankingsPage(): JSX.Element {
                         Which club is really South Australia&rsquo;s strongest?
                     </h1>
                     <p className="mt-5 max-w-[52ch] text-base leading-[1.55] text-ink-body sm:mt-6 sm:text-lg">
-                        Every grade, every season, one number. Ladder finishes
-                        across Premier League, its Reserves and the Adelaide
-                        Metropolitan Netball Division are weighted by grade and
-                        added up into a single club championship score.
+                        Every AMND, Premier League and Reserves grade, one
+                        number. Those finishes are weighted by grade and added
+                        up into a single club championship score. Other South
+                        Australian associations are in the catalogue. They are
+                        not in this score until their grades have weights.
                     </p>
                 </div>
 

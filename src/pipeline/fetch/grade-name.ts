@@ -1,14 +1,20 @@
 /**
  * Parses PlayHQ grade display names into (tier, division), per the band
- * table in `src/pipeline/seed/catalogue.ts` (authoritative tier numbering).
+ * table in `src/pipeline/seed/catalogue.ts` (authoritative tier numbering
+ * for AMND / Premier League).
  *
  * PlayHQ's real names vary in spacing/punctuation from the brief's examples
  * (`data/raw/probe/gradeListDiscoverSeason_amnd_winter2023_7570c2c4.json`
  * has e.g. `AMND`, `A GRADE`, `B1`, `INTER 1`, `Sub Junior 1`) so matching is
  * done on a normalised (uppercased, punctuation-stripped) form. An
  * unrecognised name throws — never silently dropped or bucketed.
+ *
+ * SAUCNA / SUNA / Hills / Mid Hills / Southern Hills use a separate rule
+ * table. Those tiers are structural only: they do not have championship
+ * weights, and they must not be parsed as AMND bands.
  */
 import { isNull, isUndefined } from 'es-toolkit';
+import { usesAssociationGradeNames } from '@/pipeline/seed/catalogue';
 
 export interface ParsedGrade {
     tier: number;
@@ -21,18 +27,18 @@ interface Rule {
     tier: number;
 }
 
-// Normalised = uppercased, `.`/`-` collapsed to spaces, runs of whitespace
+// Normalised = uppercased, `.`/`-`/`/` collapsed to spaces, runs of whitespace
 // collapsed to one space, trimmed. So "B.3", "B. 3", "B3", "b 3" all match
-// the same rule.
+// the same rule. Association names also use slashes (`8U/1`).
 function normalise(name: string): string {
     return name
         .toUpperCase()
-        .replaceAll(/[.-]/gu, ' ')
+        .replaceAll(/[./-]/gu, ' ')
         .replaceAll(/\s+/gu, ' ')
         .trim();
 }
 
-const RULES: readonly Rule[] = [
+const AMND_RULES: readonly Rule[] = [
     { pattern: /^PREMIER DIVISION$/u, tier: 1 },
     { pattern: /^RESERVES DIVISION$/u, tier: 2 },
     { pattern: /^AMND(?: LEAGUE)?$/u, tier: 3 },
@@ -49,17 +55,74 @@ const RULES: readonly Rule[] = [
     { pattern: /^SUB PRIMARY ?(?<division>\d+) ?[A-Z]?$/u, tier: 11 },
 ];
 
-export function parseGradeName(name: string): ParsedGrade {
+/**
+ * Local seniority inside one association. 1 is the top senior grade.
+ * These numbers are not AMND weights and are not scored until calibrated.
+ */
+const ASSOCIATION_RULES: readonly Rule[] = [
+    { pattern: /^A GRADE$/u, tier: 1 },
+    { pattern: /^A ?(?<division>\d+)(?: GRADE)?$/u, tier: 1 },
+    { pattern: /^SENIORS DIV(?:ISION)? 0*(?<division>\d+)$/u, tier: 1 },
+    { pattern: /^B ?(?<division>\d+)$/u, tier: 2 },
+    { pattern: /^C GRADE$/u, tier: 3 },
+    { pattern: /^C ?(?<division>\d+)$/u, tier: 3 },
+    { pattern: /^INTERS? DIV(?:ISION)? 0*(?<division>\d+)$/u, tier: 4 },
+    { pattern: /^INTERS? 0*(?<division>\d+)$/u, tier: 4 },
+    {
+        pattern:
+            /^(?<age>8|9|11|13|15|17) ?(?:& ?)?U(?:NDERS?)? DIV(?:ISION)? ?0*(?<division>\d+)$/u,
+        tier: 0,
+    },
+    {
+        pattern:
+            /^(?<age>8|9|11|13|15|17) ?(?:& ?)?U(?:NDERS?)? 0*(?<division>\d+)$/u,
+        tier: 0,
+    },
+];
+
+const AGE_TIER = new Map<string, number>([
+    ['17', 5],
+    ['15', 6],
+    ['13', 7],
+    ['11', 8],
+    ['9', 9],
+    ['8', 10],
+]);
+
+function matchRule(normalised: string, rule: Rule): ParsedGrade | null {
+    const match = normalised.match(rule.pattern);
+    if (isNull(match)) {
+        return null;
+    }
+    const digits = match.groups?.division;
+    const age = match.groups?.age;
+    const ageTier = isUndefined(age) ? undefined : AGE_TIER.get(age);
+    return {
+        division: isUndefined(digits) ? null : Number(digits),
+        tier: isUndefined(ageTier) ? rule.tier : ageTier,
+    };
+}
+
+function parseWith(name: string, rules: readonly Rule[]): ParsedGrade {
     const normalised = normalise(name);
-    for (const rule of RULES) {
-        const match = normalised.match(rule.pattern);
-        if (!isNull(match)) {
-            const digits = match.groups?.division;
-            return {
-                division: isUndefined(digits) ? null : Number(digits),
-                tier: rule.tier,
-            };
+    for (const rule of rules) {
+        const parsed = matchRule(normalised, rule);
+        if (!isNull(parsed)) {
+            return parsed;
         }
     }
     throw new Error(`parseGradeName: unrecognised grade name "${name}"`);
+}
+
+export function parseGradeName(
+    name: string,
+    competitionKey?: string,
+): ParsedGrade {
+    if (
+        !isUndefined(competitionKey) &&
+        usesAssociationGradeNames(competitionKey)
+    ) {
+        return parseWith(name, ASSOCIATION_RULES);
+    }
+    return parseWith(name, AMND_RULES);
 }
