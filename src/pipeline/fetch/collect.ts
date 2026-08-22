@@ -40,18 +40,6 @@ export const SUNA_ORG_ID = '4bd9b8ae';
 export const ELIZABETH_ORG_ID = '7ffb0e67';
 export const CITY_NIGHT_ORG_ID = '2276ec85';
 export const SAMMNA_ORG_ID = '7936878d';
-export const MID_HILLS_ORG_ID = '7d13cb92';
-export const SHNA_ORG_ID = 'de681683';
-export const GSNA_ORG_ID = '879ed891';
-export const BAROSSA_ORG_ID = 'd8505173';
-export const GAWLER_ORG_ID = '10c20df0';
-export const PORT_PIRIE_ORG_ID = '75d217b0';
-export const WHYALLA_ORG_ID = '57c29823';
-export const EASTERN_EYRE_ORG_ID = '57f440eb';
-export const PORT_LINCOLN_ORG_ID = '3c28509a';
-export const RIVERLAND_ORG_ID = '1310360a';
-export const RIVER_MURRAY_ORG_ID = '33effa50';
-export const NORTHERN_AREAS_ORG_ID = '8dd4ad01';
 
 export type CollectPeriod = 'winter' | 'summer' | 'annual';
 
@@ -93,72 +81,11 @@ const ASSOCIATION_BY_ORG = new Map<string, AssociationOrg>([
             seasonNameIncludes: 'Winter',
         },
     ],
-    [MID_HILLS_ORG_ID, { key: 'mid_hills', playHqCompetitionName: 'WINTER' }],
-    [SHNA_ORG_ID, { key: 'shna', playHqCompetitionName: 'SHNA' }],
-    [
-        GSNA_ORG_ID,
-        {
-            key: 'gsna',
-            playHqCompetitionName: 'Great Southern Netball Association',
-        },
-    ],
-    [BAROSSA_ORG_ID, { key: 'barossa', playHqCompetitionName: 'BLGNA Winter' }],
-    [GAWLER_ORG_ID, { key: 'gawler', playHqCompetitionName: 'Winter Netball' }],
-    [
-        PORT_PIRIE_ORG_ID,
-        {
-            key: 'port_pirie',
-            playHqCompetitionName: 'Port Pirie Netball Association',
-        },
-    ],
-    [
-        WHYALLA_ORG_ID,
-        {
-            key: 'whyalla',
-            playHqCompetitionName: 'Whyalla Netball Association',
-        },
-    ],
-    [
-        EASTERN_EYRE_ORG_ID,
-        {
-            key: 'eastern_eyre',
-            playHqCompetitionName: 'Eastern Eyre Netball Association',
-        },
-    ],
-    [
-        PORT_LINCOLN_ORG_ID,
-        {
-            key: 'port_lincoln',
-            playHqCompetitionName: 'Winter Season Netball',
-        },
-    ],
-    [
-        RIVERLAND_ORG_ID,
-        {
-            key: 'riverland',
-            playHqCompetitionName: 'Riverland Netball Association Incorporated',
-        },
-    ],
-    [
-        RIVER_MURRAY_ORG_ID,
-        {
-            key: 'river_murray',
-            playHqCompetitionName: 'River Murray Netball Association Inc',
-        },
-    ],
-    [
-        NORTHERN_AREAS_ORG_ID,
-        {
-            key: 'northern_areas',
-            playHqCompetitionName: 'Northern Areas Netball Association',
-        },
-    ],
 ]);
 
-// Hills HNA has no committed PlayHQ org. Do not use e801d340 or NSW
-// hills-district-netball-association cd26c84e. Do not use WA SADNA
-// 489c7576, Netball SA Country carnival b0bbe786, or *-rep orgs.
-// Competition names below are discoverCompetitions objects from 2026-08-22.
+// Country associations (Hills, Mid Hills, SHNA, GSNA, Barossa, and the rest)
+// are out of this PR. Do not use NSW Hills District cd26c84e or WA SADNA
+// 489c7576. Competition names above are discoverCompetitions objects.
 
 // oxlint-disable-next-line typescript/consistent-type-definitions -- CSV row: interface has no implicit index signature, so it stops assigning to Record<string, CsvValue>
 export type SeasonRow = {
@@ -672,18 +599,6 @@ const COLLECT_JOBS: readonly CollectJob[] = [
     { minYear: 2023, orgId: ELIZABETH_ORG_ID, period: 'winter' },
     { minYear: 2023, orgId: CITY_NIGHT_ORG_ID, period: 'summer' },
     { minYear: 2023, orgId: SAMMNA_ORG_ID, period: 'winter' },
-    { minYear: 2023, orgId: MID_HILLS_ORG_ID, period: 'winter' },
-    { minYear: 2023, orgId: SHNA_ORG_ID, period: 'winter' },
-    { minYear: 2023, orgId: GSNA_ORG_ID, period: 'winter' },
-    { minYear: 2023, orgId: BAROSSA_ORG_ID, period: 'winter' },
-    { minYear: 2023, orgId: GAWLER_ORG_ID, period: 'winter' },
-    { minYear: 2023, orgId: PORT_PIRIE_ORG_ID, period: 'winter' },
-    { minYear: 2023, orgId: WHYALLA_ORG_ID, period: 'winter' },
-    { minYear: 2023, orgId: EASTERN_EYRE_ORG_ID, period: 'winter' },
-    { minYear: 2023, orgId: PORT_LINCOLN_ORG_ID, period: 'winter' },
-    { minYear: 2023, orgId: RIVERLAND_ORG_ID, period: 'winter' },
-    { minYear: 2023, orgId: RIVER_MURRAY_ORG_ID, period: 'winter' },
-    { minYear: 2023, orgId: NORTHERN_AREAS_ORG_ID, period: 'winter' },
 ];
 
 export function associationCollectOrgIds(): readonly string[] {

@@ -10,12 +10,9 @@ import {
     AMND_ORG_ID,
     CITY_NIGHT_ORG_ID,
     ELIZABETH_ORG_ID,
-    GSNA_ORG_ID,
-    MID_HILLS_ORG_ID,
     NETBALL_SA_ORG_ID,
     SAMMNA_ORG_ID,
     SAUCNA_ORG_ID,
-    SHNA_ORG_ID,
     SUNA_ORG_ID,
     associationCollectOrgIds,
     archiveRowsToKeep,
@@ -114,17 +111,6 @@ describe(resolveCompetitionKey, () => {
                 'M League',
             ),
         ).toBe('sammna');
-        expect(
-            resolveCompetitionKey(MID_HILLS_ORG_ID, 'A1', 'WINTER'),
-        ).toBe('mid_hills');
-        expect(resolveCompetitionKey(SHNA_ORG_ID, 'A1', 'SHNA')).toBe('shna');
-        expect(
-            resolveCompetitionKey(
-                GSNA_ORG_ID,
-                'A1',
-                'Great Southern Netball Association',
-            ),
-        ).toBe('gsna');
     });
 
     it('returns null for carnival or summer entries on those orgs', () => {
@@ -150,13 +136,6 @@ describe(resolveCompetitionKey, () => {
                 SAMMNA_ORG_ID,
                 'M-League - Mens Division',
                 'SAMMNA Super League',
-            ),
-        ).toBeNull();
-        expect(
-            resolveCompetitionKey(
-                MID_HILLS_ORG_ID,
-                'A1',
-                'Mid Hills Netball Association Carnival',
             ),
         ).toBeNull();
         expect(
@@ -213,22 +192,6 @@ describe(isCataloguedPlayHqCompetition, () => {
         expect(
             isCataloguedPlayHqCompetition(SAMMNA_ORG_ID, 'SAMMNA Super League'),
         ).toBeFalsy();
-        expect(
-            isCataloguedPlayHqCompetition(MID_HILLS_ORG_ID, 'WINTER'),
-        ).toBeTruthy();
-        expect(
-            isCataloguedPlayHqCompetition(MID_HILLS_ORG_ID, 'Summer'),
-        ).toBeFalsy();
-        expect(isCataloguedPlayHqCompetition(SHNA_ORG_ID, 'SHNA')).toBeTruthy();
-        expect(
-            isCataloguedPlayHqCompetition(
-                GSNA_ORG_ID,
-                'Great Southern Netball Association',
-            ),
-        ).toBeTruthy();
-        expect(
-            isCataloguedPlayHqCompetition(GSNA_ORG_ID, 'Jill May Carnival'),
-        ).toBeFalsy();
     });
 });
 
@@ -274,7 +237,7 @@ describe(collectJobsFor, () => {
             AMND_ORG_ID,
             NETBALL_SA_ORG_ID,
         ]);
-        expect(orgIds).toContain(GSNA_ORG_ID);
+        expect(orgIds).toContain(SAUCNA_ORG_ID);
         expect(orgIds).not.toContain('b0bbe786');
         expect(orgIds).not.toContain('cd26c84e');
         expect(orgIds).not.toContain('489c7576');

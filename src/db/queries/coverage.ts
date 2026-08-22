@@ -29,19 +29,6 @@ const SHORT_NAMES = new Map<string, string>([
     ['sammna', 'SAMMNA'],
     ['city_night_division', 'City Night'],
     ['sadna', 'SADNA'],
-    ['hills', 'Hills'],
-    ['mid_hills', 'Mid Hills'],
-    ['shna', 'SHNA'],
-    ['gsna', 'GSNA'],
-    ['barossa', 'Barossa'],
-    ['gawler', 'Gawler'],
-    ['whyalla', 'Whyalla'],
-    ['port_pirie', 'Port Pirie'],
-    ['port_lincoln', 'Port Lincoln'],
-    ['riverland', 'Riverland'],
-    ['river_murray', 'River Murray'],
-    ['northern_areas', 'Northern Areas'],
-    ['eastern_eyre', 'Eastern Eyre'],
 ]);
 
 export function toCompetition(key: string, name: string): Competition {

@@ -121,7 +121,8 @@ export function LeaguesIndexPage(): JSX.Element {
                 <p className="text-sm leading-relaxed text-ink-body">
                     A club that plays in more than one league keeps one profile
                     and appears on each league page separately. Premier League
-                    and Reserves stay distinct.
+                    and Reserves stay distinct. Country associations can be
+                    added later.
                 </p>
             </Panel>
         </PageShell>

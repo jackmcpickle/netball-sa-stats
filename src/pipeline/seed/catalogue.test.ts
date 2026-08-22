@@ -48,51 +48,19 @@ describe('competition catalogue', () => {
         expect(seed?.hasData).toBeFalsy();
     });
 
-    it('seeds Hills by name only and never stores e801d340 or NSW cd26c84e', () => {
-        const seed = COMPETITION_SEEDS.find(
-            (competition) => competition.key === 'hills',
-        );
-        expect(seed?.playhqOrgId).toBeNull();
-        expect(seed?.hasData).toBeFalsy();
+    it('does not seed Hills or the country tail', () => {
+        const keys = COMPETITION_SEEDS.map((competition) => competition.key);
+        expect(keys).not.toContain('hills');
+        expect(keys).not.toContain('mid_hills');
+        expect(keys).not.toContain('shna');
+        expect(keys).not.toContain('gsna');
+        expect(keys).not.toContain('barossa');
         const orgIds = COMPETITION_SEEDS.map(
             (competition) => competition.playhqOrgId,
         );
         expect(orgIds).not.toContain('e801d340');
         expect(orgIds).not.toContain('cd26c84e');
-    });
-
-    it('seeds Mid Hills and SHNA with the confirmed PlayHQ org ids', () => {
-        expect(
-            COMPETITION_SEEDS.find(
-                (competition) => competition.key === 'mid_hills',
-            )?.playhqOrgId,
-        ).toBe('7d13cb92');
-        expect(
-            COMPETITION_SEEDS.find((competition) => competition.key === 'shna')
-                ?.playhqOrgId,
-        ).toBe('de681683');
-    });
-
-    it('seeds verified country orgs and leaves the rest null', () => {
-        const byKey = new Map(
-            COMPETITION_SEEDS.map((competition) => [
-                competition.key,
-                competition.playhqOrgId,
-            ]),
-        );
-        expect(byKey.get('gsna')).toBe('879ed891');
-        expect(byKey.get('barossa')).toBe('d8505173');
-        expect(byKey.get('gawler')).toBe('10c20df0');
-        expect(byKey.get('whyalla')).toBe('57c29823');
-        expect(byKey.get('masters')).toBeNull();
-        expect(byKey.get('kangaroo_island')).toBeNull();
-        expect(byKey.get('adelaide_plains')).toBeNull();
-        const orgIds = [...byKey.values()];
         expect(orgIds).not.toContain('489c7576');
-        expect(orgIds).not.toContain('b0bbe786');
-        expect(orgIds).not.toContain('a1f7e1db');
-        expect(orgIds).not.toContain('b5d9cb13');
-        expect(orgIds).not.toContain('cd26c84e');
     });
 
     it('does not claim data for any new association', () => {

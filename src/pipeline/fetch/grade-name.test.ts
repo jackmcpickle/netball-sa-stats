@@ -78,11 +78,11 @@ describe(parseGradeName, () => {
     });
 
     it('falls back on an unknown association grade instead of throwing', () => {
-        expect(parseGradeName('Mystery Grade 9', 'whyalla')).toStrictEqual({
+        expect(parseGradeName('Mystery Grade 9', 'saucna')).toStrictEqual({
             division: 9,
             tier: 99,
         });
-        expect(parseGradeName('Open Women', 'gsna')).toStrictEqual({
+        expect(parseGradeName('Open Women', 'elizabeth')).toStrictEqual({
             division: null,
             tier: 99,
         });
