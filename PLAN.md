@@ -93,19 +93,19 @@ So ladders are scraped as the fact table. A `matches` table drops in later witho
 
 ## Competitions
 
-| Competition                            | Key                       | Phase 1 data                        | Org ID     |
-| -------------------------------------- | ------------------------- | ----------------------------------- | ---------- |
-| Adelaide Metropolitan Netball Division | `amnd`                    | Yes                                 | `7a5f35e1` |
-| Netball SA Premier League              | `premier_league`          | Yes                                 | `6fefc037` |
-| Premier League Reserves                | `premier_league_reserves` | Yes                                 | `6fefc037` |
-| City Night Division                    | `city_night_division`     | No. Org filled, no imported rows    | `2276ec85` |
-| Super League                           | `super_league`            | No. Unresearched                    | —          |
-| Juniors                                | `juniors`                 | No                                  | —          |
-| SAUCNA                                 | `saucna`                  | No. Org verified, no imported rows  | `fb89f1f1` |
-| Southern United (SUNA)                 | `suna`                    | No. Org verified, no imported rows  | `4bd9b8ae` |
-| Elizabeth Netball Association          | `elizabeth`               | No. Org verified, no imported rows  | `7ffb0e67` |
-| SAMMNA                                 | `sammna`                  | No. Org verified, no imported rows  | `7936878d` |
-| SA Districts (SADNA)                   | `sadna`                   | No. Name only, PlayHQ org unknown   | —          |
+| Competition                            | Key                       | Phase 1 data                       | Org ID     |
+| -------------------------------------- | ------------------------- | ---------------------------------- | ---------- |
+| Adelaide Metropolitan Netball Division | `amnd`                    | Yes                                | `7a5f35e1` |
+| Netball SA Premier League              | `premier_league`          | Yes                                | `6fefc037` |
+| Premier League Reserves                | `premier_league_reserves` | Yes                                | `6fefc037` |
+| City Night Division                    | `city_night_division`     | No. Org filled, no imported rows   | `2276ec85` |
+| Super League                           | `super_league`            | No. Unresearched                   | —          |
+| Juniors                                | `juniors`                 | No                                 | —          |
+| SAUCNA                                 | `saucna`                  | No. Org verified, no imported rows | `fb89f1f1` |
+| Southern United (SUNA)                 | `suna`                    | No. Org verified, no imported rows | `4bd9b8ae` |
+| Elizabeth Netball Association          | `elizabeth`               | No. Org verified, no imported rows | `7ffb0e67` |
+| SAMMNA                                 | `sammna`                  | No. Org verified, no imported rows | `7936878d` |
+| SA Districts (SADNA)                   | `sadna`                   | No. Name only, PlayHQ org unknown  | —          |
 
 The first three carry ladder data and championship weights. Metro associations have verified PlayHQ org IDs (checked 2026-08-22 via `discoverCompetitions`). `COLLECT_JOBS` in `collect.ts` walks those orgs the same way as AMND. New association jobs start at 2023. `--org` / `--competition` still targets one. `0001_seed.sql` is already applied, so the new rows land in `drizzle/0009_sa_associations.sql`.
 

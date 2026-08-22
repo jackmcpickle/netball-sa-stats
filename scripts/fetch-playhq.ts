@@ -10,7 +10,8 @@
  *
  * Default walk is AMND + Netball SA + metro associations in COLLECT_JOBS.
  * Pass `--org` or `--competition` to target one catalogue key. New
- * association jobs start at 2023.
+ * association jobs start at 2023. Targeted `--games` merges into the
+ * existing `games-<year>.csv` so AMND/PL fixtures stay.
  */
 import { isNull, isUndefined } from 'es-toolkit';
 import { runFetch } from '../src/pipeline/fetch/run.ts';

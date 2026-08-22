@@ -28,11 +28,15 @@ function seasonCaption(entry: LeagueIndexEntry): string {
     return `${String(entry.seasonCount)} ${noun}${latest}`;
 }
 
-function partitionLeagues(leagues: readonly LeagueIndexEntry[]): {
+interface LeagueIndexGroups {
     championship: LeagueIndexEntry[];
     catalogued: LeagueIndexEntry[];
     named: LeagueIndexEntry[];
-} {
+}
+
+function partitionLeagues(
+    leagues: readonly LeagueIndexEntry[],
+): LeagueIndexGroups {
     const championship: LeagueIndexEntry[] = [];
     const catalogued: LeagueIndexEntry[] = [];
     const named: LeagueIndexEntry[] = [];

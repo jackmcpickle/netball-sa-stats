@@ -4,6 +4,7 @@ import { isNull } from 'es-toolkit';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { createMemoryStore } from '@/pipeline/fetch/capture-store';
 import { ClubRegistry } from '@/pipeline/fetch/club-registry';
+import type { GameRow } from '@/pipeline/fetch/games';
 import { flattenStandings } from '@/pipeline/fetch/ladder';
 import type { Standing } from '@/pipeline/fetch/ladder';
 import {
@@ -20,6 +21,7 @@ import {
     collectJobsFor,
     collectPlayHqData,
     isCataloguedPlayHqCompetition,
+    mergeYearGames,
     processGrade,
     resolveCompetitionKey,
     seasonWanted,
@@ -650,6 +652,55 @@ describe(archiveRowsToKeep, () => {
             'a-2005',
             'a-2025',
         ]);
+    });
+});
+
+function sampleGame(gradeKey: string, playhqId: string, round = 1): GameRow {
+    return {
+        away_playhq_id: null,
+        away_score: null,
+        forfeiting_side: null,
+        grade_key: gradeKey,
+        home_playhq_id: 'home',
+        home_score: 40,
+        is_finals: 0,
+        played_at: 1_743_830_100,
+        playhq_id: playhqId,
+        round,
+        round_name: 'Round 1',
+        scraped_at: 1_700_000_000_000,
+        source: 'playhq',
+        status: 'final',
+    };
+}
+
+describe(mergeYearGames, () => {
+    it('keeps existing games from grades this run did not fetch', () => {
+        const existing = [sampleGame('amnd-winter-2025-a-grade', 'amnd-1')];
+        const fetched = [sampleGame('saucna-winter-2025-a1', 'saucna-1')];
+        const merged = mergeYearGames(existing, fetched);
+        expect(merged.map((row) => row.playhq_id)).toStrictEqual([
+            'amnd-1',
+            'saucna-1',
+        ]);
+    });
+
+    it('replaces games for a grade this run fetched', () => {
+        const existing = [
+            sampleGame('amnd-winter-2025-a-grade', 'amnd-1'),
+            sampleGame('saucna-winter-2025-a1', 'old-saucna'),
+        ];
+        const fetched = [sampleGame('saucna-winter-2025-a1', 'new-saucna')];
+        const merged = mergeYearGames(existing, fetched);
+        expect(merged.map((row) => row.playhq_id)).toStrictEqual([
+            'amnd-1',
+            'new-saucna',
+        ]);
+    });
+
+    it('writes only fetched games when the year file is empty', () => {
+        const fetched = [sampleGame('saucna-winter-2025-a1', 'saucna-1')];
+        expect(mergeYearGames([], fetched)).toStrictEqual(fetched);
     });
 });
 

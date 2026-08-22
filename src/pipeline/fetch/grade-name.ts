@@ -112,7 +112,7 @@ function matchRule(normalised: string, rule: Rule): ParsedGrade | null {
 
 function associationFallback(name: string): ParsedGrade {
     const normalised = normalise(name);
-    const match = normalised.match(/(?<division>\d+) ?[A-Z]?$/u);
+    const match = /(?<division>\d+) ?[A-Z]?$/u.exec(normalised);
     const digits = match?.groups?.division;
     return {
         division: isUndefined(digits) ? null : Number(digits),
