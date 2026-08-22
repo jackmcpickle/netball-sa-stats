@@ -48,18 +48,29 @@ describe('competition catalogue', () => {
         expect(seed?.hasData).toBeFalsy();
     });
 
-    it('seeds Hills with the PlayHQ org discoverCompetitions confirmed', () => {
+    it('seeds Hills by name only and never stores e801d340 or NSW cd26c84e', () => {
         const seed = COMPETITION_SEEDS.find(
             (competition) => competition.key === 'hills',
         );
-        expect(seed?.playhqOrgId).toBe('e801d340');
+        expect(seed?.playhqOrgId).toBeNull();
         expect(seed?.hasData).toBeFalsy();
+        const orgIds = COMPETITION_SEEDS.map(
+            (competition) => competition.playhqOrgId,
+        );
+        expect(orgIds).not.toContain('e801d340');
+        expect(orgIds).not.toContain('cd26c84e');
     });
 
-    it('does not seed the rest of the country tail', () => {
-        const keys = COMPETITION_SEEDS.map((competition) => competition.key);
-        expect(keys).not.toContain('mid_hills');
-        expect(keys).not.toContain('southern_hills');
+    it('seeds Mid Hills and SHNA with the confirmed PlayHQ org ids', () => {
+        expect(
+            COMPETITION_SEEDS.find(
+                (competition) => competition.key === 'mid_hills',
+            )?.playhqOrgId,
+        ).toBe('7d13cb92');
+        expect(
+            COMPETITION_SEEDS.find((competition) => competition.key === 'shna')
+                ?.playhqOrgId,
+        ).toBe('de681683');
     });
 });
 

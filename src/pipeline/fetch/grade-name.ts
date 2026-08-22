@@ -9,7 +9,8 @@
  * done on a normalised (uppercased, punctuation-stripped) form. An
  * unrecognised name throws — never silently dropped or bucketed.
  *
- * Metro associations (SAUCNA, SUNA, Elizabeth, City Night, SAMMNA) use a
+ * Metro and Hills-country associations (SAUCNA, SUNA, Elizabeth, City Night,
+ * SAMMNA, Mid Hills, SHNA) use a
  * separate rule table. Those tiers are structural only: they do not have
  * championship weights, and they must not be parsed as AMND bands.
  */

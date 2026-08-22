@@ -106,11 +106,13 @@ So ladders are scraped as the fact table. A `matches` table drops in later witho
 | Elizabeth Netball Association          | `elizabeth`               | No — org verified, no imported rows | `7ffb0e67` |
 | SAMMNA                                 | `sammna`                  | No — org verified, no imported rows | `7936878d` |
 | SA Districts (SADNA)                   | `sadna`                   | No. Name only, PlayHQ org unknown   | —          |
-| Hills Netball Association              | `hills`                   | No. Org verified, no imported rows  | `e801d340` |
+| Hills Netball Association              | `hills`                   | No. Name only, PlayHQ org unknown   | —          |
+| Mid Hills Netball Association          | `mid_hills`               | No. Org verified, no imported rows  | `7d13cb92` |
+| Southern Hills (SHNA)                  | `shna`                    | No. Org verified, no imported rows  | `de681683` |
 
 The first three carry ladder data and championship weights. Metro associations have verified PlayHQ org IDs (checked 2026-08-22 via `discoverCompetitions`). `COLLECT_JOBS` in `collect.ts` walks those orgs the same way as AMND; new association jobs start at 2023. `--org` / `--competition` still targets one. `0001_seed.sql` is already applied, so the new rows land in `drizzle/0009_sa_associations.sql`.
 
-They are **not** in the club championship. No `grade_weights` rows, and `fetchChampionshipHistory` only scores keys that already have bands. Importing a SUNA ladder later must not change Contax's AMND rank. Mid Hills, SHNA, GSNA and the rest of country can be added later the same way.
+They are **not** in the club championship. No `grade_weights` rows, and `fetchChampionshipHistory` only scores keys that already have bands. Importing a SUNA ladder later must not change Contax's AMND rank. GSNA and the rest of country can be added later the same way.
 
 Each association org also lists carnivals, schools or summer on PlayHQ. Those names are out of scope until they get their own catalogue keys:
 
@@ -119,13 +121,14 @@ Each association org also lists carnivals, schools or summer on PlayHQ. Those na
 - Elizabeth → `Elizabeth Netball Association`, winter seasons only (summer shares the same competition object)
 - City Night → `City Night Division 1`, summer 2023+ (the 2021 winter object is out of range)
 - SAMMNA → `M League`, winter only (not Super League)
-- Hills → `Hills Netball Association`, winter only. Ready Set Go Carnival stays out.
+- Mid Hills → `WINTER` only. Summer and carnival stay out.
+- SHNA → `SHNA` winter only.
 
-SADNA is seeded by name with a null org id. Do not use WA `489c7576`.
+SADNA and Hills are seeded by name with a null org id. Do not use WA `489c7576` for SADNA. Do not use `e801d340` or NSW Hills District `cd26c84e` for Hills.
 
 Hills is NSA country. The official site is https://www.hillsnetballassociation.com/. hills.netball.asn.au does not resolve. Matches are Saturday home/away in the Netball SA winter season only. The ten clubs are Aldgate, Bridgewater, Crafers, Heathfield, Ironbank/Cherry Gardens, Mylor, Piccadilly, Stirling Comets, Summertown, and Uraidla. Contacts on file: hnaro1@outlook.com, info@hillsnetballassociation.com. The HNA site does not mention PlayHQ.
 
-`e801d340` sat in indexed HTML as an unverified guess until `discoverCompetitions` on 2026-08-22 returned organisation name "Hills Netball Association" and winter seasons 2022-2026. That is why the catalogue stores the id with `has_data=0` and no `COLLECT_JOBS` entry. Do not use NSW Hills District `cd26c84e`. Mid Hills `7d13cb92` and SHNA `de681683` also answered live the same day. They are not seeded yet.
+Indexed PlayHQ HTML still treats Hills `e801d340` as unconfirmed, so the catalogue does not store it. Mid Hills `7d13cb92` (slug mid-hills-netball-association) and SHNA `de681683` (slug southern-hills-netball-association, winter 2024 `e6e7d817`) are live. `discoverCompetitions` also listed Mid Hills winter 2024-2026 and SHNA winter 2024-2026. Those season ids stay in the probe, not in CSV. Do not invent missing season ids. SAUCNA indexed winters include 2022 `f60d7b32`, 2024 `f6a979ff`; winter 2023 and 2026 were missing from the public index and come from GraphQL. SUNA's public index only had the 2024 junior carnival; league winter is `SUNA Winter`.
 
 ## Sources & coverage
 

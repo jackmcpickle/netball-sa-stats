@@ -10,7 +10,8 @@
  *
  * Default walk is AMND + Netball SA + metro associations in COLLECT_JOBS.
  * Pass `--org` or `--competition` to target one (saucna, suna, elizabeth,
- * city_night_division, sammna). New association jobs start at 2023.
+ * city_night_division, sammna, mid_hills, shna). New association jobs start
+ * at 2023.
  */
 import { isNull, isUndefined } from 'es-toolkit';
 import { runFetch } from '../src/pipeline/fetch/run.ts';

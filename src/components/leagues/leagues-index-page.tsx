@@ -67,8 +67,8 @@ export function LeaguesIndexPage(): JSX.Element {
             </ul>
             <Panel className="mt-10 p-6">
                 <p className="text-sm leading-relaxed text-ink-body">
-                    Hills is catalogued with no imported seasons yet. Mid Hills,
-                    Southern Hills and the rest of country can be added later.
+                    Hills is catalogued without a PlayHQ org. Mid Hills and
+                    Southern Hills are catalogued with no imported seasons yet.
                 </p>
             </Panel>
         </PageShell>

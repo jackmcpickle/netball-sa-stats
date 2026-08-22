@@ -77,6 +77,8 @@ and summer share one object, the matching season name).
 | `elizabeth`           | `7ffb0e67` | Elizabeth Netball Association                       | `Elizabeth Netball Association` | winter seasons only |
 | `city_night_division` | `2276ec85` | City Night Division                                 | `City Night Division 1`         | summer 2023+        |
 | `sammna`              | `7936878d` | South Australian Mens and Mixed Netball Association | `M League`                      | winter seasons only |
+| `mid_hills`           | `7d13cb92` | Mid Hills Netball Association                       | `WINTER`                        | winter 2023+        |
+| `shna`                | `de681683` | Southern Hills Netball Association                  | `SHNA`                          | winter 2023+        |
 
 `COLLECT_JOBS` in `src/pipeline/fetch/collect.ts` includes these org IDs.
 Target one with `pnpm exec tsx scripts/fetch-playhq.ts --competition=saucna --year=2025`.
@@ -86,15 +88,13 @@ are under `gradeListDiscoverSeason_*` in the same folder. Import is not wired
 to those ladders yet: unknown club names fail loud, and there are no
 championship weights.
 
-Hills `e801d340` is catalogued as `hills` after `discoverCompetitions` returned
-organisation name "Hills Netball Association" and winter 2022-2026 on
-competition `Hills Netball Association`. The official site
-https://www.hillsnetballassociation.com/ never mentions PlayHQ. The PlayHQ
-HTML org URL 403s from datacenters, so the GraphQL org/name match is the
-confirmation. Hills is not in `COLLECT_JOBS`. Ready Set Go Carnival on that
-org is out of scope. Mid Hills `7d13cb92` (WINTER, Summer, carnival) and
-SHNA `de681683` (`SHNA` winter 2024-2026) also answered live. They are not
-catalogued. Never use NSW Hills District `cd26c84e`.
+Hills stays catalogued with a null org. Indexed game pages still treat
+`e801d340` as unconfirmed, and NSW Hills District `cd26c84e` is the wrong
+association. Do not commit either id. Mid Hills and SHNA org HTML 403s from
+datacenters; the slugs and ids above came from indexed pages and were
+checked with `discoverCompetitions`. Season ids that were not in the public
+index are read from that GraphQL response, not invented. Mid Hills carnival
+and summer, and SUNA's junior carnival, stay out of `COLLECT_JOBS`.
 
 Note: a single logical competition (e.g. Premier League) can be split
 across **multiple `discoverCompetitions` entries** if PlayHQ re-created the

@@ -40,6 +40,8 @@ export const SUNA_ORG_ID = '4bd9b8ae';
 export const ELIZABETH_ORG_ID = '7ffb0e67';
 export const CITY_NIGHT_ORG_ID = '2276ec85';
 export const SAMMNA_ORG_ID = '7936878d';
+export const MID_HILLS_ORG_ID = '7d13cb92';
+export const SHNA_ORG_ID = 'de681683';
 
 export type CollectPeriod = 'winter' | 'summer' | 'annual';
 
@@ -81,12 +83,13 @@ const ASSOCIATION_BY_ORG = new Map<string, AssociationOrg>([
             seasonNameIncludes: 'Winter',
         },
     ],
+    [MID_HILLS_ORG_ID, { key: 'mid_hills', playHqCompetitionName: 'WINTER' }],
+    [SHNA_ORG_ID, { key: 'shna', playHqCompetitionName: 'SHNA' }],
 ]);
 
-// Hills e801d340 is a live PlayHQ org (discoverCompetitions 2026-08-22,
-// org name "Hills Netball Association", winter 2022-2026). It is catalogued
-// but not in COLLECT_JOBS. Mid Hills 7d13cb92 and SHNA de681683 are also
-// live; they are not catalogued. Never use NSW Hills District cd26c84e.
+// Hills HNA has no committed PlayHQ org. Do not use e801d340 or NSW
+// hills-district-netball-association cd26c84e. Mid Hills and SHNA names
+// are the discoverCompetitions objects from 2026-08-22.
 
 // oxlint-disable-next-line typescript/consistent-type-definitions -- CSV row: interface has no implicit index signature, so it stops assigning to Record<string, CsvValue>
 export type SeasonRow = {
@@ -600,6 +603,8 @@ const COLLECT_JOBS: readonly CollectJob[] = [
     { minYear: 2023, orgId: ELIZABETH_ORG_ID, period: 'winter' },
     { minYear: 2023, orgId: CITY_NIGHT_ORG_ID, period: 'summer' },
     { minYear: 2023, orgId: SAMMNA_ORG_ID, period: 'winter' },
+    { minYear: 2023, orgId: MID_HILLS_ORG_ID, period: 'winter' },
+    { minYear: 2023, orgId: SHNA_ORG_ID, period: 'winter' },
 ];
 
 /**

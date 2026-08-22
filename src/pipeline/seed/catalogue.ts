@@ -81,17 +81,31 @@ export const COMPETITION_SEEDS: readonly CompetitionSeed[] = [
         hasData: false,
         key: 'hills',
         name: 'Hills Netball Association',
-        playhqOrgId: 'e801d340',
+        playhqOrgId: null,
+    },
+    {
+        hasData: false,
+        key: 'mid_hills',
+        name: 'Mid Hills Netball Association',
+        playhqOrgId: '7d13cb92',
+    },
+    {
+        hasData: false,
+        key: 'shna',
+        name: 'Southern Hills Netball Association',
+        playhqOrgId: 'de681683',
     },
 ];
 
-/** Metro associations fetched via their own PlayHQ org. No championship bands. */
+/** Associations fetched via their own PlayHQ org. No championship bands. */
 export const ASSOCIATION_COMPETITION_KEYS: ReadonlySet<string> = new Set([
     'saucna',
     'suna',
     'elizabeth',
     'city_night_division',
     'sammna',
+    'mid_hills',
+    'shna',
 ]);
 
 export function catalogueByKey(key: string): CompetitionSeed | undefined {
