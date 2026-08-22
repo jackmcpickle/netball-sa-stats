@@ -12,7 +12,7 @@ const competitionKeys = new Set(
 describe('archive CSV import smoke', () => {
     it('validates merged archive rows through the existing import path', async () => {
         const root = resolve(import.meta.dirname, '../../..');
-        const data = await loadImportData(join(root, 'data'));
+        const data = await loadImportData(join(root, 'testdata/e2e'));
 
         expect(() => {
             validateImportData(data, competitionKeys);
