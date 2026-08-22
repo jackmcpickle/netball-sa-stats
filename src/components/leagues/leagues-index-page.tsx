@@ -67,8 +67,9 @@ export function LeaguesIndexPage(): JSX.Element {
             </ul>
             <Panel className="mt-10 p-6">
                 <p className="text-sm leading-relaxed text-ink-body">
-                    Hills is catalogued without a PlayHQ org. Mid Hills and
-                    Southern Hills are catalogued with no imported seasons yet.
+                    Associations with a verified PlayHQ org are listed here.
+                    Name-only seeds (Hills, Masters, and others) have no org
+                    yet. Broken Hill is skipped as NSW.
                 </p>
             </Panel>
         </PageShell>

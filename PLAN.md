@@ -109,10 +109,20 @@ So ladders are scraped as the fact table. A `matches` table drops in later witho
 | Hills Netball Association              | `hills`                   | No. Name only, PlayHQ org unknown   | —          |
 | Mid Hills Netball Association          | `mid_hills`               | No. Org verified, no imported rows  | `7d13cb92` |
 | Southern Hills (SHNA)                  | `shna`                    | No. Org verified, no imported rows  | `de681683` |
+| Great Southern (GSNA)                  | `gsna`                    | No. Org verified, no imported rows  | `879ed891` |
+| Barossa, Light and Gawler              | `barossa`                 | No. Org verified, no imported rows  | `d8505173` |
+| Gawler and District                    | `gawler`                  | No. Org verified, no imported rows  | `10c20df0` |
+| Port Pirie                             | `port_pirie`              | No. Org verified, no imported rows  | `75d217b0` |
+| Whyalla                                | `whyalla`                 | No. Org verified, no imported rows  | `57c29823` |
+| Eastern Eyre                           | `eastern_eyre`            | No. Org verified, no imported rows  | `57f440eb` |
+| Port Lincoln                           | `port_lincoln`            | No. Org verified, no imported rows  | `3c28509a` |
+| Riverland                              | `riverland`               | No. Org verified, no imported rows  | `1310360a` |
+| River Murray                           | `river_murray`            | No. Org verified, no imported rows  | `33effa50` |
+| Northern Areas                         | `northern_areas`          | No. Org verified, no imported rows  | `8dd4ad01` |
 
 The first three carry ladder data and championship weights. Metro associations have verified PlayHQ org IDs (checked 2026-08-22 via `discoverCompetitions`). `COLLECT_JOBS` in `collect.ts` walks those orgs the same way as AMND; new association jobs start at 2023. `--org` / `--competition` still targets one. `0001_seed.sql` is already applied, so the new rows land in `drizzle/0009_sa_associations.sql`.
 
-They are **not** in the club championship. No `grade_weights` rows, and `fetchChampionshipHistory` only scores keys that already have bands. Importing a SUNA ladder later must not change Contax's AMND rank. GSNA and the rest of country can be added later the same way.
+They are **not** in the club championship. No `grade_weights` rows, and `fetchChampionshipHistory` only scores keys that already have bands. Importing a SUNA ladder later must not change Contax's AMND rank. New association jobs start at 2023. AMND/PL stay 2022+.
 
 Each association org also lists carnivals, schools or summer on PlayHQ. Those names are out of scope until they get their own catalogue keys:
 
@@ -123,8 +133,15 @@ Each association org also lists carnivals, schools or summer on PlayHQ. Those na
 - SAMMNA → `M League`, winter only (not Super League)
 - Mid Hills → `WINTER` only. Summer and carnival stay out.
 - SHNA → `SHNA` winter only.
+- GSNA → `Great Southern Netball Association` winter only. Jill May / 9&U carnivals stay out.
+- Barossa → `BLGNA Winter`
+- Gawler → `Winter Netball` (summer is a separate PlayHQ object)
+- Port Pirie / Whyalla / Eastern Eyre / Riverland / River Murray / Northern Areas → the winter home-and-away object named for the association
+- Port Lincoln → `Winter Season Netball`
 
-SADNA and Hills are seeded by name with a null org id. Do not use WA `489c7576` for SADNA. Do not use `e801d340` or NSW Hills District `cd26c84e` for Hills.
+SADNA, Hills, Masters, Kangaroo Island, Kadina, Yorke Peninsula, Port Augusta, Roxby Downs, Adelaide Plains, North Eastern, Murray Valley, KNT, Mid South East, Mount Gambier, Limestone Coast, Great Flinders, and Western Eyre are name-only. Do not use WA `489c7576` for SADNA. Do not use `e801d340` or NSW Hills District `cd26c84e` for Hills. Skip Netball SA Country `b0bbe786` and the Adelaide Plains / BLGNA *-rep orgs. Skip Broken Hill as NSW.
+
+GSNA `879ed891` is live. Official site https://greatsouthernnetball.wixsite.com/gsna lists ten Fleurieu clubs: Encounter Bay, Goolwa, Langhorne Creek, McLaren Vale, Mount Compass, Myponga, Strathalbyn, Victor Harbor, Willunga, Yankalilla.
 
 Hills is NSA country. The official site is https://www.hillsnetballassociation.com/. hills.netball.asn.au does not resolve. Matches are Saturday home/away in the Netball SA winter season only. The ten clubs are Aldgate, Bridgewater, Crafers, Heathfield, Ironbank/Cherry Gardens, Mylor, Piccadilly, Stirling Comets, Summertown, and Uraidla. Contacts on file: hnaro1@outlook.com, info@hillsnetballassociation.com. The HNA site does not mention PlayHQ.
 

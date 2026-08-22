@@ -71,10 +71,21 @@ describe(parseGradeName, () => {
         });
     });
 
-    it('throws on an unrecognised name, including the offending name', () => {
+    it('throws on an unrecognised AMND name, including the offending name', () => {
         expect(() => parseGradeName('Mystery Grade 9')).toThrow(
             /Mystery Grade 9/u,
         );
+    });
+
+    it('falls back on an unknown association grade instead of throwing', () => {
+        expect(parseGradeName('Mystery Grade 9', 'whyalla')).toStrictEqual({
+            division: 9,
+            tier: 99,
+        });
+        expect(parseGradeName('Open Women', 'gsna')).toStrictEqual({
+            division: null,
+            tier: 99,
+        });
     });
 
     it('does not parse association names as AMND bands', () => {

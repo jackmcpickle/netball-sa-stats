@@ -94,6 +94,7 @@ describe('leagues service', () => {
         expect(keys).toContain('hills');
         expect(keys).toContain('mid_hills');
         expect(keys).toContain('shna');
+        expect(keys).toContain('gsna');
         expect(
             page.leagues.find((entry) => entry.competition.key === 'amnd')
                 ?.hasChampionship,
@@ -120,6 +121,10 @@ describe('leagues service', () => {
         ).toBeTruthy();
         expect(
             page.leagues.find((entry) => entry.competition.key === 'shna')
+                ?.hasPlayHqOrg,
+        ).toBeTruthy();
+        expect(
+            page.leagues.find((entry) => entry.competition.key === 'gsna')
                 ?.hasPlayHqOrg,
         ).toBeTruthy();
     });

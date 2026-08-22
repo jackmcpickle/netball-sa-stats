@@ -3,23 +3,11 @@ import { isNull } from 'es-toolkit';
 import { describe, expect, it } from 'vitest';
 import { loadImportData } from '@/pipeline/import/run';
 import { validateImportData } from '@/pipeline/import/validate';
+import { COMPETITION_SEEDS } from '@/pipeline/seed/catalogue';
 
-const competitionKeys = new Set([
-    'amnd',
-    'premier_league',
-    'premier_league_reserves',
-    'city_night_division',
-    'super_league',
-    'juniors',
-    'saucna',
-    'suna',
-    'elizabeth',
-    'sammna',
-    'sadna',
-    'hills',
-    'mid_hills',
-    'shna',
-]);
+const competitionKeys = new Set(
+    COMPETITION_SEEDS.map((competition) => competition.key),
+);
 
 describe('archive CSV import smoke', () => {
     it('validates merged archive rows through the existing import path', async () => {

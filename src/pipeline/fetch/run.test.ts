@@ -10,12 +10,14 @@ import {
     AMND_ORG_ID,
     CITY_NIGHT_ORG_ID,
     ELIZABETH_ORG_ID,
+    GSNA_ORG_ID,
     MID_HILLS_ORG_ID,
     NETBALL_SA_ORG_ID,
     SAMMNA_ORG_ID,
     SAUCNA_ORG_ID,
     SHNA_ORG_ID,
     SUNA_ORG_ID,
+    associationCollectOrgIds,
     archiveRowsToKeep,
     associationSeasonWanted,
     collectJobsFor,
@@ -116,6 +118,13 @@ describe(resolveCompetitionKey, () => {
             resolveCompetitionKey(MID_HILLS_ORG_ID, 'A1', 'WINTER'),
         ).toBe('mid_hills');
         expect(resolveCompetitionKey(SHNA_ORG_ID, 'A1', 'SHNA')).toBe('shna');
+        expect(
+            resolveCompetitionKey(
+                GSNA_ORG_ID,
+                'A1',
+                'Great Southern Netball Association',
+            ),
+        ).toBe('gsna');
     });
 
     it('returns null for carnival or summer entries on those orgs', () => {
@@ -211,6 +220,15 @@ describe(isCataloguedPlayHqCompetition, () => {
             isCataloguedPlayHqCompetition(MID_HILLS_ORG_ID, 'Summer'),
         ).toBeFalsy();
         expect(isCataloguedPlayHqCompetition(SHNA_ORG_ID, 'SHNA')).toBeTruthy();
+        expect(
+            isCataloguedPlayHqCompetition(
+                GSNA_ORG_ID,
+                'Great Southern Netball Association',
+            ),
+        ).toBeTruthy();
+        expect(
+            isCataloguedPlayHqCompetition(GSNA_ORG_ID, 'Jill May Carnival'),
+        ).toBeFalsy();
     });
 });
 
@@ -250,18 +268,21 @@ describe(associationSeasonWanted, () => {
 });
 
 describe(collectJobsFor, () => {
-    it('walks AMND, Netball SA and the metro association orgs', () => {
-        expect(collectJobsFor().map((job) => job.orgId)).toStrictEqual([
+    it('walks AMND, Netball SA and every verified association org from 2023', () => {
+        const orgIds = collectJobsFor().map((job) => job.orgId);
+        expect(orgIds.slice(0, 2)).toStrictEqual([
             AMND_ORG_ID,
             NETBALL_SA_ORG_ID,
-            SAUCNA_ORG_ID,
-            SUNA_ORG_ID,
-            ELIZABETH_ORG_ID,
-            CITY_NIGHT_ORG_ID,
-            SAMMNA_ORG_ID,
-            MID_HILLS_ORG_ID,
-            SHNA_ORG_ID,
         ]);
+        expect(orgIds).toContain(GSNA_ORG_ID);
+        expect(orgIds).not.toContain('b0bbe786');
+        expect(orgIds).not.toContain('cd26c84e');
+        expect(orgIds).not.toContain('489c7576');
+        expect(
+            collectJobsFor()
+                .slice(2)
+                .every((job) => job.minYear === 2023),
+        ).toBeTruthy();
     });
 
     it('starts new association jobs at 2023', () => {
@@ -850,15 +871,7 @@ function gamesEnvelope(): CaptureEnvelope {
 
 /** Empty `discoverCompetitions` captures so default COLLECT_JOBS stay offline. */
 function emptyAssociationDiscovers(): [string, ReturnType<typeof seedEntry>][] {
-    return [
-        SAUCNA_ORG_ID,
-        SUNA_ORG_ID,
-        ELIZABETH_ORG_ID,
-        CITY_NIGHT_ORG_ID,
-        SAMMNA_ORG_ID,
-        MID_HILLS_ORG_ID,
-        SHNA_ORG_ID,
-    ].map((orgId) => [
+    return associationCollectOrgIds().map((orgId) => [
         `discoverCompetitions_${orgId}.json`,
         seedEntry({ data: { discoverCompetitions: [] } }),
     ]);

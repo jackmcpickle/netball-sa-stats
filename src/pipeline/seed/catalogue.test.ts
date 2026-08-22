@@ -72,6 +72,39 @@ describe('competition catalogue', () => {
                 ?.playhqOrgId,
         ).toBe('de681683');
     });
+
+    it('seeds verified country orgs and leaves the rest null', () => {
+        const byKey = new Map(
+            COMPETITION_SEEDS.map((competition) => [
+                competition.key,
+                competition.playhqOrgId,
+            ]),
+        );
+        expect(byKey.get('gsna')).toBe('879ed891');
+        expect(byKey.get('barossa')).toBe('d8505173');
+        expect(byKey.get('gawler')).toBe('10c20df0');
+        expect(byKey.get('whyalla')).toBe('57c29823');
+        expect(byKey.get('masters')).toBeNull();
+        expect(byKey.get('kangaroo_island')).toBeNull();
+        expect(byKey.get('adelaide_plains')).toBeNull();
+        const orgIds = [...byKey.values()];
+        expect(orgIds).not.toContain('489c7576');
+        expect(orgIds).not.toContain('b0bbe786');
+        expect(orgIds).not.toContain('a1f7e1db');
+        expect(orgIds).not.toContain('b5d9cb13');
+        expect(orgIds).not.toContain('cd26c84e');
+    });
+
+    it('does not claim data for any new association', () => {
+        const claiming = COMPETITION_SEEDS.filter(
+            (competition) =>
+                competition.hasData &&
+                !['amnd', 'premier_league', 'premier_league_reserves'].includes(
+                    competition.key,
+                ),
+        );
+        expect(claiming).toStrictEqual([]);
+    });
 });
 
 describe('grade weights', () => {

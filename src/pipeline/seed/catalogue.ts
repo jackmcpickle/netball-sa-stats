@@ -5,7 +5,7 @@
  * numbers, so a band can be retuned in one place. Rows stay individually editable in
  * D1 afterwards — scoring reads the table, not this file.
  */
-import { isUndefined } from 'es-toolkit';
+import { isNull, isUndefined } from 'es-toolkit';
 
 export interface CompetitionSeed {
     key: string;
@@ -95,18 +95,180 @@ export const COMPETITION_SEEDS: readonly CompetitionSeed[] = [
         name: 'Southern Hills Netball Association',
         playhqOrgId: 'de681683',
     },
+    {
+        hasData: false,
+        key: 'gsna',
+        name: 'Great Southern Netball Association',
+        playhqOrgId: '879ed891',
+    },
+    {
+        hasData: false,
+        key: 'masters',
+        name: 'Netball SA Masters',
+        playhqOrgId: null,
+    },
+    {
+        hasData: false,
+        key: 'barossa',
+        name: 'Barossa, Light and Gawler Netball Association',
+        playhqOrgId: 'd8505173',
+    },
+    {
+        hasData: false,
+        key: 'gawler',
+        name: 'Gawler and District Netball Association',
+        playhqOrgId: '10c20df0',
+    },
+    {
+        hasData: false,
+        key: 'kangaroo_island',
+        name: 'Kangaroo Island Netball Association',
+        playhqOrgId: null,
+    },
+    {
+        hasData: false,
+        key: 'kadina',
+        name: 'Kadina and Districts Netball Association',
+        playhqOrgId: null,
+    },
+    {
+        hasData: false,
+        key: 'yorke_peninsula',
+        name: 'Yorke Peninsula Netball Association',
+        playhqOrgId: null,
+    },
+    {
+        hasData: false,
+        key: 'river_murray',
+        name: 'River Murray Netball Association',
+        playhqOrgId: '33effa50',
+    },
+    {
+        hasData: false,
+        key: 'port_augusta',
+        name: 'Port Augusta Netball Association',
+        playhqOrgId: null,
+    },
+    {
+        hasData: false,
+        key: 'port_pirie',
+        name: 'Port Pirie Netball Association',
+        playhqOrgId: '75d217b0',
+    },
+    {
+        hasData: false,
+        key: 'roxby_downs',
+        name: 'Roxby Downs Netball Association',
+        playhqOrgId: null,
+    },
+    {
+        hasData: false,
+        key: 'whyalla',
+        name: 'Whyalla Netball Association',
+        playhqOrgId: '57c29823',
+    },
+    {
+        hasData: false,
+        key: 'adelaide_plains',
+        name: 'Adelaide Plains Netball Association',
+        playhqOrgId: null,
+    },
+    {
+        hasData: false,
+        key: 'northern_areas',
+        name: 'Northern Areas Netball Association',
+        playhqOrgId: '8dd4ad01',
+    },
+    {
+        hasData: false,
+        key: 'north_eastern',
+        name: 'North Eastern Netball Association',
+        playhqOrgId: null,
+    },
+    {
+        hasData: false,
+        key: 'murray_valley',
+        name: 'Murray Valley Football Netball League',
+        playhqOrgId: null,
+    },
+    {
+        hasData: false,
+        key: 'riverland',
+        name: 'Riverland Netball Association',
+        playhqOrgId: '1310360a',
+    },
+    {
+        hasData: false,
+        key: 'knt',
+        name: 'Kowree-Naracoorte-Tatiara Netball Association',
+        playhqOrgId: null,
+    },
+    {
+        hasData: false,
+        key: 'mid_south_east',
+        name: 'Mid South East Netball Association',
+        playhqOrgId: null,
+    },
+    {
+        hasData: false,
+        key: 'mount_gambier',
+        name: 'Mount Gambier Netball Association',
+        playhqOrgId: null,
+    },
+    {
+        hasData: false,
+        key: 'limestone_coast',
+        name: 'Limestone Coast Football Netball League',
+        playhqOrgId: null,
+    },
+    {
+        hasData: false,
+        key: 'eastern_eyre',
+        name: 'Eastern Eyre Netball Association',
+        playhqOrgId: '57f440eb',
+    },
+    {
+        hasData: false,
+        key: 'great_flinders',
+        name: 'Great Flinders Netball Association',
+        playhqOrgId: null,
+    },
+    {
+        hasData: false,
+        key: 'port_lincoln',
+        name: 'Port Lincoln Netball Association',
+        playhqOrgId: '3c28509a',
+    },
+    {
+        hasData: false,
+        key: 'western_eyre',
+        name: 'Western Eyre Netball Association',
+        playhqOrgId: null,
+    },
 ];
 
-/** Associations fetched via their own PlayHQ org. No championship bands. */
-export const ASSOCIATION_COMPETITION_KEYS: ReadonlySet<string> = new Set([
-    'saucna',
-    'suna',
-    'elizabeth',
-    'city_night_division',
-    'sammna',
-    'mid_hills',
-    'shna',
+const CHAMPIONSHIP_SEED_KEYS: ReadonlySet<string> = new Set([
+    'amnd',
+    'premier_league',
+    'premier_league_reserves',
 ]);
+
+function associationCompetitionKeys(): ReadonlySet<string> {
+    const keys: string[] = [];
+    for (const competition of COMPETITION_SEEDS) {
+        if (
+            !isNull(competition.playhqOrgId) &&
+            !CHAMPIONSHIP_SEED_KEYS.has(competition.key)
+        ) {
+            keys.push(competition.key);
+        }
+    }
+    return new Set(keys);
+}
+
+/** Associations fetched via their own PlayHQ org. No championship bands. */
+export const ASSOCIATION_COMPETITION_KEYS: ReadonlySet<string> =
+    associationCompetitionKeys();
 
 export function catalogueByKey(key: string): CompetitionSeed | undefined {
     return COMPETITION_SEEDS.find((competition) => competition.key === key);

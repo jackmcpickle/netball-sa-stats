@@ -79,6 +79,16 @@ and summer share one object, the matching season name).
 | `sammna`              | `7936878d` | South Australian Mens and Mixed Netball Association | `M League`                      | winter seasons only |
 | `mid_hills`           | `7d13cb92` | Mid Hills Netball Association                       | `WINTER`                        | winter 2023+        |
 | `shna`                | `de681683` | Southern Hills Netball Association                  | `SHNA`                          | winter 2023+        |
+| `gsna`                | `879ed891` | Great Southern Netball Association (SA)             | `Great Southern Netball Association` | winter 2023+   |
+| `barossa`             | `d8505173` | Barossa, Light and Gawler Netball Association       | `BLGNA Winter`                  | winter 2023+        |
+| `gawler`              | `10c20df0` | Gawler and District Netball Association             | `Winter Netball`                | winter 2023+        |
+| `port_pirie`          | `75d217b0` | Port Pirie Netball Association                      | `Port Pirie Netball Association` | winter 2023+       |
+| `whyalla`             | `57c29823` | Whyalla Netball Association                         | `Whyalla Netball Association`   | winter 2023+        |
+| `eastern_eyre`        | `57f440eb` | Eastern Eyre Netball Association                    | `Eastern Eyre Netball Association` | winter 2023+     |
+| `port_lincoln`        | `3c28509a` | Port Lincoln Netball Association                    | `Winter Season Netball`         | winter 2023+        |
+| `riverland`           | `1310360a` | Riverland Netball Association                       | `Riverland Netball Association Incorporated` | winter 2023+ |
+| `river_murray`        | `33effa50` | River Murray Netball Association                    | `River Murray Netball Association Inc` | winter 2023+ |
+| `northern_areas`      | `8dd4ad01` | Northern Areas Netball Association                  | `Northern Areas Netball Association` | winter 2023+   |
 
 `COLLECT_JOBS` in `src/pipeline/fetch/collect.ts` includes these org IDs.
 Target one with `pnpm exec tsx scripts/fetch-playhq.ts --competition=saucna --year=2025`.
@@ -88,13 +98,12 @@ are under `gradeListDiscoverSeason_*` in the same folder. Import is not wired
 to those ladders yet: unknown club names fail loud, and there are no
 championship weights.
 
-Hills stays catalogued with a null org. Indexed game pages still treat
-`e801d340` as unconfirmed, and NSW Hills District `cd26c84e` is the wrong
-association. Do not commit either id. Mid Hills and SHNA org HTML 403s from
-datacenters; the slugs and ids above came from indexed pages and were
-checked with `discoverCompetitions`. Season ids that were not in the public
-index are read from that GraphQL response, not invented. Mid Hills carnival
-and summer, and SUNA's junior carnival, stay out of `COLLECT_JOBS`.
+Hills stays catalogued with a null org. Do not commit `e801d340` or NSW
+`cd26c84e`. Do not use WA SADNA `489c7576`, Netball SA Country carnival
+`b0bbe786`, or Adelaide Plains / BLGNA *-rep orgs. Carnivals and summer
+objects on country orgs stay out of `COLLECT_JOBS`. Season ids come from
+`discoverCompetitions`, not invented slugs. New association jobs start at
+2023.
 
 Note: a single logical competition (e.g. Premier League) can be split
 across **multiple `discoverCompetitions` entries** if PlayHQ re-created the

@@ -7,12 +7,9 @@
  * (`data/raw/probe/gradeListDiscoverSeason_amnd_winter2023_7570c2c4.json`
  * has e.g. `AMND`, `A GRADE`, `B1`, `INTER 1`, `Sub Junior 1`) so matching is
  * done on a normalised (uppercased, punctuation-stripped) form. An
- * unrecognised name throws — never silently dropped or bucketed.
- *
- * Metro and Hills-country associations (SAUCNA, SUNA, Elizabeth, City Night,
- * SAMMNA, Mid Hills, SHNA) use a
- * separate rule table. Those tiers are structural only: they do not have
- * championship weights, and they must not be parsed as AMND bands.
+ * unrecognised AMND / Premier League name throws. Association keys use a
+ * separate rule table, then fall back to tier 99 so an unknown country
+ * grade does not abort the fetch. Those tiers are not championship weights.
  */
 import { isNull, isUndefined } from 'es-toolkit';
 import { ASSOCIATION_COMPETITION_KEYS } from '@/pipeline/seed/catalogue';
@@ -113,13 +110,30 @@ function matchRule(normalised: string, rule: Rule): ParsedGrade | null {
     };
 }
 
-function parseWith(name: string, rules: readonly Rule[]): ParsedGrade {
+function associationFallback(name: string): ParsedGrade {
+    const normalised = normalise(name);
+    const match = normalised.match(/(?<division>\d+) ?[A-Z]?$/u);
+    const digits = match?.groups?.division;
+    return {
+        division: isUndefined(digits) ? null : Number(digits),
+        tier: 99,
+    };
+}
+
+function parseWith(
+    name: string,
+    rules: readonly Rule[],
+    unknown: 'throw' | 'fallback',
+): ParsedGrade {
     const normalised = normalise(name);
     for (const rule of rules) {
         const parsed = matchRule(normalised, rule);
         if (!isNull(parsed)) {
             return parsed;
         }
+    }
+    if (unknown === 'fallback') {
+        return associationFallback(name);
     }
     throw new Error(`parseGradeName: unrecognised grade name "${name}"`);
 }
@@ -132,7 +146,7 @@ export function parseGradeName(
         !isUndefined(competitionKey) &&
         ASSOCIATION_COMPETITION_KEYS.has(competitionKey)
     ) {
-        return parseWith(name, ASSOCIATION_RULES);
+        return parseWith(name, ASSOCIATION_RULES, 'fallback');
     }
-    return parseWith(name, RULES);
+    return parseWith(name, RULES, 'throw');
 }
