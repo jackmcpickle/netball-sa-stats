@@ -102,19 +102,19 @@ So ladders are scraped as the fact table. A `matches` table drops in later witho
 
 ## Competitions
 
-| Competition                            | Key                       | Phase 1 data                       | Org ID     |
-| -------------------------------------- | ------------------------- | ---------------------------------- | ---------- |
-| Adelaide Metropolitan Netball Division | `amnd`                    | Yes                                | `7a5f35e1` |
-| Netball SA Premier League              | `premier_league`          | Yes                                | `6fefc037` |
-| Premier League Reserves                | `premier_league_reserves` | Yes                                | `6fefc037` |
-| City Night Division                    | `city_night_division`     | Fetch into D1; not championship    | `2276ec85` |
-| Super League                           | `super_league`            | No. Unresearched                   | —          |
-| Juniors                                | `juniors`                 | No                                 | —          |
-| SAUCNA                                 | `saucna`                  | Fetch into D1; not championship    | `fb89f1f1` |
-| Southern United (SUNA)                 | `suna`                    | Fetch into D1; not championship    | `4bd9b8ae` |
-| Elizabeth Netball Association          | `elizabeth`               | Fetch into D1; not championship    | `7ffb0e67` |
-| SAMMNA                                 | `sammna`                  | Fetch into D1; not championship    | `7936878d` |
-| SA Districts (SADNA)                   | `sadna`                   | No. Name only, PlayHQ org unknown  | —          |
+| Competition                            | Key                       | Phase 1 data                      | Org ID     |
+| -------------------------------------- | ------------------------- | --------------------------------- | ---------- |
+| Adelaide Metropolitan Netball Division | `amnd`                    | Yes                               | `7a5f35e1` |
+| Netball SA Premier League              | `premier_league`          | Yes                               | `6fefc037` |
+| Premier League Reserves                | `premier_league_reserves` | Yes                               | `6fefc037` |
+| City Night Division                    | `city_night_division`     | Fetch into D1; not championship   | `2276ec85` |
+| Super League                           | `super_league`            | No. Unresearched                  | —          |
+| Juniors                                | `juniors`                 | No                                | —          |
+| SAUCNA                                 | `saucna`                  | Fetch into D1; not championship   | `fb89f1f1` |
+| Southern United (SUNA)                 | `suna`                    | Fetch into D1; not championship   | `4bd9b8ae` |
+| Elizabeth Netball Association          | `elizabeth`               | Fetch into D1; not championship   | `7ffb0e67` |
+| SAMMNA                                 | `sammna`                  | Fetch into D1; not championship   | `7936878d` |
+| SA Districts (SADNA)                   | `sadna`                   | No. Name only, PlayHQ org unknown | —          |
 
 The first three carry ladder data and championship weights. Metro associations have verified PlayHQ org IDs (checked 2026-08-22 via `discoverCompetitions`). `COLLECT_JOBS` in `collect.ts` walks those orgs the same way as AMND. New association jobs start at 2023. `--org` / `--competition` still targets one. `0001_seed.sql` is already applied, so the new rows land in `drizzle/0009_sa_associations.sql`.
 
@@ -136,8 +136,8 @@ Indexed PlayHQ slugs that match the live metro orgs: Elizabeth `elizabeth-netbal
 
 **PlayHQ only. 2022–2026, five seasons.**
 
-| Source | Seasons                                                                           | Gives                                 |
-| ------ | --------------------------------------------------------------------------------- | ------------------------------------- |
+| Source | Seasons                                                                   | Gives                     |
+| ------ | ------------------------------------------------------------------------- | ------------------------- |
 | PlayHQ | AMND 2022–2026, PL 2022–2026. Metro associations fetch into D1 from 2023. | Full ladders + team stats |
 
 Premier League has **no 2022 season** — it did not run, due to COVID. That is a real-world absence, not missing data, and the UI should say so rather than render a gap. AMND ran 2022 normally.
@@ -167,18 +167,18 @@ PlayHQ HTML org pages still 403 datacenter IPs. GraphQL with the identifying Use
 
 ### `seasons`
 
-| Column             | Type          | Notes                                             |
-| ------------------ | ------------- | ------------------------------------------------- |
-| id                 | integer PK    |                                                   |
-| competition_id     | integer FK    |                                                   |
-| season_key         | text unique   | `amnd-winter-2025`                                |
-| competition_period | text          | `winter` \| `summer` \| `annual`                  |
-| label              | text          | `Winter 2025`, `Summer 2025/26`                   |
-| start_year         | integer       |                                                   |
-| end_year           | integer       | Same as start for winter/annual; +1 for summer    |
-| is_final           | integer       | **Human-curated in D1**, not inferred |
-| playhq_id          | text nullable |                                                   |
-| source             | text          | `playhq` (archive values reserved)                |
+| Column             | Type          | Notes                                          |
+| ------------------ | ------------- | ---------------------------------------------- |
+| id                 | integer PK    |                                                |
+| competition_id     | integer FK    |                                                |
+| season_key         | text unique   | `amnd-winter-2025`                             |
+| competition_period | text          | `winter` \| `summer` \| `annual`               |
+| label              | text          | `Winter 2025`, `Summer 2025/26`                |
+| start_year         | integer       |                                                |
+| end_year           | integer       | Same as start for winter/annual; +1 for summer |
+| is_final           | integer       | **Human-curated in D1**, not inferred          |
+| playhq_id          | text nullable |                                                |
+| source             | text          | `playhq` (archive values reserved)             |
 
 Unique logical key: `(competition_id, competition_period, start_year)`.
 

@@ -10,7 +10,7 @@ import { toImportData } from '@/pipeline/fetch/to-import';
 import { createSqliteExecutor } from '@/pipeline/import/executors';
 import { createMigratedDb } from '@/pipeline/import/sqlite-test-db';
 
-function stubCollect(options: CollectOptions): Promise<CollectedPlayHq> {
+async function stubCollect(options: CollectOptions): Promise<CollectedPlayHq> {
     const clubA = options.clubRegistry.resolve('org-club-a', 'Fixture Club A');
     const clubB = options.clubRegistry.resolve('org-club-b', 'Fixture Club B');
     const season = {
@@ -103,7 +103,7 @@ function stubCollect(options: CollectOptions): Promise<CollectedPlayHq> {
             won: 2,
         },
     ];
-    return Promise.resolve({
+    return {
         gamesByYear: new Map(),
         grades: [grade],
         importData: toImportData({
@@ -126,7 +126,7 @@ function stubCollect(options: CollectOptions): Promise<CollectedPlayHq> {
         results,
         seasons: [season],
         teams,
-    });
+    };
 }
 
 describe(runFetch, () => {
@@ -158,7 +158,9 @@ describe(runFetch, () => {
         expect(existsSync(join(dataDir, 'seasons.csv'))).toBeFalsy();
         expect(existsSync(join(dataDir, 'grades.csv'))).toBeFalsy();
         expect(existsSync(join(dataDir, 'teams.csv'))).toBeFalsy();
-        expect(existsSync(join(dataDir, 'team_season_results.csv'))).toBeFalsy();
+        expect(
+            existsSync(join(dataDir, 'team_season_results.csv')),
+        ).toBeFalsy();
         expect(existsSync(join(dataDir, 'games-2024.csv'))).toBeFalsy();
         expect(existsSync(join(dataDir, 'clubs.csv'))).toBeTruthy();
         expect(existsSync(join(dataDir, 'club_aliases.csv'))).toBeTruthy();
