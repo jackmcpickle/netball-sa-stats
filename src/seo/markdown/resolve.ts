@@ -15,6 +15,8 @@ import {
     renderFaq,
     renderHeadToHead,
     renderLadders,
+    renderLeague,
+    renderLeagueIndex,
     renderMethod,
     renderRankings,
     renderResults,
@@ -97,6 +99,7 @@ export async function renderMarkdown(db: Db, url: URL): Promise<string | null> {
     if (path === '/ladders') {
         return render(
             await services.ladders.getPage({
+                competition: stringParam(query, 'competition'),
                 grade: stringParam(query, 'grade'),
                 year: intParam(query, 'year'),
                 ...tableParams(query),
@@ -112,6 +115,22 @@ export async function renderMarkdown(db: Db, url: URL): Promise<string | null> {
                 ...tableParams(query),
             }),
             renderResults,
+        );
+    }
+    if (path === '/leagues') {
+        return render(
+            await services.leagues.getIndexPage(),
+            renderLeagueIndex,
+        );
+    }
+    if (path.startsWith('/leagues/')) {
+        return render(
+            await services.leagues.getPage({
+                competitionKey: path.slice('/leagues/'.length),
+                season: intParam(query, 'season'),
+                ...tableParams(query),
+            }),
+            renderLeague,
         );
     }
     if (path === '/clubs') {
@@ -159,6 +178,7 @@ export async function renderMarkdown(db: Db, url: URL): Promise<string | null> {
 /** Every path that has a markdown twin, for the sitemap and llms.txt. */
 export const MARKDOWN_PATHS = [
     '/',
+    '/leagues',
     '/ladders',
     '/results',
     '/clubs',

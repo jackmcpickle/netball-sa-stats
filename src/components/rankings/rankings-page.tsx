@@ -71,9 +71,16 @@ export function RankingsPage(): JSX.Element {
                     <p className="mt-5 max-w-[52ch] text-base leading-[1.55] text-ink-body sm:mt-6 sm:text-lg">
                         Every AMND, Premier League and Reserves grade, one
                         number. Those finishes are weighted by grade and added
-                        up into a single club championship score. Other South
-                        Australian associations are in the catalogue. They are
-                        not in this score until their grades have weights.
+                        up into a single club championship score. Other
+                        associations have their own{' '}
+                        <a
+                            href="/leagues"
+                            className="text-ink underline decoration-rule underline-offset-2"
+                        >
+                            league pages
+                        </a>
+                        . They are not in this score until their grades have
+                        weights.
                     </p>
                 </div>
 

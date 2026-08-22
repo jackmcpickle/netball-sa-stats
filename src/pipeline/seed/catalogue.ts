@@ -38,7 +38,7 @@ export const COMPETITION_SEEDS: readonly CompetitionSeed[] = [
         hasData: false,
         key: 'city_night_division',
         name: 'City Night Division',
-        playhqOrgId: null,
+        playhqOrgId: '2276ec85',
     },
     {
         hasData: false,
@@ -61,23 +61,36 @@ export const COMPETITION_SEEDS: readonly CompetitionSeed[] = [
     },
     {
         hasData: false,
-        key: 'hills',
-        name: 'Hills Netball Association',
-        playhqOrgId: 'e801d340',
+        key: 'elizabeth',
+        name: 'Elizabeth Netball Association',
+        playhqOrgId: '7ffb0e67',
     },
     {
         hasData: false,
-        key: 'mid_hills',
-        name: 'Mid Hills Netball Association',
-        playhqOrgId: '7d13cb92',
+        key: 'sammna',
+        name: "South Australian Men's and Mixed Netball Association",
+        playhqOrgId: '7936878d',
     },
     {
         hasData: false,
-        key: 'southern_hills',
-        name: 'Southern Hills Netball Association',
-        playhqOrgId: 'de681683',
+        key: 'sadna',
+        name: 'SA Districts Netball Association',
+        playhqOrgId: null,
     },
 ];
+
+/** Metro associations fetched via their own PlayHQ org. No championship bands. */
+export const ASSOCIATION_COMPETITION_KEYS: ReadonlySet<string> = new Set([
+    'saucna',
+    'suna',
+    'elizabeth',
+    'city_night_division',
+    'sammna',
+]);
+
+export function catalogueByKey(key: string): CompetitionSeed | undefined {
+    return COMPETITION_SEEDS.find((competition) => competition.key === key);
+}
 
 interface Band {
     competitionKey: string;

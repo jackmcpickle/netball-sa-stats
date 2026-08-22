@@ -5,6 +5,11 @@
  */
 import { isUndefined } from 'es-toolkit';
 import { CLUB_RESULTS_TABLE_SPEC } from '@/db/queries/club-profile';
+import { toCompetition } from '@/db/queries/coverage';
+import {
+    COMPETITION_SEEDS,
+    championshipCompetitionKeys,
+} from '@/pipeline/seed/catalogue';
 import type { Repos } from '@/server/container';
 import { partitionClubs } from '@/server/domain/club-directory';
 import { topOpponents } from '@/server/domain/head-to-head';
@@ -15,8 +20,14 @@ import type {
     ClubProfileParams,
     ClubProfilePageDto,
 } from '@/server/dto/club-profile.dto';
-import type { ClubIndexPageDto, ClubIndexParams } from '@/server/dto/clubs.dto';
+import type {
+    ClubIndexEntry,
+    ClubIndexGroup,
+    ClubIndexPageDto,
+    ClubIndexParams,
+} from '@/server/dto/clubs.dto';
 import type { ChampionshipSeason } from '@/server/dto/rankings.dto';
+import type { Club } from '@/server/dto/shared.dto';
 
 /** Five is the design's figure: enough to be a shortlist, not a directory. */
 const TOP_OPPONENT_LIMIT = 5;
@@ -36,6 +47,30 @@ function lastRankedYears(
     return latest;
 }
 
+function entriesFor(
+    clubs: readonly Club[],
+    seasonRows: ChampionshipSeason['rows'],
+    lastRanked: ReadonlyMap<string, number>,
+    includePast: boolean,
+): { entries: ClubIndexEntry[]; presentCount: number } {
+    const rankedKeys = new Set(seasonRows.map((row) => row.club.key));
+    const { present, past } = partitionClubs(clubs, rankedKeys);
+    const visible = includePast ? [...present, ...past] : present;
+    return {
+        entries: visible.map((club) => {
+            const row = seasonRows.find((entry) => entry.club.key === club.key);
+            return {
+                club,
+                lastRankedYear: lastRanked.get(club.key) ?? null,
+                points: row?.points ?? null,
+                rank: row?.rank ?? null,
+                teams: row?.teams ?? null,
+            };
+        }),
+        presentCount: present.length,
+    };
+}
+
 export interface ClubsService {
     readonly getIndexPage: (
         params: ClubIndexParams,
@@ -51,15 +86,18 @@ export function createClubsService(repos: Repos): ClubsService {
             params: ClubIndexParams,
         ): Promise<Result<ClubIndexPageDto, DomainError>> {
             const includePast = params.includePast ?? false;
-            const seasonCoverage = await repos.seasons.coverage();
+            const seasonCoverage = await repos.seasons.coverage({
+                championshipOnly: true,
+            });
             const latest = seasonCoverage.latestRankedYear();
             if (!latest.ok) {
                 return latest;
             }
             const year = latest.value;
-            const [history, clubs] = await Promise.all([
+            const [history, clubs, coverage] = await Promise.all([
                 repos.championship.history(),
                 repos.clubs.all(),
+                repos.seasons.fullCoverage(),
             ]);
             const seasonRows =
                 history.find((entry) => entry.year === year)?.rows ?? [];
@@ -67,6 +105,88 @@ export function createClubsService(repos: Repos): ClubsService {
             const rankedKeys = new Set(seasonRows.map((row) => row.club.key));
             const { present, past } = partitionClubs(clubs, rankedKeys);
             const visible = includePast ? [...present, ...past] : present;
+            const championshipKeys = championshipCompetitionKeys();
+            const groupKeys = COMPETITION_SEEDS.map(
+                (seed) => seed.key,
+            ).filter((key) =>
+                coverage.competitions.some(
+                    (entry) => entry.competition.key === key,
+                ),
+            );
+
+            const groups: ClubIndexGroup[] = (
+                await Promise.all(
+                    groupKeys.map(async (key) => {
+                        const seed = COMPETITION_SEEDS.find(
+                            (competition) => competition.key === key,
+                        );
+                        if (isUndefined(seed)) {
+                            return null;
+                        }
+                        const competition = toCompetition(key, seed.name);
+                        const appearances =
+                            await repos.clubs.inCompetition(key);
+                        if (championshipKeys.has(key)) {
+                            const [leagueHistory, leagueCoverage] =
+                                await Promise.all([
+                                    repos.championship.history(key),
+                                    repos.seasons.coverage({
+                                        competitionKey: key,
+                                    }),
+                                ]);
+                            const leagueYear =
+                                leagueCoverage.latestRankedYear();
+                            const leagueClubs = appearances.map(
+                                (row) => row.club,
+                            );
+                            const resolvedYear = leagueYear.ok
+                                ? leagueYear.value
+                                : null;
+                            const leagueRows = isUndefined(resolvedYear)
+                                ? []
+                                : (leagueHistory.find(
+                                      (entry) => entry.year === resolvedYear,
+                                  )?.rows ?? []);
+                            const built = entriesFor(
+                                leagueClubs,
+                                leagueRows,
+                                lastRankedYears(leagueHistory),
+                                includePast,
+                            );
+                            return {
+                                competition,
+                                entries: built.entries,
+                                presentCount: built.presentCount,
+                                year: resolvedYear,
+                            };
+                        }
+                        if (appearances.length === 0) {
+                            return null;
+                        }
+                        const latestYear = Math.max(
+                            ...appearances.flatMap((row) => row.years),
+                        );
+                        const presentClubs = appearances.filter((row) =>
+                            row.years.includes(latestYear),
+                        );
+                        const shown = includePast
+                            ? appearances
+                            : presentClubs;
+                        return {
+                            competition,
+                            entries: shown.map((row) => ({
+                                club: row.club,
+                                lastRankedYear: row.years.at(-1) ?? null,
+                                points: null,
+                                rank: null,
+                                teams: null,
+                            })),
+                            presentCount: presentClubs.length,
+                            year: latestYear,
+                        };
+                    }),
+                )
+            ).filter((group) => group !== null);
 
             return ok({
                 entries: visible.map((club) => {
@@ -81,6 +201,7 @@ export function createClubsService(repos: Repos): ClubsService {
                         teams: row?.teams ?? null,
                     };
                 }),
+                groups,
                 includePast,
                 presentCount: present.length,
                 totalCount: clubs.length,

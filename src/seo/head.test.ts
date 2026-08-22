@@ -28,6 +28,8 @@ function graphOf(meta: readonly MetaTag[]): readonly JsonLdNode[] {
 
 const PATHS = [
     '/',
+    '/leagues',
+    '/leagues/saucna',
     '/ladders',
     '/results',
     '/clubs',

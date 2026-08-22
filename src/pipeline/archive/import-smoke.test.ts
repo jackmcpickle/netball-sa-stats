@@ -13,9 +13,9 @@ const competitionKeys = new Set([
     'juniors',
     'saucna',
     'suna',
-    'hills',
-    'mid_hills',
-    'southern_hills',
+    'elizabeth',
+    'sammna',
+    'sadna',
 ]);
 
 describe('archive CSV import smoke', () => {

@@ -70,9 +70,15 @@ export function rowsForChampionship(
  */
 export async function fetchChampionshipHistory(
     db: Db,
+    competitionKey?: string,
 ): Promise<readonly ChampionshipSeason[]> {
-    const rows = await fetchResults(db, { finalOnly: true });
-    const scored = rowsForChampionship(rows);
+    const rows = await fetchResults(db, {
+        competitionKey,
+        finalOnly: true,
+    });
+    const scored = isUndefined(competitionKey)
+        ? rowsForChampionship(rows)
+        : rows;
     const clubs = clubIndexFrom(scored);
     const ranked = rankSeasons(scored.map(toScoringRow));
 
@@ -130,13 +136,17 @@ export async function fetchChampionshipHistory(
 }
 
 export interface ChampionshipRepo {
-    readonly history: () => Promise<readonly ChampionshipSeason[]>;
+    readonly history: (
+        competitionKey?: string,
+    ) => Promise<readonly ChampionshipSeason[]>;
 }
 
 export function createChampionshipRepo(db: Db): ChampionshipRepo {
     return {
-        async history(): Promise<readonly ChampionshipSeason[]> {
-            return await fetchChampionshipHistory(db);
+        async history(
+            competitionKey?: string,
+        ): Promise<readonly ChampionshipSeason[]> {
+            return await fetchChampionshipHistory(db, competitionKey);
         },
     };
 }

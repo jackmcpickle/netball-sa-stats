@@ -25,12 +25,13 @@ import type { GameRow } from '@/pipeline/fetch/games';
 // module as the fetch entrypoint while the Worker imports `collect.ts` alone.
 export {
     AMND_ORG_ID,
-    HILLS_ORG_ID,
-    MID_HILLS_ORG_ID,
+    CITY_NIGHT_ORG_ID,
+    ELIZABETH_ORG_ID,
     NETBALL_SA_ORG_ID,
+    SAMMNA_ORG_ID,
     SAUCNA_ORG_ID,
-    SOUTHERN_HILLS_ORG_ID,
     SUNA_ORG_ID,
+    associationSeasonWanted,
     collectJobsFor,
     collectPlayHqData,
     isCataloguedPlayHqCompetition,

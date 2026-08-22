@@ -31,10 +31,11 @@ export function AboutPage(): JSX.Element {
                     Ladders and fixtures published on PlayHQ from 2022 onward,
                     plus archived AMND Final Premiership Placings PDFs for
                     earlier seasons. The championship score currently uses AMND
-                    and Premier League only. SAUCNA, SUNA, Hills, Mid Hills and
-                    Southern Hills are in the catalogue with verified PlayHQ org
-                    IDs, but they have no imported ladders and no grade weights
-                    yet, so they do not change the ranking. Nothing is
+                    and Premier League only. SAUCNA, SUNA, Elizabeth, City Night
+                    and SAMMNA are catalogued with verified PlayHQ org IDs, but
+                    they have no imported ladders and no grade weights yet, so
+                    they do not change that ranking. Each association has its
+                    own league page. Nothing is
                     estimated, interpolated or hand-entered: every figure traces
                     back to a published source, and seasons with no recoverable
                     source are shown as gaps rather than filled in.

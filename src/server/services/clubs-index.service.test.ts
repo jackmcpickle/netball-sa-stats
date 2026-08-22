@@ -195,6 +195,57 @@ describe('clubs index service', () => {
         expect(phantom?.teams).toBeNull();
     });
 
+    it('splits AMND and another association into separate groups', async () => {
+        const db = createTestDb();
+        const spec = baseSpec();
+        spec.competitions.push({
+            key: 'saucna',
+            name: 'SAUCNA',
+            seasons: [
+                {
+                    grades: [
+                        {
+                            gradeKey: 'saucna-2025-a1',
+                            name: 'A1',
+                            results: [
+                                {
+                                    clubKey: 'falcons',
+                                    clubName: 'Falcons',
+                                    displayName: 'Falcons',
+                                    ladderPosition: 1,
+                                },
+                            ],
+                            teamCount: 1,
+                            tier: 1,
+                        },
+                    ],
+                    isFinal: true,
+                    seasonKey: 'saucna-2025',
+                    startYear: 2025,
+                },
+            ],
+        });
+        await seed(db, spec);
+
+        const result = unwrap(await createServices(db).clubs.getIndexPage({}));
+        const keys = result.groups.map((group) => group.competition.key);
+        expect(keys).toContain('amnd');
+        expect(keys).toContain('saucna');
+        const amnd = result.groups.find(
+            (group) => group.competition.key === 'amnd',
+        );
+        const saucna = result.groups.find(
+            (group) => group.competition.key === 'saucna',
+        );
+        expect(amnd?.entries.map((entry) => entry.club.key)).not.toContain(
+            'falcons',
+        );
+        expect(saucna?.entries.map((entry) => entry.club.key)).toStrictEqual([
+            'falcons',
+        ]);
+        expect(saucna?.entries[0]?.rank).toBeNull();
+    });
+
     it('returns no-ranked-seasons for a completely empty database', async () => {
         const db = createTestDb();
 

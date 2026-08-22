@@ -98,28 +98,28 @@ So ladders are scraped as the fact table. A `matches` table drops in later witho
 | Adelaide Metropolitan Netball Division | `amnd`                    | Yes                                  | `7a5f35e1` |
 | Netball SA Premier League              | `premier_league`          | Yes                                  | `6fefc037` |
 | Premier League Reserves                | `premier_league_reserves` | Yes                                  | `6fefc037` |
-| City Night Division                    | `city_night_division`     | No — org ID unknown                  | —          |
+| City Night Division                    | `city_night_division`     | No — org filled, no imported rows    | `2276ec85` |
 | Super League                           | `super_league`            | No — unresearched                    | —          |
 | Juniors                                | `juniors`                 | No                                   | —          |
 | SAUCNA                                 | `saucna`                  | No — org verified, no imported rows  | `fb89f1f1` |
 | Southern United (SUNA)                 | `suna`                    | No — org verified, no imported rows  | `4bd9b8ae` |
-| Hills Netball Association              | `hills`                   | No — org verified (SA, not NSW HDNA) | `e801d340` |
-| Mid Hills Netball Association          | `mid_hills`               | No — org verified, no imported rows  | `7d13cb92` |
-| Southern Hills (SHNA)                  | `southern_hills`          | No — org verified, no imported rows  | `de681683` |
+| Elizabeth Netball Association          | `elizabeth`               | No — org verified, no imported rows  | `7ffb0e67` |
+| SAMMNA                                 | `sammna`                  | No — org verified, no imported rows  | `7936878d` |
+| SA Districts (SADNA)                   | `sadna`                   | No — name only, PlayHQ org unknown   | —          |
 
-The first three carry ladder data and championship weights. The five SA associations have verified PlayHQ org IDs (checked 2026-08-22 via `discoverCompetitions`). `COLLECT_JOBS` in `collect.ts` walks those orgs the same way as AMND. `--org` / `--competition` still targets one. `0001_seed.sql` is already applied, so the new rows land in `drizzle/0009_sa_associations.sql`.
+The first three carry ladder data and championship weights. Metro associations have verified PlayHQ org IDs (checked 2026-08-22 via `discoverCompetitions`). `COLLECT_JOBS` in `collect.ts` walks those orgs the same way as AMND; new association jobs start at 2023. `--org` / `--competition` still targets one. `0001_seed.sql` is already applied, so the new rows land in `drizzle/0009_sa_associations.sql`.
 
-They are **not** in the club championship. No `grade_weights` rows, and `fetchChampionshipHistory` only scores keys that already have bands. Importing a SUNA ladder later must not change Contax's AMND rank.
+They are **not** in the club championship. No `grade_weights` rows, and `fetchChampionshipHistory` only scores keys that already have bands. Importing a SUNA ladder later must not change Contax's AMND rank. Country associations (Hills, Mid Hills, SHNA, GSNA, and the rest) can be added later the same way.
 
-Each association org also lists carnivals, schools or summer on PlayHQ. Those names are out of scope until they get their own catalogue keys. Winter home-and-away only:
+Each association org also lists carnivals, schools or summer on PlayHQ. Those names are out of scope until they get their own catalogue keys:
 
-- SAUCNA → `SAUCNA Winter` (slug `sa-united-church-netball-association`)
-- SUNA → `SUNA Winter` (`southern-united-netball-association`)
-- Hills → `Hills Netball Association` (Heathfield / Aldgate; not NSW Hills District)
-- Mid Hills → `WINTER`
-- SHNA → `SHNA` (`southern-hills-netball-association`)
+- SAUCNA → `SAUCNA Winter`
+- SUNA → `SUNA Winter` (first winter season is 2026)
+- Elizabeth → `Elizabeth Netball Association`, winter seasons only (summer shares the same competition object)
+- City Night → `City Night Division 1`, summer 2023+ (the 2021 winter object is out of range)
+- SAMMNA → `M League`, winter only (not Super League)
 
-City Night Division is **not resolved**. It is a separate organisation, absent from every public index checked, with no confirmed URL or season. Schema stays summer-capable (`competition_period`, `start_year`, `end_year`) because that costs nothing now and is a migration later.
+SADNA is seeded by name with a null org id. Do not use WA `489c7576`. Hills PlayHQ is unconfirmed — do not invent an id.
 
 ## Sources & coverage
 

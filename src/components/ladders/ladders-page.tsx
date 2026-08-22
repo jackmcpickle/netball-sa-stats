@@ -10,6 +10,7 @@ import { DataTable } from '@/components/ui/data-table';
 import type { DataTableColumn } from '@/components/ui/data-table';
 import { Eyebrow, PageShell, PageTitle, Panel } from '@/components/ui/layout';
 import { NoteMarker } from '@/components/ui/note-marker';
+import { FieldSelect } from '@/components/ui/select';
 import { SearchableSelect } from '@/components/ui/searchable-select';
 import type { TableState } from '@/db/queries/pagination';
 import type { LadderRow } from '@/server/dto/ladders.dto';
@@ -86,7 +87,13 @@ export function LaddersPage(): JSX.Element {
             // and the loader falls back to that season's first grade. A full
             // replace also drops sort/page, since page 3 of the old season is
             // not a meaningful destination.
-            void navigate({ resetScroll: false, search: { year } });
+            void navigate({
+                resetScroll: false,
+                search: (previous) => ({
+                    competition: previous.competition,
+                    year,
+                }),
+            });
         },
         [navigate],
     );
@@ -115,6 +122,25 @@ export function LaddersPage(): JSX.Element {
             });
         },
         [navigate],
+    );
+
+    const onCompetitionChange = useCallback(
+        (competition: string) => {
+            void navigate({
+                resetScroll: false,
+                search: { competition },
+            });
+        },
+        [navigate],
+    );
+
+    const competitionOptions = useMemo(
+        () =>
+            data.competitions.map((competition) => ({
+                label: competition.shortName,
+                value: competition.key,
+            })),
+        [data.competitions],
     );
 
     const yearOptions = useMemo(
@@ -226,7 +252,27 @@ export function LaddersPage(): JSX.Element {
                 <PageTitle>Where every team finished</PageTitle>
             </div>
 
+            <p className="mb-6 max-w-[56ch] text-ink-body">
+                Ladders are scoped to one league. Open another association from
+                the league picker, or from{' '}
+                <a
+                    href="/leagues"
+                    className="text-ink underline decoration-rule underline-offset-2"
+                >
+                    Leagues
+                </a>
+                .
+            </p>
+
             <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:flex-wrap">
+                {competitionOptions.length > 0 && data.competition ? (
+                    <FieldSelect
+                        label="League"
+                        value={data.competition.key}
+                        options={competitionOptions}
+                        onValueChange={onCompetitionChange}
+                    />
+                ) : null}
                 <SeasonSelector
                     year={data.year}
                     options={yearOptions}

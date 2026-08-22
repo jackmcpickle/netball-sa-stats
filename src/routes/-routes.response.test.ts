@@ -171,6 +171,11 @@ const PAGE_ROUTES = [
             await import('@/routes/results'),
     ],
     [
+        '/leagues',
+        async (): Promise<{ Route: UncheckedRoute }> =>
+            await import('@/routes/leagues.index'),
+    ],
+    [
         '/clubs',
         async (): Promise<{ Route: UncheckedRoute }> =>
             await import('@/routes/clubs.index'),
@@ -215,6 +220,25 @@ describe('page routes', () => {
             ).toBeTruthy();
         },
     );
+
+    it('builds the league page head from the loaded league', async () => {
+        const { Route } = await import('@/routes/leagues.$competitionKey');
+        const head = asRoute(Route).options.head?.({
+            params: { competitionKey: 'saucna' },
+            loaderData: {
+                competition: {
+                    key: 'saucna',
+                    name: 'South Australian United Church Netball Association',
+                    shortName: 'SAUCNA',
+                },
+            },
+        });
+        expect(head?.links).toContainEqual({
+            rel: 'canonical',
+            href: 'https://netballsa.com/leagues/saucna',
+        });
+        expect(JSON.stringify(head?.meta)).toContain('SAUCNA');
+    });
 
     it('builds the club profile head from the loaded club', async () => {
         const { Route } = await import('@/routes/clubs.$clubKey');

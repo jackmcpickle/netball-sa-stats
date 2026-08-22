@@ -38,7 +38,7 @@ const loadRankings = createServerFn({ method: 'GET' })
     );
 
 const DESCRIPTION =
-    'Club championship rankings for South Australian netball: every AMND, Premier League and Reserves ladder finish since 2000, weighted by grade and totalled into one score per club per season. Other SA associations are catalogued separately and do not yet count in that score.';
+    'Club championship rankings for South Australian netball: every AMND, Premier League and Reserves ladder finish since 2000, weighted by grade and totalled into one score per club per season. Other SA associations have their own league pages and do not count in this score.';
 
 export const Route = createFileRoute('/')({
     validateSearch: searchSchema,

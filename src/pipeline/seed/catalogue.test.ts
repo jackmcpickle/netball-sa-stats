@@ -23,8 +23,14 @@ describe('competition catalogue', () => {
         expect(withDataMissingOrgId).toStrictEqual([]);
     });
 
-    it('lists the five SA associations Jack named, each with a PlayHQ org id', () => {
-        const keys = ['saucna', 'suna', 'hills', 'mid_hills', 'southern_hills'];
+    it('lists the metro associations with verified PlayHQ org ids', () => {
+        const keys = [
+            'saucna',
+            'suna',
+            'elizabeth',
+            'city_night_division',
+            'sammna',
+        ];
         for (const key of keys) {
             const seed = COMPETITION_SEEDS.find(
                 (competition) => competition.key === key,
@@ -32,6 +38,21 @@ describe('competition catalogue', () => {
             expect(seed?.playhqOrgId).toMatch(/^[0-9a-f]{8}$/u);
             expect(seed?.hasData).toBeFalsy();
         }
+    });
+
+    it('seeds SADNA by name only, with no invented PlayHQ org id', () => {
+        const seed = COMPETITION_SEEDS.find(
+            (competition) => competition.key === 'sadna',
+        );
+        expect(seed?.playhqOrgId).toBeNull();
+        expect(seed?.hasData).toBeFalsy();
+    });
+
+    it('does not seed Hills or the country tail', () => {
+        const keys = COMPETITION_SEEDS.map((competition) => competition.key);
+        expect(keys).not.toContain('hills');
+        expect(keys).not.toContain('mid_hills');
+        expect(keys).not.toContain('southern_hills');
     });
 });
 

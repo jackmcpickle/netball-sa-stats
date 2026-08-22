@@ -9,19 +9,12 @@
  * done on a normalised (uppercased, punctuation-stripped) form. An
  * unrecognised name throws — never silently dropped or bucketed.
  *
- * SAUCNA / SUNA / Hills / Mid Hills / Southern Hills use a separate rule
- * table. Those tiers are structural only: they do not have championship
- * weights, and they must not be parsed as AMND bands.
+ * Metro associations (SAUCNA, SUNA, Elizabeth, City Night, SAMMNA) use a
+ * separate rule table. Those tiers are structural only: they do not have
+ * championship weights, and they must not be parsed as AMND bands.
  */
 import { isNull, isUndefined } from 'es-toolkit';
-
-const ASSOCIATION_COMPETITION_KEYS = new Set([
-    'saucna',
-    'suna',
-    'hills',
-    'mid_hills',
-    'southern_hills',
-]);
+import { ASSOCIATION_COMPETITION_KEYS } from '@/pipeline/seed/catalogue';
 
 export interface ParsedGrade {
     tier: number;
@@ -70,11 +63,20 @@ const ASSOCIATION_RULES: readonly Rule[] = [
     { pattern: /^A GRADE$/u, tier: 1 },
     { pattern: /^A ?(?<division>\d+)(?: GRADE)?$/u, tier: 1 },
     { pattern: /^SENIORS DIV(?:ISION)? 0*(?<division>\d+)$/u, tier: 1 },
+    { pattern: /^M LEAGUE MENS DIVISION$/u, tier: 1 },
     { pattern: /^B ?(?<division>\d+)$/u, tier: 2 },
+    { pattern: /^M LEAGUE JUNIOR DIVISION$/u, tier: 2 },
     { pattern: /^C GRADE$/u, tier: 3 },
     { pattern: /^C ?(?<division>\d+)$/u, tier: 3 },
+    { pattern: /^D ?(?<division>\d+)$/u, tier: 3 },
     { pattern: /^INTERS? DIV(?:ISION)? 0*(?<division>\d+)$/u, tier: 4 },
-    { pattern: /^INTERS? 0*(?<division>\d+)$/u, tier: 4 },
+    { pattern: /^INTERS? 0*(?<division>\d+)(?: [A-Z])?$/u, tier: 4 },
+    { pattern: /^JUNIOR ?(?<division>\d+) ?[A-Z]?$/u, tier: 8 },
+    { pattern: /^SUB JUNIOR ?(?<division>\d+) ?[A-Z]?$/u, tier: 9 },
+    { pattern: /^PRIMARY ?(?<division>\d+) ?[A-Z]?$/u, tier: 10 },
+    { pattern: /^SUB PRIMARY ?(?<division>\d+) ?[A-Z]?$/u, tier: 11 },
+    { pattern: /^NSG SET$/u, tier: 12 },
+    { pattern: /^NSG GO(?<division>\d+)$/u, tier: 12 },
     {
         pattern:
             /^(?<age>8|9|11|13|15|17) ?(?:& ?)?U(?:NDERS?)? DIV(?:ISION)? ?0*(?<division>\d+)$/u,

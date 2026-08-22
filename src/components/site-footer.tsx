@@ -32,6 +32,12 @@ export function SiteFooter(): JSX.Element {
                         Rankings
                     </Link>
                     <Link
+                        to="/leagues"
+                        className="text-sm text-ink-body no-underline hover:underline"
+                    >
+                        Leagues
+                    </Link>
+                    <Link
                         to="/clubs"
                         className="text-sm text-ink-body no-underline hover:underline"
                     >

@@ -3,9 +3,10 @@
  * domain object. `fetchGrades`/`fetchLadder` used to live in
  * `src/db/queries/grades.ts`; that fetch logic now lives here.
  */
-import { asc, desc, eq, sql } from 'drizzle-orm';
+import { and, asc, desc, eq, sql } from 'drizzle-orm';
 import type { SQL } from 'drizzle-orm';
 import type { SQLiteColumn } from 'drizzle-orm/sqlite-core';
+import { isUndefined } from 'es-toolkit';
 import type { Db } from '@/db';
 import { toCompetition } from '@/db/queries/coverage';
 import { countResults, fetchResults } from '@/db/queries/results';
@@ -31,6 +32,7 @@ import { accentFor } from '@/server/repos/club-accent';
 export async function fetchGrades(
     db: Db,
     year: number,
+    competitionKey?: string,
 ): Promise<readonly GradeSummary[]> {
     const rows = await db
         .select({
@@ -44,7 +46,14 @@ export async function fetchGrades(
         .from(grades)
         .innerJoin(seasons, eq(seasons.id, grades.seasonId))
         .innerJoin(competitions, eq(competitions.id, seasons.competitionId))
-        .where(eq(seasons.startYear, year))
+        .where(
+            and(
+                eq(seasons.startYear, year),
+                isUndefined(competitionKey)
+                    ? undefined
+                    : eq(competitions.key, competitionKey),
+            ),
+        )
         .orderBy(asc(grades.tier), asc(grades.division), asc(grades.name));
 
     return rows.map((row) => ({
@@ -122,7 +131,10 @@ export interface LadderPage {
 }
 
 export interface GradesRepo {
-    readonly forYear: (year: number) => Promise<readonly GradeSummary[]>;
+    readonly forYear: (
+        year: number,
+        competitionKey?: string,
+    ) => Promise<readonly GradeSummary[]>;
     readonly countLadder: (gradeKey: string) => Promise<number>;
     readonly ladderPage: (
         gradeKey: string,
@@ -135,8 +147,11 @@ export function createGradesRepo(db: Db): GradesRepo {
         async countLadder(gradeKey: string): Promise<number> {
             return await countResults(db, { gradeKey });
         },
-        async forYear(year: number): Promise<readonly GradeSummary[]> {
-            return await fetchGrades(db, year);
+        async forYear(
+            year: number,
+            competitionKey?: string,
+        ): Promise<readonly GradeSummary[]> {
+            return await fetchGrades(db, year, competitionKey);
         },
         async ladderPage(
             gradeKey: string,

@@ -15,7 +15,7 @@ export function createMethodService(repos: Repos): MethodService {
     return {
         async getPage(): Promise<Result<MethodPageDto, DomainError>> {
             const [coverage, weights, updatedAt] = await Promise.all([
-                repos.seasons.fullCoverage(),
+                repos.seasons.fullCoverage({ championshipOnly: true }),
                 repos.weights.all(),
                 repos.importRuns.lastSuccessAt(),
             ]);

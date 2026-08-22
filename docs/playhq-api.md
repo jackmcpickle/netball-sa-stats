@@ -67,15 +67,16 @@ Response: `data/raw/probe/discoverCompetitions_netballsa_6fefc037.json` (Netball
 
 South Australian associations verified the same way on 2026-08-22 (this cloud
 VM was not blocked). Each org also lists carnivals / schools / summer;
-`collect` only walks the winter home-and-away name in the catalogue.
+`collect` only walks the catalogued PlayHQ competition name (and, where winter
+and summer share one object, the matching season name).
 
-| Catalogue key    | Org ID     | PlayHQ org name                         | Winter competition name     | Probe                                         |
-| ---------------- | ---------- | --------------------------------------- | --------------------------- | --------------------------------------------- |
-| `saucna`         | `fb89f1f1` | SA United Church Netball Association    | `SAUCNA Winter`             | `discoverCompetitions_saucna_fb89f1f1.json`   |
-| `suna`           | `4bd9b8ae` | Southern United Netball Association     | `SUNA Winter`               | `discoverCompetitions_suna_4bd9b8ae.json`     |
-| `hills`          | `e801d340` | Hills Netball Association (SA, not NSW) | `Hills Netball Association` | `discoverCompetitions_hills_e801d340.json`    |
-| `mid_hills`      | `7d13cb92` | Mid Hills Netball Association           | `WINTER`                    | `discoverCompetitions_midhills_7d13cb92.json` |
-| `southern_hills` | `de681683` | Southern Hills Netball Association      | `SHNA`                      | `discoverCompetitions_shna_de681683.json`     |
+| Catalogue key          | Org ID     | PlayHQ org name                                      | Competition name                     | Period collected      |
+| ---------------------- | ---------- | ---------------------------------------------------- | ------------------------------------ | --------------------- |
+| `saucna`               | `fb89f1f1` | SA United Church Netball Association                 | `SAUCNA Winter`                      | winter 2023+          |
+| `suna`                 | `4bd9b8ae` | Southern United Netball Association                  | `SUNA Winter`                        | winter 2023+ (2026)   |
+| `elizabeth`            | `7ffb0e67` | Elizabeth Netball Association                        | `Elizabeth Netball Association`      | winter seasons only   |
+| `city_night_division`  | `2276ec85` | City Night Division                                  | `City Night Division 1`              | summer 2023+          |
+| `sammna`               | `7936878d` | South Australian Mens and Mixed Netball Association  | `M League`                           | winter seasons only   |
 
 `COLLECT_JOBS` in `src/pipeline/fetch/collect.ts` includes these org IDs.
 Target one with `pnpm exec tsx scripts/fetch-playhq.ts --competition=saucna --year=2025`.

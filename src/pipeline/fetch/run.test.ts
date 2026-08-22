@@ -8,13 +8,14 @@ import { flattenStandings } from '@/pipeline/fetch/ladder';
 import type { Standing } from '@/pipeline/fetch/ladder';
 import {
     AMND_ORG_ID,
-    HILLS_ORG_ID,
-    MID_HILLS_ORG_ID,
+    CITY_NIGHT_ORG_ID,
+    ELIZABETH_ORG_ID,
     NETBALL_SA_ORG_ID,
+    SAMMNA_ORG_ID,
     SAUCNA_ORG_ID,
-    SOUTHERN_HILLS_ORG_ID,
     SUNA_ORG_ID,
     archiveRowsToKeep,
+    associationSeasonWanted,
     collectJobsFor,
     collectPlayHqData,
     isCataloguedPlayHqCompetition,
@@ -90,17 +91,21 @@ describe(resolveCompetitionKey, () => {
         ).toBe('suna');
         expect(
             resolveCompetitionKey(
-                HILLS_ORG_ID,
+                ELIZABETH_ORG_ID,
                 'A1',
-                'Hills Netball Association',
+                'Elizabeth Netball Association',
             ),
-        ).toBe('hills');
+        ).toBe('elizabeth');
         expect(
-            resolveCompetitionKey(MID_HILLS_ORG_ID, 'A grade', 'WINTER'),
-        ).toBe('mid_hills');
-        expect(resolveCompetitionKey(SOUTHERN_HILLS_ORG_ID, 'A1', 'SHNA')).toBe(
-            'southern_hills',
-        );
+            resolveCompetitionKey(
+                CITY_NIGHT_ORG_ID,
+                'A1 Grade',
+                'City Night Division 1',
+            ),
+        ).toBe('city_night_division');
+        expect(
+            resolveCompetitionKey(SAMMNA_ORG_ID, 'M-League - Mens Division', 'M League'),
+        ).toBe('sammna');
     });
 
     it('returns null for carnival or summer entries on those orgs', () => {
@@ -116,9 +121,16 @@ describe(resolveCompetitionKey, () => {
         ).toBeNull();
         expect(
             resolveCompetitionKey(
-                HILLS_ORG_ID,
-                '9u Div1',
-                'Ready Set Go Carnival',
+                ELIZABETH_ORG_ID,
+                'A1',
+                'ENA "Brenda Herraman" Carnival',
+            ),
+        ).toBeNull();
+        expect(
+            resolveCompetitionKey(
+                SAMMNA_ORG_ID,
+                'M-League - Mens Division',
+                'SAMMNA Super League',
             ),
         ).toBeNull();
     });
@@ -154,25 +166,84 @@ describe(isCataloguedPlayHqCompetition, () => {
         expect(
             isCataloguedPlayHqCompetition(SUNA_ORG_ID, 'SUNA Summer'),
         ).toBeFalsy();
+        expect(
+            isCataloguedPlayHqCompetition(
+                ELIZABETH_ORG_ID,
+                'Elizabeth Netball Association',
+            ),
+        ).toBeTruthy();
+        expect(
+            isCataloguedPlayHqCompetition(
+                CITY_NIGHT_ORG_ID,
+                'City Night Division 1',
+            ),
+        ).toBeTruthy();
+        expect(
+            isCataloguedPlayHqCompetition(SAMMNA_ORG_ID, 'M League'),
+        ).toBeTruthy();
+        expect(
+            isCataloguedPlayHqCompetition(
+                SAMMNA_ORG_ID,
+                'SAMMNA Super League',
+            ),
+        ).toBeFalsy();
+    });
+});
+
+describe(associationSeasonWanted, () => {
+    it('keeps only winter seasons when Elizabeth or SAMMNA share a competition object', () => {
+        expect(
+            associationSeasonWanted(ELIZABETH_ORG_ID, 'Winter 2025'),
+        ).toBeTruthy();
+        expect(
+            associationSeasonWanted(ELIZABETH_ORG_ID, 'Summer 2024/25'),
+        ).toBeFalsy();
+        expect(associationSeasonWanted(SAMMNA_ORG_ID, 'Winter 2025')).toBeTruthy();
+        expect(
+            associationSeasonWanted(SAMMNA_ORG_ID, 'Summer 2024/25'),
+        ).toBeFalsy();
+    });
+
+    it('keeps only summer seasons for City Night 2023+', () => {
+        expect(
+            associationSeasonWanted(CITY_NIGHT_ORG_ID, 'Summer 2024/25'),
+        ).toBeTruthy();
+        expect(
+            associationSeasonWanted(CITY_NIGHT_ORG_ID, 'Winter 2021'),
+        ).toBeFalsy();
+    });
+
+    it('does not filter SAUCNA seasons — winter is already its own competition', () => {
+        expect(associationSeasonWanted(SAUCNA_ORG_ID, 'Winter 2025')).toBeTruthy();
+        expect(associationSeasonWanted(AMND_ORG_ID, 'Winter 2024')).toBeTruthy();
     });
 });
 
 describe(collectJobsFor, () => {
-    it('walks AMND, Netball SA and the five SA association orgs', () => {
+    it('walks AMND, Netball SA and the metro association orgs', () => {
         expect(collectJobsFor().map((job) => job.orgId)).toStrictEqual([
             AMND_ORG_ID,
             NETBALL_SA_ORG_ID,
             SAUCNA_ORG_ID,
             SUNA_ORG_ID,
-            HILLS_ORG_ID,
-            MID_HILLS_ORG_ID,
-            SOUTHERN_HILLS_ORG_ID,
+            ELIZABETH_ORG_ID,
+            CITY_NIGHT_ORG_ID,
+            SAMMNA_ORG_ID,
+        ]);
+    });
+
+    it('starts new association jobs at 2023', () => {
+        expect(
+            collectJobsFor([SAUCNA_ORG_ID, CITY_NIGHT_ORG_ID]),
+        ).toStrictEqual([
+            { minYear: 2023, orgId: SAUCNA_ORG_ID, period: 'winter' },
+            { minYear: 2023, orgId: CITY_NIGHT_ORG_ID, period: 'summer' },
         ]);
     });
 
     it('can target one hardcoded association org', () => {
         expect(collectJobsFor([SAUCNA_ORG_ID])).toStrictEqual([
-            { minYear: 2022, orgId: SAUCNA_ORG_ID, period: 'winter' },
+            { minYear: 2023, orgId: SAUCNA_ORG_ID, period: 'winter' },
         ]);
     });
 
@@ -750,9 +821,9 @@ function emptyAssociationDiscovers(): [string, ReturnType<typeof seedEntry>][] {
     return [
         SAUCNA_ORG_ID,
         SUNA_ORG_ID,
-        HILLS_ORG_ID,
-        MID_HILLS_ORG_ID,
-        SOUTHERN_HILLS_ORG_ID,
+        ELIZABETH_ORG_ID,
+        CITY_NIGHT_ORG_ID,
+        SAMMNA_ORG_ID,
     ].map((orgId) => [
         `discoverCompetitions_${orgId}.json`,
         seedEntry({ data: { discoverCompetitions: [] } }),

@@ -8,9 +8,9 @@
  *     [--games] [--year=2026 ...] [--grade=<playhq id>]
  *     [--org=<playhq org id>] [--competition=<catalogue key>]
  *
- * Default walk is AMND + Netball SA. Pass `--org` or `--competition` to
- * target a catalogued association (saucna, suna, hills, mid_hills,
- * southern_hills) the same way.
+ * Default walk is AMND + Netball SA + metro associations in COLLECT_JOBS.
+ * Pass `--org` or `--competition` to target one (saucna, suna, elizabeth,
+ * city_night_division, sammna). New association jobs start at 2023.
  */
 import { isNull, isUndefined } from 'es-toolkit';
 import { runFetch } from '../src/pipeline/fetch/run.ts';

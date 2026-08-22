@@ -19,7 +19,7 @@ export function err<E>(error: E): Result<never, E> {
 export type DomainError =
     | {
           readonly kind: 'not-found';
-          readonly entity: 'club' | 'season' | 'grade';
+          readonly entity: 'club' | 'season' | 'grade' | 'competition';
           readonly key: string;
       }
     | { readonly kind: 'no-ranked-seasons' };

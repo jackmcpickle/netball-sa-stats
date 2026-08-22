@@ -5,6 +5,7 @@
  */
 import { isNull, isUndefined } from 'es-toolkit';
 import { CHAMPIONSHIP_TABLE_SPEC } from '@/db/queries/championship';
+import { championshipCompetitionKeys } from '@/pipeline/seed/catalogue';
 import type { Repos } from '@/server/container';
 import { Championship } from '@/server/domain/championship';
 import type { DomainError, Result } from '@/server/domain/result';
@@ -70,7 +71,9 @@ export function createRankingsService(repos: Repos): RankingsService {
         async getPage(
             params: RankingsParams,
         ): Promise<Result<RankingsPageDto, DomainError>> {
-            const coverage = await repos.seasons.fullCoverage();
+            const coverage = await repos.seasons.fullCoverage({
+                championshipOnly: true,
+            });
             const { rankedYears } = coverage;
             let resolvedYear: number;
             if (
@@ -79,7 +82,9 @@ export function createRankingsService(repos: Repos): RankingsService {
             ) {
                 resolvedYear = params.season;
             } else {
-                const seasonCoverage = await repos.seasons.coverage();
+                const seasonCoverage = await repos.seasons.coverage({
+                    championshipOnly: true,
+                });
                 const latest = seasonCoverage.latestRankedYear();
                 if (!latest.ok) {
                     return latest;
@@ -108,6 +113,7 @@ export function createRankingsService(repos: Repos): RankingsService {
                 ),
             );
             const previousYear = championship.value.previousYear(rankedYears);
+            const championshipKeys = championshipCompetitionKeys();
             const [clubs, gradesByYear] = await Promise.all([
                 repos.clubs.all(),
                 Promise.all(
@@ -117,6 +123,11 @@ export function createRankingsService(repos: Repos): RankingsService {
                     ),
                 ),
             ]);
+            const championshipGrades = gradesByYear.map((grades) =>
+                grades.filter((grade) =>
+                    championshipKeys.has(grade.competition.key),
+                ),
+            );
             const worstRank = Math.max(
                 1,
                 ...history.map((season) => season.rows.length),
@@ -125,7 +136,7 @@ export function createRankingsService(repos: Repos): RankingsService {
             return ok({
                 clubCount: clubs.length,
                 coverage,
-                gradeCount: gradesByYear.reduce(
+                gradeCount: championshipGrades.reduce(
                     (total, grades) => total + grades.length,
                     0,
                 ),

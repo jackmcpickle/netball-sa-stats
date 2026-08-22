@@ -37,30 +37,49 @@ export const AMND_ORG_ID = '7a5f35e1';
 export const NETBALL_SA_ORG_ID = '6fefc037';
 export const SAUCNA_ORG_ID = 'fb89f1f1';
 export const SUNA_ORG_ID = '4bd9b8ae';
-export const HILLS_ORG_ID = 'e801d340';
-export const MID_HILLS_ORG_ID = '7d13cb92';
-export const SOUTHERN_HILLS_ORG_ID = 'de681683';
+export const ELIZABETH_ORG_ID = '7ffb0e67';
+export const CITY_NIGHT_ORG_ID = '2276ec85';
+export const SAMMNA_ORG_ID = '7936878d';
+
+export type CollectPeriod = 'winter' | 'summer' | 'annual';
 
 interface AssociationOrg {
     key: string;
-    winterCompetitionName: string;
+    playHqCompetitionName: string;
+    /** When winter and summer share one PlayHQ competition object. */
+    seasonNameIncludes?: string;
 }
 
-/** 1:1 PlayHQ org → catalogue key, winter home-and-away only. */
+/**
+ * 1:1 PlayHQ org → catalogue key. Names are the PlayHQ competition objects
+ * `discoverCompetitions` returned on 2026-08-22, not invented slugs.
+ */
 const ASSOCIATION_BY_ORG = new Map<string, AssociationOrg>([
-    [SAUCNA_ORG_ID, { key: 'saucna', winterCompetitionName: 'SAUCNA Winter' }],
-    [SUNA_ORG_ID, { key: 'suna', winterCompetitionName: 'SUNA Winter' }],
+    [SAUCNA_ORG_ID, { key: 'saucna', playHqCompetitionName: 'SAUCNA Winter' }],
+    [SUNA_ORG_ID, { key: 'suna', playHqCompetitionName: 'SUNA Winter' }],
     [
-        HILLS_ORG_ID,
+        ELIZABETH_ORG_ID,
         {
-            key: 'hills',
-            winterCompetitionName: 'Hills Netball Association',
+            key: 'elizabeth',
+            playHqCompetitionName: 'Elizabeth Netball Association',
+            seasonNameIncludes: 'Winter',
         },
     ],
-    [MID_HILLS_ORG_ID, { key: 'mid_hills', winterCompetitionName: 'WINTER' }],
     [
-        SOUTHERN_HILLS_ORG_ID,
-        { key: 'southern_hills', winterCompetitionName: 'SHNA' },
+        CITY_NIGHT_ORG_ID,
+        {
+            key: 'city_night_division',
+            playHqCompetitionName: 'City Night Division 1',
+            seasonNameIncludes: 'Summer',
+        },
+    ],
+    [
+        SAMMNA_ORG_ID,
+        {
+            key: 'sammna',
+            playHqCompetitionName: 'M League',
+            seasonNameIncludes: 'Winter',
+        },
     ],
 ]);
 
@@ -194,7 +213,24 @@ export function isCataloguedPlayHqCompetition(
     if (isUndefined(association)) {
         return true;
     }
-    return playHqCompetitionName === association.winterCompetitionName;
+    return playHqCompetitionName === association.playHqCompetitionName;
+}
+
+/**
+ * Elizabeth and SAMMNA put winter and summer on one competition object.
+ * City Night's 2023+ home-and-away is summer. Skip the other period.
+ */
+export function associationSeasonWanted(
+    orgId: string,
+    seasonName: string,
+): boolean {
+    const association = ASSOCIATION_BY_ORG.get(orgId);
+    if (isUndefined(association) || isUndefined(association.seasonNameIncludes)) {
+        return true;
+    }
+    return seasonName
+        .toLowerCase()
+        .includes(association.seasonNameIncludes.toLowerCase());
 }
 
 /**
@@ -217,7 +253,7 @@ export function resolveCompetitionKey(
     }
     const association = ASSOCIATION_BY_ORG.get(orgId);
     if (!isUndefined(association)) {
-        if (playHqCompetitionName === association.winterCompetitionName) {
+        if (playHqCompetitionName === association.playHqCompetitionName) {
             return association.key;
         }
         return null;
@@ -269,7 +305,7 @@ function mergeTeams(
 
 export interface GradeContext {
     orgId: string;
-    period: 'winter' | 'annual';
+    period: CollectPeriod;
     startYear: number;
     seasonName: string;
     seasonPlayhqId: string;
@@ -544,18 +580,18 @@ async function collectGames(
 
 interface CollectJob {
     orgId: string;
-    period: 'winter' | 'annual';
+    period: CollectPeriod;
     minYear: number;
 }
 
 const COLLECT_JOBS: readonly CollectJob[] = [
     { minYear: 2022, orgId: AMND_ORG_ID, period: 'winter' },
     { minYear: 2023, orgId: NETBALL_SA_ORG_ID, period: 'annual' },
-    { minYear: 2022, orgId: SAUCNA_ORG_ID, period: 'winter' },
-    { minYear: 2022, orgId: SUNA_ORG_ID, period: 'winter' },
-    { minYear: 2022, orgId: HILLS_ORG_ID, period: 'winter' },
-    { minYear: 2022, orgId: MID_HILLS_ORG_ID, period: 'winter' },
-    { minYear: 2022, orgId: SOUTHERN_HILLS_ORG_ID, period: 'winter' },
+    { minYear: 2023, orgId: SAUCNA_ORG_ID, period: 'winter' },
+    { minYear: 2023, orgId: SUNA_ORG_ID, period: 'winter' },
+    { minYear: 2023, orgId: ELIZABETH_ORG_ID, period: 'winter' },
+    { minYear: 2023, orgId: CITY_NIGHT_ORG_ID, period: 'summer' },
+    { minYear: 2023, orgId: SAMMNA_ORG_ID, period: 'winter' },
 ];
 
 /**
@@ -708,6 +744,12 @@ async function ingestSeason(
 ): Promise<void> {
     const startYear = parseStartYear(season.startDate);
     if (startYear < job.minYear || !seasonWanted(season, options.years)) {
+        return;
+    }
+    if (!associationSeasonWanted(job.orgId, season.name)) {
+        console.warn(
+            `out-of-scope PlayHQ season skipped: "${season.name}" (competition ${playHqCompetitionName}, org ${job.orgId})`,
+        );
         return;
     }
     if (!isCataloguedPlayHqCompetition(job.orgId, playHqCompetitionName)) {

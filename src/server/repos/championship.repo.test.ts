@@ -119,7 +119,7 @@ describe(rowsForChampionship, () => {
             resultRow('amnd', 'contax'),
             resultRow('saucna', 'falcons'),
             resultRow('premier_league', 'garville'),
-            resultRow('hills', 'aldgate'),
+            resultRow('elizabeth', 'spiders'),
         ]);
         expect(kept.map((row) => row.competitionKey)).toStrictEqual([
             'amnd',
@@ -165,6 +165,50 @@ describe(createChampionshipRepo, () => {
         // Only one ranked season exists, so there is nothing to compare
         // coverage against.
         expect(history[0]?.coverageChanged).toBeFalsy();
+    });
+
+    it('history(competitionKey) ranks that league alone', async () => {
+        const db = createTestDb();
+        const spec = baseSpec();
+        spec.competitions.push({
+            key: 'premier_league',
+            name: 'Premier League',
+            seasons: [
+                {
+                    grades: [
+                        {
+                            gradeKey: 'pl-2024-prem',
+                            name: 'Premier Division',
+                            results: [
+                                {
+                                    clubKey: 'garville',
+                                    clubName: 'Garville',
+                                    displayName: 'Garville',
+                                    ladderPosition: 1,
+                                },
+                            ],
+                            teamCount: 1,
+                            tier: 1,
+                        },
+                    ],
+                    isFinal: true,
+                    seasonKey: 'pl-2024',
+                    startYear: 2024,
+                },
+            ],
+        });
+        await seed(db, spec);
+
+        const amndOnly = await createChampionshipRepo(db).history('amnd');
+        expect(amndOnly[0]?.rows.map((row) => row.club.key)).toStrictEqual([
+            'contax',
+            'garville',
+        ]);
+
+        const combined = await createChampionshipRepo(db).history();
+        expect(
+            combined[0]?.rows.some((row) => row.club.key === 'garville'),
+        ).toBeTruthy();
     });
 
     it('history() over an empty database returns no seasons', async () => {
