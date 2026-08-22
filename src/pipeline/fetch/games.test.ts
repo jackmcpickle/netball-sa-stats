@@ -11,10 +11,10 @@ import type { FixtureGame, FixtureRound } from '@/pipeline/fetch/games';
 
 function capture(name: string): readonly FixtureRound[] {
     // SAFETY: these are this repo's own committed PlayHQ probe captures under
-    // `data/raw/probe/`, each the recorded `gradeAllRounds` response; the
+    // `testdata/playhq/`, each the recorded `gradeAllRounds` response; the
     // asserted shape is the same one `collect.ts` reads them back as.
     const parsed = JSON.parse(
-        readFileSync(`data/raw/probe/${name}.json`, 'utf-8'),
+        readFileSync(`testdata/playhq/${name}.json`, 'utf-8'),
     ) as { data: { discoverGradeFixture: readonly FixtureRound[] } };
     return parsed.data.discoverGradeFixture;
 }

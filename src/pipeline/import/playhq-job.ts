@@ -28,6 +28,8 @@ const STALE_AFTER_SECONDS = 7200;
 export interface PlayHqJobParams {
     years?: number[];
     games: boolean;
+    /** Restrict collect to these PlayHQ organisation IDs. */
+    orgIds?: string[];
 }
 
 function stringifyIsFinal(value: unknown): string {
@@ -37,7 +39,7 @@ function stringifyIsFinal(value: unknown): string {
     return '0';
 }
 
-/** Curated `seasons.is_final` as CSV `'0'`/`'1'` so collect cannot clobber it. */
+/** Curated `seasons.is_final` as `'0'`/`'1'` so collect cannot clobber it. */
 export async function loadIsFinalMap(
     executor: ImportExecutor,
 ): Promise<ReadonlyMap<string, string>> {
@@ -242,6 +244,7 @@ async function collectAndImport(input: PlayHqJobInput): Promise<JobOutcome> {
         clubRegistry,
         games: input.params.games,
         isFinalBySeasonKey: input.isFinalBySeasonKey,
+        orgIds: input.params.orgIds,
         store: input.store,
         years: input.params.years,
     });

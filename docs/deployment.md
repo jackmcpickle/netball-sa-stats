@@ -68,6 +68,7 @@ Start `fetch` and the `PlayHqImportWorkflow` class.
 
 Weekly cron is **not** enabled. Do not add `schedules` to `wrangler.jsonc` until a
 Worker-isolate probe of `https://api.playhq.com/graphql` returns HTTP 200.
+When it is enabled, cron must hit PlayHQ → D1. It must not commit CSVs.
 
 ### Secrets (production Worker only)
 

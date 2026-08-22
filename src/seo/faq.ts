@@ -207,7 +207,7 @@ export function buildSiteFaq(data: {
                 'What is the difference between championship score and club strength?',
         },
         {
-            answer: `Published PlayHQ ladders and fixtures for Netball SA and AMND from 2022 onward, and archived AMND Final Premiership Placings PDFs for earlier seasons. SAUCNA, SUNA, Elizabeth, City Night and SAMMNA are in the catalogue with verified PlayHQ org IDs, but they are not imported and are not scored in the combined championship yet. Open /leagues for those associations.${fixture}`,
+            answer: `Published PlayHQ ladders and fixtures for Netball SA and AMND from 2022 onward, and archived AMND Final Premiership Placings PDFs for earlier seasons. SAUCNA, SUNA, Elizabeth, City Night and SAMMNA import into D1 via fetch-playhq / admin and have their own /leagues pages; they are not scored in the combined championship.${fixture}`,
             question: 'Where does the data come from?',
         },
         {

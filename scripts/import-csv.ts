@@ -1,14 +1,13 @@
 /**
- * Thin CLI entrypoint for stage 2 of the pipeline: `data/*.csv` -> D1. All
- * logic lives in `src/pipeline/import/run.ts` (globbed for tests under
- * `src/**`, this file is not).
+ * Thin CLI for leftover / fixture CSV → D1. Live fetch writes D1 directly
+ * (`scripts/fetch-playhq.ts`). This path remains for CI e2e fixtures under
+ * `testdata/e2e/` and for a one-off archive-CSV import.
  *
  * Usage:
- *   pnpm exec tsx scripts/import-csv.ts [--remote]
+ *   pnpm exec tsx scripts/import-csv.ts [--remote] [--dir=<path>]
  *
- * Defaults to `--local` (the D1 database migrated via `db:migrate:local`).
- * Requires migrations to already be applied — this importer does not write
- * `competitions` or `grade_weights`, only verifies they're present.
+ * Defaults to `--local` and `data/`. Requires migrations to already be
+ * applied — this importer does not write `competitions` or `grade_weights`.
  */
 import { resolve } from 'node:path';
 import { createWranglerExecutor } from '../src/pipeline/import/executors.ts';
@@ -20,7 +19,11 @@ const target: WranglerTarget = process.argv.includes('--remote')
     ? 'remote'
     : 'local';
 
-const dataDir = resolve(import.meta.dirname, '..', 'data');
+const dirArg = process.argv.find((arg) => arg.startsWith('--dir='));
+const dataDir = resolve(
+    dirArg?.slice('--dir='.length) ??
+        resolve(import.meta.dirname, '..', 'data'),
+);
 const executor = createWranglerExecutor('netball-stats', target);
 
 try {

@@ -2,7 +2,7 @@
 
 Date: 2026-08-13
 
-Companion to [PLAN.md](../../../PLAN.md) (two-stage fetch → CSV → D1 pipeline)
+Companion to [PLAN.md](../../../PLAN.md) (fetch → D1; git keeps code + curated identity)
 and [docs/playhq-api.md](../../playhq-api.md). Revises the original
 **“No Worker-side sync”** rule.
 
@@ -12,9 +12,10 @@ The live site is a Cloudflare Worker reading D1. Fresh PlayHQ data still
 arrives by hand:
 
 1. `pnpm exec tsx scripts/fetch-playhq.ts --refresh --games --year=2026` on a
-   residential machine, writing `data/*.csv` and `data/raw/*.json`.
-2. Commit the CSV diff.
-3. `pnpm exec tsx scripts/import-csv.ts --remote` via `wrangler d1 execute`.
+   residential machine, upserting local D1 and caching raw JSON under
+   gitignored `data/raw/`.
+2. `pnpm exec tsx scripts/fetch-playhq.ts --remote --refresh --games --year=2026`
+   for production D1. Do not commit generated CSVs.
 
 That was correct for a one-off backfill. It is the wrong loop for an in-progress
 season: Saturday scores sit in PlayHQ until someone remembers to scrape. The
@@ -47,8 +48,9 @@ stores the raw capture**.
   (today: AMND / Premier League / Reserves 2026). When a season flips to
   `COMPLETED`, cron stops touching it; freeze the final ladder with a
   manual trigger `{ years: [2026], games: true }`.
-- **CSV-in-git remains the rebuildable archive** for finished seasons. D1 is
-  still a projection. Automation must not make D1 the only copy of a capture.
+- **D1 is the store.** Git keeps code, curated club identity, catalogue
+  seeds, and small testdata fixtures. Live captures live in R2 / a
+  gitignored local cache. Automation must not commit generated CSVs.
 - Worker CPU is cheap here (I/O-bound). Wall-clock at 1.2 s/request for the
   current season is ~2 minutes (2026: 46 grades × ladder+games, plus discovery).
   A full PlayHQ-era refresh is ~5–7 minutes. Durability matters more than
@@ -139,8 +141,8 @@ Manual operators still exist:
 - Password-protected `/admin` — run history, in-flight status, and “Run
   import” (see **Admin UI** below).
 - `wrangler workflows trigger` as a break-glass if the UI is down.
-- CLI `scripts/fetch-playhq.ts` + `scripts/import-csv.ts` for local work and
-  for rebuilding D1 from git CSV (disaster recovery, schema experiments).
+- CLI `scripts/fetch-playhq.ts` for local or remote D1. `scripts/import-csv.ts`
+  remains for `testdata/e2e/` and leftover archive CSVs.
 
 ### Why R2, not git, for live raw
 

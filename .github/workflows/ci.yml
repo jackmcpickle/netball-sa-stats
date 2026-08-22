@@ -50,12 +50,12 @@ jobs:
       - name: Install Chromium
         run: pnpm exec playwright install --with-deps chromium
 
-      # Migrations only seed the catalogue (competitions, grade weights); the
-      # pages 500 without results, so the committed CSVs are imported too.
+      # Migrations seed the catalogue. testdata/e2e/ is a snapshot of AMND/PL
+      # rows for pages that 500 without results. Live fetch writes D1, not git.
       - name: Build local D1 database
         run: |
           pnpm run db:migrate:local
-          pnpm exec tsx scripts/import-csv.ts
+          pnpm exec tsx scripts/import-csv.ts --dir=testdata/e2e
 
       # Started here rather than via config.webServer so its output is visible
       # when startup fails.

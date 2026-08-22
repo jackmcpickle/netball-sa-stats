@@ -34,4 +34,8 @@ describe(toCsv, () => {
     it('returns empty string for no rows', () => {
         expect(toCsv([])).toBe('');
     });
+
+    it('uses an explicit column order when given one', () => {
+        expect(toCsv([{ a: 1, b: 2 }], ['b', 'a'])).toBe('b,a\n2,1\n');
+    });
 });

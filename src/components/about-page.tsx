@@ -32,9 +32,9 @@ export function AboutPage(): JSX.Element {
                     plus archived AMND Final Premiership Placings PDFs for
                     earlier seasons. The championship score currently uses AMND
                     and Premier League only. SAUCNA, SUNA, Elizabeth, City Night
-                    and SAMMNA are catalogued with verified PlayHQ org IDs, but
-                    they have no imported ladders and no grade weights yet, so
-                    they do not change that ranking. Each association has its
+                    and SAMMNA import as ladders into D1 and have their own
+                    league pages, but they have no championship grade weights,
+                    so they do not change that ranking. Each association has its
                     own league page. Nothing is estimated, interpolated or
                     hand-entered: every figure traces back to a published
                     source, and seasons with no recoverable source are shown as

@@ -51,9 +51,9 @@ export const seasons = sqliteTable(
         endYear: integer('end_year').notNull(),
         id: integer('id').primaryKey({ autoIncrement: true }),
         /**
-         * Curated by hand in the season CSV, never inferred — a scraper cannot tell
-         * a round-18 ladder from a round-22 one. In-progress seasons are excluded
-         * from championship rankings.
+         * Curated in D1, never inferred — a scraper cannot tell a round-18
+         * ladder from a round-22 one. In-progress seasons are excluded from
+         * championship rankings.
          */
         isFinal: integer('is_final', { mode: 'boolean' })
             .notNull()

@@ -11,7 +11,10 @@ export interface CompetitionSeed {
     key: string;
     name: string;
     playhqOrgId: string | null;
-    /** False for competitions seeded for shape only, with no data yet. */
+    /**
+     * Catalogue hint: this competition is intended to carry championship
+     * data. Live "has ladders" is derived from D1 season rows, not this flag.
+     */
     hasData: boolean;
 }
 

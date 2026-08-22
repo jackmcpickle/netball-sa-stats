@@ -11,7 +11,7 @@ import type { GradeLadderResponse } from '@/pipeline/fetch/types';
 
 const fixturePath = resolve(
     import.meta.dirname,
-    '../../../data/raw/probe/gradeLadder_premier_2023_3c7d2b13.json',
+    '../../../testdata/playhq/gradeLadder_premier_2023_3c7d2b13.json',
 );
 
 function loadFixture(): GradeLadderResponse {

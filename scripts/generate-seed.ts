@@ -1,12 +1,16 @@
 /**
- * Regenerates the catalogue seed: `data/competitions.csv`, `data/grade_weights.csv`
- * and the `drizzle/0001_seed.sql` migration that loads them.
+ * Regenerates the catalogue seed: `data/competitions.csv`,
+ * `data/grade_weights.csv` and the `drizzle/0001_seed.sql` migration that
+ * loads them.
+ *
+ * This script does not read live result CSVs. `has_data` on
+ * `competitions.csv` is a catalogue hint (which competitions we expect to
+ * score). Live coverage is D1 season/result rows.
  *
  * Run after editing src/pipeline/seed/catalogue.ts:
  *   pnpm exec tsx scripts/generate-seed.ts
  *
- * The CSVs are the readable artefact; `0001_seed.sql` is the original applied
- * seed. Do not regenerate 0001 in place after it has run remotely: add a new
+ * Do not regenerate 0001 in place after it has run remotely: add a new
  * `drizzle/000N_*.sql` with INSERT ON CONFLICT instead.
  */
 import { writeFileSync } from 'node:fs';

@@ -3,7 +3,7 @@
 Verified 2026-08-08 against the production `netball-australia` tenant. All
 requests below were actually executed with `curl` (rate-limited to ~1
 req/sec, `User-Agent` identifying this project). Raw responses are saved
-under `data/raw/probe/`.
+under `testdata/playhq/`.
 
 Introspection on `https://api.playhq.com/graphql` is disabled (404), so the
 operations below were recovered by fetching PlayHQ's own web app bundle
@@ -21,8 +21,8 @@ Required headers:
 - `Origin: https://www.playhq.com` — **required**. Omitting it (even with a
   legitimate browser `User-Agent`) gets HTTP 404 with an empty body from
   CloudFront/Envoy, no GraphQL error. See
-  `data/raw/probe/auth_probe_no_origin_404.json` (empty, 404) vs
-  `data/raw/probe/auth_probe_origin_only_200.json` (200,
+  `testdata/playhq/auth_probe_no_origin_404.json` (empty, 404) vs
+  `testdata/playhq/auth_probe_origin_only_200.json` (200,
   `{"data":{"__typename":"Query"}}`).
 - `Referer` is **not** required once `Origin` is present (tested).
 - No `Authorization` header, API key, or cookie is required for any
@@ -61,9 +61,9 @@ curl -X POST https://api.playhq.com/graphql \
        "query":"query discoverCompetitions($organisationID: ID!) { discoverCompetitions(organisationID: $organisationID) { id name seasons(organisationID: $organisationID) { id name startDate endDate status { name value } } organisation { id name } } }"}'
 ```
 
-Response: `data/raw/probe/discoverCompetitions_netballsa_6fefc037.json` (Netball SA,
+Response: `testdata/playhq/discoverCompetitions_netballsa_6fefc037.json` (Netball SA,
 5 competitions incl. "The Hospital Research Foundation Premier League") and
-`data/raw/probe/discoverCompetitions_amnd_7a5f35e1.json` (AMND, 2 competitions).
+`testdata/playhq/discoverCompetitions_amnd_7a5f35e1.json` (AMND, 2 competitions).
 
 South Australian associations verified the same way on 2026-08-22 (this cloud
 VM was not blocked). Each org also lists carnivals / schools / summer;
@@ -135,9 +135,9 @@ curl -X POST https://api.playhq.com/graphql \
        "query":"query gradeLadder($gradeID: ID!) { discoverGrade(gradeID: $gradeID) { id name ladderType ladder { pool { id name } standings { team { id name organisation { id name type } } played won lost drawn byes pointsFor pointsAgainst pointsDifference forfeits percentage competitionPoints } } } }"}'
 ```
 
-Response: `data/raw/probe/gradeLadder_premier_2023_3c7d2b13.json` (2023
+Response: `testdata/playhq/gradeLadder_premier_2023_3c7d2b13.json` (2023
 Premier Division, 8 teams) and
-`data/raw/probe/gradeLadder_amnd_winter2023_junior1_2b0f8026.json` (AMND
+`testdata/playhq/gradeLadder_amnd_winter2023_junior1_2b0f8026.json` (AMND
 Junior 1, cross-check that the same shape holds for a club-tier grade).
 
 The full field set the app requests (from the bundle) also includes
@@ -180,7 +180,7 @@ for awareness — `forfeits` was 0 in all samples so not urgent).
 
 | Season | Season ID                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | Premier grade ID                                                | Reserves grade ID                |
 | ------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------- | -------------------------------- |
-| 2022   | **unknown / not found** — `d4d09c75` returns `discoverSeason: null` (verified `data/raw/probe/gradeListDiscoverSeason_premier_2022_d4d09c75_NULL.json`). Not present in `discoverCompetitions` for org `6fefc037` either — that call's Premier League entry (`0e0cfad5`) only lists seasons 2023-2026. Could not find a 2022 Premier League season on PlayHQ because it did not run: COVID-19 cancelled the 2022 Premier League/Reserves season, so there is no PlayHQ record to find. | unknown                                                         | unknown                          |
+| 2022   | **unknown / not found** — `d4d09c75` returns `discoverSeason: null` (verified `testdata/playhq/gradeListDiscoverSeason_premier_2022_d4d09c75_NULL.json`). Not present in `discoverCompetitions` for org `6fefc037` either — that call's Premier League entry (`0e0cfad5`) only lists seasons 2023-2026. Could not find a 2022 Premier League season on PlayHQ because it did not run: COVID-19 cancelled the 2022 Premier League/Reserves season, so there is no PlayHQ record to find. | unknown                                                         | unknown                          |
 | 2023   | `fdb84e54` (confirmed, matches brief)                                                                                                                                                                                                                                                                                                                                                                                                                                                  | `3c7d2b13` "Premier Division"                                   | `a63edcfa` "Reserves Division"   |
 | 2024   | `6b351c9a` (confirmed present in `discoverCompetitions`, not independently re-queried — trusted from controller-supplied known-good list)                                                                                                                                                                                                                                                                                                                                              | `6ab303e4` (controller-supplied, not independently re-verified) | `9bc4481a` (controller-supplied) |
 | 2025   | `3b0a635f` (confirmed present in `discoverCompetitions`)                                                                                                                                                                                                                                                                                                                                                                                                                               | `9a8085ed` (controller-supplied)                                | `6073b8c7` (controller-supplied) |
@@ -193,7 +193,7 @@ independently confirmed via `discoverCompetitions`.
 **AMND Winter 2023**: confirmed to exist. Season ID `7570c2c4`, part of
 competition `bd4b4c9f` ("AMND Competition", org `7a5f35e1`), 43 grades
 (Junior 1-N, Senior grades etc). See
-`data/raw/probe/gradeListDiscoverSeason_amnd_winter2023_7570c2c4.json`.
+`testdata/playhq/gradeListDiscoverSeason_amnd_winter2023_7570c2c4.json`.
 PLAN.md's inability to find it was likely because it sits under "AMND
 Competition" rather than a separately named "AMND 2023" competition (unlike
 2022, which does get its own competition entry) — the discovery chain has
@@ -385,7 +385,7 @@ never imported against an invented team.
 Spike: `a95c2301` Premier 2026, `ae6df43a` Reserves 2026, `98973113` AMND A
 Grade 2026, `3723a749` AMND Junior 8 2024, plus seven more scanned for outcome
 distribution — ~700 games, 11 grades. Four raw captures committed under
-`data/raw/probe/gradeAllRounds_*.json`.
+`testdata/playhq/gradeAllRounds_*.json`.
 
 Full backfill (2026-08-12): all 90 grades of 2025 and 2026, 5,509 games.
 Cross-checked against ladders with `scripts/check-games.ts`: **5 mismatches
