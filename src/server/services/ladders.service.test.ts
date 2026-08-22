@@ -185,7 +185,10 @@ describe('ladders service', () => {
         await seed(db, spec);
 
         const result = unwrap(
-            await createServices(db).ladders.getPage({ year: 2023 }),
+            await createServices(db).ladders.getPage({
+                competition: 'amnd-2023',
+                year: 2023,
+            }),
         );
 
         expect(result.year).toBe(2023);

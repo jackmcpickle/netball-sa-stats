@@ -33,6 +33,8 @@ import { createHeadToHeadService } from '@/server/services/head-to-head.service'
 import type { HeadToHeadService } from '@/server/services/head-to-head.service';
 import { createLaddersService } from '@/server/services/ladders.service';
 import type { LaddersService } from '@/server/services/ladders.service';
+import { createLeaguesService } from '@/server/services/leagues.service';
+import type { LeaguesService } from '@/server/services/leagues.service';
 import { createMethodService } from '@/server/services/method.service';
 import type { MethodService } from '@/server/services/method.service';
 import { createRankingsService } from '@/server/services/rankings.service';
@@ -56,6 +58,7 @@ export interface Services {
     readonly faq: FaqService;
     readonly headToHead: HeadToHeadService;
     readonly ladders: LaddersService;
+    readonly leagues: LeaguesService;
     readonly method: MethodService;
     readonly rankings: RankingsService;
     readonly results: ResultsService;
@@ -90,6 +93,7 @@ export function createServices(
         faq: createFaqService(repos),
         headToHead: createHeadToHeadService(repos),
         ladders: createLaddersService(repos),
+        leagues: createLeaguesService(repos),
         method: createMethodService(repos),
         rankings: createRankingsService(repos),
         results: createResultsService(repos),

@@ -11,6 +11,7 @@ import type { DataTableColumn } from '@/components/ui/data-table';
 import { Eyebrow, PageShell, PageTitle, Panel } from '@/components/ui/layout';
 import { NoteMarker } from '@/components/ui/note-marker';
 import { SearchableSelect } from '@/components/ui/searchable-select';
+import { FieldSelect } from '@/components/ui/select';
 import type { TableState } from '@/db/queries/pagination';
 import type { LadderRow } from '@/server/dto/ladders.dto';
 
@@ -76,6 +77,80 @@ function renderPointsCell(row: LadderRow): ReactNode {
     return <span className="numeric">{formatNumber(row.points)}</span>;
 }
 
+const LADDER_COLUMNS: readonly DataTableColumn<LadderRow>[] = [
+    {
+        cell: renderPositionCell,
+        emphasis: 'strong',
+        header: 'POS',
+        id: 'position',
+        sortable: true,
+    },
+    {
+        cell: renderTeamCell,
+        emphasis: 'strong',
+        header: 'TEAM',
+        id: 'team',
+        sortable: true,
+    },
+    {
+        align: 'right',
+        cell: renderPlayedCell,
+        header: 'P',
+        id: 'played',
+        sortable: true,
+    },
+    {
+        align: 'right',
+        cell: renderWonCell,
+        header: 'W',
+        id: 'won',
+        sortable: true,
+    },
+    {
+        align: 'right',
+        cell: renderLostCell,
+        header: 'L',
+        id: 'lost',
+        sortable: true,
+    },
+    {
+        align: 'right',
+        cell: renderDrawnCell,
+        header: 'D',
+        id: 'drawn',
+        sortable: true,
+    },
+    {
+        align: 'right',
+        cell: renderGoalsForCell,
+        header: 'FOR',
+        id: 'goalsFor',
+        sortable: true,
+    },
+    {
+        align: 'right',
+        cell: renderGoalsAgainstCell,
+        header: 'AGST',
+        id: 'goalsAgainst',
+        sortable: true,
+    },
+    {
+        align: 'right',
+        cell: renderPercentageCell,
+        header: 'GOAL %',
+        id: 'percentage',
+        sortable: true,
+    },
+    {
+        align: 'right',
+        cell: renderPointsCell,
+        emphasis: 'strong',
+        header: 'PTS',
+        id: 'points',
+        sortable: true,
+    },
+];
+
 export function LaddersPage(): JSX.Element {
     const data = routeApi.useLoaderData();
     const navigate = routeApi.useNavigate();
@@ -86,7 +161,13 @@ export function LaddersPage(): JSX.Element {
             // and the loader falls back to that season's first grade. A full
             // replace also drops sort/page, since page 3 of the old season is
             // not a meaningful destination.
-            void navigate({ resetScroll: false, search: { year } });
+            void navigate({
+                resetScroll: false,
+                search: (previous) => ({
+                    competition: previous.competition,
+                    year,
+                }),
+            });
         },
         [navigate],
     );
@@ -117,6 +198,25 @@ export function LaddersPage(): JSX.Element {
         [navigate],
     );
 
+    const onCompetitionChange = useCallback(
+        (competition: string) => {
+            void navigate({
+                resetScroll: false,
+                search: { competition },
+            });
+        },
+        [navigate],
+    );
+
+    const competitionOptions = useMemo(
+        () =>
+            data.competitions.map((competition) => ({
+                label: competition.shortName,
+                value: competition.key,
+            })),
+        [data.competitions],
+    );
+
     const yearOptions = useMemo(
         () => data.years.map((year) => ({ label: String(year), value: year })),
         [data.years],
@@ -130,83 +230,6 @@ export function LaddersPage(): JSX.Element {
                 value: grade.key,
             })),
         [data.grades],
-    );
-
-    const columns = useMemo<readonly DataTableColumn<LadderRow>[]>(
-        () => [
-            {
-                cell: renderPositionCell,
-                emphasis: 'strong',
-                header: 'POS',
-                id: 'position',
-                sortable: true,
-            },
-            {
-                cell: renderTeamCell,
-                emphasis: 'strong',
-                header: 'TEAM',
-                id: 'team',
-                sortable: true,
-            },
-            {
-                align: 'right',
-                cell: renderPlayedCell,
-                header: 'P',
-                id: 'played',
-                sortable: true,
-            },
-            {
-                align: 'right',
-                cell: renderWonCell,
-                header: 'W',
-                id: 'won',
-                sortable: true,
-            },
-            {
-                align: 'right',
-                cell: renderLostCell,
-                header: 'L',
-                id: 'lost',
-                sortable: true,
-            },
-            {
-                align: 'right',
-                cell: renderDrawnCell,
-                header: 'D',
-                id: 'drawn',
-                sortable: true,
-            },
-            {
-                align: 'right',
-                cell: renderGoalsForCell,
-                header: 'FOR',
-                id: 'goalsFor',
-                sortable: true,
-            },
-            {
-                align: 'right',
-                cell: renderGoalsAgainstCell,
-                header: 'AGST',
-                id: 'goalsAgainst',
-                sortable: true,
-            },
-            {
-                align: 'right',
-                cell: renderPercentageCell,
-                header: 'GOAL %',
-                id: 'percentage',
-                sortable: true,
-            },
-            {
-                align: 'right',
-                cell: renderPointsCell,
-                emphasis: 'strong',
-                header: 'PTS',
-                id: 'points',
-                sortable: true,
-            },
-        ],
-        [],
     );
 
     const rowKey = useCallback(
@@ -226,7 +249,27 @@ export function LaddersPage(): JSX.Element {
                 <PageTitle>Where every team finished</PageTitle>
             </div>
 
+            <p className="mb-6 max-w-[56ch] text-ink-body">
+                Ladders are scoped to one league. Open another association from
+                the league picker, or from{' '}
+                <a
+                    href="/leagues"
+                    className="text-ink underline decoration-rule underline-offset-2"
+                >
+                    Leagues
+                </a>
+                .
+            </p>
+
             <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:flex-wrap">
+                {competitionOptions.length > 0 && data.competition ? (
+                    <FieldSelect
+                        label="League"
+                        value={data.competition.key}
+                        options={competitionOptions}
+                        onValueChange={onCompetitionChange}
+                    />
+                ) : null}
                 <SeasonSelector
                     year={data.year}
                     options={yearOptions}
@@ -251,7 +294,7 @@ export function LaddersPage(): JSX.Element {
                     </p>
                     <DataTable
                         caption={`${data.ladder.grade.name} ladder, ${String(data.ladder.grade.year)}`}
-                        columns={columns}
+                        columns={LADDER_COLUMNS}
                         rows={data.ladder.rows}
                         rowKey={rowKey}
                         totalRows={data.ladder.totalRows}

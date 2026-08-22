@@ -5,6 +5,7 @@ import { describe, expect, it } from 'vitest';
 import {
     COMPETITION_SEEDS,
     buildGradeWeights,
+    championshipCompetitionKeys,
 } from '@/pipeline/seed/catalogue';
 import type { GradeWeightSeed } from '@/pipeline/seed/catalogue';
 
@@ -20,6 +21,57 @@ describe('competition catalogue', () => {
                 competition.hasData && isNull(competition.playhqOrgId),
         ).map((competition) => competition.key);
         expect(withDataMissingOrgId).toStrictEqual([]);
+    });
+
+    it('lists the metro associations with verified PlayHQ org ids', () => {
+        const keys = [
+            'saucna',
+            'suna',
+            'elizabeth',
+            'city_night_division',
+            'sammna',
+        ];
+        for (const key of keys) {
+            const seed = COMPETITION_SEEDS.find(
+                (competition) => competition.key === key,
+            );
+            expect(seed?.playhqOrgId).toMatch(/^[0-9a-f]{8}$/u);
+            expect(seed?.hasData).toBeFalsy();
+        }
+    });
+
+    it('seeds SADNA by name only, with no invented PlayHQ org id', () => {
+        const seed = COMPETITION_SEEDS.find(
+            (competition) => competition.key === 'sadna',
+        );
+        expect(seed?.playhqOrgId).toBeNull();
+        expect(seed?.hasData).toBeFalsy();
+    });
+
+    it('does not seed Hills or the country tail', () => {
+        const keys = COMPETITION_SEEDS.map((competition) => competition.key);
+        expect(keys).not.toContain('hills');
+        expect(keys).not.toContain('mid_hills');
+        expect(keys).not.toContain('shna');
+        expect(keys).not.toContain('gsna');
+        expect(keys).not.toContain('barossa');
+        const orgIds = COMPETITION_SEEDS.map(
+            (competition) => competition.playhqOrgId,
+        );
+        expect(orgIds).not.toContain('e801d340');
+        expect(orgIds).not.toContain('cd26c84e');
+        expect(orgIds).not.toContain('489c7576');
+    });
+
+    it('does not claim data for any new association', () => {
+        const claiming = COMPETITION_SEEDS.filter(
+            (competition) =>
+                competition.hasData &&
+                !['amnd', 'premier_league', 'premier_league_reserves'].includes(
+                    competition.key,
+                ),
+        );
+        expect(claiming).toStrictEqual([]);
     });
 });
 
@@ -77,6 +129,14 @@ describe('grade weights', () => {
         for (const weight of weights) {
             expect(weight.weight).toBe(Math.round(weight.weight * 1000) / 1000);
         }
+    });
+
+    it('keeps the championship on AMND and Premier League until new weights exist', () => {
+        expect([...championshipCompetitionKeys()].toSorted()).toStrictEqual([
+            'amnd',
+            'premier_league',
+            'premier_league_reserves',
+        ]);
     });
 });
 

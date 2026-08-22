@@ -5,7 +5,7 @@
  * numbers, so a band can be retuned in one place. Rows stay individually editable in
  * D1 afterwards — scoring reads the table, not this file.
  */
-import { isUndefined } from 'es-toolkit';
+import { isNull, isUndefined } from 'es-toolkit';
 
 export interface CompetitionSeed {
     key: string;
@@ -38,7 +38,7 @@ export const COMPETITION_SEEDS: readonly CompetitionSeed[] = [
         hasData: false,
         key: 'city_night_division',
         name: 'City Night Division',
-        playhqOrgId: null,
+        playhqOrgId: '2276ec85',
     },
     {
         hasData: false,
@@ -47,7 +47,64 @@ export const COMPETITION_SEEDS: readonly CompetitionSeed[] = [
         playhqOrgId: null,
     },
     { hasData: false, key: 'juniors', name: 'Juniors', playhqOrgId: null },
+    {
+        hasData: false,
+        key: 'saucna',
+        name: 'South Australian United Church Netball Association',
+        playhqOrgId: 'fb89f1f1',
+    },
+    {
+        hasData: false,
+        key: 'suna',
+        name: 'Southern United Netball Association',
+        playhqOrgId: '4bd9b8ae',
+    },
+    {
+        hasData: false,
+        key: 'elizabeth',
+        name: 'Elizabeth Netball Association',
+        playhqOrgId: '7ffb0e67',
+    },
+    {
+        hasData: false,
+        key: 'sammna',
+        name: "South Australian Men's and Mixed Netball Association",
+        playhqOrgId: '7936878d',
+    },
+    {
+        hasData: false,
+        key: 'sadna',
+        name: 'SA Districts Netball Association',
+        playhqOrgId: null,
+    },
 ];
+
+const CHAMPIONSHIP_SEED_KEYS: ReadonlySet<string> = new Set([
+    'amnd',
+    'premier_league',
+    'premier_league_reserves',
+]);
+
+function associationCompetitionKeys(): ReadonlySet<string> {
+    const keys: string[] = [];
+    for (const competition of COMPETITION_SEEDS) {
+        if (
+            !isNull(competition.playhqOrgId) &&
+            !CHAMPIONSHIP_SEED_KEYS.has(competition.key)
+        ) {
+            keys.push(competition.key);
+        }
+    }
+    return new Set(keys);
+}
+
+/** Associations fetched via their own PlayHQ org. No championship bands. */
+export const ASSOCIATION_COMPETITION_KEYS: ReadonlySet<string> =
+    associationCompetitionKeys();
+
+export function catalogueByKey(key: string): CompetitionSeed | undefined {
+    return COMPETITION_SEEDS.find((competition) => competition.key === key);
+}
 
 interface Band {
     competitionKey: string;
@@ -187,4 +244,9 @@ function expandBand(band: Band): GradeWeightSeed[] {
 
 export function buildGradeWeights(): GradeWeightSeed[] {
     return BANDS.flatMap(expandBand);
+}
+
+/** Catalogue keys whose finishes currently count in the club championship. */
+export function championshipCompetitionKeys(): ReadonlySet<string> {
+    return new Set(BANDS.map((band) => band.competitionKey));
 }

@@ -71,9 +71,122 @@ describe(parseGradeName, () => {
         });
     });
 
-    it('throws on an unrecognised name, including the offending name', () => {
+    it('throws on an unrecognised AMND name, including the offending name', () => {
         expect(() => parseGradeName('Mystery Grade 9')).toThrow(
             /Mystery Grade 9/u,
         );
+    });
+
+    it('falls back on an unknown association grade instead of throwing', () => {
+        expect(parseGradeName('Mystery Grade 9', 'saucna')).toStrictEqual({
+            division: 9,
+            tier: 99,
+        });
+        expect(parseGradeName('Open Women', 'elizabeth')).toStrictEqual({
+            division: null,
+            tier: 99,
+        });
+    });
+
+    it('does not parse association names as AMND bands', () => {
+        expect(() => parseGradeName('A1')).toThrow(/A1/u);
+        expect(() => parseGradeName('Seniors Div 01')).toThrow(
+            /Seniors Div 01/u,
+        );
+        expect(() => parseGradeName('8U/1')).toThrow(/8U\/1/u);
+    });
+});
+
+describe('parseGradeName for SA associations', () => {
+    it('parses senior A/B/C names from the 2025 winter grade lists', () => {
+        expect(parseGradeName('A1', 'saucna')).toStrictEqual({
+            division: 1,
+            tier: 1,
+        });
+        expect(parseGradeName('A grade', 'elizabeth')).toStrictEqual({
+            division: null,
+            tier: 1,
+        });
+        expect(parseGradeName('A2 Grade', 'city_night_division')).toStrictEqual(
+            {
+                division: 2,
+                tier: 1,
+            },
+        );
+        expect(parseGradeName('B5', 'saucna')).toStrictEqual({
+            division: 5,
+            tier: 2,
+        });
+        expect(parseGradeName('C grade', 'elizabeth')).toStrictEqual({
+            division: null,
+            tier: 3,
+        });
+        expect(parseGradeName('C2', 'elizabeth')).toStrictEqual({
+            division: 2,
+            tier: 3,
+        });
+        expect(parseGradeName('D3', 'elizabeth')).toStrictEqual({
+            division: 3,
+            tier: 3,
+        });
+        expect(parseGradeName('Seniors Div 01', 'suna')).toStrictEqual({
+            division: 1,
+            tier: 1,
+        });
+        expect(parseGradeName('Seniors Div 06', 'suna')).toStrictEqual({
+            division: 6,
+            tier: 1,
+        });
+    });
+
+    it('parses inter and age-group names from the verified winter lists', () => {
+        expect(parseGradeName('Inter 1', 'elizabeth')).toStrictEqual({
+            division: 1,
+            tier: 4,
+        });
+        expect(
+            parseGradeName('INTER 4 A', 'city_night_division'),
+        ).toStrictEqual({
+            division: 4,
+            tier: 4,
+        });
+        expect(parseGradeName('Inters 2', 'suna')).toStrictEqual({
+            division: 2,
+            tier: 4,
+        });
+        expect(parseGradeName('Junior 3', 'elizabeth')).toStrictEqual({
+            division: 3,
+            tier: 8,
+        });
+        expect(parseGradeName('NSG - GO1', 'elizabeth')).toStrictEqual({
+            division: 1,
+            tier: 12,
+        });
+        expect(
+            parseGradeName('M-League - Mens Division', 'sammna'),
+        ).toStrictEqual({
+            division: null,
+            tier: 1,
+        });
+        expect(parseGradeName('8U/1', 'saucna')).toStrictEqual({
+            division: 1,
+            tier: 10,
+        });
+        expect(parseGradeName('17U/7', 'saucna')).toStrictEqual({
+            division: 7,
+            tier: 5,
+        });
+        expect(parseGradeName('11u Div1', 'suna')).toStrictEqual({
+            division: 1,
+            tier: 8,
+        });
+        expect(parseGradeName('9&U Div 1', 'suna')).toStrictEqual({
+            division: 1,
+            tier: 9,
+        });
+        expect(parseGradeName('13 & Under Division 3', 'suna')).toStrictEqual({
+            division: 3,
+            tier: 7,
+        });
     });
 });

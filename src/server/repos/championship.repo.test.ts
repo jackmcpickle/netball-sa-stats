@@ -1,5 +1,9 @@
 import { describe, expect, it } from 'vitest';
-import { createChampionshipRepo } from '@/server/repos/championship.repo';
+import type { ResultRow } from '@/db/queries/results';
+import {
+    createChampionshipRepo,
+    rowsForChampionship,
+} from '@/server/repos/championship.repo';
 import type { SeedSpec } from '@/server/testing/fixtures';
 import { seed } from '@/server/testing/fixtures';
 import { createTestDb } from '@/server/testing/harness';
@@ -77,6 +81,53 @@ function baseSpec(): SeedSpec {
     };
 }
 
+function resultRow(competitionKey: string, clubKey: string): ResultRow {
+    return {
+        clubKey,
+        clubName: clubKey,
+        competitionKey,
+        competitionName: competitionKey,
+        displayName: clubKey,
+        drawn: 0,
+        establishedYear: null,
+        goalsAgainst: 0,
+        goalsFor: 0,
+        gradeKey: `${competitionKey}-a1`,
+        gradeName: 'A1',
+        homeVenue: null,
+        isFinal: true,
+        ladderPosition: 1,
+        lost: 0,
+        notes: null,
+        percentage: 100,
+        placementBasis: 'regular_season_ladder',
+        played: 10,
+        points: 20,
+        positionUncertain: false,
+        source: 'playhq',
+        teamCount: 8,
+        tier: 1,
+        weight: 1,
+        won: 10,
+        year: 2024,
+    };
+}
+
+describe(rowsForChampionship, () => {
+    it('keeps AMND and Premier League rows and drops association rows', () => {
+        const kept = rowsForChampionship([
+            resultRow('amnd', 'contax'),
+            resultRow('saucna', 'falcons'),
+            resultRow('premier_league', 'garville'),
+            resultRow('elizabeth', 'spiders'),
+        ]);
+        expect(kept.map((row) => row.competitionKey)).toStrictEqual([
+            'amnd',
+            'premier_league',
+        ]);
+    });
+});
+
 describe(createChampionshipRepo, () => {
     it('history() ranks only final seasons, oldest first', async () => {
         const db = createTestDb();
@@ -114,6 +165,50 @@ describe(createChampionshipRepo, () => {
         // Only one ranked season exists, so there is nothing to compare
         // coverage against.
         expect(history[0]?.coverageChanged).toBeFalsy();
+    });
+
+    it('history(competitionKey) ranks that league alone', async () => {
+        const db = createTestDb();
+        const spec = baseSpec();
+        spec.competitions.push({
+            key: 'premier_league',
+            name: 'Premier League',
+            seasons: [
+                {
+                    grades: [
+                        {
+                            gradeKey: 'pl-2024-prem',
+                            name: 'Premier Division',
+                            results: [
+                                {
+                                    clubKey: 'garville',
+                                    clubName: 'Garville',
+                                    displayName: 'Garville',
+                                    ladderPosition: 1,
+                                },
+                            ],
+                            teamCount: 1,
+                            tier: 1,
+                        },
+                    ],
+                    isFinal: true,
+                    seasonKey: 'pl-2024',
+                    startYear: 2024,
+                },
+            ],
+        });
+        await seed(db, spec);
+
+        const amndOnly = await createChampionshipRepo(db).history('amnd');
+        expect(amndOnly[0]?.rows.map((row) => row.club.key)).toStrictEqual([
+            'contax',
+            'garville',
+        ]);
+
+        const combined = await createChampionshipRepo(db).history();
+        expect(
+            combined[0]?.rows.some((row) => row.club.key === 'garville'),
+        ).toBeTruthy();
     });
 
     it('history() over an empty database returns no seasons', async () => {

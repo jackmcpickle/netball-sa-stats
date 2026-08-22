@@ -15,6 +15,7 @@ interface NavItem {
  */
 const NAV: readonly NavItem[] = [
     { label: 'Rankings', to: '/' },
+    { label: 'Leagues', to: '/leagues' },
     { label: 'Clubs', to: '/clubs' },
     { label: 'Ladders', to: '/ladders' },
     { label: 'Head to head', to: '/head-to-head' },

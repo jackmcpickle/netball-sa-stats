@@ -33,6 +33,13 @@ function MethodNarrative({
                 team and nothing else.
             </p>
             <p className="mt-5 leading-[1.55] text-ink-body">
+                The championship table is AMND, Premier League and Reserves
+                only. SAUCNA, SUNA, Elizabeth, City Night and SAMMNA are seeded
+                so a fetch can target them the same way as AMND. They stay out
+                of the combined score until someone writes calibrated weights.
+                Each association has its own league page instead.
+            </p>
+            <p className="mt-5 leading-[1.55] text-ink-body">
                 From 2022, positions are taken from the published PlayHQ
                 regular-season ladder, not from finals. Two points for a win and
                 one for a draw; teams level on points are separated by goal

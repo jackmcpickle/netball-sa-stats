@@ -258,17 +258,11 @@ describe('rankings service', () => {
         // vacuously true with none), but contributes no rows to
         // `rankSeasons`, so `Championship.fromHistory` cannot find a season
         // entry for it even though the year is requestable.
-        spec.competitions.push({
-            key: 'empty-comp',
-            name: 'Empty Comp',
-            seasons: [
-                {
-                    grades: [],
-                    isFinal: true,
-                    seasonKey: 'empty-2023',
-                    startYear: 2023,
-                },
-            ],
+        spec.competitions[0]?.seasons.push({
+            grades: [],
+            isFinal: true,
+            seasonKey: 'amnd-2023',
+            startYear: 2023,
         });
         await seed(db, spec);
 

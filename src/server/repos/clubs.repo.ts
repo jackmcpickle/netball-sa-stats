@@ -9,7 +9,7 @@ import type { SQLiteColumn } from 'drizzle-orm/sqlite-core';
 import type { Db } from '@/db';
 import { fetchClubProfile } from '@/db/queries/club-profile';
 import { countResults, fetchResults } from '@/db/queries/results';
-import type { ResultPage } from '@/db/queries/results';
+import type { ResultPage, ResultRow } from '@/db/queries/results';
 import { clubs, grades, seasons, teamSeasonResults } from '@/db/schema';
 import { toGradeResults } from '@/server/domain/club-history';
 import type { PageRequest } from '@/server/domain/table-query';
@@ -82,8 +82,43 @@ export async function fetchClubs(db: Db): Promise<readonly Club[]> {
     return rows.map(toClub);
 }
 
+export interface ClubAppearance {
+    readonly club: Club;
+    readonly years: readonly number[];
+}
+
+export function appearancesFrom(
+    rows: readonly ResultRow[],
+): readonly ClubAppearance[] {
+    const years = new Map<string, Set<number>>();
+    const clubsByKey = new Map<string, Club>();
+    for (const row of rows) {
+        if (!clubsByKey.has(row.clubKey)) {
+            clubsByKey.set(row.clubKey, {
+                accent: accentFor(row.clubKey),
+                establishedYear: row.establishedYear,
+                homeVenue: row.homeVenue,
+                key: row.clubKey,
+                name: row.clubName,
+            });
+        }
+        const set = years.get(row.clubKey) ?? new Set<number>();
+        set.add(row.year);
+        years.set(row.clubKey, set);
+    }
+    return [...clubsByKey.values()]
+        .toSorted((left, right) => left.name.localeCompare(right.name))
+        .map((club) => ({
+            club,
+            years: [...(years.get(club.key) ?? [])].toSorted((a, b) => a - b),
+        }));
+}
+
 export interface ClubsRepo {
     readonly all: () => Promise<readonly Club[]>;
+    readonly inCompetition: (
+        competitionKey: string,
+    ) => Promise<readonly ClubAppearance[]>;
     readonly profile: (clubKey: string) => Promise<ClubProfile | null>;
     readonly countResults: (clubKey: string) => Promise<number>;
     readonly resultsPage: (
@@ -99,6 +134,11 @@ export function createClubsRepo(db: Db): ClubsRepo {
         },
         async countResults(clubKey: string): Promise<number> {
             return await countResults(db, { clubKey });
+        },
+        async inCompetition(
+            competitionKey: string,
+        ): Promise<readonly ClubAppearance[]> {
+            return appearancesFrom(await fetchResults(db, { competitionKey }));
         },
         async profile(clubKey: string): Promise<ClubProfile | null> {
             return await fetchClubProfile(db, clubKey);

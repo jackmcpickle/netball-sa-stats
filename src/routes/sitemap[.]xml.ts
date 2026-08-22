@@ -8,12 +8,25 @@ export const Route = createFileRoute('/sitemap.xml')({
     server: {
         handlers: {
             GET: async () => {
-                const clubs = await createServices(getDb()).clubs.getIndexPage({
-                    includePast: true,
-                });
+                const services = createServices(getDb());
+                const [clubs, leagues] = await Promise.all([
+                    services.clubs.getIndexPage({ includePast: true }),
+                    services.leagues.getIndexPage(),
+                ]);
                 const entries = buildSitemapEntries(
                     clubs.ok
-                        ? clubs.value.entries.map((entry) => entry.club.key)
+                        ? [
+                              ...new Set(
+                                  clubs.value.entries.map(
+                                      (entry) => entry.club.key,
+                                  ),
+                              ),
+                          ]
+                        : [],
+                    leagues.ok
+                        ? leagues.value.leagues.map(
+                              (entry) => entry.competition.key,
+                          )
                         : [],
                 );
                 const body = sitemapXml(

@@ -1,5 +1,5 @@
 import type { TableState } from '@/db/queries/pagination';
-import type { Club, GradeSummary } from '@/server/dto/shared.dto';
+import type { Club, Competition, GradeSummary } from '@/server/dto/shared.dto';
 
 export interface LadderRow {
     readonly position: number;
@@ -28,6 +28,7 @@ export interface LadderDto {
 export interface LaddersParams {
     readonly year?: number;
     readonly grade?: string;
+    readonly competition?: string;
     readonly sort?: string;
     readonly dir?: 'asc' | 'desc';
     readonly page?: number;
@@ -40,4 +41,6 @@ export interface LaddersPageDto {
     readonly year: number | null;
     readonly grades: readonly GradeSummary[];
     readonly ladder: LadderDto | null;
+    readonly competitions: readonly Competition[];
+    readonly competition: Competition | null;
 }

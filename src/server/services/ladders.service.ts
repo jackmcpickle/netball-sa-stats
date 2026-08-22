@@ -2,7 +2,9 @@
  * Replaces `src/server/loaders/ladders.ts`.
  */
 import { isNull, isUndefined } from 'es-toolkit';
+import { toCompetition } from '@/db/queries/coverage';
 import { LADDER_TABLE_SPEC } from '@/db/queries/grades';
+import { COMPETITION_SEEDS } from '@/pipeline/seed/catalogue';
 import type { Repos } from '@/server/container';
 import type { DomainError, Result } from '@/server/domain/result';
 import { ok } from '@/server/domain/result';
@@ -24,17 +26,53 @@ export function createLaddersService(repos: Repos): LaddersService {
         async getPage(
             params: LaddersParams,
         ): Promise<Result<LaddersPageDto, DomainError>> {
-            const coverage = await repos.seasons.coverage();
+            const allCoverage = await repos.seasons.fullCoverage();
+            const seeded: ReturnType<typeof toCompetition>[] = [];
+            for (const seed of COMPETITION_SEEDS) {
+                if (
+                    allCoverage.competitions.some(
+                        (entry) => entry.competition.key === seed.key,
+                    )
+                ) {
+                    seeded.push(toCompetition(seed.key, seed.name));
+                }
+            }
+            const extras: ReturnType<typeof toCompetition>[] = [];
+            for (const entry of allCoverage.competitions) {
+                if (
+                    !seeded.some(
+                        (competition) =>
+                            competition.key === entry.competition.key,
+                    )
+                ) {
+                    extras.push(entry.competition);
+                }
+            }
+            const competitions = [...seeded, ...extras];
+            const requested =
+                !isUndefined(params.competition) &&
+                competitions.some((entry) => entry.key === params.competition)
+                    ? params.competition
+                    : competitions[0]?.key;
+            const coverage = await repos.seasons.coverage({
+                competitionKey: requested,
+            });
             const year = coverage.resolveYear(params.year);
+            const competition = isUndefined(requested)
+                ? null
+                : (competitions.find((entry) => entry.key === requested) ??
+                  null);
             if (isUndefined(year)) {
                 return ok({
+                    competition,
+                    competitions,
                     grades: [],
                     ladder: null,
                     year: null,
                     years: coverage.years(),
                 });
             }
-            const grades = await repos.grades.forYear(year);
+            const grades = await repos.grades.forYear(year, requested);
             const gradeKey =
                 !isUndefined(params.grade) &&
                 grades.some((grade) => grade.key === params.grade)
@@ -43,6 +81,8 @@ export function createLaddersService(repos: Repos): LaddersService {
 
             if (isUndefined(gradeKey)) {
                 return ok({
+                    competition,
+                    competitions,
                     grades,
                     ladder: null,
                     year,
@@ -81,6 +121,8 @@ export function createLaddersService(repos: Repos): LaddersService {
 
             if (isNull(grade)) {
                 return ok({
+                    competition,
+                    competitions,
                     grades,
                     ladder: null,
                     year,
@@ -89,6 +131,8 @@ export function createLaddersService(repos: Repos): LaddersService {
             }
 
             return ok({
+                competition,
+                competitions,
                 grades,
                 ladder: {
                     grade,

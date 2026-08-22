@@ -24,7 +24,18 @@ import type { GameRow } from '@/pipeline/fetch/games';
 // Re-exported so `scripts/`, tests and `to-import.ts` can keep treating this
 // module as the fetch entrypoint while the Worker imports `collect.ts` alone.
 export {
+    AMND_ORG_ID,
+    CITY_NIGHT_ORG_ID,
+    ELIZABETH_ORG_ID,
+    NETBALL_SA_ORG_ID,
+    SAMMNA_ORG_ID,
+    SAUCNA_ORG_ID,
+    SUNA_ORG_ID,
+    associationCollectOrgIds,
+    associationSeasonWanted,
+    collectJobsFor,
     collectPlayHqData,
+    isCataloguedPlayHqCompetition,
     processGrade,
     resolveCompetitionKey,
     seasonWanted,
@@ -51,6 +62,8 @@ export interface FetchOptions {
     years?: readonly number[];
     /** Restrict the games fetch to a single PlayHQ grade id, for spot checks. */
     gradeId?: string;
+    /** Restrict collect to these PlayHQ organisation IDs. */
+    orgIds?: readonly string[];
 }
 
 async function readExistingCsv<T extends Record<string, string>>(
@@ -134,8 +147,32 @@ export function archiveRowsToKeep(
 }
 
 /** Sorted so a re-run diffs on real changes rather than row order. */
-function gameKeyOf(row: GameRow): string {
-    return `${row.grade_key}|${String(row.round ?? 0).padStart(4, '0')}|${row.playhq_id}`;
+function gameKeyOf(row: Record<string, CsvValue>): string {
+    return `${String(row.grade_key)}|${String(row.round ?? 0).padStart(4, '0')}|${String(row.playhq_id ?? '')}`;
+}
+
+/**
+ * Overlay fetched fixtures onto an existing year file.
+ * Grades this run collected replace their old rows. Every other grade stays.
+ * A `--org` / `--competition` / `--grade` walk must not wipe AMND/PL games.
+ */
+export function mergeYearGames(
+    existing: readonly Record<string, CsvValue>[],
+    fetched: readonly GameRow[],
+): Record<string, CsvValue>[] {
+    const fetchedGradeKeys = new Set<string>();
+    for (const row of fetched) {
+        fetchedGradeKeys.add(row.grade_key);
+    }
+    const kept: Record<string, CsvValue>[] = [];
+    for (const row of existing) {
+        if (!fetchedGradeKeys.has(String(row.grade_key))) {
+            kept.push(row);
+        }
+    }
+    return [...fetched, ...kept].toSorted((a, b) =>
+        gameKeyOf(a).localeCompare(gameKeyOf(b)),
+    );
 }
 
 async function writeGamesCsvs(
@@ -145,16 +182,13 @@ async function writeGamesCsvs(
     for (const [year, rows] of [...gamesByYear].toSorted(
         (a, b) => a[0] - b[0],
     )) {
-        const sorted = rows.toSorted((a, b) =>
-            gameKeyOf(a).localeCompare(gameKeyOf(b)),
-        );
+        const fileName = `games-${String(year)}.csv`;
+        // eslint-disable-next-line no-await-in-loop -- year files are few; each merge reads the file it writes.
+        const existing = await readExistingCsv(fileName);
+        const merged = mergeYearGames(existing, rows);
         // eslint-disable-next-line no-await-in-loop -- a handful of files, written in order for a stable log.
-        await writeFile(
-            resolve(DATA_DIR, `games-${String(year)}.csv`),
-            toCsv(sorted),
-            'utf-8',
-        );
-        total += sorted.length;
+        await writeFile(resolve(DATA_DIR, fileName), toCsv(merged), 'utf-8');
+        total += rows.length;
     }
     return total;
 }
@@ -278,6 +312,7 @@ export async function runFetch(options: FetchOptions): Promise<FetchReport> {
         games: options.games,
         gradeId: options.gradeId,
         isFinalBySeasonKey,
+        orgIds: options.orgIds,
         store,
         years: options.years,
     });

@@ -33,8 +33,59 @@ import type {
 } from '@/pipeline/fetch/types';
 import type { ImportData } from '@/pipeline/import/types';
 
-const AMND_ORG_ID = '7a5f35e1';
-const NETBALL_SA_ORG_ID = '6fefc037';
+export const AMND_ORG_ID = '7a5f35e1';
+export const NETBALL_SA_ORG_ID = '6fefc037';
+export const SAUCNA_ORG_ID = 'fb89f1f1';
+export const SUNA_ORG_ID = '4bd9b8ae';
+export const ELIZABETH_ORG_ID = '7ffb0e67';
+export const CITY_NIGHT_ORG_ID = '2276ec85';
+export const SAMMNA_ORG_ID = '7936878d';
+
+export type CollectPeriod = 'winter' | 'summer' | 'annual';
+
+interface AssociationOrg {
+    key: string;
+    playHqCompetitionName: string;
+    /** When winter and summer share one PlayHQ competition object. */
+    seasonNameIncludes?: string;
+}
+
+/**
+ * 1:1 PlayHQ org → catalogue key. Names are the PlayHQ competition objects
+ * `discoverCompetitions` returned on 2026-08-22, not invented slugs.
+ */
+const ASSOCIATION_BY_ORG = new Map<string, AssociationOrg>([
+    [SAUCNA_ORG_ID, { key: 'saucna', playHqCompetitionName: 'SAUCNA Winter' }],
+    [SUNA_ORG_ID, { key: 'suna', playHqCompetitionName: 'SUNA Winter' }],
+    [
+        ELIZABETH_ORG_ID,
+        {
+            key: 'elizabeth',
+            playHqCompetitionName: 'Elizabeth Netball Association',
+            seasonNameIncludes: 'Winter',
+        },
+    ],
+    [
+        CITY_NIGHT_ORG_ID,
+        {
+            key: 'city_night_division',
+            playHqCompetitionName: 'City Night Division 1',
+            seasonNameIncludes: 'Summer',
+        },
+    ],
+    [
+        SAMMNA_ORG_ID,
+        {
+            key: 'sammna',
+            playHqCompetitionName: 'M League',
+            seasonNameIncludes: 'Winter',
+        },
+    ],
+]);
+
+// Country associations (Hills, Mid Hills, SHNA, GSNA, Barossa, and the rest)
+// are out of this PR. Do not use NSW Hills District cd26c84e or WA SADNA
+// 489c7576. Competition names above are discoverCompetitions objects.
 
 // oxlint-disable-next-line typescript/consistent-type-definitions -- CSV row: interface has no implicit index signature, so it stops assigning to Record<string, CsvValue>
 export type SeasonRow = {
@@ -93,6 +144,11 @@ export interface CollectOptions {
     games?: boolean;
     years?: readonly number[];
     gradeId?: string;
+    /**
+     * PlayHQ organisation IDs to walk. Omitted means every `COLLECT_JOBS`
+     * org. Pass one id to target a single association.
+     */
+    orgIds?: readonly string[];
 }
 
 export interface CollectedPlayHq {
@@ -149,18 +205,65 @@ async function discoverSeasons(
 }
 
 /**
+ * True when this PlayHQ competition object is one we fetch for the org.
+ * Association orgs also list carnivals, schools and summer; those stay out
+ * of scope until they have their own catalogue keys.
+ */
+export function isCataloguedPlayHqCompetition(
+    orgId: string,
+    playHqCompetitionName: string,
+): boolean {
+    const association = ASSOCIATION_BY_ORG.get(orgId);
+    if (isUndefined(association)) {
+        return true;
+    }
+    return playHqCompetitionName === association.playHqCompetitionName;
+}
+
+/**
+ * Elizabeth and SAMMNA put winter and summer on one competition object.
+ * City Night's 2023+ home-and-away is summer. Skip the other period.
+ */
+export function associationSeasonWanted(
+    orgId: string,
+    seasonName: string,
+): boolean {
+    const association = ASSOCIATION_BY_ORG.get(orgId);
+    if (
+        isUndefined(association) ||
+        isUndefined(association.seasonNameIncludes)
+    ) {
+        return true;
+    }
+    return seasonName
+        .toLowerCase()
+        .includes(association.seasonNameIncludes.toLowerCase());
+}
+
+/**
  * competitionKey for a grade name under a given org. `null` means "in scope
  * for the org's season, but not a competition this task fetches" — e.g. the
  * Netball SA Premier League season also lists "Walking Netball 50+", which
- * is out of scope (not one of the six catalogued competitions) and is
- * skipped rather than failing the whole run.
+ * is out of scope (not a catalogued competition) and is skipped rather than
+ * failing the whole run.
+ *
+ * Association orgs are 1:1 like AMND, but only for the winter home-and-away
+ * PlayHQ competition. Carnival / summer names resolve to null.
  */
 export function resolveCompetitionKey(
     orgId: string,
     gradeName: string,
+    playHqCompetitionName?: string,
 ): string | null {
     if (orgId === AMND_ORG_ID) {
         return 'amnd';
+    }
+    const association = ASSOCIATION_BY_ORG.get(orgId);
+    if (!isUndefined(association)) {
+        if (playHqCompetitionName === association.playHqCompetitionName) {
+            return association.key;
+        }
+        return null;
     }
     const normalised = gradeName.trim().toUpperCase();
     if (normalised === 'PREMIER DIVISION') {
@@ -209,12 +312,13 @@ function mergeTeams(
 
 export interface GradeContext {
     orgId: string;
-    period: 'winter' | 'annual';
+    period: CollectPeriod;
     startYear: number;
     seasonName: string;
     seasonPlayhqId: string;
     seasonStatus: string;
     isFinalBySeasonKey: ReadonlyMap<string, string>;
+    playHqCompetitionName?: string;
 }
 
 interface ProcessedGrade {
@@ -276,14 +380,18 @@ export function processGrade(
     clubRegistry: ClubRegistry,
     scrapedAt: number,
 ): ProcessedGrade | null {
-    const competitionKey = resolveCompetitionKey(ctx.orgId, grade.name);
+    const competitionKey = resolveCompetitionKey(
+        ctx.orgId,
+        grade.name,
+        ctx.playHqCompetitionName,
+    );
     if (isNull(competitionKey)) {
         return null;
     }
     const seasonKey = buildSeasonKey(competitionKey, ctx.period, ctx.startYear);
     const gradeKey = buildGradeKey(seasonKey, grade.name);
 
-    const { tier, division } = parseGradeName(grade.name);
+    const { tier, division } = parseGradeName(grade.name, competitionKey);
     const gradeRow: GradeRow = {
         age_band: grade.age?.name ?? null,
         division,
@@ -479,14 +587,51 @@ async function collectGames(
 
 interface CollectJob {
     orgId: string;
-    period: 'winter' | 'annual';
+    period: CollectPeriod;
     minYear: number;
 }
 
 const COLLECT_JOBS: readonly CollectJob[] = [
     { minYear: 2022, orgId: AMND_ORG_ID, period: 'winter' },
     { minYear: 2023, orgId: NETBALL_SA_ORG_ID, period: 'annual' },
+    { minYear: 2023, orgId: SAUCNA_ORG_ID, period: 'winter' },
+    { minYear: 2023, orgId: SUNA_ORG_ID, period: 'winter' },
+    { minYear: 2023, orgId: ELIZABETH_ORG_ID, period: 'winter' },
+    { minYear: 2023, orgId: CITY_NIGHT_ORG_ID, period: 'summer' },
+    { minYear: 2023, orgId: SAMMNA_ORG_ID, period: 'winter' },
 ];
+
+export function associationCollectOrgIds(): readonly string[] {
+    const ids: string[] = [];
+    for (const job of COLLECT_JOBS) {
+        if (job.orgId !== AMND_ORG_ID && job.orgId !== NETBALL_SA_ORG_ID) {
+            ids.push(job.orgId);
+        }
+    }
+    return ids;
+}
+
+/**
+ * The hardcoded collect walk. Pass `orgIds` to target one org (the CLI
+ * `--org` / `--competition` flags) without changing `COLLECT_JOBS`.
+ */
+export function collectJobsFor(
+    orgIds?: readonly string[],
+): readonly CollectJob[] {
+    if (isUndefined(orgIds) || orgIds.length === 0) {
+        return COLLECT_JOBS;
+    }
+    const wanted = new Set(orgIds);
+    const jobs = COLLECT_JOBS.filter((job) => wanted.has(job.orgId));
+    for (const orgId of wanted) {
+        if (!COLLECT_JOBS.some((job) => job.orgId === orgId)) {
+            throw new Error(
+                `unknown PlayHQ org id "${orgId}" — not in COLLECT_JOBS`,
+            );
+        }
+    }
+    return jobs;
+}
 
 interface CollectAccumulator {
     seasonRows: Map<string, SeasonRow>;
@@ -508,8 +653,13 @@ async function ingestGrade(
         age: { name: string } | null;
     },
     acc: CollectAccumulator,
+    playHqCompetitionName: string,
 ): Promise<void> {
-    const competitionKey = resolveCompetitionKey(job.orgId, grade.name);
+    const competitionKey = resolveCompetitionKey(
+        job.orgId,
+        grade.name,
+        playHqCompetitionName,
+    );
     // Out of scope, e.g. "Walking Netball 50+" under the Premier League season.
     // Reported (not just dropped) so a grade that genuinely comes into
     // scope later under a catalogued org doesn't silently vanish.
@@ -571,6 +721,7 @@ async function ingestGrade(
             isFinalBySeasonKey: options.isFinalBySeasonKey,
             orgId: job.orgId,
             period: job.period,
+            playHqCompetitionName,
             seasonName: season.name,
             seasonPlayhqId: season.id,
             seasonStatus: season.status.value.toLowerCase(),
@@ -606,9 +757,22 @@ async function ingestSeason(
     job: CollectJob,
     season: SeasonEntry,
     acc: CollectAccumulator,
+    playHqCompetitionName: string,
 ): Promise<void> {
     const startYear = parseStartYear(season.startDate);
     if (startYear < job.minYear || !seasonWanted(season, options.years)) {
+        return;
+    }
+    if (!associationSeasonWanted(job.orgId, season.name)) {
+        console.warn(
+            `out-of-scope PlayHQ season skipped: "${season.name}" (competition ${playHqCompetitionName}, org ${job.orgId})`,
+        );
+        return;
+    }
+    if (!isCataloguedPlayHqCompetition(job.orgId, playHqCompetitionName)) {
+        console.warn(
+            `out-of-scope PlayHQ competition skipped: "${playHqCompetitionName}" (season ${season.name}, org ${job.orgId})`,
+        );
         return;
     }
 
@@ -635,7 +799,15 @@ async function ingestSeason(
 
     for (const grade of discoverSeason.grades) {
         // oxlint-disable-next-line eslint/no-await-in-loop, react-doctor/async-await-in-loop -- sequential by design: PlayHQ etiquette caps us at ~1 req/sec.
-        await ingestGrade(options, job, season, startYear, grade, acc);
+        await ingestGrade(
+            options,
+            job,
+            season,
+            startYear,
+            grade,
+            acc,
+            playHqCompetitionName,
+        );
     }
 }
 
@@ -651,16 +823,16 @@ export async function collectPlayHqData(
         teamRows: new Map(),
     };
 
-    for (const job of COLLECT_JOBS) {
+    for (const job of collectJobsFor(options.orgIds)) {
         // oxlint-disable-next-line eslint/no-await-in-loop, react-doctor/async-await-in-loop -- sequential by design: PlayHQ etiquette caps us at ~1 req/sec.
         const entries = await discoverSeasons(
             options.store,
             job.orgId,
             options.cacheFirst,
         );
-        for (const { season } of entries) {
+        for (const { competitionName, season } of entries) {
             // oxlint-disable-next-line eslint/no-await-in-loop, react-doctor/async-await-in-loop -- sequential by design: PlayHQ etiquette caps us at ~1 req/sec.
-            await ingestSeason(options, job, season, acc);
+            await ingestSeason(options, job, season, acc, competitionName);
         }
     }
 

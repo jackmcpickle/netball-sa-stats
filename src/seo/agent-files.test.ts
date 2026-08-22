@@ -44,6 +44,7 @@ describe(sitemapXml, () => {
         expect(xml).toContain('<loc>https://netballsa.com/method</loc>');
         expect(xml).toContain('<loc>https://netballsa.com/about</loc>');
         expect(xml).toContain('<loc>https://netballsa.com/faq</loc>');
+        expect(xml).toContain('<loc>https://netballsa.com/leagues</loc>');
         expect(xml).toContain('<loc>https://netballsa.com/clubs/contax</loc>');
     });
 

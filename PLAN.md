@@ -93,26 +93,43 @@ So ladders are scraped as the fact table. A `matches` table drops in later witho
 
 ## Competitions
 
-| Competition                            | Key                       | Phase 1 data        | Org ID     |
-| -------------------------------------- | ------------------------- | ------------------- | ---------- |
-| Adelaide Metropolitan Netball Division | `amnd`                    | Yes                 | `7a5f35e1` |
-| Netball SA Premier League              | `premier_league`          | Yes                 | `6fefc037` |
-| Premier League Reserves                | `premier_league_reserves` | Yes                 | `6fefc037` |
-| City Night Division                    | `city_night_division`     | No — org ID unknown | —          |
-| Super League                           | `super_league`            | No — unresearched   | —          |
-| Juniors                                | `juniors`                 | No                  | —          |
+| Competition                            | Key                       | Phase 1 data                       | Org ID     |
+| -------------------------------------- | ------------------------- | ---------------------------------- | ---------- |
+| Adelaide Metropolitan Netball Division | `amnd`                    | Yes                                | `7a5f35e1` |
+| Netball SA Premier League              | `premier_league`          | Yes                                | `6fefc037` |
+| Premier League Reserves                | `premier_league_reserves` | Yes                                | `6fefc037` |
+| City Night Division                    | `city_night_division`     | No. Org filled, no imported rows   | `2276ec85` |
+| Super League                           | `super_league`            | No. Unresearched                   | —          |
+| Juniors                                | `juniors`                 | No                                 | —          |
+| SAUCNA                                 | `saucna`                  | No. Org verified, no imported rows | `fb89f1f1` |
+| Southern United (SUNA)                 | `suna`                    | No. Org verified, no imported rows | `4bd9b8ae` |
+| Elizabeth Netball Association          | `elizabeth`               | No. Org verified, no imported rows | `7ffb0e67` |
+| SAMMNA                                 | `sammna`                  | No. Org verified, no imported rows | `7936878d` |
+| SA Districts (SADNA)                   | `sadna`                   | No. Name only, PlayHQ org unknown  | —          |
 
-All six are **seeded in the catalogue**; only the first three carry data. The UI shows what exists. Adding the rest later is purely additive — more rows, more weight entries, no schema change.
+The first three carry ladder data and championship weights. Metro associations have verified PlayHQ org IDs (checked 2026-08-22 via `discoverCompetitions`). `COLLECT_JOBS` in `collect.ts` walks those orgs the same way as AMND. New association jobs start at 2023. `--org` / `--competition` still targets one. `0001_seed.sql` is already applied, so the new rows land in `drizzle/0009_sa_associations.sql`.
 
-City Night Division is **not resolved**. It is a separate organisation, absent from every public index checked, with no confirmed URL or season. Schema stays summer-capable (`competition_period`, `start_year`, `end_year`) because that costs nothing now and is a migration later.
+They are not in the club championship. No `grade_weights` rows, and `fetchChampionshipHistory` only scores keys that already have bands. Importing a SUNA ladder later must not change Contax's AMND rank. AMND/PL stay 2022+.
+
+Each association org also lists carnivals, schools or summer on PlayHQ. Those names stay out until they get their own catalogue keys:
+
+- SAUCNA → `SAUCNA Winter`
+- SUNA → `SUNA Winter` (first winter season is 2026)
+- Elizabeth → `Elizabeth Netball Association`, winter seasons only (summer shares the same competition object)
+- City Night → `City Night Division 1`, summer 2023+ (the 2021 winter object is out of range)
+- SAMMNA → `M League`, winter only (not Super League)
+
+SADNA is name only. Do not invent an org id, and do not use WA `489c7576`. Country associations (Hills, Mid Hills, SHNA, GSNA, Barossa, Gawler, and the rest) can be added later the same way.
+
+Indexed PlayHQ slugs that match the live metro orgs: Elizabeth `elizabeth-netball-association`, SAMMNA `south-australian-mens-and-mixed-netball-association` (https://sammna.com.au/), City Night `city-night-division`. City Night's public index only had 2021. GraphQL has summer 2023+. SAUCNA indexed winters include 2022 `f60d7b32`, 2024 `f6a979ff`; winter 2023 and 2026 were missing from the public index and come from GraphQL. SUNA's public index only had the 2024 junior carnival; league winter is `SUNA Winter`. Do not invent missing season ids.
 
 ## Sources & coverage
 
 **PlayHQ only. 2022–2026, five seasons.**
 
-| Source | Seasons                      | Gives                     |
-| ------ | ---------------------------- | ------------------------- |
-| PlayHQ | AMND 2022–2026, PL 2022–2026 | Full ladders + team stats |
+| Source | Seasons                                                                           | Gives                                 |
+| ------ | --------------------------------------------------------------------------------- | ------------------------------------- |
+| PlayHQ | AMND 2022–2026, PL 2022–2026. Association orgs verified, no imported ladders yet. | Full ladders + team stats for AMND/PL |
 
 Premier League has **no 2022 season** — it did not run, due to COVID. That is a real-world absence, not missing data, and the UI should say so rather than render a gap. AMND ran 2022 normally.
 

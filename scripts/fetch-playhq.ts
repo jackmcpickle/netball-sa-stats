@@ -6,8 +6,16 @@
  * Usage:
  *   pnpm exec tsx scripts/fetch-playhq.ts [--refresh]
  *     [--games] [--year=2026 ...] [--grade=<playhq id>]
+ *     [--org=<playhq org id>] [--competition=<catalogue key>]
+ *
+ * Default walk is AMND + Netball SA + metro associations in COLLECT_JOBS.
+ * Pass `--org` or `--competition` to target one catalogue key. New
+ * association jobs start at 2023. Targeted `--games` merges into the
+ * existing `games-<year>.csv` so AMND/PL fixtures stay.
  */
+import { isNull, isUndefined } from 'es-toolkit';
 import { runFetch } from '../src/pipeline/fetch/run.ts';
+import { COMPETITION_SEEDS } from '../src/pipeline/seed/catalogue.ts';
 
 const refresh = process.argv.includes('--refresh');
 const games = process.argv.includes('--games');
@@ -18,7 +26,38 @@ const years = process.argv
 const gradeArg = process.argv.find((arg) => arg.startsWith('--grade='));
 const gradeId = gradeArg?.slice('--grade='.length);
 
-const report = await runFetch({ games, gradeId, refresh, years });
+function flaggedValues(prefix: string): string[] {
+    return process.argv
+        .filter((arg) => arg.startsWith(prefix))
+        .map((arg) => arg.slice(prefix.length))
+        .filter((value) => value.length > 0);
+}
+
+function orgIdsFromFlags(): string[] | undefined {
+    const fromOrg = flaggedValues('--org=');
+    const fromCompetition = flaggedValues('--competition=').map((key) => {
+        const seed = COMPETITION_SEEDS.find((entry) => entry.key === key);
+        if (isUndefined(seed)) {
+            throw new Error(
+                `unknown competition "${key}" — not in the catalogue`,
+            );
+        }
+        if (isNull(seed.playhqOrgId)) {
+            throw new Error(`competition "${key}" has no PlayHQ org id yet`);
+        }
+        return seed.playhqOrgId;
+    });
+    const orgIds = [...new Set([...fromOrg, ...fromCompetition])];
+    return orgIds.length === 0 ? undefined : orgIds;
+}
+
+const report = await runFetch({
+    games,
+    gradeId,
+    orgIds: orgIdsFromFlags(),
+    refresh,
+    years,
+});
 
 console.warn(
     `fetched ${report.seasons} seasons, ${report.grades} grades, ${report.teams} teams, ${report.results} results, ${report.games} games`,

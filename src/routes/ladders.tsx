@@ -14,6 +14,7 @@ export type { LaddersPageDto as LaddersData } from '@/server/dto/ladders.dto';
 const searchSchema = tableSearchSchema.extend({
     year: z.preprocess(parseOptionalIntParam, z.number().int().optional()),
     grade: z.string().optional(),
+    competition: z.string().optional(),
 });
 
 const loadLadders = createServerFn({ method: 'GET' })
@@ -21,6 +22,7 @@ const loadLadders = createServerFn({ method: 'GET' })
         z.object({
             year: z.number().int().optional(),
             grade: z.string().optional(),
+            competition: z.string().optional(),
             sort: z.string().optional(),
             dir: z.enum(['asc', 'desc']).optional(),
             page: z.number().int().optional(),
@@ -39,6 +41,7 @@ export const Route = createFileRoute('/ladders')({
     loaderDeps: ({ search }) => ({
         year: search.year,
         grade: search.grade,
+        competition: search.competition,
         ...tableSearchDeps(search),
     }),
     loader: async ({ deps }) => await loadLadders({ data: deps }),

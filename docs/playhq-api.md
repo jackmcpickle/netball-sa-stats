@@ -65,6 +65,37 @@ Response: `data/raw/probe/discoverCompetitions_netballsa_6fefc037.json` (Netball
 5 competitions incl. "The Hospital Research Foundation Premier League") and
 `data/raw/probe/discoverCompetitions_amnd_7a5f35e1.json` (AMND, 2 competitions).
 
+South Australian associations verified the same way on 2026-08-22 (this cloud
+VM was not blocked). Each org also lists carnivals / schools / summer;
+`collect` only walks the catalogued PlayHQ competition name (and, where winter
+and summer share one object, the matching season name).
+
+| Catalogue key         | Org ID     | PlayHQ org name                                     | Competition name                | Period collected    |
+| --------------------- | ---------- | --------------------------------------------------- | ------------------------------- | ------------------- |
+| `saucna`              | `fb89f1f1` | SA United Church Netball Association                | `SAUCNA Winter`                 | winter 2023+        |
+| `suna`                | `4bd9b8ae` | Southern United Netball Association                 | `SUNA Winter`                   | winter 2023+ (2026) |
+| `elizabeth`           | `7ffb0e67` | Elizabeth Netball Association                       | `Elizabeth Netball Association` | winter seasons only |
+| `city_night_division` | `2276ec85` | City Night Division                                 | `City Night Division 1`         | summer 2023+        |
+| `sammna`              | `7936878d` | South Australian Mens and Mixed Netball Association | `M League`                      | winter seasons only |
+
+`COLLECT_JOBS` in `src/pipeline/fetch/collect.ts` includes these org IDs.
+Target one with `pnpm exec tsx scripts/fetch-playhq.ts --competition=saucna --year=2025`.
+Do not invent season IDs. Read them from the probe or a live
+`discoverCompetitions` response. Grade lists from one completed winter each
+are under `gradeListDiscoverSeason_*` in the same folder. Import is not wired
+to those ladders yet: unknown club names fail loud, and there are no
+championship weights.
+
+PlayHQ org slugs that match those ids: `elizabeth-netball-association`,
+`south-australian-mens-and-mixed-netball-association` (sammna.com.au),
+`city-night-division`. City Night's public index only listed 2021. The 2023+
+job walks `City Night Division 1` summer from GraphQL.
+
+Do not use WA SADNA `489c7576`, NSW Hills District `cd26c84e`, Netball SA
+Country carnival `b0bbe786`, or Adelaide Plains / BLGNA *-rep orgs. Season
+ids come from `discoverCompetitions`, not invented slugs. New association
+jobs start at 2023.
+
 Note: a single logical competition (e.g. Premier League) can be split
 across **multiple `discoverCompetitions` entries** if PlayHQ re-created the
 competition object at some point — AMND has a separate "AMND 2022" entry

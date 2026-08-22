@@ -22,10 +22,18 @@ import type { ClubIndexPageDto } from '@/server/dto/clubs.dto';
 import type { FaqPageDto } from '@/server/dto/faq.dto';
 import type { HeadToHeadPageDto } from '@/server/dto/head-to-head.dto';
 import type { LaddersPageDto } from '@/server/dto/ladders.dto';
+import type {
+    LeagueIndexPageDto,
+    LeaguePageDto,
+} from '@/server/dto/leagues.dto';
 import type { MethodPageDto } from '@/server/dto/method.dto';
 import type { RankingsPageDto } from '@/server/dto/rankings.dto';
 import type { ResultsPageDto } from '@/server/dto/results.dto';
 import type { Coverage } from '@/server/dto/shared.dto';
+
+function groupHeading(name: string, year: number | null): string {
+    return year === null ? `## ${name}` : `## ${name} — ${String(year)}`;
+}
 
 /** `Name (\`key\`)` for each grade, for the "Available" footer sections. */
 function gradeListing(
@@ -132,8 +140,9 @@ export function renderRankings(data: RankingsPageDto): string {
         '',
         section(
             '## Other pages',
-            '- [Ladders](/ladders.md) — every grade ladder',
-            '- [Clubs](/clubs.md) — club index and profiles',
+            '- [Ladders](/ladders.md) — every grade ladder, scoped by league',
+            '- [Leagues](/leagues.md) — one page per association',
+            '- [Clubs](/clubs.md) — club index grouped by league',
             '- [Results](/results.md) — fixture-level results from 2025',
             '- [Head to head](/head-to-head.md) — records between two clubs',
             '- [Method](/method.md) — how the score is built',
@@ -227,31 +236,127 @@ export function renderResults(data: ResultsPageDto): string {
 }
 
 export function renderClubIndex(data: ClubIndexPageDto): string {
+    const groups =
+        data.groups.length === 0
+            ? [
+                  section(
+                      `## Clubs — ${data.year}`,
+                      table(
+                          [
+                              'Rank',
+                              'Club',
+                              'Points',
+                              'Teams',
+                              'Last ranked',
+                              'Page',
+                          ],
+                          data.entries.map((entry) => [
+                              entry.rank,
+                              entry.club.name,
+                              entry.points,
+                              entry.teams,
+                              entry.lastRankedYear,
+                              `/clubs/${entry.club.key}.md`,
+                          ]),
+                      ),
+                  ),
+              ]
+            : data.groups.map((group) =>
+                  section(
+                      groupHeading(group.competition.name, group.year),
+                      table(
+                          [
+                              'Rank',
+                              'Club',
+                              'Points',
+                              'Teams',
+                              'Last ranked',
+                              'Page',
+                          ],
+                          group.entries.map((entry) => [
+                              entry.rank,
+                              entry.club.name,
+                              entry.points,
+                              entry.teams,
+                              entry.lastRankedYear,
+                              `/clubs/${entry.club.key}.md`,
+                          ]),
+                      ),
+                  ),
+              );
     return [
         header({
-            description: `Every South Australian netball club in the dataset — ${data.presentCount} currently fielding teams, ${data.totalCount} in total.`,
+            description: `Clubs grouped by league — ${data.presentCount} currently fielding teams in the combined championship, ${data.totalCount} in total.`,
             path: '/clubs',
             title: 'Clubs',
         }),
         '',
-        section(
-            `## Clubs — ${data.year}`,
-            table(
-                ['Rank', 'Club', 'Points', 'Teams', 'Last ranked', 'Page'],
-                data.entries.map((entry) => [
-                    entry.rank,
-                    entry.club.name,
-                    entry.points,
-                    entry.teams,
-                    entry.lastRankedYear,
-                    `/clubs/${entry.club.key}.md`,
-                ]),
-            ),
-        ),
+        ...groups,
         '',
         data.includePast
             ? 'Includes clubs no longer fielding teams.'
             : 'Add `?includePast=true` to include clubs no longer fielding teams.',
+    ].join('\n');
+}
+
+export function renderLeagueIndex(data: LeagueIndexPageDto): string {
+    return [
+        header({
+            description:
+                'South Australian netball associations, each with its own clubs and ladders.',
+            path: '/leagues',
+            title: 'Leagues',
+        }),
+        '',
+        section(
+            '## Leagues',
+            table(
+                ['League', 'Championship', 'Seasons', 'Page'],
+                data.leagues.map((entry) => [
+                    entry.competition.name,
+                    entry.hasChampionship ? 'yes' : 'no',
+                    entry.seasonCount,
+                    `/leagues/${entry.competition.key}.md`,
+                ]),
+            ),
+        ),
+    ].join('\n');
+}
+
+export function renderLeague(data: LeaguePageDto): string {
+    return [
+        header({
+            description: `${data.competition.name} clubs and ladders${data.hasChampionship ? ', with a league championship table' : ''}.`,
+            path: `/leagues/${data.competition.key}`,
+            title: data.competition.name,
+        }),
+        '',
+        data.hasChampionship && data.season
+            ? section(
+                  `## ${String(data.season.year)} championship`,
+                  table(
+                      ['Rank', 'Club', 'Points', 'Teams'],
+                      data.season.rows.map((row) => [
+                          row.rank,
+                          row.club.name,
+                          row.points,
+                          row.teams,
+                      ]),
+                  ),
+              )
+            : 'This league is not part of the AMND / Premier League championship score.',
+        '',
+        section(
+            '## Clubs',
+            table(
+                ['Club', 'Rank', 'Page'],
+                data.clubs.map((entry) => [
+                    entry.club.name,
+                    entry.rank,
+                    `/clubs/${entry.club.key}.md`,
+                ]),
+            ),
+        ),
     ].join('\n');
 }
 

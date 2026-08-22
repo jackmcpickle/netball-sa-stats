@@ -2,8 +2,9 @@ import { expect, test } from '@playwright/test';
 import type { Page } from '@playwright/test';
 
 const PAGES = [
-    { path: '/', heading: /Which club is really South Australia/i },
-    { path: '/clubs', heading: /Every club in the dataset/i },
+    { path: '/', heading: /Which AMND \/ Premier League club is really strongest/i },
+    { path: '/leagues', heading: /South Australian associations/i },
+    { path: '/clubs', heading: /Clubs by league/i },
     { path: '/clubs/matrics', heading: /Matrics/i },
     { path: '/ladders', heading: /Where every team finished/i },
     { path: '/head-to-head', heading: /Head to head/i },
@@ -13,6 +14,7 @@ const PAGES = [
 
 const NAV_LABELS = [
     'Rankings',
+    'Leagues',
     'Clubs',
     'Ladders',
     'Head to head',

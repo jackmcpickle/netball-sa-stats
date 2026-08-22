@@ -59,6 +59,7 @@ export interface ResultFilter {
     readonly year?: number;
     readonly gradeKey?: string;
     readonly clubKey?: string;
+    readonly competitionKey?: string;
 }
 
 /**
@@ -82,6 +83,9 @@ function filters(filter: ResultFilter): SQL | undefined {
     }
     if (!isUndefined(filter.clubKey)) {
         parts.push(eq(clubs.clubKey, filter.clubKey));
+    }
+    if (!isUndefined(filter.competitionKey)) {
+        parts.push(eq(competitions.key, filter.competitionKey));
     }
     return parts.length > 0 ? and(...parts) : undefined;
 }

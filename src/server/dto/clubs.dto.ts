@@ -1,4 +1,4 @@
-import type { Club } from '@/server/dto/shared.dto';
+import type { Club, Competition } from '@/server/dto/shared.dto';
 
 export interface ClubIndexEntry {
     readonly club: Club;
@@ -6,6 +6,13 @@ export interface ClubIndexEntry {
     readonly points: number | null;
     readonly teams: number | null;
     readonly lastRankedYear: number | null;
+}
+
+export interface ClubIndexGroup {
+    readonly competition: Competition;
+    readonly year: number | null;
+    readonly presentCount: number;
+    readonly entries: readonly ClubIndexEntry[];
 }
 
 export interface ClubIndexParams {
@@ -18,4 +25,5 @@ export interface ClubIndexPageDto {
     readonly presentCount: number;
     readonly totalCount: number;
     readonly entries: readonly ClubIndexEntry[];
+    readonly groups: readonly ClubIndexGroup[];
 }
