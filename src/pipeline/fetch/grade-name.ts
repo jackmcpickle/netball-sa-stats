@@ -70,9 +70,11 @@ const ASSOCIATION_RULES: readonly Rule[] = [
     { pattern: /^JUNIOR BOYS$/u, tier: 2 },
     { pattern: /^C GRADE$/u, tier: 3 },
     { pattern: /^C ?(?<division>\d+)$/u, tier: 3 },
-    { pattern: /^D ?(?<division>\d+)$/u, tier: 3 },
-    { pattern: /^INTERS? DIV(?:ISION)? 0*(?<division>\d+)$/u, tier: 4 },
-    { pattern: /^INTERS? 0*(?<division>\d+)(?: [A-Z])?$/u, tier: 4 },
+    // D is below C and above Inter. Sharing C's tier interleaved
+    // C1/D1/C2/D2 on association ladder pages.
+    { pattern: /^D ?(?<division>\d+)$/u, tier: 4 },
+    { pattern: /^INTERS? DIV(?:ISION)? 0*(?<division>\d+)$/u, tier: 5 },
+    { pattern: /^INTERS? 0*(?<division>\d+)(?: [A-Z])?$/u, tier: 5 },
     { pattern: /^JUNIOR ?(?<division>\d+) ?[A-Z]?$/u, tier: 8 },
     { pattern: /^SUB JUNIOR ?(?<division>\d+) ?[A-Z]?$/u, tier: 9 },
     { pattern: /^PRIMARY ?(?<division>\d+) ?[A-Z]?$/u, tier: 10 },
