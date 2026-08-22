@@ -83,6 +83,11 @@ const ASSOCIATION_BY_ORG = new Map<string, AssociationOrg>([
     ],
 ]);
 
+// Hills e801d340 is a live PlayHQ org (discoverCompetitions 2026-08-22,
+// org name "Hills Netball Association", winter 2022-2026). It is catalogued
+// but not in COLLECT_JOBS. Mid Hills 7d13cb92 and SHNA de681683 are also
+// live; they are not catalogued. Never use NSW Hills District cd26c84e.
+
 // oxlint-disable-next-line typescript/consistent-type-definitions -- CSV row: interface has no implicit index signature, so it stops assigning to Record<string, CsvValue>
 export type SeasonRow = {
     competition_key: string;

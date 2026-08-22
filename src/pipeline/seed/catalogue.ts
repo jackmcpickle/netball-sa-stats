@@ -77,6 +77,12 @@ export const COMPETITION_SEEDS: readonly CompetitionSeed[] = [
         name: 'SA Districts Netball Association',
         playhqOrgId: null,
     },
+    {
+        hasData: false,
+        key: 'hills',
+        name: 'Hills Netball Association',
+        playhqOrgId: 'e801d340',
+    },
 ];
 
 /** Metro associations fetched via their own PlayHQ org. No championship bands. */

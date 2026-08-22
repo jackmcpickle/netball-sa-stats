@@ -105,11 +105,12 @@ So ladders are scraped as the fact table. A `matches` table drops in later witho
 | Southern United (SUNA)                 | `suna`                    | No — org verified, no imported rows | `4bd9b8ae` |
 | Elizabeth Netball Association          | `elizabeth`               | No — org verified, no imported rows | `7ffb0e67` |
 | SAMMNA                                 | `sammna`                  | No — org verified, no imported rows | `7936878d` |
-| SA Districts (SADNA)                   | `sadna`                   | No — name only, PlayHQ org unknown  | —          |
+| SA Districts (SADNA)                   | `sadna`                   | No. Name only, PlayHQ org unknown   | —          |
+| Hills Netball Association              | `hills`                   | No. Org verified, no imported rows  | `e801d340` |
 
 The first three carry ladder data and championship weights. Metro associations have verified PlayHQ org IDs (checked 2026-08-22 via `discoverCompetitions`). `COLLECT_JOBS` in `collect.ts` walks those orgs the same way as AMND; new association jobs start at 2023. `--org` / `--competition` still targets one. `0001_seed.sql` is already applied, so the new rows land in `drizzle/0009_sa_associations.sql`.
 
-They are **not** in the club championship. No `grade_weights` rows, and `fetchChampionshipHistory` only scores keys that already have bands. Importing a SUNA ladder later must not change Contax's AMND rank. Country associations (Hills, Mid Hills, SHNA, GSNA, and the rest) can be added later the same way.
+They are **not** in the club championship. No `grade_weights` rows, and `fetchChampionshipHistory` only scores keys that already have bands. Importing a SUNA ladder later must not change Contax's AMND rank. Mid Hills, SHNA, GSNA and the rest of country can be added later the same way.
 
 Each association org also lists carnivals, schools or summer on PlayHQ. Those names are out of scope until they get their own catalogue keys:
 
@@ -118,8 +119,13 @@ Each association org also lists carnivals, schools or summer on PlayHQ. Those na
 - Elizabeth → `Elizabeth Netball Association`, winter seasons only (summer shares the same competition object)
 - City Night → `City Night Division 1`, summer 2023+ (the 2021 winter object is out of range)
 - SAMMNA → `M League`, winter only (not Super League)
+- Hills → `Hills Netball Association`, winter only. Ready Set Go Carnival stays out.
 
-SADNA is seeded by name with a null org id. Do not use WA `489c7576`. Hills PlayHQ is unconfirmed — do not invent an id.
+SADNA is seeded by name with a null org id. Do not use WA `489c7576`.
+
+Hills is NSA country. The official site is https://www.hillsnetballassociation.com/. hills.netball.asn.au does not resolve. Matches are Saturday home/away in the Netball SA winter season only. The ten clubs are Aldgate, Bridgewater, Crafers, Heathfield, Ironbank/Cherry Gardens, Mylor, Piccadilly, Stirling Comets, Summertown, and Uraidla. Contacts on file: hnaro1@outlook.com, info@hillsnetballassociation.com. The HNA site does not mention PlayHQ.
+
+`e801d340` sat in indexed HTML as an unverified guess until `discoverCompetitions` on 2026-08-22 returned organisation name "Hills Netball Association" and winter seasons 2022-2026. That is why the catalogue stores the id with `has_data=0` and no `COLLECT_JOBS` entry. Do not use NSW Hills District `cd26c84e`. Mid Hills `7d13cb92` and SHNA `de681683` also answered live the same day. They are not seeded yet.
 
 ## Sources & coverage
 

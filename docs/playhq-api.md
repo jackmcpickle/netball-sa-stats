@@ -86,6 +86,16 @@ are under `gradeListDiscoverSeason_*` in the same folder. Import is not wired
 to those ladders yet: unknown club names fail loud, and there are no
 championship weights.
 
+Hills `e801d340` is catalogued as `hills` after `discoverCompetitions` returned
+organisation name "Hills Netball Association" and winter 2022-2026 on
+competition `Hills Netball Association`. The official site
+https://www.hillsnetballassociation.com/ never mentions PlayHQ. The PlayHQ
+HTML org URL 403s from datacenters, so the GraphQL org/name match is the
+confirmation. Hills is not in `COLLECT_JOBS`. Ready Set Go Carnival on that
+org is out of scope. Mid Hills `7d13cb92` (WINTER, Summer, carnival) and
+SHNA `de681683` (`SHNA` winter 2024-2026) also answered live. They are not
+catalogued. Never use NSW Hills District `cd26c84e`.
+
 Note: a single logical competition (e.g. Premier League) can be split
 across **multiple `discoverCompetitions` entries** if PlayHQ re-created the
 competition object at some point — AMND has a separate "AMND 2022" entry

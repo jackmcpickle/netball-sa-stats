@@ -67,8 +67,8 @@ export function LeaguesIndexPage(): JSX.Element {
             </ul>
             <Panel className="mt-10 p-6">
                 <p className="text-sm leading-relaxed text-ink-body">
-                    Country associations (Hills, Mid Hills, Southern Hills and
-                    the rest) can be added later. They are not wired here.
+                    Hills is catalogued with no imported seasons yet. Mid Hills,
+                    Southern Hills and the rest of country can be added later.
                 </p>
             </Panel>
         </PageShell>

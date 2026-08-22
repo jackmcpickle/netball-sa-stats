@@ -48,9 +48,16 @@ describe('competition catalogue', () => {
         expect(seed?.hasData).toBeFalsy();
     });
 
-    it('does not seed Hills or the country tail', () => {
+    it('seeds Hills with the PlayHQ org discoverCompetitions confirmed', () => {
+        const seed = COMPETITION_SEEDS.find(
+            (competition) => competition.key === 'hills',
+        );
+        expect(seed?.playhqOrgId).toBe('e801d340');
+        expect(seed?.hasData).toBeFalsy();
+    });
+
+    it('does not seed the rest of the country tail', () => {
         const keys = COMPETITION_SEEDS.map((competition) => competition.key);
-        expect(keys).not.toContain('hills');
         expect(keys).not.toContain('mid_hills');
         expect(keys).not.toContain('southern_hills');
     });

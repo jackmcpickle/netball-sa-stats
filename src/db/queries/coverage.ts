@@ -29,6 +29,7 @@ const SHORT_NAMES = new Map<string, string>([
     ['sammna', 'SAMMNA'],
     ['city_night_division', 'City Night'],
     ['sadna', 'SADNA'],
+    ['hills', 'Hills'],
 ]);
 
 export function toCompetition(key: string, name: string): Competition {

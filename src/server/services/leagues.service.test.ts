@@ -91,6 +91,7 @@ describe('leagues service', () => {
         expect(keys).toContain('amnd');
         expect(keys).toContain('saucna');
         expect(keys).toContain('sadna');
+        expect(keys).toContain('hills');
         expect(
             page.leagues.find((entry) => entry.competition.key === 'amnd')
                 ?.hasChampionship,
@@ -107,6 +108,10 @@ describe('leagues service', () => {
             page.leagues.find((entry) => entry.competition.key === 'sadna')
                 ?.hasPlayHqOrg,
         ).toBeFalsy();
+        expect(
+            page.leagues.find((entry) => entry.competition.key === 'hills')
+                ?.hasPlayHqOrg,
+        ).toBeTruthy();
     });
 
     it('scopes a league page to that competition’s clubs and rankings', async () => {
