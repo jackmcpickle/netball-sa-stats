@@ -7,8 +7,8 @@ const PAGES = [
     { path: '/clubs', heading: /Clubs by league/i },
     { path: '/clubs/matrics', heading: /Matrics/i },
     { path: '/ladders', heading: /Where every team finished/i },
-    { path: '/head-to-head', heading: /Head to head/i },
-    { path: '/results', heading: /^Results$/i },
+    { path: '/head-to-head', heading: /Club versus club/i },
+    { path: '/results', heading: /Every fixture, round by round/i },
     { path: '/method', heading: /How the championship score is built/i },
 ] as const;
 
