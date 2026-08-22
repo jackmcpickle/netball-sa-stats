@@ -47,12 +47,17 @@ function lastRankedYears(
     return latest;
 }
 
+interface BuiltEntries {
+    readonly entries: readonly ClubIndexEntry[];
+    readonly presentCount: number;
+}
+
 function entriesFor(
     clubs: readonly Club[],
     seasonRows: ChampionshipSeason['rows'],
     lastRanked: ReadonlyMap<string, number>,
     includePast: boolean,
-): { entries: ClubIndexEntry[]; presentCount: number } {
+): BuiltEntries {
     const rankedKeys = new Set(seasonRows.map((row) => row.club.key));
     const { present, past } = partitionClubs(clubs, rankedKeys);
     const visible = includePast ? [...present, ...past] : present;
@@ -106,87 +111,85 @@ export function createClubsService(repos: Repos): ClubsService {
             const { present, past } = partitionClubs(clubs, rankedKeys);
             const visible = includePast ? [...present, ...past] : present;
             const championshipKeys = championshipCompetitionKeys();
-            const groupKeys = COMPETITION_SEEDS.map(
-                (seed) => seed.key,
-            ).filter((key) =>
-                coverage.competitions.some(
-                    (entry) => entry.competition.key === key,
-                ),
-            );
+            const groupKeys: string[] = [];
+            for (const seed of COMPETITION_SEEDS) {
+                if (
+                    coverage.competitions.some(
+                        (entry) => entry.competition.key === seed.key,
+                    )
+                ) {
+                    groupKeys.push(seed.key);
+                }
+            }
 
-            const groups: ClubIndexGroup[] = (
-                await Promise.all(
-                    groupKeys.map(async (key) => {
-                        const seed = COMPETITION_SEEDS.find(
-                            (competition) => competition.key === key,
+            const builtGroups = await Promise.all(
+                groupKeys.map(async (key) => {
+                    const seed = COMPETITION_SEEDS.find(
+                        (competition) => competition.key === key,
+                    );
+                    if (isUndefined(seed)) {
+                        return null;
+                    }
+                    const competition = toCompetition(key, seed.name);
+                    const appearances = await repos.clubs.inCompetition(key);
+                    if (championshipKeys.has(key)) {
+                        const [leagueHistory, leagueCoverage] =
+                            await Promise.all([
+                                repos.championship.history(key),
+                                repos.seasons.coverage({
+                                    competitionKey: key,
+                                }),
+                            ]);
+                        const leagueYear = leagueCoverage.latestRankedYear();
+                        const leagueClubs = appearances.map((row) => row.club);
+                        const resolvedYear = leagueYear.ok
+                            ? leagueYear.value
+                            : null;
+                        const leagueRows = isUndefined(resolvedYear)
+                            ? []
+                            : (leagueHistory.find(
+                                  (entry) => entry.year === resolvedYear,
+                              )?.rows ?? []);
+                        const built = entriesFor(
+                            leagueClubs,
+                            leagueRows,
+                            lastRankedYears(leagueHistory),
+                            includePast,
                         );
-                        if (isUndefined(seed)) {
-                            return null;
-                        }
-                        const competition = toCompetition(key, seed.name);
-                        const appearances =
-                            await repos.clubs.inCompetition(key);
-                        if (championshipKeys.has(key)) {
-                            const [leagueHistory, leagueCoverage] =
-                                await Promise.all([
-                                    repos.championship.history(key),
-                                    repos.seasons.coverage({
-                                        competitionKey: key,
-                                    }),
-                                ]);
-                            const leagueYear =
-                                leagueCoverage.latestRankedYear();
-                            const leagueClubs = appearances.map(
-                                (row) => row.club,
-                            );
-                            const resolvedYear = leagueYear.ok
-                                ? leagueYear.value
-                                : null;
-                            const leagueRows = isUndefined(resolvedYear)
-                                ? []
-                                : (leagueHistory.find(
-                                      (entry) => entry.year === resolvedYear,
-                                  )?.rows ?? []);
-                            const built = entriesFor(
-                                leagueClubs,
-                                leagueRows,
-                                lastRankedYears(leagueHistory),
-                                includePast,
-                            );
-                            return {
-                                competition,
-                                entries: built.entries,
-                                presentCount: built.presentCount,
-                                year: resolvedYear,
-                            };
-                        }
-                        if (appearances.length === 0) {
-                            return null;
-                        }
-                        const latestYear = Math.max(
-                            ...appearances.flatMap((row) => row.years),
-                        );
-                        const presentClubs = appearances.filter((row) =>
-                            row.years.includes(latestYear),
-                        );
-                        const shown = includePast
-                            ? appearances
-                            : presentClubs;
                         return {
                             competition,
-                            entries: shown.map((row) => ({
-                                club: row.club,
-                                lastRankedYear: row.years.at(-1) ?? null,
-                                points: null,
-                                rank: null,
-                                teams: null,
-                            })),
-                            presentCount: presentClubs.length,
-                            year: latestYear,
+                            entries: built.entries,
+                            presentCount: built.presentCount,
+                            year: resolvedYear,
                         };
-                    }),
-                )
-            ).filter((group) => group !== null);
+                    }
+                    if (appearances.length === 0) {
+                        return null;
+                    }
+                    const latestYear = Math.max(
+                        ...appearances.flatMap((row) => row.years),
+                    );
+                    const presentClubs = appearances.filter((row) =>
+                        row.years.includes(latestYear),
+                    );
+                    const shown = includePast ? appearances : presentClubs;
+                    return {
+                        competition,
+                        entries: shown.map((row) => ({
+                            club: row.club,
+                            lastRankedYear: row.years.at(-1) ?? null,
+                            points: null,
+                            rank: null,
+                            teams: null,
+                        })),
+                        presentCount: presentClubs.length,
+                        year: latestYear,
+                    };
+                }),
+            );
+            const groups: ClubIndexGroup[] = builtGroups.filter(
+                (group) => group !== null,
+            );
 
             return ok({
                 entries: visible.map((club) => {

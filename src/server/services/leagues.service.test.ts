@@ -120,9 +120,9 @@ describe('leagues service', () => {
         );
         expect(amnd.competition.key).toBe('amnd');
         expect(amnd.hasChampionship).toBeTruthy();
-        expect(amnd.clubs.map((entry) => entry.club.key).toSorted()).toStrictEqual(
-            ['contax', 'garville'],
-        );
+        expect(
+            amnd.clubs.map((entry) => entry.club.key).toSorted(),
+        ).toStrictEqual(['contax', 'garville']);
         expect(amnd.season?.rows.map((row) => row.club.key)).toStrictEqual([
             'contax',
             'garville',

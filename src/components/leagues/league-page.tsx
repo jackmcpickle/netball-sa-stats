@@ -64,7 +64,9 @@ export function LeaguePage(): JSX.Element {
                     : 'Clubs and ladders for this league. It is not part of the AMND / Premier League championship until its grades have weights.'}
             </p>
 
-            {data.hasChampionship && !isNull(season) && !isNull(data.tableState) ? (
+            {data.hasChampionship &&
+            !isNull(season) &&
+            !isNull(data.tableState) ? (
                 <div className="mt-10">
                     <div className="mb-4 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                         <h2 className="text-2xl font-medium tracking-tight text-ink">

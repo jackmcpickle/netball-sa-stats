@@ -96,10 +96,12 @@ describe('parseGradeName for SA associations', () => {
             division: null,
             tier: 1,
         });
-        expect(parseGradeName('A2 Grade', 'city_night_division')).toStrictEqual({
-            division: 2,
-            tier: 1,
-        });
+        expect(parseGradeName('A2 Grade', 'city_night_division')).toStrictEqual(
+            {
+                division: 2,
+                tier: 1,
+            },
+        );
         expect(parseGradeName('B5', 'saucna')).toStrictEqual({
             division: 5,
             tier: 2,
@@ -131,12 +133,12 @@ describe('parseGradeName for SA associations', () => {
             division: 1,
             tier: 4,
         });
-        expect(parseGradeName('INTER 4 A', 'city_night_division')).toStrictEqual(
-            {
-                division: 4,
-                tier: 4,
-            },
-        );
+        expect(
+            parseGradeName('INTER 4 A', 'city_night_division'),
+        ).toStrictEqual({
+            division: 4,
+            tier: 4,
+        });
         expect(parseGradeName('Inters 2', 'suna')).toStrictEqual({
             division: 2,
             tier: 4,
@@ -171,9 +173,7 @@ describe('parseGradeName for SA associations', () => {
             division: 1,
             tier: 9,
         });
-        expect(
-            parseGradeName('13 & Under Division 3', 'suna'),
-        ).toStrictEqual({
+        expect(parseGradeName('13 & Under Division 3', 'suna')).toStrictEqual({
             division: 3,
             tier: 7,
         });

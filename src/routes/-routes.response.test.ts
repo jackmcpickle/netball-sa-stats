@@ -237,7 +237,9 @@ describe('page routes', () => {
             rel: 'canonical',
             href: 'https://netballsa.com/leagues/saucna',
         });
-        expect(JSON.stringify(head?.meta)).toContain('SAUCNA');
+        expect(JSON.stringify(head?.meta)).toContain(
+            'South Australian United Church Netball Association',
+        );
     });
 
     it('builds the club profile head from the loaded club', async () => {

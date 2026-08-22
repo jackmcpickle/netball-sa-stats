@@ -2,8 +2,8 @@
  * Replaces `src/server/loaders/ladders.ts`.
  */
 import { isNull, isUndefined } from 'es-toolkit';
-import { LADDER_TABLE_SPEC } from '@/db/queries/grades';
 import { toCompetition } from '@/db/queries/coverage';
+import { LADDER_TABLE_SPEC } from '@/db/queries/grades';
 import { COMPETITION_SEEDS } from '@/pipeline/seed/catalogue';
 import type { Repos } from '@/server/container';
 import type { DomainError, Result } from '@/server/domain/result';
@@ -27,17 +27,27 @@ export function createLaddersService(repos: Repos): LaddersService {
             params: LaddersParams,
         ): Promise<Result<LaddersPageDto, DomainError>> {
             const allCoverage = await repos.seasons.fullCoverage();
-            const seeded = COMPETITION_SEEDS.filter((seed) =>
-                allCoverage.competitions.some(
-                    (entry) => entry.competition.key === seed.key,
-                ),
-            ).map((seed) => toCompetition(seed.key, seed.name));
-            const extras = allCoverage.competitions
-                .map((entry) => entry.competition)
-                .filter(
-                    (competition) =>
-                        !seeded.some((entry) => entry.key === competition.key),
-                );
+            const seeded: ReturnType<typeof toCompetition>[] = [];
+            for (const seed of COMPETITION_SEEDS) {
+                if (
+                    allCoverage.competitions.some(
+                        (entry) => entry.competition.key === seed.key,
+                    )
+                ) {
+                    seeded.push(toCompetition(seed.key, seed.name));
+                }
+            }
+            const extras: ReturnType<typeof toCompetition>[] = [];
+            for (const entry of allCoverage.competitions) {
+                if (
+                    !seeded.some(
+                        (competition) =>
+                            competition.key === entry.competition.key,
+                    )
+                ) {
+                    extras.push(entry.competition);
+                }
+            }
             const competitions = [...seeded, ...extras];
             const requested =
                 !isUndefined(params.competition) &&

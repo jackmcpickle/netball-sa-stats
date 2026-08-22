@@ -17,9 +17,7 @@ function clubSummaryLine(entry: ClubIndexEntry, year: number | null): string {
         return `${formatNumber(entry.points, 1)} pts · ${String(entry.teams)} teams`;
     }
     if (isNull(entry.lastRankedYear)) {
-        return year === null
-            ? 'not ranked'
-            : `not ranked in ${String(year)}`;
+        return year === null ? 'not ranked' : `not ranked in ${String(year)}`;
     }
     return `last ranked ${String(entry.lastRankedYear)}`;
 }
@@ -80,7 +78,11 @@ function ClubCards({
     );
 }
 
-function LeagueGroup({ group }: { readonly group: ClubIndexGroup }): JSX.Element {
+function LeagueGroup({
+    group,
+}: {
+    readonly group: ClubIndexGroup;
+}): JSX.Element {
     return (
         <section className="mt-10">
             <div className="flex flex-wrap items-baseline justify-between gap-3">
@@ -129,10 +131,10 @@ export function ClubIndexPage(): JSX.Element {
                 <PageTitle>Clubs by league</PageTitle>
             </div>
             <p className="mt-4 max-w-[56ch] text-lg leading-[1.55] text-ink-body">
-                AMND, Premier League and Reserves each have their own list.
-                A club that plays in more than one league appears in each. Open
-                a club for its full record, or a league page for that
-                association alone.
+                AMND, Premier League and Reserves each have their own list. A
+                club that plays in more than one league appears in each. Open a
+                club for its full record, or a league page for that association
+                alone.
             </p>
 
             <div className="mt-6">

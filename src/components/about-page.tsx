@@ -35,10 +35,10 @@ export function AboutPage(): JSX.Element {
                     and SAMMNA are catalogued with verified PlayHQ org IDs, but
                     they have no imported ladders and no grade weights yet, so
                     they do not change that ranking. Each association has its
-                    own league page. Nothing is
-                    estimated, interpolated or hand-entered: every figure traces
-                    back to a published source, and seasons with no recoverable
-                    source are shown as gaps rather than filled in.
+                    own league page. Nothing is estimated, interpolated or
+                    hand-entered: every figure traces back to a published
+                    source, and seasons with no recoverable source are shown as
+                    gaps rather than filled in.
                 </p>
 
                 <h2 className="mt-10 mb-4 text-lg font-semibold text-ink">

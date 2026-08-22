@@ -15,10 +15,7 @@ export function LeagueLink({
     readonly children: ReactNode;
     readonly className?: string;
 }): JSX.Element {
-    const params = useMemo(
-        () => ({ competitionKey }),
-        [competitionKey],
-    );
+    const params = useMemo(() => ({ competitionKey }), [competitionKey]);
     return (
         <Link
             to="/leagues/$competitionKey"

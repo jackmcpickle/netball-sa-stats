@@ -1,9 +1,32 @@
 import { getRouteApi } from '@tanstack/react-router';
+import { isNull } from 'es-toolkit';
 import type { JSX } from 'react';
 import { LeagueLink } from '@/components/links';
 import { Eyebrow, PageShell, PageTitle, Panel } from '@/components/ui/layout';
+import type { LeagueIndexEntry } from '@/server/dto/leagues.dto';
 
 const routeApi = getRouteApi('/leagues/');
+
+function leagueStatus(entry: LeagueIndexEntry): string {
+    if (entry.hasChampionship) {
+        return 'Championship scored';
+    }
+    if (entry.hasPlayHqOrg) {
+        return 'Catalogued — not in the AMND/PL score';
+    }
+    return 'Name seeded — no PlayHQ org yet';
+}
+
+function seasonCaption(entry: LeagueIndexEntry): string {
+    if (entry.seasonCount === 0) {
+        return 'No imported seasons yet';
+    }
+    const noun = entry.seasonCount === 1 ? 'season' : 'seasons';
+    const latest = isNull(entry.latestYear)
+        ? ''
+        : ` · latest ${String(entry.latestYear)}`;
+    return `${String(entry.seasonCount)} ${noun}${latest}`;
+}
 
 export function LeaguesIndexPage(): JSX.Element {
     const data = routeApi.useLoaderData();
@@ -32,17 +55,11 @@ export function LeaguesIndexPage(): JSX.Element {
                                     {entry.competition.name}
                                 </span>
                                 <span className="mt-2 block text-[13px] text-ink-muted">
-                                    {entry.hasChampionship
-                                        ? 'Championship scored'
-                                        : entry.hasPlayHqOrg
-                                          ? 'Catalogued — not in the AMND/PL score'
-                                          : 'Name seeded — no PlayHQ org yet'}
+                                    {leagueStatus(entry)}
                                 </span>
                             </span>
                             <span className="text-[13px] text-ink-muted">
-                                {entry.seasonCount === 0
-                                    ? 'No imported seasons yet'
-                                    : `${String(entry.seasonCount)} season${entry.seasonCount === 1 ? '' : 's'}${entry.latestYear === null ? '' : ` · latest ${String(entry.latestYear)}`}`}
+                                {seasonCaption(entry)}
                             </span>
                         </LeagueLink>
                     </li>

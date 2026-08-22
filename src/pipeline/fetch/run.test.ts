@@ -104,7 +104,11 @@ describe(resolveCompetitionKey, () => {
             ),
         ).toBe('city_night_division');
         expect(
-            resolveCompetitionKey(SAMMNA_ORG_ID, 'M-League - Mens Division', 'M League'),
+            resolveCompetitionKey(
+                SAMMNA_ORG_ID,
+                'M-League - Mens Division',
+                'M League',
+            ),
         ).toBe('sammna');
     });
 
@@ -182,10 +186,7 @@ describe(isCataloguedPlayHqCompetition, () => {
             isCataloguedPlayHqCompetition(SAMMNA_ORG_ID, 'M League'),
         ).toBeTruthy();
         expect(
-            isCataloguedPlayHqCompetition(
-                SAMMNA_ORG_ID,
-                'SAMMNA Super League',
-            ),
+            isCataloguedPlayHqCompetition(SAMMNA_ORG_ID, 'SAMMNA Super League'),
         ).toBeFalsy();
     });
 });
@@ -198,7 +199,9 @@ describe(associationSeasonWanted, () => {
         expect(
             associationSeasonWanted(ELIZABETH_ORG_ID, 'Summer 2024/25'),
         ).toBeFalsy();
-        expect(associationSeasonWanted(SAMMNA_ORG_ID, 'Winter 2025')).toBeTruthy();
+        expect(
+            associationSeasonWanted(SAMMNA_ORG_ID, 'Winter 2025'),
+        ).toBeTruthy();
         expect(
             associationSeasonWanted(SAMMNA_ORG_ID, 'Summer 2024/25'),
         ).toBeFalsy();
@@ -214,8 +217,12 @@ describe(associationSeasonWanted, () => {
     });
 
     it('does not filter SAUCNA seasons — winter is already its own competition', () => {
-        expect(associationSeasonWanted(SAUCNA_ORG_ID, 'Winter 2025')).toBeTruthy();
-        expect(associationSeasonWanted(AMND_ORG_ID, 'Winter 2024')).toBeTruthy();
+        expect(
+            associationSeasonWanted(SAUCNA_ORG_ID, 'Winter 2025'),
+        ).toBeTruthy();
+        expect(
+            associationSeasonWanted(AMND_ORG_ID, 'Winter 2024'),
+        ).toBeTruthy();
     });
 });
 

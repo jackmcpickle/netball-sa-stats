@@ -225,7 +225,10 @@ export function associationSeasonWanted(
     seasonName: string,
 ): boolean {
     const association = ASSOCIATION_BY_ORG.get(orgId);
-    if (isUndefined(association) || isUndefined(association.seasonNameIncludes)) {
+    if (
+        isUndefined(association) ||
+        isUndefined(association.seasonNameIncludes)
+    ) {
         return true;
     }
     return seasonName

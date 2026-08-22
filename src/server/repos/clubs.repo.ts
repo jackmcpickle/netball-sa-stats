@@ -87,7 +87,9 @@ export interface ClubAppearance {
     readonly years: readonly number[];
 }
 
-export function appearancesFrom(rows: readonly ResultRow[]): readonly ClubAppearance[] {
+export function appearancesFrom(
+    rows: readonly ResultRow[],
+): readonly ClubAppearance[] {
     const years = new Map<string, Set<number>>();
     const clubsByKey = new Map<string, Club>();
     for (const row of rows) {
@@ -130,15 +132,13 @@ export function createClubsRepo(db: Db): ClubsRepo {
         async all(): Promise<readonly Club[]> {
             return await fetchClubs(db);
         },
+        async countResults(clubKey: string): Promise<number> {
+            return await countResults(db, { clubKey });
+        },
         async inCompetition(
             competitionKey: string,
         ): Promise<readonly ClubAppearance[]> {
-            return appearancesFrom(
-                await fetchResults(db, { competitionKey }),
-            );
-        },
-        async countResults(clubKey: string): Promise<number> {
-            return await countResults(db, { clubKey });
+            return appearancesFrom(await fetchResults(db, { competitionKey }));
         },
         async profile(clubKey: string): Promise<ClubProfile | null> {
             return await fetchClubProfile(db, clubKey);

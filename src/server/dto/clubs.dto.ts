@@ -27,4 +27,3 @@ export interface ClubIndexPageDto {
     readonly entries: readonly ClubIndexEntry[];
     readonly groups: readonly ClubIndexGroup[];
 }
-

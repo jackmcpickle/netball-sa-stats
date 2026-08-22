@@ -10,8 +10,8 @@ import { DataTable } from '@/components/ui/data-table';
 import type { DataTableColumn } from '@/components/ui/data-table';
 import { Eyebrow, PageShell, PageTitle, Panel } from '@/components/ui/layout';
 import { NoteMarker } from '@/components/ui/note-marker';
-import { FieldSelect } from '@/components/ui/select';
 import { SearchableSelect } from '@/components/ui/searchable-select';
+import { FieldSelect } from '@/components/ui/select';
 import type { TableState } from '@/db/queries/pagination';
 import type { LadderRow } from '@/server/dto/ladders.dto';
 
@@ -76,6 +76,80 @@ function renderPercentageCell(row: LadderRow): ReactNode {
 function renderPointsCell(row: LadderRow): ReactNode {
     return <span className="numeric">{formatNumber(row.points)}</span>;
 }
+
+const LADDER_COLUMNS: readonly DataTableColumn<LadderRow>[] = [
+    {
+        cell: renderPositionCell,
+        emphasis: 'strong',
+        header: 'POS',
+        id: 'position',
+        sortable: true,
+    },
+    {
+        cell: renderTeamCell,
+        emphasis: 'strong',
+        header: 'TEAM',
+        id: 'team',
+        sortable: true,
+    },
+    {
+        align: 'right',
+        cell: renderPlayedCell,
+        header: 'P',
+        id: 'played',
+        sortable: true,
+    },
+    {
+        align: 'right',
+        cell: renderWonCell,
+        header: 'W',
+        id: 'won',
+        sortable: true,
+    },
+    {
+        align: 'right',
+        cell: renderLostCell,
+        header: 'L',
+        id: 'lost',
+        sortable: true,
+    },
+    {
+        align: 'right',
+        cell: renderDrawnCell,
+        header: 'D',
+        id: 'drawn',
+        sortable: true,
+    },
+    {
+        align: 'right',
+        cell: renderGoalsForCell,
+        header: 'FOR',
+        id: 'goalsFor',
+        sortable: true,
+    },
+    {
+        align: 'right',
+        cell: renderGoalsAgainstCell,
+        header: 'AGST',
+        id: 'goalsAgainst',
+        sortable: true,
+    },
+    {
+        align: 'right',
+        cell: renderPercentageCell,
+        header: 'GOAL %',
+        id: 'percentage',
+        sortable: true,
+    },
+    {
+        align: 'right',
+        cell: renderPointsCell,
+        emphasis: 'strong',
+        header: 'PTS',
+        id: 'points',
+        sortable: true,
+    },
+];
 
 export function LaddersPage(): JSX.Element {
     const data = routeApi.useLoaderData();
@@ -158,83 +232,6 @@ export function LaddersPage(): JSX.Element {
         [data.grades],
     );
 
-    const columns = useMemo<readonly DataTableColumn<LadderRow>[]>(
-        () => [
-            {
-                cell: renderPositionCell,
-                emphasis: 'strong',
-                header: 'POS',
-                id: 'position',
-                sortable: true,
-            },
-            {
-                cell: renderTeamCell,
-                emphasis: 'strong',
-                header: 'TEAM',
-                id: 'team',
-                sortable: true,
-            },
-            {
-                align: 'right',
-                cell: renderPlayedCell,
-                header: 'P',
-                id: 'played',
-                sortable: true,
-            },
-            {
-                align: 'right',
-                cell: renderWonCell,
-                header: 'W',
-                id: 'won',
-                sortable: true,
-            },
-            {
-                align: 'right',
-                cell: renderLostCell,
-                header: 'L',
-                id: 'lost',
-                sortable: true,
-            },
-            {
-                align: 'right',
-                cell: renderDrawnCell,
-                header: 'D',
-                id: 'drawn',
-                sortable: true,
-            },
-            {
-                align: 'right',
-                cell: renderGoalsForCell,
-                header: 'FOR',
-                id: 'goalsFor',
-                sortable: true,
-            },
-            {
-                align: 'right',
-                cell: renderGoalsAgainstCell,
-                header: 'AGST',
-                id: 'goalsAgainst',
-                sortable: true,
-            },
-            {
-                align: 'right',
-                cell: renderPercentageCell,
-                header: 'GOAL %',
-                id: 'percentage',
-                sortable: true,
-            },
-            {
-                align: 'right',
-                cell: renderPointsCell,
-                emphasis: 'strong',
-                header: 'PTS',
-                id: 'points',
-                sortable: true,
-            },
-        ],
-        [],
-    );
-
     const rowKey = useCallback(
         (row: LadderRow) => `${row.club.key}-${String(row.position)}`,
         [],
@@ -297,7 +294,7 @@ export function LaddersPage(): JSX.Element {
                     </p>
                     <DataTable
                         caption={`${data.ladder.grade.name} ladder, ${String(data.ladder.grade.year)}`}
-                        columns={columns}
+                        columns={LADDER_COLUMNS}
                         rows={data.ladder.rows}
                         rowKey={rowKey}
                         totalRows={data.ladder.totalRows}

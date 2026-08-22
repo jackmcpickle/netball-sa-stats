@@ -118,10 +118,7 @@ export async function renderMarkdown(db: Db, url: URL): Promise<string | null> {
         );
     }
     if (path === '/leagues') {
-        return render(
-            await services.leagues.getIndexPage(),
-            renderLeagueIndex,
-        );
+        return render(await services.leagues.getIndexPage(), renderLeagueIndex);
     }
     if (path.startsWith('/leagues/')) {
         return render(

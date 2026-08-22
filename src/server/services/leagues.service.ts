@@ -36,7 +36,9 @@ function lastRankedYears(
 }
 
 export interface LeaguesService {
-    readonly getIndexPage: () => Promise<Result<LeagueIndexPageDto, DomainError>>;
+    readonly getIndexPage: () => Promise<
+        Result<LeagueIndexPageDto, DomainError>
+    >;
     readonly getPage: (
         params: LeaguePageParams,
     ) => Promise<Result<LeaguePageDto, DomainError>>;
@@ -52,18 +54,19 @@ export function createLeaguesService(repos: Repos): LeaguesService {
                     const seasons = coverage.competitions.find(
                         (entry) => entry.competition.key === seed.key,
                     );
-                    const years = seasons?.seasons
-                        .filter((season) => season.status !== 'absent')
-                        .map((season) => season.year);
+                    const years: number[] = [];
+                    for (const season of seasons?.seasons ?? []) {
+                        if (season.status !== 'absent') {
+                            years.push(season.year);
+                        }
+                    }
                     return {
                         competition: toCompetition(seed.key, seed.name),
                         hasChampionship: championshipKeys.has(seed.key),
                         hasPlayHqOrg: seed.playhqOrgId !== null,
                         latestYear:
-                            isUndefined(years) || years.length === 0
-                                ? null
-                                : Math.max(...years),
-                        seasonCount: years?.length ?? 0,
+                            years.length === 0 ? null : Math.max(...years),
+                        seasonCount: years.length,
                     };
                 },
             );
@@ -83,10 +86,12 @@ export function createLeaguesService(repos: Repos): LeaguesService {
             }
             const competition = toCompetition(seed.key, seed.name);
             const hasChampionship = championshipCompetitionKeys().has(seed.key);
-            const coverage = await repos.seasons.fullCoverage({
-                competitionKey: seed.key,
-            });
-            const appearances = await repos.clubs.inCompetition(seed.key);
+            const [coverage, appearances] = await Promise.all([
+                repos.seasons.fullCoverage({
+                    competitionKey: seed.key,
+                }),
+                repos.clubs.inCompetition(seed.key),
+            ]);
             const latestYear = coverage.years.at(-1) ?? null;
             const grades =
                 latestYear === null
@@ -116,16 +121,12 @@ export function createLeaguesService(repos: Repos): LeaguesService {
             }
 
             const history = await repos.championship.history(seed.key);
-            const rankedYears = coverage.rankedYears;
-            let resolvedYear: number | null = null;
-            if (
+            const { rankedYears } = coverage;
+            const resolvedYear =
                 !isUndefined(params.season) &&
                 rankedYears.includes(params.season)
-            ) {
-                resolvedYear = params.season;
-            } else {
-                resolvedYear = rankedYears.at(-1) ?? null;
-            }
+                    ? params.season
+                    : (rankedYears.at(-1) ?? null);
 
             if (resolvedYear === null) {
                 return ok({
@@ -168,9 +169,7 @@ export function createLeaguesService(repos: Repos): LeaguesService {
             );
             const lastRanked = lastRankedYears(history);
             const seasonRows = paged.rows;
-            const rankedKeys = new Set(
-                seasonRows.map((row) => row.club.key),
-            );
+            const rankedKeys = new Set(seasonRows.map((row) => row.club.key));
             const clubs: ClubIndexEntry[] = appearances.map((row) => {
                 const seasonRow = seasonRows.find(
                     (entry) => entry.club.key === row.club.key,

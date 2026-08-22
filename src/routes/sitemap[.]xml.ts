@@ -15,7 +15,13 @@ export const Route = createFileRoute('/sitemap.xml')({
                 ]);
                 const entries = buildSitemapEntries(
                     clubs.ok
-                        ? [...new Set(clubs.value.entries.map((entry) => entry.club.key))]
+                        ? [
+                              ...new Set(
+                                  clubs.value.entries.map(
+                                      (entry) => entry.club.key,
+                                  ),
+                              ),
+                          ]
                         : [],
                     leagues.ok
                         ? leagues.value.leagues.map(

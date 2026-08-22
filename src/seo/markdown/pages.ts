@@ -31,6 +31,10 @@ import type { RankingsPageDto } from '@/server/dto/rankings.dto';
 import type { ResultsPageDto } from '@/server/dto/results.dto';
 import type { Coverage } from '@/server/dto/shared.dto';
 
+function groupHeading(name: string, year: number | null): string {
+    return year === null ? `## ${name}` : `## ${name} — ${String(year)}`;
+}
+
 /** `Name (\`key\`)` for each grade, for the "Available" footer sections. */
 function gradeListing(
     grades: readonly { readonly name: string; readonly key: string }[],
@@ -259,7 +263,7 @@ export function renderClubIndex(data: ClubIndexPageDto): string {
               ]
             : data.groups.map((group) =>
                   section(
-                      `## ${group.competition.name}${group.year === null ? '' : ` — ${String(group.year)}`}`,
+                      groupHeading(group.competition.name, group.year),
                       table(
                           [
                               'Rank',
