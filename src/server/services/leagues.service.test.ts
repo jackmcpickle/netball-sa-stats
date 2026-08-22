@@ -166,6 +166,97 @@ describe('leagues service', () => {
         ]);
     });
 
+    it('keeps Premier League and Reserves on separate club lists', async () => {
+        const db = createTestDb();
+        await seed(db, {
+            competitions: [
+                {
+                    key: 'premier_league',
+                    name: 'Premier League',
+                    seasons: [
+                        {
+                            grades: [
+                                {
+                                    gradeKey: 'pl-2024-prem',
+                                    name: 'Premier Division',
+                                    results: [
+                                        {
+                                            clubKey: 'contax',
+                                            clubName: 'Contax',
+                                            displayName: 'Contax',
+                                            ladderPosition: 1,
+                                        },
+                                    ],
+                                    teamCount: 1,
+                                    tier: 1,
+                                },
+                            ],
+                            isFinal: true,
+                            seasonKey: 'pl-2024',
+                            startYear: 2024,
+                        },
+                    ],
+                },
+                {
+                    key: 'premier_league_reserves',
+                    name: 'Premier League Reserves',
+                    seasons: [
+                        {
+                            grades: [
+                                {
+                                    gradeKey: 'plr-2024-res',
+                                    name: 'Reserves Division',
+                                    results: [
+                                        {
+                                            clubKey: 'contax',
+                                            clubName: 'Contax',
+                                            displayName: 'Contax Reserves',
+                                            ladderPosition: 1,
+                                        },
+                                        {
+                                            clubKey: 'matrics',
+                                            clubName: 'Matrics',
+                                            displayName: 'Matrics',
+                                            ladderPosition: 2,
+                                        },
+                                    ],
+                                    teamCount: 2,
+                                    tier: 2,
+                                },
+                            ],
+                            isFinal: true,
+                            seasonKey: 'plr-2024',
+                            startYear: 2024,
+                        },
+                    ],
+                },
+            ],
+        });
+
+        const premier = unwrap(
+            await createServices(db).leagues.getPage({
+                competitionKey: 'premier_league',
+            }),
+        );
+        const reserves = unwrap(
+            await createServices(db).leagues.getPage({
+                competitionKey: 'premier_league_reserves',
+            }),
+        );
+        expect(premier.clubs.map((entry) => entry.club.key)).toStrictEqual([
+            'contax',
+        ]);
+        expect(
+            reserves.clubs.map((entry) => entry.club.key).toSorted(),
+        ).toStrictEqual(['contax', 'matrics']);
+        expect(premier.grades.map((grade) => grade.key)).toStrictEqual([
+            'pl-2024-prem',
+        ]);
+        expect(reserves.grades.map((grade) => grade.key)).toStrictEqual([
+            'plr-2024-res',
+        ]);
+    });
+
     it('404s an unknown competition key', async () => {
         const db = createTestDb();
         const result = await createServices(db).leagues.getPage({

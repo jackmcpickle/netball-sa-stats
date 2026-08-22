@@ -63,24 +63,23 @@ export function RankingsPage(): JSX.Element {
             <div className="grid items-end gap-8 pt-12 pb-10 sm:pt-16 sm:pb-12 lg:grid-cols-[7fr_5fr] lg:pt-20">
                 <div>
                     <Eyebrow>
-                        {`CLUB CHAMPIONSHIP · ${String(firstRanked)}—${String(lastRanked)}`}
+                        {`AMND / PREMIER LEAGUE · ${String(firstRanked)} to ${String(lastRanked)}`}
                     </Eyebrow>
                     <h1 className="mt-5 text-[2.25rem] leading-[1.05] font-medium tracking-[-0.07rem] text-pretty text-ink sm:text-[3.5rem] sm:tracking-[-0.12rem] lg:text-display lg:tracking-[-0.156rem]">
-                        Which club is really South Australia&rsquo;s strongest?
+                        Which AMND / Premier League club is really strongest?
                     </h1>
                     <p className="mt-5 max-w-[52ch] text-base leading-[1.55] text-ink-body sm:mt-6 sm:text-lg">
                         Every AMND, Premier League and Reserves grade, one
                         number. Those finishes are weighted by grade and added
-                        up into a single club championship score. Other
-                        associations have their own{' '}
+                        up into a club championship score for this trio only.
+                        Other associations have their own{' '}
                         <a
                             href="/leagues"
                             className="text-ink underline decoration-rule underline-offset-2"
                         >
                             league pages
                         </a>
-                        . They are not in this score until their grades have
-                        weights.
+                        . They are not in this score.
                     </p>
                 </div>
 

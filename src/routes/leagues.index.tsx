@@ -13,7 +13,7 @@ const loadLeagues = createServerFn({ method: 'GET' }).handler(async () =>
 );
 
 const DESCRIPTION =
-    'South Australian netball associations — AMND, Premier League, SAUCNA, SUNA, Elizabeth, City Night, SAMMNA — each with its own clubs and ladders.';
+    'South Australian netball associations, each with its own clubs, ladders and (where weighted) championship. AMND, Premier League and Reserves stay on separate lists.';
 
 export const Route = createFileRoute('/leagues/')({
     loader: async () => await loadLeagues(),
