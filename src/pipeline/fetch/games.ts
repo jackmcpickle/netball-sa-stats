@@ -2,8 +2,8 @@ import { isNull, isUndefined } from 'es-toolkit';
 import type { ForfeitSide, GameStatus } from '@/db/schema';
 /**
  * Pure mapping from a `gradeAllRounds` response to `games` CSV rows. No
- * network, no filesystem — fixture-tested against the committed
- * `data/raw/probe/gradeAllRounds_*.json` captures.
+ * network, no filesystem — fixture-tested against handmade rounds in
+ * `games.test.ts`.
  *
  * Shape and quirks are documented in `docs/playhq-api.md` §6. Two of them
  * drive most of this module: a bye is a round-level team list rather than a

@@ -1,8 +1,10 @@
 /**
- * Orchestrates stage 1 of the pipeline: PlayHQ -> normalised CSVs under
- * `data/`. Thin CLI wrapper lives in `scripts/fetch-playhq.ts`; this module
- * holds the filesystem half — the collect itself lives in `collect.ts` so the
- * Worker can import it without `node:fs`.
+ * Orchestrates the Node CLI fetch: PlayHQ -> D1, with a local raw cache
+ * under `data/raw/` (gitignored). Thin wrapper lives in
+ * `scripts/fetch-playhq.ts`. Collect itself lives in `collect.ts` so the
+ * Worker can import it without `node:fs`. Generated entity CSVs are not
+ * written — D1 is the store. Curated `clubs.csv` / `club_aliases.csv` are
+ * the only files fetch may update, so new PlayHQ clubs can be reviewed.
  */
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
@@ -12,14 +14,18 @@ import type { CsvValue } from '@/pipeline/csv';
 import { createFsStore } from '@/pipeline/fetch/capture-store';
 import { ClubRegistry } from '@/pipeline/fetch/club-registry';
 import type { ClubAliasRow, ClubRow } from '@/pipeline/fetch/club-registry';
+import { clubRegistryFromExecutor } from '@/pipeline/fetch/club-registry-from-db';
 import { collectPlayHqData } from '@/pipeline/fetch/collect';
 import type {
+    CollectOptions,
+    CollectedPlayHq,
     FetchReport,
-    GradeRow,
-    SeasonRow,
-    TeamRow,
 } from '@/pipeline/fetch/collect';
 import type { GameRow } from '@/pipeline/fetch/games';
+import { loadIsFinalMap } from '@/pipeline/import/playhq-job';
+import { runImportData } from '@/pipeline/import/run';
+import type { ImportReport } from '@/pipeline/import/run';
+import type { ImportExecutor } from '@/pipeline/import/types';
 
 // Re-exported so `scripts/`, tests and `to-import.ts` can keep treating this
 // module as the fetch entrypoint while the Worker imports `collect.ts` alone.
@@ -56,7 +62,7 @@ const RAW_DIR = resolve(DATA_DIR, 'raw');
 
 export interface FetchOptions {
     refresh: boolean;
-    /** Also fetch fixtures and write `data/games-<year>.csv`. */
+    /** Also fetch fixtures and upsert games. */
     games?: boolean;
     /** Restrict collect to these season start years (ladders and games). Empty means all. */
     years?: readonly number[];
@@ -64,34 +70,46 @@ export interface FetchOptions {
     gradeId?: string;
     /** Restrict collect to these PlayHQ organisation IDs. */
     orgIds?: readonly string[];
+    /** Local or remote D1. Required — fetch upserts, it does not write entity CSVs. */
+    executor: ImportExecutor;
+    /**
+     * Override the curated-CSV directory (tests). Defaults to `data/`.
+     * Fetch may write `clubs.csv` / `club_aliases.csv` here; never entity dumps.
+     */
+    dataDir?: string;
+    /** Override the raw-capture cache directory (tests). Defaults to `data/raw/`. */
+    rawDir?: string;
+    collect?: (options: CollectOptions) => Promise<CollectedPlayHq>;
 }
 
+export interface FetchToD1Report extends FetchReport {
+    imported: ImportReport;
+}
+
+const CLUB_COLUMNS = [
+    'club_key',
+    'name',
+    'established_year',
+    'home_venue',
+    'playhq_id',
+] as const;
+
+const ALIAS_COLUMNS = ['club_key', 'alias_text', 'source'] as const;
+
 async function readExistingCsv<T extends Record<string, string>>(
+    dataDir: string,
     fileName: string,
 ): Promise<T[]> {
     try {
-        const text = await readFile(resolve(DATA_DIR, fileName), 'utf-8');
+        const text = await readFile(resolve(dataDir, fileName), 'utf-8');
         // SAFETY: `parseCsv` returns `Record<string, string>[]` keyed by the
         // file's own header row; `T` is constrained to that same shape and
-        // only ever narrows which header names the caller reads. Every caller
-        // here reads columns this repo writes in `writeCsvs` below.
+        // only ever narrows which header names the caller reads. Curated
+        // club files use a known header list.
         return parseCsv(text) as T[];
     } catch {
         return [];
     }
-}
-
-/**
- * Team identity is `(grade_key, playhq_id)` — PlayHQ's own team id, stable
- * across re-scrapes regardless of which teammates exist in the club's
- * collision group. Never derived from position in a sorted group.
- */
-function teamKeyOf(t: Record<string, CsvValue>): string {
-    return `${String(t.grade_key)}|${String(t.playhq_id ?? '')}`;
-}
-
-function resultKeyOf(r: Record<string, CsvValue>): string {
-    return `${String(r.grade_key)}|${String(r.ladder_position).padStart(4, '0')}`;
 }
 
 export interface ExistingCsvRows {
@@ -102,13 +120,11 @@ export interface ExistingCsvRows {
 }
 
 /**
- * The rows a PlayHQ run must carry over untouched.
+ * The rows a PlayHQ CSV dump must carry over untouched.
  *
- * `runFetch` rewrites `seasons.csv`, `grades.csv`, `teams.csv` and
- * `team_season_results.csv` wholesale, but it only ever sees PlayHQ-era data.
- * The archive-PDF pipeline writes 2000-2016 into those same files, so without
- * this a single fetch deletes sixteen seasons of history that no re-run can
- * restore — the PDFs are a separate pipeline.
+ * Fetch no longer writes entity CSVs — D1 is the store — but the archive
+ * merge helpers and their tests still use this. A PlayHQ-only dump would
+ * otherwise drop 2000-2016 archive rows that no re-run can restore.
  *
  * A `--year` (or other subset) collect only accumulates those seasons, so
  * existing PlayHQ rows for season_keys this run did not fetch must also
@@ -175,138 +191,104 @@ export function mergeYearGames(
     );
 }
 
-async function writeGamesCsvs(
-    gamesByYear: ReadonlyMap<number, readonly GameRow[]>,
-): Promise<number> {
-    let total = 0;
-    for (const [year, rows] of [...gamesByYear].toSorted(
-        (a, b) => a[0] - b[0],
-    )) {
-        const fileName = `games-${String(year)}.csv`;
-        // eslint-disable-next-line no-await-in-loop -- year files are few; each merge reads the file it writes.
-        const existing = await readExistingCsv(fileName);
-        const merged = mergeYearGames(existing, rows);
-        // eslint-disable-next-line no-await-in-loop -- a handful of files, written in order for a stable log.
-        await writeFile(resolve(DATA_DIR, fileName), toCsv(merged), 'utf-8');
-        total += rows.length;
-    }
-    return total;
-}
-
-interface FetchedRows {
-    readonly seasons: readonly SeasonRow[];
-    readonly grades: readonly GradeRow[];
-    readonly teams: readonly TeamRow[];
-    readonly results: readonly Record<string, CsvValue>[];
-}
-
-/**
- * Sorts, merges the archive-PDF rows back in, and writes the shared CSVs.
- * Split out of `runFetch` to keep it under the function-length budget.
- */
-async function writeCsvs(
-    fetched: FetchedRows,
-    existingSeasons: readonly Record<string, string>[],
-    clubRegistry: ClubRegistry,
-): Promise<{
-    seasons: number;
-    grades: number;
-    teams: number;
-    results: number;
-}> {
-    const [existingGrades, existingTeams, existingResults] = await Promise.all([
-        readExistingCsv('grades.csv'),
-        readExistingCsv('teams.csv'),
-        readExistingCsv('team_season_results.csv'),
-    ]);
-    const archived = archiveRowsToKeep(
-        {
-            grades: existingGrades,
-            results: existingResults,
-            seasons: existingSeasons,
-            teams: existingTeams,
-        },
-        new Set(fetched.seasons.map((row) => row.season_key)),
-    );
-
-    const seasons = [...fetched.seasons, ...archived.seasons].toSorted((a, b) =>
-        a.season_key.localeCompare(b.season_key),
-    );
-    const grades = [...fetched.grades, ...archived.grades].toSorted((a, b) =>
-        a.grade_key.localeCompare(b.grade_key),
-    );
-    const teams = [...fetched.teams, ...archived.teams].toSorted((a, b) =>
-        teamKeyOf(a).localeCompare(teamKeyOf(b)),
-    );
-    const results = [...fetched.results, ...archived.results].toSorted((a, b) =>
-        resultKeyOf(a).localeCompare(resultKeyOf(b)),
-    );
-
-    await writeFile(resolve(DATA_DIR, 'seasons.csv'), toCsv(seasons), 'utf-8');
-    await writeFile(
-        resolve(DATA_DIR, 'clubs.csv'),
-        toCsv(clubRegistry.getClubs()),
-        'utf-8',
-    );
-    await writeFile(
-        resolve(DATA_DIR, 'club_aliases.csv'),
-        toCsv(clubRegistry.getAliases()),
-        'utf-8',
-    );
-    await writeFile(resolve(DATA_DIR, 'grades.csv'), toCsv(grades), 'utf-8');
-    await writeFile(resolve(DATA_DIR, 'teams.csv'), toCsv(teams), 'utf-8');
-    await writeFile(
-        resolve(DATA_DIR, 'team_season_results.csv'),
-        toCsv(results),
-        'utf-8',
-    );
-
+function clubFromCsv(row: Record<string, string>): ClubRow {
     return {
-        grades: grades.length,
-        results: results.length,
-        seasons: seasons.length,
-        teams: teams.length,
+        club_key: row.club_key,
+        established_year:
+            row.established_year === '' ? null : row.established_year,
+        home_venue: row.home_venue === '' ? null : row.home_venue,
+        name: row.name,
+        playhq_id: row.playhq_id === '' ? null : row.playhq_id,
     };
 }
 
-/** Loads the curated `clubs.csv`/`club_aliases.csv` state into a fresh registry. */
-async function loadClubRegistry(): Promise<ClubRegistry> {
-    const [clubRows, aliasRows] = await Promise.all([
-        readExistingCsv<Record<string, string>>('clubs.csv'),
-        readExistingCsv<Record<string, string>>('club_aliases.csv'),
-    ]);
-    const existingClubs = clubRows.map(
-        (row): ClubRow => ({
-            club_key: row.club_key,
-            established_year:
-                row.established_year === '' ? null : row.established_year,
-            home_venue: row.home_venue === '' ? null : row.home_venue,
-            name: row.name,
-            playhq_id: row.playhq_id === '' ? null : row.playhq_id,
-        }),
-    );
-    const existingAliases = aliasRows.map(
-        (row): ClubAliasRow => ({
-            alias_text: row.alias_text,
-            club_key: row.club_key,
-            source: row.source,
-        }),
-    );
-    return new ClubRegistry(existingClubs, existingAliases);
+function aliasFromCsv(row: Record<string, string>): ClubAliasRow {
+    return {
+        alias_text: row.alias_text,
+        club_key: row.club_key,
+        source: row.source,
+    };
 }
 
-export async function runFetch(options: FetchOptions): Promise<FetchReport> {
-    await mkdir(RAW_DIR, { recursive: true });
-    const store = createFsStore(RAW_DIR);
-
-    const existingSeasons =
-        await readExistingCsv<Record<string, string>>('seasons.csv');
-    const isFinalBySeasonKey = new Map(
-        existingSeasons.map((row) => [row.season_key, row.is_final]),
+/**
+ * Curated git CSVs win on `club_key` / `alias_text`. D1-only rows (minted
+ * by a previous Worker import) are kept so the next CLI fetch does not
+ * invent a second slug for the same PlayHQ organisation.
+ */
+export function mergeClubIdentity(
+    curated: ClubRegistry,
+    fromDb: ClubRegistry,
+): ClubRegistry {
+    const clubs = new Map(
+        fromDb.getClubs().map((club) => [club.club_key, club]),
     );
+    for (const club of curated.getClubs()) {
+        clubs.set(club.club_key, club);
+    }
+    const aliases = new Map(
+        fromDb.getAliases().map((alias) => [alias.alias_text, alias]),
+    );
+    for (const alias of curated.getAliases()) {
+        aliases.set(alias.alias_text, alias);
+    }
+    return new ClubRegistry([...clubs.values()], [...aliases.values()]);
+}
 
-    const clubRegistry = await loadClubRegistry();
-    const collected = await collectPlayHqData({
+/** Loads curated `clubs.csv` / `club_aliases.csv` into a fresh registry. */
+async function loadCuratedClubRegistry(dataDir: string): Promise<ClubRegistry> {
+    const [clubRows, aliasRows] = await Promise.all([
+        readExistingCsv<Record<string, string>>(dataDir, 'clubs.csv'),
+        readExistingCsv<Record<string, string>>(dataDir, 'club_aliases.csv'),
+    ]);
+    return new ClubRegistry(
+        clubRows.map(clubFromCsv),
+        aliasRows.map(aliasFromCsv),
+    );
+}
+
+async function loadMergedClubRegistry(
+    dataDir: string,
+    executor: ImportExecutor,
+): Promise<ClubRegistry> {
+    const [curated, fromDb] = await Promise.all([
+        loadCuratedClubRegistry(dataDir),
+        clubRegistryFromExecutor(executor.queryAll),
+    ]);
+    return mergeClubIdentity(curated, fromDb);
+}
+
+/** Writes only curated club identity — never seasons/grades/results/games. */
+async function writeCuratedClubs(
+    dataDir: string,
+    clubRegistry: ClubRegistry,
+): Promise<void> {
+    await writeFile(
+        resolve(dataDir, 'clubs.csv'),
+        toCsv(clubRegistry.getClubs(), CLUB_COLUMNS),
+        'utf-8',
+    );
+    await writeFile(
+        resolve(dataDir, 'club_aliases.csv'),
+        toCsv(clubRegistry.getAliases(), ALIAS_COLUMNS),
+        'utf-8',
+    );
+}
+
+export async function runFetch(
+    options: FetchOptions,
+): Promise<FetchToD1Report> {
+    const dataDir = options.dataDir ?? DATA_DIR;
+    const rawDir = options.rawDir ?? RAW_DIR;
+    await mkdir(rawDir, { recursive: true });
+    const store = createFsStore(rawDir);
+
+    const [isFinalBySeasonKey, clubRegistry] = await Promise.all([
+        loadIsFinalMap(options.executor),
+        loadMergedClubRegistry(dataDir, options.executor),
+    ]);
+
+    const collect = options.collect ?? collectPlayHqData;
+    const collected = await collect({
         cacheFirst: !options.refresh,
         clubRegistry,
         games: options.games,
@@ -317,21 +299,20 @@ export async function runFetch(options: FetchOptions): Promise<FetchReport> {
         years: options.years,
     });
 
-    // Disjoint output files (`games-<year>.csv` vs the shared CSVs), so the
-    // two writers can run together.
-    const [written, games] = await Promise.all([
-        writeCsvs(
-            {
-                grades: collected.grades,
-                results: collected.results,
-                seasons: collected.seasons,
-                teams: collected.teams,
-            },
-            existingSeasons,
-            clubRegistry,
-        ),
-        writeGamesCsvs(collected.gamesByYear),
-    ]);
+    const imported = await runImportData(
+        collected.importData,
+        options.executor,
+        'subset',
+    );
+    await writeCuratedClubs(dataDir, clubRegistry);
 
-    return { ...written, games, skippedGrades: collected.report.skippedGrades };
+    return {
+        games: collected.report.games,
+        grades: collected.report.grades,
+        imported,
+        results: collected.report.results,
+        seasons: collected.report.seasons,
+        skippedGrades: collected.report.skippedGrades,
+        teams: collected.report.teams,
+    };
 }

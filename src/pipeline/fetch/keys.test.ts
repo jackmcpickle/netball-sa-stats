@@ -22,7 +22,7 @@ describe(extractSquadNumber, () => {
 
     it('does not treat a club name that legitimately ends in a digit as squad-numbered', () => {
         // Synthetic edge case: no such club exists in real committed data
-        // (data/raw/gradeLadder_*.json), but a club literally named e.g.
+        // (live gradeLadder captures), but a club literally named e.g.
         // "Club 24" could theoretically appear. There is no way to
         // distinguish this from a genuine squad-numbered team purely from
         // the display name, so this documents the known limitation rather

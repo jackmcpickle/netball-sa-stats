@@ -30,44 +30,52 @@ Pipeline code lives under `src/` — `vite.config.ts` globs tests at `src/**/*.t
 src/
   db/           schema, migrations helpers, queries
   pipeline/
-    fetch/      source scrapers → CSV
-    import/     CSV → D1, invariants
+    fetch/      PlayHQ scrapers → in-memory rows
+    import/     rows → D1, invariants
     scoring/    championship score, shared with Worker
   routes/       TanStack Start routes
   components/
 scripts/        thin CLI entrypoints only
 data/
-  raw/          per-season source captures (also test fixtures)
-  *.csv         six normalised entity files — source of truth
+  clubs.csv, club_aliases.csv   curated club identity
+  competitions.csv, grade_weights.csv   catalogue seeds
+  raw/archive/  source PDFs for the archive pipeline
+testdata/
+  e2e/              tiny handmade CI seed
+  archive-import/   tiny handmade archive-row fixture
 ```
 
 ## Architecture
 
-Two stages, deliberately decoupled.
+Two stages, still decoupled — but D1 is the store, not git.
 
 ```
-┌──────────────┐  fetch (local, networked)   ┌──────────────┐
-│ PlayHQ       │ ──────────────────────────► │ data/*.csv   │
-│              │   rate-limited, cached      │ (git, truth) │
-│              │                             └──────┬───────┘
-└──────────────┘                                    │ import (offline, pure)
-                                                    ▼
-                                             ┌──────────────┐
-┌──────────────┐        server functions     │ Cloudflare   │
-│ Web UI +     │ ◄────────────────────────── │ D1           │
-│ CSV / JSON   │                             │ (projection) │
-└──────────────┘                             └──────────────┘
+┌──────────────┐  fetch (CLI or Worker)      ┌──────────────┐
+│ PlayHQ       │ ──────────────────────────► │ D1           │
+│              │   rate-limited              │ (truth)      │
+│              │   raw cache: local / R2     └──────┬───────┘
+└──────────────┘                                    │ server functions
+                                             ┌──────▼───────┐
+                                             │ Web UI       │
+                                             └──────────────┘
 ```
 
-**Stage 1 — `fetch`.** Sources → normalised CSVs in `data/`, committed. Network-dependent, slow, occasionally manual, runs locally on an unblocked IP.
+**Stage 1 — `fetch`.** PlayHQ → validated upserts into local or remote D1. Network-dependent. CLI: `pnpm exec tsx scripts/fetch-playhq.ts` (`--remote` for production). Worker: `PlayHqImportWorkflow` / `/admin`. Raw JSON goes to a gitignored `data/raw/` cache (CLI) or R2 (Worker).
 
-**Stage 2 — `import`.** CSVs → D1 upserts. Pure, offline, fast, idempotent, runs against local or remote D1.
+**Stage 2 — `import` invariants.** Same `runImportData` path as the leftover CSV importer. Ladder positions, club aliases, played/won/lost, grade-weight coverage (championship comps only).
 
-**Why:** a PlayHQ layout change breaks stage 1 only; captured data survives in git. The database rebuilds from a clean checkout with no network. Reviewing a scrape becomes reading a CSV diff — which is how you notice a scraper silently producing garbage.
+**Git keeps code and curation**, not scraped ladders:
 
-**Consequence:** committed CSV is the real source of truth, D1 a queryable projection. CSVs must carry everything — `team_count`, `position_uncertain`, `source`, `placement_basis` — not just the display columns.
+- `data/clubs.csv`, `data/club_aliases.csv` — human-reviewed club identity. Fetch may append newly minted clubs so they can be reviewed.
+- `data/competitions.csv`, `data/grade_weights.csv` — catalogue seeds from `generate-seed.ts`. `has_data` is a seed hint; live coverage is D1 season rows.
+- `testdata/e2e/` — tiny handmade seed so CI pages render. Not a live dump.
+- Generated `data/seasons.csv`, `grades.csv`, `teams.csv`, `team_season_results.csv`, `games-*.csv`, archive staging CSVs, and live `data/raw/**/*.json` are gitignored.
 
-**Live ACTIVE seasons** can sync via `PlayHqImportWorkflow` (manual `/admin` Run import once secrets exist). Git CSV remains the archive for completed seasons. Weekly cron is **not** enabled until a Worker-isolate probe of `api.playhq.com` returns 200. See [docs/superpowers/specs/2026-08-13-playhq-automated-import-design.md](./docs/superpowers/specs/2026-08-13-playhq-automated-import-design.md).
+**Why D1, not committed CSV:** a metro-association fetch is hundreds of raw files and tens of thousands of result rows. Reviewing that as a PR is noise. Recoverability is the local cache, R2, and PlayHQ itself. Re-running fetch on an unchanged season upserts the same keys.
+
+**`is_final`** is curated in D1 (`seasons.is_final`), not inferred from PlayHQ status. Collect reads the existing map and will not flip a season to final.
+
+**Live ACTIVE seasons** sync via `PlayHqImportWorkflow` (manual `/admin` once secrets exist). Weekly cron is **not** enabled until a Worker-isolate probe of `api.playhq.com` returns 200. Cron hits PlayHQ → D1; it does not commit. See [docs/superpowers/specs/2026-08-13-playhq-automated-import-design.md](./docs/superpowers/specs/2026-08-13-playhq-automated-import-design.md).
 
 ## Scope
 
@@ -93,19 +101,19 @@ So ladders are scraped as the fact table. A `matches` table drops in later witho
 
 ## Competitions
 
-| Competition                            | Key                       | Phase 1 data                       | Org ID     |
-| -------------------------------------- | ------------------------- | ---------------------------------- | ---------- |
-| Adelaide Metropolitan Netball Division | `amnd`                    | Yes                                | `7a5f35e1` |
-| Netball SA Premier League              | `premier_league`          | Yes                                | `6fefc037` |
-| Premier League Reserves                | `premier_league_reserves` | Yes                                | `6fefc037` |
-| City Night Division                    | `city_night_division`     | No. Org filled, no imported rows   | `2276ec85` |
-| Super League                           | `super_league`            | No. Unresearched                   | —          |
-| Juniors                                | `juniors`                 | No                                 | —          |
-| SAUCNA                                 | `saucna`                  | No. Org verified, no imported rows | `fb89f1f1` |
-| Southern United (SUNA)                 | `suna`                    | No. Org verified, no imported rows | `4bd9b8ae` |
-| Elizabeth Netball Association          | `elizabeth`               | No. Org verified, no imported rows | `7ffb0e67` |
-| SAMMNA                                 | `sammna`                  | No. Org verified, no imported rows | `7936878d` |
-| SA Districts (SADNA)                   | `sadna`                   | No. Name only, PlayHQ org unknown  | —          |
+| Competition                            | Key                       | Phase 1 data                      | Org ID     |
+| -------------------------------------- | ------------------------- | --------------------------------- | ---------- |
+| Adelaide Metropolitan Netball Division | `amnd`                    | Yes                               | `7a5f35e1` |
+| Netball SA Premier League              | `premier_league`          | Yes                               | `6fefc037` |
+| Premier League Reserves                | `premier_league_reserves` | Yes                               | `6fefc037` |
+| City Night Division                    | `city_night_division`     | Fetch into D1; not championship   | `2276ec85` |
+| Super League                           | `super_league`            | No. Unresearched                  | —          |
+| Juniors                                | `juniors`                 | No                                | —          |
+| SAUCNA                                 | `saucna`                  | Fetch into D1; not championship   | `fb89f1f1` |
+| Southern United (SUNA)                 | `suna`                    | Fetch into D1; not championship   | `4bd9b8ae` |
+| Elizabeth Netball Association          | `elizabeth`               | Fetch into D1; not championship   | `7ffb0e67` |
+| SAMMNA                                 | `sammna`                  | Fetch into D1; not championship   | `7936878d` |
+| SA Districts (SADNA)                   | `sadna`                   | No. Name only, PlayHQ org unknown | —          |
 
 The first three carry ladder data and championship weights. Metro associations have verified PlayHQ org IDs (checked 2026-08-22 via `discoverCompetitions`). `COLLECT_JOBS` in `collect.ts` walks those orgs the same way as AMND. New association jobs start at 2023. `--org` / `--competition` still targets one. `0001_seed.sql` is already applied, so the new rows land in `drizzle/0009_sa_associations.sql`.
 
@@ -127,9 +135,9 @@ Indexed PlayHQ slugs that match the live metro orgs: Elizabeth `elizabeth-netbal
 
 **PlayHQ only. 2022–2026, five seasons.**
 
-| Source | Seasons                                                                           | Gives                                 |
-| ------ | --------------------------------------------------------------------------------- | ------------------------------------- |
-| PlayHQ | AMND 2022–2026, PL 2022–2026. Association orgs verified, no imported ladders yet. | Full ladders + team stats for AMND/PL |
+| Source | Seasons                                                                   | Gives                     |
+| ------ | ------------------------------------------------------------------------- | ------------------------- |
+| PlayHQ | AMND 2022–2026, PL 2022–2026. Metro associations fetch into D1 from 2023. | Full ladders + team stats |
 
 Premier League has **no 2022 season** — it did not run, due to COVID. That is a real-world absence, not missing data, and the UI should say so rather than render a gap. AMND ran 2022 normally.
 
@@ -141,9 +149,9 @@ The schema still carries `source`, `placement_basis`, `position_uncertain` and n
 
 ### Scrape etiquette
 
-Re-publishing rather than personal archiving, so: **1 request/second**, descriptive User-Agent with a contact, responses cached to `data/raw/` so re-runs never re-hit the source.
+Re-publishing rather than personal archiving, so: **1 request/second**, descriptive User-Agent with a contact. Responses cache to gitignored `data/raw/` (CLI) or R2 (Worker) so re-runs need not re-hit the source. Do not commit live captures.
 
-PlayHQ HTML org pages still 403 datacenter IPs. GraphQL with the identifying User-Agent and required `Origin` / `tenant` headers is the fetch path (`src/pipeline/fetch/playhq-client.ts`). CLI caches to `data/raw/`; the Worker stores live captures in R2. Weekly cron stays off until a Worker-isolate probe of `api.playhq.com` returns 200.
+PlayHQ HTML org pages still 403 datacenter IPs. GraphQL with the identifying User-Agent and required `Origin` / `tenant` headers is the fetch path (`src/pipeline/fetch/playhq-client.ts`). Weekly cron stays off until a Worker-isolate probe of `api.playhq.com` returns 200.
 
 ## Data model
 
@@ -158,22 +166,22 @@ PlayHQ HTML org pages still 403 datacenter IPs. GraphQL with the identifying Use
 
 ### `seasons`
 
-| Column             | Type          | Notes                                             |
-| ------------------ | ------------- | ------------------------------------------------- |
-| id                 | integer PK    |                                                   |
-| competition_id     | integer FK    |                                                   |
-| season_key         | text unique   | `amnd-winter-2025`                                |
-| competition_period | text          | `winter` \| `summer` \| `annual`                  |
-| label              | text          | `Winter 2025`, `Summer 2025/26`                   |
-| start_year         | integer       |                                                   |
-| end_year           | integer       | Same as start for winter/annual; +1 for summer    |
-| is_final           | integer       | **Human-curated in the season CSV**, not inferred |
-| playhq_id          | text nullable |                                                   |
-| source             | text          | `playhq` (archive values reserved)                |
+| Column             | Type          | Notes                                          |
+| ------------------ | ------------- | ---------------------------------------------- |
+| id                 | integer PK    |                                                |
+| competition_id     | integer FK    |                                                |
+| season_key         | text unique   | `amnd-winter-2025`                             |
+| competition_period | text          | `winter` \| `summer` \| `annual`               |
+| label              | text          | `Winter 2025`, `Summer 2025/26`                |
+| start_year         | integer       |                                                |
+| end_year           | integer       | Same as start for winter/annual; +1 for summer |
+| is_final           | integer       | **Human-curated in D1**, not inferred          |
+| playhq_id          | text nullable |                                                |
+| source             | text          | `playhq` (archive values reserved)             |
 
 Unique logical key: `(competition_id, competition_period, start_year)`.
 
-`is_final` is curated because a scraper cannot reliably distinguish a round-18 ladder from a round-22 one. Marking a season final is a one-character diff in a file you already edit a few times a year.
+`is_final` is curated because a scraper cannot reliably distinguish a round-18 ladder from a round-22 one. Flip it in D1 (or a future admin control), not by inferring PlayHQ `COMPLETED`.
 
 ### `clubs`
 
@@ -319,7 +327,7 @@ Two kinds of failure, two kinds of test.
 - Every club name resolves via `club_aliases`
 - A grade that previously had N teams and now has far fewer → warning
 
-**Parser fixture tests** catch _breaking your own code_ — run against the `data/raw/` captures, which are already committed, so the fixtures are free.
+**Parser fixture tests** catch _breaking your own code_ — handmade rounds and standings in the unit tests, not a live scrape dump.
 
 Invariants will occasionally fire on legitimately odd data — a mid-season withdrawal, a shared position. Those get hand-curated exceptions. That friction is correct for a dataset whose selling point is "free to check".
 
@@ -344,7 +352,7 @@ Sections: rankings table, club profile, ladders, method. Head-to-head and Result
 ## Phases
 
 1. **Schema** — tables above, one clean migration, seed competitions + grade weights
-2. **Import** — fetch PlayHQ → CSV → D1, with invariants and fixture tests
+2. **Import** — fetch PlayHQ → D1, with invariants and fixture tests
 3. **Backend APIs** — server functions for the UI, plus public JSON + CSV export
 4. **UI** — componentise `docs/design` with Tailwind + Base UI + SVG charts, sample data
 5. **Wire up** — connect UI to real backend
@@ -353,11 +361,12 @@ Sections: rankings table, club profile, ladders, method. Head-to-head and Result
 
 ## Success criteria
 
-- Rebuilds from a clean checkout: `import` → D1 → working site, no network
+- A fetch of SAUCNA (or any catalogued org) does not create a git-tracked CSV or `data/raw/` file; D1 gets the rows
+- Rebuild a local site: migrate + `fetch-playhq` against PlayHQ (or `import-csv --dir testdata/e2e` for the tiny CI seed)
 - Every stored team has `ladder_position`; every grade has `team_count`
 - Championship rankings render for AMND + PL across available seasons
-- Coverage (2022–2026) stated plainly in the UI; no implied history the data lacks
-- Re-running fetch on an unchanged season produces an empty CSV diff
+- Coverage stated from D1 rows; catalogue `has_data` is not the live flag
+- Re-running fetch on an unchanged season upserts the same keys
 
 ## Unresolved
 

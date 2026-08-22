@@ -2,7 +2,7 @@ import type { CsvValue } from '@/pipeline/csv';
 /**
  * Pure mapping from a `gradeLadder` response's standings to
  * `team_season_results` CSV rows. No network, no filesystem — fixture-tested
- * against the committed `data/raw/probe/gradeLadder_*.json` captures.
+ * against handmade standings in `ladder.test.ts`.
  */
 
 export interface Standing {

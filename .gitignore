@@ -42,6 +42,27 @@ dist-ssr
 .superpowers/
 .worktrees/
 
-# Derived CSV exports (data/*.csv and data/raw/ are committed)
+# PlayHQ scrape cache. Recoverable via re-fetch or R2. Archive source
+# PDFs stay under data/raw/archive/.
+data/raw/**/*.json
+data/raw/captured-at.json
+data/raw/probe/
+
+# Generated entity dumps. Fetch writes D1, not these. Curated identity
+# stays in clubs.csv / club_aliases.csv. Catalogue seeds stay in
+# competitions.csv / grade_weights.csv.
+data/seasons.csv
+data/grades.csv
+data/teams.csv
+data/team_season_results.csv
+data/games-*.csv
+
+# Archive pipeline staging. Regenerated from data/raw/archive/*.pdf.
+data/archive/*.csv
+data/archive/fixtures/
+data/archive/placements/
+data/archive/team-names.json
+
+# Derived CSV exports
 data/export/
 coverage/

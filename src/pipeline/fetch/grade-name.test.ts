@@ -21,7 +21,7 @@ describe(parseGradeName, () => {
         });
     });
 
-    it('parses real AMND Winter 2023 names (data/raw/probe fixture)', () => {
+    it('parses real AMND Winter 2023 names', () => {
         expect(parseGradeName('B1')).toStrictEqual({ division: 1, tier: 5 });
         expect(parseGradeName('INTER 1')).toStrictEqual({
             division: 1,
@@ -80,11 +80,11 @@ describe(parseGradeName, () => {
     it('falls back on an unknown association grade instead of throwing', () => {
         expect(parseGradeName('Mystery Grade 9', 'saucna')).toStrictEqual({
             division: 9,
-            tier: 99,
+            tier: 20,
         });
         expect(parseGradeName('Open Women', 'elizabeth')).toStrictEqual({
             division: null,
-            tier: 99,
+            tier: 20,
         });
     });
 
@@ -127,7 +127,7 @@ describe('parseGradeName for SA associations', () => {
         });
         expect(parseGradeName('D3', 'elizabeth')).toStrictEqual({
             division: 3,
-            tier: 3,
+            tier: 4,
         });
         expect(parseGradeName('Seniors Div 01', 'suna')).toStrictEqual({
             division: 1,
@@ -142,17 +142,17 @@ describe('parseGradeName for SA associations', () => {
     it('parses inter and age-group names from the verified winter lists', () => {
         expect(parseGradeName('Inter 1', 'elizabeth')).toStrictEqual({
             division: 1,
-            tier: 4,
+            tier: 5,
         });
         expect(
             parseGradeName('INTER 4 A', 'city_night_division'),
         ).toStrictEqual({
             division: 4,
-            tier: 4,
+            tier: 5,
         });
         expect(parseGradeName('Inters 2', 'suna')).toStrictEqual({
             division: 2,
-            tier: 4,
+            tier: 5,
         });
         expect(parseGradeName('Junior 3', 'elizabeth')).toStrictEqual({
             division: 3,
@@ -167,6 +167,30 @@ describe('parseGradeName for SA associations', () => {
         ).toStrictEqual({
             division: null,
             tier: 1,
+        });
+        expect(
+            parseGradeName("M-League Men's Division 1", 'sammna'),
+        ).toStrictEqual({
+            division: 1,
+            tier: 1,
+        });
+        expect(
+            parseGradeName('M-League Junior Mixed Division', 'sammna'),
+        ).toStrictEqual({
+            division: null,
+            tier: 2,
+        });
+        expect(parseGradeName('Open Mens', 'sammna')).toStrictEqual({
+            division: null,
+            tier: 1,
+        });
+        expect(parseGradeName('Junior Boys', 'sammna')).toStrictEqual({
+            division: null,
+            tier: 2,
+        });
+        expect(parseGradeName('U14 Boys', 'elizabeth')).toStrictEqual({
+            division: null,
+            tier: 7,
         });
         expect(parseGradeName('8U/1', 'saucna')).toStrictEqual({
             division: 1,

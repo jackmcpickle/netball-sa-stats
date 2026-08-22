@@ -4,12 +4,12 @@
  * for AMND / Premier League).
  *
  * PlayHQ's real names vary in spacing/punctuation from the brief's examples
- * (`data/raw/probe/gradeListDiscoverSeason_amnd_winter2023_7570c2c4.json`
- * has e.g. `AMND`, `A GRADE`, `B1`, `INTER 1`, `Sub Junior 1`) so matching is
+ * (`AMND`, `A GRADE`, `B1`, `INTER 1`, `Sub Junior 1`) so matching is
  * done on a normalised (uppercased, punctuation-stripped) form. An
  * unrecognised AMND / Premier League name throws. Association keys use a
- * separate rule table, then fall back to tier 99 so an unknown country
- * grade does not abort the fetch. Those tiers are not championship weights.
+ * separate rule table, then fall back to tier 20 so an unknown country
+ * grade does not abort the fetch or fail the import schema (tier 1..20).
+ * Those tiers are not championship weights.
  */
 import { isNull, isUndefined } from 'es-toolkit';
 import { ASSOCIATION_COMPETITION_KEYS } from '@/pipeline/seed/catalogue';
@@ -32,6 +32,7 @@ function normalise(name: string): string {
     return name
         .toUpperCase()
         .replaceAll(/[./-]/gu, ' ')
+        .replaceAll(/['’]/gu, '')
         .replaceAll(/\s+/gu, ' ')
         .trim();
 }
@@ -61,14 +62,16 @@ const ASSOCIATION_RULES: readonly Rule[] = [
     { pattern: /^A GRADE$/u, tier: 1 },
     { pattern: /^A ?(?<division>\d+)(?: GRADE)?$/u, tier: 1 },
     { pattern: /^SENIORS DIV(?:ISION)? 0*(?<division>\d+)$/u, tier: 1 },
-    { pattern: /^M LEAGUE MENS DIVISION$/u, tier: 1 },
+    { pattern: /^M LEAGUE MENS DIVISION(?: (?<division>\d+))?$/u, tier: 1 },
+    { pattern: /^OPEN MENS?$/u, tier: 1 },
     { pattern: /^B ?(?<division>\d+)$/u, tier: 2 },
-    { pattern: /^M LEAGUE JUNIOR DIVISION$/u, tier: 2 },
+    { pattern: /^M LEAGUE JUNIOR(?: MIXED)? DIVISION$/u, tier: 2 },
+    { pattern: /^JUNIOR BOYS$/u, tier: 2 },
     { pattern: /^C GRADE$/u, tier: 3 },
     { pattern: /^C ?(?<division>\d+)$/u, tier: 3 },
-    { pattern: /^D ?(?<division>\d+)$/u, tier: 3 },
-    { pattern: /^INTERS? DIV(?:ISION)? 0*(?<division>\d+)$/u, tier: 4 },
-    { pattern: /^INTERS? 0*(?<division>\d+)(?: [A-Z])?$/u, tier: 4 },
+    { pattern: /^D ?(?<division>\d+)$/u, tier: 4 },
+    { pattern: /^INTERS? DIV(?:ISION)? 0*(?<division>\d+)$/u, tier: 5 },
+    { pattern: /^INTERS? 0*(?<division>\d+)(?: [A-Z])?$/u, tier: 5 },
     { pattern: /^JUNIOR ?(?<division>\d+) ?[A-Z]?$/u, tier: 8 },
     { pattern: /^SUB JUNIOR ?(?<division>\d+) ?[A-Z]?$/u, tier: 9 },
     { pattern: /^PRIMARY ?(?<division>\d+) ?[A-Z]?$/u, tier: 10 },
@@ -77,19 +80,21 @@ const ASSOCIATION_RULES: readonly Rule[] = [
     { pattern: /^NSG GO(?<division>\d+)$/u, tier: 12 },
     {
         pattern:
-            /^(?<age>8|9|11|13|15|17) ?(?:& ?)?U(?:NDERS?)? DIV(?:ISION)? ?0*(?<division>\d+)$/u,
+            /^(?<age>8|9|11|13|14|15|17) ?(?:& ?)?U(?:NDERS?)? DIV(?:ISION)? ?0*(?<division>\d+)$/u,
         tier: 0,
     },
     {
         pattern:
-            /^(?<age>8|9|11|13|15|17) ?(?:& ?)?U(?:NDERS?)? 0*(?<division>\d+)$/u,
+            /^(?<age>8|9|11|13|14|15|17) ?(?:& ?)?U(?:NDERS?)? 0*(?<division>\d+)$/u,
         tier: 0,
     },
+    { pattern: /^U ?(?<age>8|9|11|13|14|15|17) BOYS$/u, tier: 0 },
 ];
 
 const AGE_TIER = new Map<string, number>([
     ['17', 5],
     ['15', 6],
+    ['14', 7],
     ['13', 7],
     ['11', 8],
     ['9', 9],
@@ -116,7 +121,7 @@ function associationFallback(name: string): ParsedGrade {
     const digits = match?.groups?.division;
     return {
         division: isUndefined(digits) ? null : Number(digits),
-        tier: 99,
+        tier: 20,
     };
 }
 

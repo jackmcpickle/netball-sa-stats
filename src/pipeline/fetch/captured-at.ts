@@ -1,5 +1,5 @@
 /**
- * When each raw capture under `data/raw/` was actually fetched.
+ * When each raw capture under the local `data/raw/` cache (gitignored) was fetched.
  *
  * `scraped_at` used to be the cache file's mtime. Git does not preserve
  * mtimes, so every `git checkout` rewrote them, and the next fetch then

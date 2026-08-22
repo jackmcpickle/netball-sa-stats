@@ -251,6 +251,91 @@ describe(runImport, () => {
             }),
         ).rejects.toThrow(/grade_weights does not cover every imported grade/u);
     });
+
+    it('imports an unweighted association grade alongside AMND without inventing bands', async () => {
+        const full = await loadImportData(FIXTURE_DIR);
+        const combined: ImportData = {
+            clubAliases: full.clubAliases,
+            clubs: full.clubs,
+            games: full.games,
+            grades: [
+                ...full.grades,
+                {
+                    ageBand: 'Senior',
+                    division: 1,
+                    gradeKey: 'saucna-winter-2023-a1',
+                    name: 'A1',
+                    playhqId: 'saucna-a1',
+                    seasonKey: 'saucna-winter-2023',
+                    teamCount: 2,
+                    tier: 1,
+                },
+            ],
+            results: [
+                ...full.results,
+                ...full.results
+                    .filter(
+                        (row) => row.gradeKey === 'amnd-winter-2023-a-grade',
+                    )
+                    .map((row) => ({
+                        ...row,
+                        gradeKey: 'saucna-winter-2023-a1',
+                        playhqId: `${row.playhqId}-saucna`,
+                    })),
+            ],
+            seasons: [
+                ...full.seasons,
+                {
+                    competitionKey: 'saucna',
+                    competitionPeriod: 'winter',
+                    endYear: 2023,
+                    isFinal: true,
+                    label: 'SAUCNA Winter 2023',
+                    playhqId: 'saucna-2023',
+                    seasonKey: 'saucna-winter-2023',
+                    source: 'playhq',
+                    startYear: 2023,
+                },
+            ],
+            teams: [
+                ...full.teams,
+                ...full.teams
+                    .filter(
+                        (row) => row.gradeKey === 'amnd-winter-2023-a-grade',
+                    )
+                    .map((row) => ({
+                        ...row,
+                        gradeKey: 'saucna-winter-2023-a1',
+                        playhqId: `${row.playhqId}-saucna`,
+                    })),
+            ],
+        };
+
+        const report = await runImportData(
+            combined,
+            createSqliteExecutor(db),
+            'exact',
+        );
+
+        expect(report.seasons).toBe(full.seasons.length + 1);
+        expect(report.grades).toBe(full.grades.length + 1);
+        // SAFETY: COUNT(*) always yields one numeric row.
+        const saucnaWeights = db
+            .prepare(
+                `SELECT COUNT(*) AS n FROM grade_weights
+                 WHERE competition_id = (SELECT id FROM competitions WHERE key = 'saucna');`,
+            )
+            .get() as { n: number };
+        expect(saucnaWeights.n).toBe(0);
+        // SAFETY: COUNT(*) always yields one numeric row.
+        const amndWeights = db
+            .prepare(
+                `SELECT COUNT(*) AS n FROM grade_weights
+                 WHERE competition_id = (SELECT id FROM competitions WHERE key = 'amnd');`,
+            )
+            .get() as { n: number };
+        expect(amndWeights.n).toBeGreaterThan(0);
+    });
 });
 
 describe('games import', () => {

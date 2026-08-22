@@ -1,11 +1,7 @@
-import { readFileSync } from 'node:fs';
-import { resolve } from 'node:path';
-import { isNull } from 'es-toolkit';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { createMemoryStore } from '@/pipeline/fetch/capture-store';
 import { ClubRegistry } from '@/pipeline/fetch/club-registry';
 import type { GameRow } from '@/pipeline/fetch/games';
-import { flattenStandings } from '@/pipeline/fetch/ladder';
 import type { Standing } from '@/pipeline/fetch/ladder';
 import {
     AMND_ORG_ID,
@@ -27,25 +23,54 @@ import {
     seasonWanted,
 } from '@/pipeline/fetch/run';
 import type { GradeContext } from '@/pipeline/fetch/run';
-import type { GradeLadderResponse } from '@/pipeline/fetch/types';
-
-const ladderFixturePath = resolve(
-    import.meta.dirname,
-    '../../../data/raw/probe/gradeLadder_premier_2023_3c7d2b13.json',
-);
 
 function loadStandings(): readonly Standing[] {
-    // SAFETY: this repo's own committed PlayHQ probe capture, the recorded
-    // `gradeLadder` response; the asserted shape is the same one `collect.ts`
-    // reads that capture back as, and `discoverGrade` is null-checked below.
-    const response = JSON.parse(
-        readFileSync(ladderFixturePath, 'utf-8'),
-    ) as GradeLadderResponse;
-    const { discoverGrade } = response.data;
-    if (isNull(discoverGrade)) {
-        throw new Error('fixture has no discoverGrade');
-    }
-    return flattenStandings(discoverGrade.ladder);
+    return [
+        {
+            byes: 0,
+            competitionPoints: 26,
+            drawn: 0,
+            forfeits: 0,
+            lost: 1,
+            percentage: 163.38,
+            played: 14,
+            pointsAgainst: 538,
+            pointsDifference: 0,
+            pointsFor: 879,
+            team: {
+                id: 'contax',
+                name: 'Contax',
+                organisation: {
+                    id: 'contax',
+                    name: 'Contax',
+                    type: 'CLUB',
+                },
+            },
+            won: 13,
+        },
+        {
+            byes: 0,
+            competitionPoints: 24,
+            drawn: 0,
+            forfeits: 0,
+            lost: 2,
+            percentage: 154.41,
+            played: 14,
+            pointsAgainst: 555,
+            pointsDifference: 0,
+            pointsFor: 857,
+            team: {
+                id: 'matrics',
+                name: 'Matrics',
+                organisation: {
+                    id: 'matrics',
+                    name: 'Matrics',
+                    type: 'CLUB',
+                },
+            },
+            won: 12,
+        },
+    ];
 }
 
 function baseCtx(
@@ -361,6 +386,29 @@ describe('processGrade curation safety: seasons.is_final', () => {
         const result = processGrade(grade, standings, ctx, registry, 1000);
         expect(result?.seasonRow.status).toBe('in_progress');
         expect(result?.seasonRow.is_final).toBe(1);
+    });
+
+    it('sets summer end_year to start_year + 1 so City Night imports', () => {
+        const registry = new ClubRegistry([], []);
+        const result = processGrade(
+            { age: null, id: 'cnd-a1', name: 'A1 Grade' },
+            standings,
+            {
+                isFinalBySeasonKey: new Map(),
+                orgId: CITY_NIGHT_ORG_ID,
+                period: 'summer',
+                playHqCompetitionName: 'City Night Division 1',
+                seasonName: 'Summer 2023/24',
+                seasonPlayhqId: 'cnd-2023',
+                seasonStatus: 'completed',
+                startYear: 2023,
+            },
+            registry,
+            1000,
+        );
+        expect(result?.seasonRow.competition_period).toBe('summer');
+        expect(result?.seasonRow.start_year).toBe(2023);
+        expect(result?.seasonRow.end_year).toBe(2024);
     });
 });
 

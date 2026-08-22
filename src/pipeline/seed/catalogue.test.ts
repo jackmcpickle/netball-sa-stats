@@ -63,7 +63,7 @@ describe('competition catalogue', () => {
         expect(orgIds).not.toContain('489c7576');
     });
 
-    it('does not claim data for any new association', () => {
+    it('does not mark associations as championship-data competitions', () => {
         const claiming = COMPETITION_SEEDS.filter(
             (competition) =>
                 competition.hasData &&
