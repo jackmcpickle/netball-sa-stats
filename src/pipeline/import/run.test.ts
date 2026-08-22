@@ -251,6 +251,117 @@ describe(runImport, () => {
             }),
         ).rejects.toThrow(/grade_weights does not cover every imported grade/u);
     });
+
+    it('imports an association grade that has no championship weights', async () => {
+        const full = await loadImportData(FIXTURE_DIR);
+        const extra: ImportData = {
+            ...full,
+            grades: [
+                ...full.grades,
+                {
+                    ageBand: 'Senior',
+                    division: 1,
+                    gradeKey: 'saucna-winter-2024-a1',
+                    name: 'A1',
+                    playhqId: 'saucna-grade',
+                    seasonKey: 'saucna-winter-2024',
+                    teamCount: 2,
+                    tier: 20,
+                },
+            ],
+            results: [
+                ...full.results,
+                {
+                    byes: 0,
+                    clubKey: 'fixture-club-a',
+                    displayName: 'Fixture Club A',
+                    drawn: 0,
+                    goalDifference: 20,
+                    goalsAgainst: 80,
+                    goalsFor: 100,
+                    gradeKey: 'saucna-winter-2024-a1',
+                    ladderPosition: 1,
+                    lost: 0,
+                    notes: null,
+                    percentage: 125,
+                    placementBasis: 'regular_season_ladder',
+                    played: 10,
+                    playhqId: 'saucna-team-a',
+                    points: 20,
+                    positionUncertain: false,
+                    scrapedAt: 1_700_000_002,
+                    shotsAttempted: null,
+                    shotsScored: null,
+                    source: 'playhq',
+                    squadNumber: null,
+                    won: 10,
+                },
+                {
+                    byes: 0,
+                    clubKey: 'fixture-club-b',
+                    displayName: 'Fixture Club B',
+                    drawn: 0,
+                    goalDifference: -20,
+                    goalsAgainst: 100,
+                    goalsFor: 80,
+                    gradeKey: 'saucna-winter-2024-a1',
+                    ladderPosition: 2,
+                    lost: 10,
+                    notes: null,
+                    percentage: 80,
+                    placementBasis: 'regular_season_ladder',
+                    played: 10,
+                    playhqId: 'saucna-team-b',
+                    points: 0,
+                    positionUncertain: false,
+                    scrapedAt: 1_700_000_002,
+                    shotsAttempted: null,
+                    shotsScored: null,
+                    source: 'playhq',
+                    squadNumber: null,
+                    won: 0,
+                },
+            ],
+            seasons: [
+                ...full.seasons,
+                {
+                    competitionKey: 'saucna',
+                    competitionPeriod: 'winter',
+                    endYear: 2024,
+                    isFinal: true,
+                    label: 'Winter 2024',
+                    playhqId: 'saucna-2024',
+                    seasonKey: 'saucna-winter-2024',
+                    source: 'playhq',
+                    startYear: 2024,
+                },
+            ],
+            teams: [
+                ...full.teams,
+                {
+                    clubKey: 'fixture-club-a',
+                    displayName: 'Fixture Club A',
+                    gradeKey: 'saucna-winter-2024-a1',
+                    playhqId: 'saucna-team-a',
+                    squadNumber: null,
+                },
+                {
+                    clubKey: 'fixture-club-b',
+                    displayName: 'Fixture Club B',
+                    gradeKey: 'saucna-winter-2024-a1',
+                    playhqId: 'saucna-team-b',
+                    squadNumber: null,
+                },
+            ],
+        };
+
+        await expect(
+            runImportData(extra, createSqliteExecutor(db), 'exact'),
+        ).resolves.toMatchObject({
+            grades: extra.grades.length,
+            seasons: extra.seasons.length,
+        });
+    });
 });
 
 describe('games import', () => {

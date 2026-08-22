@@ -8,8 +8,9 @@
  * has e.g. `AMND`, `A GRADE`, `B1`, `INTER 1`, `Sub Junior 1`) so matching is
  * done on a normalised (uppercased, punctuation-stripped) form. An
  * unrecognised AMND / Premier League name throws. Association keys use a
- * separate rule table, then fall back to tier 99 so an unknown country
- * grade does not abort the fetch. Those tiers are not championship weights.
+ * separate rule table, then fall back to tier 20 so an unknown grade does
+ * not abort the fetch. 20 is the import schema ceiling and is not a
+ * championship weight.
  */
 import { isNull, isUndefined } from 'es-toolkit';
 import { ASSOCIATION_COMPETITION_KEYS } from '@/pipeline/seed/catalogue';
@@ -116,7 +117,7 @@ function associationFallback(name: string): ParsedGrade {
     const digits = match?.groups?.division;
     return {
         division: isUndefined(digits) ? null : Number(digits),
-        tier: 99,
+        tier: 20,
     };
 }
 

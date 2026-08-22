@@ -162,6 +162,9 @@ async function assertRowCountsMatch(
 async function assertGradeWeightCoverage(
     queryAll: (sql: string) => Promise<Record<string, unknown>[]>,
 ): Promise<void> {
+    // Only competitions that already have weights (AMND/PL) must cover every
+    // imported grade. Association ladders are imported without championship
+    // weights on purpose — they must not mix into the AMND/PL score.
     const unweighted = await queryAll(`
         SELECT g.grade_key AS gradeKey, s.start_year AS year
         FROM grades g
@@ -170,7 +173,12 @@ async function assertGradeWeightCoverage(
             ON gw.competition_id = s.competition_id
             AND gw.tier = g.tier
             AND gw.division IS g.division
-        WHERE gw.id IS NULL;
+        WHERE gw.id IS NULL
+          AND EXISTS (
+              SELECT 1
+              FROM grade_weights existing
+              WHERE existing.competition_id = s.competition_id
+          );
     `);
     if (unweighted.length > 0) {
         const offenders = unweighted
