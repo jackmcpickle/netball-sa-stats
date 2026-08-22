@@ -1,11 +1,7 @@
-import { readFileSync } from 'node:fs';
-import { resolve } from 'node:path';
-import { isNull } from 'es-toolkit';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { createMemoryStore } from '@/pipeline/fetch/capture-store';
 import { ClubRegistry } from '@/pipeline/fetch/club-registry';
 import type { GameRow } from '@/pipeline/fetch/games';
-import { flattenStandings } from '@/pipeline/fetch/ladder';
 import type { Standing } from '@/pipeline/fetch/ladder';
 import {
     AMND_ORG_ID,
@@ -27,25 +23,54 @@ import {
     seasonWanted,
 } from '@/pipeline/fetch/run';
 import type { GradeContext } from '@/pipeline/fetch/run';
-import type { GradeLadderResponse } from '@/pipeline/fetch/types';
-
-const ladderFixturePath = resolve(
-    import.meta.dirname,
-    '../../../testdata/playhq/gradeLadder_premier_2023_3c7d2b13.json',
-);
 
 function loadStandings(): readonly Standing[] {
-    // SAFETY: this repo's own committed PlayHQ probe capture, the recorded
-    // `gradeLadder` response; the asserted shape is the same one `collect.ts`
-    // reads that capture back as, and `discoverGrade` is null-checked below.
-    const response = JSON.parse(
-        readFileSync(ladderFixturePath, 'utf-8'),
-    ) as GradeLadderResponse;
-    const { discoverGrade } = response.data;
-    if (isNull(discoverGrade)) {
-        throw new Error('fixture has no discoverGrade');
-    }
-    return flattenStandings(discoverGrade.ladder);
+    return [
+        {
+            byes: 0,
+            competitionPoints: 26,
+            drawn: 0,
+            forfeits: 0,
+            lost: 1,
+            percentage: 163.38,
+            played: 14,
+            pointsAgainst: 538,
+            pointsDifference: 0,
+            pointsFor: 879,
+            team: {
+                id: 'contax',
+                name: 'Contax',
+                organisation: {
+                    id: 'contax',
+                    name: 'Contax',
+                    type: 'CLUB',
+                },
+            },
+            won: 13,
+        },
+        {
+            byes: 0,
+            competitionPoints: 24,
+            drawn: 0,
+            forfeits: 0,
+            lost: 2,
+            percentage: 154.41,
+            played: 14,
+            pointsAgainst: 555,
+            pointsDifference: 0,
+            pointsFor: 857,
+            team: {
+                id: 'matrics',
+                name: 'Matrics',
+                organisation: {
+                    id: 'matrics',
+                    name: 'Matrics',
+                    type: 'CLUB',
+                },
+            },
+            won: 12,
+        },
+    ];
 }
 
 function baseCtx(

@@ -1,4 +1,3 @@
-import { readFileSync } from 'node:fs';
 import { isNull } from 'es-toolkit';
 import { describe, expect, it } from 'vitest';
 import {
@@ -7,22 +6,11 @@ import {
     scoreOf,
     toGameRows,
 } from '@/pipeline/fetch/games';
-import type { FixtureGame, FixtureRound } from '@/pipeline/fetch/games';
-
-function capture(name: string): readonly FixtureRound[] {
-    // SAFETY: these are this repo's own committed PlayHQ probe captures under
-    // `testdata/playhq/`, each the recorded `gradeAllRounds` response; the
-    // asserted shape is the same one `collect.ts` reads them back as.
-    const parsed = JSON.parse(
-        readFileSync(`testdata/playhq/${name}.json`, 'utf-8'),
-    ) as { data: { discoverGradeFixture: readonly FixtureRound[] } };
-    return parsed.data.discoverGradeFixture;
-}
-
-const premier = capture('gradeAllRounds_premier_2026_a95c2301');
-const reserves = capture('gradeAllRounds_reserves_2026_byes_ae6df43a');
-const draws = capture('gradeAllRounds_amnd_agrade_2026_draws_98973113');
-const forfeit = capture('gradeAllRounds_amnd_junior8_2024_forfeit_3723a749');
+import type {
+    FixtureGame,
+    FixtureRound,
+    FixtureTeam,
+} from '@/pipeline/fetch/games';
 
 function game(overrides: Partial<FixtureGame>): FixtureGame {
     return {
@@ -198,6 +186,97 @@ describe(classifyGame, () => {
         );
     });
 });
+
+function playedGame(
+    id: string,
+    homeScore: number,
+    awayScore: number,
+    alias: string | null = null,
+): FixtureGame {
+    return {
+        ...result('HOME_TEAM_WON_BY_SCORE', homeScore, awayScore),
+        alias,
+        id,
+    };
+}
+
+function upcomingGame(id: string): FixtureGame {
+    return game({ id });
+}
+
+function fixtureRound(
+    id: string,
+    number: number,
+    name: string,
+    games: FixtureGame[],
+    options: { finals?: boolean; byes?: readonly FixtureTeam[] } = {},
+): FixtureRound {
+    return {
+        abbreviatedName: name,
+        byes: options.byes ?? [],
+        games,
+        id,
+        isFinalsRound: options.finals ?? false,
+        name,
+        number,
+    };
+}
+
+const midRounds: FixtureRound[] = Array.from({ length: 12 }, (_, index) => {
+    const number = index + 2;
+    return fixtureRound(
+        `r${String(number)}`,
+        number,
+        `Round ${String(number)}`,
+        [playedGame(`mid-${String(number)}`, 40, 30)],
+    );
+});
+
+const premier: FixtureRound[] = [
+    fixtureRound('r1', 1, 'Round 1', [
+        playedGame('p1', 50, 40),
+        playedGame('p2', 48, 41),
+        playedGame('p3', 39, 38),
+        playedGame('p4', 55, 30),
+    ]),
+    ...midRounds,
+    fixtureRound('r14', 14, 'Round 14', [
+        upcomingGame('u1'),
+        upcomingGame('u2'),
+        upcomingGame('u3'),
+        upcomingGame('u4'),
+    ]),
+    fixtureRound(
+        'f1',
+        1,
+        'Finals Round 1',
+        [playedGame('pf', 45, 40, 'Preliminary Final')],
+        { finals: true },
+    ),
+    fixtureRound('f3', 3, 'Finals', [playedGame('gf', 50, 42, 'Grand Final')], {
+        finals: true,
+    }),
+];
+
+const reserves: FixtureRound[] = [
+    fixtureRound('rr1', 1, 'Round 1', [playedGame('rg1', 40, 30)], {
+        byes: [{ id: 'bye-team', name: 'Bye Club', organisation: null }],
+    }),
+];
+
+const draws: FixtureRound[] = [
+    fixtureRound('dr1', 1, 'Round 1', [
+        { ...result('DRAW_BY_SCORE', 40, 40), id: 'd1' },
+        { ...result('DRAW_BY_SCORE', 35, 35), id: 'd2' },
+        { ...result('DRAW_BY_SCORE', 48, 48), id: 'd3' },
+    ]),
+];
+
+const forfeit: FixtureRound[] = [
+    fixtureRound('fr1', 1, 'Round 1', [
+        { ...result('AWAY_TEAM_WON_BY_FORFEIT', 0, 20), id: 'forfeit-1' },
+    ]),
+];
 
 describe(playedAtEpoch, () => {
     it('reads a date and time as Adelaide local time', () => {

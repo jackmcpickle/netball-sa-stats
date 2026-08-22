@@ -50,8 +50,9 @@ jobs:
       - name: Install Chromium
         run: pnpm exec playwright install --with-deps chromium
 
-      # Migrations seed the catalogue. testdata/e2e/ is a snapshot of AMND/PL
-      # rows for pages that 500 without results. Live fetch writes D1, not git.
+      # Migrations seed the catalogue. testdata/e2e/ is a tiny handmade
+      # seed so pages that 500 without results still render. Live fetch
+      # writes D1, not git.
       - name: Build local D1 database
         run: |
           pnpm run db:migrate:local

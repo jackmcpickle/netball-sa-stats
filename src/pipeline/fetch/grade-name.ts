@@ -4,8 +4,7 @@
  * for AMND / Premier League).
  *
  * PlayHQ's real names vary in spacing/punctuation from the brief's examples
- * (`testdata/playhq/gradeListDiscoverSeason_amnd_winter2023_7570c2c4.json`
- * has e.g. `AMND`, `A GRADE`, `B1`, `INTER 1`, `Sub Junior 1`) so matching is
+ * (`AMND`, `A GRADE`, `B1`, `INTER 1`, `Sub Junior 1`) so matching is
  * done on a normalised (uppercased, punctuation-stripped) form. An
  * unrecognised AMND / Premier League name throws. Association keys use a
  * separate rule table, then fall back to tier 20 so an unknown country

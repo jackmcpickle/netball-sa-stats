@@ -1,7 +1,7 @@
 /**
  * Thin CLI for leftover / fixture CSV → D1. Live fetch writes D1 directly
- * (`scripts/fetch-playhq.ts`). This path remains for CI e2e fixtures under
- * `testdata/e2e/` and for a one-off archive-CSV import.
+ * (`scripts/fetch-playhq.ts`). CI seeds a tiny handmade set from
+ * `testdata/e2e/`. Archive staging CSVs are local-only (gitignored).
  *
  * Usage:
  *   pnpm exec tsx scripts/import-csv.ts [--remote] [--dir=<path>]

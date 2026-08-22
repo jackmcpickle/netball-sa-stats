@@ -12,7 +12,9 @@ const competitionKeys = new Set(
 describe('archive CSV import smoke', () => {
     it('validates merged archive rows through the existing import path', async () => {
         const root = resolve(import.meta.dirname, '../../..');
-        const data = await loadImportData(join(root, 'testdata/e2e'));
+        const data = await loadImportData(
+            join(root, 'testdata/archive-import'),
+        );
 
         expect(() => {
             validateImportData(data, competitionKeys);
@@ -25,8 +27,8 @@ describe('archive CSV import smoke', () => {
             (result) => result.source === 'archive_pdf',
         );
 
-        expect(archiveSeasons).toHaveLength(16);
-        expect(archiveResults).toHaveLength(4965);
+        expect(archiveSeasons).toHaveLength(1);
+        expect(archiveResults).toHaveLength(2);
         expect(archiveResults.every((row) => isNull(row.played))).toBeTruthy();
         expect(
             archiveResults.every(

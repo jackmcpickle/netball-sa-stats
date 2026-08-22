@@ -142,7 +142,7 @@ Manual operators still exist:
   import” (see **Admin UI** below).
 - `wrangler workflows trigger` as a break-glass if the UI is down.
 - CLI `scripts/fetch-playhq.ts` for local or remote D1. `scripts/import-csv.ts`
-  remains for `testdata/e2e/` and leftover archive CSVs.
+  remains for the tiny `testdata/e2e/` CI seed and leftover local archive CSVs.
 
 ### Why R2, not git, for live raw
 
@@ -151,7 +151,7 @@ commit. R2 keeps the capture; D1 is queryable the same hour; a later
 `scripts/dump-csv.ts` (optional, not required for v1) can emit CSV from D1
 or R2 so a weekly PR still exists for finished-round review.
 
-Completed seasons already in `data/*.csv` are not rewritten by cron.
+Completed seasons already in D1 are upserted in place; cron does not commit.
 
 ## Components
 

@@ -39,10 +39,10 @@ scripts/        thin CLI entrypoints only
 data/
   clubs.csv, club_aliases.csv   curated club identity
   competitions.csv, grade_weights.csv   catalogue seeds
-  archive/      PDF-era staging (separate pipeline)
+  raw/archive/  source PDFs for the archive pipeline
 testdata/
-  playhq/       small committed PlayHQ probe fixtures
-  e2e/          AMND/PL snapshot for CI (not live truth)
+  e2e/              tiny handmade CI seed
+  archive-import/   tiny handmade archive-row fixture
 ```
 
 ## Architecture
@@ -68,9 +68,8 @@ Two stages, still decoupled — but D1 is the store, not git.
 
 - `data/clubs.csv`, `data/club_aliases.csv` — human-reviewed club identity. Fetch may append newly minted clubs so they can be reviewed.
 - `data/competitions.csv`, `data/grade_weights.csv` — catalogue seeds from `generate-seed.ts`. `has_data` is a seed hint; live coverage is D1 season rows.
-- `testdata/playhq/` — small probe fixtures for parser tests.
-- `testdata/e2e/` — frozen AMND/PL snapshot so CI can build a local D1. Not the scrape write path.
-- Generated `data/seasons.csv`, `grades.csv`, `teams.csv`, `team_season_results.csv`, `games-*.csv`, and live `data/raw/*.json` are gitignored.
+- `testdata/e2e/` — tiny handmade seed so CI pages render. Not a live dump.
+- Generated `data/seasons.csv`, `grades.csv`, `teams.csv`, `team_season_results.csv`, `games-*.csv`, archive staging CSVs, and live `data/raw/**/*.json` are gitignored.
 
 **Why D1, not committed CSV:** a metro-association fetch is hundreds of raw files and tens of thousands of result rows. Reviewing that as a PR is noise. Recoverability is the local cache, R2, and PlayHQ itself. Re-running fetch on an unchanged season upserts the same keys.
 
@@ -328,7 +327,7 @@ Two kinds of failure, two kinds of test.
 - Every club name resolves via `club_aliases`
 - A grade that previously had N teams and now has far fewer → warning
 
-**Parser fixture tests** catch _breaking your own code_ — run against the small committed set in `testdata/playhq/`, not a live scrape dump.
+**Parser fixture tests** catch _breaking your own code_ — handmade rounds and standings in the unit tests, not a live scrape dump.
 
 Invariants will occasionally fire on legitimately odd data — a mid-season withdrawal, a shared position. Those get hand-curated exceptions. That friction is correct for a dataset whose selling point is "free to check".
 
@@ -363,7 +362,7 @@ Sections: rankings table, club profile, ladders, method. Head-to-head and Result
 ## Success criteria
 
 - A fetch of SAUCNA (or any catalogued org) does not create a git-tracked CSV or `data/raw/` file; D1 gets the rows
-- Rebuild a local site: migrate + `import-csv --dir testdata/e2e` (CI snapshot) or `fetch-playhq` against PlayHQ
+- Rebuild a local site: migrate + `fetch-playhq` against PlayHQ (or `import-csv --dir testdata/e2e` for the tiny CI seed)
 - Every stored team has `ladder_position`; every grade has `team_count`
 - Championship rankings render for AMND + PL across available seasons
 - Coverage stated from D1 rows; catalogue `has_data` is not the live flag

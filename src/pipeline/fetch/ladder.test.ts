@@ -1,37 +1,51 @@
-import { readFileSync } from 'node:fs';
-import { resolve } from 'node:path';
-import { isNull, isUndefined } from 'es-toolkit';
+import { isUndefined } from 'es-toolkit';
 import { describe, expect, it } from 'vitest';
 import { extractSquadNumber } from '@/pipeline/fetch/keys';
-import {
-    flattenStandings,
-    mapStandingsToResults,
-} from '@/pipeline/fetch/ladder';
-import type { GradeLadderResponse } from '@/pipeline/fetch/types';
+import { mapStandingsToResults } from '@/pipeline/fetch/ladder';
+import type { Standing } from '@/pipeline/fetch/ladder';
 
-const fixturePath = resolve(
-    import.meta.dirname,
-    '../../../testdata/playhq/gradeLadder_premier_2023_3c7d2b13.json',
-);
-
-function loadFixture(): GradeLadderResponse {
-    // SAFETY: this repo's own committed PlayHQ probe capture, the recorded
-    // `gradeLadder` response; the asserted shape is the same one `collect.ts`
-    // reads that capture back as.
-    return JSON.parse(
-        readFileSync(fixturePath, 'utf-8'),
-    ) as GradeLadderResponse;
+function standingOf(
+    name: string,
+    pointsFor: number,
+    pointsAgainst: number,
+): Standing {
+    return {
+        byes: 0,
+        competitionPoints: 20,
+        drawn: 0,
+        forfeits: 0,
+        lost: 4,
+        percentage: 100,
+        played: 14,
+        pointsAgainst,
+        pointsDifference: 0,
+        pointsFor,
+        team: {
+            id: name.toLowerCase().replaceAll(' ', '-'),
+            name,
+            organisation: {
+                id: name.toLowerCase().replaceAll(' ', '-'),
+                name,
+                type: 'CLUB',
+            },
+        },
+        won: 10,
+    };
 }
 
 describe(mapStandingsToResults, () => {
-    const response = loadFixture();
-    const { discoverGrade } = response.data;
-    if (isNull(discoverGrade)) {
-        throw new Error('fixture has no discoverGrade');
-    }
-    const standings = flattenStandings(discoverGrade.ladder);
+    const standings = [
+        standingOf('Contax', 879, 538),
+        standingOf('Matrics', 800, 600),
+        standingOf('South Adelaide', 700, 650),
+        standingOf('Woods', 680, 660),
+        standingOf('Garville', 650, 670),
+        standingOf('Oakdale', 620, 690),
+        standingOf('Contax 2', 600, 710),
+        standingOf('Walkerville', 580, 730),
+    ];
 
-    it('reads 8 teams from the 2023 Premier Division fixture', () => {
+    it('reads 8 teams from the handmade ladder', () => {
         expect(standings).toHaveLength(8);
     });
 

@@ -21,7 +21,7 @@ describe(parseGradeName, () => {
         });
     });
 
-    it('parses real AMND Winter 2023 names (testdata/playhq fixture)', () => {
+    it('parses real AMND Winter 2023 names', () => {
         expect(parseGradeName('B1')).toStrictEqual({ division: 1, tier: 5 });
         expect(parseGradeName('INTER 1')).toStrictEqual({
             division: 1,
