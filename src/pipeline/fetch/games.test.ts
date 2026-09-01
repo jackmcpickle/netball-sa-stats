@@ -110,6 +110,22 @@ describe(classifyGame, () => {
         });
     });
 
+    it('records the home side as forfeiting when the away team won by disqualification', () => {
+        // Real capture: game 08d91477 (AMND Junior 9B 2026) is
+        // AWAY_TEAM_WON_BY_DISQUALIFICATION with an on-court 5-18, not a
+        // fabricated 0-20. Status stays forfeit so those goals never enter
+        // a club differential.
+        expect(
+            classifyGame(result('AWAY_TEAM_WON_BY_DISQUALIFICATION', 5, 18)),
+        ).toStrictEqual({ forfeitingSide: 'home', status: 'forfeit' });
+    });
+
+    it('records the away side as forfeiting when the home team won by disqualification', () => {
+        expect(
+            classifyGame(result('HOME_TEAM_WON_BY_DISQUALIFICATION', 18, 5)),
+        ).toStrictEqual({ forfeitingSide: 'away', status: 'forfeit' });
+    });
+
     it('is scheduled when the game is upcoming with no result', () => {
         expect(classifyGame(game({}))).toStrictEqual({
             forfeitingSide: null,
@@ -392,6 +408,29 @@ describe(toGameRows, () => {
         expect(byes.every((row) => isNull(row.away_playhq_id))).toBeTruthy();
         expect(byes.every((row) => !isNull(row.home_playhq_id))).toBeTruthy();
         expect(byes.every((row) => isNull(row.home_score))).toBeTruthy();
+    });
+
+    it('collapses a team listed twice in the same round byes list', () => {
+        // Real capture: SAUCNA Winter 2026 A1 (c125201c) lists Scotch A
+        // twice in Round 1 byes. The composite bye id is round+team, so a
+        // second copy would fail import as a duplicate game.
+        const team: FixtureTeam = {
+            id: 'd2f3a34b',
+            name: 'Scotch A',
+            organisation: null,
+        };
+        const rows = toGameRows(
+            [
+                fixtureRound('11ba97aa', 1, 'Round 1', [], {
+                    byes: [team, team],
+                }),
+            ],
+            'saucna-winter-2026-a1',
+            1,
+        );
+        const byes = rows.filter((row) => row.status === 'bye');
+        expect(byes).toHaveLength(1);
+        expect(byes[0].playhq_id).toBe('bye:11ba97aa:d2f3a34b');
     });
 
     it('finds the forfeit in the junior 8 capture and attributes the side', () => {

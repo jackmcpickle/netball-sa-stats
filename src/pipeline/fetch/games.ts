@@ -98,8 +98,10 @@ export function scoreOf(side: SideResult | null): number | null {
 // arbitrary outcome string, not one of these three known keys.
 const FORFEIT_OUTCOMES = new Map<string, ForfeitSide>(
     Object.entries({
+        AWAY_TEAM_WON_BY_DISQUALIFICATION: 'home',
         AWAY_TEAM_WON_BY_FORFEIT: 'home',
         DOUBLE_FORFEIT: 'both',
+        HOME_TEAM_WON_BY_DISQUALIFICATION: 'away',
         HOME_TEAM_WON_BY_FORFEIT: 'away',
     } satisfies Record<string, ForfeitSide>),
 );
@@ -317,7 +319,13 @@ export function toGameRows(
             });
         }
 
+        const seenByeIds = new Set<string>();
         for (const team of round.byes) {
+            const playhqId = `bye:${round.id}:${team.id ?? team.name}`;
+            if (seenByeIds.has(playhqId)) {
+                continue;
+            }
+            seenByeIds.add(playhqId);
             rows.push({
                 away_playhq_id: null,
                 away_score: null,
@@ -327,7 +335,7 @@ export function toGameRows(
                 home_score: null,
                 is_finals: round.isFinalsRound ? 1 : 0,
                 played_at: null,
-                playhq_id: `bye:${round.id}:${team.id ?? team.name}`,
+                playhq_id: playhqId,
                 round: roundNumber,
                 round_name: round.name,
                 scraped_at: scrapedAt,

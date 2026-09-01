@@ -271,15 +271,15 @@ six grades sampled, with no exceptions and no zero-filled placeholder. A
 `FINAL` always carried a `TOTAL_SCORE` for both sides (0 games with an empty
 statistics array). So `status` derives cleanly:
 
-| Condition                                    | `status`    |
-| -------------------------------------------- | ----------- |
-| team appears in round `byes[]`               | `bye`       |
-| `outcome.value` matches `*_FORFEIT`          | `forfeit`   |
-| `outcome.value` is `CANCELLED` / `ABANDONED` | `no_result` |
-| `result != null`, both scores present        | `final`     |
-| `result == null`, `status == UPCOMING`       | `scheduled` |
-| `result == null`, `status == PENDING`        | `no_result` |
-| `result == null`, `status == FINAL`          | `no_result` |
+| Condition                                                   | `status`    |
+| ----------------------------------------------------------- | ----------- |
+| team appears in round `byes[]`                              | `bye`       |
+| `outcome.value` matches `*_FORFEIT` or `*_DISQUALIFICATION` | `forfeit`   |
+| `outcome.value` is `CANCELLED` / `ABANDONED`                | `no_result` |
+| `result != null`, both scores present                       | `final`     |
+| `result == null`, `status == UPCOMING`                      | `scheduled` |
+| `result == null`, `status == PENDING`                       | `no_result` |
+| `result == null`, `status == FINAL`                         | `no_result` |
 
 **Corrected 2026-08-12 by the full 2025/2026 backfill** (~5,500 games, 90
 grades), which found two cases the four-grade sample did not:
@@ -304,6 +304,15 @@ per-side `result.<side>.outcome.value` of `WON_BY_FORFEIT` / `LOST_BY_FORFEIT`.
 Confirmed on game `36f8dab8` (AMND Junior 8 2024, `3723a749`): South Adelaide
 0 – Reynella 1 20, `AWAY_TEAM_WON_BY_FORFEIT`.
 
+**Disqualifications.** Same mapping as a forfeit (`status = forfeit`, losing
+side in `forfeitingSide`). Confirmed on game `08d91477` (AMND Junior 9B 2026,
+`e5a0898b`): Grange Silver 9B 5 – Glengowrie 9D 18,
+`AWAY_TEAM_WON_BY_DISQUALIFICATION`, per-side `LOST_BY_DISQUALIFICATION` /
+`WON_BY_DISQUALIFICATION`. The scoreline is the on-court result, not a
+fabricated 0–20, but the outcome is disciplinary, so goals are excluded the
+same way as a forfeit. `HOME_TEAM_WON_BY_DISQUALIFICATION` is mapped the same
+way and has not been seen in a capture yet.
+
 **A forfeit carries a synthetic 0–20 scoreline.** This contradicts the design
 spec's assumption that a forfeit "contributes a result but no goals" via absent
 scores — the scores are present and fabricated by PlayHQ. Goal totals must be
@@ -314,7 +323,9 @@ head-to-head goal differential absorbs phantom 20-goal margins.
 array, and the team appears in no game that round. Confirmed on Reserves 2026
 (`ae6df43a`), 9 rounds each with one bye team. The spec's `games` row for a bye
 (one team, one null side) therefore has to be **synthesised** from `byes[]`; it
-does not come back from the API as a game.
+does not come back from the API as a game. PlayHQ can list the same team twice
+in one `byes[]` (SAUCNA Winter 2026 A1 `c125201c`, Round 1, Scotch A); the
+mapper keeps one row per `(round, team)`.
 
 **Draws.** `outcome.value == "DRAW_BY_SCORE"` with `winner == null` and equal
 scores. Confirmed in AMND A Grade 2026 (`98973113`, 3 draws) and three other
@@ -336,9 +347,10 @@ the mapping must handle an id-less side rather than assume `DiscoverTeam`.
 - `status.value`: `UPCOMING`, `FINAL`. (`IN_PROGRESS`, `CANCELLED` exist in
   the bundle, not seen.)
 - `result.outcome.value`: `HOME_TEAM_WON_BY_SCORE`, `AWAY_TEAM_WON_BY_SCORE`,
-  `DRAW_BY_SCORE`, `AWAY_TEAM_WON_BY_FORFEIT`. The bundle additionally defines
+  `DRAW_BY_SCORE`, `AWAY_TEAM_WON_BY_FORFEIT`,
+  `AWAY_TEAM_WON_BY_DISQUALIFICATION`. The bundle additionally defines
   `HOME_TEAM_WON_BY_FORFEIT`, `DOUBLE_FORFEIT`, `ABANDONED`, `CANCELLED`,
-  `*_BY_DISQUALIFICATION`, `*_BY_PENALTY_SHOOTOUT`, `DLS`.
+  `HOME_TEAM_WON_BY_DISQUALIFICATION`, `*_BY_PENALTY_SHOOTOUT`, `DLS`.
 
 Note the bundle's client-side enum does **not** contain the `*_BY_SCORE` or
 `DRAW_BY_SCORE` values that every real response returns, so it is not an
