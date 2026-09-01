@@ -1,11 +1,10 @@
-// @tanstack/react-table is pinned to an exact version (not ^) in package.json:
-// v9 removed useReactTable/getCoreRowModel's manual-mode API this component
-// relies on, so a caret range would break on next install.
 import {
-    flexRender,
-    getCoreRowModel,
-    useReactTable,
+    rowPaginationFeature,
+    rowSortingFeature,
+    tableFeatures,
+    useTable,
     type ColumnDef,
+    type RowData,
 } from '@tanstack/react-table';
 import type { JSX, ReactNode } from 'react';
 import { useCallback, useMemo } from 'react';
@@ -29,12 +28,15 @@ export interface DataTableColumn<T> {
 }
 
 /**
- * Presentational only. TanStack Table runs in manual mode — it supplies column
- * and header plumbing but never sorts or slices, because the client holds one
- * page and the server has already ordered it. Sorting client-side here would
- * silently reorder 50 rows out of 4000 and look correct while being wrong.
+ * Sorting and pagination state live on the server, so the two features are
+ * registered for their state and APIs but no `sortedRowModel` or
+ * `paginatedRowModel` slot is. Adding either would reorder or slice the 50
+ * rows of the current page as if they were the whole 4000-row result, which
+ * looks right on screen and is wrong.
  */
-export function DataTable<T>({
+const FEATURES = tableFeatures({ rowPaginationFeature, rowSortingFeature });
+
+export function DataTable<T extends RowData>({
     caption,
     columns,
     rows,
@@ -53,7 +55,7 @@ export function DataTable<T>({
     readonly onChange: (next: TableState) => void;
     readonly highlightRow?: (row: T) => boolean;
 }): JSX.Element {
-    const columnDefs = useMemo<ColumnDef<T>[]>(
+    const columnDefs = useMemo<ColumnDef<typeof FEATURES, T>[]>(
         () =>
             columns.map((column) => ({
                 id: column.id,
@@ -68,12 +70,12 @@ export function DataTable<T>({
         [columns],
     );
 
-    const table = useReactTable({
-        data: rows as T[],
+    const table = useTable({
         columns: columnDefs,
-        getCoreRowModel: getCoreRowModel(),
-        manualSorting: true,
+        data: rows as T[],
+        features: FEATURES,
         manualPagination: true,
+        manualSorting: true,
         rowCount: totalRows,
     });
 
@@ -146,7 +148,10 @@ export function DataTable<T>({
                                     highlightRow?.(row.original) ?? false
                                 }
                             >
-                                {row.getVisibleCells().map((cell) => {
+                                {/* `getVisibleCells` belongs to
+                                columnVisibilityFeature, which is not
+                                registered; every column always renders. */}
+                                {row.getAllCells().map((cell) => {
                                     const column = columnById.get(
                                         cell.column.id,
                                     );
@@ -156,10 +161,7 @@ export function DataTable<T>({
                                             align={column?.align}
                                             emphasis={column?.emphasis}
                                         >
-                                            {flexRender(
-                                                cell.column.columnDef.cell,
-                                                cell.getContext(),
-                                            )}
+                                            <table.FlexRender cell={cell} />
                                         </Td>
                                     );
                                 })}

@@ -4,7 +4,8 @@ import type { JSX } from 'react';
 import { CoverageNote } from '@/components/coverage-note';
 import { FaqSection } from '@/components/faq-section';
 import { Eyebrow, PageShell, PageTitle } from '@/components/ui/layout';
-import { Table, TableFrame, Td, Th, Tr } from '@/components/ui/table';
+import { SimpleTable } from '@/components/ui/simple-table';
+import type { SimpleTableColumn } from '@/components/ui/simple-table';
 import { METHOD_FAQ } from '@/seo/faq';
 import type { GradeWeightRow } from '@/server/dto/method.dto';
 
@@ -172,6 +173,29 @@ function MethodNarrative({
     );
 }
 
+const WEIGHT_COLUMNS: readonly SimpleTableColumn<GradeWeightRow>[] = [
+    {
+        cell: (weight) => weight.label,
+        emphasis: 'strong',
+        header: 'GRADE',
+        id: 'grade',
+    },
+    {
+        cell: (weight) => weight.competitionName,
+        emphasis: 'quiet',
+        header: 'COMPETITION',
+        id: 'competition',
+    },
+    {
+        align: 'right',
+        cell: (weight) => (
+            <span className="numeric text-ink">{weight.weight.toFixed(2)}</span>
+        ),
+        header: 'WEIGHT',
+        id: 'weight',
+    },
+];
+
 /** The grade-weight table column. */
 function MethodWeights({
     weights,
@@ -183,39 +207,13 @@ function MethodWeights({
             <h2 className="mb-4 text-lg font-semibold text-ink">
                 Grade weights
             </h2>
-            <TableFrame>
-                <Table
-                    layout="compact"
-                    caption="Championship weight applied to each grade"
-                >
-                    {' '}
-                    <thead>
-                        <tr>
-                            <Th>GRADE</Th>
-                            <Th>COMPETITION</Th>
-                            <Th align="right">WEIGHT</Th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {weights.map((weight, index) => (
-                            <Tr
-                                key={`${weight.competitionName}-${weight.label}`}
-                                index={index}
-                            >
-                                <Td emphasis="strong">{weight.label}</Td>
-                                <Td emphasis="quiet">
-                                    {weight.competitionName}
-                                </Td>
-                                <Td align="right">
-                                    <span className="numeric text-ink">
-                                        {weight.weight.toFixed(2)}
-                                    </span>
-                                </Td>
-                            </Tr>
-                        ))}
-                    </tbody>
-                </Table>
-            </TableFrame>
+            <SimpleTable
+                caption="Championship weight applied to each grade"
+                columns={WEIGHT_COLUMNS}
+                layout="compact"
+                rowKey={(weight) => `${weight.competitionName}-${weight.label}`}
+                rows={weights}
+            />
             <p className="mt-4 text-[13px] text-ink-muted">
                 Weights are stored per grade and applied at query time, so
                 re-weighting re-ranks every season without a re-import.

@@ -5,7 +5,8 @@ import { useCallback, useState } from 'react';
 import type { JSX } from 'react';
 import { NO_VALUE } from '@/components/format';
 import { Eyebrow, PageShell, PageTitle } from '@/components/ui/layout';
-import { Table, TableFrame, Td, Th, Tr } from '@/components/ui/table';
+import { SimpleTable } from '@/components/ui/simple-table';
+import type { SimpleTableColumn } from '@/components/ui/simple-table';
 import { logout, runImport } from '@/routes/admin';
 import type { AdminPageDto, AdminRunDto } from '@/server/dto/admin.dto';
 import type { RunImportError } from '@/server/services/admin.service';
@@ -88,56 +89,72 @@ function renderSelectedDetail(
     );
 }
 
+function runColumns(
+    onSelectRun: (event: RunButtonEvent) => void,
+): readonly SimpleTableColumn<AdminRunDto>[] {
+    return [
+        {
+            cell: (run) => (
+                <button
+                    type="button"
+                    className="text-left font-semibold text-ink"
+                    data-run-id={String(run.id)}
+                    onClick={onSelectRun}
+                >
+                    {run.startedLabel}
+                </button>
+            ),
+            emphasis: 'strong',
+            header: 'STARTED',
+            id: 'started',
+        },
+        { cell: (run) => run.status, header: 'STATUS', id: 'status' },
+        {
+            align: 'right',
+            cell: (run) => cellValue(run.seasons),
+            header: 'SEASONS',
+            id: 'seasons',
+        },
+        {
+            align: 'right',
+            cell: (run) => cellValue(run.grades),
+            header: 'GRADES',
+            id: 'grades',
+        },
+        {
+            align: 'right',
+            cell: (run) => cellValue(run.gamesCount),
+            header: 'GAMES',
+            id: 'games',
+        },
+        {
+            align: 'right',
+            cell: (run) => String(run.warningCount),
+            header: 'WARNINGS',
+            id: 'warnings',
+        },
+        {
+            align: 'right',
+            cell: (run) => run.durationLabel,
+            header: 'DURATION',
+            id: 'duration',
+        },
+    ];
+}
+
 function renderRunsTable(
     runs: readonly AdminRunDto[],
     selectedId: number | null,
     onSelectRun: (event: RunButtonEvent) => void,
 ): JSX.Element {
     return (
-        <TableFrame>
-            <Table
-                layout="wide"
-                caption="PlayHQ import runs"
-            >
-                <thead>
-                    <tr>
-                        <Th>STARTED</Th>
-                        <Th>STATUS</Th>
-                        <Th align="right">SEASONS</Th>
-                        <Th align="right">GRADES</Th>
-                        <Th align="right">GAMES</Th>
-                        <Th align="right">WARNINGS</Th>
-                        <Th align="right">DURATION</Th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {runs.map((run, index) => (
-                        <Tr
-                            key={run.id}
-                            index={index}
-                            highlight={run.id === selectedId}
-                        >
-                            <Td emphasis="strong">
-                                <button
-                                    type="button"
-                                    className="text-left font-semibold text-ink"
-                                    data-run-id={String(run.id)}
-                                    onClick={onSelectRun}
-                                >
-                                    {run.startedLabel}
-                                </button>
-                            </Td>
-                            <Td>{run.status}</Td>
-                            <Td align="right">{cellValue(run.seasons)}</Td>
-                            <Td align="right">{cellValue(run.grades)}</Td>
-                            <Td align="right">{cellValue(run.gamesCount)}</Td>
-                            <Td align="right">{String(run.warningCount)}</Td>
-                            <Td align="right">{run.durationLabel}</Td>
-                        </Tr>
-                    ))}
-                </tbody>
-            </Table>
-        </TableFrame>
+        <SimpleTable
+            caption="PlayHQ import runs"
+            columns={runColumns(onSelectRun)}
+            highlightRow={(run) => run.id === selectedId}
+            rowKey={(run) => String(run.id)}
+            rows={runs}
+        />
     );
 }
 
