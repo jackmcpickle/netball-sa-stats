@@ -4,6 +4,12 @@ import type { Db } from '@/db';
 import { importRuns } from '@/db/schema';
 import type { ImportRunStatus } from '@/db/schema';
 
+/**
+ * A `running` row older than this is treated as crashed. Shared by the job's
+ * lock and the admin/cron guard so a dead workflow cannot block imports forever.
+ */
+export const IMPORT_RUN_STALE_AFTER_SECONDS = 7200;
+
 export interface ImportRun {
     id: number;
     instanceId: string;

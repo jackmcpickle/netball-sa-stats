@@ -4,7 +4,10 @@ import { eq } from 'drizzle-orm';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { importRuns } from '@/db/schema';
 import { createServices } from '@/server/container';
-import { createImportRunsRepo } from '@/server/repos/import-runs.repo';
+import {
+    IMPORT_RUN_STALE_AFTER_SECONDS,
+    createImportRunsRepo,
+} from '@/server/repos/import-runs.repo';
 import { createAdminService } from '@/server/services/admin.service';
 import type { StartImport } from '@/server/services/admin.service';
 import { createTestDb } from '@/server/testing/harness';
@@ -169,7 +172,7 @@ describe('createAdminService.runImport', () => {
         await repo.insertRunning({
             games: true,
             instanceId: 'lock',
-            startedAt: 50,
+            startedAt: Math.floor(Date.now() / 1000) - 60,
             yearsJson: null,
         });
         const startImport = vi.fn<StartImport>(async () => {});
@@ -182,6 +185,27 @@ describe('createAdminService.runImport', () => {
             ok: false,
         });
         expect(startImport).not.toHaveBeenCalled();
+    });
+
+    it('ignores a stale running row so a crashed workflow cannot block imports', async () => {
+        const db = createTestDb();
+        const repo = createImportRunsRepo(db);
+        await repo.insertRunning({
+            games: true,
+            instanceId: 'crashed',
+            startedAt:
+                Math.floor(Date.now() / 1000) -
+                IMPORT_RUN_STALE_AFTER_SECONDS -
+                1,
+            yearsJson: null,
+        });
+        const startImport = vi.fn<StartImport>(async () => {});
+        const admin = createAdminService(repo, { startImport });
+
+        const result = await admin.runImport('');
+
+        expect(result).toStrictEqual({ ok: true, value: true });
+        expect(startImport).toHaveBeenCalledExactlyOnceWith({ games: true });
     });
 
     it('rejects non-year tokens as bad-years', async () => {

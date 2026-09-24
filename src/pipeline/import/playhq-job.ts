@@ -20,10 +20,8 @@ import { toImportData } from '@/pipeline/fetch/to-import';
 import { runImportData } from '@/pipeline/import/run';
 import type { ImportReport } from '@/pipeline/import/run';
 import type { ImportExecutor } from '@/pipeline/import/types';
+import { IMPORT_RUN_STALE_AFTER_SECONDS } from '@/server/repos/import-runs.repo';
 import type { createImportRunsRepo } from '@/server/repos/import-runs.repo';
-
-/** Job policy: a `running` row older than this is treated as crashed. */
-const STALE_AFTER_SECONDS = 7200;
 
 export interface PlayHqJobParams {
     years?: number[];
@@ -199,7 +197,7 @@ async function acquireLock(input: {
     yearsJson: string | null;
     games: boolean;
 }): Promise<number | { skipped: true }> {
-    const cutoff = input.nowEpochSeconds - STALE_AFTER_SECONDS;
+    const cutoff = input.nowEpochSeconds - IMPORT_RUN_STALE_AFTER_SECONDS;
     // A fresh `running` row wins outright, even when a stale one sits beside
     // it: reaping the stale row is not permission to start a second import
     // alongside the one that is genuinely still going.

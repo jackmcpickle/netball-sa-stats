@@ -31,6 +31,9 @@ export class PlayHqImportWorkflow extends WorkflowEntrypoint<
                     delay: '10 seconds',
                     limit: 0,
                 },
+                // The 10 minute default fits the daily active-season run but
+                // not a whole finished year across every association.
+                timeout: '30 minutes',
             },
             async () => {
                 const executor = createD1Executor(this.env.DB);
