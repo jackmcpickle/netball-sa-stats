@@ -311,6 +311,12 @@ export default defineConfig({
                 // `Route`, and server handlers key off the HTTP verb.
                 files: ['src/routes/**'],
                 rules: {
+                    // Route option objects are order-sensitive: `head` and
+                    // `component` infer `loaderData` from options declared
+                    // before them. Ultracite's tanstack preset switches
+                    // sort-keys off at the top level, which the repo-wide
+                    // `sort-keys: error` above overrides, so re-scope it here.
+                    'sort-keys': 'off',
                     'sonarjs/function-name': 'off',
                     'react-doctor/only-export-components': 'off',
                 },

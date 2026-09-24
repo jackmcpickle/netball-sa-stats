@@ -119,24 +119,22 @@ async function fetchFacts(
         ? await ordered
         : await ordered.limit(request.limit).offset(request.offset);
 
-    return rows.map(
-        (row): GameFact => ({
-            awayClubKey: row.awayClubKey,
-            awayScore: row.awayScore,
-            awayTeamName: row.awayTeamName,
-            gradeName: row.gradeName,
-            homeClubKey: row.homeClubKey,
-            homeScore: row.homeScore,
-            homeTeamName: row.homeTeamName,
-            isFinals: row.isFinals,
-            playedAt: row.playedAt,
-            round: row.round,
-            roundName: row.roundName,
-            status: row.status,
-            tier: row.tier,
-            year: row.year,
-        }),
-    );
+    return rows.map((row): GameFact => ({
+        awayClubKey: row.awayClubKey,
+        awayScore: row.awayScore,
+        awayTeamName: row.awayTeamName,
+        gradeName: row.gradeName,
+        homeClubKey: row.homeClubKey,
+        homeScore: row.homeScore,
+        homeTeamName: row.homeTeamName,
+        isFinals: row.isFinals,
+        playedAt: row.playedAt,
+        round: row.round,
+        roundName: row.roundName,
+        status: row.status,
+        tier: row.tier,
+        year: row.year,
+    }));
 }
 
 /**

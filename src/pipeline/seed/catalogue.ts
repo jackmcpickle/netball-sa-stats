@@ -234,15 +234,20 @@ function expandBand(band: Band): GradeWeightSeed[] {
     }
 
     const step = band.step ?? 0;
-    return Array.from({ length: band.divisions }, (_, i) => i + 1)
-        .filter((division) => band.skip?.includes(division) !== true)
-        .map((division) => ({
-            competitionKey: band.competitionKey,
-            division,
-            label: `${band.label} ${division}`,
-            tier: band.tier,
-            weight: round(band.base - (division - 1) * step),
-        }));
+    const skipped = new Set(band.skip);
+    const seeds: GradeWeightSeed[] = [];
+    for (let division = 1; division <= band.divisions; division += 1) {
+        if (!skipped.has(division)) {
+            seeds.push({
+                competitionKey: band.competitionKey,
+                division,
+                label: `${band.label} ${division}`,
+                tier: band.tier,
+                weight: round(band.base - (division - 1) * step),
+            });
+        }
+    }
+    return seeds;
 }
 
 export function buildGradeWeights(): GradeWeightSeed[] {

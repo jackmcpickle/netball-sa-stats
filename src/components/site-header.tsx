@@ -64,17 +64,14 @@ function menuGlyph(open: boolean): JSX.Element {
 
 export function SiteHeader(): JSX.Element {
     const { pathname } = useLocation();
-    const [menuOpen, setMenuOpen] = useState(false);
+    // The drawer remembers which path it was opened on, so a route change
+    // collapses it without an effect — otherwise the overlay stays open over
+    // the page the user just asked to see.
+    const [openedOn, setOpenedOn] = useState<string | null>(null);
+    const menuOpen = openedOn === pathname;
 
     const toggleMenu = useCallback(() => {
-        setMenuOpen((open) => !open);
-    }, []);
-
-    // Route changes should collapse the drawer — otherwise the overlay stays
-    // open over the page the user just asked to see.
-    useEffect(() => {
-        // oxlint-disable-next-line react/react-compiler -- closing the drawer on navigation is exactly the external-to-React sync this effect is for; the router owns `pathname`
-        setMenuOpen(false);
+        setOpenedOn((opened) => (opened === pathname ? null : pathname));
     }, [pathname]);
 
     useEffect(() => {
@@ -83,7 +80,7 @@ export function SiteHeader(): JSX.Element {
         }
         function onKeyDown(event: KeyboardEvent): void {
             if (event.key === 'Escape') {
-                setMenuOpen(false);
+                setOpenedOn(null);
             }
         }
         window.addEventListener('keydown', onKeyDown);

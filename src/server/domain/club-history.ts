@@ -23,21 +23,19 @@ import type {
 export function toGradeResults(
     rows: readonly ResultRow[],
 ): readonly ClubGradeResult[] {
-    return rows.map(
-        (row): ClubGradeResult => ({
-            competitionName: row.competitionName,
-            drawn: row.drawn,
-            gradeKey: row.gradeKey,
-            gradeName: row.gradeName,
-            ladderPosition: row.ladderPosition,
-            lost: row.lost,
-            notes: row.notes,
-            percentage: row.percentage,
-            teamCount: row.teamCount,
-            won: row.won,
-            year: row.year,
-        }),
-    );
+    return rows.map((row): ClubGradeResult => ({
+        competitionName: row.competitionName,
+        drawn: row.drawn,
+        gradeKey: row.gradeKey,
+        gradeName: row.gradeName,
+        ladderPosition: row.ladderPosition,
+        lost: row.lost,
+        notes: row.notes,
+        percentage: row.percentage,
+        teamCount: row.teamCount,
+        won: row.won,
+        year: row.year,
+    }));
 }
 
 function pointsForYears(
@@ -67,16 +65,14 @@ function buildClubTrend(
         (a, b) => a - b,
     );
     return {
-        bands: tiers.map(
-            (tier): ClubBandTrend => ({
-                label: bandLabel(tier),
-                points: pointsForYears(
-                    ranked.filter((row) => row.tier === tier),
-                    rankedYears,
-                ),
-                tier,
-            }),
-        ),
+        bands: tiers.map((tier): ClubBandTrend => ({
+            label: bandLabel(tier),
+            points: pointsForYears(
+                ranked.filter((row) => row.tier === tier),
+                rankedYears,
+            ),
+            tier,
+        })),
         overall: pointsForYears(ranked, rankedYears),
     };
 }
