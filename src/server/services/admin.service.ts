@@ -3,6 +3,7 @@ import { NO_VALUE } from '@/components/format';
 import { err, ok } from '@/server/domain/result';
 import type { Result } from '@/server/domain/result';
 import type { AdminPageDto, AdminRunDto } from '@/server/dto/admin.dto';
+import { IMPORT_RUN_STALE_AFTER_SECONDS } from '@/server/repos/import-runs.repo';
 import type {
     ImportRun,
     ImportRunsRepo,
@@ -134,7 +135,11 @@ export function createAdminService(
         async runImport(
             yearsText: string,
         ): Promise<Result<true, RunImportError>> {
-            if (await repo.hasRunning()) {
+            // A crashed workflow never finishes its row; past the stale cutoff
+            // the job reaps it, so it must not block the cron or this button.
+            const cutoff =
+                Math.floor(Date.now() / 1000) - IMPORT_RUN_STALE_AFTER_SECONDS;
+            if (await repo.hasRunningSince(cutoff)) {
                 return err({ kind: 'already-running' });
             }
             const years = parseYears(yearsText);
