@@ -1,3 +1,4 @@
+import { isNull } from 'es-toolkit';
 import { useMemo } from 'react';
 import type { JSX } from 'react';
 import { accentText } from '@/components/accent';
@@ -7,6 +8,7 @@ import { barHeight } from '@/components/charts/scale';
 import { gapLabel, timelineSlots } from '@/components/charts/timeline-slots';
 import type { TimelineSlot } from '@/components/charts/timeline-slots';
 import { useChartInteraction } from '@/components/charts/use-chart-interaction';
+import { NO_VALUE } from '@/components/format';
 import type { ClubSeasonPoints } from '@/server/dto/club-profile.dto';
 import type { AccentName } from '@/server/dto/shared.dto';
 
@@ -51,6 +53,36 @@ interface BarLayout {
     readonly hits: readonly ChartHit[];
 }
 
+/**
+ * A ranked year with no rank means the club fielded no championship team that
+ * year (e.g. it only plays outside AMND) — never "#0".
+ */
+function rankLabel(season: ClubSeasonPoints): string {
+    if (season.status !== 'ranked') {
+        return 'n/a';
+    }
+    return isNull(season.rank) ? NO_VALUE : `#${String(season.rank)}`;
+}
+
+function seasonDetail(season: ClubSeasonPoints): string {
+    if (season.status !== 'ranked') {
+        return 'Not ranked yet';
+    }
+    return isNull(season.rank)
+        ? 'No championship team'
+        : `${season.points.toFixed(1)} pts · #${String(season.rank)}`;
+}
+
+function seasonSentence(season: ClubSeasonPoints): string {
+    const year = String(season.year);
+    if (season.status !== 'ranked') {
+        return `${year}: not ranked yet.`;
+    }
+    return isNull(season.rank)
+        ? `${year}: no championship team.`
+        : `${year}: ${season.points.toFixed(1)} championship points, ranked ${String(season.rank)}.`;
+}
+
 /** The bar and its tooltip hit for one ranked-or-not season slot. */
 function barDraw(
     season: ClubSeasonPoints,
@@ -60,9 +92,7 @@ function barDraw(
     const height = barHeight(season.points, max, TRACK);
     const isRanked = season.status === 'ranked';
     const hit: ChartHit = {
-        detail: isRanked
-            ? `${season.points.toFixed(1)} pts · #${String(season.rank ?? 0)}`
-            : 'Not ranked yet',
+        detail: seasonDetail(season),
         id: `season-${String(season.year)}`,
         label: String(season.year),
         x: slotX + BAR_WIDTH / 2,
@@ -158,9 +188,7 @@ export function PointsBarChart({
                                 if (!season) {
                                     return `${String(slot.year)}: unknown.`;
                                 }
-                                return season.status === 'ranked'
-                                    ? `${String(season.year)}: ${season.points.toFixed(1)} championship points, ranked ${String(season.rank ?? 0)}.`
-                                    : `${String(season.year)}: not ranked yet.`;
+                                return seasonSentence(season);
                             })()}
                         </li>
                     ),
@@ -249,9 +277,7 @@ export function PointsBarChart({
                                 textAnchor="middle"
                                 className="chart-bar-label fill-ink-muted text-[11px]"
                             >
-                                {isRanked
-                                    ? `#${String(season.rank ?? 0)}`
-                                    : 'n/a'}
+                                {rankLabel(season)}
                             </text>
                             <text
                                 x={x + BAR_WIDTH / 2}

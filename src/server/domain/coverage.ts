@@ -5,6 +5,7 @@
  * module delegates to it so `buildCoverage`'s DTO shape is unaffected.
  */
 import { isUndefined } from 'es-toolkit';
+import { championshipCompetitionKeys } from '@/pipeline/seed/catalogue';
 import type { DomainError, Result } from '@/server/domain/result';
 import { err, ok } from '@/server/domain/result';
 
@@ -37,13 +38,20 @@ export class Coverage {
     }
 
     /**
-     * A year is rankable only when every competition that ran it has
-     * finished. One in-progress season would make the championship a partial
-     * count, which is worse than no championship at all.
+     * A year is rankable only when every championship competition that ran it
+     * has finished. One in-progress season would make the championship a
+     * partial count, which is worse than no championship at all. Competitions
+     * outside the championship never block it: a summer season starting in
+     * the same year would otherwise hold a finished winter back for months.
      */
     public rankedYears(): readonly number[] {
+        const championshipKeys = championshipCompetitionKeys();
         return this.years().filter((year) => {
-            const inYear = this.rows.filter((row) => row.startYear === year);
+            const inYear = this.rows.filter(
+                (row) =>
+                    row.startYear === year &&
+                    championshipKeys.has(row.competitionKey),
+            );
             return (
                 inYear.some((row) => row.isFinal) &&
                 inYear.every((row) => row.isFinal)
