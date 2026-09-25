@@ -8,8 +8,12 @@ import { Eyebrow, PageShell, PageTitle } from '@/components/ui/layout';
 import { SimpleTable } from '@/components/ui/simple-table';
 import type { SimpleTableColumn } from '@/components/ui/simple-table';
 import { clearPageCache, logout, runImport } from '@/routes/admin';
+import type { Result } from '@/server/domain/result';
 import type { AdminPageDto, AdminRunDto } from '@/server/dto/admin.dto';
-import type { RunImportError } from '@/server/services/admin.service';
+import type {
+    ClearCacheError,
+    RunImportError,
+} from '@/server/services/admin.service';
 
 const routeApi = getRouteApi('/admin/');
 
@@ -52,6 +56,20 @@ function runErrorMessage(kind: RunImportError['kind']): string {
         return 'An import is already running.';
     }
     return 'Years must be four-digit start years, separated by commas.';
+}
+
+/** Every attempt ends in a message, including a request that never answers. */
+async function purgeMessage(
+    clear: () => Promise<Result<true, ClearCacheError>>,
+): Promise<string> {
+    try {
+        const result = await clear();
+        return result.ok
+            ? 'Page cache cleared.'
+            : `Cache purge failed: ${result.error.message}`;
+    } catch {
+        return 'Cache purge failed: the request errored.';
+    }
 }
 
 function cellValue(value: number | null): string {
@@ -167,6 +185,7 @@ export function AdminPage(): JSX.Element {
     const [selectedId, setSelectedId] = useState<number | null>(null);
     const [runError, setRunError] = useState<string | null>(null);
     const [cacheMessage, setCacheMessage] = useState<string | null>(null);
+    const [cachePending, setCachePending] = useState(false);
     const selected = page.runs.find((run) => run.id === selectedId);
 
     const onSelectRun = useCallback((event: RunButtonEvent) => {
@@ -200,13 +219,12 @@ export function AdminPage(): JSX.Element {
     const handleClearCache = useCallback(
         (event: FormSubmitEvent) => {
             event.preventDefault();
+            setCachePending(true);
+            setCacheMessage(null);
             void (async (): Promise<void> => {
-                const result = await clearPageCacheFn();
-                setCacheMessage(
-                    result.ok
-                        ? 'Page cache cleared.'
-                        : `Cache purge failed: ${result.error.message}`,
-                );
+                const message = await purgeMessage(clearPageCacheFn);
+                setCacheMessage(message);
+                setCachePending(false);
             })();
         },
         [clearPageCacheFn],
@@ -284,6 +302,7 @@ export function AdminPage(): JSX.Element {
                     <button
                         type="submit"
                         className={BUTTON_CLASS}
+                        disabled={cachePending}
                     >
                         Clear page cache
                     </button>
