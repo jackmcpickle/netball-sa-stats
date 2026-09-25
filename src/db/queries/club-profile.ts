@@ -107,12 +107,8 @@ export async function fetchClubProfile(
         fetchSeasons(db),
     ]);
     const coverage = buildCoverage(seasonRows, false);
-    const seasons = seasonPoints(
-        coverage.years,
-        coverage.rankedYears,
-        history,
-        clubKey,
-    );
+    const { rankedYears } = coverage;
+    const seasons = seasonPoints(coverage.years, rankedYears, history, clubKey);
 
     const rankedSeasons = seasons.filter((season) => !isNull(season.rank));
     let best: ClubSeasonPoints | null = null;
@@ -132,7 +128,16 @@ export async function fetchClubProfile(
         key: first.clubKey,
         name: first.clubName,
     };
-    const clubHistory = ClubHistory.from(rows, coverage.rankedYears);
+    // Strength is not a championship figure: any finished season the club
+    // played counts, including associations outside the championship.
+    const trendYearSet = new Set(rankedYears);
+    for (const row of rows) {
+        if (row.isFinal) {
+            trendYearSet.add(row.year);
+        }
+    }
+    const trendYears = [...trendYearSet].toSorted((a, b) => a - b);
+    const clubHistory = ClubHistory.from(rows, trendYears);
 
     return {
         bestRank: best?.rank ?? null,

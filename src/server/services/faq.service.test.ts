@@ -134,13 +134,13 @@ describe('faq service', () => {
         await seed(db, {
             competitions: [
                 {
-                    key: 'empty-comp',
-                    name: 'Empty Comp',
+                    key: 'amnd',
+                    name: 'AMND',
                     seasons: [
                         {
                             grades: [],
                             isFinal: true,
-                            seasonKey: 'empty-2023',
+                            seasonKey: 'amnd-2023',
                             startYear: 2023,
                         },
                     ],

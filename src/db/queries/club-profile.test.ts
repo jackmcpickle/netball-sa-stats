@@ -141,4 +141,166 @@ describe(fetchClubProfile, () => {
         );
         expect(season2024?.status).toBe('ranked');
     });
+
+    it('ranks a championship year even while a non-championship season that started that year is still running', async () => {
+        const db = createTestDb();
+        const spec: SeedSpec = {
+            competitions: [
+                {
+                    key: 'amnd',
+                    name: 'AMND',
+                    seasons: [
+                        {
+                            grades: [
+                                {
+                                    gradeKey: 'amnd-2026-a1',
+                                    name: 'A1',
+                                    results: [
+                                        {
+                                            clubKey: 'contax',
+                                            clubName: 'Contax',
+                                            displayName: 'Contax',
+                                            ladderPosition: 1,
+                                        },
+                                        {
+                                            clubKey: 'garville',
+                                            clubName: 'Garville',
+                                            displayName: 'Garville',
+                                            ladderPosition: 2,
+                                        },
+                                    ],
+                                    teamCount: 2,
+                                    tier: 2,
+                                },
+                            ],
+                            isFinal: true,
+                            seasonKey: 'amnd-2026',
+                            startYear: 2026,
+                        },
+                    ],
+                },
+                {
+                    key: 'city_night_division',
+                    name: 'City Night Division',
+                    seasons: [
+                        {
+                            grades: [
+                                {
+                                    gradeKey: 'cnd-2026-a1',
+                                    name: 'A1',
+                                    results: [
+                                        {
+                                            clubKey: 'garville',
+                                            clubName: 'Garville',
+                                            displayName: 'Garville',
+                                            ladderPosition: 1,
+                                        },
+                                        {
+                                            clubKey: 'contax',
+                                            clubName: 'Contax',
+                                            displayName: 'Contax',
+                                            ladderPosition: 2,
+                                        },
+                                    ],
+                                    teamCount: 2,
+                                    tier: 1,
+                                },
+                            ],
+                            isFinal: false,
+                            seasonKey: 'cnd-2026',
+                            startYear: 2026,
+                        },
+                    ],
+                },
+            ],
+        };
+        await seed(db, spec);
+
+        const profile = await fetchClubProfile(db, 'contax');
+
+        expect(
+            profile?.seasons.find((season) => season.year === 2026)?.status,
+        ).toBe('ranked');
+    });
+
+    it('plots strength for a finished non-championship season', async () => {
+        const db = createTestDb();
+        const spec: SeedSpec = {
+            competitions: [
+                {
+                    key: 'saucna',
+                    name: 'SAUCNA',
+                    seasons: [
+                        {
+                            grades: [
+                                {
+                                    gradeKey: 'saucna-2026-a1',
+                                    name: 'A1',
+                                    results: [
+                                        {
+                                            clubKey: 'lutheran',
+                                            clubName: 'Lutheran',
+                                            displayName: 'Lutheran',
+                                            ladderPosition: 1,
+                                        },
+                                        {
+                                            clubKey: 'garville',
+                                            clubName: 'Garville',
+                                            displayName: 'Garville',
+                                            ladderPosition: 2,
+                                        },
+                                    ],
+                                    teamCount: 2,
+                                    tier: 1,
+                                },
+                            ],
+                            isFinal: true,
+                            seasonKey: 'saucna-2026',
+                            startYear: 2026,
+                        },
+                    ],
+                },
+                {
+                    key: 'city_night_division',
+                    name: 'City Night Division',
+                    seasons: [
+                        {
+                            grades: [
+                                {
+                                    gradeKey: 'cnd-2026-a1',
+                                    name: 'A1',
+                                    results: [
+                                        {
+                                            clubKey: 'garville',
+                                            clubName: 'Garville',
+                                            displayName: 'Garville',
+                                            ladderPosition: 1,
+                                        },
+                                        {
+                                            clubKey: 'contax',
+                                            clubName: 'Contax',
+                                            displayName: 'Contax',
+                                            ladderPosition: 2,
+                                        },
+                                    ],
+                                    teamCount: 2,
+                                    tier: 1,
+                                },
+                            ],
+                            isFinal: false,
+                            seasonKey: 'cnd-2026',
+                            startYear: 2026,
+                        },
+                    ],
+                },
+            ],
+        };
+        await seed(db, spec);
+
+        const profile = await fetchClubProfile(db, 'lutheran');
+
+        expect(
+            profile?.trend.overall.find((point) => point.year === 2026),
+        ).toStrictEqual({ strength: 1, teams: 1, year: 2026 });
+    });
 });
