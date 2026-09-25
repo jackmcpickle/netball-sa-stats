@@ -23,6 +23,7 @@ import type { WeightsRepo } from '@/server/repos/weights.repo';
 import { createAdminService } from '@/server/services/admin.service';
 import type {
     AdminService,
+    PurgeCache,
     StartImport,
 } from '@/server/services/admin.service';
 import { createClubsService } from '@/server/services/clubs.service';
@@ -82,11 +83,12 @@ async function defaultStartImport(): Promise<void> {
 
 export function createServices(
     db: Db,
-    extras?: { startImport?: StartImport },
+    extras?: { startImport?: StartImport; purgeCache?: PurgeCache },
 ): Services {
     const repos = createRepos(db);
     return {
         admin: createAdminService(createImportRunsRepo(db), {
+            purgeCache: extras?.purgeCache,
             startImport: extras?.startImport ?? defaultStartImport,
         }),
         clubs: createClubsService(repos),
