@@ -9,7 +9,7 @@ import {
     createImportRunsRepo,
 } from '@/server/repos/import-runs.repo';
 import { createAdminService } from '@/server/services/admin.service';
-import type { StartImport } from '@/server/services/admin.service';
+import type { PurgeCache, StartImport } from '@/server/services/admin.service';
 import { createTestDb } from '@/server/testing/harness';
 
 function startedLabel(epochSeconds: number): string {
@@ -278,6 +278,52 @@ describe('createAdminService.runImport', () => {
     });
 });
 
+describe('createAdminService.clearPageCache', () => {
+    it('purges the page cache', async () => {
+        const purgeCache = vi.fn<PurgeCache>(async () => ({
+            errors: [],
+            success: true,
+        }));
+        const admin = createAdminService(createImportRunsRepo(createTestDb()), {
+            purgeCache,
+            startImport: vi.fn<StartImport>(async () => {}),
+        });
+
+        await expect(admin.clearPageCache()).resolves.toStrictEqual({
+            ok: true,
+            value: true,
+        });
+        expect(purgeCache).toHaveBeenCalledOnce();
+    });
+
+    it('reports why a rejected purge failed', async () => {
+        const admin = createAdminService(createImportRunsRepo(createTestDb()), {
+            purgeCache: async () => ({
+                errors: [{ message: 'rate limited' }, { message: 'retry' }],
+                success: false,
+            }),
+            startImport: vi.fn<StartImport>(async () => {}),
+        });
+
+        await expect(admin.clearPageCache()).resolves.toStrictEqual({
+            error: { kind: 'purge-failed', message: 'rate limited; retry' },
+            ok: false,
+        });
+    });
+
+    it('names an unknown error when a failed purge gives no reason', async () => {
+        const admin = createAdminService(createImportRunsRepo(createTestDb()), {
+            purgeCache: async () => ({ errors: [], success: false }),
+            startImport: vi.fn<StartImport>(async () => {}),
+        });
+
+        await expect(admin.clearPageCache()).resolves.toStrictEqual({
+            error: { kind: 'purge-failed', message: 'unknown error' },
+            ok: false,
+        });
+    });
+});
+
 describe('admin auth isolation', () => {
     it('does not call getPage from auth helpers', () => {
         const source = readFileSync(
@@ -306,6 +352,9 @@ describe('createServices admin wiring', () => {
 
         await expect(createServices(db).admin.runImport('')).rejects.toThrow(
             'PLAYHQ_IMPORT is not bound',
+        );
+        await expect(createServices(db).admin.clearPageCache()).rejects.toThrow(
+            'Workers Cache is not bound',
         );
     });
 });

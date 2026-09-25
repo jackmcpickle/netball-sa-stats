@@ -18,6 +18,7 @@ import {
 } from '@/server/admin-auth';
 import { readAdminSecrets } from '@/server/admin-env';
 import { createServices } from '@/server/container';
+import { purgePageCache } from '@/server/page-cache';
 
 const ADMIN_PATH = '/admin';
 const ADMIN_LOGIN_PATH = '/admin/login';
@@ -52,6 +53,15 @@ export const runImport = createServerFn({ method: 'POST' })
             startImport: startPlayHqImport,
         }).admin.runImport(data.yearsText);
     });
+
+export const clearPageCache = createServerFn({ method: 'POST' }).handler(
+    async () => {
+        await ensureAdminSession({ data: { next: ADMIN_PATH } });
+        return await createServices(getDb(), {
+            purgeCache: purgePageCache,
+        }).admin.clearPageCache();
+    },
+);
 
 export const logout = createServerFn({ method: 'POST' }).handler(async () => {
     setResponseHeader('Set-Cookie', clearSessionCookieHeader());

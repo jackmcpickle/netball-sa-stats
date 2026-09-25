@@ -7,7 +7,7 @@ import { NO_VALUE } from '@/components/format';
 import { Eyebrow, PageShell, PageTitle } from '@/components/ui/layout';
 import { SimpleTable } from '@/components/ui/simple-table';
 import type { SimpleTableColumn } from '@/components/ui/simple-table';
-import { logout, runImport } from '@/routes/admin';
+import { clearPageCache, logout, runImport } from '@/routes/admin';
 import type { AdminPageDto, AdminRunDto } from '@/server/dto/admin.dto';
 import type { RunImportError } from '@/server/services/admin.service';
 
@@ -163,8 +163,10 @@ export function AdminPage(): JSX.Element {
     const router = useRouter();
     const runImportFn = useServerFn(runImport);
     const logoutFn = useServerFn(logout);
+    const clearPageCacheFn = useServerFn(clearPageCache);
     const [selectedId, setSelectedId] = useState<number | null>(null);
     const [runError, setRunError] = useState<string | null>(null);
+    const [cacheMessage, setCacheMessage] = useState<string | null>(null);
     const selected = page.runs.find((run) => run.id === selectedId);
 
     const onSelectRun = useCallback((event: RunButtonEvent) => {
@@ -193,6 +195,21 @@ export function AdminPage(): JSX.Element {
             })();
         },
         [runImportFn, router],
+    );
+
+    const handleClearCache = useCallback(
+        (event: FormSubmitEvent) => {
+            event.preventDefault();
+            void (async (): Promise<void> => {
+                const result = await clearPageCacheFn();
+                setCacheMessage(
+                    result.ok
+                        ? 'Page cache cleared.'
+                        : `Cache purge failed: ${result.error.message}`,
+                );
+            })();
+        },
+        [clearPageCacheFn],
     );
 
     const handleLogout = useCallback(
@@ -255,6 +272,33 @@ export function AdminPage(): JSX.Element {
                 </details>
                 {isNull(runError) ? null : (
                     <p className="text-sm text-fall">{runError}</p>
+                )}
+            </form>
+
+            <form
+                method="post"
+                className="mb-10 flex flex-col gap-2"
+                onSubmit={handleClearCache}
+            >
+                <div>
+                    <button
+                        type="submit"
+                        className={BUTTON_CLASS}
+                    >
+                        Clear page cache
+                    </button>
+                </div>
+                <p className="max-w-[62ch] text-sm text-ink-muted">
+                    Pages are cached for up to two hours. Clear the cache after
+                    marking a season final so the site shows it straight away.
+                </p>
+                {isNull(cacheMessage) ? null : (
+                    <p
+                        className="text-sm text-ink-body"
+                        aria-live="polite"
+                    >
+                        {cacheMessage}
+                    </p>
                 )}
             </form>
 

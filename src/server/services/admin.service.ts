@@ -14,16 +14,30 @@ export type StartImport = (params: {
     games: boolean;
 }) => Promise<void>;
 
+/** Mirrors the Workers `CachePurgeResult`, so tests need no runtime types. */
+export interface PurgeCacheResult {
+    readonly success: boolean;
+    readonly errors: readonly { readonly message: string }[];
+}
+
+export type PurgeCache = () => Promise<PurgeCacheResult>;
+
 export interface AdminService {
     readonly getPage: () => Promise<AdminPageDto>;
     readonly runImport: (
         yearsText: string,
     ) => Promise<Result<true, RunImportError>>;
+    readonly clearPageCache: () => Promise<Result<true, ClearCacheError>>;
 }
 
 export type RunImportError =
     | { kind: 'already-running' }
     | { kind: 'bad-years' };
+
+export interface ClearCacheError {
+    readonly kind: 'purge-failed';
+    readonly message: string;
+}
 
 const YEAR_TOKEN = /^\d{4}$/u;
 
@@ -114,11 +128,34 @@ function parseYears(
     return ok(years);
 }
 
+async function unboundPurgeCache(): Promise<PurgeCacheResult> {
+    throw new Error('Workers Cache is not bound');
+}
+
 export function createAdminService(
     repo: ImportRunsRepo,
-    deps: { startImport: StartImport },
+    deps: { startImport: StartImport; purgeCache?: PurgeCache },
 ): AdminService {
+    const purgeCache = deps.purgeCache ?? unboundPurgeCache;
     return {
+        /**
+         * Pages sit in Workers Cache for up to two hours, so a season marked
+         * final by hand would otherwise keep showing its old standing.
+         */
+        async clearPageCache(): Promise<Result<true, ClearCacheError>> {
+            const result = await purgeCache();
+            if (!result.success) {
+                const message = result.errors
+                    .map((error) => error.message)
+                    .join('; ');
+                return err({
+                    kind: 'purge-failed',
+                    message: message.length > 0 ? message : 'unknown error',
+                });
+            }
+            return ok(true);
+        },
+
         async getPage(): Promise<AdminPageDto> {
             const nowEpochSeconds = Math.floor(Date.now() / 1000);
             const runs = await repo.list();
